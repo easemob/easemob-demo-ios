@@ -15,13 +15,12 @@
 #define AUTO_MAXRATE_ALERTVIEW_TAG 99
 #define AUTO_MINKBPS_ALERTVIEW_TAG 98
 
-@interface CallSettingViewController ()<UIAlertViewDelegate>
+@interface CallSettingViewController ()
 
 @property (strong, nonatomic) UISwitch *callPushSwitch;
 @property (strong, nonatomic) UISwitch *showCallInfoSwitch;
 
 @property (nonatomic, strong) UISwitch *cameraSwitch;
-@property (nonatomic, strong) UISwitch *fixedSwitch;
 
 @end
 
@@ -32,17 +31,6 @@
     
     // Uncomment the following line to preserve selection between presentations.
     self.title = NSLocalizedString(@"setting.call", nil);
-    
-    self.fixedSwitch = [[UISwitch alloc] init];
-    [self.fixedSwitch addTarget:self action:@selector(fixedSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
-    CGRect frame = self.fixedSwitch.frame;
-    frame.origin.x = self.view.frame.size.width - 10 - frame.size.width;
-    frame.origin.y = 10;
-    self.fixedSwitch.frame = frame;
-    
-    EMCallOptions *options = [[EMClient sharedClient].callManager getCallOptions];
-    [self.fixedSwitch setOn:options.isFixedVideoResolution animated:NO];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -163,24 +151,11 @@
         } else if (indexPath.row == 2) {
             cell.textLabel.text = NSLocalizedString(@"setting.call.minVKbps", nil);
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
-        
-        if (self.fixedSwitch.isOn) {
-            if (indexPath.row == 0) {
-                cell.textLabel.text = NSLocalizedString(@"setting.call.fixedResolution", nil);
-                [cell.contentView addSubview:self.fixedSwitch];
-            } else if (indexPath.row == 3) {
-                cell.textLabel.text = NSLocalizedString(@"setting.call.resolution", nil);
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-        } else {
-            if (indexPath.row == 0) {
-                cell.textLabel.text = NSLocalizedString(@"setting.call.autoResolution", nil);
-                [cell.contentView addSubview:self.fixedSwitch];
-            } else if (indexPath.row == 3) {
-                cell.textLabel.text = NSLocalizedString(@"setting.call.maxFramerate", nil);
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
+        } else if (indexPath.row == 0) {
+            cell.textLabel.text = NSLocalizedString(@"setting.call.autoResolution", nil);
+        } else if (indexPath.row == 3) {
+            cell.textLabel.text = NSLocalizedString(@"setting.call.maxFramerate", nil);
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
     
@@ -199,88 +174,87 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 2) {
+        EMCallOptions *options = [[EMClient sharedClient].callManager getCallOptions];
         if (indexPath.row == 1) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"setting.call.maxVKbps", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"OK"), nil];
-            [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-            alert.tag = FIXED_BITRATE_ALERTVIEW_TAG;
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"setting.call.maxVKbps", nil) preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.text = [NSString stringWithFormat:@"%ld", options.maxVideoKbps];
+            }];
             
-            UITextField *textField = [alert textFieldAtIndex:0];
-            EMCallOptions *options = [[EMClient sharedClient].callManager getCallOptions];
-            textField.text = [NSString stringWithFormat:@"%ld", options.maxVideoKbps];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:cancelAction];
             
-            [alert show];
+            __weak typeof(self) weakself = self;
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                UITextField *textField = alertController.textFields.firstObject;
+                [weakself _setCallOptions:@"maxVKbps" value:textField.text];
+            }];
+            [alertController addAction:okAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
         } else if (indexPath.row == 2) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"setting.call.minVKbps", @"Video min kbps") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"OK"), nil];
-            [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-            alert.tag = AUTO_MINKBPS_ALERTVIEW_TAG;
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"setting.call.minVKbps", nil) preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.text = [NSString stringWithFormat:@"%d", options.minVideoKbps];
+            }];
             
-            UITextField *textField = [alert textFieldAtIndex:0];
-            EMCallOptions *options = [[EMClient sharedClient].callManager getCallOptions];
-            textField.text = [NSString stringWithFormat:@"%d", options.minVideoKbps];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:cancelAction];
             
-            [alert show];
+            __weak typeof(self) weakself = self;
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                UITextField *textField = alertController.textFields.firstObject;
+                [weakself _setCallOptions:@"minVKbps" value:textField.text];
+            }];
+            [alertController addAction:okAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
         }
-        if (self.fixedSwitch.isOn) {
-             if (indexPath.row == 3) {
-                CallResolutionViewController *resoulutionController = [[CallResolutionViewController alloc] init];
-                [self.navigationController pushViewController:resoulutionController animated:YES];
-            }
-        } else {
-            if (indexPath.row == 3) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"setting.call.maxFramerate", @"Video max framerate") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"OK"), nil];
-                [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-                alert.tag = AUTO_MAXRATE_ALERTVIEW_TAG;
-                
-                UITextField *textField = [alert textFieldAtIndex:0];
-                EMCallOptions *options = [[EMClient sharedClient].callManager getCallOptions];
+        if (indexPath.row == 3) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"setting.call.maxFramerate", nil) preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                 textField.text = [NSString stringWithFormat:@"%d", options.maxVideoFrameRate];
-                
-                [alert show];
-            }
-        }
-    }
-}
-
-#pragma mark - UIAlertViewDelegate
-
-//弹出提示的代理方法
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if ([alertView cancelButtonIndex] != buttonIndex) {
-        //获取文本输入框
-        UITextField *textField = [alertView textFieldAtIndex:0];
-        int value = 0;
-        if ([textField.text length] > 0) {
-            value = [textField.text intValue];
-        }
-
-        if (alertView.tag == FIXED_BITRATE_ALERTVIEW_TAG) {
-            if ((value >= 150 && value <= 1000) || value == 0) {
-                EMCallOptions *options = [[EMClient sharedClient].callManager getCallOptions];
-                options.maxVideoKbps = value;
-                [[SingleCallController sharedManager] saveCallOptions];
-            } else {
-                [self showHint:NSLocalizedString(@"setting.call.maxVKbpsTips", @"Video kbps should be 150-1000")];
-            }
-        } else if (alertView.tag == AUTO_MAXRATE_ALERTVIEW_TAG) {
-            EMCallOptions *options = [[EMClient sharedClient].callManager getCallOptions];
-            options.maxVideoFrameRate = value;
-            [[SingleCallController sharedManager] saveCallOptions];
-        } else if (alertView.tag == AUTO_MINKBPS_ALERTVIEW_TAG) {
-            EMCallOptions *options = [[EMClient sharedClient].callManager getCallOptions];
-            options.minVideoKbps = value;
-            [[SingleCallController sharedManager] saveCallOptions];
+            }];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:cancelAction];
+            
+            __weak typeof(self) weakself = self;
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                UITextField *textField = alertController.textFields.firstObject;
+                [weakself _setCallOptions:@"maxFramerate" value:textField.text];
+            }];
+            [alertController addAction:okAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
         }
     }
 }
 
 #pragma mark - Action
 
-- (void)fixedSwitchValueChanged:(UISwitch *)control
+- (void)_setCallOptions:(NSString *)param value:(NSString *)textValue
 {
-    [self.tableView reloadData];
-    
+    int value = 0;
+    if ([textValue length] > 0) {
+        value = [textValue intValue];
+    }
     EMCallOptions *options = [[EMClient sharedClient].callManager getCallOptions];
-    options.isFixedVideoResolution = control.on;
+    if ([param isEqual:@"maxVKbps"]) {
+        if ((value >= 150 && value <= 1000) || value == 0) {
+            options.maxVideoKbps = value;
+            [[SingleCallController sharedManager] saveCallOptions];
+        } else {
+            [self showHint:NSLocalizedString(@"setting.call.maxVKbpsTips", @"Video kbps should be 150-1000")];
+        }
+        return;
+    }
+    if ([param isEqual:@"minVKbps"]) {
+        options.maxVideoFrameRate = value;
+    }
+    if ([param isEqual:@"maxFramerate"]) {
+        options.minVideoKbps = value;
+    }
     [[SingleCallController sharedManager] saveCallOptions];
 }
 

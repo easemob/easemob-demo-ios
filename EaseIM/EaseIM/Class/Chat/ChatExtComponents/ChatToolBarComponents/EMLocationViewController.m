@@ -155,7 +155,7 @@
 {
     [self hideHud];
     if (error.code == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:[error.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:[error.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey]];
         [alertView show];
     }
 }

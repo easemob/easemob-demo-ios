@@ -22,7 +22,7 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 #define EMVIEWBOTTOMMARGIN (IS_iPhoneX ? 34.f : 0.f)
 
 //appkey
-#define DEF_APPKEY @"easemob-demo#easeim"
+#define DEF_APPKEY @"请填入您的APPKEY"
 
 #define RTC_BUTTON_WIDTH 65
 #define RTC_BUTTON_HEIGHT 90
@@ -30,8 +30,8 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 
 //会话
 #define CONVERSATION_STICK @"stick"
-#define CONVERSATION_ID @"convwesationId"
-#define CONVERSATION_OBJECT @"convwesationObject"
+#define CONVERSATION_ID @"conversationId"
+#define CONVERSATION_OBJECT @"conversationObject"
 
 //账号状态
 #define ACCOUNT_LOGIN_CHANGED @"loginStateChange"

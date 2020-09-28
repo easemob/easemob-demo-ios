@@ -81,6 +81,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     if (!isHeadphone()) {
         self.speakerButton.selected = YES;
         [self speakerButtonAction];
@@ -95,8 +96,6 @@
     //本地摄像头方向
     self.isUseBackCamera = [EMDemoOptions sharedOptions].isUseBackCamera;
     self.switchCameraButton.selected = self.isUseBackCamera;
-
-    self.speakerButton.selected = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -283,9 +282,8 @@
                    error:(EMError *)aError
 {
     if ([aConference.callId isEqualToString:self.conference.callId]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"会议已关闭" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:@"会议已关闭"];
         [alertView show];
-        
         [self hangupAction];
     }
 }
@@ -505,9 +503,8 @@
     //上传本地摄像头的数据流
     [[EMClient sharedClient].conferenceManager publishConference:self.conference streamParam:pubConfig completion:^(NSString *aPubStreamId, EMError *aError) {
         if (aError) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"上传本地视频流失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"上传本地视频流失败，请重试"];
             [alertView show];
-            
             if (aCompletionBlock) {
                 aCompletionBlock(nil, aError);
             }

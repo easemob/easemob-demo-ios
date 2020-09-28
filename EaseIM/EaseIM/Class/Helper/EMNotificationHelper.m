@@ -371,7 +371,7 @@ static EMNotificationHelper *shared = nil;
     model.sender = aUsername;
     model.groupId = aGroup.groupId;
     model.type = EMNotificationModelTypeGroupJoin;
-    model.message = [NSString stringWithFormat:@"\"%@\"申请加入群组\"%@\",是否同意该申请？",aUsername, aGroup.groupName];;
+    model.message = [NSString stringWithFormat:@"\"%@\"申请加入群组\"%@\",是否同意该申请？",aUsername, aGroup.groupName];
     [[EMNotificationHelper shared] insertModel:model];
 }
 
