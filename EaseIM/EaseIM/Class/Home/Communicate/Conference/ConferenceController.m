@@ -108,9 +108,8 @@ static ConferenceController *confManager = nil;
                popFromController:(UIViewController *)aController
 {
     if (gIsCalling) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"有通话正在进行" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
         [alertView show];
-        
         return;
     }
     

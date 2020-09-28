@@ -116,11 +116,11 @@ static SingleCallController *callManager = nil;
     NSString *reason = (NSString *)[timer userInfo]; //必须放在本timer关闭之前使用，不然会出现野指针错误
     
     [self endCallWithId:self.currentCall.callId reason:EMCallEndReasonFailed];
-    UIAlertView *alertView = nil;
+    EMAlertView *alertView = nil;
     if (reason) {
-        alertView = [[UIAlertView alloc] initWithTitle:nil message:reason delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
+        alertView = [[EMAlertView alloc]initWithTitle:nil message:reason];
     } else {
-        alertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"call.autoHangup", @"No response and Hang up") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+        alertView = [[EMAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"call.autoHangup", @"No response and Hang up")];
     }
     [alertView show];
 }
@@ -194,7 +194,7 @@ static SingleCallController *callManager = nil;
                     rootViewController = [(UINavigationController *)rootViewController topViewController];
                 }
                 
-                /*if(rootViewController.presentedViewController){
+                if(rootViewController.presentedViewController){
                     nextResponder = rootViewController.presentedViewController;
                 }else{
                     UIView *frontView = [[window subviews] objectAtIndex:0];
@@ -259,40 +259,7 @@ static SingleCallController *callManager = nil;
     if (aReason != EMCallEndReasonFailed) {
     //if (aReason != EMCallEndReasonHangup) {
         if (aError) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:aError.errorDescription delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-            [alertView show];
-        } else {
-            NSString *reasonStr = @"通话结束";
-            switch (aReason) {
-                case EMCallEndReasonDecline:
-                    reasonStr = @"对方拒绝接通通话";
-                    break;
-                case EMCallEndReasonBusy:
-                    reasonStr = @"对方正在通话中，请稍后再拨";
-                    break;
-                case EMCallEndReasonFailed:
-                    reasonStr = @"通话建立连接失败";
-                    break;
-                case EMCallEndReasonRemoteOffline:
-                    reasonStr = @"对方不在线，请稍后再试";
-                    break;
-                case EMCallEndReasonNotEnable:
-                    reasonStr = @"服务未开通";
-                    break;
-                case EMCallEndReasonServiceArrearages:
-                    reasonStr = @"余额不足";
-                    break;
-                case EMCallEndReasonServiceForbidden:
-                    reasonStr = @"服务被拒绝";
-                    break;
-                default:
-                    break;
-            }
-            
-            if (aError.code == EMErrorCallNoStream)
-                reasonStr = @"实时通话没有数据流";
-            
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:reasonStr delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+            EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"Error" message:aError.errorDescription];
             [alertView show];
         }
         //[self sendCallRecord:EMCOMMUNICATE_CALLED_MISSEDCALL callType:aSession.type];//被叫方取消通话
@@ -340,7 +307,7 @@ static SingleCallController *callManager = nil;
     }
     
     if (gIsCalling) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"有通话正在进行" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
         [alertView show];
         return;
     }
@@ -368,9 +335,8 @@ static SingleCallController *callManager = nil;
             if (aError || aCallSession == nil) {
                 gIsCalling = NO;
                 
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"call.initFailed", @"Establish call failure") message:aError.errorDescription delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+                EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"call.initFailed", @"Establish call failure") message:aError.errorDescription];
                 [alertView show];
-                
                 return;
             }
             
@@ -497,7 +463,7 @@ static SingleCallController *callManager = nil;
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (error.code == EMErrorNetworkUnavailable) {
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"network.disconnection", @"Network disconnection") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+                    EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"network.disconnection", @"Network disconnection")];
                     [alertView show];
                 }
                 else{

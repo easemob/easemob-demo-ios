@@ -72,7 +72,7 @@
     imageView.image = [UIImage imageNamed:@"BootPage"];
     [self.view insertSubview:imageView atIndex:0];
     
-    self.self.self.backView = [[UIView alloc]init];
+    self.backView = [[UIView alloc]init];
     self.backView.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3];
     [self.view addSubview:self.backView];
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {

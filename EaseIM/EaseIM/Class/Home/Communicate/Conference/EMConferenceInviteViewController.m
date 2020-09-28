@@ -47,7 +47,7 @@ extern BOOL gIsConferenceCalling;
     self.statusLabel.text = [NSString stringWithFormat:@"%@ 邀请你加入会议",_msg.from];
     
     [self.statusLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(30);
+        make.top.equalTo(self.view).offset(30 + EMVIEWTOPMARGIN);
     }];
     /*
     [self.waitImgView mas_remakeConstraints:^(MASConstraintMaker *make) {

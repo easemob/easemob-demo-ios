@@ -7,54 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8B8EAB36-3A39-4EBA-9579-3DA3BF8FA700"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EaseIM/Class/Chat/EMChatViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "716"
-            endingLineNumber = "716"
-            landmarkName = "-tableViewDidTriggerHeaderRefresh"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "8B8EAB36-3A39-4EBA-9579-3DA3BF8FA700 - 3f7ee80c40757322"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[EMChatViewController tableViewDidTriggerHeaderRefresh]"
-                  moduleName = "EaseIM"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/chong/Desktop/EaseIM/EaseIM/EaseIM/Class/Chat/EMChatViewController.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "716"
-                  endingLineNumber = "716"
-                  offsetFromSymbolStart = "564">
-               </Location>
-               <Location
-                  uuid = "8B8EAB36-3A39-4EBA-9579-3DA3BF8FA700 - b31d2091f8de597f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__56-[EMChatViewController tableViewDidTriggerHeaderRefresh]_block_invoke_4"
-                  moduleName = "EaseIM"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/chong/Desktop/EaseIM/EaseIM/EaseIM/Class/Chat/EMChatViewController.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "717"
-                  endingLineNumber = "717"
-                  offsetFromSymbolStart = "88">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "077D5AF9-E057-4C07-87ED-14ABAA477777"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -135,32 +87,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "96C66B77-BB57-4EBF-9551-A77A641A745A"
+            uuid = "32F2D59E-2F00-4D44-B1BF-46431E943827"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EaseIM/Class/EaseIMHelper.m"
+            filePath = "EaseIM/Class/Helper/View/EMAvatarNameModel.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
-            landmarkName = "-joinGroupRequestDidDecline:reason:"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "-initWithInfo:img:msg:time:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4C07556C-EC72-48CE-A0C0-D606D29926BF"
+            uuid = "1891A4E9-C760-43B8-83BE-31BD95150AC2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EaseIM/Class/EaseIMHelper.m"
+            filePath = "EaseIM/Class/Chat/ChatExtComponents/ChatInfoComponents/EMChatRecordViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
-            landmarkName = "-groupWhiteListDidUpdate:addedWhiteListMembers:"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "-searchBarSearchButtonClicked:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7E0B2EAB-2D1F-4692-9568-F8240F927009"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EaseIM/Class/Chat/ChatExtComponents/ChatInfoComponents/EMChatRecordViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "-searchBarSearchButtonClicked:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C9F14647-D909-4BA4-AEC8-04FBBCA2A32F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EaseIM/Class/Helper/View/EMAvatarNameModel.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "-initWithInfo:img:msg:time:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
