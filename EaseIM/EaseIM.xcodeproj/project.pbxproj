@@ -322,6 +322,7 @@
 		3C0C33962387D02E0071BDDD /* 目标点.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C0C33932387D02D0071BDDD /* 目标点.png */; };
 		3C0C33972387D02E0071BDDD /* 目标点@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C0C33942387D02E0071BDDD /* 目标点@2x.png */; };
 		3C0C339A2388040A0071BDDD /* EMMsgPicMixTextBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0C33992388040A0071BDDD /* EMMsgPicMixTextBubbleView.m */; };
+		3C1B68CF252046EE005CAB3C /* EMAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1B68CE252046EE005CAB3C /* EMAlertView.m */; };
 		3C1CEF7F196EA37600DBA56B /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C1CEF7E196EA37600DBA56B /* ImageIO.framework */; };
 		3C3527451931D37900385240 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3527441931D37900385240 /* SystemConfiguration.framework */; };
 		3C362E5F239E03AB0048E877 /* EMMsgRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C362E5E239E03AB0048E877 /* EMMsgRecordCell.m */; };
@@ -1254,6 +1255,8 @@
 		3C0C33942387D02E0071BDDD /* 目标点@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "目标点@2x.png"; sourceTree = "<group>"; };
 		3C0C33982388040A0071BDDD /* EMMsgPicMixTextBubbleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMMsgPicMixTextBubbleView.h; sourceTree = "<group>"; };
 		3C0C33992388040A0071BDDD /* EMMsgPicMixTextBubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMMsgPicMixTextBubbleView.m; sourceTree = "<group>"; };
+		3C1B68CD252046EE005CAB3C /* EMAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMAlertView.h; sourceTree = "<group>"; };
+		3C1B68CE252046EE005CAB3C /* EMAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMAlertView.m; sourceTree = "<group>"; };
 		3C1CEF7E196EA37600DBA56B /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		3C27F9101A1C8FCD008272EF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3C3527401931D32C00385240 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -1412,7 +1415,6 @@
 		3C4AEDC8249B8017001F7C50 /* blankConversation@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blankConversation@3x.png"; sourceTree = "<group>"; };
 		3C4AEDC9249B8019001F7C50 /* blankConversation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankConversation.png; sourceTree = "<group>"; };
 		3C4AEDCA249B801C001F7C50 /* blankConversation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blankConversation@2x.png"; sourceTree = "<group>"; };
-		3C4CEC972373D87800A37140 /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hyphenate.framework; path = ../../Hyphenate.framework; sourceTree = "<group>"; };
 		3C525DEA2464103500D16DD5 /* EMReadReceiptMemberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMReadReceiptMemberModel.h; sourceTree = "<group>"; };
 		3C525DF32464103500D16DD5 /* EMReadReceiptTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMReadReceiptTableViewCell.m; sourceTree = "<group>"; };
 		3C525DF42464103500D16DD5 /* EMReadReceiptMemberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMReadReceiptMemberModel.m; sourceTree = "<group>"; };
@@ -2490,6 +2492,8 @@
 				3A45E0952223A29A00505786 /* EMBadgeLabel.m */,
 				3C8DFAB524ED1FD90047C277 /* EMAvatarNameModel.h */,
 				3C8DFAB624ED1FD90047C277 /* EMAvatarNameModel.m */,
+				3C1B68CD252046EE005CAB3C /* EMAlertView.h */,
+				3C1B68CE252046EE005CAB3C /* EMAlertView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3538,7 +3542,6 @@
 			isa = PBXGroup;
 			children = (
 				3C97EF2923A87B5C004E97B7 /* CloudKit.framework */,
-				3C4CEC972373D87800A37140 /* Hyphenate.framework */,
 				3A45DBE12223A08900505786 /* libPods-EaseIM.a */,
 				3ACFA04E221168C000B16331 /* CoreServices.framework */,
 				3AB62A121D926375000776F0 /* libbz2.tbd */,
@@ -4420,6 +4423,7 @@
 				3A45E3E02223A4E900505786 /* EMGroupBlacklistViewController.m in Sources */,
 				3C52603724651ABC00D16DD5 /* EMVideoInfoViewController.m in Sources */,
 				3A45DEE02223A1FD00505786 /* EMImageBrowser.m in Sources */,
+				3C1B68CF252046EE005CAB3C /* EMAlertView.m in Sources */,
 				3A45E3E22223A4E900505786 /* EMGroupSettingsViewController.m in Sources */,
 				3C87876924DBF5F900A8D995 /* EMChatControllerFactory.m in Sources */,
 				3C52603224651ABC00D16DD5 /* EMCallOptions+NSCoding.m in Sources */,
@@ -4655,7 +4659,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				EASEMOB_INC = "";
@@ -4740,7 +4744,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";

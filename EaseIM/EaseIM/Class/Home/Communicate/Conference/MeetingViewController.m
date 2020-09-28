@@ -50,7 +50,7 @@
                     break;
             }
             
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:title message:msg];
             [alertView show];
             
             return ;

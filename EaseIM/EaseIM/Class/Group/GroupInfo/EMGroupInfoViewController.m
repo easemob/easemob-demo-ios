@@ -363,9 +363,9 @@
     
     self.group = aGroup;
     if (aGroup.permissionType == EMGroupPermissionTypeOwner) {
-        self.leaveCell.textLabel.text = @"解散并退出";
+        self.leaveCell.textLabel.text = @"解散群组";
     } else {
-        self.leaveCell.textLabel.text = @"删除并退出";
+        self.leaveCell.textLabel.text = @"退出群组";
     }
     [self.tableView reloadData];
 }

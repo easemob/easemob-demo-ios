@@ -64,9 +64,9 @@
                         reason:(EMChatroomBeKickedReason)aReason
 {
     if (aReason == 0)
-        [self showHint:@"被移出聊天室"];
+        [self showHint:[NSString stringWithFormat:@"被移出聊天室 %@", aChatroom.subject]];
     if (aReason == 1)
-        [self showHint:@"聊天室已销毁"];
+        [self showHint:[NSString stringWithFormat:@"聊天室 %@ 已解散", aChatroom.subject]];
     if (aReason == 2)
         [self showHint:@"您的账号已离线"];
     EMConversation *conversation = self.conversationModel.emModel;

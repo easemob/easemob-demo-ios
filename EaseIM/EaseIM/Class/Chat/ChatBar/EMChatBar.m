@@ -75,6 +75,7 @@
     self.textView = [[EMTextView alloc] init];
     
     self.textView.delegate = self;
+    [self.textView setTextColor:[UIColor blackColor]];
     self.textView.font = [UIFont systemFontOfSize:16];
     self.textView.textAlignment = NSTextAlignmentLeft;
     self.textView.textContainerInset = UIEdgeInsetsMake(10, 10, 12, 0);

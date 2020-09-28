@@ -206,7 +206,9 @@
     EMMessage *message = (EMMessage *)[noti.object objectForKey:@"msg"];
     NSArray *formated = [self formatMessages:@[message]];
     [self.dataArray addObjectsFromArray:formated];
-    self.moreMsgId = message.messageId;
+    if (!self.moreMsgId)
+        //新会话的第一条消息
+        self.moreMsgId = message.messageId;
     [self refreshTableView];
 }
 

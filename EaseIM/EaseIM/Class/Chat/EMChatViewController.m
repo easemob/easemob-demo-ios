@@ -76,6 +76,7 @@
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapTableViewAction:)];
     [self.tableView addGestureRecognizer:tap];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -242,8 +243,14 @@
         cellString = (NSString *)obj;
     if ([obj isKindOfClass:[EMMessageModel class]]) {
         EMMessageModel *model = (EMMessageModel *)obj;
-        if (model.type == EMMessageTypeExtRecall)
-            cellString = @"您撤回一条消息";
+        if (model.type == EMMessageTypeExtRecall) {
+            if ([model.emModel.from isEqualToString:EMClient.sharedClient.currentUsername]) {
+                cellString = @"您撤回一条消息";
+            } else {
+                cellString = @"对方撤回一条消息";
+            }
+        }
+            
         if (model.type == EMMessageTypeExtNewFriend || model.type == EMMessageTypeExtAddGroup)
             cellString = ((EMTextMessageBody *)(model.emModel.body)).text;
     }
@@ -427,6 +434,7 @@
 }
 
 - (void)messagesDidRecall:(NSArray *)aMessages {
+    
     __block NSMutableArray *sameObject = [NSMutableArray array];
     [aMessages enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         EMMessage *msg = (EMMessage *)obj;
@@ -434,6 +442,19 @@
             if ([obj isKindOfClass:[EMMessageModel class]]) {
                 EMMessageModel *model = (EMMessageModel *)obj;
                 if ([model.emModel.messageId isEqualToString:msg.messageId]) {
+                    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"对方撤回一条消息"];
+                    NSString *to = [[EMClient sharedClient] currentUsername];
+                    NSString *from = self.conversationModel.emModel.conversationId;
+                    EMMessage *message = [[EMMessage alloc] initWithConversationID:from from:from to:to body:body ext:@{MSG_EXT_RECALL:@(YES)}];
+                    message.chatType = (EMChatType)self.conversationModel.emModel.type;
+                    message.isRead = YES;
+                    message.messageId = msg.messageId;
+                    message.localTime = msg.localTime;
+                    message.timestamp = msg.timestamp;
+                    [self.conversationModel.emModel insertMessage:message error:nil];
+                    EMMessageModel *replaceModel = [[EMMessageModel alloc]initWithEMMessage:message];
+                    [self.dataArray replaceObjectAtIndex:idx withObject:replaceModel];
+                    /*
                     // 如果上一行是时间，且下一行也是时间
                     if (idx - 1 >= 0) {
                         id nextMessage = nil;
@@ -448,19 +469,20 @@
                         }
                     }
                     [sameObject addObject:model];
-                    *stop = YES;
+                    *stop = YES;*/
                 }
             }
         }];
     }];
-    
+    /*
     if (sameObject.count > 0) {
         for (id obj in sameObject) {
             [self.dataArray removeObject:obj];
         }
         
         [self.tableView reloadData];
-    }
+    }*/
+     [self.tableView reloadData];
 }
 
 //为了从home会话列表切进来触发 群组阅读回执 或 消息已读回执

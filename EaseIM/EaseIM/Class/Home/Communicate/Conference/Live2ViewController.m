@@ -156,9 +156,8 @@
         if (aError) {
             [self hangupAction];
             
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"创建互动会议失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"创建互动会议失败"];
             [alertView show];
-            
             return ;
         }
         
@@ -195,9 +194,8 @@
         if (aError) {
             [self hangupAction];
             
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"进入互动会议失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"进入互动会议失败"];
             [alertView show];
-            
             return ;
         }
         

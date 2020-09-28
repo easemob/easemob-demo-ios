@@ -103,26 +103,29 @@
 {
     _keyWord = aString;
     [self.view endEditing:YES];
+    if ([_keyWord length] < 1)
+        return;
     if (!self.isSearching) return;
-    NSDate *currentDate = [NSDate date];
-    NSTimeInterval interval = [currentDate timeIntervalSince1970];
-    long long currentTimestamp = [[NSNumber numberWithDouble:interval] longLongValue];
-    
+    __weak typeof(self) weakself = self;
     [self.conversationModel.emModel loadMessagesWithKeyword:aString timestamp:0 count:50 fromUser:nil searchDirection:EMMessageSearchDirectionDown completion:^(NSArray *aMessages, EMError *aError) {
         if (!aError && [aMessages count] > 0) {
-            __weak typeof(self) weakself = self;
             dispatch_async(self.msgQueue, ^{
                 NSMutableArray *msgArray = [[NSMutableArray alloc] init];
                 for (int i = 0; i < [aMessages count]; i++) {
                     EMMessage *msg = aMessages[i];
                     [msgArray addObject:msg];
                 }
-                NSArray *formated = [weakself _formatMessages:msgArray];
+                NSArray *formated = [weakself _formatMessages:[msgArray copy]];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakself.searchResults removeAllObjects];
                     [weakself.searchResults addObjectsFromArray:formated];
                     [weakself.searchResultTableView reloadData];
                 });
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakself.searchResults removeAllObjects];
+                [weakself.searchResultTableView reloadData];
             });
         }
     }];
@@ -136,6 +139,11 @@
     NSString *timeStr;
     for (int i = 0; i < [aMessages count]; i++) {
         EMMessage *msg = aMessages[i];
+        if (!(msg.body.type == EMMessageBodyTypeText))
+            continue;
+        if ([msg.ext objectForKey:MSG_EXT_GIF] || [msg.ext objectForKey:MSG_EXT_RECALL] || [msg.ext objectForKey:MSG_EXT_NEWNOTI])
+            continue;
+        
         CGFloat interval = (self.msgTimelTag - msg.timestamp) / 1000;
         if (self.msgTimelTag < 0 || interval > 60 || interval < -60) {
             timeStr = [EMDateHelper formattedTimeFromTimeInterval:msg.timestamp];
