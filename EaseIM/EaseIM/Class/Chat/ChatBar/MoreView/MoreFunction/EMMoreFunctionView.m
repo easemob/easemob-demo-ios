@@ -32,6 +32,7 @@
         //_toolbarDescArray = @[@"视频通话",@"位置",@"群组回执",@"文件",@"相机",@"相册"];
         _toolbarImgArray = [NSMutableArray arrayWithArray:@[@"photo-album",@"camera",@"video_conf",@"location",@"icloudFile"]];
         _toolbarDescArray = [NSMutableArray arrayWithArray:@[@"相册",@"相机",@"音视频",@"位置",@"文件"]];
+        
         if (_conversation.type == EMConversationTypeGroupChat) {
             if ([[EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:_conversation.conversationId error:nil].owner isEqualToString:EMClient.sharedClient.currentUsername]) {
                 [_toolbarImgArray addObject:@"pin_readReceipt"];
@@ -75,7 +76,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SessionToolbarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     NSInteger row = indexPath.row;;
-    [cell personalizeToolbar:(NSString *)[_toolbarImgArray objectAtIndex:row] funcDesc:[_toolbarDescArray objectAtIndex:row] tag:row];
+    [cell personalizeToolbar:(NSString *)[_toolbarImgArray objectAtIndex:row] funcDesc:[_toolbarDescArray objectAtIndex:row] tagStr:(NSString *)[_toolbarImgArray objectAtIndex:row]];
     cell.delegate = self;
     return cell;
 }
@@ -102,6 +103,8 @@
 {
     NSInteger _tag;
 }
+
+@property (nonatomic, strong) NSString *tagStr;
 
 @property (nonatomic, strong) UIButton *toolBtn;
 
@@ -152,11 +155,12 @@
     }];
 }
 
-- (void)personalizeToolbar:(NSString *)imgName funcDesc:(NSString *)funcDesc tag:(NSInteger)tag
+- (void)personalizeToolbar:(NSString *)imgName funcDesc:(NSString *)funcDesc tagStr:(NSString *)tagStr
 {
     [_toolBtn setImage:[UIImage imageNamed:imgName] forState:UIControlStateNormal];
     [_toolLabel setText:funcDesc];
-    _tag = tag;
+    NSDictionary *_tagDescDict = @{@"photo-album":@"0", @"camera":@"1", @"video_conf":@"2", @"location":@"3", @"icloudFile":@"4", @"pin_readReceipt":@"5"};
+    _tag = [((NSString*)[_tagDescDict objectForKey:tagStr]) intValue];
 }
 
 #pragma mark - Action

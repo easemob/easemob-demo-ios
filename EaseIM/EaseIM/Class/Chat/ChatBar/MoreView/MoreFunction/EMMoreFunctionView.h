@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<SessionToolbarCellDelegate> delegate;
 
-- (void)personalizeToolbar:(NSString *)imgName funcDesc:(NSString *)funcDesc tag:(NSInteger)tag;//个性化工具栏功能描述
+- (void)personalizeToolbar:(NSString *)imgName funcDesc:(NSString *)funcDesc tagStr:(NSString *)tagStr;//个性化工具栏功能描述
 
 @end
 

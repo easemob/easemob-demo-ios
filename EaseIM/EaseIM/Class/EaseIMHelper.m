@@ -172,7 +172,7 @@ static EaseIMHelper *helper = nil;
                inviter:(NSString *)aInviter
                message:(NSString *)aMessage
 {
-    EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:[NSString stringWithFormat:NSLocalizedString(@"group.inviteSomeone", nil), aInviter, [NSString stringWithFormat:@"「%@」",aGroup.groupName], aGroup.groupId]];
+    EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:[NSString stringWithFormat:NSLocalizedString(@"group.somebodyInvite", nil), aInviter, [NSString stringWithFormat:@"「%@」",aGroup.groupName]]];
     [alertView show];
 }
 
