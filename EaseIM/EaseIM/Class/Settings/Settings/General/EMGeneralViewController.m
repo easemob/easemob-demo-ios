@@ -134,15 +134,15 @@
     } else if (section == 1) {
         if (row == 0) {
             cell.textLabel.text = @"显示输入状态";
-            [switchControl setOn:options.isChatTyping animated:NO];
+            [switchControl setOn:options.isChatTyping animated:YES];
         }
     } else if (section == 2) {
         if (row == 0) {
             cell.textLabel.text = @"自动接受群组邀请";
-            [switchControl setOn:options.isAutoAcceptGroupInvitation animated:NO];
+            [switchControl setOn:options.isAutoAcceptGroupInvitation animated:YES];
         } else if (row == 1) {
             cell.textLabel.text = @"退出群组时删除会话";
-            [switchControl setOn:options.isDeleteMessagesWhenExitGroup animated:NO];
+            [switchControl setOn:options.isDeleteMessagesWhenExitGroup animated:YES];
         }
     }
     cell.textLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];

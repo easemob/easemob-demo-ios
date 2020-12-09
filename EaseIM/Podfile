@@ -1,4 +1,5 @@
-platform :ios, '10.0'
+use_frameworks!
+platform :ios, '11.0'
 
 # Import CocoaPods sources
 source 'https://github.com/CocoaPods/Specs.git'
@@ -7,11 +8,8 @@ target 'EaseIM' do
 
     pod 'Masonry'
     pod 'MJRefresh'
-    pod 'MBProgressHUD', '~> 1.1.0'
-    pod 'SDWebImage', '~> 4.0'
-    pod 'SDWebImage/GIF'
-    pod 'FLAnimatedImage', '~> 1.0'
-    pod 'Hyphenate', '~> 3.7.1'
-
+    pod 'Hyphenate', '~> 3.7.2'
+    pod 'EaseIMKit'
+    
 end
 

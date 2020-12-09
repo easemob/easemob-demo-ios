@@ -176,7 +176,7 @@
 
 - (void)backBackion
 {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSInteger)_tagWithSection:(NSInteger)aSection
@@ -583,7 +583,7 @@
         self.finishCompletion(demoOptions);
     }
     
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (UITableView *)tableView

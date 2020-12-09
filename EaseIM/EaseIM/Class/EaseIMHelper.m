@@ -10,17 +10,12 @@
 
 #import "EMGlobalVariables.h"
 
-#import "EMConversationHelper.h"
-#import "EMNotificationViewController.h"
 #import "EMChatViewController.h"
 #import "EMGroupsViewController.h"
 #import "EMGroupInfoViewController.h"
 #import "EMChatroomsViewController.h"
 #import "EMChatroomInfoViewController.h"
 #import "EMRemindManager.h"
-#import "EMSingleChatViewController.h"
-#import "EMGroupChatViewController.h"
-#import "EMChatroomViewController.h"
 #import "EMAlertController.h"
 
 static EaseIMHelper *helper = nil;
@@ -65,12 +60,9 @@ static EaseIMHelper *helper = nil;
     [[EMClient sharedClient].contactManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePushNotificationController:) name:NOTIF_PUSHVIEWCONTROLLER object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePushChatController:) name:CHAT_PUSHVIEWCONTROLLER object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePushGroupsController:) name:GROUP_LIST_PUSHVIEWCONTROLLER object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePushChatroomsController:) name:CHATROOM_LIST_PUSHVIEWCONTROLLER object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePushChatroomInfoController:) name:CHATROOM_INFO_PUSHVIEWCONTROLLER object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePushGroupInfoController:) name:GROUP_INFO_PUSHVIEWCONTROLLER object:nil];
 }
 
 #pragma mark - EMClientDelegate
@@ -316,11 +308,11 @@ static EaseIMHelper *helper = nil;
 - (void)didLeaveGroup:(EMGroup *)aGroup reason:(EMGroupLeaveReason)aReason
 {
     EMAlertView *alertView = nil;
-    if (aReason == 0) {
+    if (aReason == EMGroupLeaveReasonBeRemoved) {
         alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:@"您已被群管理员移出群组: %@", aGroup.groupName]];
         [EMClient.sharedClient.chatManager deleteConversation:aGroup.groupId isDeleteMessages:NO completion:nil];
     }
-    if (aReason == 2) {
+    if (aReason == EMGroupLeaveReasonDestroyed) {
         alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:@"群组 %@ 已解散", aGroup.groupName]];
         [EMClient.sharedClient.chatManager deleteConversation:aGroup.groupId isDeleteMessages:YES completion:nil];
     }
@@ -388,44 +380,33 @@ static EaseIMHelper *helper = nil;
 
 #pragma mark - NSNotification
 
-- (void)handlePushNotificationController:(NSNotification *)aNotif
-{
-    NSDictionary *dic = aNotif.object;
-    UINavigationController *navController = [dic objectForKey:NOTIF_NAVICONTROLLER];
-    if (navController == nil) {
-        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        navController = (UINavigationController *)window.rootViewController;
-    }
-    
-    EMNotificationViewController *controller = [[EMNotificationViewController alloc] initWithStyle:UITableViewStylePlain];
-    [navController pushViewController:controller animated:NO];
-}
-
 - (void)handlePushChatController:(NSNotification *)aNotif
 {
     id object = aNotif.object;
-    EMConversationModel *model = nil;
+    EMConversationType type = -1;
+    NSString *conversationId = nil;
     if ([object isKindOfClass:[NSString class]]) {
-        NSString *contact = (NSString *)object;
-        model = [EMConversationHelper modelFromContact:contact];
+        conversationId = (NSString *)object;
+        type = EMConversationTypeChat;
     } else if ([object isKindOfClass:[EMGroup class]]) {
         EMGroup *group = (EMGroup *)object;
-        model = [EMConversationHelper modelFromGroup:group];
+        conversationId = group.groupId;
+        type = EMConversationTypeGroupChat;
     } else if ([object isKindOfClass:[EMChatroom class]]) {
         EMChatroom *chatroom = (EMChatroom *)object;
-        model = [EMConversationHelper modelFromChatroom:chatroom];
-    } else if ([object isKindOfClass:[EMConversationModel class]]) {
-        model = (EMConversationModel *)object;
+        conversationId = chatroom.chatroomId;
+        type = EMConversationTypeChatRoom;
+    } else if ([object isKindOfClass:[EaseConversationModel class]]) {
+        EaseConversationModel *model = (EaseConversationModel *)object;
+        conversationId = model.easeId;
+        type = model.type;
     }
-    
-    if (model) {
-        EMChatViewController *controller = [self getChatControllerWithConversationModel:model];
-        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        UIViewController *rootViewController = window.rootViewController;
-        if ([rootViewController isKindOfClass:[UINavigationController class]]) {
-            UINavigationController *nav = (UINavigationController *)rootViewController;
-            [nav pushViewController:controller animated:NO];
-        }
+    EMChatViewController *controller = [[EMChatViewController alloc]initWithConversationId:conversationId conversationType:type];
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    UIViewController *rootViewController = window.rootViewController;
+    if ([rootViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *nav = (UINavigationController *)rootViewController;
+        [nav pushViewController:controller animated:YES];
     }
 }
 
@@ -439,7 +420,7 @@ static EaseIMHelper *helper = nil;
     }
     
     EMGroupsViewController *controller = [[EMGroupsViewController alloc] init];
-    [navController pushViewController:controller animated:NO];
+    [navController pushViewController:controller animated:YES];
 }
 
 - (void)handlePushChatroomsController:(NSNotification *)aNotif
@@ -452,60 +433,7 @@ static EaseIMHelper *helper = nil;
     }
     
     EMChatroomsViewController *controller = [[EMChatroomsViewController alloc] init];
-    [navController pushViewController:controller animated:NO];
-}
-
-- (void)handlePushChatroomInfoController:(NSNotification *)aNotif
-{
-    NSDictionary *dic = aNotif.object;
-    if ([dic count] == 0) {
-        return;
-    }
-    
-    NSString *chatroomId = [dic objectForKey:NOTIF_ID];
-    UINavigationController *navController = [dic objectForKey:NOTIF_NAVICONTROLLER];
-    
-    EMChatroomInfoViewController *controller = [[EMChatroomInfoViewController alloc] initWithChatroomId:chatroomId];
-    [controller setLeaveCompletion:^{
-        [navController popViewControllerAnimated:YES];
-    }];
-    [navController pushViewController:controller animated:NO];
-}
-
-- (void)handlePushGroupInfoController:(NSNotification *)aNotif
-{
-    NSDictionary *dic = aNotif.object;
-    if ([dic count] == 0) {
-        return;
-    }
-    
-    NSString *groupId = [dic objectForKey:NOTIF_ID];
-    UINavigationController *navController = [dic objectForKey:NOTIF_NAVICONTROLLER];
-    
-    EMGroupInfoViewController *groupInfocontroller = [[EMGroupInfoViewController alloc] initWithGroupId:groupId];
-    [groupInfocontroller setLeaveOrDestroyCompletion:^{
-        [navController popViewControllerAnimated:YES];
-    }];
-    [groupInfocontroller setClearRecordCompletion:^(BOOL isClearRecord) {
-        if (isClearRecord) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_INFO_CLEARRECORD object:nil];
-        }
-    }];
-    [navController pushViewController:groupInfocontroller animated:NO];
-}
-
-#pragma mark - EMChatviewControllerFactory
-
-- (EMChatViewController * _Nonnull)getChatControllerWithConversationModel:(EMConversationModel *)model
-{
-    if (model.emModel.type == EMConversationTypeChat)
-        return [[EMSingleChatViewController alloc]initWithCoversationModel:model];
-    if (model.emModel.type == EMConversationTypeGroupChat)
-        return [[EMGroupChatViewController alloc]initWithCoversationModel:model];
-    if (model.emModel.type == EMConversationTypeChatRoom)
-        return [[EMChatroomViewController alloc]initWithCoversationModel:model];
-    
-    return [[EMChatViewController alloc]initWithCoversationModel:model];
+    [navController pushViewController:controller animated:YES];
 }
 
 @end

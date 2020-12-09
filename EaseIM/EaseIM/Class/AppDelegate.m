@@ -19,9 +19,10 @@
 
 #import "EMGlobalVariables.h"
 #import "EMDemoOptions.h"
-
+#import "EMNotificationHelper.h"
 #import "EMHomeViewController.h"
 #import "EMLoginViewController.h"
+#import <EaseIMKit/EaseIMKit.h>
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate>
 
@@ -248,6 +249,7 @@
         }
         
         [[EMClient sharedClient] getPushNotificationOptionsFromServerWithCompletion:^(EMPushOptions *aOptions, EMError *aError) {}];
+        [EaseIMKitManager shareEaseIMKit];
         [EaseIMHelper shareHelper];
         [EMNotificationHelper shared];
         [SingleCallController sharedManager];

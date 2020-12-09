@@ -1,0 +1,48 @@
+PODS:
+  - EaseIMKit (0.0.5):
+    - EMVoiceConvert
+    - FLAnimatedImage
+    - Hyphenate
+    - Masonry
+    - MBProgressHUD
+    - SDWebImage
+  - EMVoiceConvert (0.0.6)
+  - FLAnimatedImage (1.0.12)
+  - Hyphenate (3.7.2)
+  - Masonry (1.1.0)
+  - MBProgressHUD (1.2.0)
+  - MJRefresh (3.5.0)
+  - SDWebImage (5.10.0):
+    - SDWebImage/Core (= 5.10.0)
+  - SDWebImage/Core (5.10.0)
+
+DEPENDENCIES:
+  - EaseIMKit
+  - Hyphenate (~> 3.7.2)
+  - Masonry
+  - MJRefresh
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - EaseIMKit
+    - EMVoiceConvert
+    - FLAnimatedImage
+    - Hyphenate
+    - Masonry
+    - MBProgressHUD
+    - MJRefresh
+    - SDWebImage
+
+SPEC CHECKSUMS:
+  EaseIMKit: 26443bb2eca2614fc911eed6383033d66ee055a0
+  EMVoiceConvert: e52b9918199a8f1d1ad3041e71b569a9bc165bb5
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  Hyphenate: a9da397810e08c4b3173a5c8f04868165ec48b9c
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
+  MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
+  SDWebImage: 9169792e9eec3e45bba2a0c02f74bf8bd922d1ee
+
+PODFILE CHECKSUM: 860131271da20bde2ecb4406bcfaf9a10b32f26f
+
+COCOAPODS: 1.10.0

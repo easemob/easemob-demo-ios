@@ -335,7 +335,7 @@
     }];
     
     controller.modalPresentationStyle = 0;
-    [self presentViewController:controller animated:NO completion:nil];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)pswdSecureAction:(UIButton *)aButton
@@ -412,7 +412,7 @@
         [self.authorizationView originalView];//恢复原始视图
         /*EMErrorAlertViewController *errorAlerController = [[EMErrorAlertViewController alloc]initWithErrorReason:errorDes];
         errorAlerController.modalPresentationStyle = 0;
-        [self presentViewController:errorAlerController animated:NO completion:nil];
+        [self presentViewController:errorAlerController animated:YES completion:nil];
         [weakself.authorizationView setupAuthBtnBgcolor:YES];*/
     };
     
@@ -437,7 +437,7 @@
     }];
     
     controller.modalPresentationStyle = 0;
-    [self presentViewController:controller animated:NO completion:nil];
+    [self presentViewController:controller animated:YES completion:nil];
     //[self.navigationController pushViewController:controller animated:YES];
 }
 

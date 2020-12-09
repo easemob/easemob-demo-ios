@@ -22,11 +22,13 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 #define EMVIEWBOTTOMMARGIN (IS_iPhoneX ? 34.f : 0.f)
 
 //appkey
-#define DEF_APPKEY @"请填入您的APPKEY"
+#define DEF_APPKEY @"easemob-demo#chatdemoui"
 
 #define RTC_BUTTON_WIDTH 65
 #define RTC_BUTTON_HEIGHT 90
 #define RTC_BUTTON_PADDING ([UIScreen mainScreen].bounds.size.width - RTC_BUTTON_WIDTH * 3) / 4
+
+#define EMSYSTEMNOTIFICATIONID @"emsystemnotificationid"
 
 //会话
 #define CONVERSATION_STICK @"stick"
@@ -35,14 +37,13 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 
 //账号状态
 #define ACCOUNT_LOGIN_CHANGED @"loginStateChange"
-
-#define NOTIF_PUSHVIEWCONTROLLER @"EMPushNotificationViewController"
-#define NOTIF_ID @"EMNotifId"
 #define NOTIF_NAVICONTROLLER @"EMNaviController"
+#define NOTIF_ID @"EMNotifId"
 
 //聊天
 #define CHAT_PUSHVIEWCONTROLLER @"EMPushChatViewController"
 #define CHAT_CLEANMESSAGES @"EMChatCleanMessages"
+#define CHAT_BACKOFF @"EMChatBackOff"
 
 //通话
 #define EMCOMMMUNICATE_RECORD @"EMCommunicateRecord" //本地通话记录
@@ -71,9 +72,6 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 
 //消息撤回
 #define MSG_EXT_RECALL @"em_recall"
-
-//进入系统通知页
-#define SYSTEM_NOTIF_DETAIL @"system_notif_detail"
 
 //新通知
 #define MSG_EXT_NEWNOTI @"em_noti"
