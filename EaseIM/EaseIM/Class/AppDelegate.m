@@ -179,9 +179,10 @@
 - (void)_initHyphenate
 {
     EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
+    [EaseIMKitManager initWithEMOptions:[demoOptions toOptions]];
+    gIsInitializedSDK = YES;
     if (demoOptions.isAutoLogin){
-        gIsInitializedSDK = YES;
-        [[EMClient sharedClient] initializeSDKWithOptions:[demoOptions toOptions]];
+        //[[EMClient sharedClient] initializeSDKWithOptions:];
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(YES)];
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(NO)];
@@ -249,7 +250,6 @@
         }
         
         [[EMClient sharedClient] getPushNotificationOptionsFromServerWithCompletion:^(EMPushOptions *aOptions, EMError *aError) {}];
-        [EaseIMKitManager shareEaseIMKit];
         [EaseIMHelper shareHelper];
         [EMNotificationHelper shared];
         [SingleCallController sharedManager];

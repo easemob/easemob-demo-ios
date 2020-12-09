@@ -396,12 +396,6 @@
         return;
     }
     
-    if (!gIsInitializedSDK) {
-        gIsInitializedSDK = YES;
-        EMOptions *options = [[EMDemoOptions sharedOptions] toOptions];
-        [[EMClient sharedClient] initializeSDKWithOptions:options];
-    }
-    
     __weak typeof(self) weakself = self;
     [self.authorizationView beingLoadedView];//正在加载视图
     [[EMClient sharedClient] registerWithUsername:name password:pswd completion:^(NSString *aUsername, EMError *aError) {

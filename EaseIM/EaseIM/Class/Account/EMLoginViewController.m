@@ -355,13 +355,6 @@
     NSString *name = self.nameField.text;
     NSString *pswd = self.pswdField.text;
 
-    if (!gIsInitializedSDK) {
-        gIsInitializedSDK = YES;
-        EMOptions *options = [[EMDemoOptions sharedOptions] toOptions];
-        
-        [[EMClient sharedClient] initializeSDKWithOptions:options];
-    }
-    
     __weak typeof(self) weakself = self;
     void (^finishBlock) (NSString *aName, EMError *aError) = ^(NSString *aName, EMError *aError) {
         [weakself hideHud];

@@ -40,7 +40,7 @@
     
     //监听消息接收，主要更新会话tabbaritem的badge
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
-    [EaseIMKitManager.shareEaseIMKit addDelegate:self];
+    [EaseIMKitManager.shared addDelegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -71,7 +71,7 @@
 - (void)dealloc
 {
     [[EMClient sharedClient].chatManager removeDelegate:self];
-    [EaseIMKitManager.shareEaseIMKit removeDelegate:self];
+    [EaseIMKitManager.shared removeDelegate:self];
 }
 
 #pragma mark - Subviews

@@ -96,6 +96,7 @@
 
 - (NSArray<UIContextualAction *> *)easeTableView:(UITableView *)tableView trailingSwipeActionsForRowAtContactModel:(EaseContactModel *)contact actions:(NSArray<UIContextualAction *> *)actions
 {
+    //通讯录头部非联系人列表禁止侧滑
     if ([contact.easeId isEqualToString:NEWFRIEND] || [contact.easeId isEqualToString:GROUPLIST] || [contact.easeId isEqualToString:CHATROOMLIST]) {
         return nil;
     }

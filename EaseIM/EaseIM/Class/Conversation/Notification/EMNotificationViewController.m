@@ -34,7 +34,7 @@
     [super viewDidAppear:animated];
     
     EMConversation *conversation = [EMClient.sharedClient.chatManager getConversation:EMSYSTEMNOTIFICATIONID type:EMConversationTypeChat createIfNotExist:YES];
-    [EaseIMKitManager.shareEaseIMKit markAllMessagesAsReadWithConversation:conversation];
+    [EaseIMKitManager.shared markAllMessagesAsReadWithConversation:conversation];
     [[EMNotificationHelper shared] markAllAsRead];
     [EMNotificationHelper shared].isCheckUnreadCount = NO;
 }
