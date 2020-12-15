@@ -19,9 +19,10 @@
 
 #import "EMGlobalVariables.h"
 #import "EMDemoOptions.h"
-
+#import "EMNotificationHelper.h"
 #import "EMHomeViewController.h"
 #import "EMLoginViewController.h"
+#import <EaseIMKit/EaseIMKit.h>
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate>
 
@@ -178,9 +179,10 @@
 - (void)_initHyphenate
 {
     EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
+    [EaseIMKitManager initWithEMOptions:[demoOptions toOptions]];
+    gIsInitializedSDK = YES;
     if (demoOptions.isAutoLogin){
-        gIsInitializedSDK = YES;
-        [[EMClient sharedClient] initializeSDKWithOptions:[demoOptions toOptions]];
+        //[[EMClient sharedClient] initializeSDKWithOptions:];
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(YES)];
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(NO)];

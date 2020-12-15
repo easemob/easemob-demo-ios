@@ -141,9 +141,16 @@
 {
     //设置推送设置
     [self showHint:@"更新APNS昵称..."];
-    [[EMClient sharedClient] setApnsNickname:aName];
-    [self.tableView reloadData];
-    [self hideHud];
+    EMError *error = [[EMClient sharedClient] setApnsNickname:aName];
+    if (!error) {
+        if (self.updateAPNSNicknameCompletion) {
+            self.updateAPNSNicknameCompletion();
+        }
+        [self.tableView reloadData];
+        [self hideHud];
+    } else {
+        [EMAlertController showErrorAlert:error.errorDescription];
+    }
 }
 
 - (void)changeNikeNameAction

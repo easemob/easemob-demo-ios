@@ -9,8 +9,6 @@
 #import "EMChatroomsViewController.h"
 
 #import "EMRealtimeSearch.h"
-#import "EMConversationHelper.h"
-
 #import "EMAvatarNameCell.h"
 
 @interface EMChatroomsViewController () <EMChatroomManagerDelegate>

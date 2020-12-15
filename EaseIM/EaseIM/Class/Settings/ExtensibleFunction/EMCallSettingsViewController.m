@@ -128,20 +128,20 @@ static bool g_Watermark = NO;
     } else if (section == 1) {
         if (row == 0) {
             cell.textLabel.text = @"显示视频通话信息";
-            [switchControl setOn:[EMDemoOptions sharedOptions].isShowCallInfo animated:NO];
+            [switchControl setOn:[EMDemoOptions sharedOptions].isShowCallInfo animated:YES];
         } else if (row == 1) {
             cell.textLabel.text = @"默认摄像头";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.detailTextLabel.text = [EMDemoOptions sharedOptions].isUseBackCamera ? @"后置摄像头" : @"前置摄像头";
         } else if (row == 2) {
             cell.textLabel.text = @"开启服务器录制";
-            [switchControl setOn:[EMDemoOptions sharedOptions].willRecord animated:NO];
+            [switchControl setOn:[EMDemoOptions sharedOptions].willRecord animated:YES];
         } else if (row == 3) {
             cell.textLabel.text = @"开启录制混流";
-            [switchControl setOn:[EMDemoOptions sharedOptions].willMergeStrem animated:NO];
+            [switchControl setOn:[EMDemoOptions sharedOptions].willMergeStrem animated:YES];
         } else if (row == 4) {
             cell.textLabel.text = @"支持微信小程序";
-            [switchControl setOn:[EMDemoOptions sharedOptions].isSupportWechatMiniProgram animated:NO];
+            [switchControl setOn:[EMDemoOptions sharedOptions].isSupportWechatMiniProgram animated:YES];
         }
     } else if (section == 2) {
         if (row == 0) {

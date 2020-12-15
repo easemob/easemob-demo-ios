@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <EaseIMKit/EaseIMKit.h>
+#import "EMMsgPicMixTextBubbleView.h"
 
-#import "EMMessageModel.h"
-#import "EMMessageBubbleView.h"
+#define avatarLonger 40
+#define componentSpacing 10
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,15 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface EMMessageCell : UITableViewCell
 
 @property (nonatomic, weak) id<EMMessageCellDelegate> delegate;
-
-@property (nonatomic, strong, readonly) EMMessageBubbleView *bubbleView;
-
+@property (nonatomic, strong) EMMsgPicMixTextBubbleView *bubbleView;
 @property (nonatomic) EMMessageDirection direction;
-
-@property (nonatomic, strong) EMMessageModel *model;
-
-+ (NSString *)cellIdentifierWithDirection:(EMMessageDirection)aDirection
-                                     type:(EMMessageType)aType;
+@property (nonatomic, strong) EaseMessageModel *model;
 
 - (instancetype)initWithDirection:(EMMessageDirection)aDirection
                              type:(EMMessageType)aType;
@@ -37,12 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 - (void)messageCellDidSelected:(EMMessageCell *)aCell;
-
-- (void)messageCellDidLongPress:(EMMessageCell *)aCell;
-
-- (void)messageCellDidResend:(EMMessageModel *)aModel;
-
-- (void)messageReadReceiptDetil:(EMMessageCell *)aCell;
+- (void)messageAvatarDidSelected:(EaseMessageModel *)model;
 
 @end
 

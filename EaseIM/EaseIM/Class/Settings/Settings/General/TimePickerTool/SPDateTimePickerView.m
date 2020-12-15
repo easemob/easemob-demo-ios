@@ -418,15 +418,15 @@
     switch (self.pickerViewMode) {
         case 0:
         {
-            [self.pickerView selectRow:year-startYear inComponent:0 animated:NO];
+            [self.pickerView selectRow:year-startYear inComponent:0 animated:YES];
             [self pickerView:self.pickerView didSelectRow:year-startYear inComponent:0];
 
         }
             break;
         case 1:
         {
-            [self.pickerView selectRow:year-startYear inComponent:0 animated:NO];
-            [self.pickerView selectRow:month-1 inComponent:1 animated:NO];
+            [self.pickerView selectRow:year-startYear inComponent:0 animated:YES];
+            [self.pickerView selectRow:month-1 inComponent:1 animated:YES];
             
             [self pickerView:self.pickerView didSelectRow:year-startYear inComponent:0];
             [self pickerView:self.pickerView didSelectRow:month-1 inComponent:1];
@@ -434,9 +434,9 @@
             break;
         case 2:
         {
-            [self.pickerView selectRow:year-startYear inComponent:0 animated:NO];
-            [self.pickerView selectRow:month-1 inComponent:1 animated:NO];
-            [self.pickerView selectRow:day-1 inComponent:2 animated:NO];
+            [self.pickerView selectRow:year-startYear inComponent:0 animated:YES];
+            [self.pickerView selectRow:month-1 inComponent:1 animated:YES];
+            [self.pickerView selectRow:day-1 inComponent:2 animated:YES];
             
             [self pickerView:self.pickerView didSelectRow:year-startYear inComponent:0];
             [self pickerView:self.pickerView didSelectRow:month-1 inComponent:1];
@@ -445,10 +445,10 @@
             break;
         case 3:
         {
-            [self.pickerView selectRow:year-startYear inComponent:0 animated:NO];
-            [self.pickerView selectRow:month-1 inComponent:1 animated:NO];
-            [self.pickerView selectRow:day-1 inComponent:2 animated:NO];
-            [self.pickerView selectRow:hour inComponent:3 animated:NO];
+            [self.pickerView selectRow:year-startYear inComponent:0 animated:YES];
+            [self.pickerView selectRow:month-1 inComponent:1 animated:YES];
+            [self.pickerView selectRow:day-1 inComponent:2 animated:YES];
+            [self.pickerView selectRow:hour inComponent:3 animated:YES];
             
             [self pickerView:self.pickerView didSelectRow:year-startYear inComponent:0];
             [self pickerView:self.pickerView didSelectRow:month-1 inComponent:1];
@@ -458,11 +458,11 @@
             break;
         case 4:
         {
-            [self.pickerView selectRow:year-startYear inComponent:0 animated:NO];
-            [self.pickerView selectRow:month-1 inComponent:1 animated:NO];
-            [self.pickerView selectRow:day-1 inComponent:2 animated:NO];
-            [self.pickerView selectRow:hour inComponent:3 animated:NO];
-            [self.pickerView selectRow:minute inComponent:4 animated:NO];
+            [self.pickerView selectRow:year-startYear inComponent:0 animated:YES];
+            [self.pickerView selectRow:month-1 inComponent:1 animated:YES];
+            [self.pickerView selectRow:day-1 inComponent:2 animated:YES];
+            [self.pickerView selectRow:hour inComponent:3 animated:YES];
+            [self.pickerView selectRow:minute inComponent:4 animated:YES];
             
             [self pickerView:self.pickerView didSelectRow:year-startYear inComponent:0];
             [self pickerView:self.pickerView didSelectRow:month-1 inComponent:1];
@@ -473,12 +473,12 @@
             break;
         case 5:
         {
-            [self.pickerView selectRow:year-startYear inComponent:0 animated:NO];
-            [self.pickerView selectRow:month-1 inComponent:1 animated:NO];
-            [self.pickerView selectRow:day-1 inComponent:2 animated:NO];
-            [self.pickerView selectRow:hour inComponent:3 animated:NO];
-            [self.pickerView selectRow:minute inComponent:4 animated:NO];
-            [self.pickerView selectRow:second inComponent:5 animated:NO];
+            [self.pickerView selectRow:year-startYear inComponent:0 animated:YES];
+            [self.pickerView selectRow:month-1 inComponent:1 animated:YES];
+            [self.pickerView selectRow:day-1 inComponent:2 animated:YES];
+            [self.pickerView selectRow:hour inComponent:3 animated:YES];
+            [self.pickerView selectRow:minute inComponent:4 animated:YES];
+            [self.pickerView selectRow:second inComponent:5 animated:YES];
 
             
             [self pickerView:self.pickerView didSelectRow:year-startYear inComponent:0];
@@ -492,8 +492,8 @@
             break;
         case 6:
         {
-            [self.pickerView selectRow:hour inComponent:0 animated:NO];
-            [self.pickerView selectRow:hour inComponent:1 animated:NO];
+            [self.pickerView selectRow:hour inComponent:0 animated:YES];
+            [self.pickerView selectRow:hour inComponent:1 animated:YES];
             
             [self pickerView:self.pickerView didSelectRow:hour inComponent:0];
             [self pickerView:self.pickerView didSelectRow:hour inComponent:1];
@@ -501,9 +501,9 @@
             break;
         case 7:
         {
-            [self.pickerView selectRow:hour inComponent:0 animated:NO];
-            [self.pickerView selectRow:minute inComponent:1 animated:NO];
-            [self.pickerView selectRow:second inComponent:2 animated:NO];
+            [self.pickerView selectRow:hour inComponent:0 animated:YES];
+            [self.pickerView selectRow:minute inComponent:1 animated:YES];
+            [self.pickerView selectRow:second inComponent:2 animated:YES];
             
             [self pickerView:self.pickerView didSelectRow:hour inComponent:0];
             [self pickerView:self.pickerView didSelectRow:minute inComponent:1];
@@ -512,8 +512,8 @@
             break;
         case 8:
         {
-            [self.pickerView selectRow:minute inComponent:0 animated:NO];
-            [self.pickerView selectRow:second inComponent:1 animated:NO];
+            [self.pickerView selectRow:minute inComponent:0 animated:YES];
+            [self.pickerView selectRow:second inComponent:1 animated:YES];
             
             [self pickerView:self.pickerView didSelectRow:minute inComponent:0];
             [self pickerView:self.pickerView didSelectRow:second inComponent:1];

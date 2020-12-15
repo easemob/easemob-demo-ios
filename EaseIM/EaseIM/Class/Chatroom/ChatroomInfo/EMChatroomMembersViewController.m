@@ -136,7 +136,7 @@
     if (aIsShowHUD) {
         [self showHudInView:self.view hint:@"获取普通成员..."];
     }
-    
+    NSLog(@"username:   %@",EMClient.sharedClient.currentUsername);
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].roomManager getChatroomMemberListFromServerWithId:self.chatroom.chatroomId cursor:self.cursor pageSize:50 completion:^(EMCursorResult *aResult, EMError *aError) {
         if (aIsShowHUD) {
@@ -209,6 +209,9 @@
         } else {
             weakself.isUpdated = YES;
             [EMAlertController showSuccessAlert:@"移至黑名单成功"];
+            [[EMClient sharedClient].roomManager removeMembers:@[aUsername] fromChatroom:weakself.chatroom.chatroomId completion:^(EMChatroom *aChatroom, EMError *aError) {
+                weakself.chatroom = aChatroom;
+            }];
             [weakself.dataArray removeObject:aUsername];
             [weakself.tableView reloadData];
         }
