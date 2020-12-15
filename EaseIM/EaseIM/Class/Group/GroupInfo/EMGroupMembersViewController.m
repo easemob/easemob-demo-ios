@@ -272,7 +272,7 @@
     UIViewController *rootViewController = window.rootViewController;
     if ([rootViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *nav = (UINavigationController *)rootViewController;
-        [nav pushViewController:controller animated:NO];
+        [nav pushViewController:controller animated:YES];
     }
 }
 

@@ -461,7 +461,7 @@
 {
     BOOL fileAuthorized = [urls.firstObject startAccessingSecurityScopedResource];
     if (fileAuthorized) {
-        //[self selectedDocumentAtURLs:urls reName:nil];
+        [self selectedDocumentAtURLs:urls[0] reName:nil];
         [urls.firstObject stopAccessingSecurityScopedResource];
     } else {
         [self showHint:@"授权失败!"];

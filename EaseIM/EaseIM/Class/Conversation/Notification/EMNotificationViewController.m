@@ -10,6 +10,7 @@
 
 #import "EMNotificationHelper.h"
 #import "EMNotificationCell.h"
+#import <EaseIMKit/EaseIMKit.h>
 
 @interface EMNotificationViewController ()<EMNotificationsDelegate, EMNotificationCellDelegate>
 
@@ -24,22 +25,16 @@
     
     // Uncomment the following line to preserve selection between presentations.
     self.dataArray = [[NSMutableArray alloc] init];
-    
-    [[EMNotificationHelper shared] addDelegate:self];
-    
-    
-    [self _setupViews];
-}
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:SYSTEM_NOTIF_DETAIL object:nil];
+    [self _setupViews];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
+    EMConversation *conversation = [EMClient.sharedClient.chatManager getConversation:EMSYSTEMNOTIFICATIONID type:EMConversationTypeChat createIfNotExist:YES];
+    [EaseIMKitManager.shared markAllMessagesAsReadWithConversation:conversation];
     [[EMNotificationHelper shared] markAllAsRead];
     [EMNotificationHelper shared].isCheckUnreadCount = NO;
 }
@@ -47,14 +42,13 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_BACKOFF object:nil];
     [EMNotificationHelper shared].isCheckUnreadCount = YES;
 }
 
 - (void)dealloc
 {
     [EMNotificationHelper shared].isCheckUnreadCount = YES;
-    [[EMNotificationHelper shared] removeDelegate:self];
 }
 
 #pragma mark - Subviews
@@ -94,8 +88,6 @@
     
     return cell;
 }
-
-#pragma mark - EMNotificationsDelegate
 
 #pragma mark - EMNotificationCellDelegate
 

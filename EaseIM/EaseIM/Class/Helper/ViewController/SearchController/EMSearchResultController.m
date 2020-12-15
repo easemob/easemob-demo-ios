@@ -7,8 +7,7 @@
 //
 
 #import "EMSearchResultController.h"
-
-#import "MJRefresh.h"
+#import <MJRefresh/MJRefresh.h>
 
 @interface EMSearchResultController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -149,6 +148,14 @@
     if (_commitEditingAtIndexPath) {
         return _commitEditingAtIndexPath(tableView, editingStyle, indexPath);
     }
+}
+
+- (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (_trailingSwipeActionsConfigurationForRowAtIndexPath) {
+        return _trailingSwipeActionsConfigurationForRowAtIndexPath(tableView, indexPath);
+    }
+    return nil;
 }
 
 #pragma mark - Table view delegate

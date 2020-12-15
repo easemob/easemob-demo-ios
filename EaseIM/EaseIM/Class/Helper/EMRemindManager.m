@@ -65,7 +65,9 @@ SystemSoundID soundID = 1007;
 }
 
 - (void)updateApplicationIconBadgeNumber:(NSInteger)aBadgeNumber {
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:aBadgeNumber];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:aBadgeNumber];
+    });
 }
 
 - (void)remindMessage:(EMMessage *)aMessage {

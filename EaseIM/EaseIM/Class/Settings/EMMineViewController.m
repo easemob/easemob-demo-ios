@@ -209,7 +209,7 @@
 - (void)suspendBtnClick
 {
     EMAccountViewController *controller = [[EMAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    [self.navigationController pushViewController:controller animated:NO];
+    [self.navigationController pushViewController:controller animated:YES];
 }*/
 
 #pragma mark - Table view data source
@@ -301,26 +301,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    __weak typeof(self) weakself = self;
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     if (section == 0) {
         if (row == 0) {
             EMAccountViewController *controller = [[EMAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
-            [self.navigationController pushViewController:controller animated:NO];
+            [controller setUpdateAPNSNicknameCompletion:^{
+                weakself.userCell.detailLabel.text = [EMClient sharedClient].pushOptions.displayName;
+                [weakself.tableView reloadData];
+            }];
+            [self.navigationController pushViewController:controller animated:YES];
         }
     } else if (section == 1) {
         if (row == 0) {
             EMSettingsViewController *settingsController = [[EMSettingsViewController alloc]init];
-            [self.navigationController pushViewController:settingsController animated:NO];
+            [self.navigationController pushViewController:settingsController animated:YES];
         } else if (row == 3) {
             EMOpinionFeedbackViewController *opinionController = [[EMOpinionFeedbackViewController alloc]init];
-            [self.navigationController pushViewController:opinionController animated:NO];
+            [self.navigationController pushViewController:opinionController animated:YES];
         } else if (row == 1) {
             EMAboutHuanXinViewController *aboutHuanXin = [[EMAboutHuanXinViewController alloc]init];
-            [self.navigationController pushViewController:aboutHuanXin animated:NO];
+            [self.navigationController pushViewController:aboutHuanXin animated:YES];
         } else if (row == 2) {
             EMDeveloperServiceViewController *developerServiceController = [[EMDeveloperServiceViewController alloc]init];
-            [self.navigationController pushViewController:developerServiceController animated:NO];
+            [self.navigationController pushViewController:developerServiceController animated:YES];
         }
     }
 }

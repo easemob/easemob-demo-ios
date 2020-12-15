@@ -7,17 +7,17 @@
 //
 
 #import "EMHomeViewController.h"
-
-#import "EMConversationsViewController.h"
-#import "EMContactsViewController.h"
 #import "EMMineViewController.h"
 #import "EMRemindManager.h"
+#import "EMConversationsViewController.h"
+#import "EMContactsViewController.h"
+#import <EaseIMKit/EaseIMKit.h>
 
 #define kTabbarItemTag_Conversation 0
 #define kTabbarItemTag_Contact 1
 #define kTabbarItemTag_Settings 2
 
-@interface EMHomeViewController ()<UITabBarDelegate, EMChatManagerDelegate, EMNotificationsDelegate>
+@interface EMHomeViewController ()<UITabBarDelegate, EMChatManagerDelegate, EaseIMKitManagerDelegate>
 
 @property (nonatomic) BOOL isViewAppear;
 
@@ -40,8 +40,7 @@
     
     //监听消息接收，主要更新会话tabbaritem的badge
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
-    //监听通知申请，主要更新联系人tabbaritem的badge
-    [[EMNotificationHelper shared] addDelegate:self];
+    [EaseIMKitManager.shared addDelegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -50,7 +49,7 @@
     
     self.navigationController.navigationBarHidden = YES;
     self.isViewAppear = YES;
-    [self _loadTabBarItemsBadge];
+    [self _loadConversationTabBarItemBadge];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -72,8 +71,7 @@
 - (void)dealloc
 {
     [[EMClient sharedClient].chatManager removeDelegate:self];
-    [[EMNotificationHelper shared] removeDelegate:self];
-    [EMNotificationHelper destoryShared];
+    [EaseIMKitManager.shared removeDelegate:self];
 }
 
 #pragma mark - Subviews
@@ -125,12 +123,12 @@
 
 - (void)_setupChildController
 {
-    self.conversationsController = [[EMConversationsViewController alloc] init];
+    self.conversationsController = [[EMConversationsViewController alloc]init];
     UITabBarItem *consItem = [self _setupTabBarItemWithTitle:@"会话" imgName:@"icon-tab会话unselected" selectedImgName:@"icon-tab会话" tag:kTabbarItemTag_Conversation];
     self.conversationsController.tabBarItem = consItem;
     [self addChildViewController:self.conversationsController];
     
-    self.contactsController = [[EMContactsViewController alloc] init];
+    self.contactsController = [[EMContactsViewController alloc]init];
     UITabBarItem *contItem = [self _setupTabBarItemWithTitle:@"通讯录" imgName:@"icon-tab通讯录unselected" selectedImgName:@"icon-tab通讯录" tag:kTabbarItemTag_Contact];
     self.contactsController.tabBarItem = contItem;
     [self addChildViewController:self.contactsController];
@@ -212,12 +210,15 @@
     [self _loadConversationTabBarItemBadge];
 }
 
-#pragma mark - EMNotificationsDelegate
+#pragma mark - EaseIMKitManagerDelegate
 
-- (void)didNotificationsUnreadCountUpdate:(NSInteger)aUnreadCount
+- (void)conversationsUnreadCountUpdate:(NSInteger)unreadCount
 {
-    EMNotificationHelper.shared.unreadCount = aUnreadCount;
-    [self _loadConversationTabBarItemBadge];
+    __weak typeof(self) weakself = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        weakself.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;
+    });
+    [EMRemindManager updateApplicationIconBadgeNumber:unreadCount];
 }
 
 #pragma mark - Private
@@ -229,16 +230,8 @@
     for (EMConversation *conversation in conversations) {
         unreadCount += conversation.unreadMessagesCount;
     }
-    NSString *unreadCountStr = (unreadCount + [EMNotificationHelper shared].unreadCount) > 0 ? @(unreadCount + [EMNotificationHelper shared].unreadCount).stringValue : nil;
-    self.conversationsController.tabBarItem.badgeValue = unreadCountStr;
-    [EMRemindManager updateApplicationIconBadgeNumber:unreadCount + [EMNotificationHelper shared].unreadCount];
-}
-
-- (void)_loadTabBarItemsBadge
-{
-    [self _loadConversationTabBarItemBadge];
-    
-    [self didNotificationsUnreadCountUpdate:[EMNotificationHelper shared].unreadCount];
+    self.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;
+    [EMRemindManager updateApplicationIconBadgeNumber:unreadCount];
 }
 
 @end

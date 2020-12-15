@@ -105,7 +105,7 @@
     NSString *name = aCell.nameLabel.text;
     EMConfirmViewController *confirmControl = [[EMConfirmViewController alloc]initWithMembername:name titleText:@"是否移交群主给该成员？"];
     confirmControl.modalPresentationStyle = 0;
-    [self presentViewController:confirmControl animated:NO completion:nil];
+    [self presentViewController:confirmControl animated:YES completion:nil];
     
     [confirmControl setDoneCompletion:^BOOL(BOOL aConfirm) {
         

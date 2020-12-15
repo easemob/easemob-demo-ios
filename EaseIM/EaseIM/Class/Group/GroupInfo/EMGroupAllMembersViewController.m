@@ -116,10 +116,10 @@
     if (section == 0) {
         if (row == 0) {
             EMGroupAdminsViewController *controller = [[EMGroupAdminsViewController alloc]initWithGroup:self.group];
-            [self.navigationController pushViewController:controller animated:NO];
+            [self.navigationController pushViewController:controller animated:YES];
         } else if (row == 1) {
             EMGroupMembersViewController *controller = [[EMGroupMembersViewController alloc]initWithGroup:self.group];
-            [self.navigationController pushViewController:controller animated:NO];
+            [self.navigationController pushViewController:controller animated:YES];
         }
     }
 }
