@@ -83,7 +83,7 @@
     self.userCell.detailLabel.textColor = [UIColor grayColor];
     self.userCell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
     self.userCell.nameLabel.text = [EMClient sharedClient].currentUsername;
-    self.userCell.detailLabel.text = [EMClient sharedClient].pushOptions.displayName;
+    self.userCell.detailLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayName;
     [self.userCell.avatarView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.userCell.contentView.mas_left).offset(28);
         make.centerY.equalTo(self.userCell.contentView);
@@ -308,7 +308,7 @@
         if (row == 0) {
             EMAccountViewController *controller = [[EMAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
             [controller setUpdateAPNSNicknameCompletion:^{
-                weakself.userCell.detailLabel.text = [EMClient sharedClient].pushOptions.displayName;
+                weakself.userCell.detailLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayName;
                 [weakself.tableView reloadData];
             }];
             [self.navigationController pushViewController:controller animated:YES];
