@@ -298,7 +298,7 @@
     if (!self.chatController.moreMsgId)
         //新会话的第一条消息
         self.chatController.moreMsgId = message.messageId;
-    [self.chatController refreshTableView];
+    [self.chatController refreshTableView:YES];
 }
 
 //音视频
@@ -358,20 +358,24 @@
 //单聊详情页
 - (void)chatInfoAction
 {
-    __weak typeof(self) weakself = self;
-    EMChatInfoViewController *chatInfoController = [[EMChatInfoViewController alloc]initWithCoversation:self.conversation];
-    [chatInfoController setClearRecordCompletion:^(BOOL isClearRecord) {
-        if (isClearRecord) {
-            [weakself.chatController.dataArray removeAllObjects];
-            [weakself.chatController.tableView reloadData];
-        }
-    }];
-    [self.navigationController pushViewController:chatInfoController animated:YES];
+    if (self.conversation.type == EMConversationTypeChat) {
+        [self.chatController cleanPopupControllerView];
+        __weak typeof(self) weakself = self;
+        EMChatInfoViewController *chatInfoController = [[EMChatInfoViewController alloc]initWithCoversation:self.conversation];
+        [chatInfoController setClearRecordCompletion:^(BOOL isClearRecord) {
+            if (isClearRecord) {
+                [weakself.chatController.dataArray removeAllObjects];
+                [weakself.chatController.tableView reloadData];
+            }
+        }];
+        [self.navigationController pushViewController:chatInfoController animated:YES];
+    }
 }
 
 //群组 详情页
 - (void)groupInfoAction {
     if (self.conversation.type == EMConversationTypeGroupChat) {
+        [self.chatController cleanPopupControllerView];
         __weak typeof(self) weakself = self;
         EMGroupInfoViewController *groupInfocontroller = [[EMGroupInfoViewController alloc] initWithGroupId:self.conversation.conversationId];
         [groupInfocontroller setLeaveOrDestroyCompletion:^{
@@ -391,6 +395,7 @@
 - (void)chatroomInfoAction
 {
     if (self.conversation.type == EMConversationTypeChatRoom) {
+        [self.chatController cleanPopupControllerView];
         __weak typeof(self) weakself = self;
         EMChatroomInfoViewController *controller = [[EMChatroomInfoViewController alloc] initWithChatroomId:self.conversation.conversationId];
         [controller setLeaveCompletion:^{

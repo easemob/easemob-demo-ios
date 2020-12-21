@@ -207,7 +207,7 @@
 
 - (void)refreshTableView
 {
-    ///[self.easeConvsVC refreshTabView];
+    [self.easeConvsVC refreshTabView];
 }
 
 #pragma mark - searchButtonAction

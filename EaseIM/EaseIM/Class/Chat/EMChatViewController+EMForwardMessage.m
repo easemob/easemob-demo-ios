@@ -59,7 +59,7 @@
                 NSArray *formated = [weakself.chatController formatMessages:@[message]];
                 [weakself.chatController.dataArray addObjectsFromArray:formated];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakself.chatController refreshTableView];
+                    [weakself.chatController refreshTableView:YES];
                 });
             }
         }

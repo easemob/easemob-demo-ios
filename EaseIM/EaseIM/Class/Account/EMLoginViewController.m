@@ -330,7 +330,11 @@
 
 - (void)changeAppkeyAction
 {
+    /*
     EMSDKOptionsViewController *controller = [[EMSDKOptionsViewController alloc] initWithEnableEdit:!gIsInitializedSDK finishCompletion:^(EMDemoOptions * _Nonnull aOptions) {
+        //weakself.appkeyField.text = aOptions.appkey;
+    }];*/
+    EMSDKOptionsViewController *controller = [[EMSDKOptionsViewController alloc] initWithEnableEdit:YES finishCompletion:^(EMDemoOptions * _Nonnull aOptions) {
         //weakself.appkeyField.text = aOptions.appkey;
     }];
     

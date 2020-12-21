@@ -211,54 +211,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "47C54646-D099-4A42-8B38-E12B853596A4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EaseIM/Class/Chat/EMChatViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
-            landmarkName = "-groupReadReceiptAction"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "47C54646-D099-4A42-8B38-E12B853596A4 - 9d947c109ae92b0c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[EMChatViewController chatInfoAction]"
-                  moduleName = "EaseIM"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/chong/Desktop/EaseIM/EaseIM/EaseIM/Class/Chat/EMChatViewController.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "262"
-                  endingLineNumber = "262"
-                  offsetFromSymbolStart = "160">
-               </Location>
-               <Location
-                  uuid = "47C54646-D099-4A42-8B38-E12B853596A4 - c494450bb5e5843e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__38-[EMChatViewController chatInfoAction]_block_invoke"
-                  moduleName = "EaseIM"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/chong/Desktop/EaseIM/EaseIM/EaseIM/Class/Chat/EMChatViewController.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "263"
-                  endingLineNumber = "263"
-                  offsetFromSymbolStart = "28">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "5A36394F-70FE-41D7-9FFB-8E35A717BC93"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -269,6 +221,86 @@
             startingLineNumber = "252"
             endingLineNumber = "252"
             landmarkName = "-loginStateChange:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5A36394F-70FE-41D7-9FFB-8E35A717BC93 - f3cba6753e4ab398"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AppDelegate loginStateChange:]"
+                  moduleName = "EaseIM"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/chong/Desktop/EaseIM/EaseIM/EaseIM/Class/AppDelegate.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "252"
+                  endingLineNumber = "252"
+                  offsetFromSymbolStart = "652">
+               </Location>
+               <Location
+                  uuid = "5A36394F-70FE-41D7-9FFB-8E35A717BC93 - 1616c82abd8721ea"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[AppDelegate loginStateChange:]_block_invoke"
+                  moduleName = "EaseIM"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/chong/Desktop/EaseIM/EaseIM/EaseIM/Class/AppDelegate.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "252"
+                  endingLineNumber = "252"
+                  offsetFromSymbolStart = "96">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "650663F9-AF0C-4402-B6A2-E91AEF18A528"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EaseIM/Class/Account/EMSDKOptionsViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "474"
+            endingLineNumber = "474"
+            landmarkName = "-tableView:heightForHeaderInSection:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8672552F-4BAA-4526-B833-5995009E2899"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EaseIM/Class/Account/EMSDKOptionsViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "-initWithEnableEdit:finishCompletion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "317E7B9C-8713-4FC5-ACC6-106012E2492A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EaseIM/Class/Account/EMLoginViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
+            landmarkName = "-changeAppkeyAction"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
