@@ -21,5 +21,7 @@
 - (void)endConference:(EMCallConference *)aCall
             isDestroy:(BOOL)aIsDestroy;
 
+- (NSString*)getConversationId;
+
 @end
 

@@ -17,12 +17,14 @@
 #import "MeetingViewController.h"
 #import "Live2ViewController.h"
 #import "EMConferenceInviteViewController.h"
+#import <EaseCallUI/EaseCallUIKit.h>
 
 static ConferenceController *confManager = nil;
 
 @interface ConferenceController()<EMConferenceManagerDelegate, EMChatManagerDelegate>
 
 @property (strong, nonatomic) UINavigationController *confNavController;
+@property (nonatomic, strong) NSString* conversationId;
 
 @end
 
@@ -63,7 +65,13 @@ static ConferenceController *confManager = nil;
     ConfInviteType inviteType = ConfInviteTypeGroup;
     if (conversation.type == EMChatTypeChatRoom)
         inviteType = ConfInviteTypeChatroom;
+    self.conversationId = conversation.conversationId;
     [self inviteMemberWithConfType:EMConferenceTypeCommunication inviteType:inviteType conversationId:conversation.conversationId chatType:(EMChatType)conversation.type popFromController:controller];
+}
+
+- (NSString*)getConversationId
+{
+    return self.conversationId;
 }
 
 #pragma mark - private
@@ -107,18 +115,23 @@ static ConferenceController *confManager = nil;
                         chatType:(EMChatType)aChatType
                popFromController:(UIViewController *)aController
 {
-    if (gIsCalling) {
-        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
-        [alertView show];
-        return;
-    }
+//    if (gIsCalling) {
+//        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
+//        [alertView show];
+//        return;
+//    }
     
     ConfInviteUsersViewController *controller = [[ConfInviteUsersViewController alloc] initWithType:aInviteType isCreate:YES excludeUsers:@[[EMClient sharedClient].currentUsername] groupOrChatroomId:aConversationId];
     
     __weak typeof(self) weakSelf = self;
     [controller setDoneCompletion:^(NSArray *aInviteUsers) {
         gIsCalling = YES;
-        
+        [[EaseCallManager sharedManager] startInviteUsers:aInviteUsers completion:^(EMError * _Nonnull aError) {
+            if(aError) {
+                
+            }
+        }];
+        return;
         EMConferenceViewController *controller = nil;
         if (aConfType != EMConferenceTypeLive) {
             controller = [[MeetingViewController alloc] initWithType:aConfType password:@"" inviteUsers:aInviteUsers chatId:aConversationId chatType:aChatType];

@@ -761,6 +761,15 @@
 		90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECE1930492B00121AEC /* AddressBook.framework */; };
 		921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C6A9D1D2A841600D8257F /* CoreMotion.framework */; };
 		C035E8151AEA40F400283EE9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C36CA691A1EDB6200CDDD48 /* CoreData.framework */; };
+		C09A97A72599B8DE00BEC281 /* EaseCallBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C09A97972599B8DE00BEC281 /* EaseCallBaseViewController.m */; };
+		C09A97A82599B8DE00BEC281 /* EaseCallStreamView.m in Sources */ = {isa = PBXBuildFile; fileRef = C09A97982599B8DE00BEC281 /* EaseCallStreamView.m */; };
+		C09A97A92599B8DE00BEC281 /* EaseCallPlaceholderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C09A97992599B8DE00BEC281 /* EaseCallPlaceholderView.m */; };
+		C09A97AA2599B8DE00BEC281 /* EaseCall.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C09A979B2599B8DE00BEC281 /* EaseCall.bundle */; };
+		C09A97AB2599B8DE00BEC281 /* EaseCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C09A97A12599B8DE00BEC281 /* EaseCallManager.m */; };
+		C09A97AC2599B8DE00BEC281 /* EaseCallConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = C09A97A22599B8DE00BEC281 /* EaseCallConfig.m */; };
+		C09A97AD2599B8DE00BEC281 /* EaseCallSingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C09A97A42599B8DE00BEC281 /* EaseCallSingleViewController.m */; };
+		C09A97AE2599B8DE00BEC281 /* EaseCallMultiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C09A97A52599B8DE00BEC281 /* EaseCallMultiViewController.m */; };
+		C09A97AF2599B8DE00BEC281 /* UIImage+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = C09A97A62599B8DE00BEC281 /* UIImage+Ext.m */; };
 		D29A6BB51B7209C1002324BB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D29A6BB41B7209C1002324BB /* Accounts.framework */; };
 		D29A6BB61B7209C8002324BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3527421931D33A00385240 /* Social.framework */; };
 		FA4EB8B90BA742ADD5C8BB15 /* libPods-EaseIM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A45DBE12223A08900505786 /* libPods-EaseIM.a */; };
@@ -1765,6 +1774,25 @@
 		90F1BECE1930492B00121AEC /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		90F1BED41930495800121AEC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		921C6A9D1D2A841600D8257F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		C09A97942599B8DE00BEC281 /* EaseCallManager+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EaseCallManager+Private.h"; sourceTree = "<group>"; };
+		C09A97952599B8DE00BEC281 /* EaseCallConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallConfig.h; sourceTree = "<group>"; };
+		C09A97962599B8DE00BEC281 /* EaseCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallManager.h; sourceTree = "<group>"; };
+		C09A97972599B8DE00BEC281 /* EaseCallBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallBaseViewController.m; sourceTree = "<group>"; };
+		C09A97982599B8DE00BEC281 /* EaseCallStreamView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallStreamView.m; sourceTree = "<group>"; };
+		C09A97992599B8DE00BEC281 /* EaseCallPlaceholderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallPlaceholderView.m; sourceTree = "<group>"; };
+		C09A979A2599B8DE00BEC281 /* UIImage+Ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Ext.h"; sourceTree = "<group>"; };
+		C09A979B2599B8DE00BEC281 /* EaseCall.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseCall.bundle; sourceTree = "<group>"; };
+		C09A979C2599B8DE00BEC281 /* EaseCallSingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallSingleViewController.h; sourceTree = "<group>"; };
+		C09A979D2599B8DE00BEC281 /* EaseCallMultiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallMultiViewController.h; sourceTree = "<group>"; };
+		C09A979E2599B8DE00BEC281 /* EaseCallPlaceholderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallPlaceholderView.h; sourceTree = "<group>"; };
+		C09A979F2599B8DE00BEC281 /* EaseCallStreamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallStreamView.h; sourceTree = "<group>"; };
+		C09A97A02599B8DE00BEC281 /* EaseCallBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallBaseViewController.h; sourceTree = "<group>"; };
+		C09A97A12599B8DE00BEC281 /* EaseCallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallManager.m; sourceTree = "<group>"; };
+		C09A97A22599B8DE00BEC281 /* EaseCallConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallConfig.m; sourceTree = "<group>"; };
+		C09A97A32599B8DE00BEC281 /* EaseCallUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallUIKit.h; sourceTree = "<group>"; };
+		C09A97A42599B8DE00BEC281 /* EaseCallSingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallSingleViewController.m; sourceTree = "<group>"; };
+		C09A97A52599B8DE00BEC281 /* EaseCallMultiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallMultiViewController.m; sourceTree = "<group>"; };
+		C09A97A62599B8DE00BEC281 /* UIImage+Ext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Ext.m"; sourceTree = "<group>"; };
 		D29A6BB41B7209C1002324BB /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		D2B1B9EC1C3B800E0087A74F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D2B1B9EE1C3B80290087A74F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -3451,6 +3479,7 @@
 		3CA8BB38236C3A7A00EE519E /* Communicate */ = {
 			isa = PBXGroup;
 			children = (
+				C09A97932599B8DE00BEC281 /* EaseCallUI */,
 				3CA5F46224D91C4F004BF0CF /* AudioRecord */,
 				3C525F8E24651AB800D16DD5 /* SingleCall */,
 				3C525FA724651ABA00D16DD5 /* CallImgs */,
@@ -3572,6 +3601,32 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C09A97932599B8DE00BEC281 /* EaseCallUI */ = {
+			isa = PBXGroup;
+			children = (
+				C09A97942599B8DE00BEC281 /* EaseCallManager+Private.h */,
+				C09A97952599B8DE00BEC281 /* EaseCallConfig.h */,
+				C09A97962599B8DE00BEC281 /* EaseCallManager.h */,
+				C09A97972599B8DE00BEC281 /* EaseCallBaseViewController.m */,
+				C09A97982599B8DE00BEC281 /* EaseCallStreamView.m */,
+				C09A97992599B8DE00BEC281 /* EaseCallPlaceholderView.m */,
+				C09A979A2599B8DE00BEC281 /* UIImage+Ext.h */,
+				C09A979B2599B8DE00BEC281 /* EaseCall.bundle */,
+				C09A979C2599B8DE00BEC281 /* EaseCallSingleViewController.h */,
+				C09A979D2599B8DE00BEC281 /* EaseCallMultiViewController.h */,
+				C09A979E2599B8DE00BEC281 /* EaseCallPlaceholderView.h */,
+				C09A979F2599B8DE00BEC281 /* EaseCallStreamView.h */,
+				C09A97A02599B8DE00BEC281 /* EaseCallBaseViewController.h */,
+				C09A97A12599B8DE00BEC281 /* EaseCallManager.m */,
+				C09A97A22599B8DE00BEC281 /* EaseCallConfig.m */,
+				C09A97A32599B8DE00BEC281 /* EaseCallUIKit.h */,
+				C09A97A42599B8DE00BEC281 /* EaseCallSingleViewController.m */,
+				C09A97A52599B8DE00BEC281 /* EaseCallMultiViewController.m */,
+				C09A97A62599B8DE00BEC281 /* UIImage+Ext.m */,
+			);
+			path = EaseCallUI;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3620,7 +3675,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0810;
-				ORGANIZATIONNAME = ___FULLUSERNAME___;
+				ORGANIZATIONNAME = "___FULLUSERNAME___";
 				TargetAttributes = {
 					3CDE80A524FDFE8500BAA3E2 = {
 						CreatedOnToolsVersion = 11.6;
@@ -3844,6 +3899,7 @@
 				3C37DF51238251ED00399AE8 /* icon-加群.png in Resources */,
 				3C4AEDA4249B1C53001F7C50 /* answer@3x.png in Resources */,
 				3C8DFAA424EA282F0047C277 /* currentAppkey.png in Resources */,
+				C09A97AA2599B8DE00BEC281 /* EaseCall.bundle in Resources */,
 				3C52609A24651ABC00D16DD5 /* ring_gray@2x.png in Resources */,
 				3C52606924651ABC00D16DD5 /* animate_00054.png in Resources */,
 				3C52608624651ABC00D16DD5 /* recorder_white@2x.png in Resources */,
@@ -4274,6 +4330,7 @@
 				3A45E0E12223A2CE00505786 /* PSTCollectionView.m in Sources */,
 				3A45E0FB2223A30000505786 /* EMAlertController.m in Sources */,
 				3C37DEEC2382486200399AE8 /* EMErrorAlertViewController.m in Sources */,
+				C09A97A82599B8DE00BEC281 /* EaseCallStreamView.m in Sources */,
 				3CAF2AA924BC6A82007AF038 /* EMChatViewController+ChatToolBarIncident.m in Sources */,
 				3A45E38F2223A48700505786 /* EMChatroomAdminsViewController.m in Sources */,
 				3CAF2A9B24B70477007AF038 /* EMGroupChatViewController.m in Sources */,
@@ -4284,8 +4341,10 @@
 				3A45E3E32223A4E900505786 /* EMGroupSharedFilesViewController.m in Sources */,
 				3A45DE652223A1FD00505786 /* EMChatBarItem.m in Sources */,
 				3A45E0D92223A2CE00505786 /* PSTGridLayoutInfo.m in Sources */,
+				C09A97AB2599B8DE00BEC281 /* EaseCallManager.m in Sources */,
 				3C843EDF24933154005D9891 /* EMCustomAppkeyViewController.m in Sources */,
 				3C87A1092490D1640051E06E /* EMSecurityPrivacyViewController.m in Sources */,
+				C09A97AC2599B8DE00BEC281 /* EaseCallConfig.m in Sources */,
 				3A45E39F2223A4AD00505786 /* EMContactsViewController.m in Sources */,
 				3C8EBEEE24AC913600B6560A /* EMRightViewToolView.m in Sources */,
 				3A45E2472223A3A100505786 /* EMMsgTranspondViewController.m in Sources */,
@@ -4322,6 +4381,7 @@
 				3A45E0DF2223A2CE00505786 /* PSTGridLayoutItem.m in Sources */,
 				3A45E29C2223A3E500505786 /* EMChatBarRecordAudioView.m in Sources */,
 				3C525DFF2464103500D16DD5 /* EMReadReceiptTableViewCell.m in Sources */,
+				C09A97A72599B8DE00BEC281 /* EaseCallBaseViewController.m in Sources */,
 				3A45E0B12223A2BA00505786 /* MWCaptionView.m in Sources */,
 				3C5260BC24651ABC00D16DD5 /* ConfInviteUserCell.m in Sources */,
 				3C87A0F5248F7C680051E06E /* EMAboutHuanXinViewController.m in Sources */,
@@ -4344,6 +4404,7 @@
 				3A45DF0E2223A1FD00505786 /* EMAddBlacklistViewController.m in Sources */,
 				3A45E3902223A48700505786 /* EMChatroomBlacklistViewController.m in Sources */,
 				3A45E3E42223A4E900505786 /* EMGroupAdminsViewController.m in Sources */,
+				C09A97AF2599B8DE00BEC281 /* UIImage+Ext.m in Sources */,
 				3C87A103249080900051E06E /* EMSettingsViewController.m in Sources */,
 				3C8437632510A3AB003CFA53 /* EMProtocolViewController..m in Sources */,
 				3C52603924651ABC00D16DD5 /* EMCallViewController.m in Sources */,
@@ -4375,6 +4436,7 @@
 				3A45E05E2223A25C00505786 /* UIViewController+HUD.m in Sources */,
 				3A45E0992223A29B00505786 /* EMBadgeLabel.m in Sources */,
 				3A45E0512223A25100505786 /* EMChineseToPinyin.m in Sources */,
+				C09A97A92599B8DE00BEC281 /* EaseCallPlaceholderView.m in Sources */,
 				3CAF2AAC24BEE2CC007AF038 /* EMChatRecordViewController.m in Sources */,
 				3C3BAE8123975F6D00344F63 /* EMGroupManageViewController.m in Sources */,
 				3A45E0222223A21B00505786 /* EMSDKOptionsViewController.m in Sources */,
@@ -4417,6 +4479,7 @@
 				3A45E1092223A30C00505786 /* EMSearchBar.m in Sources */,
 				3C52603B24651ABC00D16DD5 /* EMButton.m in Sources */,
 				3C52603A24651ABC00D16DD5 /* CallSettingViewController.m in Sources */,
+				C09A97AD2599B8DE00BEC281 /* EaseCallSingleViewController.m in Sources */,
 				3A45E1072223A30C00505786 /* EMSearchResultController.m in Sources */,
 				3A45E0DD2223A2CE00505786 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				3A45E3CB2223A4DC00505786 /* EMInviteGroupMemberViewController.m in Sources */,
@@ -4443,6 +4506,7 @@
 				3C362E6C239FAB410048E877 /* EMPersonalDataViewController.m in Sources */,
 				3A45E40D2223A51300505786 /* EMNotificationViewController.m in Sources */,
 				3A45E0172223A1FD00505786 /* EMHomeViewController.m in Sources */,
+				C09A97AE2599B8DE00BEC281 /* EaseCallMultiViewController.m in Sources */,
 				3A45DBDF22239DE300505786 /* AppDelegate.m in Sources */,
 				3A45E0B82223A2BA00505786 /* MWTapDetectingImageView.m in Sources */,
 				3A45E4242223A52100505786 /* EMMineViewController.m in Sources */,

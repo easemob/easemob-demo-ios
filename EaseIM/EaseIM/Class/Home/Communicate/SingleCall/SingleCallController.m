@@ -14,6 +14,7 @@
 #import "Call1v1VideoViewController.h"
 #import "AudioRecord.h"
 #import "EMRemindManager.h"
+#import <EaseCallUI/EaseCallUIKit.h>
 
 static SingleCallController *callManager = nil;
 
@@ -305,15 +306,17 @@ static SingleCallController *callManager = nil;
     if (!notify.object) {
         return;
     }
-    
-    if (gIsCalling) {
-        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
-        [alertView show];
-        return;
-    }
-    
     _type = (EMCallType)[[notify.object objectForKey:CALL_TYPE] integerValue];
     _chatter = [notify.object valueForKey:CALL_CHATTER] ;
+    [[EaseCallManager sharedManager] startSingleCallWithUId:_chatter type:_type completion:nil];
+    return;
+    
+//    if (gIsCalling) {
+//        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
+//        [alertView show];
+//        return;
+//    }
+    
     [self _makeCallWithUsername:_chatter type:_type isCustomVideoData:NO];
 }
 

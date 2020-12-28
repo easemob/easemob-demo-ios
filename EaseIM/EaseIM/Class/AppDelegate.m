@@ -22,8 +22,9 @@
 
 #import "EMHomeViewController.h"
 #import "EMLoginViewController.h"
+#import <EaseCallUI/EaseCallUIKit.h>
 
-@interface AppDelegate () <UNUserNotificationCenterDelegate>
+@interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate>
 
 @end
 
@@ -252,6 +253,15 @@
         [EMNotificationHelper shared];
         [SingleCallController sharedManager];
         [ConferenceController sharedManager];
+        EaseCallConfig*config = [[EaseCallConfig alloc] init];
+        config.canSwitchVoiceToVideo = YES;
+        config.placeHolderURL = [NSURL URLWithString:@"https://download-sdk.oss-cn-beijing.aliyuncs.com/downloads/RtcDemo/headImage/Image2.png"];
+        EaseCallUser* user = [[EaseCallUser alloc] init];
+        user.nickName = @"李小明";
+        user.uId = @"lxm9";
+        config.users = @{user.uId:user};
+        config.title = @"多人会议";
+        [[EaseCallManager sharedManager] initWithConfig:config delegate:self];
     } else {//登录失败加载登录页面控制器
         EMLoginViewController *controller = [[EMLoginViewController alloc] init];
         navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
@@ -271,6 +281,41 @@
 //    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
 //        statusBar.backgroundColor = [UIColor whiteColor];
 //    }
+}
+
+#pragma mark - EaseCallDelegate
+- (void)callDidEnd:(EMCallEndReason)reason time:(int)tm type:(EaseCallType)type
+{
+    NSString* msg = @"音视频通话已结束";
+    if(reason == EMCallEndReasonNoResponse)
+        msg = [msg stringByAppendingString:@",对方未响应"];
+    if(reason == EMCallEndReasonBusy)
+        msg = [msg stringByAppendingString:@",对方正忙"];
+    if(reason == EMCallEndReasonLoginOtherDevice)
+        msg = [msg stringByAppendingFormat:@"已在其他端处理"];
+    if(reason == EMCallEndReasonHangup && tm > 0) {
+        msg = [msg stringByAppendingFormat:@"，时长：%d秒",tm];
+    }
+    [self.window.rootViewController showHint:msg];
+}
+- (void)multiCallDidInvitingWithCurVC:(UIViewController*)vc excludeUsers:(NSArray<NSString*> *)users
+{
+    ConfInviteUsersViewController *controller = [[ConfInviteUsersViewController alloc] initWithType:0 isCreate:NO excludeUsers:users groupOrChatroomId:[[ConferenceController sharedManager] getConversationId] ];
+    
+    __weak typeof(self) weakself = self;
+    [controller setDoneCompletion:^(NSArray *aInviteUsers) {
+        [[EaseCallManager sharedManager] startInviteUsers:aInviteUsers completion:^(EMError * _Nonnull aError) {
+                    
+        }];
+        [controller dismissViewControllerAnimated:NO completion:nil];
+    }];
+    controller.modalPresentationStyle = UIModalPresentationPopover;
+    [vc presentViewController:controller animated:NO completion:nil];
+}
+// 振铃时增加回调
+- (void)callDidReceive:(EaseCallType)aType inviter:(NSString*)user
+{
+    
 }
 
 @end
