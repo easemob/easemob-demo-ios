@@ -96,36 +96,75 @@
     return (self.chatroom.permissionType == EMChatroomPermissionTypeOwner || self.chatroom.permissionType == EMChatroomPermissionTypeAdmin) ? YES : NO;
 }
 
-- (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath API_AVAILABLE(ios(11.0)) API_UNAVAILABLE(tvos)
 {
-    NSString *userName = [self.dataArray objectAtIndex:indexPath.row];
-    
     __weak typeof(self) weakself = self;
-    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"移除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    NSString *userName = [self.dataArray objectAtIndex:indexPath.row];
+    UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
+                                                                               title:@"移除"
+                                                                             handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
+    {
         [weakself _deleteAdmin:userName];
     }];
     deleteAction.backgroundColor = [UIColor redColor];
     
-    UITableViewRowAction *blackAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"拉黑" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    UIContextualAction *blackAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
+                                                                            title:@"拉黑"
+                                                                          handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
+    {
         [weakself _blockAdmin:userName];
     }];
     blackAction.backgroundColor = [UIColor colorWithRed: 50 / 255.0 green: 63 / 255.0 blue: 72 / 255.0 alpha:1.0];
     
-    UITableViewRowAction *muteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"禁言" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    UIContextualAction *muteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
+                                                                            title:@"禁言"
+                                                                          handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
+    {
         [weakself _muteAdmin:userName];
     }];
-    muteAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
+    blackAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
     
-    if (self.chatroom.permissionType == EMChatroomPermissionTypeOwner) {
-        UITableViewRowAction *adminAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"升权" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-            [weakself _memberToAdmin:userName];
+    UIContextualAction *adminAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
+                                                                            title:@"升权"
+                                                                          handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
+    {
+        [weakself _memberToAdmin:userName];
+    }];
+    blackAction.backgroundColor = [UIColor blackColor];
+    
+    blackAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
+    
+    UIContextualAction *transferAdminAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
+                                                                            title:@"转让"
+                                                                          handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
+    {
+        __weak typeof(self) weakself = self;
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:[NSString stringWithFormat:@"转让聊天室给 %@?",userName] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *clearAction = [UIAlertAction actionWithTitle:@"转让" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakself _transferChatroom:userName];
         }];
-        adminAction.backgroundColor = [UIColor blackColor];
-        
-        return @[deleteAction, blackAction, muteAction, adminAction];
+        [clearAction setValue:[UIColor colorWithRed:245/255.0 green:52/255.0 blue:41/255.0 alpha:1.0] forKey:@"_titleTextColor"];
+        [alertController addAction:clearAction];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        [cancelAction  setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+        [alertController addAction:cancelAction];
+        alertController.modalPresentationStyle = 0;
+        [self presentViewController:alertController animated:YES completion:nil];
+    }];
+    transferAdminAction.backgroundColor = [UIColor systemGrayColor];
+
+    NSMutableArray *swipeActions = [[NSMutableArray alloc]init];
+    [swipeActions addObject:deleteAction];
+    [swipeActions addObject:blackAction];
+    [swipeActions addObject:muteAction];
+    [swipeActions addObject:adminAction];
+    if ([self.chatroom.owner isEqualToString:EMClient.sharedClient.currentUsername]) {
+        [swipeActions addObject:transferAdminAction];
     }
-    
-    return @[deleteAction, blackAction, muteAction];
+    UISwipeActionsConfiguration *actions = [UISwipeActionsConfiguration configurationWithActions:swipeActions];
+    actions.performsFirstActionWithFullSwipe = NO;
+    return actions;
 }
 
 #pragma mark - Data
@@ -248,6 +287,22 @@
             [EMAlertController showSuccessAlert:@"升级为管理员成功"];
             [weakself.dataArray removeObject:aUsername];
             [weakself.tableView reloadData];
+        }
+    }];
+}
+
+- (void)_transferChatroom:(NSString *)aUsername
+{
+    [self showHudInView:self.view hint:[NSString stringWithFormat:@"转让聊天室给 %@",aUsername]];
+    __weak typeof(self) weakself = self;
+    [[EMClient sharedClient].roomManager updateChatroomOwner:self.chatroom.chatroomId newOwner:aUsername completion:^(EMChatroom *aChatroom, EMError *aError) {
+        [weakself hideHud];
+        if (aError) {
+            [EMAlertController showErrorAlert:@"转让聊天室失败"];
+        } else {
+            weakself.isUpdated = YES;
+            [EMAlertController showSuccessAlert:@"转让聊天室成功"];
+            [weakself _fetchChatroomMembersWithIsHeader:NO isShowHUD:NO];
         }
     }];
 }

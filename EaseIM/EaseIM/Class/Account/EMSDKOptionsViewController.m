@@ -80,23 +80,6 @@
 
 - (void)_setupSubviews
 {
-    //[self addPopBackLeftItem];
-    self.title = @"SDK配置";
-
-    if (self.enableEdit) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(saveOptionsAction)];
-    } else {
-        UIButton *saveButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 45, 45)];
-        [saveButton setTitle:@"保存" forState:UIControlStateNormal];
-        [saveButton setTitleColor:[UIColor colorWithRed:45 / 255.0 green:116 / 255.0 blue:215 / 255.0 alpha:0.4] forState:UIControlStateNormal];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
-        self.navigationItem.rightBarButtonItem.enabled = NO;
-    }
-    
-    //self.navigationItem.rightBarButtonItem.enabled = self.enableEdit;
-    
-    //self.view.backgroundColor = [UIColor whiteColor];
-    
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     imageView.image=[UIImage imageNamed:@"BootPage"];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -567,23 +550,35 @@
 - (void)saveOptionsAction
 {
     [self.view endEditing:YES];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:@"当前appkey以及环境配置已生效，如果需要更改需要重启客户端" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
+        demoOptions.appkey = self.demoOptions.appkey;
+        demoOptions.apnsCertName = self.demoOptions.apnsCertName;
+        demoOptions.specifyServer = self.demoOptions.specifyServer;
+        demoOptions.chatPort = self.demoOptions.chatPort;
+        demoOptions.chatServer = self.demoOptions.chatServer;
+        demoOptions.restServer = self.demoOptions.restServer;
+        demoOptions.usingHttpsOnly = self.demoOptions.usingHttpsOnly;
+        [demoOptions archive];
+        
+        exit(0);
+    }];
+    [alertController addAction:okAction];
     
-    EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
-    demoOptions.appkey = self.demoOptions.appkey;
-    demoOptions.apnsCertName = self.demoOptions.apnsCertName;
-    demoOptions.specifyServer = self.demoOptions.specifyServer;
-    demoOptions.chatPort = self.demoOptions.chatPort;
-    demoOptions.chatServer = self.demoOptions.chatServer;
-    demoOptions.restServer = self.demoOptions.restServer;
-    demoOptions.usingHttpsOnly = self.demoOptions.usingHttpsOnly;
-    [demoOptions archive];
+    [alertController addAction: [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    alertController.modalPresentationStyle = 0;
+    [self presentViewController:alertController animated:YES completion:nil];
     
+    
+    /*
     if (self.finishCompletion) {
         [self.demoOptions archive];
         self.finishCompletion(demoOptions);
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];*/
 }
 
 - (UITableView *)tableView

@@ -32,6 +32,7 @@
 
 @property (nonatomic, strong) EMAvatarNameCell *addMemberCell;
 @property (nonatomic, strong) UITableViewCell *leaveCell;
+@property (nonatomic, strong) UILabel *leaveCellContentLabel;
 
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
 
@@ -110,12 +111,14 @@
     self.addMemberCell.separatorInset = UIEdgeInsetsMake(0, [UIScreen mainScreen].bounds.size.width, 0, 0);
     
     self.leaveCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellStyleDefaultRedFont"];
-    self.leaveCell.textLabel.textColor = [UIColor colorWithRed:245/255.0 green:52/255.0 blue:41/255.0 alpha:1.0];
-    self.leaveCell.textLabel.font = [UIFont systemFontOfSize:18.0];
-    [self.leaveCell.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.centerX.centerY.equalTo(self.leaveCell.contentView);
+    self.leaveCellContentLabel = [[UILabel alloc]init];
+    self.leaveCellContentLabel.text = @"删除并退出";
+    self.leaveCellContentLabel.textColor = [UIColor colorWithRed:245/255.0 green:52/255.0 blue:41/255.0 alpha:1.0];
+    self.leaveCellContentLabel.font = [UIFont systemFontOfSize:18.0];
+    [self.leaveCell.contentView addSubview:self.leaveCellContentLabel];
+    [self.leaveCellContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.leaveCell.contentView);
     }];
-    self.leaveCell.textLabel.text = @"删除并退出";
     self.leaveCell.separatorInset = UIEdgeInsetsMake(0, 0, 0, [UIScreen mainScreen].bounds.size.width);
 }
 
@@ -366,9 +369,9 @@
     
     self.group = aGroup;
     if (aGroup.permissionType == EMGroupPermissionTypeOwner) {
-        self.leaveCell.textLabel.text = @"解散群组";
+        self.leaveCellContentLabel.text = @"解散群组";
     } else {
-        self.leaveCell.textLabel.text = @"退出群组";
+        self.leaveCellContentLabel.text = @"退出群组";
     }
     [self.tableView reloadData];
 }

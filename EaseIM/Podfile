@@ -1,17 +1,17 @@
-use_frameworks!
 platform :ios, '11.0'
+
 
 # Import CocoaPods sources
 source 'https://github.com/CocoaPods/Specs.git'
-
-
 
 target 'EaseIM' do
 
     pod 'MBProgressHUD'
     pod 'MJRefresh'
     pod 'Masonry'
+    pod 'EMVoiceConvert', '~> 0.1.0'
     pod 'EaseIMKit'
+    pod 'Hyphenate'
     
 end
 
