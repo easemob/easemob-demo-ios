@@ -91,7 +91,7 @@
         group = [self.searchResults objectAtIndex:indexPath.row];
     }
     
-    cell.avatarView.image = [UIImage imageNamed:@"groupChat"];
+    cell.avatarView.image = [UIImage imageNamed:@"groupchat"];
     if ([group.groupName length]) {
         cell.nameLabel.text = group.groupName;
     } else {

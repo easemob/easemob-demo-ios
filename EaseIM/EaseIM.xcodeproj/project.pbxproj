@@ -410,8 +410,6 @@
 		3CB106C9247FBEAC00479BC1 /* ios@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CB106C6247FBEAB00479BC1 /* ios@3x.png */; };
 		3CBCF5F923A24FC70053E227 /* systemNotify@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CBCF5F623A24FC10053E227 /* systemNotify@2x.png */; };
 		3CBCF5FB23A24FC70053E227 /* systemNotify@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CBCF5F823A24FC60053E227 /* systemNotify@3x.png */; };
-		3CDE80AA24FDFE8500BAA3E2 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE80A924FDFE8500BAA3E2 /* NotificationService.m */; };
-		3CDE80AE24FDFE8500BAA3E2 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3CDE80A624FDFE8500BAA3E2 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3CE6293319A1B13700829632 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE6293219A1B13700829632 /* CoreText.framework */; };
 		3CFD5DE524C152800086D545 /* BootPage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CFD5DE324C1527D0086D545 /* BootPage@3x.png */; };
 		3CFD5DE624C152800086D545 /* BootPage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CFD5DE424C1527F0086D545 /* BootPage@2x.png */; };
@@ -424,18 +422,7 @@
 		C035E8151AEA40F400283EE9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C36CA691A1EDB6200CDDD48 /* CoreData.framework */; };
 		D29A6BB51B7209C1002324BB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D29A6BB41B7209C1002324BB /* Accounts.framework */; };
 		D29A6BB61B7209C8002324BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3527421931D33A00385240 /* Social.framework */; };
-		E20BB1696876AC3655D28939 /* Pods_EaseIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71156AFB0E79BE4B5F84F5A1 /* Pods_EaseIM.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		3CDE80AC24FDFE8500BAA3E2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9091101C192EEA70008A48AA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3CDE80A524FDFE8500BAA3E2;
-			remoteInfo = EMPushNotificationService;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		3CDE808924FD024000BAA3E2 /* Embed App Extensions */ = {
@@ -444,25 +431,14 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				3CDE80AE24FDFE8500BAA3E2 /* NotificationService.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3CFC0D3A258B3C520065F8A3 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0E3FC1A2B27B4742883A4543 /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
+		2E1C3FE657C7FC4C299D03B2 /* Pods-EaseIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.debug.xcconfig"; path = "../../../EaseIM/EaseIM/Pods/Target Support Files/Pods-EaseIM/Pods-EaseIM.debug.xcconfig"; sourceTree = "<group>"; };
 		3A45D69B22239DE200505786 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3A45D69D22239DE200505786 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		3A45D69E22239DE200505786 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1001,14 +977,10 @@
 		3CB106C6247FBEAB00479BC1 /* ios@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios@3x.png"; sourceTree = "<group>"; };
 		3CBCF5F623A24FC10053E227 /* systemNotify@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "systemNotify@2x.png"; sourceTree = "<group>"; };
 		3CBCF5F823A24FC60053E227 /* systemNotify@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "systemNotify@3x.png"; sourceTree = "<group>"; };
-		3CDE80A624FDFE8500BAA3E2 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		3CDE80A824FDFE8500BAA3E2 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
-		3CDE80A924FDFE8500BAA3E2 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
-		3CDE80AB24FDFE8500BAA3E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3CE6293219A1B13700829632 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		3CFD5DE324C1527D0086D545 /* BootPage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BootPage@3x.png"; sourceTree = "<group>"; };
 		3CFD5DE424C1527F0086D545 /* BootPage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BootPage@2x.png"; sourceTree = "<group>"; };
-		71156AFB0E79BE4B5F84F5A1 /* Pods_EaseIM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseIM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D6C000FC0CF0F542E7AFD06 /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "../../../EaseIM/EaseIM/Pods/Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		90911024192EEA70008A48AA /* EaseIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90911027192EEA70008A48AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		90911029192EEA70008A48AA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1019,7 +991,6 @@
 		90F1BECE1930492B00121AEC /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		90F1BED41930495800121AEC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		921C6A9D1D2A841600D8257F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		B29551DB56A7B9388ADA74D4 /* Pods-EaseIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.debug.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.debug.xcconfig"; sourceTree = "<group>"; };
 		D29A6BB41B7209C1002324BB /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		D2B1B9EC1C3B800E0087A74F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D2B1B9EE1C3B80290087A74F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -1027,13 +998,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3CDE80A324FDFE8500BAA3E2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		90911021192EEA70008A48AA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1057,22 +1021,12 @@
 				90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */,
 				9091102C192EEA70008A48AA /* UIKit.framework in Frameworks */,
 				90911028192EEA70008A48AA /* Foundation.framework in Frameworks */,
-				E20BB1696876AC3655D28939 /* Pods_EaseIM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1D7E04333D4AA6666664610F /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B29551DB56A7B9388ADA74D4 /* Pods-EaseIM.debug.xcconfig */,
-				0E3FC1A2B27B4742883A4543 /* Pods-EaseIM.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		3A45D69922239DE200505786 /* EaseIM */ = {
 			isa = PBXGroup;
 			children = (
@@ -2077,14 +2031,14 @@
 			path = Diagnosis;
 			sourceTree = "<group>";
 		};
-		3CDE80A724FDFE8500BAA3E2 /* NotificationService */ = {
+		8713105B3502A814F52B2DD5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3CDE80A824FDFE8500BAA3E2 /* NotificationService.h */,
-				3CDE80A924FDFE8500BAA3E2 /* NotificationService.m */,
-				3CDE80AB24FDFE8500BAA3E2 /* Info.plist */,
+				2E1C3FE657C7FC4C299D03B2 /* Pods-EaseIM.debug.xcconfig */,
+				6D6C000FC0CF0F542E7AFD06 /* Pods-EaseIM.release.xcconfig */,
 			);
-			path = NotificationService;
+			name = Pods;
+			path = ../../EaseIMKit/EaseIMKit/Pods;
 			sourceTree = "<group>";
 		};
 		9091101B192EEA70008A48AA = {
@@ -2092,10 +2046,9 @@
 			children = (
 				3C8DFABA24EE7B1A0047C277 /* ring.caf */,
 				3A45D69922239DE200505786 /* EaseIM */,
-				3CDE80A724FDFE8500BAA3E2 /* NotificationService */,
 				90911026192EEA70008A48AA /* Frameworks */,
 				90911025192EEA70008A48AA /* Products */,
-				1D7E04333D4AA6666664610F /* Pods */,
+				8713105B3502A814F52B2DD5 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2103,7 +2056,6 @@
 			isa = PBXGroup;
 			children = (
 				90911024192EEA70008A48AA /* EaseIM.app */,
-				3CDE80A624FDFE8500BAA3E2 /* NotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2137,7 +2089,6 @@
 				3C3527421931D33A00385240 /* Social.framework */,
 				3C3527441931D37900385240 /* SystemConfiguration.framework */,
 				9091102B192EEA70008A48AA /* UIKit.framework */,
-				71156AFB0E79BE4B5F84F5A1 /* Pods_EaseIM.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2145,38 +2096,20 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3CDE80A524FDFE8500BAA3E2 /* NotificationService */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3CDE80AF24FDFE8500BAA3E2 /* Build configuration list for PBXNativeTarget "NotificationService" */;
-			buildPhases = (
-				3CDE80A224FDFE8500BAA3E2 /* Sources */,
-				3CDE80A324FDFE8500BAA3E2 /* Frameworks */,
-				3CDE80A424FDFE8500BAA3E2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = NotificationService;
-			productName = EMPushNotificationService;
-			productReference = 3CDE80A624FDFE8500BAA3E2 /* NotificationService.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		90911023192EEA70008A48AA /* EaseIM */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 90911050192EEA70008A48AA /* Build configuration list for PBXNativeTarget "EaseIM" */;
 			buildPhases = (
-				34601FAC39E423FB84E74FFB /* [CP] Check Pods Manifest.lock */,
+				E1658F6AF5AD1A70ACA8A76F /* [CP] Check Pods Manifest.lock */,
 				90911020192EEA70008A48AA /* Sources */,
 				90911021192EEA70008A48AA /* Frameworks */,
 				90911022192EEA70008A48AA /* Resources */,
 				3CDE808924FD024000BAA3E2 /* Embed App Extensions */,
-				3CFC0D3A258B3C520065F8A3 /* Embed Frameworks */,
+				565A2866C1D50EA9F231D1F3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3CDE80AD24FDFE8500BAA3E2 /* PBXTargetDependency */,
 			);
 			name = EaseIM;
 			productName = "ChatDemo-UI3.0";
@@ -2192,11 +2125,6 @@
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "___FULLUSERNAME___";
 				TargetAttributes = {
-					3CDE80A524FDFE8500BAA3E2 = {
-						CreatedOnToolsVersion = 11.6;
-						DevelopmentTeam = 499WYUV8Q2;
-						ProvisioningStyle = Manual;
-					};
 					90911023192EEA70008A48AA = {
 						DevelopmentTeam = 499WYUV8Q2;
 						ProvisioningStyle = Manual;
@@ -2227,19 +2155,11 @@
 			projectRoot = "";
 			targets = (
 				90911023192EEA70008A48AA /* EaseIM */,
-				3CDE80A524FDFE8500BAA3E2 /* NotificationService */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		3CDE80A424FDFE8500BAA3E2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		90911022192EEA70008A48AA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2521,7 +2441,33 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		34601FAC39E423FB84E74FFB /* [CP] Check Pods Manifest.lock */ = {
+		565A2866C1D50EA9F231D1F3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh",
+				"${PODS_ROOT}/EaseIMKit/EaseIMKit.framework",
+				"${PODS_ROOT}/Hyphenate/Hyphenate.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseIMKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hyphenate.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E1658F6AF5AD1A70ACA8A76F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2546,14 +2492,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3CDE80A224FDFE8500BAA3E2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3CDE80AA24FDFE8500BAA3E2 /* NotificationService.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		90911020192EEA70008A48AA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2688,14 +2626,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		3CDE80AD24FDFE8500BAA3E2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3CDE80A524FDFE8500BAA3E2 /* NotificationService */;
-			targetProxy = 3CDE80AC24FDFE8500BAA3E2 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		3A45D69A22239DE200505786 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -2718,83 +2648,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		3CDE80B024FDFE8500BAA3E2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = NotificationService/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 3.7.2;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim.NotificationService;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "EaseIM NotificationService Enterprise Dev";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
-		3CDE80B124FDFE8500BAA3E2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 8;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = NotificationService/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 3.7.2;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim.NotificationService;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "EaseIM NotificationService Enterprise InHouse";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
 		9091104E192EEA70008A48AA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2887,9 +2740,9 @@
 		};
 		90911051192EEA70008A48AA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B29551DB56A7B9388ADA74D4 /* Pods-EaseIM.debug.xcconfig */;
+			baseConfigurationReference = 2E1C3FE657C7FC4C299D03B2 /* Pods-EaseIM.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
@@ -2900,14 +2753,16 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
 				EASEMOB_ROOT = "";
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = "i386 armv7s armv7";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2925,11 +2780,8 @@
 				INFOPLIST_FILE = "EaseIM/EaseIM-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/EaseIM/Class/Helper/3rdParty/VoiceConvert",
-				);
-				MARKETING_VERSION = 3.7.2;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MARKETING_VERSION = 3.7.3;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2964,18 +2816,20 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "EaseIM Enterprise Dev";
 				SKIP_INSTALL = NO;
+				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "armv7 armv7s arm64 x86_64";
+				VALIDATE_WORKSPACE = NO;
+				VALID_ARCHS = arm64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		90911052192EEA70008A48AA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E3FC1A2B27B4742883A4543 /* Pods-EaseIM.release.xcconfig */;
+			baseConfigurationReference = 6D6C000FC0CF0F542E7AFD06 /* Pods-EaseIM.release.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
@@ -2986,7 +2840,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 14;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
@@ -2994,6 +2849,7 @@
 				EASEMOB_ROOT = "";
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = YES;
+				EXCLUDED_ARCHS = "i386 armv7s armv7";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3011,11 +2867,8 @@
 				INFOPLIST_FILE = "EaseIM/EaseIM-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/EaseIM/Class/Helper/3rdParty/VoiceConvert",
-				);
-				MARKETING_VERSION = 3.7.2;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MARKETING_VERSION = 3.7.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -3050,9 +2903,11 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "EaseIM Enterprise InHouse";
 				SKIP_INSTALL = NO;
+				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "armv7 armv7s arm64 x86_64";
+				VALIDATE_WORKSPACE = NO;
+				VALID_ARCHS = arm64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -3060,15 +2915,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3CDE80AF24FDFE8500BAA3E2 /* Build configuration list for PBXNativeTarget "NotificationService" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3CDE80B024FDFE8500BAA3E2 /* Debug */,
-				3CDE80B124FDFE8500BAA3E2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		9091101F192EEA70008A48AA /* Build configuration list for PBXProject "EaseIM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

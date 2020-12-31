@@ -176,7 +176,11 @@
 //添加转发消息
 - (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMMessage *)message
 {
-    NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]initWithArray:defaultLongPressItems];
+    NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]init];
+    if (message.body.type == EMMessageTypeText) {
+        [menuArray addObject:defaultLongPressItems[0]];
+    }
+    [menuArray addObject:defaultLongPressItems[1]];
     //转发
     __weak typeof(self) weakself = self;
     if (message.body.type == EMMessageBodyTypeText || message.body.type == EMMessageBodyTypeImage || message.body.type == EMMessageBodyTypeLocation || message.body.type == EMMessageBodyTypeVideo) {
@@ -186,6 +190,9 @@
             }
         }];
         [menuArray addObject:forwardMenu];
+    }
+    if ([defaultLongPressItems count] >= 3 && [message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
+        [menuArray addObject:defaultLongPressItems[2]];
     }
     return menuArray;
 }
@@ -398,7 +405,7 @@
         [self.chatController cleanPopupControllerView];
         __weak typeof(self) weakself = self;
         EMChatroomInfoViewController *controller = [[EMChatroomInfoViewController alloc] initWithChatroomId:self.conversation.conversationId];
-        [controller setLeaveCompletion:^{
+        [controller setDissolveCompletion:^{
             [weakself.navigationController popViewControllerAnimated:YES];
         }];
         [self.navigationController pushViewController:controller animated:YES];
