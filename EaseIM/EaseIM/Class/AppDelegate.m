@@ -249,7 +249,8 @@
             navigationController = [[UINavigationController alloc] initWithRootViewController:homeController];
         }
         
-        [[EMClient sharedClient] getPushNotificationOptionsFromServerWithCompletion:^(EMPushOptions *aOptions, EMError *aError) {}];
+        [[EMClient sharedClient].pushManager getPushNotificationOptionsFromServerWithCompletion:^(EMPushOptions * _Nonnull aOptions, EMError * _Nonnull aError) {
+        }];
         [EaseIMHelper shareHelper];
         [EMNotificationHelper shared];
         [SingleCallController sharedManager];

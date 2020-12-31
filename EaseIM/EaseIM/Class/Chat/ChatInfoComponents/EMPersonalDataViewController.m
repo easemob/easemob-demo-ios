@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSString *nickName;
 @property (nonatomic, strong) NSArray *contacts;
 
+@property (nonatomic, strong) UILabel *funLabel;
+
 @property (nonatomic, strong) NSString *hint;
 @property (nonatomic, strong) EMChatViewController *chatController;
 @property (nonatomic) BOOL isChatting;
@@ -112,28 +114,26 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
     }
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    // Configure the cell...
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    self.funLabel = [[UILabel alloc]init];
+    self.funLabel.userInteractionEnabled = NO;
+    self.funLabel.font = [UIFont systemFontOfSize:18.0];
+    self.funLabel.textColor = [UIColor colorWithRed:4/255.0 green:174/255.0 blue:240/255.0 alpha:1.0];
     
     if (section == 1)
-        cell.textLabel.text = [self.contacts containsObject:self.nickName] ? @"" : self.hint;
+        self.funLabel.text = [self.contacts containsObject:self.nickName] ? @"" : self.hint;
     if (section == 2)
-        cell.textLabel.text = @"发消息";
+        self.funLabel.text = @"发消息";
     if (section == 3)
-        cell.textLabel.text = @"语音通话";
+        self.funLabel.text = @"语音通话";
     if (section == 4 )
-        cell.textLabel.text = @"视频通话";
+        self.funLabel.text = @"视频通话";
     
-    cell.textLabel.font = [UIFont systemFontOfSize:18.0];
-    cell.textLabel.textColor = [UIColor colorWithRed:4/255.0 green:174/255.0 blue:240/255.0 alpha:1.0];
-
-    [cell.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(cell.contentView);
-        make.centerY.equalTo(cell.contentView);
+    [cell.contentView addSubview:self.funLabel];
+    [self.funLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(cell.contentView);
     }];
     cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;

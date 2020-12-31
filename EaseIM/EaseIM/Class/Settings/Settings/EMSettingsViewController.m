@@ -14,6 +14,7 @@
 
 @interface EMSettingsViewController ()
 @property(nonatomic, strong) UIAlertController *alertController;
+@property(nonatomic, strong) UILabel *logoutLabel;
 @end
 
 @implementation EMSettingsViewController
@@ -88,9 +89,13 @@
             cell.textLabel.text = @"隐私";
         }
     } else if (section == 2) {
-        cell.textLabel.text = @"退出";
-        [cell.textLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.centerX.equalTo(cell.contentView);
+        self.logoutLabel = [[UILabel alloc]init];
+        self.logoutLabel.text = @"退出";
+        self.logoutLabel.font = [UIFont systemFontOfSize:16.f];
+        self.logoutLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
+        [cell.contentView addSubview:self.logoutLabel];
+        [self.logoutLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(cell.contentView);
         }];
         cell.accessoryType = UITableViewCellSelectionStyleNone;
     }
