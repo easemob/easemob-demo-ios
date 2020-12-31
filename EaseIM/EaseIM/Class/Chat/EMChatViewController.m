@@ -2,161 +2,91 @@
 //  EMChatViewController.m
 //  EaseIM
 //
-//  Created by XieYajie on 2019/1/18.
-//  Copyright © 2019 XieYajie. All rights reserved.
+//  Created by 娜塔莎 on 2020/11/27.
+//  Copyright © 2020 娜塔莎. All rights reserved.
 //
 
-#import <AVKit/AVKit.h>
-#import <Photos/Photos.h>
-#import <AVFoundation/AVFoundation.h>
-#import <AssetsLibrary/AssetsLibrary.h>
-#import <MobileCoreServices/MobileCoreServices.h>
 #import "EMChatViewController.h"
-
-#import "EMImageBrowser.h"
-#import "EMDateHelper.h"
-#import "EMAudioPlayerHelper.h"
-#import "EMConversationHelper.h"
-#import "EMMessageModel.h"
-
+#import "EMChatInfoViewController.h"
+#import "EMGroupInfoViewController.h"
+#import "EMChatroomInfoViewController.h"
+#import "EMPersonalDataViewController.h"
+#import "EMAtGroupMembersViewController.h"
+#import "EMChatViewController+EMForwardMessage.h"
+#import "EMReadReceiptMsgViewController.h"
+#import "EMUserDataModel.h"
 #import "EMMessageCell.h"
-#import "EMMessageTimeCell.h"
-#import "EMMsgRecordCell.h"
 
-#import "EMMsgTouchIncident.h"
-#import "EMChatViewController+EMMsgLongPressIncident.h"
-#import "EMChatViewController+ChatToolBarIncident.h"
-
-@interface EMChatViewController ()<UIScrollViewDelegate, EMMultiDevicesDelegate, EMChatManagerDelegate, EMChatBarDelegate, EMMessageCellDelegate, EMChatBarEmoticonViewDelegate, EMChatBarRecordAudioViewDelegate,EMMoreFunctionViewDelegate>
-
+@interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate>
+@property (nonatomic, strong) EaseConversationModel *conversationModel;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *titleDetailLabel;
 @end
 
 @implementation EMChatViewController
 
-- (instancetype)initWithConversationId:(NSString *)aId
-                                  type:(EMConversationType)aType
-                      createIfNotExist:(BOOL)aIsCreate
-{
-    self = [super init];
-    if (self) {
-        EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:aId type:aType createIfNotExist:aIsCreate];
-        [self setDefaultProperty:[[EMConversationModel alloc] initWithEMModel:conversation]];
+- (instancetype)initWithConversationId:(NSString *)conversationId conversationType:(EMConversationType)conType {
+    if (self = [super init]) {
+        _conversation = [EMClient.sharedClient.chatManager getConversation:conversationId type:conType createIfNotExist:YES];
+        _conversationModel = [[EaseConversationModel alloc]initWithConversation:_conversation];
+        EaseChatViewModel *viewModel = [[EaseChatViewModel alloc]init];
+        _chatController = [[EaseChatViewController alloc] initWithConversationId:conversationId
+                                                    conversationType:conType
+                                                        chatViewModel:viewModel];
+        _chatController.delegate = self;
     }
-    
     return self;
-}
-
-- (instancetype)initWithCoversationModel:(EMConversationModel *)aConversationModel
-{
-    self = [super init];
-    if (self) {
-        [self setDefaultProperty:aConversationModel];
-    }
-    
-    return self;
-}
-
-- (void)setDefaultProperty:(EMConversationModel *)aConversationModel
-{
-    self.conversationModel = aConversationModel;
-    self.msgQueue = dispatch_queue_create("emmessage.com", NULL);
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.msgTimelTag = -1;
-    
+    //单聊主叫方才能发送通话记录信息(本地通话记录)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertLocationCallRecord:) name:EMCOMMMUNICATE_RECORD object:nil];
+    [[EMClient sharedClient].roomManager addDelegate:self delegateQueue:nil];
+    [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     [self _setupChatSubviews];
-    
-    [[EMClient sharedClient] addMultiDevicesDelegate:self delegateQueue:nil];
-    [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleWillPushCallController:) name:CALL_PUSH_VIEWCONTROLLER object:nil];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapTableViewAction:)];
-    [self.tableView addGestureRecognizer:tap];
-    
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self tableViewDidTriggerHeaderRefresh];
-    [EMConversationHelper markAllAsRead:self.conversationModel];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-    self.navigationController.navigationBarHidden = NO;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-    NSMutableDictionary *ext = [[NSMutableDictionary alloc]initWithDictionary:self.conversationModel.emModel.ext];
-    //草稿
-    if ([self.conversationModel.emModel.ext objectForKey:kConversation_Draft] && ![[self.conversationModel.emModel.ext objectForKey:kConversation_Draft] isEqualToString:@""]) {
-        self.chatBar.textView.text = [self.conversationModel.emModel.ext objectForKey:kConversation_Draft];
-        [self.chatBar textChangedExt];
-        [ext setObject:@"" forKey:kConversation_Draft];
-        [self.conversationModel.emModel setExt:ext];
-    }
-    
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)dealloc
 {
-    [[EMClient sharedClient] removeMultiDevicesDelegate:self];
-    [[EMClient sharedClient].chatManager removeDelegate:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[EMClient sharedClient].roomManager removeDelegate:self];
+    [[EMClient sharedClient].groupManager removeDelegate:self];
 }
 
-#pragma mark - Subviews
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    self.navigationController.navigationBarHidden = NO;
+}
 
 - (void)_setupChatSubviews
 {
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"backleft"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     [self _setupNavigationBarTitle];
+    [self _setupNavigationBarRightItem];
+    [self addChildViewController:_chatController];
+    [self.view addSubview:_chatController.view];
+    [_chatController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.equalTo(self.view);
+    }];
     self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
-    self.showRefreshHeader = YES;
-    
-    self.tableView.backgroundColor = kColor_LightGray;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 130;
-    
-    self.chatBar = [[EMChatBar alloc] init];
-    self.chatBar.delegate = self;
-    [self.view addSubview:self.chatBar];
-    [self.chatBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view);
-        make.bottom.equalTo(self.view);
-    }];
-    self.searchBar.hidden = YES;
-    
-    [self.chatBar.sendBtn addTarget:self action:@selector(_sendText) forControlEvents:UIControlEventTouchUpInside];
-    //会话工具栏
-    [self _setupChatBarMoreViews];
-    
-    [self.tableView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view);
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view);
-        make.bottom.equalTo(self.chatBar.mas_top);
-    }];
+}
+
+- (void)_setupNavigationBarRightItem
+{
+    if (self.conversation.type == EMConversationTypeChat) {
+        UIImage *image = [[UIImage imageNamed:@"userData"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(chatInfoAction)];
+    }
+    if (self.conversation.type == EMConversationTypeGroupChat) {
+        UIImage *image = [[UIImage imageNamed:@"groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(groupInfoAction)];
+    }
+    if (self.conversation.type == EMConversationTypeChatRoom) {
+        UIImage *image = [[UIImage imageNamed:@"groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(chatroomInfoAction)];
+    }
 }
 
 - (void)_setupNavigationBarTitle
@@ -167,7 +97,7 @@
     self.titleLabel.font = [UIFont systemFontOfSize:18];
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
-    self.titleLabel.text = self.conversationModel.name;
+    self.titleLabel.text = _conversationModel.showName;
     [titleView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleView);
@@ -190,628 +120,384 @@
     self.navigationItem.titleView = titleView;
 }
 
-- (void)_setupChatBarMoreViews
+#pragma mark - EaseChatViewControllerDelegate
+
+//自定义通话记录cell
+- (UITableViewCell *)cellForItem:(UITableView *)tableView messageModel:(EaseMessageModel *)messageModel
 {
-    //语音
-    NSString *path = [self getAudioOrVideoPath];
-    EMChatBarRecordAudioView *recordView = [[EMChatBarRecordAudioView alloc] initWithRecordPath:path];
-    recordView.delegate = self;
-    self.chatBar.recordAudioView = recordView;
-    //表情
-    EMChatBarEmoticonView *moreEmoticonView = [[EMChatBarEmoticonView alloc] init];
-    moreEmoticonView.delegate = self;
-    self.chatBar.moreEmoticonView = moreEmoticonView;
-    
-    //更多
-    EMMoreFunctionView *moreFunction = [[EMMoreFunctionView alloc]initWithConversation:self.conversationModel.emModel];
-    moreFunction.delegate = self;
-    self.chatBar.moreFunctionView = moreFunction;
-}
-
-- (NSString *)getAudioOrVideoPath
-{
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    path = [path stringByAppendingPathComponent:@"EMDemoRecord"];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    
-    return path;
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger count = [self.dataArray count];
-    if (tableView == self.searchResultTableView)
-        count = [self.searchResults count];
-    return count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id obj;
-    if (tableView == self.tableView)
-        obj = [self.dataArray objectAtIndex:indexPath.row];
-    if (tableView == self.searchResultTableView)
-        obj = [self.searchResults objectAtIndex:indexPath.row];
-    NSString *cellString = nil;
-    if ([obj isKindOfClass:[NSString class]])
-        cellString = (NSString *)obj;
-    if ([obj isKindOfClass:[EMMessageModel class]]) {
-        EMMessageModel *model = (EMMessageModel *)obj;
-        if (model.type == EMMessageTypeExtRecall) {
-            if ([model.emModel.from isEqualToString:EMClient.sharedClient.currentUsername]) {
-                cellString = @"您撤回一条消息";
-            } else {
-                cellString = @"对方撤回一条消息";
-            }
-        }
-            
-        if (model.type == EMMessageTypeExtNewFriend || model.type == EMMessageTypeExtAddGroup)
-            cellString = ((EMTextMessageBody *)(model.emModel.body)).text;
-    }
-    
-    if ([cellString length] > 0) {
-        EMMessageTimeCell *cell = (EMMessageTimeCell *)[tableView dequeueReusableCellWithIdentifier:@"EMMessageTimeCell"];
-        // Configure the cell...
-        if (cell == nil)
-            cell = [[EMMessageTimeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EMMessageTimeCell"];
-        cell.timeLabel.text = cellString;
+    if (messageModel.type == EMMessageTypePictMixText) {
+        EMMessageCell *cell = [[EMMessageCell alloc]initWithDirection:messageModel.direction type:messageModel.type];
+        cell.model = messageModel;
+        cell.delegate = self;
         return cell;
     }
-    
-    UITableViewCell *cell;
-    EMMessageModel *model = (EMMessageModel *)obj;
-    NSString *identifier;
-    identifier = [EMMessageCell cellIdentifierWithDirection:model.direction type:model.type];
-    EMMessageCell *msgCell = (EMMessageCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
-    // Configure the cell...
-    if (msgCell == nil) {
-        msgCell = [[EMMessageCell alloc] initWithDirection:model.direction type:model.type];
-        msgCell.delegate = self;
+    return nil;
+}
+//对方输入状态
+- (void)beginTyping
+{
+    if (EMDemoOptions.sharedOptions.isChatTyping) {
+        self.titleDetailLabel.text = @"对方正在输入";
     }
-    msgCell.model = model;
-    cell = msgCell;
-    return cell;
+}
+- (void)endTyping
+{
+    self.titleDetailLabel.text = nil;
+}
+//userdata
+- (id<EaseUserDelegate>)userData:(NSString *)huanxinID
+{
+    EMUserDataModel *model = [[EMUserDataModel alloc]initWithHuanxinId:huanxinID];
+    return model;
 }
 
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+//头像点击
+- (void)avatarDidSelected:(id<EaseUserDelegate>)userData
 {
-    [self.view endEditing:YES];
-    [self.chatBar clearMoreViewAndSelectedButton];
-}
-
-#pragma mark - EMChatBarDelegate
-
-- (void)chatBarDidShowMoreViewAction
-{
-    [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.chatBar.mas_top);
-    }];
-    
-    [self performSelector:@selector(scrollToBottomRow) withObject:nil afterDelay:0.1];
-}
-
-#pragma mark - EMMoreFunctionViewDelegate
-
-- (void)chatBarMoreFunctionAction:(NSInteger)componentType
-{
-    [self chatToolBarComponentAction:componentType];
-}
-
-#pragma mark - EMChatBarRecordAudioViewDelegate
-
-- (void)chatBarRecordAudioViewStopRecord:(NSString *)aPath
-                              timeLength:(NSInteger)aTimeLength
-{
-    EMVoiceMessageBody *body = [[EMVoiceMessageBody alloc] initWithLocalPath:aPath displayName:@"audio"];
-    body.duration = (int)aTimeLength;
-    if(body.duration < 1){
-        [self showHint:@"说话时间太短"];
-        return;
+    if (userData && userData.easeId) {
+        [self personData:userData.easeId];
     }
-    [self sendMessageWithBody:body ext:nil isUpload:YES];
 }
-
-#pragma mark - EMChatBarEmoticonViewDelegate
-
-- (void)didSelectedTextDetele
+//群组阅读回执
+- (void)groupMessageReadReceiptDetail:(EMMessage *)message groupId:(NSString *)groupId
 {
-    [self.chatBar deleteTailText];
+    EMReadReceiptMsgViewController *readReceiptControl = [[EMReadReceiptMsgViewController alloc] initWithMessage:message groupId:groupId];
+    readReceiptControl.modalPresentationStyle = 0;
+    [self presentViewController:readReceiptControl animated:YES completion:nil];
 }
-
-- (void)didSelectedEmoticonModel:(EMEmoticonModel *)aModel
+//@群成员
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if (aModel.type == EMEmotionTypeEmoji)
-        [self.chatBar inputViewAppendText:aModel.name];
-    
-    if (aModel.type == EMEmotionTypeGif) {
-        NSDictionary *ext = @{MSG_EXT_GIF:@(YES), MSG_EXT_GIF_ID:aModel.eId};
-        [self sendTextAction:aModel.name ext:ext];
+    if ([text isEqualToString:@"@"] && self.conversation.type == EMConversationTypeGroupChat) {
+        [self _willInputAt:textView];
     }
+    return YES;
+}
+//添加转发消息
+- (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMMessage *)message
+{
+    NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]initWithArray:defaultLongPressItems];
+    //转发
+    __weak typeof(self) weakself = self;
+    if (message.body.type == EMMessageBodyTypeText || message.body.type == EMMessageBodyTypeImage || message.body.type == EMMessageBodyTypeLocation || message.body.type == EMMessageBodyTypeVideo) {
+        EaseExtMenuModel *forwardMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"forward"] funcDesc:@"转发" handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+            if (isExecuted) {
+                [weakself forwardMenuItemAction:message];
+            }
+        }];
+        [menuArray addObject:forwardMenu];
+    }
+    return menuArray;
+}
+
+- (NSMutableArray<EaseExtMenuModel *> *)inputBarExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultInputBarItems conversationType:(EMConversationType)conversationType
+{
+    NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]init];
+    //相册
+    [menuArray addObject:[defaultInputBarItems objectAtIndex:0]];
+    //相机
+    [menuArray addObject:[defaultInputBarItems objectAtIndex:1]];
+    //音视频
+    __weak typeof(self) weakself = self;
+    if (conversationType != EMConversationTypeChatRoom) {
+        EaseExtMenuModel *rtcMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"video_conf"] funcDesc:@"音视频" handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+            if (isExecuted) {
+                [weakself chatSealRtcAction];
+            }
+        }];
+        [menuArray addObject:rtcMenu];
+    }
+    //位置
+    [menuArray addObject:[defaultInputBarItems objectAtIndex:2]];
+    //文件
+    [menuArray addObject:[defaultInputBarItems objectAtIndex:3]];
+    //群组回执
+    if (conversationType == EMConversationTypeGroupChat) {
+        if ([[EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:_conversation.conversationId error:nil].owner isEqualToString:EMClient.sharedClient.currentUsername]) {
+            EaseExtMenuModel *groupReadReceiptExtModel = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"pin_readReceipt"] funcDesc:@"群组回执" handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+                [weakself groupReadReceiptAction];
+            }];
+            [menuArray addObject:groupReadReceiptExtModel];
+        }
+    }
+    return menuArray;
 }
 
 #pragma mark - EMMessageCellDelegate
 
+//通话记录点击事件
 - (void)messageCellDidSelected:(EMMessageCell *)aCell
 {
-    //消息事件策略分类
-    EMMessageEventStrategy *eventStrategy = [EMMessageEventStrategyFactory getStratrgyImplWithMsgCell:aCell];
-    eventStrategy.chatController = self;
-    [eventStrategy messageCellEventOperation:aCell];
-}
-
-- (BOOL)canBecomeFirstResponder
-{
-    return YES;
-}
-
-- (void)messageCellDidLongPress:(EMMessageCell *)aCell
-{
-    self.menuIndexPath = [self.tableView indexPathForCell:aCell];
-    [UIMenuController sharedMenuController].menuItems = [self showMenuViewController:aCell model:aCell.model];
-    [UIMenuController sharedMenuController].menuVisible = YES;
-    [[UIMenuController sharedMenuController] setTargetRect:aCell.bubbleView.frame inView:aCell];
-}
-
-- (void)messageCellDidResend:(EMMessageModel *)aModel
-{
-    if (aModel.emModel.status != EMMessageStatusFailed && aModel.emModel.status != EMMessageStatusPending) {
-        return;
+    if (!aCell.model.message.isReadAcked) {
+        [[EMClient sharedClient].chatManager sendMessageReadAck:aCell.model.message.messageId toUser:aCell.model.message.conversationId completion:nil];
     }
-    
-    __weak typeof(self) weakself = self;
-    [[[EMClient sharedClient] chatManager] resendMessage:aModel.emModel progress:nil completion:^(EMMessage *message, EMError *error) {
-        [weakself.tableView reloadData];
-    }];
-    
-    [self.tableView reloadData];
+    NSString *callType = nil;
+    NSDictionary *dic = aCell.model.message.ext;
+    if ([[dic objectForKey:EMCOMMUNICATE_TYPE] isEqualToString:EMCOMMUNICATE_TYPE_VOICE])
+        callType = EMCOMMUNICATE_TYPE_VOICE;
+    if ([[dic objectForKey:EMCOMMUNICATE_TYPE] isEqualToString:EMCOMMUNICATE_TYPE_VIDEO])
+        callType = EMCOMMUNICATE_TYPE_VIDEO;
+    if ([callType isEqualToString:EMCOMMUNICATE_TYPE_VOICE])
+        [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:aCell.model.message.conversationId, CALL_TYPE:@(EMCallTypeVoice)}];
+    if ([callType isEqualToString:EMCOMMUNICATE_TYPE_VIDEO])
+        [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:aCell.model.message.conversationId,   CALL_TYPE:@(EMCallTypeVideo)}];
 }
-
-#pragma mark -- UIDocumentInteractionControllerDelegate
-- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller
+//通话记录cell头像点击事件
+- (void)messageAvatarDidSelected:(EaseMessageModel *)model
 {
-    return self;
-}
-- (UIView*)documentInteractionControllerViewForPreview:(UIDocumentInteractionController*)controller
-{
-    return self.view;
-}
-- (CGRect)documentInteractionControllerRectForPreview:(UIDocumentInteractionController*)controller
-{
-    return self.view.frame;
-}
-
-#pragma mark - EMMultiDevicesDelegate
-
-- (void)multiDevicesGroupEventDidReceive:(EMMultiDevicesEvent)aEvent
-                                 groupId:(NSString *)aGroupId
-                                     ext:(id)aExt
-{
-    if (aEvent == EMMultiDevicesEventGroupDestroy || aEvent == EMMultiDevicesEventGroupLeave) {
-        if ([self.conversationModel.emModel.conversationId isEqualToString:aGroupId]) {
-            //[self.navigationController popToViewController:self animated:YES];
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    }
-}
-
-#pragma mark - EMChatManagerDelegate
-
-- (void)messagesDidReceive:(NSArray *)aMessages
-{
-    __weak typeof(self) weakself = self;
-    dispatch_async(self.msgQueue, ^{
-        NSString *conId = weakself.conversationModel.emModel.conversationId;
-        NSMutableArray *msgArray = [[NSMutableArray alloc] init];
-        for (int i = 0; i < [aMessages count]; i++) {
-            EMMessage *msg = aMessages[i];
-            if (![msg.conversationId isEqualToString:conId])
-                continue;
-            if (msg.body.type == EMMessageBodyTypeText && [((EMTextMessageBody *)msg.body).text isEqualToString:EMCOMMUNICATE_CALLINVITE]) {
-                //通话邀请
-                [weakself.conversationModel.emModel deleteMessageWithId:msg.messageId error:nil];
-                continue;
-            }
-            [weakself returnReadReceipt:msg];
-            [weakself.conversationModel.emModel markMessageAsReadWithId:msg.messageId error:nil];
-            [msgArray addObject:msg];
-        }
-        
-        NSArray *formated = [weakself formatMessages:msgArray];
-        [weakself.dataArray addObjectsFromArray:formated];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakself refreshTableView];
-        });
-    });
-}
-
-- (void)messagesDidRecall:(NSArray *)aMessages {
-    
-    __block NSMutableArray *sameObject = [NSMutableArray array];
-    [aMessages enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        EMMessage *msg = (EMMessage *)obj;
-        [self.dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj isKindOfClass:[EMMessageModel class]]) {
-                EMMessageModel *model = (EMMessageModel *)obj;
-                if ([model.emModel.messageId isEqualToString:msg.messageId]) {
-                    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"对方撤回一条消息"];
-                    NSString *to = [[EMClient sharedClient] currentUsername];
-                    NSString *from = self.conversationModel.emModel.conversationId;
-                    EMMessage *message = [[EMMessage alloc] initWithConversationID:from from:from to:to body:body ext:@{MSG_EXT_RECALL:@(YES)}];
-                    message.chatType = (EMChatType)self.conversationModel.emModel.type;
-                    message.isRead = YES;
-                    message.messageId = msg.messageId;
-                    message.localTime = msg.localTime;
-                    message.timestamp = msg.timestamp;
-                    [self.conversationModel.emModel insertMessage:message error:nil];
-                    EMMessageModel *replaceModel = [[EMMessageModel alloc]initWithEMMessage:message];
-                    [self.dataArray replaceObjectAtIndex:idx withObject:replaceModel];
-                    /*
-                    // 如果上一行是时间，且下一行也是时间
-                    if (idx - 1 >= 0) {
-                        id nextMessage = nil;
-                        id prevMessage = [self.dataArray objectAtIndex:(idx - 1)];
-                        if (idx + 1 < [self.dataArray count]) {
-                            nextMessage = [self.dataArray objectAtIndex:(idx + 1)];
-                        }
-                        if ((!nextMessage
-                             || [nextMessage isKindOfClass:[NSString class]])
-                            && [prevMessage isKindOfClass:[NSString class]]) {
-                            [sameObject addObject:prevMessage];
-                        }
-                    }
-                    [sameObject addObject:model];
-                    *stop = YES;*/
-                }
-            }
-        }];
-    }];
-    /*
-    if (sameObject.count > 0) {
-        for (id obj in sameObject) {
-            [self.dataArray removeObject:obj];
-        }
-        
-        [self.tableView reloadData];
-    }*/
-     [self.tableView reloadData];
-}
-
-//为了从home会话列表切进来触发 群组阅读回执 或 消息已读回执
-- (void)sendDidReadReceipt
-{
-    __weak typeof(self) weakself = self;
-    NSString *conId = weakself.conversationModel.emModel.conversationId;
-    void (^block)(NSArray *aMessages, EMError *aError) = ^(NSArray *aMessages, EMError *aError) {
-        if (!aError && [aMessages count]) {
-            for (int i = 0; i < [aMessages count]; i++) {
-                EMMessage *msg = aMessages[i];
-                if (![msg.conversationId isEqualToString:conId]) {
-                    continue;
-                }
-                [weakself returnReadReceipt:msg];
-                [weakself.conversationModel.emModel markMessageAsReadWithId:msg.messageId error:nil];
-            }
-        }
-    };
-    [self.conversationModel.emModel loadMessagesStartFromId:self.moreMsgId count:self.conversationModel.emModel.unreadMessagesCount searchDirection:EMMessageSearchDirectionUp completion:block];
-}
-
-- (void)messageStatusDidChange:(EMMessage *)aMessage
-                         error:(EMError *)aError
-{
-    __weak typeof(self) weakself = self;
-    dispatch_async(self.msgQueue, ^{
-        NSString *conId = weakself.conversationModel.emModel.conversationId;
-        if (![conId isEqualToString:aMessage.conversationId]){
-            return ;
-        }
-        
-        __block NSUInteger index = NSNotFound;
-        __block EMMessageModel *reloadModel = nil;
-        [self.dataArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if ([obj isKindOfClass:[EMMessageModel class]]) {
-                EMMessageModel *model = (EMMessageModel *)obj;
-                if ([model.emModel.messageId isEqualToString:aMessage.messageId]) {
-                    reloadModel = model;
-                    index = idx;
-                    *stop = YES;
-                }
-            }
-        }];
-        
-        if (index != NSNotFound) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakself.dataArray replaceObjectAtIndex:index withObject:reloadModel];
-                [weakself.tableView beginUpdates];
-                [weakself.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                [weakself.tableView endUpdates];
-            });
-        }
-        
-    });
-}
-
-#pragma mark - KeyBoard
-
-- (void)keyBoardWillShow:(NSNotification *)note
-{
-    // 获取用户信息
-    NSDictionary *userInfo = [NSDictionary dictionaryWithDictionary:note.userInfo];
-    // 获取键盘高度
-    CGRect keyBoardBounds  = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat keyBoardHeight = keyBoardBounds.size.height;
-    // 获取键盘动画时间
-    CGFloat animationTime  = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    
-    // 定义好动作
-    void (^animation)(void) = ^void(void) {
-        [self.chatBar mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view).offset(-keyBoardHeight);
-        }];
-    };
-    
-    if (animationTime > 0) {
-        [UIView animateWithDuration:animationTime animations:animation completion:^(BOOL finished) {
-            [self scrollToBottomRow];
-        }];
-    } else {
-        animation();
-    }
-}
-
-- (void)keyBoardWillHide:(NSNotification *)note
-{
-    // 获取用户信息
-    NSDictionary *userInfo = [NSDictionary dictionaryWithDictionary:note.userInfo];
-    // 获取键盘动画时间
-    CGFloat animationTime  = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    
-    // 定义好动作
-    void (^animation)(void) = ^void(void) {
-        [self.chatBar mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view);
-        }];
-    };
-    
-    if (animationTime > 0) {
-        [UIView animateWithDuration:animationTime animations:animation];
-    } else {
-        animation();
-    }
-}
-
-#pragma mark - NSNotification
-
-- (void)handleWillPushCallController:(NSNotification *)aNotif
-{
-    /*
-    if (aNotif) {
-        __weak typeof(self) weakself = self;
-        NSString *communicatePushType = [NSString stringWithFormat:@"%@ 邀请你通话",[EMClient sharedClient].currentUsername];
-        if ([[aNotif.object objectForKey:EMCOMMUNICATE_TYPE] isEqualToString:EMCOMMUNICATE_TYPE_VOICE])
-            communicatePushType = [NSString stringWithFormat:@"%@ 邀请你视频通话",[EMClient sharedClient].currentUsername];
-        if ([[aNotif.object objectForKey:EMCOMMUNICATE_TYPE] isEqualToString:EMCOMMUNICATE_TYPE_VIDEO])
-            communicatePushType = [NSString stringWithFormat:@"%@ 邀请你语音通话",[EMClient sharedClient].currentUsername];
-        NSString *from = [[EMClient sharedClient] currentUsername];
-        NSString *to = self.conversationModel.emModel.conversationId;
-        EMMessage *message = [[EMMessage alloc] initWithConversationID:to from:from to:to body:[[EMTextMessageBody alloc]initWithText:EMCOMMUNICATE_CALLINVITE] ext:@{@"em_apns_ext":@{@"target-content-id":@"communicate",@"em_push_content":communicatePushType}, @"em_force_notification":@YES, @"em_push_mutable_content":@YES}];
-        message.chatType = (EMChatType)self.conversationModel.emModel.type;
-        [[EMClient sharedClient].chatManager sendMessage:message progress:nil completion:^(EMMessage *message, EMError *error) {
-            [weakself.conversationModel.emModel deleteMessageWithId:message.messageId error:nil];
-        }];
-    }*/
-    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
-    [[EMImageBrowser sharedBrowser] dismissViewController];
-    [[EMAudioPlayerHelper sharedHelper] stopPlayer];
-}
-
-#pragma mark - Gesture Recognizer
-
-- (void)handleTapTableViewAction:(UITapGestureRecognizer *)aTap
-{
-    if (aTap.state == UIGestureRecognizerStateEnded) {
-        [self.view endEditing:YES];
-        [self.chatBar clearMoreViewAndSelectedButton];
-    }
-}
-
-- (void)scrollToBottomRow
-{
-    NSInteger toRow = -1;
-    if (self.isSearching) {
-        if ([self.searchResults count] > 0) {
-            toRow = self.searchResults.count - 1;
-            NSIndexPath *toIndexPath = [NSIndexPath indexPathForRow:toRow inSection:0];
-            [self.searchResultTableView scrollToRowAtIndexPath:toIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-        }
-        return;
-    }
-    if ([self.dataArray count] > 0) {
-        toRow = self.dataArray.count - 1;
-        NSIndexPath *toIndexPath = [NSIndexPath indexPathForRow:toRow inSection:0];
-        [self.tableView scrollToRowAtIndexPath:toIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-    }
-}
-
-- (void)_showCustomTransferFileAlertView
-{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:@"需要自定义实现上传附件方法" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
-#pragma mark - Send Message
-
-- (void)_sendText
-{
-    if(self.chatBar.sendBtn.tag == 1){
-        [self sendTextAction:self.chatBar.textView.text ext:nil];
-    }
-}
-
-- (void)sendTextAction:(NSString *)aText
-                    ext:(NSDictionary *)aExt
-{
-    if(![aExt objectForKey:MSG_EXT_GIF]){
-        [self.chatBar clearInputViewText];
-    }
-    if ([aText length] == 0) {
-        return;
-    }
-    
-    //TODO: 处理@
-    //messageExt
-    
-    //TODO: 处理表情
-    //    NSString *sendText = [EaseConvertToCommonEmoticonsHelper convertToCommonEmoticons:aText];
-    
-    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:aText];
-    [self sendMessageWithBody:body ext:aExt isUpload:NO];
-}
-
-#pragma mark - Data
-
-- (NSArray *)formatMessages:(NSArray<EMMessage *> *)aMessages
-{
-    NSMutableArray *formated = [[NSMutableArray alloc] init];
-
-    for (int i = 0; i < [aMessages count]; i++) {
-        EMMessage *msg = aMessages[i];
-        if (msg.chatType == EMChatTypeChat && msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
-            //
-            [[EMClient sharedClient].chatManager sendMessageReadAck:msg.messageId toUser:msg.conversationId completion:nil];
-        } else if (msg.chatType == EMChatTypeGroupChat && !msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
-        }
-        
-        CGFloat interval = (self.msgTimelTag - msg.timestamp) / 1000;
-        if (self.msgTimelTag < 0 || interval > 60 || interval < -60) {
-            NSString *timeStr = [EMDateHelper formattedTimeFromTimeInterval:msg.timestamp];
-            [formated addObject:timeStr];
-            self.msgTimelTag = msg.timestamp;
-        }
-        
-        EMMessageModel *model = [[EMMessageModel alloc] initWithEMMessage:msg];
-
-        [formated addObject:model];
-    }
-    
-    return formated;
-}
-
-- (void)tableViewDidTriggerHeaderRefresh
-{
-    __weak typeof(self) weakself = self;
-    void (^block)(NSArray *aMessages, EMError *aError) = ^(NSArray *aMessages, EMError *aError) {
-        if (!aError && [aMessages count]) {
-            EMMessage *msg = aMessages[0];
-            weakself.moreMsgId = msg.messageId;
-            
-            dispatch_async(self.msgQueue, ^{
-                NSArray *formated = [weakself formatMessages:aMessages];
-                [weakself.dataArray insertObjects:formated atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [formated count])]];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakself refreshTableView];
-                });
-            });
-        }
-        
-        [weakself tableViewDidFinishTriggerHeader:YES reload:NO];
-    };
-
-    if(self.conversationModel.emModel.unreadMessagesCount > 0){
-        [self sendDidReadReceipt];
-    }
-    
-    if ([EMDemoOptions sharedOptions].isPriorityGetMsgFromServer) {
-        EMConversation *conversation = self.conversationModel.emModel;
-        [EMClient.sharedClient.chatManager asyncFetchHistoryMessagesFromServer:conversation.conversationId conversationType:conversation.type startMessageId:self.moreMsgId pageSize:50 completion:^(EMCursorResult *aResult, EMError *aError) {
-            block(aResult.list, aError);
-         }];
-    } else {
-        [self.conversationModel.emModel loadMessagesStartFromId:self.moreMsgId count:50 searchDirection:EMMessageSearchDirectionUp completion:block];
-    }
+    [self personData:model.message.from];
 }
 
 #pragma mark - Action
 
-- (void)backAction
+#pragma mark - EMMoreFunctionViewDelegate
+
+//群组阅读回执跳转
+- (void)groupReadReceiptAction
 {
-    [[EMAudioPlayerHelper sharedHelper] stopPlayer];
-    [EMConversationHelper resortConversationsLatestMessage];
-    
-    EMConversation *conversation = self.conversationModel.emModel;
-    if (conversation.type == EMChatTypeChatRoom) {
-        [[EMClient sharedClient].roomManager leaveChatroom:conversation.conversationId completion:nil];
-    } else {
-        //草稿
-        if (self.chatBar.textView.text.length > 0) {
-            NSMutableDictionary *ext = [[NSMutableDictionary alloc]initWithDictionary:self.conversationModel.emModel.ext];
-            [ext setObject:self.chatBar.textView.text forKey:kConversation_Draft];
-            [self.conversationModel.emModel setExt:ext];
-        }
-    }
-    
-    [self.navigationController popViewControllerAnimated:YES];
+    EMReadReceiptMsgViewController *readReceiptControl = [[EMReadReceiptMsgViewController alloc]init];
+    readReceiptControl.delegate = self;
+    readReceiptControl.modalPresentationStyle = 0;
+    [self presentViewController:readReceiptControl animated:YES completion:nil];
 }
 
-//发送消息体
-- (void)sendMessageWithBody:(EMMessageBody *)aBody
-                         ext:(NSDictionary * __nullable)aExt
-                    isUpload:(BOOL)aIsUpload
+#pragma mark - EMReadReceiptMsgDelegate
+
+//群组阅读回执发送信息
+- (void)sendReadReceiptMsg:(NSString *)msg
 {
-    if (!([EMClient sharedClient].options.isAutoTransferMessageAttachments) && aIsUpload) {
-        [self _showCustomTransferFileAlertView];
+    NSString *str = msg;
+    if (self.conversation.type != EMConversationTypeGroupChat) {
+        [self.chatController sendTextAction:str ext:nil];
         return;
     }
-    
-    NSString *from = [[EMClient sharedClient] currentUsername];
-    NSString *to = self.conversationModel.emModel.conversationId;
-    EMMessage *message = [[EMMessage alloc] initWithConversationID:to from:from to:to body:aBody ext:aExt];
-    
-    //是否需要发送阅读回执
-    if([aExt objectForKey:MSG_EXT_READ_RECEIPT])
-        message.isNeedGroupAck = YES;
-    
-    message.chatType = (EMChatType)self.conversationModel.emModel.type;
-    
-    __weak typeof(self) weakself = self;
-    NSArray *formated = [weakself formatMessages:@[message]];
-    [self.dataArray addObjectsFromArray:formated];
-    if (!self.moreMsgId)
-        //新会话的第一条消息
-        self.moreMsgId = message.messageId;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakself refreshTableView];
-    });
-    [[EMClient sharedClient].chatManager sendMessage:message progress:nil completion:^(EMMessage *message, EMError *error) {
-        if (error)
-            [EMAlertController showErrorAlert:error.errorDescription];
-        [weakself messageStatusDidChange:message error:error];
+    [[EMClient sharedClient].groupManager getGroupSpecificationFromServerWithId:self.conversation.conversationId completion:^(EMGroup *aGroup, EMError *aError) {
+        if (!aError) {
+            //是群主才可以发送阅读回执信息
+            [self.chatController sendTextAction:str ext:@{MSG_EXT_READ_RECEIPT:@"receipt"}];
+        } else {
+            [EMAlertController showErrorAlert:@"获取群组失败"];
+        }
     }];
 }
 
-#pragma mark - Public
-
-- (void)returnReadReceipt:(EMMessage *)msg{}
-
-- (void)refreshTableView
+//本地通话记录
+- (void)insertLocationCallRecord:(NSNotification*)noti
 {
-    [self.tableView reloadData];
-    [self.tableView setNeedsLayout];
-    [self.tableView layoutIfNeeded];
-    [self scrollToBottomRow];
+    EMMessage *message = (EMMessage *)[noti.object objectForKey:@"msg"];
+    EMTextMessageBody *body = (EMTextMessageBody*)message.body;
+    if ([body.text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL]) {
+        if ([message.from isEqualToString:[EMClient sharedClient].currentUsername]) {
+            [self showHint:@"对方拒绝通话"];
+        } else {
+            [self showHint:@"对方已取消"];
+        }
+    }
+    NSArray *formated = [self.chatController formatMessages:@[message]];
+    [self.chatController.dataArray addObjectsFromArray:formated];
+    if (!self.chatController.moreMsgId)
+        //新会话的第一条消息
+        self.chatController.moreMsgId = message.messageId;
+    [self.chatController refreshTableView];
+}
+
+//音视频
+- (void)chatSealRtcAction
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    __weak typeof(self) weakself = self;
+    if (self.conversation.type == EMConversationTypeChat) {
+        [alertController addAction:[UIAlertAction actionWithTitle:@"视频通话" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EMCallTypeVideo)}];
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"语音通话" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EMCallTypeVoice)}];
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }]];
+        for (UIAlertAction *alertAction in alertController.actions)
+            [alertAction setValue:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1.0] forKey:@"_titleTextColor"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"didAlert" object:@{@"alert":alertController}];
+        [self presentViewController:alertController animated:YES completion:nil];
+        return;
+    }
+    //群聊/聊天室 多人会议
+    [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKECONFERENCE object:@{CALL_TYPE:@(EMConferenceTypeCommunication), CALL_MODEL:weakself.conversation, NOTIF_NAVICONTROLLER:self.navigationController}];
+}
+
+//@群成员
+- (void)_willInputAt:(UITextView *)aInputView
+{
+    do {
+        NSString *text = [NSString stringWithFormat:@"%@%@",aInputView.text,@"@"];
+        EMGroup *group = [EMGroup groupWithId:self.conversation.conversationId];
+        if (!group) {
+            break;
+        }
+        [self.view endEditing:YES];
+        //选择 @ 某群成员
+        EMAtGroupMembersViewController *controller = [[EMAtGroupMembersViewController alloc] initWithGroup:group];
+        [self.navigationController pushViewController:controller animated:NO];
+        [controller setSelectedCompletion:^(NSString * _Nonnull aName) {
+            NSString *newStr = [NSString stringWithFormat:@"%@%@ ", text, aName];
+            [aInputView setText:newStr];
+            aInputView.selectedRange = NSMakeRange(newStr.length, 0);
+            [aInputView becomeFirstResponder];
+        }];
+        
+    } while (0);
+}
+
+//个人资料页
+- (void)personData:(NSString*)contanct
+{
+    EMPersonalDataViewController *controller = [[EMPersonalDataViewController alloc]initWithNickName:contanct];
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+//单聊详情页
+- (void)chatInfoAction
+{
+    __weak typeof(self) weakself = self;
+    EMChatInfoViewController *chatInfoController = [[EMChatInfoViewController alloc]initWithCoversation:self.conversation];
+    [chatInfoController setClearRecordCompletion:^(BOOL isClearRecord) {
+        if (isClearRecord) {
+            [weakself.chatController.dataArray removeAllObjects];
+            [weakself.chatController.tableView reloadData];
+        }
+    }];
+    [self.navigationController pushViewController:chatInfoController animated:YES];
+}
+
+//群组 详情页
+- (void)groupInfoAction {
+    if (self.conversation.type == EMConversationTypeGroupChat) {
+        __weak typeof(self) weakself = self;
+        EMGroupInfoViewController *groupInfocontroller = [[EMGroupInfoViewController alloc] initWithGroupId:self.conversation.conversationId];
+        [groupInfocontroller setLeaveOrDestroyCompletion:^{
+            [weakself.navigationController popViewControllerAnimated:YES];
+        }];
+        [groupInfocontroller setClearRecordCompletion:^(BOOL isClearRecord) {
+            if (isClearRecord) {
+                [weakself.chatController.dataArray removeAllObjects];
+                [weakself.chatController.tableView reloadData];
+            }
+        }];
+        [self.navigationController pushViewController:groupInfocontroller animated:YES];
+    }
+}
+
+//聊天室 详情页
+- (void)chatroomInfoAction
+{
+    if (self.conversation.type == EMConversationTypeChatRoom) {
+        __weak typeof(self) weakself = self;
+        EMChatroomInfoViewController *controller = [[EMChatroomInfoViewController alloc] initWithChatroomId:self.conversation.conversationId];
+        [controller setLeaveCompletion:^{
+            [weakself.navigationController popViewControllerAnimated:YES];
+        }];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+}
+
+- (void)backAction
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - EMGroupManagerDelegate
+
+- (void)didLeaveGroup:(EMGroup *)aGroup reason:(EMGroupLeaveReason)aReason
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - EMChatroomManagerDelegate
+
+//有用户加入聊天室
+- (void)userDidJoinChatroom:(EMChatroom *)aChatroom
+                       user:(NSString *)aUsername
+{
+    if (self.conversation.type == EMChatTypeChatRoom && [aChatroom.chatroomId isEqualToString:self.conversation.conversationId]) {
+        NSString *str = [NSString stringWithFormat:@"%@ 加入聊天室", aUsername];
+        [self showHint:str];
+    }
+}
+
+- (void)userDidLeaveChatroom:(EMChatroom *)aChatroom
+                        user:(NSString *)aUsername
+{
+    if (self.conversation.type == EMChatTypeChatRoom && [aChatroom.chatroomId isEqualToString:self.conversation.conversationId]) {
+        NSString *str = [NSString stringWithFormat:@"%@ 离开聊天室", aUsername];
+        [self showHint:str];
+    }
+}
+
+- (void)didDismissFromChatroom:(EMChatroom *)aChatroom
+                        reason:(EMChatroomBeKickedReason)aReason
+{
+    if (aReason == 0)
+        [self showHint:[NSString stringWithFormat:@"被移出聊天室 %@", aChatroom.subject]];
+    if (aReason == 1)
+        [self showHint:[NSString stringWithFormat:@"聊天室 %@ 已解散", aChatroom.subject]];
+    if (aReason == 2)
+        [self showHint:@"您的账号已离线"];
+    if (self.conversation.type == EMChatTypeChatRoom && [aChatroom.chatroomId isEqualToString:self.conversation.conversationId]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+- (void)chatroomMuteListDidUpdate:(EMChatroom *)aChatroom removedMutedMembers:(NSArray *)aMutes
+{
+    if ([aMutes containsObject:EMClient.sharedClient.currentUsername]) {
+        [self showHint:@"您已被解除禁言"];
+    }
+}
+
+- (void)chatroomMuteListDidUpdate:(EMChatroom *)aChatroom addedMutedMembers:(NSArray *)aMutes muteExpire:(NSInteger)aMuteExpire
+{
+    if ([aMutes containsObject:EMClient.sharedClient.currentUsername]) {
+        [self showHint:@"您已被禁言"];
+    }
+}
+
+- (void)chatroomWhiteListDidUpdate:(EMChatroom *)aChatroom addedWhiteListMembers:(NSArray *)aMembers
+{
+    if ([aMembers containsObject:EMClient.sharedClient.currentUsername]) {
+        [self showHint:@"您已被加入白名单"];
+    }
+}
+
+- (void)chatroomWhiteListDidUpdate:(EMChatroom *)aChatroom removedWhiteListMembers:(NSArray *)aMembers
+{
+    if ([aMembers containsObject:EMClient.sharedClient.currentUsername]) {
+        [self showHint:@"您已被移出白名单"];
+    }
+}
+
+- (void)chatroomAllMemberMuteChanged:(EMChatroom *)aChatroom isAllMemberMuted:(BOOL)aMuted
+{
+    [self showHint:[NSString stringWithFormat:@"全员禁言已%@", aMuted ? @"开启" : @"关闭"]];
+}
+
+- (void)chatroomAdminListDidUpdate:(EMChatroom *)aChatroom addedAdmin:(NSString *)aAdmin
+{
+    [self showHint:[NSString stringWithFormat:@"%@已成为管理员", aAdmin]];
+}
+
+- (void)chatroomAdminListDidUpdate:(EMChatroom *)aChatroom removedAdmin:(NSString *)aAdmin
+{
+    [self showHint:[NSString stringWithFormat:@"%@被降级为普通成员", aAdmin]];
+}
+
+- (void)chatroomOwnerDidUpdate:(EMChatroom *)aChatroom newOwner:(NSString *)aNewOwner oldOwner:(NSString *)aOldOwner
+{
+    [self showHint:[NSString stringWithFormat:@"%@ 已将聊天室移交给 %@", aOldOwner, aNewOwner]];
+}
+
+- (void)chatroomAnnouncementDidUpdate:(EMChatroom *)aChatroom announcement:(NSString *)aAnnouncement
+{
+    [self showHint:@"聊天室公告内容已更新，请查看"];
 }
 
 @end

@@ -106,18 +106,18 @@
     if (section == 0) {
         if (row == 0) {
             EMSecurityViewController *securityController = [[EMSecurityViewController alloc]init];
-            [self.navigationController pushViewController:securityController animated:NO];
+            [self.navigationController pushViewController:securityController animated:YES];
         } else if (row == 1) {
             EMMsgRemindViewController *msgRemindController = [[EMMsgRemindViewController alloc]init];
-            [self.navigationController pushViewController:msgRemindController animated:NO];
+            [self.navigationController pushViewController:msgRemindController animated:YES];
         }
     } else if (section == 1) {
         if (row == 0) {
             EMGeneralViewController *generalController = [[EMGeneralViewController alloc]init];
-            [self.navigationController pushViewController:generalController animated:NO];
+            [self.navigationController pushViewController:generalController animated:YES];
         } else if (row == 1) {
             EMSecurityPrivacyViewController *securityPrivacyController = [[EMSecurityPrivacyViewController alloc]init];
-            [self.navigationController pushViewController:securityPrivacyController animated:NO];
+            [self.navigationController pushViewController:securityPrivacyController animated:YES];
         }
     } else {
         [self logoutAction];

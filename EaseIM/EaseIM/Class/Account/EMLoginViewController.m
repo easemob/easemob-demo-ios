@@ -335,7 +335,7 @@
     }];
     
     controller.modalPresentationStyle = 0;
-    [self presentViewController:controller animated:NO completion:nil];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)pswdSecureAction:(UIButton *)aButton
@@ -355,13 +355,6 @@
     NSString *name = self.nameField.text;
     NSString *pswd = self.pswdField.text;
 
-    if (!gIsInitializedSDK) {
-        gIsInitializedSDK = YES;
-        EMOptions *options = [[EMDemoOptions sharedOptions] toOptions];
-        
-        [[EMClient sharedClient] initializeSDKWithOptions:options];
-    }
-    
     __weak typeof(self) weakself = self;
     void (^finishBlock) (NSString *aName, EMError *aError) = ^(NSString *aName, EMError *aError) {
         [weakself hideHud];
@@ -412,7 +405,7 @@
         [self.authorizationView originalView];//恢复原始视图
         /*EMErrorAlertViewController *errorAlerController = [[EMErrorAlertViewController alloc]initWithErrorReason:errorDes];
         errorAlerController.modalPresentationStyle = 0;
-        [self presentViewController:errorAlerController animated:NO completion:nil];
+        [self presentViewController:errorAlerController animated:YES completion:nil];
         [weakself.authorizationView setupAuthBtnBgcolor:YES];*/
     };
     
@@ -437,7 +430,7 @@
     }];
     
     controller.modalPresentationStyle = 0;
-    [self presentViewController:controller animated:NO completion:nil];
+    [self presentViewController:controller animated:YES completion:nil];
     //[self.navigationController pushViewController:controller animated:YES];
 }
 

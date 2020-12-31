@@ -259,7 +259,7 @@
         }
         return YES;
     }];
-    [self.navigationController pushViewController:controller animated:NO];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)_updateDetail
@@ -278,7 +278,7 @@
         }
         return YES;
     }];
-    [self.navigationController pushViewController:controller animated:NO];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)_updateMaxMemberNum

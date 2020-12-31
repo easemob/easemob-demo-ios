@@ -19,6 +19,7 @@
 @property (copy) UITableViewCell * (^cellForRowAtIndexPathCompletion)(UITableView *tableView, NSIndexPath *indexPath);
 @property (copy) BOOL (^canEditRowAtIndexPath)(UITableView *tableView, NSIndexPath *indexPath);
 @property (copy) void (^commitEditingAtIndexPath)(UITableView *tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath *indexPath);
+@property (copy) UISwipeActionsConfiguration * (^trailingSwipeActionsConfigurationForRowAtIndexPath)(UITableView *tableView, NSIndexPath *indexPath);
 //@property (copy) CGFloat (^heightForRowAtIndexPathCompletion)(UITableView *tableView, NSIndexPath *indexPath);
 @property (copy) void (^didSelectRowAtIndexPathCompletion)(UITableView *tableView, NSIndexPath *indexPath);
 @property (copy) void (^didDeselectRowAtIndexPathCompletion)(UITableView *tableView, NSIndexPath *indexPath);

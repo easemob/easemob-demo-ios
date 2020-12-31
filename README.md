@@ -25,7 +25,7 @@ sudo gem install cocoapods
 2.安装成功后, 运行Podfile
 
 ```
-cd ./EMiOSDemo
+cd ./EaseIM
 
 pod install
 
@@ -96,7 +96,7 @@ EMContactsViewController *contactsController = [[EMContactsViewController alloc]
 ```
 EMGroupsViewController *controller = [[EMGroupsViewController alloc] init];
 ```
-**可通过导航跳转
+* 可通过导航跳转
 
 ## 聊天室模块：
 
@@ -105,7 +105,7 @@ EMGroupsViewController *controller = [[EMGroupsViewController alloc] init];
 ```
 EMChatroomsViewController *controller = [[EMChatroomsViewController alloc] init];
 ```
-**可通过导航跳转
+* 可通过导航跳转
 
 
 > 环信sdk集成文档：[环信文档](http://docs-im.easemob.com/im/ios/sdk/prepare)

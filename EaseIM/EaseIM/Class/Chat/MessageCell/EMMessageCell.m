@@ -9,26 +9,13 @@
 #import "EMMessageCell.h"
 
 #import "EMMessageStatusView.h"
-
-#import "EMMsgTextBubbleView.h"
 #import "EMMsgPicMixTextBubbleView.h"
-#import "EMMsgImageBubbleView.h"
-#import "EMMsgAudioBubbleView.h"
-#import "EMMsgVideoBubbleView.h"
-#import "EMMsgLocationBubbleView.h"
-#import "EMMsgFileBubbleView.h"
-#import "EMMsgExtGifBubbleView.h"
-#import "EMPersonalDataViewController.h"
 
 @interface EMMessageCell()
 
 @property (nonatomic, strong) UIImageView *avatarView;
-
 @property (nonatomic, strong) UILabel *nameLabel;
-
 @property (nonatomic, strong) EMMessageStatusView *statusView;
-
-@property (nonatomic, strong) UIButton *readReceiptBtn;//阅读回执按钮
 
 @end
 
@@ -68,25 +55,9 @@
     if (aDirection == EMMessageDirectionReceive) {
         identifier = @"EMMsgCellDirectionRecv";
     }
-    
-    if (aType == EMMessageTypeText || aType == EMMessageTypeExtCall) {
-        identifier = [NSString stringWithFormat:@"%@Text", identifier];
-    } else if (aType == EMMessageTypeImage) {
-        identifier = [NSString stringWithFormat:@"%@Image", identifier];
-    } else if (aType == EMMessageTypeVoice) {
-        identifier = [NSString stringWithFormat:@"%@Voice", identifier];
-    } else if (aType == EMMessageTypeVideo) {
-        identifier = [NSString stringWithFormat:@"%@Video", identifier];
-    } else if (aType == EMMessageTypeLocation) {
-        identifier = [NSString stringWithFormat:@"%@Location", identifier];
-    } else if (aType == EMMessageTypeFile) {
-        identifier = [NSString stringWithFormat:@"%@File", identifier];
-    } else if (aType == EMMessageTypeExtGif) {
-        identifier = [NSString stringWithFormat:@"%@ExtGif", identifier];
-    } else if (aType == EMMessageTypePictMixText) {
-        identifier = [NSString stringWithFormat:@"%@PictMixText", identifier];
+    if (aType == EMMessageTypePictMixText) {
+        return [NSString stringWithFormat:@"%@PictMixText", identifier];
     }
-    
     return identifier;
 }
 
@@ -95,59 +66,59 @@
 - (void)_setupViewsWithType:(EMMessageType)aType
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.backgroundColor = kColor_LightGray;
-    self.contentView.backgroundColor = kColor_LightGray;
+    self.backgroundColor = [UIColor clearColor];
     
     _avatarView = [[UIImageView alloc] init];
     _avatarView.contentMode = UIViewContentModeScaleAspectFit;
     _avatarView.backgroundColor = [UIColor clearColor];
     _avatarView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalData:)];
-    [self.avatarView addGestureRecognizer:tap];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(messageAvatarDidSelected:)];
+    [_avatarView addGestureRecognizer:tap];
+    _avatarView.layer.cornerRadius = 8;
     [self.contentView addSubview:_avatarView];
     if (self.direction == EMMessageDirectionSend) {
-        _avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
         [_avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView).offset(15);
-            make.right.equalTo(self.contentView).offset(-10);
-            make.width.height.equalTo(@40);
+            make.right.equalTo(self.contentView).offset(-2*componentSpacing);
+            make.width.height.equalTo(@(avatarLonger));
         }];
     } else {
-        _avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
         [_avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView).offset(15);
-            make.left.equalTo(self.contentView).offset(10);
-            make.width.height.equalTo(@40);
+            make.left.equalTo(self.contentView).offset(2*componentSpacing);
+            make.width.height.equalTo(@(avatarLonger));
         }];
         
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = [UIFont systemFontOfSize:13];
         _nameLabel.textColor = [UIColor grayColor];
-        [self.contentView addSubview:_nameLabel];
-        [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.avatarView);
-            make.left.equalTo(self.avatarView.mas_right).offset(8);
-            make.right.equalTo(self.contentView).offset(-10);
-        }];
+        if (_model.message.chatType != EMChatTypeChat) {
+            [self.contentView addSubview:_nameLabel];
+            [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.avatarView);
+                make.left.equalTo(self.avatarView.mas_right).offset(8);
+                make.right.equalTo(self.contentView).offset(-componentSpacing);
+            }];
+        }
     }
     
-    _bubbleView = [self _getBubbleViewWithType:aType];
-    _bubbleView.userInteractionEnabled = YES;
-    _bubbleView.clipsToBounds = YES;
+    self.bubbleView = [self _getBubbleViewWithType];
+    self.bubbleView.userInteractionEnabled = YES;
+    self.bubbleView.clipsToBounds = YES;
     [self.contentView addSubview:_bubbleView];
-    if (self.direction == EMMessageDirectionSend) {
+    if (self.direction == EMMessageDirectionReceive) {
+        [_bubbleView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.avatarView);
+            make.bottom.equalTo(self.contentView).offset(-15);
+            make.left.equalTo(self.avatarView.mas_right).offset(componentSpacing);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-70);
+        }];
+    } else {
         [_bubbleView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.avatarView);
             make.bottom.equalTo(self.contentView).offset(-15);
             make.left.greaterThanOrEqualTo(self.contentView).offset(70);
-            make.right.equalTo(self.avatarView.mas_left).offset(-10);
-        }];
-    } else {
-        [_bubbleView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.nameLabel.mas_bottom).offset(3);
-            make.bottom.equalTo(self.contentView).offset(-15);
-            make.left.equalTo(self.avatarView.mas_right).offset(10);
-            make.right.lessThanOrEqualTo(self.contentView).offset(-70);
+            make.right.equalTo(self.avatarView.mas_left).offset(-componentSpacing);
         }];
     }
 
@@ -157,13 +128,7 @@
         [_statusView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.bubbleView.mas_centerY);
             make.right.equalTo(self.bubbleView.mas_left).offset(-5);
-            make.height.equalTo(@20);
-        }];
-        __weak typeof(self) weakself = self;
-        [_statusView setResendCompletion:^{
-            if (weakself.delegate && [weakself.delegate respondsToSelector:@selector(messageCellDidResend:)]) {
-                [weakself.delegate messageCellDidResend:weakself.model];
-            }
+            make.height.equalTo(@(componentSpacing * 2));
         }];
     } else {
         _statusView.backgroundColor = [UIColor redColor];
@@ -175,137 +140,61 @@
             make.width.height.equalTo(@8);
         }];
     }
-    
-    [self setCellIsReadReceipt];
 }
 
-- (void)setCellIsReadReceipt{
-    _readReceiptBtn = [[UIButton alloc]init];
-    _readReceiptBtn.layer.cornerRadius = 5;
-    //[_readReceiptBtn setTitle:self.model.readReceiptCount forState:UIControlStateNormal];
-    _readReceiptBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    _readReceiptBtn.backgroundColor = [UIColor lightGrayColor];
-    [_readReceiptBtn.titleLabel setTextColor:[UIColor whiteColor]];
-    _readReceiptBtn.titleLabel.font = [UIFont systemFontOfSize: 10.0];
-    [_readReceiptBtn addTarget:self action:@selector(readReceiptDetilAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:_readReceiptBtn];
-    if(self.direction == EMMessageDirectionSend) {
-        [_readReceiptBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.bubbleView.mas_bottom).offset(2);
-            make.right.equalTo(self.bubbleView.mas_right);
-            make.width.equalTo(@130);
-            make.height.equalTo(@15);
-        }];
-    }
-}
-
-- (EMMessageBubbleView *)_getBubbleViewWithType:(EMMessageType)aType
+- (EMMsgPicMixTextBubbleView *)_getBubbleViewWithType
 {
-    EMMessageBubbleView *bubbleView = nil;
-    switch (aType) {
-        case EMMessageTypeText:
-        case EMMessageTypeExtCall:
-            bubbleView = [[EMMsgTextBubbleView alloc] initWithDirection:self.direction type:aType];
-            break;
-        case EMMessageTypeImage:
-            bubbleView = [[EMMsgImageBubbleView alloc] initWithDirection:self.direction type:aType];
-            break;
-        case EMMessageTypeVoice:
-            bubbleView = [[EMMsgAudioBubbleView alloc] initWithDirection:self.direction type:aType];
-            break;
-        case EMMessageTypeVideo:
-            bubbleView = [[EMMsgVideoBubbleView alloc] initWithDirection:self.direction type:aType];
-            break;
-        case EMMessageTypeLocation:
-            bubbleView = [[EMMsgLocationBubbleView alloc] initWithDirection:self.direction type:aType];
-            break;
-        case EMMessageTypeFile:
-            bubbleView = [[EMMsgFileBubbleView alloc] initWithDirection:self.direction type:aType];
-            break;
-        case EMMessageTypeExtGif:
-            bubbleView = [[EMMsgExtGifBubbleView alloc] initWithDirection:self.direction type:aType];
-            break;
-        case EMMessageTypePictMixText:
-            bubbleView = [[EMMsgPicMixTextBubbleView alloc]initWithDirection:self.direction type:aType];
-            break;
-        default:
-            break;
+    self.bubbleView = [[EMMsgPicMixTextBubbleView alloc]init];
+    if (self.direction == EMMessageDirectionSend) {
+        self.bubbleView.image = [[UIImage imageNamed:@"msg_bg_send"] stretchableImageWithLeftCapWidth:15 topCapHeight:15];
+    } else {
+        self.bubbleView.image = [[UIImage imageNamed:@"msg_bg_recv"] stretchableImageWithLeftCapWidth:15 topCapHeight:15];
     }
-    if (bubbleView) {
+    if (self.bubbleView) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bubbleViewTapAction:)];
-        [bubbleView addGestureRecognizer:tap];
-        
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(bubbleViewLongPressAction:)];
-        [bubbleView addGestureRecognizer:longPress];
+        [self.bubbleView addGestureRecognizer:tap];
     }
     
-    return bubbleView;
+    return self.bubbleView;
 }
 
 #pragma mark - Setter
 
-- (void)setModel:(EMMessageModel *)model
+- (void)setModel:(EaseMessageModel *)model
 {
     _model = model;
-    self.bubbleView.model = model;
+    [self.bubbleView setModel:_model];
     if (model.direction == EMMessageDirectionSend) {
-        [self.statusView setSenderStatus:model.emModel.status isReadAcked:model.emModel.isReadAcked];
+        [self.statusView setSenderStatus:model.message.status isReadAcked:model.message.isReadAcked];
     } else {
-        self.nameLabel.text = model.emModel.from;
-        if (model.type == EMMessageBodyTypeVoice) {
-            self.statusView.hidden = model.emModel.isReadAcked;
-        }
+        self.nameLabel.text = model.message.from;
         if (model.type == EMMessageTypePictMixText) {
-            if ([((EMTextMessageBody *)model.emModel.body).text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL])
-                self.statusView.hidden = model.emModel.isReadAcked;
+            if ([((EMTextMessageBody *)model.message.body).text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL])
+                self.statusView.hidden = model.message.isReadAcked;
             else self.statusView.hidden = YES;
         }
     }
-    if (model.emModel.isNeedGroupAck) {
-        self.readReceiptBtn.hidden = NO;
-        [self.readReceiptBtn setTitle:_model.readReceiptCount forState:UIControlStateNormal];
-    } else{
-        self.readReceiptBtn.hidden = YES;
-    }
+    _avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
 }
 
 #pragma mark - Action
 
-- (void)readReceiptDetilAction {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReadReceiptDetil:)]) {
-        [self.delegate messageReadReceiptDetil:self];
+//头像点击
+- (void)messageAvatarDidSelected:(UITapGestureRecognizer *)aTap
+{
+    if (aTap.state == UIGestureRecognizerStateEnded) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(messageAvatarDidSelected:)]) {
+            [self.delegate messageAvatarDidSelected:_model];
+        }
     }
 }
-
+//气泡点击
 - (void)bubbleViewTapAction:(UITapGestureRecognizer *)aTap
 {
     if (aTap.state == UIGestureRecognizerStateEnded) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(messageCellDidSelected:)]) {
             [self.delegate messageCellDidSelected:self];
         }
-    }
-}
-
-- (void)bubbleViewLongPressAction:(UILongPressGestureRecognizer *)aLongPress
-{
-    if (aLongPress.state == UIGestureRecognizerStateBegan) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(messageCellDidLongPress:)]) {
-            [self.delegate messageCellDidLongPress:self];
-        }
-    }
-}
-//个人资料
-- (void)personalData:(UITapGestureRecognizer *)aTap
-{
-    UIViewController *controller;
-    if (![self.model.emModel.from isEqualToString:EMClient.sharedClient.currentUsername]) {
-        controller = [[EMPersonalDataViewController alloc]initWithNickName:self.nameLabel.text isChatting:YES];
-    }
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    UIViewController *rootViewController = window.rootViewController;
-    if ([rootViewController isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *nav = (UINavigationController *)rootViewController;
-        [nav pushViewController:controller animated:NO];
     }
 }
 

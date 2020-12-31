@@ -17,5 +17,6 @@
 
     #import <Hyphenate/Hyphenate.h>
     #import "EMHeaders.h"
+    #import "EMDefines.h"
 
 #endif

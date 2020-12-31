@@ -98,15 +98,15 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else if (row == 1) {
             cell.textLabel.text = @"优先从服务器获取消息";
-            [switchControl setOn:options.isPriorityGetMsgFromServer animated:NO];
+            [switchControl setOn:options.isPriorityGetMsgFromServer animated:YES];
         } else if (row == 2) {
             cell.textLabel.text = @"消息附件上传到环信服务器";
-            [switchControl setOn:options.isAutoTransferMessageAttachments animated:NO];
+            [switchControl setOn:options.isAutoTransferMessageAttachments animated:YES];
         }
     } else if (section == 2) {
         if (row == 0) {
             cell.textLabel.text = @"自动下载图片缩略图";
-            [switchControl setOn:options.isAutoDownloadThumbnail animated:NO];
+            [switchControl setOn:options.isAutoDownloadThumbnail animated:YES];
         } else if (row == 1) {
             cell.textLabel.text = @"消息排序";
             cell.detailTextLabel.text = options.isSortMessageByServerTime ? @"按服务器时间" : @"按接收顺序";
@@ -130,7 +130,7 @@
     if (section == 1 && row == 0) {
         //自定义appkey
         EMCustomAppkeyViewController *customAppkeyController = [[EMCustomAppkeyViewController alloc]init];
-        [self.navigationController pushViewController:customAppkeyController animated:NO];
+        [self.navigationController pushViewController:customAppkeyController animated:YES];
     } else if (section == 2 && row == 1) {
         [self updateMessageSort];
     } else if (section == 3) {

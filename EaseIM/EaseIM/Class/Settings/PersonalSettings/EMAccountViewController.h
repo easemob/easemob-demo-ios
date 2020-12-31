@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EMAccountViewController : UITableViewController
 
+@property (nonatomic, copy) void (^updateAPNSNicknameCompletion)(void);
+
 @end
 
 NS_ASSUME_NONNULL_END
