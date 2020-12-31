@@ -52,7 +52,6 @@
     
     self.disturbSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.tableView.frame.size.width - 65, 20, 50, 40)];
     [self.disturbSwitch addTarget:self action:@selector(disturbValueChanged) forControlEvents:UIControlEventValueChanged];
-    //NSLog(@"pushoption   :%@        disturb   %u",[EMClient sharedClient].pushOptions,[EMClient sharedClient].pushOptions.noDisturbStatus);
     [self.disturbSwitch setOn:([EMClient sharedClient].pushManager.pushOptions.isNoDisturbEnable) animated:YES];
 }
 
@@ -133,7 +132,7 @@
         }
     } else if (section == 1) {
         if (row == 0) {
-            cell.textLabel.text = @"显示输入状态";
+            cell.textLabel.text = @"显示对方输入状态";
             [switchControl setOn:options.isChatTyping animated:YES];
         }
     } else if (section == 2) {
@@ -142,7 +141,7 @@
             [switchControl setOn:options.isAutoAcceptGroupInvitation animated:YES];
         } else if (row == 1) {
             cell.textLabel.text = @"退出群组时删除会话";
-            [switchControl setOn:options.isDeleteMessagesWhenExitGroup animated:YES];
+            [switchControl setOn:[EMClient sharedClient].options.isDeleteMessagesWhenExitGroup animated:YES];
         }
     }
     cell.textLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
@@ -236,9 +235,8 @@
             options.isAutoAcceptGroupInvitation = aSwitch.isOn;
             [options archive];
         } else if (row == 1) {
-            [EMClient sharedClient].options.isDeleteMessagesWhenExitGroup = aSwitch.isOn;
-            options.isDeleteMessagesWhenExitGroup = aSwitch.isOn;
-            [options archive];
+            BOOL ison = aSwitch.isOn;
+            [[EMClient sharedClient].options setIsDeleteMessagesWhenExitGroup:aSwitch.isOn];
         }
     }
 }
@@ -248,7 +246,14 @@
     int noDisturbingStartH = 0;
     int noDisturbingEndH = 24;
     if (!self.disturbSwitch.isOn) {
-        noDisturbingEndH = 0;
+        EMError *error = [[EMClient sharedClient].pushManager enableOfflinePush];
+        if (!error) {
+            [self.tableView reloadData];
+            [self.disturbSwitch setOn:([EMClient sharedClient].pushManager.pushOptions.isNoDisturbEnable) animated:YES];
+        } else {
+            [EMAlertController showErrorAlert:error.errorDescription];
+        }
+        return;
     }
     EMError *error = [[EMClient sharedClient].pushManager disableOfflinePushStart:noDisturbingStartH end:noDisturbingEndH];
     if (error) {
@@ -285,8 +290,7 @@
     if (!error) {
         [self hideHud];
         [self.tableView reloadData];
-        [self.disturbSwitch setOn:!self.disturbSwitch.isOn animated:YES];
-        [EMAlertController showErrorAlert:error.errorDescription];
+        [self.disturbSwitch setOn:([EMClient sharedClient].pushManager.pushOptions.isNoDisturbEnable) animated:YES];
         return;
     } else {
         [EMAlertController showErrorAlert:error.errorDescription];

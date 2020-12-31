@@ -66,7 +66,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *restServer;
 
-@property (nonatomic) BOOL isDeleteMessagesWhenExitGroup;
 @property (nonatomic) BOOL isAutoAcceptGroupInvitation;
 @property (nonatomic) BOOL isAutoTransferMessageAttachments;
 @property (nonatomic) BOOL isAutoDownloadThumbnail;

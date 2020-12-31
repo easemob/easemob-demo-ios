@@ -661,17 +661,15 @@
 {
     __weak typeof(self) weakself = self;
     void (^block)(EMError *aError) = ^(EMError *aError) {
-        if (!aError) {
+        if (!aError && [EMClient sharedClient].options.isDeleteMessagesWhenExitGroup) {
             [[EMClient sharedClient].chatManager deleteConversation:weakself.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
-                [weakself hideHud];
-                if (weakself.leaveOrDestroyCompletion) {
-                    weakself.leaveOrDestroyCompletion();
-                }
-                [weakself.navigationController popViewControllerAnimated:YES];
             }];
-        } else {
-            
-        }[weakself hideHud];
+        }
+        [weakself hideHud];
+        [weakself.navigationController popViewControllerAnimated:YES];
+        if (weakself.leaveOrDestroyCompletion) {
+            weakself.leaveOrDestroyCompletion();
+        }
     };
     
     if (self.group.permissionType == EMGroupPermissionTypeOwner) {

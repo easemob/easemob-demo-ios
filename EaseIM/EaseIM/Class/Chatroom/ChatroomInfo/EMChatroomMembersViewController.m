@@ -158,8 +158,8 @@
     [swipeActions addObject:deleteAction];
     [swipeActions addObject:blackAction];
     [swipeActions addObject:muteAction];
-    [swipeActions addObject:adminAction];
-    if ([self.chatroom.owner isEqualToString:EMClient.sharedClient.currentUsername]) {
+    if (self.chatroom.permissionType == EMChatroomPermissionTypeOwner) {
+        [swipeActions addObject:adminAction];
         [swipeActions addObject:transferAdminAction];
     }
     UISwipeActionsConfiguration *actions = [UISwipeActionsConfiguration configurationWithActions:swipeActions];
