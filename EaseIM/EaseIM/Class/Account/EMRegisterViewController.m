@@ -204,7 +204,7 @@
 
 - (void)backBackion
 {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -288,7 +288,7 @@
 {
     EMProtocolViewController *protocolController = [[EMProtocolViewController alloc]initWithUrl:protocolUrl sign:sign];
     protocolController.modalPresentationStyle = 0;
-    [self presentViewController:protocolController animated:NO completion:nil];
+    [self presentViewController:protocolController animated:YES completion:nil];
 }
 
 #pragma mark - Action
@@ -392,14 +392,8 @@
         /*
         EMErrorAlertViewController *errorAlerController = [[EMErrorAlertViewController alloc]initWithErrorReason:@"两次输入密码不一致"];
         errorAlerController.modalPresentationStyle = 0;
-        [self presentViewController:errorAlerController animated:NO completion:nil];*/
+        [self presentViewController:errorAlerController animated:YES completion:nil];*/
         return;
-    }
-    
-    if (!gIsInitializedSDK) {
-        gIsInitializedSDK = YES;
-        EMOptions *options = [[EMDemoOptions sharedOptions] toOptions];
-        [[EMClient sharedClient] initializeSDKWithOptions:options];
     }
     
     __weak typeof(self) weakself = self;
@@ -413,7 +407,7 @@
                 weakself.successCompletion(name);
             }
             [weakself.authorizationView originalView];
-            [weakself dismissViewControllerAnimated:NO completion:nil];
+            [weakself dismissViewControllerAnimated:YES completion:nil];
             return ;
         }
         
@@ -439,7 +433,7 @@
         /*
         EMErrorAlertViewController *errorAlerController = [[EMErrorAlertViewController alloc]initWithErrorReason:errorDes];
         errorAlerController.modalPresentationStyle = 0;
-        [self presentViewController:errorAlerController animated:NO completion:nil];
+        [self presentViewController:errorAlerController animated:YES completion:nil];
         [weakself.authorizationView setupAuthBtnBgcolor:YES];*/
     }];
 }

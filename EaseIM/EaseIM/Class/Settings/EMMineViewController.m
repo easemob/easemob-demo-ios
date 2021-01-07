@@ -33,6 +33,8 @@
 
 @property (nonatomic, strong) UIView *backView;
 
+@property (nonatomic, strong) UILabel *funLabel;
+
 @end
 
 @implementation EMMineViewController
@@ -83,7 +85,7 @@
     self.userCell.detailLabel.textColor = [UIColor grayColor];
     self.userCell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
     self.userCell.nameLabel.text = [EMClient sharedClient].currentUsername;
-    self.userCell.detailLabel.text = [EMClient sharedClient].pushOptions.displayName;
+    self.userCell.detailLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayName;
     [self.userCell.avatarView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.userCell.contentView.mas_left).offset(28);
         make.centerY.equalTo(self.userCell.contentView);
@@ -209,7 +211,7 @@
 - (void)suspendBtnClick
 {
     EMAccountViewController *controller = [[EMAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    [self.navigationController pushViewController:controller animated:NO];
+    [self.navigationController pushViewController:controller animated:YES];
 }*/
 
 #pragma mark - Table view data source
@@ -238,12 +240,9 @@
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     UIImageView *imgView = [[UIImageView alloc]init];
     [cell.contentView addSubview:imgView];
     [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -251,12 +250,13 @@
         make.left.equalTo(cell.contentView).offset(20);
         make.width.height.equalTo(@30);
     }];
-    [cell.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.funLabel = [[UILabel alloc]init];
+    self.funLabel.userInteractionEnabled = NO;
+    [cell.contentView addSubview:self.funLabel];
+    [self.funLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(imgView.mas_right).offset(18);
         make.centerY.equalTo(cell.contentView);
     }];
-
-    cell.textLabel.font = [UIFont systemFontOfSize:14.0];
     
     if (section == 0) {
         if (row == 0) {
@@ -266,21 +266,21 @@
     if (section == 1) {
         if (row == 0) {
             imgView.image = [UIImage imageNamed:@"settings"];
-            cell.textLabel.text = @"设置";
+            self.funLabel.text = @"设置";
         } else if (row == 3){
             imgView.image = [UIImage imageNamed:@"opinionFeedback"];
-            cell.textLabel.text = @"意见反馈";
+            self.funLabel.text = @"意见反馈";
         } else if (row == 1) {
             imgView.image = [UIImage imageNamed:@"aboutHX"];
-            cell.textLabel.text = @"关于环信IM";
+            self.funLabel.text = @"关于环信IM";
         } else if (row == 2) {
             imgView.image = [UIImage imageNamed:@"developerService"];
-            cell.textLabel.text = @"开发者服务";
+            self.funLabel.text = @"开发者服务";
         }
     }
-    cell.textLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
-    cell.textLabel.font = [UIFont systemFontOfSize:14.0];
-    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+    self.funLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
+    self.funLabel.font = [UIFont systemFontOfSize:14.0];
+    self.funLabel.textAlignment = NSTextAlignmentLeft;
     cell.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);
     return cell;
 }
@@ -301,26 +301,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    __weak typeof(self) weakself = self;
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     if (section == 0) {
         if (row == 0) {
             EMAccountViewController *controller = [[EMAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
-            [self.navigationController pushViewController:controller animated:NO];
+            [controller setUpdateAPNSNicknameCompletion:^{
+                weakself.userCell.detailLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayName;
+                [weakself.tableView reloadData];
+            }];
+            [self.navigationController pushViewController:controller animated:YES];
         }
     } else if (section == 1) {
         if (row == 0) {
             EMSettingsViewController *settingsController = [[EMSettingsViewController alloc]init];
-            [self.navigationController pushViewController:settingsController animated:NO];
+            [self.navigationController pushViewController:settingsController animated:YES];
         } else if (row == 3) {
             EMOpinionFeedbackViewController *opinionController = [[EMOpinionFeedbackViewController alloc]init];
-            [self.navigationController pushViewController:opinionController animated:NO];
+            [self.navigationController pushViewController:opinionController animated:YES];
         } else if (row == 1) {
             EMAboutHuanXinViewController *aboutHuanXin = [[EMAboutHuanXinViewController alloc]init];
-            [self.navigationController pushViewController:aboutHuanXin animated:NO];
+            [self.navigationController pushViewController:aboutHuanXin animated:YES];
         } else if (row == 2) {
             EMDeveloperServiceViewController *developerServiceController = [[EMDeveloperServiceViewController alloc]init];
-            [self.navigationController pushViewController:developerServiceController animated:NO];
+            [self.navigationController pushViewController:developerServiceController animated:YES];
         }
     }
 }

@@ -138,7 +138,7 @@
     }
     
     if (isPop) {
-        [self dismissViewControllerAnimated:NO completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

@@ -14,6 +14,7 @@
 
 @interface EMSettingsViewController ()
 @property(nonatomic, strong) UIAlertController *alertController;
+@property(nonatomic, strong) UILabel *logoutLabel;
 @end
 
 @implementation EMSettingsViewController
@@ -88,9 +89,13 @@
             cell.textLabel.text = @"隐私";
         }
     } else if (section == 2) {
-        cell.textLabel.text = @"退出";
-        [cell.textLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.centerX.equalTo(cell.contentView);
+        self.logoutLabel = [[UILabel alloc]init];
+        self.logoutLabel.text = @"退出";
+        self.logoutLabel.font = [UIFont systemFontOfSize:16.f];
+        self.logoutLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
+        [cell.contentView addSubview:self.logoutLabel];
+        [self.logoutLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(cell.contentView);
         }];
         cell.accessoryType = UITableViewCellSelectionStyleNone;
     }
@@ -106,18 +111,18 @@
     if (section == 0) {
         if (row == 0) {
             EMSecurityViewController *securityController = [[EMSecurityViewController alloc]init];
-            [self.navigationController pushViewController:securityController animated:NO];
+            [self.navigationController pushViewController:securityController animated:YES];
         } else if (row == 1) {
             EMMsgRemindViewController *msgRemindController = [[EMMsgRemindViewController alloc]init];
-            [self.navigationController pushViewController:msgRemindController animated:NO];
+            [self.navigationController pushViewController:msgRemindController animated:YES];
         }
     } else if (section == 1) {
         if (row == 0) {
             EMGeneralViewController *generalController = [[EMGeneralViewController alloc]init];
-            [self.navigationController pushViewController:generalController animated:NO];
+            [self.navigationController pushViewController:generalController animated:YES];
         } else if (row == 1) {
             EMSecurityPrivacyViewController *securityPrivacyController = [[EMSecurityPrivacyViewController alloc]init];
-            [self.navigationController pushViewController:securityPrivacyController animated:NO];
+            [self.navigationController pushViewController:securityPrivacyController animated:YES];
         }
     } else {
         [self logoutAction];

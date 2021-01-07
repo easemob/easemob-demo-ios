@@ -163,7 +163,7 @@
 
 - (void)backBackion
 {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - WKNavigationDelegate
@@ -173,12 +173,12 @@
 
 // 页面加载失败时调用
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
-    [self.progressView setProgress:0.0f animated:NO];
+    [self.progressView setProgress:0.0f animated:YES];
 }
 
 //提交发生错误时调用
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    [self.progressView setProgress:0.0f animated:NO];
+    [self.progressView setProgress:0.0f animated:YES];
 }
 
 

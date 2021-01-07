@@ -82,7 +82,7 @@
     basicTick.index = [self _tagWithIndexPath:indexPath];
     basicTick.basicTickDelegate = self;
 
-    EMPushOptions *options = [[EMClient sharedClient] pushOptions];
+    EMPushOptions *options = [EMClient sharedClient].pushManager.pushOptions;
 
     if (section == 0) {
         if (row == 0) {
@@ -151,11 +151,9 @@
 
 - (void)_updatePushStyle:(EMPushDisplayStyle)aStyle
 {
-    __weak typeof(self) weakself = self;
-    EMPushOptions *options = [[EMClient sharedClient] pushOptions];
-    options.displayStyle = aStyle;
-    [[EMClient sharedClient] updatePushNotificationOptionsToServerWithCompletion:^(EMError *aError) {
-    }];
+    void (^block)(EMError *aError) = ^(EMError *aError) {
+    };
+    [[EMClient sharedClient].pushManager updatePushDisplayStyle:aStyle completion:block];
 }
 
 - (NSInteger)_tagWithIndexPath:(NSIndexPath *)aIndexPath

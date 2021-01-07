@@ -25,7 +25,7 @@ sudo gem install cocoapods
 2.安装成功后, 运行Podfile
 
 ```
-cd ./EMiOSDemo
+cd ./EaseIM
 
 pod install
 
@@ -60,11 +60,11 @@ pod install
 
 ## 集成聊天模块：
 
-- 使用聊天控制工厂生产指定类型的聊天控制器
+- EaseIM Chat模块集成了EaseIMKit UI库的Chat模块，创建EaseIMKit Chat模块实例，并嵌入EaseIM Chat模块中，详见 EaseIMKit 集成使用指南：[EaseIMKit使用指南](http://docs-im.easemob.com/im/ios/other/easeimkit)
 
 ```
-//生产传入对应会话类型参数的会话聊天控制器
-+ (EMChatViewController *)getChatControllerInstance:(NSString *)conversationId conversationType:(EMConversationType)conType;
+//创建EaseIM Chat模块实例
+- (instancetype)initWithConversationId:(NSString *)conversationId conversationType:(EMConversationType)conType;
 ```
 
 # 集成其他模块
@@ -96,7 +96,7 @@ EMContactsViewController *contactsController = [[EMContactsViewController alloc]
 ```
 EMGroupsViewController *controller = [[EMGroupsViewController alloc] init];
 ```
-**可通过导航跳转
+* 可通过导航跳转
 
 ## 聊天室模块：
 
@@ -105,7 +105,7 @@ EMGroupsViewController *controller = [[EMGroupsViewController alloc] init];
 ```
 EMChatroomsViewController *controller = [[EMChatroomsViewController alloc] init];
 ```
-**可通过导航跳转
+* 可通过导航跳转
 
 
 > 环信sdk集成文档：[环信文档](http://docs-im.easemob.com/im/ios/sdk/prepare)

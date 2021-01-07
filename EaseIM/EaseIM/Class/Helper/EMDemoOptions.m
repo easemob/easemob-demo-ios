@@ -19,7 +19,6 @@ static EMDemoOptions *sharedOptions = nil;
     if (self) {
         [self _initServerOptions];
         
-        self.isDeleteMessagesWhenExitGroup = YES;
         self.isAutoAcceptGroupInvitation = NO;
         self.isAutoTransferMessageAttachments = YES;
         self.isAutoDownloadThumbnail = YES;
@@ -74,8 +73,7 @@ static EMDemoOptions *sharedOptions = nil;
         self.chatPort = [aDecoder decodeIntForKey:kOptions_IMPort];
         self.chatServer = [aDecoder decodeObjectForKey:kOptions_IMServer];
         self.restServer = [aDecoder decodeObjectForKey:kOptions_RestServer];
-        
-        self.isDeleteMessagesWhenExitGroup = [aDecoder decodeBoolForKey:kOptions_DeleteChatExitGroup];
+
         self.isAutoAcceptGroupInvitation = [aDecoder decodeBoolForKey:kOptions_AutoAcceptGroupInvitation];
         self.isAutoTransferMessageAttachments = [aDecoder decodeBoolForKey:kOptions_AutoTransMsgFile];
         self.isAutoDownloadThumbnail = [aDecoder decodeBoolForKey:kOptions_AutoDownloadThumb];
@@ -116,8 +114,7 @@ static EMDemoOptions *sharedOptions = nil;
     [aCoder encodeInt:self.chatPort forKey:kOptions_IMPort];
     [aCoder encodeObject:self.chatServer forKey:kOptions_IMServer];
     [aCoder encodeObject:self.restServer forKey:kOptions_RestServer];
-    
-    [aCoder encodeBool:self.isDeleteMessagesWhenExitGroup forKey:kOptions_DeleteChatExitGroup];
+
     [aCoder encodeBool:self.isAutoAcceptGroupInvitation forKey:kOptions_AutoAcceptGroupInvitation];
     [aCoder encodeBool:self.isAutoTransferMessageAttachments forKey:kOptions_AutoTransMsgFile];
     [aCoder encodeBool:self.isAutoDownloadThumbnail forKey:kOptions_AutoDownloadThumb];
@@ -159,7 +156,6 @@ static EMDemoOptions *sharedOptions = nil;
     retModel.chatPort = self.chatPort;
     retModel.chatServer = self.chatServer;
     retModel.restServer = self.restServer;
-    retModel.isDeleteMessagesWhenExitGroup = self.isDeleteMessagesWhenExitGroup;
     retModel.isAutoAcceptGroupInvitation = self.isAutoAcceptGroupInvitation;
     retModel.isAutoTransferMessageAttachments = self.isAutoTransferMessageAttachments;
     retModel.isAutoDownloadThumbnail = self.isAutoDownloadThumbnail;
@@ -235,7 +231,6 @@ static EMDemoOptions *sharedOptions = nil;
     
     retOpt.isAutoLogin = self.isAutoLogin;
     
-    retOpt.isDeleteMessagesWhenExitGroup = self.isDeleteMessagesWhenExitGroup;
     retOpt.isAutoAcceptGroupInvitation = self.isAutoAcceptGroupInvitation;
     retOpt.isAutoTransferMessageAttachments = self.isAutoTransferMessageAttachments;
     retOpt.isAutoDownloadThumbnail = self.isAutoDownloadThumbnail;

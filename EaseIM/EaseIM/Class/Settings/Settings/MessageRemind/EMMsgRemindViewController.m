@@ -92,7 +92,7 @@
             cell.accessoryView = self.msgRemindSwitch;
         } else if (row == 1) {
             cell.textLabel.text = @"显示消息详情";
-            cell.detailTextLabel.text = [EMClient sharedClient].pushOptions.displayStyle == EMPushDisplayStyleSimpleBanner ? @"仅未读提示" : @"详细信息";
+            cell.detailTextLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayStyle == EMPushDisplayStyleSimpleBanner ? @"仅未读提示" : @"详细信息";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
@@ -129,7 +129,7 @@
     NSInteger row = indexPath.row;
     if (row == 1) {
         EMMsgNotificViewController *controller = [[EMMsgNotificViewController alloc] init];
-        [self.navigationController pushViewController:controller animated:NO];
+        [self.navigationController pushViewController:controller animated:YES];
     }
 }
 

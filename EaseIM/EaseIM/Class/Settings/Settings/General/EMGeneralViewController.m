@@ -52,8 +52,7 @@
     
     self.disturbSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.tableView.frame.size.width - 65, 20, 50, 40)];
     [self.disturbSwitch addTarget:self action:@selector(disturbValueChanged) forControlEvents:UIControlEventValueChanged];
-    //NSLog(@"pushoption   :%@        disturb   %u",[EMClient sharedClient].pushOptions,[EMClient sharedClient].pushOptions.noDisturbStatus);
-    [self.disturbSwitch setOn:([EMClient sharedClient].pushOptions.noDisturbStatus == EMPushNoDisturbStatusClose ? NO : YES) animated:YES];
+    [self.disturbSwitch setOn:([EMClient sharedClient].pushManager.pushOptions.isNoDisturbEnable) animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -125,24 +124,24 @@
         } else if (row == 1) {
             cell.textLabel.text = @"免打扰时间";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            if ([EMClient sharedClient].pushOptions.noDisturbingStartH > 0 && [EMClient sharedClient].pushOptions.noDisturbingEndH > 0) {
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@:00 - %@:00", @([EMClient sharedClient].pushOptions.noDisturbingStartH), @([EMClient sharedClient].pushOptions.noDisturbingEndH)];
+            if ([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH > 0 && [EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH > 0) {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@:00 - %@:00", @([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH), @([EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH)];
             } else {
                 cell.detailTextLabel.text = @"全天";
             }
         }
     } else if (section == 1) {
         if (row == 0) {
-            cell.textLabel.text = @"显示输入状态";
-            [switchControl setOn:options.isChatTyping animated:NO];
+            cell.textLabel.text = @"显示对方输入状态";
+            [switchControl setOn:options.isChatTyping animated:YES];
         }
     } else if (section == 2) {
         if (row == 0) {
             cell.textLabel.text = @"自动接受群组邀请";
-            [switchControl setOn:options.isAutoAcceptGroupInvitation animated:NO];
+            [switchControl setOn:options.isAutoAcceptGroupInvitation animated:YES];
         } else if (row == 1) {
             cell.textLabel.text = @"退出群组时删除会话";
-            [switchControl setOn:options.isDeleteMessagesWhenExitGroup animated:NO];
+            [switchControl setOn:[EMClient sharedClient].options.isDeleteMessagesWhenExitGroup animated:YES];
         }
     }
     cell.textLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
@@ -236,34 +235,33 @@
             options.isAutoAcceptGroupInvitation = aSwitch.isOn;
             [options archive];
         } else if (row == 1) {
-            [EMClient sharedClient].options.isDeleteMessagesWhenExitGroup = aSwitch.isOn;
-            options.isDeleteMessagesWhenExitGroup = aSwitch.isOn;
-            [options archive];
+            BOOL ison = aSwitch.isOn;
+            [[EMClient sharedClient].options setIsDeleteMessagesWhenExitGroup:aSwitch.isOn];
         }
     }
 }
 
 - (void)disturbValueChanged
 {
-    __weak typeof(self) weakself = self;
-    EMPushOptions *options = [[EMClient sharedClient] pushOptions];
-    options.noDisturbStatus = EMPushNoDisturbStatusDay;
-    options.noDisturbingStartH = 0;
-    options.noDisturbingEndH = 24;
+    int noDisturbingStartH = 0;
+    int noDisturbingEndH = 24;
     if (!self.disturbSwitch.isOn) {
-        options.noDisturbingEndH = 0;
-        options.noDisturbStatus = EMPushNoDisturbStatusClose;
-    }
-    [[EMClient sharedClient] updatePushNotificationOptionsToServerWithCompletion:^(EMError *aError) {
-        if (aError) {
-            [weakself.disturbSwitch setOn:!weakself.disturbSwitch.isOn animated:YES];
-            [EMAlertController showErrorAlert:aError.errorDescription];
-            return;
+        EMError *error = [[EMClient sharedClient].pushManager enableOfflinePush];
+        if (!error) {
+            [self.tableView reloadData];
+            [self.disturbSwitch setOn:([EMClient sharedClient].pushManager.pushOptions.isNoDisturbEnable) animated:YES];
+        } else {
+            [EMAlertController showErrorAlert:error.errorDescription];
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakself.tableView reloadData];
-        });
-    }];
+        return;
+    }
+    EMError *error = [[EMClient sharedClient].pushManager disableOfflinePushStart:noDisturbingStartH end:noDisturbingEndH];
+    if (error) {
+        [self.disturbSwitch setOn:!self.disturbSwitch.isOn animated:YES];
+        [EMAlertController showErrorAlert:error.errorDescription];
+        return;
+    }
+    [self.tableView reloadData];
 }
 
 - (void)changeDisturbDateAction
@@ -278,7 +276,6 @@
 
 #pragma mark - SPDateTimePickerViewDelegate
 - (void)didClickFinishDateTimePickerView:(NSString *)date {
-    __weak typeof(self) weakself = self;
     NSLog(@"%@",date);
     NSRange range = [date rangeOfString:@"-"];
     NSString *start = [date substringToIndex:range.location];
@@ -287,20 +284,17 @@
         [self showHint:@"起止时间不能相同"];
         return;
     }
-    EMPushOptions *options = [[EMClient sharedClient] pushOptions];
-    options.noDisturbingStartH = [start intValue];
-    options.noDisturbingEndH = [end intValue];
-    options.noDisturbStatus = EMPushNoDisturbStatusCustom;
-    [[EMClient sharedClient] updatePushNotificationOptionsToServerWithCompletion:^(EMError *aError) {
-        if (!aError) {
-            [weakself hideHud];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakself.tableView reloadData];
-            });
-        } else {
-            [EMAlertController showErrorAlert:aError.errorDescription];
-        }
-    }];
+    int noDisturbingStartH = [start intValue];;
+    int noDisturbingEndH = [end intValue];
+    EMError *error = [[EMClient sharedClient].pushManager disableOfflinePushStart:noDisturbingStartH end:noDisturbingEndH];
+    if (!error) {
+        [self hideHud];
+        [self.tableView reloadData];
+        [self.disturbSwitch setOn:([EMClient sharedClient].pushManager.pushOptions.isNoDisturbEnable) animated:YES];
+        return;
+    } else {
+        [EMAlertController showErrorAlert:error.errorDescription];
+    }
 }
 
 @end

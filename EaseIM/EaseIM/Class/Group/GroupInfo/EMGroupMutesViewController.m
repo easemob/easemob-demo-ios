@@ -116,7 +116,7 @@
         //hint解除禁言
         EMConfirmViewController *confirmControl = [[EMConfirmViewController alloc]initWithMembername:userName titleText:@"解除该成员禁言？"];
         confirmControl.modalPresentationStyle = 0;
-        [self presentViewController:confirmControl animated:NO completion:nil];
+        [self presentViewController:confirmControl animated:YES completion:nil];
         [confirmControl setDoneCompletion:^BOOL(BOOL aConfirm) {
             if (aConfirm) {
                [self showHudInView:self.view hint:@"移出禁言列表..."];
@@ -221,7 +221,7 @@
     UIViewController *rootViewController = window.rootViewController;
     if ([rootViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *nav = (UINavigationController *)rootViewController;
-        [nav pushViewController:controller animated:NO];
+        [nav pushViewController:controller animated:YES];
     }
 }
 

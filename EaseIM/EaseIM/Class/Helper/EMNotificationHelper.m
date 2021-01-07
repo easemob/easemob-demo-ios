@@ -8,8 +8,6 @@
 
 #import "EMNotificationHelper.h"
 
-#import "EMMulticastDelegate.h"
-
 static NSString *kNotifications_Sender = @"sender";
 static NSString *kNotifications_Receiver = @"receiver";
 static NSString *kNotifications_GroupId = @"groupId";
@@ -67,8 +65,6 @@ static dispatch_once_t onceToken;
 static EMNotificationHelper *shared = nil;
 @interface EMNotificationHelper()
 
-@property (nonatomic, strong) EMMulticastDelegate<EMNotificationsDelegate> *delegates;
-
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @property (nonatomic, weak) id<EMNotificationsDelegate> delegate;
@@ -110,8 +106,6 @@ static EMNotificationHelper *shared = nil;
     _dateFormatter = [[NSDateFormatter alloc] init];
     [_dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
-    _delegates = (EMMulticastDelegate<EMNotificationsDelegate> *)[[EMMulticastDelegate alloc] init];
-    
     [[EMClient sharedClient] addMultiDevicesDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].contactManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
@@ -121,8 +115,6 @@ static EMNotificationHelper *shared = nil;
 
 - (void)dealloc
 {
-    [self.delegates removeAllDelegates];
-    
     [[EMClient sharedClient] removeMultiDevicesDelegate:self];
     [[EMClient sharedClient].contactManager removeDelegate:self];
     [[EMClient sharedClient].groupManager removeDelegate:self];
@@ -139,9 +131,6 @@ static EMNotificationHelper *shared = nil;
     [self.notificationList addObjectsFromArray:array];
     
     _unreadCount = [self getUnreadCount];
-    if (self.isCheckUnreadCount) {
-        [self notificationsUnreadCountUpdate:_unreadCount];
-    }
 }
 
 - (NSInteger)getUnreadCount
@@ -156,48 +145,11 @@ static EMNotificationHelper *shared = nil;
     return ret;
 }
 
-#pragma mark - Public
-
-- (void)addDelegate:(id<EMNotificationsDelegate>)aDelegate
-{
-    [self.delegates addDelegate:aDelegate delegateQueue:dispatch_get_main_queue()];
-}
-
-- (void)removeDelegate:(id<EMNotificationsDelegate>)aDelegate
-{
-    [self.delegates removeDelegate:aDelegate];
-}
 //归档
 - (void)archive
 {
     NSString *file = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:self.fileName];
     [NSKeyedArchiver archiveRootObject:self.notificationList toFile:file];
-}
-
-#pragma mark - Private
-
-- (NSArray *)getDelegateNodes
-{
-    EMMulticastDelegateEnumerator *multicastDelegates = [self.delegates delegateEnumerator];
-    return [multicastDelegates getDelegates];
-}
-
-- (void)notificationsUnreadCountUpdate:(NSInteger)count
-{
-    for (EMMulticastDelegateNode *node in [self getDelegateNodes]) {
-        self.notificateDelegate = (id<EMNotificationsDelegate>)node.delegate;
-        if ([self.notificateDelegate respondsToSelector:@selector(didNotificationsUnreadCountUpdate:)])
-            [self.notificateDelegate didNotificationsUnreadCountUpdate:count];
-    }
-}
-
-- (void)notificationsUpdate
-{
-    for (EMMulticastDelegateNode *node in [self getDelegateNodes]) {
-        self.notificateDelegate = (id<EMNotificationsDelegate>)node.delegate;
-        if ([self.notificateDelegate respondsToSelector:@selector(didNotificationsUpdate)])
-            [self.notificateDelegate didNotificationsUpdate];
-    }
 }
 
 #pragma mark - Operate
@@ -218,10 +170,6 @@ static EMNotificationHelper *shared = nil;
     
     if (self.unreadCount != 0) {
         _unreadCount = 0;
-        
-        if (self.isCheckUnreadCount) {
-            [self notificationsUnreadCountUpdate:0];
-        }
     }
 }
 
@@ -249,12 +197,9 @@ static EMNotificationHelper *shared = nil;
         aModel.isRead = YES;
     } else {
         ++_unreadCount;
-        [self notificationsUnreadCountUpdate:_unreadCount];
     }
     [self.notificationList insertObject:aModel atIndex:0];
     [self archive];
-    
-    [self notificationsUpdate];
 }
 
 #pragma mark - EMMultiDevicesDelegate
@@ -269,15 +214,9 @@ static EMNotificationHelper *shared = nil;
                 if (!model.isRead && self.unreadCount > 0) {
                     model.isRead = YES;
                     --_unreadCount;
-                    
-                    if (self.isCheckUnreadCount) {
-                        [self notificationsUnreadCountUpdate:_unreadCount];
-                    }
                 }
                 model.status = aEvent == EMMultiDevicesEventContactAccept ? EMNotificationModelStatusAgreed : EMNotificationModelStatusDeclined;
                 [self archive];
-                [self notificationsUpdate];
-                
                 break;
             }
         }
@@ -304,16 +243,10 @@ static EMNotificationHelper *shared = nil;
                 if (!model.isRead && self.unreadCount > 0) {
                     model.isRead = YES;
                     --_unreadCount;
-                    
-                    if (self.isCheckUnreadCount) {
-                        [self notificationsUnreadCountUpdate:_unreadCount];
-                    }
                 }
                 
                 model.status = status;
                 [self archive];
-                [self notificationsUpdate];
-                
                 break;
             }
         }

@@ -20,6 +20,8 @@
 @property (nonatomic, strong) NSString *chatroomId;
 @property (nonatomic, strong) EMChatroom *chatroom;
 @property (nonatomic) BOOL isOwner;
+@property (nonatomic, strong) UITableViewCell *dissolveCell;
+@property (nonatomic, strong) UILabel *dissolveCellContentLabel;
 
 @end
 
@@ -62,13 +64,25 @@
     self.title = @"聊天室信息";
     
     self.showRefreshHeader = YES;
-    
+    self.dissolveCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellStyleDefaultRedFont"];
+    self.dissolveCellContentLabel = [[UILabel alloc]init];
+    self.dissolveCellContentLabel.text = @"解散聊天室";
+    self.dissolveCellContentLabel.textColor = [UIColor colorWithRed:245/255.0 green:52/255.0 blue:41/255.0 alpha:1.0];
+    self.dissolveCellContentLabel.font = [UIFont systemFontOfSize:18.0];
+    [self.dissolveCell.contentView addSubview:self.dissolveCellContentLabel];
+    [self.dissolveCellContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.dissolveCell.contentView);
+    }];
+    self.dissolveCell.separatorInset = UIEdgeInsetsMake(0, 0, 0, [UIScreen mainScreen].bounds.size.width);
     self.tableView.rowHeight = 60;
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if ([self.chatroom.owner isEqualToString:EMClient.sharedClient.currentUsername]) {
+        return 4;
+    }
     return 3;
 }
 
@@ -78,11 +92,13 @@
         count = 4;
     } else if (section == 1) {
         count = 1;
-    }  else if (section == 2) {
+    } else if (section == 2) {
         count = 1;
         if (self.chatroom.permissionType == EMChatroomPermissionTypeOwner || self.chatroom.permissionType == EMChatroomPermissionTypeAdmin) {
             count = 2;
         }
+    } else if (section == 3) {
+        count = 1;
     }
     
     return count;
@@ -126,7 +142,7 @@
             cell.detailTextLabel.text = nil;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-    }  else if (section == 2) {
+    } else if (section == 2) {
         if (row == 0) {
             cell.textLabel.text = @"管理员";
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@人",@([self.chatroom.adminList count] + 1).stringValue];
@@ -136,6 +152,8 @@
             cell.detailTextLabel.text = @([self.chatroom.muteList count]).stringValue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+    } else if (section == 3) {
+        return self.dissolveCell;
     }
     
     return cell;
@@ -172,16 +190,18 @@
     } else if (section == 1) {
         if (row == 0) {
             EMChatroomMembersViewController *controller = [[EMChatroomMembersViewController alloc] initWithChatroom:self.chatroom];
-            [self.navigationController pushViewController:controller animated:NO];
+            [self.navigationController pushViewController:controller animated:YES];
         }
     } else if (section == 2) {
         if (row == 0) {
             EMChatroomAdminsViewController *controller = [[EMChatroomAdminsViewController alloc] initWithChatroom:self.chatroom];
-            [self.navigationController pushViewController:controller animated:NO];
+            [self.navigationController pushViewController:controller animated:YES];
         } else if (row == 1) {
             EMChatroomMutesViewController *controller = [[EMChatroomMutesViewController alloc] initWithChatroom:self.chatroom];
-            [self.navigationController pushViewController:controller animated:NO];
+            [self.navigationController pushViewController:controller animated:YES];
         }
+    } else if (section == 3) {
+        [self _dissolveChatroomAction];
     }
 }
 
@@ -269,6 +289,21 @@
 
 #pragma mark - Action
 
+- (void)_dissolveChatroomAction
+{
+    __weak typeof(self) weakself = self;
+    [[EMClient sharedClient].roomManager destroyChatroom:self.chatroomId completion:^(EMError *aError) {
+        if (!aError) {
+            if (weakself.dissolveCompletion) {
+                weakself.dissolveCompletion();
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            [EMAlertController showErrorAlert:aError.errorDescription];
+        }
+    }];
+}
+
 - (void)chatroomAnnouncementAction
 {
     __weak typeof(self) weakself = self;
@@ -298,7 +333,7 @@
                 return NO;
             }];
             
-            [weakself.navigationController pushViewController:controller animated:NO];
+            [weakself.navigationController pushViewController:controller animated:YES];
         } else {
             [EMAlertController showErrorAlert:@"获取聊天室公告失败"];
         }
@@ -310,7 +345,7 @@
     BOOL isEditable = self.chatroom.permissionType == EMChatroomPermissionTypeOwner ? YES : NO;
     EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:self.chatroom.subject placeholder:@"请输入聊天室名称" isEditable:isEditable];
     controller.title = @"聊天室名称";
-    [self.navigationController pushViewController:controller animated:NO];
+    [self.navigationController pushViewController:controller animated:YES];
     
     __weak typeof(self) weakself = self;
     __weak typeof(controller) weakController = controller;
@@ -340,7 +375,7 @@
     BOOL isEditable = self.chatroom.permissionType == EMChatroomPermissionTypeOwner ? YES : NO;
     EMTextViewController *controller = [[EMTextViewController alloc] initWithString:self.chatroom.description placeholder:@"请输入聊天室简介" isEditable:isEditable];
     controller.title = @"聊天室简介";
-    [self.navigationController pushViewController:controller animated:NO];
+    [self.navigationController pushViewController:controller animated:YES];
     
     __weak typeof(self) weakself = self;
     __weak typeof(controller) weakController = controller;
@@ -371,7 +406,7 @@
     [controller setSuccessCompletion:^(EMChatroom * _Nonnull aChatroom) {
         [weakself _resetChatroom:aChatroom];
     }];
-    [self.navigationController pushViewController:controller animated:NO];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

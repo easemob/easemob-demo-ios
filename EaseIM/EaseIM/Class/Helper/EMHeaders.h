@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Masonry.h"
-
+#import <Masonry/Masonry.h>
 #import "EMDefines.h"
 #import "EMColorDefine.h"
 
@@ -21,6 +20,3 @@
 #import "EMAlertView.h"
 
 #import "EMDemoOptions.h"
-#import "EMNotificationHelper.h"
-#import "EMConversationHelper.h"
-#import "EMEmojiHelper.h"

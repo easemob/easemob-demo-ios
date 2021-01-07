@@ -20,7 +20,7 @@
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message
 {
     if (self = [super init]) {
-        _title = (title && [title length] > 0) ? title : @"o(TωT)o";
+        _title = (title && [title length] > 0) ? title : @"提示";
         _message = message;
     }
     return self;
@@ -39,11 +39,11 @@
     
     UIView *backView = [[UIView alloc]init];
     backView.backgroundColor = [UIColor whiteColor];
-    backView.layer.cornerRadius = 10;
+    backView.layer.cornerRadius = 15;
     [self addSubview:backView];
     [backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).offset(20);
-        make.right.equalTo(self).offset(-20);
+        make.left.equalTo(self).offset(30);
+        make.right.equalTo(self).offset(-30);
         make.height.equalTo(@160);
         make.center.equalTo(self);
     }];
@@ -67,10 +67,12 @@
     [messageLabel setFont:[UIFont systemFontOfSize:14.f]];
     messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
     messageLabel.textAlignment = NSTextAlignmentCenter;
+    messageLabel.numberOfLines = 2;
     [backView addSubview:messageLabel];
     [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleLabel.mas_bottom);
-        make.left.right.equalTo(backView);
+        make.left.equalTo(backView).offset(16);
+        make.right.equalTo(backView).offset(-16);
         make.height.equalTo(@45);
     }];
     
@@ -78,7 +80,7 @@
     line.backgroundColor = [UIColor lightGrayColor];
     [backView addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(messageLabel.mas_bottom);
+        make.top.equalTo(messageLabel.mas_bottom).offset(8);
         make.left.right.equalTo(backView);
         make.height.equalTo(@1);
     }];
