@@ -176,7 +176,11 @@
 //添加转发消息
 - (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMMessage *)message
 {
-    NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]initWithArray:defaultLongPressItems];
+    NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]init];
+    if (message.body.type == EMMessageTypeText) {
+        [menuArray addObject:defaultLongPressItems[0]];
+    }
+    [menuArray addObject:defaultLongPressItems[1]];
     //转发
     __weak typeof(self) weakself = self;
     if (message.body.type == EMMessageBodyTypeText || message.body.type == EMMessageBodyTypeImage || message.body.type == EMMessageBodyTypeLocation || message.body.type == EMMessageBodyTypeVideo) {
@@ -186,6 +190,9 @@
             }
         }];
         [menuArray addObject:forwardMenu];
+    }
+    if ([defaultLongPressItems count] >= 3 && [message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
+        [menuArray addObject:defaultLongPressItems[2]];
     }
     return menuArray;
 }
@@ -298,7 +305,7 @@
     if (!self.chatController.moreMsgId)
         //新会话的第一条消息
         self.chatController.moreMsgId = message.messageId;
-    [self.chatController refreshTableView];
+    [self.chatController refreshTableView:YES];
 }
 
 //音视频
@@ -358,20 +365,24 @@
 //单聊详情页
 - (void)chatInfoAction
 {
-    __weak typeof(self) weakself = self;
-    EMChatInfoViewController *chatInfoController = [[EMChatInfoViewController alloc]initWithCoversation:self.conversation];
-    [chatInfoController setClearRecordCompletion:^(BOOL isClearRecord) {
-        if (isClearRecord) {
-            [weakself.chatController.dataArray removeAllObjects];
-            [weakself.chatController.tableView reloadData];
-        }
-    }];
-    [self.navigationController pushViewController:chatInfoController animated:YES];
+    if (self.conversation.type == EMConversationTypeChat) {
+        [self.chatController cleanPopupControllerView];
+        __weak typeof(self) weakself = self;
+        EMChatInfoViewController *chatInfoController = [[EMChatInfoViewController alloc]initWithCoversation:self.conversation];
+        [chatInfoController setClearRecordCompletion:^(BOOL isClearRecord) {
+            if (isClearRecord) {
+                [weakself.chatController.dataArray removeAllObjects];
+                [weakself.chatController.tableView reloadData];
+            }
+        }];
+        [self.navigationController pushViewController:chatInfoController animated:YES];
+    }
 }
 
 //群组 详情页
 - (void)groupInfoAction {
     if (self.conversation.type == EMConversationTypeGroupChat) {
+        [self.chatController cleanPopupControllerView];
         __weak typeof(self) weakself = self;
         EMGroupInfoViewController *groupInfocontroller = [[EMGroupInfoViewController alloc] initWithGroupId:self.conversation.conversationId];
         [groupInfocontroller setLeaveOrDestroyCompletion:^{
@@ -391,9 +402,10 @@
 - (void)chatroomInfoAction
 {
     if (self.conversation.type == EMConversationTypeChatRoom) {
+        [self.chatController cleanPopupControllerView];
         __weak typeof(self) weakself = self;
         EMChatroomInfoViewController *controller = [[EMChatroomInfoViewController alloc] initWithChatroomId:self.conversation.conversationId];
-        [controller setLeaveCompletion:^{
+        [controller setDissolveCompletion:^{
             [weakself.navigationController popViewControllerAnimated:YES];
         }];
         [self.navigationController pushViewController:controller animated:YES];

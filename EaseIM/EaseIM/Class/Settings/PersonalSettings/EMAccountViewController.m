@@ -92,7 +92,7 @@
         }
     } else if (section == 1) {
         cell.textLabel.text = @"昵称";
-        cell.detailTextLabel.text = [EMClient sharedClient].pushOptions.displayName;
+        cell.detailTextLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayName;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
@@ -141,16 +141,18 @@
 {
     //设置推送设置
     [self showHint:@"更新APNS昵称..."];
-    EMError *error = [[EMClient sharedClient] setApnsNickname:aName];
-    if (!error) {
-        if (self.updateAPNSNicknameCompletion) {
-            self.updateAPNSNicknameCompletion();
+    __weak typeof(self) weakself = self;
+    [[EMClient sharedClient].pushManager updatePushDisplayName:aName completion:^(NSString * _Nonnull aDisplayName, EMError * _Nonnull aError) {
+        if (!aError) {
+            if (weakself.updateAPNSNicknameCompletion) {
+                weakself.updateAPNSNicknameCompletion();
+            }
+            [weakself.tableView reloadData];
+            [weakself hideHud];
+        } else {
+            [EMAlertController showErrorAlert:aError.errorDescription];
         }
-        [self.tableView reloadData];
-        [self hideHud];
-    } else {
-        [EMAlertController showErrorAlert:error.errorDescription];
-    }
+    }];
 }
 
 - (void)changeNikeNameAction
@@ -158,7 +160,7 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"更改昵称" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = @"请输入昵称";
-        textField.text = [EMClient sharedClient].pushOptions.displayName;;
+        textField.text = [EMClient sharedClient].pushManager.pushOptions.displayName;
     }];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];

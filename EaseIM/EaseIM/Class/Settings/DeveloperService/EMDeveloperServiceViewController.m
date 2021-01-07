@@ -9,7 +9,7 @@
 #import "EMDeveloperServiceViewController.h"
 #import "EMCustomAppkeyViewController.h"
 
-@interface EMDeveloperServiceViewController ()
+@interface EMDeveloperServiceViewController ()<UIDocumentInteractionControllerDelegate>
 
 @end
 
@@ -45,7 +45,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -112,6 +112,9 @@
             cell.detailTextLabel.text = options.isSortMessageByServerTime ? @"按服务器时间" : @"按接收顺序";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+    } else if (section == 3) {
+        cell.textLabel.text = @"导出日志到文件目录";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     cell.textLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
     cell.textLabel.font = [UIFont systemFontOfSize:14.0];
@@ -134,7 +137,8 @@
     } else if (section == 2 && row == 1) {
         [self updateMessageSort];
     } else if (section == 3) {
-        //诊断
+        //日志
+        [self saveLogToDocument];
     }
 }
 
@@ -230,6 +234,38 @@
     }]];
     
     [self presentViewController:alertController animated:YES completion:nil];
+}
+
+//导出日志
+- (void)saveLogToDocument {
+    [[EMClient sharedClient] getLogFilesPathWithCompletion:^(NSString *aPath, EMError *aError) {
+        if (!aPath) {
+            [EMAlertController showErrorAlert:@"日志获取失败"];
+            return ;
+        }
+        
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSString *toPath = [NSString stringWithFormat:@"%@/Documents/", NSHomeDirectory()];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MM-dd HH:mm:ss"];
+        NSDate *datenow = [NSDate date];
+        NSString *currentTimeString = [formatter stringFromDate:datenow];
+        toPath = [toPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ log.gz", currentTimeString]];
+        [fm copyItemAtPath:aPath toPath:toPath error:nil];
+        
+        [EMAlertController showSuccessAlert:@"已将文件移动到沙箱"];
+        
+        NSURL *url = [NSURL fileURLWithPath:toPath];
+        UIDocumentInteractionController *documentController = [UIDocumentInteractionController interactionControllerWithURL:url];
+        documentController.delegate = self;
+        [documentController presentPreviewAnimated:YES];
+        
+    }];
+}
+
+#pragma mark - UIDocumentInteractionControllerDelegate
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
+    return self;
 }
 
 @end

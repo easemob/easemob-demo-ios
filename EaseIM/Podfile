@@ -1,14 +1,17 @@
 use_frameworks!
 platform :ios, '11.0'
 
+
 # Import CocoaPods sources
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'EaseIM' do
 
+    pod 'MBProgressHUD'
+    pod 'MJRefresh'
     pod 'Masonry'
-    pod 'Hyphenate', '~> 3.7.2'
-    pod 'EaseIMKit', :path => '../../EaseIMKit/EaseIMKit/'
+    pod 'EaseIMKit'
+    pod 'HyphenateLite'
     
 end
 

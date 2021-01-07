@@ -192,7 +192,7 @@
     [self.addImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.equalTo(@35);
         make.centerY.equalTo(titleLabel);
-        make.right.equalTo(self.view).offset(-24);
+        make.right.equalTo(self.view).offset(-16);
     }];
     EaseContactsViewModel *model = [[EaseContactsViewModel alloc] init];
     model.defaultAvatarImage = [UIImage imageNamed:@"defaultAvatar"];
