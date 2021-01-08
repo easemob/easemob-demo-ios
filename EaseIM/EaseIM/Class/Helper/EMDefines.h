@@ -18,7 +18,7 @@
     isBangsScreen; \
 })
 
-#define EMVIEWBOTTOMMARGIN (kIsBangsScreen ? 34.f : 0.f)
+#define EMVIEWTOPMARGIN (kIsBangsScreen ? 34.f : 0.f)
 
 //appkey
 #define DEF_APPKEY @"easemob-demo#easeim"
