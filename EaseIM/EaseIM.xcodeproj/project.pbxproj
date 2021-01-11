@@ -426,6 +426,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3C749D9725AC366D00FD2B4E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3CDE808924FD024000BAA3E2 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2110,6 +2120,7 @@
 				90911022192EEA70008A48AA /* Resources */,
 				3CDE808924FD024000BAA3E2 /* Embed App Extensions */,
 				565A2866C1D50EA9F231D1F3 /* [CP] Embed Pods Frameworks */,
+				3C749D9725AC366D00FD2B4E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2759,7 +2770,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
+				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
@@ -2845,7 +2856,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 14;
-				DEPLOYMENT_POSTPROCESSING = YES;
+				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
