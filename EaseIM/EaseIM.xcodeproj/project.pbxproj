@@ -332,6 +332,8 @@
 		3C729E7C25739AF0003DB315 /* EMNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C729E7A25739AF0003DB315 /* EMNotificationCell.m */; };
 		3C729E7D25739AF0003DB315 /* EMNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C729E7B25739AF0003DB315 /* EMNotificationViewController.m */; };
 		3C729E8125739B0C003DB315 /* EMNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C729E8025739B0C003DB315 /* EMNotificationHelper.m */; };
+		3C749DC725AC84AA00FD2B4E /* EaseIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C749DC625AC84AA00FD2B4E /* EaseIMKit.framework */; };
+		3C749DC825AC84AA00FD2B4E /* EaseIMKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3C749DC625AC84AA00FD2B4E /* EaseIMKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3C76D3F52577588200E7AF7A /* LoadingCALayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C76D3F42577588200E7AF7A /* LoadingCALayer.m */; };
 		3C76D3F9257758A000E7AF7A /* OneLoadingAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C76D3F8257758A000E7AF7A /* OneLoadingAnimationView.m */; };
 		3C7A14DA238F6F3900F4AC48 /* EMMsgNotificViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A14D9238F6F3900F4AC48 /* EMMsgNotificViewController.m */; };
@@ -432,6 +434,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				3C749DC825AC84AA00FD2B4E /* EaseIMKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,7 +452,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2E1C3FE657C7FC4C299D03B2 /* Pods-EaseIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.debug.xcconfig"; path = "../../../EaseIM/EaseIM/Pods/Target Support Files/Pods-EaseIM/Pods-EaseIM.debug.xcconfig"; sourceTree = "<group>"; };
+		2E1C3FE657C7FC4C299D03B2 /* Pods-EaseIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.debug.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.debug.xcconfig"; sourceTree = "<group>"; };
 		3A45D69B22239DE200505786 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3A45D69D22239DE200505786 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		3A45D69E22239DE200505786 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -883,6 +886,7 @@
 		3C729E7B25739AF0003DB315 /* EMNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMNotificationViewController.m; sourceTree = "<group>"; };
 		3C729E7F25739B0C003DB315 /* EMNotificationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMNotificationHelper.h; sourceTree = "<group>"; };
 		3C729E8025739B0C003DB315 /* EMNotificationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMNotificationHelper.m; sourceTree = "<group>"; };
+		3C749DC625AC84AA00FD2B4E /* EaseIMKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EaseIMKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C76D3F32577588100E7AF7A /* LoadingCALayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingCALayer.h; sourceTree = "<group>"; };
 		3C76D3F42577588200E7AF7A /* LoadingCALayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingCALayer.m; sourceTree = "<group>"; };
 		3C76D3F72577589F00E7AF7A /* OneLoadingAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneLoadingAnimationView.h; sourceTree = "<group>"; };
@@ -992,7 +996,7 @@
 		3CFD5DE324C1527D0086D545 /* BootPage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BootPage@3x.png"; sourceTree = "<group>"; };
 		3CFD5DE424C1527F0086D545 /* BootPage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BootPage@2x.png"; sourceTree = "<group>"; };
 		485461C0A36750461AA077EB /* Pods_EaseIM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseIM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6D6C000FC0CF0F542E7AFD06 /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "../../../EaseIM/EaseIM/Pods/Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
+		6D6C000FC0CF0F542E7AFD06 /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		90911024192EEA70008A48AA /* EaseIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90911027192EEA70008A48AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		90911029192EEA70008A48AA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1029,6 +1033,7 @@
 				3C06AB0319405D330076FF0B /* MapKit.framework in Frameworks */,
 				3C06AAFF194050A00076FF0B /* CoreLocation.framework in Frameworks */,
 				3C3527451931D37900385240 /* SystemConfiguration.framework in Frameworks */,
+				3C749DC725AC84AA00FD2B4E /* EaseIMKit.framework in Frameworks */,
 				90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */,
 				90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */,
 				9091102C192EEA70008A48AA /* UIKit.framework in Frameworks */,
@@ -2076,6 +2081,7 @@
 		90911026192EEA70008A48AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3C749DC625AC84AA00FD2B4E /* EaseIMKit.framework */,
 				D29A6BB41B7209C1002324BB /* Accounts.framework */,
 				90F1BECE1930492B00121AEC /* AddressBook.framework */,
 				D2B1B9EC1C3B800E0087A74F /* AssetsLibrary.framework */,
@@ -2463,7 +2469,6 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh",
-				"${PODS_ROOT}/EaseIMKit/EaseIMKit.framework",
 				"${PODS_ROOT}/Hyphenate/Hyphenate.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
@@ -2471,7 +2476,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseIMKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hyphenate.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",

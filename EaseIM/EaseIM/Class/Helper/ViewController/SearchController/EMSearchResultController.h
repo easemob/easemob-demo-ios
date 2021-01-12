@@ -8,13 +8,18 @@
 
 #import "EMRefreshViewController.h"
 
+@protocol EMSearchControllerDelegate;
 @interface EMSearchResultController : EMRefreshViewController
+
+@property (nonatomic, weak) id<EMSearchControllerDelegate> delegate;
 
 @property (nonatomic, strong) UISearchBar *searchBar;
 
 @property (nonatomic, strong) NSString *searchKeyword;
 
 @property (copy) void (^footerBeginRefreshCompletion)(UITableView *tableView);
+
+- (void)cancelSearch;
 
 @property (copy) UITableViewCell * (^cellForRowAtIndexPathCompletion)(UITableView *tableView, NSIndexPath *indexPath);
 @property (copy) BOOL (^canEditRowAtIndexPath)(UITableView *tableView, NSIndexPath *indexPath);
