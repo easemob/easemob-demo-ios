@@ -11,21 +11,22 @@
 #define CHATROOMLIST @"chatroomList"
 
 #import "EMContactsViewController.h"
-
 #import "EMRealtimeSearch.h"
 #import "EMAvatarNameCell.h"
-#import "UIViewController+Search.h"
 #import "EMInviteFriendViewController.h"
 #import "PellTableViewSelect.h"
 #import "EMJoinGroupViewController.h"
 #import "EMContactModel.h"
 #import "EMPersonalDataViewController.h"
+#import "EMSearchResultController.h"
 #import <EaseIMKit/EaseIMKit.h>
 
 @interface EMContactsViewController ()<EMMultiDevicesDelegate, EMContactManagerDelegate, EMSearchControllerDelegate, EaseContactsViewControllerDelegate>
 @property (nonatomic, strong) EaseContactsViewController *contactsVC;
 @property (nonatomic, strong) UIButton *addImageBtn;
 @property (nonatomic, strong) NSMutableArray<NSString*> *contancts;
+@property (nonatomic, strong) UINavigationController *resultNavigationController;
+@property (nonatomic, strong) EMSearchResultController *resultController;
 @end
 
 @implementation EMContactsViewController
@@ -360,7 +361,7 @@
 {
     if (self.resultNavigationController == nil) {
         self.resultController = [[EMSearchResultController alloc] init];
-        self.resultController.searchBar.delegate = self;
+        self.resultController.delegate = self;
         self.resultNavigationController = [[UINavigationController alloc] initWithRootViewController:self.resultController];
         [self.resultNavigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navBarBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forBarMetrics:UIBarMetricsDefault];
         [self _setupSearchResultController];

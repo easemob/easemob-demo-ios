@@ -182,7 +182,6 @@
     [EaseIMKitManager initWithEMOptions:[demoOptions toOptions]];
     gIsInitializedSDK = YES;
     if (demoOptions.isAutoLogin){
-        //[[EMClient sharedClient] initializeSDKWithOptions:];
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(YES)];
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(NO)];

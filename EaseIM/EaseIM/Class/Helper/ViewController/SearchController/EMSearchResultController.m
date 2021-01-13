@@ -9,7 +9,7 @@
 #import "EMSearchResultController.h"
 #import <MJRefresh/MJRefresh.h>
 
-@interface EMSearchResultController ()<UITableViewDelegate, UITableViewDataSource>
+@interface EMSearchResultController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 @end
 
@@ -51,6 +51,7 @@
         _searchBar.searchBarStyle = UISearchBarStyleMinimal;
         _searchBar.backgroundColor = [UIColor whiteColor];
         _searchBar.returnKeyType = UIReturnKeyDone;
+        _searchBar.delegate = self;
     }
     
     return _searchBar;
@@ -174,6 +175,46 @@
     }
 }
 
+#pragma mark - UISearchBarDelegate
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(searchBarWillBeginEditing:)]) {
+        [self.delegate searchBarWillBeginEditing:searchBar];
+    }
+    
+    return YES;
+}
+
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"]) {
+        [searchBar resignFirstResponder];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(searchBarSearchButtonClicked:)]) {
+            [self.delegate searchBarSearchButtonClicked:searchBar];
+        }
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(searchTextDidChangeWithString:)]) {
+        [self.delegate searchTextDidChangeWithString:searchText];
+    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [self cancelSearch];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(searchBarCancelButtonAction:)]) {
+        [self.delegate searchBarCancelButtonAction:searchBar];
+    }
+}
+
 #pragma mark - KeyBoard
 
 - (void)keyBoardWillShow:(NSNotification *)note
@@ -219,6 +260,16 @@
     } else {
         animation();
     }
+}
+
+#pragma mark - public
+
+- (void)cancelSearch
+{
+    self.searchBar.text = @"";
+    [self.searchBar resignFirstResponder];
+    self.searchBar.showsCancelButton = NO;
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Data
