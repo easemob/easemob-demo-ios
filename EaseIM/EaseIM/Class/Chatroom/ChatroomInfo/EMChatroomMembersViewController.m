@@ -190,6 +190,7 @@
             }
             
             weakself.cursor = aResult.cursor;
+            [weakself.dataArray removeAllObjects];
             [weakself.dataArray addObjectsFromArray:aResult.list];
             
             if ([aResult.list count] == 0 || [aResult.cursor length] == 0) {

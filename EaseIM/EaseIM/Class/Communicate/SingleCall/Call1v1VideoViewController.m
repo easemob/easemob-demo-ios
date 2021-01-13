@@ -86,14 +86,6 @@
         make.right.equalTo(self.view).offset(-15);
     }];
     
-    self.callSession.localVideoView = [[EMCallLocalView alloc] init];
-    self.callSession.localVideoView.scaleMode = EMCallViewScaleModeAspectFill;
-    [self.minVideoView addSubview:self.callSession.localVideoView];
-    [self.view bringSubviewToFront:self.minVideoView];
-    [self.callSession.localVideoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.minVideoView);
-    }];
-    
     self.switchCameraButton = [[EMButton alloc] initWithTitle:@"切换摄像头" target:self action:@selector(switchCameraButtonAction:)];
     [self.switchCameraButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.switchCameraButton setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
@@ -130,6 +122,17 @@
             make.edges.equalTo(self.view);
         }];
     }
+}
+
+- (void)_setupLocalVideoView
+{
+    self.callSession.localVideoView = [[EMCallLocalView alloc] init];
+    self.callSession.localVideoView.scaleMode = EMCallViewScaleModeAspectFill;
+    [self.minVideoView addSubview:self.callSession.localVideoView];
+    [self.view bringSubviewToFront:self.minVideoView];
+    [self.callSession.localVideoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.minVideoView);
+    }];
 }
 
 - (void)_setupRemoteVideoView
@@ -231,6 +234,7 @@
         self.remoteNameLabel.hidden = YES;
         self.statusLabel.hidden = YES;
         [self.backView removeFromSuperview];
+        [self _setupLocalVideoView];
         if (!self.callSession.remoteVideoView) {
             [self _setupRemoteVideoView];
             [self.videoInfoController startTimer:1];
@@ -260,10 +264,8 @@
     
     [self.callSession.localVideoView removeFromSuperview];
     [self.callSession.remoteVideoView removeFromSuperview];
-    [self.waitImgView removeFromSuperview];
     if (self.minVideoView.tag == TAG_MINVIDEOVIEW_LOCAL) {
         self.minVideoView.tag = TAG_MINVIDEOVIEW_REMOTE;
-        
         [self.view addSubview:self.callSession.localVideoView];
         [self.view sendSubviewToBack:self.callSession.localVideoView];
         [self.callSession.localVideoView mas_remakeConstraints:^(MASConstraintMaker *make) {
