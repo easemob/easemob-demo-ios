@@ -14,7 +14,6 @@
 #import "EMInviteGroupMemberViewController.h"
 #import "EMCreateGroupViewController.h"
 #import "EMInviteFriendViewController.h"
-#import "UIViewController+Search.h"
 #import "EMNotificationViewController.h"
 #import "EMConversationUserDataModel.h"
 #import <EaseIMKit/EaseIMKit.h>
@@ -25,6 +24,8 @@
 @property (nonatomic, strong) EMInviteGroupMemberViewController *inviteController;
 @property (nonatomic, strong) EaseConversationsViewController *easeConvsVC;
 @property (nonatomic, strong) EaseConversationViewModel *viewModel;
+@property (nonatomic, strong) UINavigationController *resultNavigationController;
+@property (nonatomic, strong) EMSearchResultController *resultController;
 @end
 
 @implementation EMConversationsViewController
@@ -216,7 +217,7 @@
 {
     if (self.resultNavigationController == nil) {
         self.resultController = [[EMSearchResultController alloc] init];
-        self.resultController.searchBar.delegate = self;
+        self.resultController.delegate = self;
         self.resultNavigationController = [[UINavigationController alloc] initWithRootViewController:self.resultController];
         [self.resultNavigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navBarBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forBarMetrics:UIBarMetricsDefault];
         [self _setupSearchResultController];
