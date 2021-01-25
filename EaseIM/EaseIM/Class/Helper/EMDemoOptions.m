@@ -45,7 +45,7 @@ static EMDemoOptions *sharedOptions = nil;
         self.enableCustomAudioData = NO;
         self.customAudioDataSamples = 48000;
         self.isSupportWechatMiniProgram = NO;
-        
+        self.isCustomServer = NO;
         self.locationAppkeyArray = [[NSMutableArray alloc]init];
     }
     
@@ -100,6 +100,7 @@ static EMDemoOptions *sharedOptions = nil;
         self.enableCustomAudioData = [aDecoder decodeBoolForKey:kOptions_EnableCustomAudioData];
         self.customAudioDataSamples = [aDecoder decodeIntForKey:kOptions_CustomAudioDataSamples];
         self.isSupportWechatMiniProgram = [aDecoder decodeBoolForKey:kOptions_IsSupportWechatMiniProgram];
+        self.isCustomServer = [aDecoder decodeBoolForKey:kOptions_IsCustomServer];
     }
     return self;
 }
@@ -144,6 +145,7 @@ static EMDemoOptions *sharedOptions = nil;
     [aCoder encodeBool:self.isSupportWechatMiniProgram forKey:kOptions_IsSupportWechatMiniProgram];
     
     [aCoder encodeObject:self.locationAppkeyArray forKey:kOptions_LocationAppkeyArray];
+    [aCoder encodeBool:self.isCustomServer forKey:kOptions_IsCustomServer];
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone
@@ -176,6 +178,7 @@ static EMDemoOptions *sharedOptions = nil;
     retModel.enableCustomAudioData = self.enableCustomAudioData;
     retModel.customAudioDataSamples = self.customAudioDataSamples;
     retModel.isSupportWechatMiniProgram = self.isSupportWechatMiniProgram;
+    retModel.isCustomServer = self.isCustomServer;
     retModel.locationAppkeyArray = self.locationAppkeyArray;
     return retModel;
 }

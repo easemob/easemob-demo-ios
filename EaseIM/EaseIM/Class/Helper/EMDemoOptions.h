@@ -46,6 +46,7 @@ static NSString *kOptions_LocationAppkeyArray = @"LocationAppkeyArray";
 static NSString *kOptions_IsSupportWechatMiniProgram = @"IsSupportMiniProgram";
 static NSString *kOptions_EnableCustomAudioData = @"EnableCustomAudioData";
 static NSString *kOptions_CustomAudioDataSamples = @"CustomAudioDataSamples";
+static NSString *kOptions_IsCustomServer = @"IsCustomServer";
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -53,47 +54,35 @@ NS_ASSUME_NONNULL_BEGIN
 @interface EMDemoOptions : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, copy) NSString *appkey;
-
 @property (nonatomic, copy) NSString *apnsCertName;
-
 @property (nonatomic, assign) BOOL usingHttpsOnly;
-
 @property (nonatomic) BOOL specifyServer;
-
 @property (nonatomic, assign) int chatPort;
-
 @property (nonatomic, copy) NSString *chatServer;
-
 @property (nonatomic, copy) NSString *restServer;
-
 @property (nonatomic) BOOL isAutoAcceptGroupInvitation;
 @property (nonatomic) BOOL isAutoTransferMessageAttachments;
 @property (nonatomic) BOOL isAutoDownloadThumbnail;
 @property (nonatomic) BOOL isSortMessageByServerTime;
 @property (nonatomic) BOOL isPriorityGetMsgFromServer;
-
 @property (nonatomic) BOOL isAutoLogin;
 @property (nonatomic, strong) NSString *loggedInUsername;
 @property (nonatomic, strong) NSString *loggedInPassword;
-
 @property (nonatomic) BOOL isChatTyping;
 @property (nonatomic) BOOL isAutoDeliveryAck;
-
 @property (nonatomic) BOOL isOfflineHangup;
-
 @property (nonatomic) BOOL isShowCallInfo;
 @property (nonatomic) BOOL isUseBackCamera;
-
 @property (nonatomic) BOOL isReceiveNewMsgNotice;
 @property (nonatomic) BOOL willRecord;
 @property (nonatomic) BOOL willMergeStrem;
 @property (nonatomic) BOOL enableConsoleLog;
 @property (nonatomic) BOOL enableCustomAudioData;
 @property (nonatomic) int  customAudioDataSamples;
-
 @property (nonatomic) BOOL isSupportWechatMiniProgram;
-
+@property (nonatomic) BOOL isCustomServer;
 @property (nonatomic, strong) NSMutableArray *locationAppkeyArray;
+
 
 + (instancetype)sharedOptions;
 
