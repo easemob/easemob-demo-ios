@@ -207,6 +207,15 @@
 
 #pragma mark - EMChatroomManagerDelegate
 
+- (void)didDismissFromChatroom:(EMChatroom *)aChatroom
+                        reason:(EMChatroomBeKickedReason)aReason
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    if (self.dissolveCompletion) {
+        self.dissolveCompletion();
+    }
+}
+
 - (void)chatroomMuteListDidUpdate:(EMChatroom *)aChatroom
                 addedMutedMembers:(NSArray *)aMutes
                        muteExpire:(NSInteger)aMuteExpire
@@ -294,10 +303,10 @@
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].roomManager destroyChatroom:self.chatroomId completion:^(EMError *aError) {
         if (!aError) {
+            [weakself.navigationController popViewControllerAnimated:YES];
             if (weakself.dissolveCompletion) {
                 weakself.dissolveCompletion();
             }
-            [self.navigationController popViewControllerAnimated:YES];
         } else {
             [EMAlertController showErrorAlert:aError.errorDescription];
         }

@@ -47,6 +47,7 @@ static NSString *kOptions_IsSupportWechatMiniProgram = @"IsSupportMiniProgram";
 static NSString *kOptions_EnableCustomAudioData = @"EnableCustomAudioData";
 static NSString *kOptions_CustomAudioDataSamples = @"CustomAudioDataSamples";
 static NSString *kOptions_IsCustomServer = @"IsCustomServer";
+static NSString *kOptions_IsFirstLaunch = @"IsFirstLaunch";
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -81,6 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int  customAudioDataSamples;
 @property (nonatomic) BOOL isSupportWechatMiniProgram;
 @property (nonatomic) BOOL isCustomServer;
+@property (nonatomic) BOOL isFirstLaunch;
 @property (nonatomic, strong) NSMutableArray *locationAppkeyArray;
 
 

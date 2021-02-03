@@ -563,6 +563,8 @@
         demoOptions.restServer = self.demoOptions.restServer;
         demoOptions.usingHttpsOnly = self.demoOptions.usingHttpsOnly;
         demoOptions.isCustomServer = YES;
+        [demoOptions.locationAppkeyArray removeAllObjects];
+        [demoOptions.locationAppkeyArray insertObject:demoOptions.appkey atIndex:0];
         [demoOptions archive];
         
         exit(0);
