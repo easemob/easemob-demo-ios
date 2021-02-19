@@ -306,15 +306,19 @@ static SingleCallController *callManager = nil;
         return;
     }
     
-    if (gIsCalling) {
-        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
-        [alertView show];
-        return;
-    }
+//    if (gIsCalling) {
+//        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
+//        [alertView show];
+//        return;
+//    }
     
-    _type = (EMCallType)[[notify.object objectForKey:CALL_TYPE] integerValue];
+    EaseCallType aType = (EaseCallType)[[notify.object objectForKey:CALL_TYPE] integerValue];
     _chatter = [notify.object valueForKey:CALL_CHATTER] ;
-    [self _makeCallWithUsername:_chatter type:_type isCustomVideoData:NO];
+    [[EaseCallManager sharedManager] startSingleCallWithUId:_chatter type:aType ext:nil completion:^(NSString * callId, EaseCallError * aError) {
+        
+    }];
+    return;
+    //[self _makeCallWithUsername:_chatter type:_type isCustomVideoData:NO];
 }
 
 //主叫方

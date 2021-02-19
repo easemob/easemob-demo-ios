@@ -30,6 +30,7 @@
         _conversation = [EMClient.sharedClient.chatManager getConversation:conversationId type:conType createIfNotExist:YES];
         _conversationModel = [[EaseConversationModel alloc]initWithConversation:_conversation];
         EaseChatViewModel *viewModel = [[EaseChatViewModel alloc]init];
+        viewModel.isFetchHistoryMessagesFromServer = [EMDemoOptions sharedOptions].isPriorityGetMsgFromServer;
         _chatController = [[EaseChatViewController alloc] initWithConversationId:conversationId
                                                     conversationType:conType
                                                         chatViewModel:viewModel];

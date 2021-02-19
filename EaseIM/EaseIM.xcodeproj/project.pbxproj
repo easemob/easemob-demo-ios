@@ -420,6 +420,17 @@
 		90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECE1930492B00121AEC /* AddressBook.framework */; };
 		921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C6A9D1D2A841600D8257F /* CoreMotion.framework */; };
 		C035E8151AEA40F400283EE9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C36CA691A1EDB6200CDDD48 /* CoreData.framework */; };
+		C066899425BAB384002933F7 /* Agoraffmpeg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C066899025BAB384002933F7 /* Agoraffmpeg.framework */; };
+		C066899525BAB384002933F7 /* Agoraffmpeg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C066899025BAB384002933F7 /* Agoraffmpeg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C066899625BAB384002933F7 /* AgoraRtcKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C066899125BAB384002933F7 /* AgoraRtcKit.framework */; };
+		C066899725BAB384002933F7 /* AgoraRtcKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C066899125BAB384002933F7 /* AgoraRtcKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C066899825BAB384002933F7 /* AgoraSoundTouch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C066899225BAB384002933F7 /* AgoraSoundTouch.framework */; };
+		C066899925BAB384002933F7 /* AgoraSoundTouch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C066899225BAB384002933F7 /* AgoraSoundTouch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C066899A25BAB384002933F7 /* Agorafdkaac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C066899325BAB384002933F7 /* Agorafdkaac.framework */; };
+		C066899B25BAB384002933F7 /* Agorafdkaac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C066899325BAB384002933F7 /* Agorafdkaac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C09E2DB225D14CD000C16607 /* EaseCallKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C09E2DB125D14CD000C16607 /* EaseCallKitUI.framework */; };
+		C09E2DB325D14CD000C16607 /* EaseCallKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C09E2DB125D14CD000C16607 /* EaseCallKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C09E2DB525D14CDD00C16607 /* EaseCall.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C09E2DB425D14CDD00C16607 /* EaseCall.bundle */; };
 		D29A6BB51B7209C1002324BB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D29A6BB41B7209C1002324BB /* Accounts.framework */; };
 		D29A6BB61B7209C8002324BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3527421931D33A00385240 /* Social.framework */; };
 /* End PBXBuildFile section */
@@ -433,6 +444,21 @@
 			files = (
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C066899C25BAB384002933F7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C066899725BAB384002933F7 /* AgoraRtcKit.framework in Embed Frameworks */,
+				C066899B25BAB384002933F7 /* Agorafdkaac.framework in Embed Frameworks */,
+				C09E2DB325D14CD000C16607 /* EaseCallKitUI.framework in Embed Frameworks */,
+				C066899925BAB384002933F7 /* AgoraSoundTouch.framework in Embed Frameworks */,
+				C066899525BAB384002933F7 /* Agoraffmpeg.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -990,6 +1016,12 @@
 		921C6A9D1D2A841600D8257F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		9D269B9D8DE8CB19B7ABBBB1 /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		AB54E7008B557FC911065FD0 /* Pods_EaseIM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseIM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C066899025BAB384002933F7 /* Agoraffmpeg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Agoraffmpeg.framework; path = libs/Agoraffmpeg.framework; sourceTree = "<group>"; };
+		C066899125BAB384002933F7 /* AgoraRtcKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AgoraRtcKit.framework; path = libs/AgoraRtcKit.framework; sourceTree = "<group>"; };
+		C066899225BAB384002933F7 /* AgoraSoundTouch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AgoraSoundTouch.framework; path = libs/AgoraSoundTouch.framework; sourceTree = "<group>"; };
+		C066899325BAB384002933F7 /* Agorafdkaac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Agorafdkaac.framework; path = libs/Agorafdkaac.framework; sourceTree = "<group>"; };
+		C09E2DB125D14CD000C16607 /* EaseCallKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EaseCallKitUI.framework; sourceTree = "<group>"; };
+		C09E2DB425D14CDD00C16607 /* EaseCall.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = EaseCall.bundle; path = EaseCallKitUI.framework/EaseCall.bundle; sourceTree = SOURCE_ROOT; };
 		D29A6BB41B7209C1002324BB /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		D2B1B9EC1C3B800E0087A74F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D2B1B9EE1C3B80290087A74F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -1003,15 +1035,19 @@
 			files = (
 				3C710D5F24E2A718003D2467 /* CoreServices.framework in Frameworks */,
 				3AFDAE65201AE58F0088D44E /* Security.framework in Frameworks */,
+				C09E2DB225D14CD000C16607 /* EaseCallKitUI.framework in Frameworks */,
 				3A03FE9F1E360BEE00DC1ABC /* MessageUI.framework in Frameworks */,
 				3A595FAC1D6DBBD100504DB3 /* CoreTelephony.framework in Frameworks */,
 				3AB62A131D926375000776F0 /* libbz2.tbd in Frameworks */,
 				921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */,
+				C066899825BAB384002933F7 /* AgoraSoundTouch.framework in Frameworks */,
 				D29A6BB61B7209C8002324BB /* Social.framework in Frameworks */,
+				C066899425BAB384002933F7 /* Agoraffmpeg.framework in Frameworks */,
 				D29A6BB51B7209C1002324BB /* Accounts.framework in Frameworks */,
 				C035E8151AEA40F400283EE9 /* CoreData.framework in Frameworks */,
 				3CE6293319A1B13700829632 /* CoreText.framework in Frameworks */,
 				3C97EF2A23A87B5C004E97B7 /* CloudKit.framework in Frameworks */,
+				C066899625BAB384002933F7 /* AgoraRtcKit.framework in Frameworks */,
 				3C1CEF7F196EA37600DBA56B /* ImageIO.framework in Frameworks */,
 				3C06AB0319405D330076FF0B /* MapKit.framework in Frameworks */,
 				3C06AAFF194050A00076FF0B /* CoreLocation.framework in Frameworks */,
@@ -1019,6 +1055,7 @@
 				90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */,
 				90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */,
 				9091102C192EEA70008A48AA /* UIKit.framework in Frameworks */,
+				C066899A25BAB384002933F7 /* Agorafdkaac.framework in Frameworks */,
 				90911028192EEA70008A48AA /* Foundation.framework in Frameworks */,
 				4F7AFA02556CD66479B9AE51 /* Pods_EaseIM.framework in Frameworks */,
 			);
@@ -1046,6 +1083,7 @@
 		3A45D72222239DE200505786 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				C09E2DB425D14CDD00C16607 /* EaseCall.bundle */,
 				3A45D9B122239DE200505786 /* EaseIMHelper.h */,
 				3A45D8FF22239DE200505786 /* EaseIMHelper.m */,
 				3A45D8FE22239DE200505786 /* AppDelegate.h */,
@@ -2060,6 +2098,11 @@
 		90911026192EEA70008A48AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C09E2DB125D14CD000C16607 /* EaseCallKitUI.framework */,
+				C066899325BAB384002933F7 /* Agorafdkaac.framework */,
+				C066899025BAB384002933F7 /* Agoraffmpeg.framework */,
+				C066899125BAB384002933F7 /* AgoraRtcKit.framework */,
+				C066899225BAB384002933F7 /* AgoraSoundTouch.framework */,
 				D29A6BB41B7209C1002324BB /* Accounts.framework */,
 				90F1BECE1930492B00121AEC /* AddressBook.framework */,
 				D2B1B9EC1C3B800E0087A74F /* AssetsLibrary.framework */,
@@ -2104,6 +2147,7 @@
 				90911022192EEA70008A48AA /* Resources */,
 				3CDE808924FD024000BAA3E2 /* Embed App Extensions */,
 				565A2866C1D50EA9F231D1F3 /* [CP] Embed Pods Frameworks */,
+				C066899C25BAB384002933F7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2125,7 +2169,7 @@
 				TargetAttributes = {
 					90911023192EEA70008A48AA = {
 						DevelopmentTeam = 499WYUV8Q2;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -2355,6 +2399,7 @@
 				3C8437652510B2CF003CFA53 /* webRefreshButton@2x.png in Resources */,
 				3C4AED092499F8B7001F7C50 /* agreeProtocol@3x.png in Resources */,
 				3C4AECF72499CF83001F7C50 /* hiddenPwd.png in Resources */,
+				C09E2DB525D14CDD00C16607 /* EaseCall.bundle in Resources */,
 				3C4AED5C249A2FB8001F7C50 /* icon-tab会话unselected@2x.png in Resources */,
 				3C729CD3257144AE003DB315 /* recorder_white@3x.png in Resources */,
 				3A45E3972223A49E00505786 /* chatroom_avatar@3x.png in Resources */,
@@ -2451,6 +2496,7 @@
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2459,6 +2505,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2749,11 +2796,11 @@
 				CODE_SIGN_ENTITLEMENTS = EaseIM/EaseIM.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = "";
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
@@ -2764,6 +2811,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/EaseIM",
+					"$(PROJECT_DIR)/libs",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EaseIM/EaseIM-Prefix.pch";
@@ -2811,7 +2859,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "EaseIM Enterprise Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = NO;
 				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -2850,6 +2898,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/EaseIM",
+					"$(PROJECT_DIR)/libs",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EaseIM/EaseIM-Prefix.pch";

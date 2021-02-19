@@ -11,6 +11,7 @@ target 'EaseIM' do
     pod 'MJRefresh'
     pod 'Masonry'
     pod 'EaseIMKit'
+    pod 'SDWebImage'
     
 end
 

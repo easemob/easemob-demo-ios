@@ -107,17 +107,22 @@ static ConferenceController *confManager = nil;
                         chatType:(EMChatType)aChatType
                popFromController:(UIViewController *)aController
 {
-    if (gIsCalling) {
-        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
-        [alertView show];
-        return;
-    }
+//    if (gIsCalling) {
+//        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
+//        [alertView show];
+//        return;
+//    }
     
     ConfInviteUsersViewController *controller = [[ConfInviteUsersViewController alloc] initWithType:aInviteType isCreate:YES excludeUsers:@[[EMClient sharedClient].currentUsername] groupOrChatroomId:aConversationId];
     
     __weak typeof(self) weakSelf = self;
     [controller setDoneCompletion:^(NSArray *aInviteUsers) {
         gIsCalling = YES;
+        
+        [[EaseCallManager sharedManager] startInviteUsers:aInviteUsers ext:@{@"groupId":aConversationId} completion:^(NSString * callId, EaseCallError * aError) {
+            
+        }];
+        return;
         
         EMConferenceViewController *controller = nil;
         if (aConfType != EMConferenceTypeLive) {
