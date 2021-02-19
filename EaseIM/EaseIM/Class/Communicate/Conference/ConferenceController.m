@@ -55,7 +55,7 @@ static ConferenceController *confManager = nil;
     ConfInviteType inviteType = ConfInviteTypeGroup;
     if (conversation.type == EMChatTypeChatRoom)
         inviteType = ConfInviteTypeChatroom;
-    [self inviteMemberWithConfType:EMConferenceTypeCommunication inviteType:inviteType conversationId:conversation.conversationId chatType:(EMChatType)conversation.type popFromController:controller];
+    [self inviteMemberWithInviteType:inviteType conversationId:conversation.conversationId chatType:(EMChatType)conversation.type popFromController:controller];
 }
 
 #pragma mark - private
@@ -67,8 +67,7 @@ static ConferenceController *confManager = nil;
 
 #pragma mark - conference
 
-- (void)inviteMemberWithConfType:(EMConferenceType)aConfType
-                      inviteType:(ConfInviteType)aInviteType
+- (void)inviteMemberWithInviteType:(ConfInviteType)aInviteType
                   conversationId:(NSString *)aConversationId
                         chatType:(EMChatType)aChatType
                popFromController:(UIViewController *)aController
@@ -88,7 +87,6 @@ static ConferenceController *confManager = nil;
 - (void)handleMakeConference:(NSNotification *)aNotif
 {
     NSDictionary *dic = aNotif.object;
-    EMConferenceType type = (EMConferenceType)[[dic objectForKey:CALL_TYPE] integerValue];
     id model = [dic objectForKey:CALL_MODEL];
     
     NSString *conversationId = nil;
@@ -108,8 +106,7 @@ static ConferenceController *confManager = nil;
         controller = window.rootViewController;
     }
     
-    [self inviteMemberWithConfType:type
-                        inviteType:inviteType
+    [self inviteMemberWithInviteType:inviteType
                     conversationId:conversationId
                           chatType:chatType
                  popFromController:controller];

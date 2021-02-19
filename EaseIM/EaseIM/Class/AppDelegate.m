@@ -314,7 +314,7 @@
                 NSString* resCode = [body objectForKey:@"code"];
                 if([resCode isEqualToString:@"RES_0K"]) {
                     NSString* rtcToken = [body objectForKey:@"accessToken"];
-                    [[EaseCallManager sharedManager] setRTCToken:nil channelName:aChannelName];
+                    [[EaseCallManager sharedManager] setRTCToken:rtcToken channelName:aChannelName];
                 }
             }
         }
