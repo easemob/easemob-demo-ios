@@ -23,7 +23,7 @@
 #import "EMGroupManageViewController.h"
 #import "EMGroupAllMembersViewController.h"
 #import "EMChatRecordViewController.h"
-#import <EaseIMKit/EaseIMKit.h>
+#import <EaseIMKitLite/EaseIMKitLite.h>
 
 @interface EMGroupInfoViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
 

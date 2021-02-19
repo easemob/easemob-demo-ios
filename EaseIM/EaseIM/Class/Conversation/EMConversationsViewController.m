@@ -16,7 +16,7 @@
 #import "EMInviteFriendViewController.h"
 #import "EMNotificationViewController.h"
 #import "EMConversationUserDataModel.h"
-#import <EaseIMKit/EaseIMKit.h>
+#import <EaseIMKitLite/EaseIMKitLite.h>
 
 @interface EMConversationsViewController() <EaseConversationsViewControllerDelegate, EMSearchControllerDelegate>
 

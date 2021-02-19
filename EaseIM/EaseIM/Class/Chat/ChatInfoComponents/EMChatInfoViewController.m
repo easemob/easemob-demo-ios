@@ -9,7 +9,7 @@
 #import "EMChatInfoViewController.h"
 #import "EMPersonalDataViewController.h"
 #import "EMChatRecordViewController.h"
-#import <EaseIMKit/EaseIMKit.h>
+#import <EaseIMKitLite/EaseIMKitLite.h>
 
 @interface EMChatInfoViewController ()
 

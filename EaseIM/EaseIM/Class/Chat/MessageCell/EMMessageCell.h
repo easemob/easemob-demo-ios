@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <EaseIMKit/EaseIMKit.h>
+#import <EaseIMKitLite/EaseIMKitLite.h>
 #import "EMMsgPicMixTextBubbleView.h"
 
 #define avatarLonger 40

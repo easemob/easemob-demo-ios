@@ -8,19 +8,13 @@
 
 #import "ConferenceController.h"
 
-#import <Hyphenate/Hyphenate.h>
-
 #import "SingleCallController.h"
 
 #import "EMGlobalVariables.h"
 
-#import "MeetingViewController.h"
-#import "Live2ViewController.h"
-#import "EMConferenceInviteViewController.h"
-
 static ConferenceController *confManager = nil;
 
-@interface ConferenceController()<EMConferenceManagerDelegate, EMChatManagerDelegate>
+@interface ConferenceController()
 
 @property (strong, nonatomic) UINavigationController *confNavController;
 
@@ -51,8 +45,6 @@ static ConferenceController *confManager = nil;
 
 - (void)dealloc
 {
-    [[EMClient sharedClient].conferenceManager removeDelegate:self];
-    [[EMClient sharedClient].chatManager removeDelegate:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -70,33 +62,7 @@ static ConferenceController *confManager = nil;
 
 - (void)_initManager
 {
-    [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
-    [[EMClient sharedClient].conferenceManager addDelegate:self delegateQueue:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMakeConference:) name:CALL_MAKECONFERENCE object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSelectConferenceCell:) name:CALL_SELECTCONFERENCECELL object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleConferenceInviteView:) name:CALL_INVITECONFERENCEVIEW object:nil];
-}
-
-#pragma mark - EMChatManagerDelegate
-
-- (void)messagesDidReceive:(NSArray *)aMessages
-{
-    for (EMMessage *message in aMessages) {
-        NSString *conferenceId = [message.ext objectForKey:MSG_EXT_CALLID];
-        if ([conferenceId length] == 0) {
-            continue;
-        }
-        
-        NSString *op = [message.ext objectForKey:MSG_EXT_CALLOP];
-        if ([op isEqualToString:@"request_tobe_speaker"] || [op isEqualToString:@"request_tobe_audience"]) {
-            EMConferenceViewController *controller =  self.confNavController.viewControllers[0];
-            if ([controller isKindOfClass:[Live2ViewController class]]) {
-                Live2ViewController *liveController = (Live2ViewController *)controller;
-                [liveController handleRoleChangedMessage:message];
-            }
-        }
-    }
 }
 
 #pragma mark - conference
@@ -107,76 +73,14 @@ static ConferenceController *confManager = nil;
                         chatType:(EMChatType)aChatType
                popFromController:(UIViewController *)aController
 {
-//    if (gIsCalling) {
-//        EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"错误" message:@"有通话正在进行"];
-//        [alertView show];
-//        return;
-//    }
-    
     ConfInviteUsersViewController *controller = [[ConfInviteUsersViewController alloc] initWithType:aInviteType isCreate:YES excludeUsers:@[[EMClient sharedClient].currentUsername] groupOrChatroomId:aConversationId];
     
-    __weak typeof(self) weakSelf = self;
     [controller setDoneCompletion:^(NSArray *aInviteUsers) {
         gIsCalling = YES;
-        
         [[EaseCallManager sharedManager] startInviteUsers:aInviteUsers ext:@{@"groupId":aConversationId} completion:^(NSString * callId, EaseCallError * aError) {
             
         }];
-        return;
-        
-        EMConferenceViewController *controller = nil;
-        if (aConfType != EMConferenceTypeLive) {
-            controller = [[MeetingViewController alloc] initWithType:aConfType password:@"" inviteUsers:aInviteUsers chatId:aConversationId chatType:aChatType];
-        } else {
-            controller = [[Live2ViewController alloc] initWithType:aConfType password:@"" inviteUsers:aInviteUsers chatId:aConversationId chatType:aChatType];
-        }
-        controller.inviteType = aInviteType;
-        
-        weakSelf.confNavController = [[UINavigationController alloc] initWithRootViewController:controller];
-        weakSelf.confNavController.modalPresentationStyle = 0;
-        [aController presentViewController:weakSelf.confNavController animated:YES completion:nil];
     }];
-    //互动会议模式不需要邀请成员
-    if(aConfType != EMConferenceTypeLive){
-        controller.modalPresentationStyle = 0;
-        [aController presentViewController:controller animated:YES completion:nil];
-    }else{
-        gIsCalling = YES;
-        
-        EMConferenceViewController *controller = nil;
-        if (aConfType != EMConferenceTypeLive) {
-            controller = [[MeetingViewController alloc] initWithType:aConfType password:@"" inviteUsers:nil chatId:aConversationId chatType:aChatType];
-        } else {
-            controller = [[Live2ViewController alloc] initWithType:aConfType password:@"" inviteUsers:nil chatId:aConversationId chatType:aChatType];
-        }
-        controller.inviteType = aInviteType;
-        
-        weakSelf.confNavController = [[UINavigationController alloc] initWithRootViewController:controller];
-        weakSelf.confNavController.modalPresentationStyle = UIModalPresentationFullScreen;
-        [aController presentViewController:weakSelf.confNavController animated:YES completion:nil];
-    }
-}
-//关闭会议
-- (void)endConference:(EMCallConference *)aCall
-            isDestroy:(BOOL)aIsDestroy
-{
-    gIsCalling = NO;
-    gIsConferenceCalling = NO;
-    self.confNavController = nil;
-    
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideNone error:nil];
-    [audioSession setActive:YES error:nil];
-    
-    [[EMClient sharedClient].conferenceManager stopMonitorSpeaker:aCall];
-    
-    if (aIsDestroy) {
-        [[EMClient sharedClient].conferenceManager destroyConferenceWithId:aCall.confId completion:nil];
-    } else {
-        [[EMClient sharedClient].conferenceManager leaveConference:aCall completion:nil];
-    }
-    
-    gIsCalling = NO;
 }
 
 #pragma mark - NSNotification
@@ -209,93 +113,6 @@ static ConferenceController *confManager = nil;
                     conversationId:conversationId
                           chatType:chatType
                  popFromController:controller];
-}
-//会议接收者
-- (void)handleSelectConferenceCell:(NSNotification *)aNotif
-{
-    id obj = aNotif.object;
-    if (!obj || ![obj isKindOfClass:[EMMessage class]]) {
-        return;
-    }
-    
-    //如果正在进行1v1通话，不处理
-    if (gIsCalling) {
-        return;
-    }
-    
-    EMMessage *msg = (EMMessage *)obj;
-    //新版属性
-    NSString *conferenceId = [msg.ext objectForKey:MSG_EXT_CALLID];
-    NSString *password = [msg.ext objectForKey:MSG_EXT_CALLPSWD];
-    //如果新版属性不存在，判断旧版本属性
-    if ([conferenceId length] == 0) {
-        conferenceId = [msg.ext objectForKey:@"conferenceId"];
-        password = [msg.ext objectForKey:@"password"];
-    }
-    
-    //如果conferenceId不存在，则不处理
-    if ([conferenceId length] == 0) {
-        return;
-    }
-    
-    EMConferenceViewController *controller = nil;
-    NSString *op = [msg.ext objectForKey:MSG_EXT_CALLOP];
-    do {
-        //如果“em_conference_op”属性存在，说明是新版
-        if ([op length] == 0) {
-            controller = [[MeetingViewController alloc] initWithJoinConfId:conferenceId password:password type:EMConferenceTypeLargeCommunication chatId:nil chatType:EMChatTypeChat];
-            break;
-        }
-        
-        if (![op isEqualToString:@"invite"]) {
-            break;
-        }
-        
-        EMConferenceType type = (EMConferenceType)[[msg.ext objectForKey:@"em_conference_type"] integerValue];
-        NSString *chatId = [msg.ext objectForKey:@"em_conference_chatId"];
-        EMChatType chatType = (EMChatType)[[msg.ext objectForKey:@"em_conference_chatType"] integerValue];
-        if (type == EMConferenceTypeLive) {
-            NSString *admin = [msg.ext objectForKey:@"em_conference_admin"];
-            if ([admin length] == 0) {
-                admin = msg.from;
-            }
-            controller = [[Live2ViewController alloc] initWithJoinConfId:conferenceId password:password admin:admin chatId:chatId chatType:chatType];
-        } else {
-            controller = [[MeetingViewController alloc] initWithJoinConfId:conferenceId password:password type:EMConferenceTypeLargeCommunication chatId:chatId chatType:chatType];
-        }
-        
-    } while (0);
-    
-    if (controller) {
-        gIsCalling = YES;
-        self.confNavController = [[UINavigationController alloc] initWithRootViewController:controller];
-        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        UIViewController *rootViewController = window.rootViewController;
-        self.confNavController.modalPresentationStyle = 0;
-        [rootViewController presentViewController:self.confNavController animated:YES completion:nil];
-    }
-}
-
-//会议邀请界面
-- (void)handleConferenceInviteView:(NSNotification *)aNotif
-{
-    id obj = aNotif.object;
-    if (!obj || ![obj isKindOfClass:[EMMessage class]]) {
-        return;
-    }
-    if (gIsCalling || gIsConferenceCalling) {
-        return;
-    }
-    EMMessage *msg = (EMMessage *)obj;
-    EMConferenceInviteViewController *confInviteViewController = [[EMConferenceInviteViewController alloc]initWithMessage:msg];
-    if (confInviteViewController) {
-        gIsConferenceCalling = YES;
-        self.confNavController = [[UINavigationController alloc] initWithRootViewController:confInviteViewController];
-        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        UIViewController *rootViewController = window.rootViewController;
-        self.confNavController.modalPresentationStyle = 0;
-        [rootViewController presentViewController:self.confNavController animated:YES completion:nil];
-    }
 }
 
 @end

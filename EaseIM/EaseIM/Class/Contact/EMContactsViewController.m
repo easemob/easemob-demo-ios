@@ -19,7 +19,7 @@
 #import "EMContactModel.h"
 #import "EMPersonalDataViewController.h"
 #import "EMSearchResultController.h"
-#import <EaseIMKit/EaseIMKit.h>
+#import <EaseIMKitLite/EaseIMKitLite.h>
 
 @interface EMContactsViewController ()<EMMultiDevicesDelegate, EMContactManagerDelegate, EMSearchControllerDelegate, EaseContactsViewControllerDelegate>
 @property (nonatomic, strong) EaseContactsViewController *contactsVC;

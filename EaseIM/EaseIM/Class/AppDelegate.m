@@ -22,7 +22,7 @@
 #import "EMNotificationHelper.h"
 #import "EMHomeViewController.h"
 #import "EMLoginViewController.h"
-#import <EaseIMKit/EaseIMKit.h>
+#import <EaseIMKitLite/EaseIMKitLite.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate>
@@ -59,62 +59,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    //单人通话中（非群组会议）
-    if (gIsCalling && !gIsConferenceCalling) {
-        EMCallEndReason reason = EMCallEndReasonFailed;
-        if (![SingleCallController.sharedManager.callDirection isEqualToString:EMCOMMUNICATE_DIRECTION_CALLINGPARTY])
-            reason = EMCallEndReasonHangup;
-        [[EMClient sharedClient].callManager endCall:SingleCallController.sharedManager.chatter reason:reason];
-        /*
-        //主叫方发送通话信息
-        if ([SingleCallController.sharedManager.callDirection isEqualToString:EMCOMMUNICATE_DIRECTION_CALLINGPARTY]) {
-            EMTextMessageBody *body;
-            if (SingleCallController.sharedManager.callDurationTime) {
-                body = [[EMTextMessageBody alloc] initWithText:[NSString stringWithFormat:@"通话时长 %@",SingleCallController.sharedManager.callDurationTime]];
-            } else {
-                body = [[EMTextMessageBody alloc] initWithText:EMCOMMUNICATE_CALLER_MISSEDCALL];
-            }
-            NSString *callType;
-            if (SingleCallController.sharedManager.type == EMCallTypeVoice)
-                callType = EMCOMMUNICATE_TYPE_VOICE;
-            if (SingleCallController.sharedManager.type == EMCallTypeVideo)
-                callType = EMCOMMUNICATE_TYPE_VIDEO;
-            NSDictionary *iOSExt = @{@"em_apns_ext":@{@"need-delete-content-id":@"communicate",@"em_push_content":@"有一条通话记录待查看", @"em_push_sound":@"ring.caf", @"em_push_mutable_content":@YES}, @"em_force_notification":@YES, EMCOMMUNICATE_TYPE:callType};
-            NSDictionary *androidExt = @{@"em_push_ext":@{@"type":@"call"}, @"em_android_push_ext":@{@"em_push_sound":@"/raw/ring", @"em_push_channel_id":@"hyphenate_offline_push_notification"}};
-            NSMutableDictionary *pushExt = [[NSMutableDictionary alloc]initWithDictionary:iOSExt];
-            [pushExt addEntriesFromDictionary:androidExt];
-            NSString *to = SingleCallController.sharedManager.chatter;
-            EMMessage *message = [[EMMessage alloc] initWithConversationID:to from:[[EMClient sharedClient] currentUsername] to:to body:body ext:pushExt];
-            message.chatType = EMChatTypeChat;
-            [[EMClient sharedClient].chatManager sendMessage:message progress:nil completion:nil];
-        }*/
-        
-        EMTextMessageBody *body;
-        if (SingleCallController.sharedManager.callDurationTime) {
-            body = [[EMTextMessageBody alloc] initWithText:[NSString stringWithFormat:@"通话时长 %@",SingleCallController.sharedManager.callDurationTime]];
-        } else {
-            body = [[EMTextMessageBody alloc] initWithText:EMCOMMUNICATE_CALLER_MISSEDCALL];
-        }
-        NSString *callType;
-        if (SingleCallController.sharedManager.type == EMCallTypeVoice)
-            callType = EMCOMMUNICATE_TYPE_VOICE;
-        if (SingleCallController.sharedManager.type == EMCallTypeVideo)
-            callType = EMCOMMUNICATE_TYPE_VIDEO;
-        NSDictionary *ext = @{EMCOMMUNICATE_TYPE:callType};
-        NSString *from, *to;
-        if ([SingleCallController.sharedManager.callDirection isEqualToString:EMCOMMUNICATE_DIRECTION_CALLINGPARTY]) {
-            from = [[EMClient sharedClient] currentUsername];
-            to = SingleCallController.sharedManager.chatter;
-        } else {
-            from = SingleCallController.sharedManager.chatter;
-            to = [[EMClient sharedClient] currentUsername];
-        }
-        EMMessage *message = [[EMMessage alloc] initWithConversationID:SingleCallController.sharedManager.chatter from:from to:to body:body ext:ext];
-        message.direction = [from isEqualToString:[[EMClient sharedClient] currentUsername]] ? EMMessageDirectionSend : EMMessageDirectionReceive;
-        message.chatType = EMChatTypeChat;
-        EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:SingleCallController.sharedManager.chatter type:EMConversationTypeChat createIfNotExist:YES];
-        [conversation appendMessage:message error:nil];
-    }
+    
 }
 
 // 将得到的deviceToken传给SDK
@@ -369,7 +314,7 @@
                 NSString* resCode = [body objectForKey:@"code"];
                 if([resCode isEqualToString:@"RES_0K"]) {
                     NSString* rtcToken = [body objectForKey:@"accessToken"];
-                    [[EaseCallManager sharedManager] setRTCToken:rtcToken channelName:aChannelName];
+                    [[EaseCallManager sharedManager] setRTCToken:nil channelName:aChannelName];
                 }
             }
         }

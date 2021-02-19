@@ -10,8 +10,8 @@ target 'EaseIM' do
     pod 'MBProgressHUD'
     pod 'MJRefresh'
     pod 'Masonry'
-    pod 'EaseIMKit'
-    pod 'SDWebImage'
+    pod 'EaseIMKitLite', '3.7.3'
+    pod 'SDWebImage', '~> 3.7.2'
     
 end
 

@@ -8,7 +8,7 @@
 
 #import "EMDemoOptions.h"
 
-#import <Hyphenate/EMOptions+PrivateDeploy.h>
+#import <HyphenateLite/EMOptions+PrivateDeploy.h>
 
 static EMDemoOptions *sharedOptions = nil;
 @implementation EMDemoOptions
