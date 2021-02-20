@@ -160,7 +160,8 @@
 
 - (void)backBackion
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+    //[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSInteger)_tagWithSection:(NSInteger)aSection
@@ -623,8 +624,9 @@
     
     UIView *firstResponder = [keyWindow performSelector:@selector(firstResponder)];
     UIView *cellView = [[firstResponder superview] superview];
+    CGRect viewRect = [cellView convertRect:self.view.bounds toView:nil];
     CGFloat keyboardPosition = [UIScreen mainScreen].bounds.size.height - keyboardHeight - 60;
-    if ((cellView.frame.origin.y + 60) > keyboardPosition)
+    if ((viewRect.origin.y + 60) > keyboardPosition)
     {
         self.tableView.contentInset = UIEdgeInsetsMake(-((cellView.frame.origin.y + 70*2) - keyboardPosition), 0, 0, 0);
     }
