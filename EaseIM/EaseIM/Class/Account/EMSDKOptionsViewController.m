@@ -53,7 +53,8 @@
 
     [self _setupSubviews];
     [self.tableView reloadData];
-    self.tableView.hidden = YES;
+    [self.tableView layoutIfNeeded];
+    [self switchServerChanged:self.sw];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -119,7 +120,7 @@
         make.centerY.equalTo(titleLabel);
     }];
     
-    [self.sw setOn:false];
+    [self.sw setOn:self.demoOptions.isCustomServer];
     self.sw.enabled = true;//启用控件
     
     self.tableView.rowHeight = 60;
@@ -131,7 +132,7 @@
     [self.tableView setBackgroundView:[[UIView alloc] init]];
     self.tableView.backgroundView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor clearColor];
-    [self.tableView  setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -147,7 +148,7 @@
 //是否使用自定义服务器
 - (void)switchServerChanged:(UISwitch *)sw
 {
-    if(sw.on) {
+    if(sw.isOn) {
         self.tableView.hidden = NO;
         [self gl];
         _gl.frame = CGRectMake(0,0,_loginButton.frame.size.width,_loginButton.frame.size.height);
@@ -159,7 +160,8 @@
 
 - (void)backBackion
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+    //[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSInteger)_tagWithSection:(NSInteger)aSection
@@ -275,8 +277,9 @@
                                      tag:(NSInteger)aTag
 {
     UITableViewCell *cell = nil;
-    if ([aValue isEqual:DEF_APPKEY])
+    if ([aValue isEqual:DEF_APPKEY]) {
         aValue = @"Appkey";
+    }
     if (self.enableEdit) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCellValue1"];
         if (!aIsSwitch) {
@@ -560,6 +563,9 @@
         demoOptions.chatServer = self.demoOptions.chatServer;
         demoOptions.restServer = self.demoOptions.restServer;
         demoOptions.usingHttpsOnly = self.demoOptions.usingHttpsOnly;
+        demoOptions.isCustomServer = YES;
+        [demoOptions.locationAppkeyArray removeAllObjects];
+        [demoOptions.locationAppkeyArray insertObject:demoOptions.appkey atIndex:0];
         [demoOptions archive];
         
         exit(0);
@@ -618,12 +624,11 @@
     
     UIView *firstResponder = [keyWindow performSelector:@selector(firstResponder)];
     UIView *cellView = [[firstResponder superview] superview];
+    CGRect viewRect = [cellView convertRect:self.view.bounds toView:nil];
     CGFloat keyboardPosition = [UIScreen mainScreen].bounds.size.height - keyboardHeight - 60;
-    if ((cellView.frame.origin.y + 60) > keyboardPosition)
+    if ((viewRect.origin.y + 60) > keyboardPosition)
     {
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, ((cellView.frame.origin.y + 60) - keyboardPosition), 0);
-        CGPoint scrollPoint = CGPointMake(0.0, keyboardPosition-firstResponder.frame.origin.y - 60);
-        [_tableView setContentOffset:scrollPoint animated:YES];
+        self.tableView.contentInset = UIEdgeInsetsMake(-((cellView.frame.origin.y + 70*2) - keyboardPosition), 0, 0, 0);
     }
 }
 

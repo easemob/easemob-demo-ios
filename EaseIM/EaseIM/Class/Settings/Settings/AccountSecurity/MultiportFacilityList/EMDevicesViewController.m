@@ -165,6 +165,22 @@
     }];
 }
 
+- (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath API_AVAILABLE(ios(11.0)) API_UNAVAILABLE(tvos)
+{
+    __weak typeof(self) weakself = self;
+    UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
+                                                                               title:@"删除"
+                                                                             handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
+                                        {
+        [weakself deleteCellAction:indexPath];
+    }];
+    
+    NSArray *swipeActions = @[deleteAction];
+    UISwipeActionsConfiguration *actions = [UISwipeActionsConfiguration configurationWithActions:swipeActions];
+    actions.performsFirstActionWithFullSwipe = NO;
+    return actions;
+}
+
 - (void)tableViewDidTriggerHeaderRefresh
 {
     if (!self.isAuthed) {
@@ -196,6 +212,28 @@
     } else {
         [self _fetchDevicesFromServer];
     }
+}
+
+- (void)deleteCellAction:(NSIndexPath *)aIndexPath
+{
+    EMDeviceConfig *device = [self.dataSource objectAtIndex:aIndexPath.row];
+    
+    __weak typeof(self) weakself = self;
+    [self showHudInView:self.view hint:NSLocalizedString(@"wait", @"Waiting...")];
+    [[EMClient sharedClient] kickDeviceWithUsername:self.username password:self.password resource:device.resource completion:^(EMError *aError) {
+        [weakself hideHud];
+        if (!aError) {
+            NSString *deviceName = [UIDevice currentDevice].name;
+            if ([deviceName isEqualToString:device.deviceName]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
+            } else {
+                [weakself.dataSource removeObjectAtIndex:aIndexPath.row];
+                [weakself.tableView deleteRowsAtIndexPaths:@[aIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
+        } else {
+            [EMAlertController showErrorAlert:aError.errorDescription];
+        }
+    }];
 }
 
 @end

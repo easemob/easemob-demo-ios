@@ -34,7 +34,13 @@
     [super viewDidLoad];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:CHAT_BACKOFF object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:GROUP_LIST_FETCHFINISHED object:nil];
     [self _setupSubviews];
+    if (![EMDemoOptions sharedOptions].isFirstLaunch) {
+        [EMDemoOptions sharedOptions].isFirstLaunch = YES;
+        [[EMDemoOptions sharedOptions] archive];
+        [self refreshTableViewWithData];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -172,9 +178,16 @@
                                                                                  handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
         {
             [weakself.resultController.tableView setEditing:NO];
-            [[EMClient sharedClient].chatManager deleteConversation:model.easeId isDeleteMessages:YES completion:nil];
-            [weakself.resultController.dataArray removeObjectAtIndex:indexPath.row];
-            [weakself.resultController.tableView reloadData];
+            int unreadCount = [[EMClient sharedClient].chatManager getConversationWithConvId:model.easeId].unreadMessagesCount;
+            [[EMClient sharedClient].chatManager deleteConversation:model.easeId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+                if (!aError) {
+                    [weakself.resultController.dataArray removeObjectAtIndex:indexPath.row];
+                    [weakself.resultController.tableView reloadData];
+                    if (unreadCount > 0 && weakself.deleteConversationCompletion) {
+                        weakself.deleteConversationCompletion(YES);
+                    }
+                }
+            }];
         }];
         UIContextualAction *topAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
                                                                                 title:!model.isTop ? @"置顶" : @"取消置顶"
@@ -209,6 +222,18 @@
 - (void)refreshTableView
 {
     [self.easeConvsVC refreshTabView];
+}
+
+- (void)refreshTableViewWithData
+{
+    __weak typeof(self) weakself = self;
+    [[EMClient sharedClient].chatManager getConversationsFromServer:^(NSArray *aCoversations, EMError *aError) {
+        if (!aError && [aCoversations count] > 0) {
+            [weakself.easeConvsVC.dataAry removeAllObjects];
+            [weakself.easeConvsVC.dataAry addObjectsFromArray:aCoversations];
+            [weakself.easeConvsVC refreshTable];
+        }
+    }];
 }
 
 #pragma mark - searchButtonAction
@@ -357,6 +382,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_PUSHVIEWCONTROLLER object:cell.model];
 }
 
+
 #pragma mark - Action
 
 //删除会话
@@ -365,12 +391,16 @@
     __weak typeof(self) weakSelf = self;
     NSInteger row = indexPath.row;
     EaseConversationModel *model = [self.easeConvsVC.dataAry objectAtIndex:row];
+    int unreadCount = [[EMClient sharedClient].chatManager getConversationWithConvId:model.easeId].unreadMessagesCount;
     [[EMClient sharedClient].chatManager deleteConversation:model.easeId
                                            isDeleteMessages:YES
                                                  completion:^(NSString *aConversationId, EMError *aError) {
         if (!aError) {
             [weakSelf.easeConvsVC.dataAry removeObjectAtIndex:row];
             [weakSelf.easeConvsVC refreshTabView];
+            if (unreadCount > 0 && weakSelf.deleteConversationCompletion) {
+                weakSelf.deleteConversationCompletion(YES);
+            }
         }
     }];
 }
