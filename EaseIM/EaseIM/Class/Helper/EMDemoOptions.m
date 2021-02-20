@@ -45,7 +45,8 @@ static EMDemoOptions *sharedOptions = nil;
         self.enableCustomAudioData = NO;
         self.customAudioDataSamples = 48000;
         self.isSupportWechatMiniProgram = NO;
-        
+        self.isCustomServer = NO;
+        self.isFirstLaunch = NO;
         self.locationAppkeyArray = [[NSMutableArray alloc]init];
     }
     
@@ -100,6 +101,8 @@ static EMDemoOptions *sharedOptions = nil;
         self.enableCustomAudioData = [aDecoder decodeBoolForKey:kOptions_EnableCustomAudioData];
         self.customAudioDataSamples = [aDecoder decodeIntForKey:kOptions_CustomAudioDataSamples];
         self.isSupportWechatMiniProgram = [aDecoder decodeBoolForKey:kOptions_IsSupportWechatMiniProgram];
+        self.isCustomServer = [aDecoder decodeBoolForKey:kOptions_IsCustomServer];
+        self.isFirstLaunch = [aDecoder decodeBoolForKey:kOptions_IsFirstLaunch];
     }
     return self;
 }
@@ -144,6 +147,8 @@ static EMDemoOptions *sharedOptions = nil;
     [aCoder encodeBool:self.isSupportWechatMiniProgram forKey:kOptions_IsSupportWechatMiniProgram];
     
     [aCoder encodeObject:self.locationAppkeyArray forKey:kOptions_LocationAppkeyArray];
+    [aCoder encodeBool:self.isCustomServer forKey:kOptions_IsCustomServer];
+    [aCoder encodeBool:self.isFirstLaunch forKey:kOptions_IsFirstLaunch];
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone
@@ -176,7 +181,9 @@ static EMDemoOptions *sharedOptions = nil;
     retModel.enableCustomAudioData = self.enableCustomAudioData;
     retModel.customAudioDataSamples = self.customAudioDataSamples;
     retModel.isSupportWechatMiniProgram = self.isSupportWechatMiniProgram;
+    retModel.isCustomServer = self.isCustomServer;
     retModel.locationAppkeyArray = self.locationAppkeyArray;
+    retModel.isFirstLaunch = self.isFirstLaunch;
     return retModel;
 }
 
@@ -199,9 +206,11 @@ static EMDemoOptions *sharedOptions = nil;
     self.apnsCertName = @"EaseIM_APNS_Product";
 #endif
     self.usingHttpsOnly = NO;
+    //self.specifyServer = YES;
     self.specifyServer = NO;
     self.chatServer = @"msync-im1.sandbox.easemob.com";
     //self.chatServer = @"116.85.43.118";
+    //self.chatServer = @"106.75.100.247";
     self.chatPort = 6717;
     self.restServer = @"a1.sdb.easemob.com";
     //self.restServer = @"a1-hsb.easemob.com";

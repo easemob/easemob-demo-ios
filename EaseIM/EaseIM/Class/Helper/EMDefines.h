@@ -22,6 +22,7 @@
 
 //appkey
 #define DEF_APPKEY @"easemob-demo#easeim"
+//#define DEF_APPKEY @"easemob-demo#chatdemoui"
 
 #define RTC_BUTTON_WIDTH 65
 #define RTC_BUTTON_HEIGHT 90
@@ -124,6 +125,7 @@
 #define GROUP_INFO_REFRESH @"EMGroupInfoRefresh"
 #define GROUP_INFO_PUSHVIEWCONTROLLER @"EMPushGroupInfoViewController"
 #define GROUP_INFO_CLEARRECORD @"EMGroupInfoClearRecord"
+#define GROUP_LIST_FETCHFINISHED @"EMGroupListFetchFinished"
 
 //聊天室
 #define CHATROOM_LIST_PUSHVIEWCONTROLLER @"EMPushChatroomsViewController"

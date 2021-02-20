@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EMConversationsViewController : EMRefreshViewController
 
+@property (nonatomic, copy) void (^deleteConversationCompletion)(BOOL isDelete);
+
 @end
 
 NS_ASSUME_NONNULL_END

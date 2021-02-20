@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Masonry/Masonry.h>
 #import "EMDefines.h"
 #import "EMColorDefine.h"
 

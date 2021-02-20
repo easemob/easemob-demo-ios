@@ -80,6 +80,7 @@
     }];
 
     self.titleImageView = [[UIImageView alloc]init];
+    self.titleImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.titleImageView.image = [UIImage imageNamed:@"titleImage"];
     [self.backView addSubview:self.titleImageView];
     [self.titleImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -339,7 +340,8 @@
     }];
     
     controller.modalPresentationStyle = 0;
-    [self presentViewController:controller animated:YES completion:nil];
+    [self.navigationController pushViewController:controller animated:YES];
+    //[self presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)pswdSecureAction:(UIButton *)aButton
@@ -434,8 +436,8 @@
     }];
     
     controller.modalPresentationStyle = 0;
-    [self presentViewController:controller animated:YES completion:nil];
-    //[self.navigationController pushViewController:controller animated:YES];
+    //[self presentViewController:controller animated:YES completion:nil];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)loginTypeChangeAction
