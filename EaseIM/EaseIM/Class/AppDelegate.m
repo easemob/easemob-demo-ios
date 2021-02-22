@@ -16,7 +16,6 @@
 #import "EaseIMHelper.h"
 #import "SingleCallController.h"
 #import "ConferenceController.h"
-
 #import "EMGlobalVariables.h"
 #import "EMDemoOptions.h"
 #import "EMNotificationHelper.h"
@@ -24,6 +23,8 @@
 #import "EMLoginViewController.h"
 #import <EaseIMKitLite/EaseIMKitLite.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+
+#define FIRSTLAUNCH @"firstLaunch"
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate>
 
@@ -35,10 +36,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     _connectionState = EMConnectionConnected;
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    
     [self _initDemo];
     [self _initHyphenate];
 
@@ -195,6 +194,11 @@
         }
         
         [[EMClient sharedClient].pushManager getPushNotificationOptionsFromServerWithCompletion:^(EMPushOptions * _Nonnull aOptions, EMError * _Nonnull aError) {
+        }];
+        [[EMClient sharedClient].groupManager getJoinedGroupsFromServerWithPage:0 pageSize:-1 completion:^(NSArray *aList, EMError *aError) {
+            if (!aError) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_LIST_FETCHFINISHED object:nil];
+            }
         }];
         [EaseIMHelper shareHelper];
         [EMNotificationHelper shared];

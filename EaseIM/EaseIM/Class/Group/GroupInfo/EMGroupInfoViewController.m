@@ -403,6 +403,14 @@
 
 #pragma mark - EMGroupManagerDelegate
 
+- (void)didLeaveGroup:(EMGroup *)aGroup reason:(EMGroupLeaveReason)aReason
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    if (self.leaveOrDestroyCompletion) {
+        self.leaveOrDestroyCompletion();
+    }
+}
+
 - (void)groupAdminListDidUpdate:(EMGroup *)aGroup
                      addedAdmin:(NSString *)aAdmin
 {

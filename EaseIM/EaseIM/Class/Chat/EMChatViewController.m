@@ -16,11 +16,14 @@
 #import "EMReadReceiptMsgViewController.h"
 #import "EMUserDataModel.h"
 #import "EMMessageCell.h"
+#import "EMDateHelper.h"
+#import "EMDemoOptions.h"
 
 @interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *titleDetailLabel;
+@property (nonatomic, strong) NSString *moreMsgId;  //第一条消息的消息id
 @end
 
 @implementation EMChatViewController
@@ -33,6 +36,7 @@
         _chatController = [[EaseChatViewController alloc] initWithConversationId:conversationId
                                                     conversationType:conType
                                                         chatViewModel:viewModel];
+        [_chatController setEditingStatusVisible:[EMDemoOptions sharedOptions].isChatTyping];
         _chatController.delegate = self;
     }
     return self;
@@ -45,6 +49,9 @@
     [[EMClient sharedClient].roomManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     [self _setupChatSubviews];
+    if (_conversation.unreadMessagesCount > 0) {
+        [[EMClient sharedClient].chatManager ackConversationRead:_conversation.conversationId completion:nil];
+    }
 }
 
 - (void)dealloc
@@ -60,6 +67,13 @@
     self.navigationController.navigationBarHidden = NO;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if ([EMDemoOptions sharedOptions].isPriorityGetMsgFromServer) {
+        [[EaseIMKitManager shared] markAllMessagesAsReadWithConversation:_conversation];
+    }
+}
+
 - (void)_setupChatSubviews
 {
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"backleft"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
@@ -67,9 +81,8 @@
     [self _setupNavigationBarRightItem];
     [self addChildViewController:_chatController];
     [self.view addSubview:_chatController.view];
-    [_chatController.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(self.view);
-    }];
+    _chatController.view.frame = self.view.bounds;
+    [self loadData:YES];
     self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
 }
 
@@ -230,6 +243,12 @@
     return menuArray;
 }
 
+- (void)loadMoreMessageData:(NSString *)firstMessageId currentMessageList:(NSArray<EMMessage *> *)messageList
+{
+    self.moreMsgId = firstMessageId;
+    [self loadData:NO];
+}
+
 #pragma mark - EMMessageCellDelegate
 
 //通话记录点击事件
@@ -255,7 +274,26 @@
     [self personData:model.message.from];
 }
 
-#pragma mark - Action
+#pragma mark - data
+
+- (void)loadData:(BOOL)isScrollBottom
+{
+    __weak typeof(self) weakself = self;
+    void (^block)(NSArray *aMessages, EMError *aError) = ^(NSArray *aMessages, EMError *aError) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakself.chatController refreshTableViewWithData:aMessages isScrollBottom:isScrollBottom];
+        });
+    };
+    
+    if ([EMDemoOptions sharedOptions].isPriorityGetMsgFromServer) {
+        EMConversation *conversation = self.conversation;
+        [EMClient.sharedClient.chatManager asyncFetchHistoryMessagesFromServer:conversation.conversationId conversationType:conversation.type startMessageId:self.moreMsgId pageSize:10 completion:^(EMCursorResult *aResult, EMError *aError) {
+            block(aResult.list, aError);
+         }];
+    } else {
+        [self.conversation loadMessagesStartFromId:self.moreMsgId count:50 searchDirection:EMMessageSearchDirectionUp completion:block];
+    }
+}
 
 #pragma mark - EMMoreFunctionViewDelegate
 
@@ -300,12 +338,40 @@
             [self showHint:@"对方已取消"];
         }
     }
-    NSArray *formated = [self.chatController formatMessages:@[message]];
+    NSArray *formated = [self formatMessages:@[message]];
     [self.chatController.dataArray addObjectsFromArray:formated];
     if (!self.chatController.moreMsgId)
         //新会话的第一条消息
         self.chatController.moreMsgId = message.messageId;
     [self.chatController refreshTableView:YES];
+}
+
+- (NSArray *)formatMessages:(NSArray<EMMessage *> *)aMessages
+{
+    NSMutableArray *formated = [[NSMutableArray alloc] init];
+
+    for (int i = 0; i < [aMessages count]; i++) {
+        EMMessage *msg = aMessages[i];
+        if (msg.chatType == EMChatTypeChat && msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
+            [[EMClient sharedClient].chatManager sendMessageReadAck:msg.messageId toUser:msg.conversationId completion:nil];
+        }
+        
+        CGFloat interval = (self.chatController.msgTimelTag - msg.timestamp) / 1000;
+        if (self.chatController.msgTimelTag < 0 || interval > 60 || interval < -60) {
+            NSString *timeStr = [EMDateHelper formattedTimeFromTimeInterval:msg.timestamp];
+            [formated addObject:timeStr];
+            self.chatController.msgTimelTag = msg.timestamp;
+        }
+        EaseMessageModel *model = nil;
+        model = [[EaseMessageModel alloc] initWithEMMessage:msg];
+        if (!model) {
+            model = [[EaseMessageModel alloc]init];
+        }
+        model.userDataDelegate = [self userData:msg.from];
+        [formated addObject:model];
+    }
+    
+    return formated;
 }
 
 //音视频

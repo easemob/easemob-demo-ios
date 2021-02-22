@@ -7,7 +7,6 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'EaseIM' do
 
     pod 'MBProgressHUD'
-    pod 'MJRefresh'
     pod 'Masonry'
     pod 'EaseIMKitLite', '3.7.4'
     pod 'SDWebImage', '~> 3.7.2'
