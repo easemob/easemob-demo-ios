@@ -204,6 +204,7 @@
         EaseCallUser* user = [EaseCallUser alloc];
         user.nickName = @"lxm";
         config.agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
+        config.enableRTCTokenValidate = YES;
 
         [[EaseCallManager sharedManager] initWithConfig:config delegate:self];
 //        NSString* path = [[NSBundle mainBundle] pathForResource:@"huahai128" ofType:@"mp3"];

@@ -16,7 +16,7 @@
     #import <Foundation/Foundation.h>
 
     #import <HyphenateLite/HyphenateLite.h>
-    #import <EaseCallKitUI/EaseCallUIKit.h>
+    #import <EaseCallKit/EaseCallUIKit.h>
     #import "EMHeaders.h"
     #import "EMDefines.h"
 

@@ -80,6 +80,9 @@ static ConferenceController *confManager = nil;
             
         }];
     }];
+    self.confNavController = [[UINavigationController alloc] initWithRootViewController:controller];
+    self.confNavController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [aController presentViewController:self.confNavController animated:YES completion:nil];
 }
 
 #pragma mark - NSNotification
