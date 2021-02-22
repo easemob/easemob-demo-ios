@@ -123,7 +123,13 @@
 
 - (void)_setupChildController
 {
+    __weak typeof(self) weakself = self;
     self.conversationsController = [[EMConversationsViewController alloc]init];
+    [self.conversationsController setDeleteConversationCompletion:^(BOOL isDelete) {
+        if (isDelete) {
+            [weakself _loadConversationTabBarItemBadge];
+        }
+    }];
     UITabBarItem *consItem = [self _setupTabBarItemWithTitle:@"会话" imgName:@"icon-tab会话unselected" selectedImgName:@"icon-tab会话" tag:kTabbarItemTag_Conversation];
     self.conversationsController.tabBarItem = consItem;
     [self addChildViewController:self.conversationsController];
@@ -205,7 +211,18 @@
     }
 }
 
+//　收到已读回执
+- (void)messagesDidRead:(NSArray *)aMessages
+{
+    [self _loadConversationTabBarItemBadge];
+}
+
 - (void)conversationListDidUpdate:(NSArray *)aConversationList
+{
+    [self _loadConversationTabBarItemBadge];
+}
+
+- (void)onConversationRead:(NSString *)from to:(NSString *)to
 {
     [self _loadConversationTabBarItemBadge];
 }

@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 //本地通话记录
 - (void)insertLocationCallRecord:(NSNotification*)noti;
 
+- (NSArray *)formatMessages:(NSArray<EMMessage *> *)aMessages;
+
 @end
 
 NS_ASSUME_NONNULL_END

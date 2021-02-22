@@ -56,7 +56,7 @@
             [EMAlertController showSuccessAlert:@"转发消息成功"];
             if ([aTo isEqualToString:weakself.conversation.conversationId]) {
                 [weakself.conversation markMessageAsReadWithId:message.messageId error:nil];
-                NSArray *formated = [weakself.chatController formatMessages:@[message]];
+                NSArray *formated = [weakself formatMessages:@[message]];
                 [weakself.chatController.dataArray addObjectsFromArray:formated];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakself.chatController refreshTableView:YES];

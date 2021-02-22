@@ -81,7 +81,7 @@
         make.top.equalTo(apnsNameLabel.mas_bottom).offset(10);
         make.height.equalTo(@80);
     }];
-    
+    /*
     UIButton *configurationBtn = [[UIButton alloc]init];
     configurationBtn.backgroundColor = [UIColor clearColor];
     [configurationBtn setTitle:@"配置说明" forState:UIControlStateNormal];
@@ -95,7 +95,7 @@
         make.top.equalTo(self.aspCertNameTextView.mas_bottom).offset(20);
         make.height.equalTo(@20);
     }];
-    
+    */
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{

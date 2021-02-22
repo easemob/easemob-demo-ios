@@ -132,7 +132,7 @@
         }
     } else if (section == 1) {
         if (row == 0) {
-            cell.textLabel.text = @"显示对方输入状态";
+            cell.textLabel.text = @"显示输入状态";
             [switchControl setOn:options.isChatTyping animated:YES];
         }
     } else if (section == 2) {
@@ -235,7 +235,6 @@
             options.isAutoAcceptGroupInvitation = aSwitch.isOn;
             [options archive];
         } else if (row == 1) {
-            BOOL ison = aSwitch.isOn;
             [[EMClient sharedClient].options setIsDeleteMessagesWhenExitGroup:aSwitch.isOn];
         }
     }
