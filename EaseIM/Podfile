@@ -8,8 +8,9 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'EaseIM' do
 
     pod 'MBProgressHUD'
-    pod 'MJRefresh'
     pod 'Masonry'
+    pod 'MJRefresh'
+    pod 'Hyphenate'
     pod 'EaseIMKit'
     
 end
