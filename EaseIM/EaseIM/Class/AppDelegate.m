@@ -21,7 +21,6 @@
 #import "EMNotificationHelper.h"
 #import "EMHomeViewController.h"
 #import "EMLoginViewController.h"
-#import <EaseIMKitLite/EaseIMKitLite.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 
 #define FIRSTLAUNCH @"firstLaunch"

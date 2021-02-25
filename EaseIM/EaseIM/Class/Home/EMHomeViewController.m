@@ -11,7 +11,6 @@
 #import "EMRemindManager.h"
 #import "EMConversationsViewController.h"
 #import "EMContactsViewController.h"
-#import <EaseIMKitLite/EaseIMKitLite.h>
 
 #define kTabbarItemTag_Conversation 0
 #define kTabbarItemTag_Contact 1
