@@ -9,6 +9,7 @@
 #import "SingleCallController.h"
 
 #import "EMGlobalVariables.h"
+#import "EMChatViewController.h"
 
 static SingleCallController *callManager = nil;
 
@@ -61,11 +62,29 @@ static SingleCallController *callManager = nil;
     if (!notify.object) {
         return;
     }
-    
     EaseCallType aType = (EaseCallType)[[notify.object objectForKey:CALL_TYPE] integerValue];
     _chatter = [notify.object valueForKey:CALL_CHATTER] ;
+    EMChatViewController*vc = [notify.object valueForKey:CALL_PUSH_VIEWCONTROLLER];
+    EMConversation* conversation = [[[EMClient sharedClient] chatManager] getConversationWithConvId:_chatter];
+    NSString*msgId = [conversation latestMessage].messageId;
     [[EaseCallManager sharedManager] startSingleCallWithUId:_chatter type:aType ext:nil completion:^(NSString * callId, EaseCallError * aError) {
-        
+        if(vc && [vc isKindOfClass:[EMChatViewController class]]) {
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1000), dispatch_get_main_queue(), ^{
+                [conversation loadMessagesStartFromId:msgId count:50 searchDirection:EMMessageSearchDirectionDown completion:^(NSArray *aMessages, EMError *aError) {
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    NSArray *formated = [vc formatMessages:aMessages];
+                                    [vc.chatController.dataArray addObjectsFromArray:formated];
+                                    if (!vc.chatController.moreMsgId)
+                                        //新会话的第一条消息
+                                        vc.chatController.moreMsgId = conversation.latestMessage.messageId;
+                                    [vc.chatController refreshTableView:YES];
+                                });
+                }];
+            });
+            
+            
+        }
     }];
     return;
 }
