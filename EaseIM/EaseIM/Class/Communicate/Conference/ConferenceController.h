@@ -18,8 +18,5 @@
 //开始一场会议（群组/聊天室）
 - (void)communicateConference:(EMConversation *)conversation rootController:(UIViewController *)controller;
 
-- (void)endConference:(EMCallConference *)aCall
-            isDestroy:(BOOL)aIsDestroy;
-
 @end
 

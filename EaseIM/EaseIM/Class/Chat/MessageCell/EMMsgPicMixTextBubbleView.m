@@ -7,7 +7,6 @@
 //
 
 #import "EMMsgPicMixTextBubbleView.h"
-#import <Hyphenate/Hyphenate.h>
 
 @implementation EMMsgPicMixTextBubbleView
 {

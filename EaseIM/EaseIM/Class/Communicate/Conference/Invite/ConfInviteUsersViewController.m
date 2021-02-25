@@ -401,15 +401,23 @@
 
 - (void)closeAction
 {
-    if (self.isCreate) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    if (self.isCreate) {
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    } else {
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }
 }
 
 - (void)doneAction
 {
+    __weak typeof(self) weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (weakSelf.doneCompletion) {
+            weakSelf.doneCompletion(self.inviteUsers);
+        }
+    }];
+    return;
     if (self.isCreate) {
         __weak typeof(self) weakSelf = self;
         [self dismissViewControllerAnimated:YES completion:^{

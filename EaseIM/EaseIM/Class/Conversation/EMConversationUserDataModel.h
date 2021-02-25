@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <EaseIMKit/EaseIMKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
