@@ -64,27 +64,15 @@ static SingleCallController *callManager = nil;
     }
     EaseCallType aType = (EaseCallType)[[notify.object objectForKey:CALL_TYPE] integerValue];
     _chatter = [notify.object valueForKey:CALL_CHATTER] ;
-    EMChatViewController*vc = [notify.object valueForKey:CALL_PUSH_VIEWCONTROLLER];
     EMConversation* conversation = [[[EMClient sharedClient] chatManager] getConversationWithConvId:_chatter];
     NSString*msgId = [conversation latestMessage].messageId;
     [[EaseCallManager sharedManager] startSingleCallWithUId:_chatter type:aType ext:nil completion:^(NSString * callId, EaseCallError * aError) {
-        if(vc && [vc isKindOfClass:[EMChatViewController class]]) {
-            
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1000), dispatch_get_main_queue(), ^{
-                [conversation loadMessagesStartFromId:msgId count:50 searchDirection:EMMessageSearchDirectionDown completion:^(NSArray *aMessages, EMError *aError) {
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    NSArray *formated = [vc formatMessages:aMessages];
-                                    [vc.chatController.dataArray addObjectsFromArray:formated];
-                                    if (!vc.chatController.moreMsgId)
-                                        //新会话的第一条消息
-                                        vc.chatController.moreMsgId = conversation.latestMessage.messageId;
-                                    [vc.chatController refreshTableView:YES];
-                                });
+                [conversation loadMessagesStartFromId:msgId count:50 searchDirection:msgId?EMMessageSearchDirectionDown:EMMessageSearchDirectionUp completion:^(NSArray *aMessages, EMError *aError) {
+                    if(aMessages.count)
+                        [self insertLocationCallRecord:aMessages];
                 }];
             });
-            
-            
-        }
     }];
     return;
 }
@@ -92,9 +80,10 @@ static SingleCallController *callManager = nil;
 #pragma mark - public
 
 //插入本地通话记录
-- (void)insertLocationCallRecord:(NSString *)missedCallDirection
+- (void)insertLocationCallRecord:(NSArray*)messages
 {
-//    EMMessage *message = [[EMMessage alloc] initWithConversationID:callSession.remoteName from:from to:to body:body ext:ext];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EMCOMMMUNICATE_RECORD object:@{@"msg":messages}];//刷新页面
+   // EMMessage *message = [[EMMessage alloc] initWithConversationID:callSession.remoteName from:from to:to body:body ext:ext];
 //    message.direction = [from isEqualToString:[[EMClient sharedClient] currentUsername]] ? EMMessageDirectionSend : EMMessageDirectionReceive;
 //    message.chatType = EMChatTypeChat;
 //    [conversation appendMessage:message error:nil];

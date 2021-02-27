@@ -113,7 +113,13 @@
                 NSMutableArray *msgArray = [[NSMutableArray alloc] init];
                 for (int i = 0; i < [aMessages count]; i++) {
                     EMMessage *msg = aMessages[i];
-                    [msgArray addObject:msg];
+                    if(msg.body.type == EMMessageBodyTypeText) {
+                        EMTextMessageBody* textBody = (EMTextMessageBody*)msg.body;
+                        NSRange range = [textBody.text rangeOfString:aString options:NSCaseInsensitiveSearch];
+                        if(range.length)
+                            [msgArray addObject:msg];
+                    }
+                    
                 }
                 NSArray *formated = [weakself _formatMessages:[msgArray copy]];
                 dispatch_async(dispatch_get_main_queue(), ^{

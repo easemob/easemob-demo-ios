@@ -33,7 +33,7 @@
         _conversation = [EMClient.sharedClient.chatManager getConversation:conversationId type:conType createIfNotExist:YES];
         _conversationModel = [[EaseConversationModel alloc]initWithConversation:_conversation];
         EaseChatViewModel *viewModel = [[EaseChatViewModel alloc]init];
-        _chatController = [[EaseChatViewController alloc] initWithConversationId:conversationId
+        _chatController = [EaseChatViewController initWithConversationId:conversationId
                                                     conversationType:conType
                                                         chatViewModel:viewModel];
         [_chatController setEditingStatusVisible:[EMDemoOptions sharedOptions].isChatTyping];
@@ -149,9 +149,9 @@
 //对方输入状态
 - (void)beginTyping
 {
-    if (EMDemoOptions.sharedOptions.isChatTyping) {
+    //if (EMDemoOptions.sharedOptions.isChatTyping) {
         self.titleDetailLabel.text = @"对方正在输入";
-    }
+    //}
 }
 - (void)endTyping
 {
@@ -281,7 +281,7 @@
     __weak typeof(self) weakself = self;
     void (^block)(NSArray *aMessages, EMError *aError) = ^(NSArray *aMessages, EMError *aError) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakself.chatController refreshTableViewWithData:aMessages isScrollBottom:isScrollBottom];
+            [weakself.chatController refreshTableViewWithData:aMessages isInsertBottom:NO isScrollBottom:isScrollBottom];
         });
     };
     
@@ -329,21 +329,24 @@
 //本地通话记录
 - (void)insertLocationCallRecord:(NSNotification*)noti
 {
-    EMMessage *message = (EMMessage *)[noti.object objectForKey:@"msg"];
-    EMTextMessageBody *body = (EMTextMessageBody*)message.body;
-    if ([body.text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL]) {
-        if ([message.from isEqualToString:[EMClient sharedClient].currentUsername]) {
-            [self showHint:@"对方拒绝通话"];
-        } else {
-            [self showHint:@"对方已取消"];
-        }
+    NSArray<EMMessage *> * messages = (NSArray *)[noti.object objectForKey:@"msg"];
+//    EMTextMessageBody *body = (EMTextMessageBody*)message.body;
+//    if ([body.text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL]) {
+//        if ([message.from isEqualToString:[EMClient sharedClient].currentUsername]) {
+//            [self showHint:@"对方拒绝通话"];
+//        } else {
+//            [self showHint:@"对方已取消"];
+//        }
+//    }
+    if(messages && messages.count > 0) {
+        NSArray *formated = [self formatMessages:messages];
+        [self.chatController.dataArray addObjectsFromArray:formated];
+        if (!self.chatController.moreMsgId)
+            //新会话的第一条消息
+            self.chatController.moreMsgId = [messages objectAtIndex:0].messageId;
+        [self.chatController refreshTableView:YES];
     }
-    NSArray *formated = [self formatMessages:@[message]];
-    [self.chatController.dataArray addObjectsFromArray:formated];
-    if (!self.chatController.moreMsgId)
-        //新会话的第一条消息
-        self.chatController.moreMsgId = message.messageId;
-    [self.chatController refreshTableView:YES];
+    
 }
 
 - (NSArray *)formatMessages:(NSArray<EMMessage *> *)aMessages
@@ -381,10 +384,10 @@
     __weak typeof(self) weakself = self;
     if (self.conversation.type == EMConversationTypeChat) {
         [alertController addAction:[UIAlertAction actionWithTitle:@"视频通话" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EaseCallType1v1Video),CALL_PUSH_VIEWCONTROLLER:weakself}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EaseCallType1v1Video)}];
         }]];
         [alertController addAction:[UIAlertAction actionWithTitle:@"语音通话" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EaseCallType1v1Audio),CALL_PUSH_VIEWCONTROLLER:weakself}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EaseCallType1v1Audio)}];
         }]];
         [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }]];
@@ -450,7 +453,7 @@
     if (self.conversation.type == EMConversationTypeGroupChat) {
         [self.chatController cleanPopupControllerView];
         __weak typeof(self) weakself = self;
-        EMGroupInfoViewController *groupInfocontroller = [[EMGroupInfoViewController alloc] initWithGroupId:self.conversation.conversationId];
+        EMGroupInfoViewController *groupInfocontroller = [[EMGroupInfoViewController alloc] initWithConversation:self.conversation];
         [groupInfocontroller setLeaveOrDestroyCompletion:^{
             [weakself.navigationController popViewControllerAnimated:YES];
         }];

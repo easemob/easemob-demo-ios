@@ -122,7 +122,7 @@
     {
         [weakself _muteAdmin:userName];
     }];
-    blackAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
+    muteAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
     
     UIContextualAction *adminAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
                                                                             title:@"升权"
@@ -130,9 +130,7 @@
     {
         [weakself _memberToAdmin:userName];
     }];
-    blackAction.backgroundColor = [UIColor blackColor];
-    
-    blackAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
+    adminAction.backgroundColor = [UIColor blackColor];
     
     UIContextualAction *transferAdminAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
                                                                             title:@"转让"
