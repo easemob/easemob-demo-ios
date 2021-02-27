@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) void (^leaveOrDestroyCompletion)(void);
 
-- (instancetype)initWithGroupId:(NSString *)aGroupId;
+- (instancetype)initWithConversation:(EMConversation *)aConversation;
 
 @property (nonatomic, copy) void (^clearRecordCompletion)(BOOL isClearRecord);
 
