@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *easeId;           // 环信id
 @property (nonatomic, copy, readonly) UIImage *defaultAvatar;     // 默认头像显示
 
-- (instancetype)initWithHuanxinId:(NSString *)huanxinId;
+- (instancetype)initWithEaseId:(NSString *)easeId;
 @end
 
 NS_ASSUME_NONNULL_END

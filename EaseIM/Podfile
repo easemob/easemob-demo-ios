@@ -13,6 +13,7 @@ target 'EaseIM' do
     pod 'HyphenateChat'
     pod 'SDWebImage', '~> 3.7.2'
     pod 'AgoraRtcEngine_iOS'
-    pod 'EaseCallKit', :path => '../../easecallkitui-ios'
+    pod 'EaseCallKit'
+    pod 'EaseIMKit'
 end
 
