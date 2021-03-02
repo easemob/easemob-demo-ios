@@ -66,7 +66,7 @@
             NSMutableArray<EaseUserDelegate> *contacts = [NSMutableArray<EaseUserDelegate> array];
             for (NSString *username in aList) {
                 EMContactModel *model = [[EMContactModel alloc] init];
-                model.huanXinId = username;
+                model.easeId = username;
                 [contacts addObject:model];
             }
             
@@ -214,17 +214,17 @@
 
 - (NSArray<EaseUserDelegate> *)items {
     EMContactModel *newFriends = [[EMContactModel alloc] init];
-    newFriends.huanXinId = NEWFRIEND;
-    newFriends.nickname = @"新的好友";
-    newFriends.avatar = [UIImage imageNamed:@"newFriend"];
+    newFriends.easeId = NEWFRIEND;
+    newFriends.showName = @"新的好友";
+    newFriends.defaultAvatar = [UIImage imageNamed:@"newFriend"];
     EMContactModel *groups = [[EMContactModel alloc] init];
-    groups.huanXinId = GROUPLIST;
-    groups.nickname = @"群聊";
-    groups.avatar = [UIImage imageNamed:@"groupchat"];
+    groups.easeId = GROUPLIST;
+    groups.showName = @"群聊";
+    groups.defaultAvatar = [UIImage imageNamed:@"groupchat"];
     EMContactModel *chatooms = [[EMContactModel alloc] init];
-    chatooms.huanXinId = CHATROOMLIST;
-    chatooms.nickname = @"聊天室";
-    chatooms.avatar = [UIImage imageNamed:@"chatroom"];
+    chatooms.easeId = CHATROOMLIST;
+    chatooms.showName = @"聊天室";
+    chatooms.defaultAvatar = [UIImage imageNamed:@"chatroom"];
     
     return (NSArray<EaseUserDelegate> *)@[newFriends, groups, chatooms];
 }

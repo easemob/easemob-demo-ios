@@ -149,9 +149,7 @@
 //对方输入状态
 - (void)beginTyping
 {
-    //if (EMDemoOptions.sharedOptions.isChatTyping) {
-        self.titleDetailLabel.text = @"对方正在输入";
-    //}
+    self.titleDetailLabel.text = @"对方正在输入";
 }
 - (void)endTyping
 {
@@ -160,7 +158,7 @@
 //userdata
 - (id<EaseUserDelegate>)userData:(NSString *)huanxinID
 {
-    EMUserDataModel *model = [[EMUserDataModel alloc]initWithHuanxinId:huanxinID];
+    EMUserDataModel *model = [[EMUserDataModel alloc]initWithEaseId:huanxinID];
     return model;
 }
 
@@ -288,7 +286,7 @@
     if ([EMDemoOptions sharedOptions].isPriorityGetMsgFromServer) {
         EMConversation *conversation = self.conversation;
         [EMClient.sharedClient.chatManager asyncFetchHistoryMessagesFromServer:conversation.conversationId conversationType:conversation.type startMessageId:self.moreMsgId pageSize:10 completion:^(EMCursorResult *aResult, EMError *aError) {
-            block(aResult.list, aError);
+            [self.conversation loadMessagesStartFromId:self.moreMsgId count:10 searchDirection:EMMessageSearchDirectionUp completion:block];
          }];
     } else {
         [self.conversation loadMessagesStartFromId:self.moreMsgId count:50 searchDirection:EMMessageSearchDirectionUp completion:block];

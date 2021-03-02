@@ -7,14 +7,14 @@
 
 @implementation EMContactModel
 - (NSString *)easeId {
-    return _huanXinId;
+    return _easeId;
 }
 
 - (UIImage *)defaultAvatar {
-    return _avatar;
+    return _defaultAvatar;
 }
 
 - (NSString *)showName {
-    return _nickname;
+    return _showName;
 }
 @end
