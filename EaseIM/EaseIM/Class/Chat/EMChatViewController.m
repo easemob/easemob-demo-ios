@@ -371,6 +371,33 @@
         model.userDataDelegate = [self userData:msg.from];
         [formated addObject:model];
     }
+    return formated;
+}
+
+- (NSArray *)formatMessages:(NSArray<EMMessage *> *)aMessages
+{
+    NSMutableArray *formated = [[NSMutableArray alloc] init];
+
+    for (int i = 0; i < [aMessages count]; i++) {
+        EMMessage *msg = aMessages[i];
+        if (msg.chatType == EMChatTypeChat && msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
+            [[EMClient sharedClient].chatManager sendMessageReadAck:msg.messageId toUser:msg.conversationId completion:nil];
+        }
+        
+        CGFloat interval = (self.chatController.msgTimelTag - msg.timestamp) / 1000;
+        if (self.chatController.msgTimelTag < 0 || interval > 60 || interval < -60) {
+            NSString *timeStr = [EMDateHelper formattedTimeFromTimeInterval:msg.timestamp];
+            [formated addObject:timeStr];
+            self.chatController.msgTimelTag = msg.timestamp;
+        }
+        EaseMessageModel *model = nil;
+        model = [[EaseMessageModel alloc] initWithEMMessage:msg];
+        if (!model) {
+            model = [[EaseMessageModel alloc]init];
+        }
+        model.userDataDelegate = [self userData:msg.from];
+        [formated addObject:model];
+    }
     
     return formated;
 }
