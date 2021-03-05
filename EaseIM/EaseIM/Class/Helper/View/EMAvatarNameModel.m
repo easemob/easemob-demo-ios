@@ -18,8 +18,11 @@
         _from = msg.from;
         NSString *text = ((EMTextMessageBody *)msg.body).text;
         NSRange range = [text rangeOfString:keyWord options:NSCaseInsensitiveSearch];
+        
         NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:text];
-        [attributedStr setAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:4/255.0 green:174/255.0 blue:240/255.0 alpha:1.0]} range:NSMakeRange(range.location, keyWord.length)];
+        if(range.length > 0) {
+            [attributedStr setAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:4/255.0 green:174/255.0 blue:240/255.0 alpha:1.0]} range:NSMakeRange(range.location, keyWord.length)];
+        }
         _detail = attributedStr;
         _timestamp = timestamp;
     }

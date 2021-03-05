@@ -33,18 +33,20 @@
 @property (nonatomic, strong) EMAvatarNameCell *addMemberCell;
 @property (nonatomic, strong) UITableViewCell *leaveCell;
 @property (nonatomic, strong) UILabel *leaveCellContentLabel;
-
+@property (nonatomic, strong) EMConversation *conversation;
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
 
 @end
 
 @implementation EMGroupInfoViewController
 
-- (instancetype)initWithGroupId:(NSString *)aGroupId
+- (instancetype)initWithConversation:(EMConversation *)aConversation
 {
     self = [super init];
     if (self) {
-        _groupId = aGroupId;
+        _groupId = aConversation.conversationId;
+        _conversation = aConversation;
+        _conversationModel = [[EaseConversationModel alloc]initWithConversation:aConversation];
     }
     
     return self;
@@ -69,9 +71,6 @@
     __weak typeof(self) weakself = self;
     [EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:self.groupId completion:^(EMGroup *aGroup, EMError *aError) {
         weakself.group = aGroup;
-        EMConversation *conversastion = [[EMClient sharedClient].chatManager getConversation:weakself.group.groupId type:EMConversationTypeGroupChat createIfNotExist:NO];
-        weakself.conversationModel = [[EaseConversationModel alloc]initWithConversation:conversastion];
-        [weakself reloadInfo];
         [weakself _resetGroup:aGroup];
     }];
 }
@@ -168,7 +167,10 @@
         cellIdentifier = @"UITableViewCellSwitch";
     }
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    UITableViewCell *cell = nil;
+    if (!isSwitchCell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    }
     // Configure the cell...
     if (cell == nil) {
         if (section == 0 && row == 0) {
@@ -177,15 +179,15 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (isSwitchCell) {
-            switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(self.tableView.frame.size.width - 65, 20, 50, 40)];
-            switchControl.tag = [self _tagWithIndexPath:indexPath];
-            [switchControl addTarget:self action:@selector(cellSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
-            [cell.contentView addSubview:switchControl];
-        }
+        
     }
-    if (isSwitchCell)
-        switchControl = [cell.contentView viewWithTag:[self _tagWithIndexPath:indexPath]];
+    if (isSwitchCell) {
+        switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(self.tableView.frame.size.width - 65, 20, 50, 40)];
+        switchControl.tag = [self _tagWithIndexPath:indexPath];
+        [switchControl addTarget:self action:@selector(cellSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
+        [cell.contentView addSubview:switchControl];
+    }
+        //switchControl = [cell.contentView viewWithTag:[self _tagWithIndexPath:indexPath]];
     
     if (section == 5 && row == 0)
         return self.leaveCell;
@@ -243,7 +245,7 @@
             [switchControl setOn:!self.group.isPushNotificationEnabled animated:YES];
         } else if (row == 1) {
             cell.textLabel.text = @"会话置顶";
-            [switchControl setOn:(self.conversationModel.isTop) animated:YES];
+            [switchControl setOn:[self.conversationModel isTop] animated:YES];
         }
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (section == 4) {
@@ -356,12 +358,11 @@
 - (void)_resetGroup:(EMGroup *)aGroup
 {
     if (![self.group.groupName isEqualToString:aGroup.groupName]) {
-        EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:aGroup.groupId type:EMConversationTypeGroupChat createIfNotExist:NO];
-        if (conversation) {
-            NSMutableDictionary *ext = [NSMutableDictionary dictionaryWithDictionary:conversation.ext];
+        if (_conversation) {
+            NSMutableDictionary *ext = [NSMutableDictionary dictionaryWithDictionary:_conversation.ext];
             [ext setObject:aGroup.groupName forKey:@"subject"];
             [ext setObject:[NSNumber numberWithBool:aGroup.isPublic] forKey:@"isPublic"];
-            conversation.ext = ext;
+            _conversation.ext = ext;
             
             [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_SUBJECT_UPDATED object:aGroup];
         }
