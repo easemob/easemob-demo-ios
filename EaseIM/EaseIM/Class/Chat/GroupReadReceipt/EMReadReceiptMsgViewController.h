@@ -11,7 +11,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol EMReadReceiptMsgDelegate;
-@class EMMessageCell;
 @interface EMReadReceiptMsgViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, weak) id<EMReadReceiptMsgDelegate> delegate;

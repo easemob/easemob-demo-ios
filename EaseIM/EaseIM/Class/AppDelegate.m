@@ -21,6 +21,7 @@
 #import "EMNotificationHelper.h"
 #import "EMHomeViewController.h"
 #import "EMLoginViewController.h"
+#import "UserInfoStore.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
 #define FIRSTLAUNCH @"firstLaunch"
@@ -203,8 +204,8 @@
         [EMNotificationHelper shared];
         [SingleCallController sharedManager];
         [ConferenceController sharedManager];
+        [[UserInfoStore sharedInstance] loadInfosFromLocal];
         EaseCallConfig* config = [[EaseCallConfig alloc] init];
-        EaseCallUser* user = [EaseCallUser alloc];
         config.agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
         config.enableRTCTokenValidate = YES;
 
@@ -324,7 +325,7 @@
                                                           delegate:nil
                                                      delegateQueue:[NSOperationQueue mainQueue]];
 
-    NSString* strUrl = [NSString stringWithFormat:@"http://a1-hsb.easemob.com/token/rtcToken?userAccount=%@&channelName=%@&appkey=%@",[EMClient sharedClient].currentUsername,aChannelName,[EMClient sharedClient].options.appkey];
+    NSString* strUrl = [NSString stringWithFormat:@"http://a1.easemob.com/token/rtcToken?userAccount=%@&channelName=%@&appkey=%@",[EMClient sharedClient].currentUsername,aChannelName,[EMClient sharedClient].options.appkey];
     NSString*utf8Url = [strUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
     NSURL* url = [NSURL URLWithString:utf8Url];
     NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:url];

@@ -8,7 +8,8 @@
 
 #import "EMChatroomMembersViewController.h"
 #import "EMPersonalDataViewController.h"
-#import "EMAvatarNameCell.h"
+#import "EMAvatarNameCell+UserInfo.h"
+#import "EMAccountViewController.h"
 
 @interface EMChatroomMembersViewController ()
 
@@ -72,6 +73,7 @@
     
     cell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
     cell.nameLabel.text = [self.dataArray objectAtIndex:indexPath.row];
+    [cell refreshUserInfo:[self.dataArray objectAtIndex:indexPath.row]];
     cell.indexPath = indexPath;
     
     if (self.chatroom.permissionType == EMChatroomPermissionTypeOwner || self.chatroom.permissionType == EMChatroomPermissionTypeAdmin) {
@@ -309,7 +311,12 @@
 //个人资料卡
 - (void)personalData:(NSString *)nickName
 {
-    EMPersonalDataViewController *controller = [[EMPersonalDataViewController alloc]initWithNickName:nickName];
+    UIViewController* controller = nil;
+    if([[EMClient sharedClient].currentUsername isEqualToString:nickName]) {
+        controller = [[EMAccountViewController alloc] init];
+    }else{
+        controller = [[EMPersonalDataViewController alloc]initWithNickName:nickName];
+    }
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     UIViewController *rootViewController = window.rootViewController;
     if ([rootViewController isKindOfClass:[UINavigationController class]]) {

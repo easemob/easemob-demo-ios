@@ -12,6 +12,7 @@
 #import "EMConfirmViewController.h"
 #import "EMAvatarNameCell.h"
 #import "EMPersonalDataViewController.h"
+#import "EMAccountViewController.h"
 
 @interface EMGroupMutesViewController ()
 
@@ -216,7 +217,12 @@
 //个人资料卡
 - (void)personalData:(NSString *)nickName
 {
-    EMPersonalDataViewController *controller = [[EMPersonalDataViewController alloc]initWithNickName:nickName];
+    UIViewController* controller = nil;
+    if([[EMClient sharedClient].currentUsername isEqualToString:nickName]) {
+        controller = [[EMAccountViewController alloc] init];
+    }else{
+        controller = [[EMPersonalDataViewController alloc]initWithNickName:nickName];
+    }
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     UIViewController *rootViewController = window.rootViewController;
     if ([rootViewController isKindOfClass:[UINavigationController class]]) {

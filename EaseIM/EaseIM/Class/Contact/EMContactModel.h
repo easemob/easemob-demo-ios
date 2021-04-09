@@ -9,11 +9,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EMContactModel : NSObject <EaseUserDelegate>
 @property (nonatomic, strong) NSString *huanXinId;
-@property (nonatomic, strong) UIImage *avatar;
-@property (nonatomic, strong) NSString *nickname;
-
-- (UIImage *)defaultAvatar;
-- (NSString *)showName;
+@property (nonatomic, copy) NSString *showName;         // 显示昵称
+@property (nonatomic, copy) NSString *avatarURL;        // 显示头像的url
+@property (nonatomic, copy) UIImage *defaultAvatar;     //默认头像
 @end
 
 NS_ASSUME_NONNULL_END

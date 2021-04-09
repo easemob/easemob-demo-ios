@@ -7,8 +7,10 @@
 //
 
 #import "EMGroupAdminsViewController.h"
-#import "EMAvatarNameCell.h"
+#import "EMAvatarNameCell+UserInfo.h"
 #import "EMPersonalDataViewController.h"
+#import "UserInfoStore.h"
+#import "EMAccountViewController.h"
 
 @interface EMGroupAdminsViewController ()
 
@@ -33,9 +35,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.isUpdated = NO;
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
     [self _setupSubviews];
     [self _fetchGroupAdminsWithIsShowHUD:YES];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Subviews
@@ -70,6 +77,7 @@
     
     cell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
     cell.nameLabel.text = [self.dataArray objectAtIndex:indexPath.row];
+    [cell refreshUserInfo:[self.dataArray objectAtIndex:indexPath.row]];
     cell.indexPath = indexPath;
     if (indexPath.row == 0)
         cell.detailTextLabel.text = @"群主";
@@ -243,13 +251,26 @@
 //个人资料卡
 - (void)personalData:(NSString *)nickName
 {
-    EMPersonalDataViewController *controller = [[EMPersonalDataViewController alloc]initWithNickName:nickName];
+    UIViewController* controller = nil;
+    if([[EMClient sharedClient].currentUsername isEqualToString:nickName]) {
+        controller = [[EMAccountViewController alloc] init];
+    }else{
+        controller = [[EMPersonalDataViewController alloc]initWithNickName:nickName];
+    }
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     UIViewController *rootViewController = window.rootViewController;
     if ([rootViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *nav = (UINavigationController *)rootViewController;
         [nav pushViewController:controller animated:YES];
     }
+}
+
+- (void)refreshTableView
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.view.window)
+            [self.tableView reloadData];
+    });
 }
 
 @end

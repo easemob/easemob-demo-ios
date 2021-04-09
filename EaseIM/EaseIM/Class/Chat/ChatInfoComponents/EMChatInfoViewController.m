@@ -9,6 +9,9 @@
 #import "EMChatInfoViewController.h"
 #import "EMPersonalDataViewController.h"
 #import "EMChatRecordViewController.h"
+#import "EMAccountViewController.h"
+#import "UserInfoStore.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface EMChatInfoViewController ()
 
@@ -109,6 +112,21 @@
         cell.textLabel.font = [UIFont systemFontOfSize:18.0];
         cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
         cell.textLabel.text = self.conversation.conversationId;
+        if(self.conversation.type == EMConversationTypeChat) {
+            EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
+            if(userInfo) {
+                if(userInfo.avatarUrl.length > 0) {
+                    NSURL * url = [NSURL URLWithString:userInfo.avatarUrl];
+                    if(url) {
+                        [cell.imageView sd_setImageWithURL:url completed:nil];
+                    }
+                }
+                if(userInfo.nickName.length > 0) {
+                    cell.textLabel.text = userInfo.nickName;
+                    cell.detailTextLabel.text = self.conversation.conversationId;
+                }
+            }
+        }
     }
     if (section == 1)
         cell.textLabel.text = @"查找聊天记录";
@@ -154,7 +172,12 @@
     NSInteger section = indexPath.section;
     if (section == 0) {
         //好友资料
-        EMPersonalDataViewController *controller = [[EMPersonalDataViewController alloc]initWithNickName:self.conversation.conversationId];
+        UIViewController* controller = nil;
+        if([[EMClient sharedClient].currentUsername isEqualToString:self.conversation.conversationId]) {
+            controller = [[EMAccountViewController alloc] init];
+        }else{
+            controller = [[EMPersonalDataViewController alloc]initWithNickName:self.conversation.conversationId];
+        }
         [self.navigationController pushViewController:controller animated:YES];
         return;
     }

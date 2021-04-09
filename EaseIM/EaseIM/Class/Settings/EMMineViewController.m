@@ -8,7 +8,7 @@
 
 #import "EMMineViewController.h"
 
-#import "EMAvatarNameCell.h"
+#import "EMAvatarNameCell+UserInfo.h"
 
 #import "EMAccountViewController.h"
 #import "EMSecurityViewController.h"
@@ -16,6 +16,7 @@
 #import "EMAboutHuanXinViewController.h"
 #import "EMDeveloperServiceViewController.h"
 #import "EMOpinionFeedbackViewController.h"
+#import "UserInfoStore.h"
 
 @interface EMMineViewController () 
 
@@ -41,8 +42,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userInfoUpdated) name:USERINFO_UPDATE object:nil];
     self.showRefreshHeader = NO;
     // Do any additional setup after loading the view.
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -58,6 +61,11 @@
     self.window = nil;
     self.backView = nil;
     self.navigationController.navigationBarHidden = NO;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Subviews
@@ -85,7 +93,8 @@
     self.userCell.detailLabel.textColor = [UIColor grayColor];
     self.userCell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
     self.userCell.nameLabel.text = [EMClient sharedClient].currentUsername;
-    self.userCell.detailLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayName;
+    //self.userCell.detailLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayName;
+    [self userInfoUpdated];
     [self.userCell.avatarView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.userCell.contentView.mas_left).offset(28);
         make.centerY.equalTo(self.userCell.contentView);
@@ -108,6 +117,26 @@
     
     //延时加载window,注意我们需要在rootWindow创建完成之后再创建这个悬浮的视图
     //[self performSelector:@selector(floatCard) withObject:nil afterDelay:0.1];
+    
+    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:[EMClient sharedClient].currentUsername];
+    if(!userInfo) {
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[[EMClient sharedClient].currentUsername]];
+    }else{
+        [self userInfoUpdated];
+    }
+}
+
+-(void)userInfoUpdated
+{
+    __weak typeof(self) weakself = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        {
+            if(weakself.view.window) {
+                [weakself.userCell refreshUserInfo:[EMClient sharedClient].currentUsername];
+                [weakself.tableView reloadData];
+            }
+        }
+    });
 }
 
 //漂浮名片
