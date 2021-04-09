@@ -281,27 +281,9 @@
     }else{
         confVC = [[ConfInviteUsersViewController alloc] initWithType:ConfInviteTypeGroup isCreate:NO excludeUsers:users groupOrChatroomId:groupId];
     }
-    NSMutableDictionary* latestMsgs = [NSMutableDictionary dictionary];
     
     [confVC setDoneCompletion:^(NSArray *aInviteUsers) {
-        for (NSString* user in aInviteUsers) {
-            EMConversation* conversation = [[[EMClient sharedClient] chatManager] getConversationWithConvId:user];
-            NSString*msgId = [conversation latestMessage].messageId;
-            if(msgId)
-                [latestMsgs setObject:msgId forKey:user];
-        }
-        [[EaseCallManager sharedManager] startInviteUsers:aInviteUsers ext:aExt completion:^(NSString * _Nonnull callId, EaseCallError * _Nonnull aError) {
-            for(NSString* user in aInviteUsers) {
-                dispatch_after(DISPATCH_TIME_NOW+1000, dispatch_get_main_queue(), ^{
-                    NSString* msgId = [latestMsgs objectForKey:user];
-                    EMConversation* conversation = [[[EMClient sharedClient] chatManager] getConversationWithConvId:user];
-                    [conversation loadMessagesStartFromId:msgId count:1 searchDirection:msgId?EMMessageSearchDirectionDown:EMMessageSearchDirectionUp completion:^(NSArray *aMessages, EMError *aError) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:EMCOMMMUNICATE_RECORD object:@{@"msg":aMessages}];
-                    }];
-                });
-                
-            }
-        }];
+        [[EaseCallManager sharedManager] startInviteUsers:aInviteUsers ext:aExt completion:nil];
     }];
     confVC.modalPresentationStyle = UIModalPresentationPopover;
     [vc presentViewController:confVC animated:NO completion:nil];

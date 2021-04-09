@@ -66,7 +66,7 @@
     for (NSString *username in aUserIds) {
         EMContactModel *model = [[EMContactModel alloc] init];
         EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:username];
-        model.huanXinId = username;
+        model.easeId = username;
         if(userInfo) {
             if([userInfo.avatarUrl length] > 0) {
                 model.avatarURL = userInfo.avatarUrl;
@@ -273,15 +273,15 @@
 
 - (NSArray<EaseUserDelegate> *)items {
     EMContactModel *newFriends = [[EMContactModel alloc] init];
-    newFriends.huanXinId = NEWFRIEND;
+    newFriends.easeId = NEWFRIEND;
     newFriends.showName = @"新的好友";
     newFriends.defaultAvatar = [UIImage imageNamed:@"newFriend"];
     EMContactModel *groups = [[EMContactModel alloc] init];
-    groups.huanXinId = GROUPLIST;
+    groups.easeId = GROUPLIST;
     groups.showName = @"群聊";
     groups.defaultAvatar = [UIImage imageNamed:@"groupchat"];
     EMContactModel *chatooms = [[EMContactModel alloc] init];
-    chatooms.huanXinId = CHATROOMLIST;
+    chatooms.easeId = CHATROOMLIST;
     chatooms.showName = @"聊天室";
     chatooms.defaultAvatar = [UIImage imageNamed:@"chatroom"];
     

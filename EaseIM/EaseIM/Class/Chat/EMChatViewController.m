@@ -188,7 +188,7 @@
 //userdata
 - (id<EaseUserDelegate>)userData:(NSString *)huanxinID
 {
-    EMUserDataModel *model = [[EMUserDataModel alloc]initWithHuanxinId:huanxinID];
+    EMUserDataModel *model = [[EMUserDataModel alloc] initWithEaseId:huanxinID];
     EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:huanxinID];
     if(userInfo) {
         if(userInfo.avatarUrl.length > 0) {
