@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *showName;         // 显示昵称
 @property (nonatomic, copy) NSString *avatarURL;        // 显示头像的url
 
-- (instancetype)initWithHuanxinId:(NSString *)huanxinId;
+- (instancetype)initWithEaseId:(NSString *)easeId;
 @end
 
 NS_ASSUME_NONNULL_END

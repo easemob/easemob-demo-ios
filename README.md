@@ -3,6 +3,8 @@
 ## 简介
 环信IM产品展示了怎么使用环信SDK创建一个完整的类微信的聊天APP。展示的功能包括：注册新用户，用户登录，添加好友，单聊，群聊，发送文字，表情，语音，图片，iCloud文件，地理位置等消息，以及实时音视频通话等。
 
+其中音视频通话使用声网SDK实现。
+
 ## 环信IM APP运行
 
 ### 集成之前
@@ -14,6 +16,10 @@
 
 -
     登录到环信Console，即可创建自己的IM应用。
+    
+-
+    如需使用音视频功能，还需注册声网应用，拥有自己的声网appId。
+    声网应用注册引导地址： [声网控制台](https://console.agora.io)
 
 ### APP运行
 
@@ -67,6 +73,10 @@ pod install
 - (instancetype)initWithConversationId:(NSString *)conversationId conversationType:(EMConversationType)conType;
 ```
 
+## 集成音视频模块
+
+- 音视频模块使用EaseCallKit UI库实现，详见 [EaseCallKit使用指南](http://docs-im.easemob.com/im/ios/other/easecallkit)
+
 # 集成其他模块
 
 - 以下介绍的模块需要初始化全局监听单例类：EaseIMHelper，监听事件回调并且控制页面跳转
@@ -78,7 +88,7 @@ pod install
 ```
 EMConversationsViewController *conversationController = [[EMConversationsViewController alloc] init];
 ```
-**可通过导航跳转
+* 可通过导航跳转
 
 ## 好友列表模块：
 
@@ -87,7 +97,7 @@ EMConversationsViewController *conversationController = [[EMConversationsViewCon
 ```
 EMContactsViewController *contactsController = [[EMContactsViewController alloc] init];
 ```
-**可通过导航跳转
+* 可通过导航跳转
 
 ## 群聊模块：
 

@@ -7,6 +7,6 @@
 
 @implementation EMContactModel
 - (NSString *)easeId {
-    return _huanXinId;
+    return _easeId;
 }
 @end

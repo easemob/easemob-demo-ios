@@ -10,10 +10,10 @@
 
 @implementation EMUserDataModel
 
-- (instancetype)initWithHuanxinId:(NSString *)huanxinId
+- (instancetype)initWithEaseId:(NSString *)easeId
 {
     if (self = [super init]) {
-        _easeId = huanxinId;
+        _easeId = easeId;
         _defaultAvatar = [UIImage imageNamed:@"defaultAvatar"];
     }
     return self;
