@@ -10,8 +10,9 @@
 
 #import "EMRealtimeSearch.h"
 
-#import "EMAvatarNameCell.h"
+#import "EMAvatarNameCell+UserInfo.h"
 #import "EMAddBlacklistViewController.h"
+#import "UserInfoStore.h"
 
 @interface EMBlacklistViewController ()<EMMultiDevicesDelegate, EMAvatarNameCellDelegate>
 
@@ -23,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
     
     [self _setupSubviews];
     [self tableViewDidTriggerHeaderRefresh];
@@ -76,10 +78,12 @@
         cell.nameLabel.text = [self.dataArray objectAtIndex:indexPath.row];
         cell.nameLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
         cell.nameLabel.font = [UIFont systemFontOfSize:18.f];
+        [cell refreshUserInfo:[self.dataArray objectAtIndex:indexPath.row]];
         return cell;
     }
     cell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
     cell.nameLabel.text = [self.searchResults objectAtIndex:indexPath.row];
+    [cell refreshUserInfo:[self.searchResults objectAtIndex:indexPath.row]];
     return cell;
 }
 
@@ -121,6 +125,14 @@
             }
         }];
     }
+}
+
+- (void)refreshTableView
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.view.window)
+            [self.tableView reloadData];
+    });
 }
 
 #pragma mark - Table view delegate

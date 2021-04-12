@@ -331,7 +331,23 @@
 		90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECC1930492300121AEC /* CFNetwork.framework */; };
 		90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECE1930492B00121AEC /* AddressBook.framework */; };
 		921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C6A9D1D2A841600D8257F /* CoreMotion.framework */; };
-		C035E8151AEA40F400283EE9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C36CA691A1EDB6200CDDD48 /* CoreData.framework */; };
+		C0E9E48B26083E9E0080AB28 /* AvatarUrlStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E9E48A26083E9E0080AB28 /* AvatarUrlStore.m */; };
+		C0E9E4A3260892630080AB28 /* SelectAvatarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E9E4A2260892630080AB28 /* SelectAvatarViewController.m */; };
+		C0E9E4B0260B3E530080AB28 /* check-circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E9E4AD260B3E530080AB28 /* check-circle@2x.png */; };
+		C0E9E4B1260B3E530080AB28 /* check-circle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E9E4AE260B3E530080AB28 /* check-circle@3x.png */; };
+		C0E9E4B2260B3E530080AB28 /* check-circle.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E9E4AF260B3E530080AB28 /* check-circle.png */; };
+		C0E9E4BA260C74AC0080AB28 /* ConfirmUserCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E9E4B9260C74AC0080AB28 /* ConfirmUserCardView.m */; };
+		C0E9E5202611C51C0080AB28 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E9E51F2611C51C0080AB28 /* DBManager.m */; };
+		C0E9E5222611D5550080AB28 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C0E9E5212611D5480080AB28 /* libsqlite3.0.tbd */; };
+		C0E9E529261339FE0080AB28 /* userinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E9E526261339FD0080AB28 /* userinfo@2x.png */; };
+		C0E9E52A261339FE0080AB28 /* userinfo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E9E527261339FD0080AB28 /* userinfo@3x.png */; };
+		C0E9E52B261339FE0080AB28 /* userinfo.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E9E528261339FD0080AB28 /* userinfo.png */; };
+		C0E9E5E5261482B00080AB28 /* UIImageView+UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E9E5E4261482B00080AB28 /* UIImageView+UserInfo.m */; };
+		C0E9E5E826148D700080AB28 /* EMAvatarNameCell+UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E9E5E726148D700080AB28 /* EMAvatarNameCell+UserInfo.m */; };
+		C0F4EBBB26037E3600436782 /* UserInfoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F4EBBA26037E3600436782 /* UserInfoStore.m */; };
+		C0F4EBBE2603839100436782 /* SelectUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F4EBBD2603839100436782 /* SelectUserViewController.m */; };
+		C0F4EBC12604A38700436782 /* EMUserCardMsgView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F4EBC02604A38700436782 /* EMUserCardMsgView.m */; };
+		C0F4EBC42604A51400436782 /* EMMsgBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F4EBC32604A51400436782 /* EMMsgBubbleView.m */; };
 		D29A6BB51B7209C1002324BB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D29A6BB41B7209C1002324BB /* Accounts.framework */; };
 		D29A6BB61B7209C8002324BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3527421931D33A00385240 /* Social.framework */; };
 /* End PBXBuildFile section */
@@ -347,7 +363,7 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3CF5F4EB25BAE179000E357C /* Embed Frameworks */ = {
+		C0F4EBAC26037CFC00436782 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -537,7 +553,6 @@
 		3C3527401931D32C00385240 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		3C3527421931D33A00385240 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		3C3527441931D37900385240 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		3C36CA691A1EDB6200CDDD48 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3C37039D238D06B800A8976B /* developerService@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "developerService@3x.png"; sourceTree = "<group>"; };
 		3C3703A1238D06BD00A8976B /* 安全与隐私@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "安全与隐私@3x.png"; sourceTree = "<group>"; };
 		3C3703A2238D06BE00A8976B /* 黑名单@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "黑名单@3x.png"; sourceTree = "<group>"; };
@@ -807,6 +822,34 @@
 		90F1BECE1930492B00121AEC /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		90F1BED41930495800121AEC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		921C6A9D1D2A841600D8257F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		A4A8F2B0AFE9A8770DA4D42D /* Pods_EaseIM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseIM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0E9E48926083E9E0080AB28 /* AvatarUrlStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvatarUrlStore.h; sourceTree = "<group>"; };
+		C0E9E48A26083E9E0080AB28 /* AvatarUrlStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvatarUrlStore.m; sourceTree = "<group>"; };
+		C0E9E4A1260892630080AB28 /* SelectAvatarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectAvatarViewController.h; sourceTree = "<group>"; };
+		C0E9E4A2260892630080AB28 /* SelectAvatarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectAvatarViewController.m; sourceTree = "<group>"; };
+		C0E9E4AD260B3E530080AB28 /* check-circle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-circle@2x.png"; sourceTree = "<group>"; };
+		C0E9E4AE260B3E530080AB28 /* check-circle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-circle@3x.png"; sourceTree = "<group>"; };
+		C0E9E4AF260B3E530080AB28 /* check-circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-circle.png"; sourceTree = "<group>"; };
+		C0E9E4B8260C74AC0080AB28 /* ConfirmUserCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmUserCardView.h; sourceTree = "<group>"; };
+		C0E9E4B9260C74AC0080AB28 /* ConfirmUserCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfirmUserCardView.m; sourceTree = "<group>"; };
+		C0E9E51E2611C51C0080AB28 /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		C0E9E51F2611C51C0080AB28 /* DBManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		C0E9E5212611D5480080AB28 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		C0E9E526261339FD0080AB28 /* userinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "userinfo@2x.png"; sourceTree = "<group>"; };
+		C0E9E527261339FD0080AB28 /* userinfo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "userinfo@3x.png"; sourceTree = "<group>"; };
+		C0E9E528261339FD0080AB28 /* userinfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userinfo.png; sourceTree = "<group>"; };
+		C0E9E5E3261482B00080AB28 /* UIImageView+UserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImageView+UserInfo.h"; sourceTree = "<group>"; };
+		C0E9E5E4261482B00080AB28 /* UIImageView+UserInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+UserInfo.m"; sourceTree = "<group>"; };
+		C0E9E5E626148D700080AB28 /* EMAvatarNameCell+UserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EMAvatarNameCell+UserInfo.h"; sourceTree = "<group>"; };
+		C0E9E5E726148D700080AB28 /* EMAvatarNameCell+UserInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "EMAvatarNameCell+UserInfo.m"; sourceTree = "<group>"; };
+		C0F4EBB926037E3600436782 /* UserInfoStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoStore.h; sourceTree = "<group>"; };
+		C0F4EBBA26037E3600436782 /* UserInfoStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoStore.m; sourceTree = "<group>"; };
+		C0F4EBBC2603839100436782 /* SelectUserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectUserViewController.h; sourceTree = "<group>"; };
+		C0F4EBBD2603839100436782 /* SelectUserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectUserViewController.m; sourceTree = "<group>"; };
+		C0F4EBBF2604A38700436782 /* EMUserCardMsgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMUserCardMsgView.h; sourceTree = "<group>"; };
+		C0F4EBC02604A38700436782 /* EMUserCardMsgView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMUserCardMsgView.m; sourceTree = "<group>"; };
+		C0F4EBC22604A51400436782 /* EMMsgBubbleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMMsgBubbleView.h; sourceTree = "<group>"; };
+		C0F4EBC32604A51400436782 /* EMMsgBubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMMsgBubbleView.m; sourceTree = "<group>"; };
 		D29A6BB41B7209C1002324BB /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		D2B1B9EC1C3B800E0087A74F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D2B1B9EE1C3B80290087A74F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -820,13 +863,13 @@
 			files = (
 				3C710D5F24E2A718003D2467 /* CoreServices.framework in Frameworks */,
 				3AFDAE65201AE58F0088D44E /* Security.framework in Frameworks */,
+				C0E9E5222611D5550080AB28 /* libsqlite3.0.tbd in Frameworks */,
 				3A03FE9F1E360BEE00DC1ABC /* MessageUI.framework in Frameworks */,
 				3A595FAC1D6DBBD100504DB3 /* CoreTelephony.framework in Frameworks */,
 				3AB62A131D926375000776F0 /* libbz2.tbd in Frameworks */,
 				921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */,
 				D29A6BB61B7209C8002324BB /* Social.framework in Frameworks */,
 				D29A6BB51B7209C1002324BB /* Accounts.framework in Frameworks */,
-				C035E8151AEA40F400283EE9 /* CoreData.framework in Frameworks */,
 				3CE6293319A1B13700829632 /* CoreText.framework in Frameworks */,
 				3C97EF2A23A87B5C004E97B7 /* CloudKit.framework in Frameworks */,
 				3C1CEF7F196EA37600DBA56B /* ImageIO.framework in Frameworks */,
@@ -862,6 +905,7 @@
 		3A45D72222239DE200505786 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				C0F4EBA826037CB600436782 /* UserInfo */,
 				3A45D9B122239DE200505786 /* EaseIMHelper.h */,
 				3A45D8FF22239DE200505786 /* EaseIMHelper.m */,
 				3A45D8FE22239DE200505786 /* AppDelegate.h */,
@@ -1175,6 +1219,8 @@
 				3C8DFAB624ED1FD90047C277 /* EMAvatarNameModel.m */,
 				3C1B68CD252046EE005CAB3C /* EMAlertView.h */,
 				3C1B68CE252046EE005CAB3C /* EMAlertView.m */,
+				C0E9E5E626148D700080AB28 /* EMAvatarNameCell+UserInfo.h */,
+				C0E9E5E726148D700080AB28 /* EMAvatarNameCell+UserInfo.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1454,6 +1500,9 @@
 		3C729D9F25727A4B003DB315 /* ChatImagsResources */ = {
 			isa = PBXGroup;
 			children = (
+				C0E9E528261339FD0080AB28 /* userinfo.png */,
+				C0E9E526261339FD0080AB28 /* userinfo@2x.png */,
+				C0E9E527261339FD0080AB28 /* userinfo@3x.png */,
 				3C59EDC9257E4C630009DF69 /* pin_readReceipt@2x.png */,
 				3C59EDCA257E4C640009DF69 /* pin_readReceipt@3x.png */,
 				3C9A961E2579E18200752F28 /* video-me@2x.png */,
@@ -1532,6 +1581,10 @@
 				3C9A960E2579158C00752F28 /* EMMessageStatusView.m */,
 				3C9A96062579148000752F28 /* EMMsgPicMixTextBubbleView.h */,
 				3C9A96072579148000752F28 /* EMMsgPicMixTextBubbleView.m */,
+				C0F4EBBF2604A38700436782 /* EMUserCardMsgView.h */,
+				C0F4EBC02604A38700436782 /* EMUserCardMsgView.m */,
+				C0F4EBC22604A51400436782 /* EMMsgBubbleView.h */,
+				C0F4EBC32604A51400436782 /* EMMsgBubbleView.m */,
 			);
 			path = MessageCell;
 			sourceTree = "<group>";
@@ -1748,13 +1801,13 @@
 		90911026192EEA70008A48AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C0E9E5212611D5480080AB28 /* libsqlite3.0.tbd */,
 				D29A6BB41B7209C1002324BB /* Accounts.framework */,
 				90F1BECE1930492B00121AEC /* AddressBook.framework */,
 				D2B1B9EC1C3B800E0087A74F /* AssetsLibrary.framework */,
 				EBF955E21ADD17700087E035 /* AVFoundation.framework */,
 				90F1BECC1930492300121AEC /* CFNetwork.framework */,
 				3C97EF2923A87B5C004E97B7 /* CloudKit.framework */,
-				3C36CA691A1EDB6200CDDD48 /* CoreData.framework */,
 				90911029192EEA70008A48AA /* CoreGraphics.framework */,
 				3C06AAFE194050A00076FF0B /* CoreLocation.framework */,
 				921C6A9D1D2A841600D8257F /* CoreMotion.framework */,
@@ -1778,6 +1831,47 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C0E9E4AC260B3E530080AB28 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				C0E9E4AD260B3E530080AB28 /* check-circle@2x.png */,
+				C0E9E4AE260B3E530080AB28 /* check-circle@3x.png */,
+				C0E9E4AF260B3E530080AB28 /* check-circle.png */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
+		C0F4EBA826037CB600436782 /* UserInfo */ = {
+			isa = PBXGroup;
+			children = (
+				C0E9E4AC260B3E530080AB28 /* resource */,
+				C0F4EBB926037E3600436782 /* UserInfoStore.h */,
+				C0F4EBBA26037E3600436782 /* UserInfoStore.m */,
+				C0F4EBBC2603839100436782 /* SelectUserViewController.h */,
+				C0F4EBBD2603839100436782 /* SelectUserViewController.m */,
+				C0E9E48926083E9E0080AB28 /* AvatarUrlStore.h */,
+				C0E9E48A26083E9E0080AB28 /* AvatarUrlStore.m */,
+				C0E9E4A1260892630080AB28 /* SelectAvatarViewController.h */,
+				C0E9E4A2260892630080AB28 /* SelectAvatarViewController.m */,
+				C0E9E4B8260C74AC0080AB28 /* ConfirmUserCardView.h */,
+				C0E9E4B9260C74AC0080AB28 /* ConfirmUserCardView.m */,
+				C0E9E51E2611C51C0080AB28 /* DBManager.h */,
+				C0E9E51F2611C51C0080AB28 /* DBManager.m */,
+				C0E9E5E3261482B00080AB28 /* UIImageView+UserInfo.h */,
+				C0E9E5E4261482B00080AB28 /* UIImageView+UserInfo.m */,
+			);
+			path = UserInfo;
+			sourceTree = "<group>";
+		};
+		DDE58F7030F07A42B064AA55 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5076D87974D05F07BE7962B2 /* Pods-EaseIM.debug.xcconfig */,
+				7545C4908E11B38A67BD7D79 /* Pods-EaseIM.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1785,12 +1879,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 90911050192EEA70008A48AA /* Build configuration list for PBXNativeTarget "EaseIM" */;
 			buildPhases = (
-				C75D6ACCFE05C47DE2E4FEA4 /* [CP] Check Pods Manifest.lock */,
+				E1658F6AF5AD1A70ACA8A76F /* [CP] Check Pods Manifest.lock */,
 				90911020192EEA70008A48AA /* Sources */,
 				90911021192EEA70008A48AA /* Frameworks */,
 				90911022192EEA70008A48AA /* Resources */,
 				3CDE808924FD024000BAA3E2 /* Embed App Extensions */,
 				8B898B12304B923E6A9C67D9 /* [CP] Embed Pods Frameworks */,
+				C0F4EBAC26037CFC00436782 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1890,15 +1985,18 @@
 				3C37DF142382508500399AE8 /* icon_failure.png in Resources */,
 				3C4AED132499FE7B001F7C50 /* enableClick.png in Resources */,
 				3A45E0872223A28F00505786 /* back_gary@2x.png in Resources */,
+				C0E9E52B261339FE0080AB28 /* userinfo.png in Resources */,
 				3A45E0372223A22600505786 /* qr@2x.png in Resources */,
 				3A45E0F72223A30000505786 /* alert_default@3x.png in Resources */,
 				3CB106C9247FBEAC00479BC1 /* ios@3x.png in Resources */,
 				3C4AEDB6249B5A87001F7C50 /* settings@3x.png in Resources */,
+				C0E9E4B0260B3E530080AB28 /* check-circle@2x.png in Resources */,
 				3C4AED49249A2F95001F7C50 /* icon-tab通讯录@3x.png in Resources */,
 				3C729DD62572937B003DB315 /* search@3x.png in Resources */,
 				3C7A14ED238FD0B600F4AC48 /* android@2x.png in Resources */,
 				3A45E5402223D69800505786 /* uncheck@3x.png in Resources */,
 				3C9A97B8257CDFD300752F28 /* chatroom@3x.png in Resources */,
+				C0E9E529261339FE0080AB28 /* userinfo@2x.png in Resources */,
 				3A45E3EC2223A4F300505786 /* group_join@2x.png in Resources */,
 				3C4AED4B249A2F95001F7C50 /* icon-tab通讯录@2x.png in Resources */,
 				3C4AEDCB249B801D001F7C50 /* blankConversation@3x.png in Resources */,
@@ -1915,6 +2013,7 @@
 				3C7A1512239118C100F4AC48 /* win@3x.png in Resources */,
 				3A45E0892223A28F00505786 /* close_gray@2x.png in Resources */,
 				3A45E08D2223A28F00505786 /* group_avatar@3x.png in Resources */,
+				C0E9E52A261339FE0080AB28 /* userinfo@3x.png in Resources */,
 				3A45E0362223A22600505786 /* device_disable@2x.png in Resources */,
 				3A45E0922223A28F00505786 /* user_avatar_me@3x.png in Resources */,
 				3C662626250B2BD900B88AD5 /* chatroomConversation@3x.png in Resources */,
@@ -1972,6 +2071,7 @@
 				3A45E0392223A22600505786 /* scanLine@2x.png in Resources */,
 				3CBCF5F923A24FC70053E227 /* systemNotify@2x.png in Resources */,
 				3A45E0FC2223A30000505786 /* alert_info@2x.png in Resources */,
+				C0E9E4B2260B3E530080AB28 /* check-circle.png in Resources */,
 				3A45E08F2223A28F00505786 /* group_avatar@2x.png in Resources */,
 				3C68ED4B2574D70D004E167F /* video_conf@3x.png in Resources */,
 				3C68ED192574D134004E167F /* backleft@3x.png in Resources */,
@@ -2012,6 +2112,7 @@
 				3C9A963F2579E8F400752F28 /* msg_bg_recv@3x.png in Resources */,
 				3C37DF53238251ED00399AE8 /* icon-加群@2x.png in Resources */,
 				3C9A96182579E15B00752F28 /* msg_bg_send@3x.png in Resources */,
+				C0E9E4B1260B3E530080AB28 /* check-circle@3x.png in Resources */,
 				3C7A14E1238FC72800F4AC48 /* back_left_black@2x.png in Resources */,
 				3C4AED26249A1415001F7C50 /* unAgreeProtocol@2x.png in Resources */,
 				3C66262E250B2C2400B88AD5 /* groupConversation@2x.png in Resources */,
@@ -2061,9 +2162,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh",
-				"${PODS_ROOT}/EaseCallKit/EaseCallKit.framework",
-				"${PODS_ROOT}/EaseIMKit/EaseIMKit.framework",
-				"${PODS_ROOT}/HyphenateChat/HyphenateChat.framework",
+				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
@@ -2077,9 +2176,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseCallKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseIMKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyphenateChat.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
@@ -2127,15 +2224,19 @@
 			files = (
 				3C729E8125739B0C003DB315 /* EMNotificationHelper.m in Sources */,
 				3C729B65257102E0003DB315 /* EMChatViewController.m in Sources */,
+				C0F4EBBB26037E3600436782 /* UserInfoStore.m in Sources */,
 				3C9A9797257CD71100752F28 /* EMConversationUserDataModel.m in Sources */,
 				3C3BAE872398E45600344F63 /* EMGroupAllMembersViewController.m in Sources */,
 				3A45E3E12223A4E900505786 /* EMGroupInfoViewController.m in Sources */,
 				3A45E0FB2223A30000505786 /* EMAlertController.m in Sources */,
 				3C37DEEC2382486200399AE8 /* EMErrorAlertViewController.m in Sources */,
+				C0E9E48B26083E9E0080AB28 /* AvatarUrlStore.m in Sources */,
 				3A45E38F2223A48700505786 /* EMChatroomAdminsViewController.m in Sources */,
 				3C729A4D2570F785003DB315 /* EMConversationsViewController.m in Sources */,
 				3C729C7A257144AE003DB315 /* ConferenceController.m in Sources */,
+				C0E9E5202611C51C0080AB28 /* DBManager.m in Sources */,
 				3A45E0532223A25100505786 /* EMGlobalVariables.m in Sources */,
+				C0E9E4A3260892630080AB28 /* SelectAvatarViewController.m in Sources */,
 				3A45E05D2223A25C00505786 /* NSObject+Alert.m in Sources */,
 				3C729DA625727CC3003DB315 /* EMMsgTranspondViewController.m in Sources */,
 				3C7A14FB2390D49F00F4AC48 /* SPDateTimePickerView.m in Sources */,
@@ -2168,6 +2269,7 @@
 				3A45DF0E2223A1FD00505786 /* EMAddBlacklistViewController.m in Sources */,
 				3A45E3902223A48700505786 /* EMChatroomBlacklistViewController.m in Sources */,
 				3A45E3E42223A4E900505786 /* EMGroupAdminsViewController.m in Sources */,
+				C0E9E4BA260C74AC0080AB28 /* ConfirmUserCardView.m in Sources */,
 				3C87A103249080900051E06E /* EMSettingsViewController.m in Sources */,
 				3C8437632510A3AB003CFA53 /* EMProtocolViewController..m in Sources */,
 				3A45E41F2223A52100505786 /* EMAccountViewController.m in Sources */,
@@ -2177,6 +2279,7 @@
 				3C729B5E2570F786003DB315 /* EMInviteFriendViewController.m in Sources */,
 				3C729B6F2571045E003DB315 /* EMChatInfoViewController.m in Sources */,
 				3C9A95DF2578E38700752F28 /* EMReadReceiptMemberModel.m in Sources */,
+				C0F4EBBE2603839100436782 /* SelectUserViewController.m in Sources */,
 				3C9A960C257914DE00752F28 /* EMMessageCell.m in Sources */,
 				3C729C78257144AE003DB315 /* ConfInviteUserCell.m in Sources */,
 				3A45E0432223A23000505786 /* WSLNativeScanTool.m in Sources */,
@@ -2198,15 +2301,18 @@
 				3A45EAFA2224186400505786 /* EMDemoOptions.m in Sources */,
 				3C76D3F9257758A000E7AF7A /* OneLoadingAnimationView.m in Sources */,
 				3A45E0442223A23000505786 /* EMQRCodeViewController.m in Sources */,
+				C0F4EBC12604A38700436782 /* EMUserCardMsgView.m in Sources */,
 				3C8DFAB724ED1FD90047C277 /* EMAvatarNameModel.m in Sources */,
 				3C7A14DA238F6F3900F4AC48 /* EMMsgNotificViewController.m in Sources */,
 				3A45DA2622239DE200505786 /* main.m in Sources */,
 				3C729D09257144AE003DB315 /* EMButton.m in Sources */,
+				C0E9E5E826148D700080AB28 /* EMAvatarNameCell+UserInfo.m in Sources */,
 				3A45E3912223A48700505786 /* EMChatroomMutesViewController.m in Sources */,
 				3C37DEFC23824EBB00399AE8 /* PellTableViewSelect.m in Sources */,
 				3C9A96102579158C00752F28 /* EMMessageStatusView.m in Sources */,
 				3A45E3CC2223A4DC00505786 /* EMCreateGroupViewController.m in Sources */,
 				3A45E38C2223A48700505786 /* EMChatroomMembersViewController.m in Sources */,
+				C0E9E5E5261482B00080AB28 /* UIImageView+UserInfo.m in Sources */,
 				3C8EBEF524ADDF7E00B6560A /* EMAuthorizationView.m in Sources */,
 				3C9A95DD2578E38700752F28 /* EMReadReceiptMsgViewController.m in Sources */,
 				3A45E0212223A21B00505786 /* EMRegisterViewController.m in Sources */,
@@ -2223,6 +2329,7 @@
 				3C729C71257144AE003DB315 /* SingleCallController.m in Sources */,
 				3A45E3E22223A4E900505786 /* EMGroupSettingsViewController.m in Sources */,
 				3A45DF5C2223A1FD00505786 /* EMRefreshViewController.m in Sources */,
+				C0F4EBC42604A51400436782 /* EMMsgBubbleView.m in Sources */,
 				3C729B702571045E003DB315 /* EMPersonalDataViewController.m in Sources */,
 				3C729DA225727ACB003DB315 /* EMChatViewController+EMForwardMessage.m in Sources */,
 				3C729D9825727461003DB315 /* EMAtGroupMembersViewController.m in Sources */,
@@ -2377,7 +2484,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/EaseIM",
-					"$(PROJECT_DIR)/libs",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EaseIM/EaseIM-Prefix.pch";
@@ -2463,7 +2569,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/EaseIM",
-					"$(PROJECT_DIR)/libs",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EaseIM/EaseIM-Prefix.pch";

@@ -8,8 +8,10 @@
 
 #import "EMPersonalDataViewController.h"
 #import "EMChatViewController.h"
-#import "EMAvatarNameCell.h"
+#import "EMAvatarNameCell+UserInfo.h"
 #import "PellTableViewSelect.h"
+#import "UserInfoStore.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface EMPersonalDataViewController ()
 
@@ -51,14 +53,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
     self.showRefreshHeader = NO;
     [self _setupSubviews];
+    [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[self.nickName]];
     // Do any additional setup after loading the view.
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.chatController];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)_setupSubviews
@@ -110,6 +115,8 @@
         EMAvatarNameCell *cell = [[EMAvatarNameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EMAvatarNameCell"];
         cell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
         cell.nameLabel.text = self.nickName;
+        [cell refreshUserInfo:self.nickName];
+        
         cell.userInteractionEnabled = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
@@ -238,6 +245,14 @@
 - (NSArray *)getchBlackList
 {
     return [[EMClient sharedClient].contactManager getBlackList];
+}
+
+- (void)refreshTableView
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.view.window)
+            [self.tableView reloadData];
+    });
 }
 
 @end

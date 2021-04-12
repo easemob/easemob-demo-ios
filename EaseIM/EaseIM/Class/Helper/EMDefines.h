@@ -132,4 +132,10 @@
 #define CHATROOM_INFO_UPDATED @"EMChatroomInfoUpdated"
 #define CHATROOM_INFO_PUSHVIEWCONTROLLER @"EMPushChatroomInfoViewController"
 
+//用户属性更新
+#define USERINFO_UPDATE @"EMUserInfoUpdated"
+
+//确认发送名片消息
+#define CONFIRM_USERCARD @"EMUserCardConfirm"
+
 #endif /* EMDefines_h */
