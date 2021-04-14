@@ -331,6 +331,10 @@
 		90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECC1930492300121AEC /* CFNetwork.framework */; };
 		90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECE1930492B00121AEC /* AddressBook.framework */; };
 		921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C6A9D1D2A841600D8257F /* CoreMotion.framework */; };
+		C075E496262433B80080A126 /* titleTextImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E494262433B80080A126 /* titleTextImage@3x.png */; };
+		C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E495262433B80080A126 /* titleTextImage@2x.png */; };
+		C075E49E26243C0B0080A126 /* titleBackImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49C26243C0B0080A126 /* titleBackImage@3x.png */; };
+		C075E49F26243C0B0080A126 /* titleBackImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49D26243C0B0080A126 /* titleBackImage@2x.png */; };
 		C0E9E48B26083E9E0080AB28 /* AvatarUrlStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E9E48A26083E9E0080AB28 /* AvatarUrlStore.m */; };
 		C0E9E4A3260892630080AB28 /* SelectAvatarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E9E4A2260892630080AB28 /* SelectAvatarViewController.m */; };
 		C0E9E4B0260B3E530080AB28 /* check-circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E9E4AD260B3E530080AB28 /* check-circle@2x.png */; };
@@ -822,7 +826,10 @@
 		90F1BECE1930492B00121AEC /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		90F1BED41930495800121AEC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		921C6A9D1D2A841600D8257F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		A4A8F2B0AFE9A8770DA4D42D /* Pods_EaseIM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseIM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C075E494262433B80080A126 /* titleTextImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@3x.png"; sourceTree = "<group>"; };
+		C075E495262433B80080A126 /* titleTextImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@2x.png"; sourceTree = "<group>"; };
+		C075E49C26243C0B0080A126 /* titleBackImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@3x.png"; sourceTree = "<group>"; };
+		C075E49D26243C0B0080A126 /* titleBackImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@2x.png"; sourceTree = "<group>"; };
 		C0E9E48926083E9E0080AB28 /* AvatarUrlStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvatarUrlStore.h; sourceTree = "<group>"; };
 		C0E9E48A26083E9E0080AB28 /* AvatarUrlStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvatarUrlStore.m; sourceTree = "<group>"; };
 		C0E9E4A1260892630080AB28 /* SelectAvatarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectAvatarViewController.h; sourceTree = "<group>"; };
@@ -1064,6 +1071,10 @@
 		3A45DCD82223A1FC00505786 /* AccountImgs */ = {
 			isa = PBXGroup;
 			children = (
+				C075E49D26243C0B0080A126 /* titleBackImage@2x.png */,
+				C075E49C26243C0B0080A126 /* titleBackImage@3x.png */,
+				C075E495262433B80080A126 /* titleTextImage@2x.png */,
+				C075E494262433B80080A126 /* titleTextImage@3x.png */,
 				3C8437642510B2CF003CFA53 /* webRefreshButton@2x.png */,
 				3C8437662510B2D4003CFA53 /* webRefreshButton@3x.png */,
 				3C4AED102499FE74001F7C50 /* enableClick.png */,
@@ -1863,15 +1874,6 @@
 			path = UserInfo;
 			sourceTree = "<group>";
 		};
-		DDE58F7030F07A42B064AA55 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5076D87974D05F07BE7962B2 /* Pods-EaseIM.debug.xcconfig */,
-				7545C4908E11B38A67BD7D79 /* Pods-EaseIM.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1879,7 +1881,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 90911050192EEA70008A48AA /* Build configuration list for PBXNativeTarget "EaseIM" */;
 			buildPhases = (
-				E1658F6AF5AD1A70ACA8A76F /* [CP] Check Pods Manifest.lock */,
 				90911020192EEA70008A48AA /* Sources */,
 				90911021192EEA70008A48AA /* Frameworks */,
 				90911022192EEA70008A48AA /* Resources */,
@@ -2092,6 +2093,7 @@
 				3C4AECF72499CF83001F7C50 /* hiddenPwd.png in Resources */,
 				3C4AED5C249A2FB8001F7C50 /* icon-tab会话unselected@2x.png in Resources */,
 				3A45E3972223A49E00505786 /* chatroom_avatar@3x.png in Resources */,
+				C075E49F26243C0B0080A126 /* titleBackImage@2x.png in Resources */,
 				3C9A97B9257CDFD300752F28 /* chatroom@2x.png in Resources */,
 				3A45E03A2223A22600505786 /* device@2x.png in Resources */,
 				3C87A0FD248F81C60051E06E /* icon-enter@3x.png in Resources */,
@@ -2105,6 +2107,7 @@
 				3C729DD52572937B003DB315 /* search@2x.png in Resources */,
 				3CBCF5FB23A24FC70053E227 /* systemNotify@3x.png in Resources */,
 				3A45E0382223A22600505786 /* device@3x.png in Resources */,
+				C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */,
 				3C7A1515239118C100F4AC48 /* web@3x.png in Resources */,
 				3C91A0B125C4002500103C2E /* BootPage@3x.png in Resources */,
 				3C729DEE25729875003DB315 /* icon-setting@3x.png in Resources */,
@@ -2137,12 +2140,14 @@
 				3C9A97B7257CDFD300752F28 /* groupchat@3x.png in Resources */,
 				3C4AEDA9249B5A38001F7C50 /* opinionFeedback@2x.png in Resources */,
 				3C4AED43249A2F89001F7C50 /* icon-tab我unselected@2x.png in Resources */,
+				C075E496262433B80080A126 /* titleTextImage@3x.png in Resources */,
 				3C4AECF52499CF83001F7C50 /* hiddenPwd@2x.png in Resources */,
 				3C8DFAA224EA282F0047C277 /* currentAppkey@2x.png in Resources */,
 				3A45E0F92223A30000505786 /* alert_error@3x.png in Resources */,
 				3C3703B9238D06D500A8976B /* 安全与隐私@3x.png in Resources */,
 				3C37DF0D2382508500399AE8 /* titleImage@3x.png in Resources */,
 				3C68ED232574D156004E167F /* groupInfo@3x.png in Resources */,
+				C075E49E26243C0B0080A126 /* titleBackImage@3x.png in Resources */,
 				3C37DF56238251EE00399AE8 /* icon-音视频会议@2x.png in Resources */,
 				3C3703C8238D06D500A8976B /* 多端多设备管理@2x.png in Resources */,
 				3A45E0902223A28F00505786 /* navbar_white@3x.png in Resources */,
@@ -2191,28 +2196,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C75D6ACCFE05C47DE2E4FEA4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EaseIM-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2498,7 +2481,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.4;
+				MARKETING_VERSION = 3.8.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2583,7 +2566,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.4;
+				MARKETING_VERSION = 3.8.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"$(inherited)",

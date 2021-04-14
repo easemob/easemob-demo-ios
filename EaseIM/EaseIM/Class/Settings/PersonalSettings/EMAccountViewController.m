@@ -74,11 +74,13 @@
                     
                 }];
             }else{
-                NSURL* url = [NSURL URLWithString:self.userInfo.avatarUrl];
-                if(url) {
-                    [self.headerView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                            
-                    }];
+                if(self.userInfo.avatarUrl.length > 0) {
+                    NSURL* url = [NSURL URLWithString:self.userInfo.avatarUrl];
+                    if(url) {
+                        [self.headerView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                                
+                        }];
+                    }
                 }
                 
             }
