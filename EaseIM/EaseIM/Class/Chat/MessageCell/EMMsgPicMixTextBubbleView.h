@@ -7,15 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EMMsgBubbleView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface EMMsgPicMixTextBubbleView : UIImageView
+@interface EMMsgPicMixTextBubbleView : EMMsgBubbleView
 
 @property (nonatomic, strong) UILabel *textLabel;
 @property (nonatomic, strong) UIButton *textImgBtn;
-
-- (void)setModel:(EaseMessageModel *)model;
 
 @end
 

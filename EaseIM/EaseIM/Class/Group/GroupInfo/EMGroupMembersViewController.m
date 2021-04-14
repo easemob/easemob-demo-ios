@@ -7,9 +7,10 @@
 //
 
 #import "EMGroupMembersViewController.h"
-#import "EMAvatarNameCell.h"
-#import "EMAvatarNameCell.h"
+#import "EMAvatarNameCell+UserInfo.h"
 #import "EMPersonalDataViewController.h"
+#import "UserInfoStore.h"
+#import "EMAccountViewController.h"
 
 @interface EMGroupMembersViewController ()
 
@@ -36,9 +37,16 @@
     // Do any additional setup after loading the view.
     self.cursor = nil;
     self.isUpdated = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
     
     [self _setupSubviews];
     [self _fetchGroupMembersWithIsHeader:YES isShowHUD:YES];
+    
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Subviews
@@ -69,9 +77,11 @@
     if (cell == nil) {
         cell = [[EMAvatarNameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EMAvatarNameCell"];
     }
-    
     cell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
     cell.nameLabel.text = [self.dataArray objectAtIndex:indexPath.row];
+    [cell refreshUserInfo:[self.dataArray objectAtIndex:indexPath.row]];
+    
+    
     cell.indexPath = indexPath;
     
     if (self.group.permissionType == EMGroupPermissionTypeOwner || self.group.permissionType == EMGroupPermissionTypeAdmin) {
@@ -267,13 +277,26 @@
 //个人资料卡
 - (void)personalData:(NSString *)nickName
 {
-    EMPersonalDataViewController *controller = [[EMPersonalDataViewController alloc]initWithNickName:nickName];
+    UIViewController* controller = nil;
+    if([[EMClient sharedClient].currentUsername isEqualToString:nickName]) {
+        controller = [[EMAccountViewController alloc] init];
+    }else{
+        controller = [[EMPersonalDataViewController alloc]initWithNickName:nickName];
+    }
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     UIViewController *rootViewController = window.rootViewController;
     if ([rootViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *nav = (UINavigationController *)rootViewController;
         [nav pushViewController:controller animated:YES];
     }
+}
+
+- (void)refreshTableView
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.view.window)
+            [self.tableView reloadData];
+    });
 }
 
 @end

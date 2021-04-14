@@ -13,6 +13,7 @@ target 'EaseIM' do
     pod 'HyphenateChat'
     pod 'SDWebImage'
     pod 'AgoraRtcEngine_iOS'
+    pod 'FMDB'
     pod 'EaseCallKit'
     pod 'EaseIMKit'
 end
