@@ -10,6 +10,7 @@
 
 #import "EMGlobalVariables.h"
 #import "EMChatViewController.h"
+#import "UserInfoStore.h"
 
 static SingleCallController *callManager = nil;
 
@@ -66,6 +67,11 @@ static SingleCallController *callManager = nil;
     _chatter = [notify.object valueForKey:CALL_CHATTER] ;
     EMConversation* conversation = [[[EMClient sharedClient] chatManager] getConversationWithConvId:_chatter];
     NSString*msgId = [conversation latestMessage].messageId;
+    EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:_chatter];
+    if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+        EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
+        [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:_chatter info:user];
+    }
     [[EaseCallManager sharedManager] startSingleCallWithUId:_chatter type:aType ext:nil completion:^(NSString * callId, EaseCallError * aError) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1000), dispatch_get_main_queue(), ^{
                 [conversation loadMessagesStartFromId:msgId count:50 searchDirection:msgId?EMMessageSearchDirectionDown:EMMessageSearchDirectionUp completion:^(NSArray *aMessages, EMError *aError) {
