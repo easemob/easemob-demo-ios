@@ -70,8 +70,12 @@
 {
     __weak typeof(self) weakself = self;
     [EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:self.groupId completion:^(EMGroup *aGroup, EMError *aError) {
-        weakself.group = aGroup;
-        [weakself _resetGroup:aGroup];
+        if (!aError) {
+            weakself.group = aGroup;
+            [weakself _resetGroup:aGroup];
+        } else {
+            [EMAlertController showErrorAlert:[NSString stringWithFormat:@"获取群组详情失败: %@",aError.description]];
+        }
     }];
 }
 

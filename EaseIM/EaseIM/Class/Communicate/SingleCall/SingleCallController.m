@@ -64,6 +64,18 @@ static SingleCallController *callManager = nil;
         return;
     }
     EaseCallType aType = (EaseCallType)[[notify.object objectForKey:CALL_TYPE] integerValue];
+    AVAudioSessionRecordPermission permissionStatus = [[AVAudioSession sharedInstance] recordPermission];
+    if (permissionStatus == AVAudioSessionRecordPermissionDenied) {
+        [EMAlertController showErrorAlert:@"未开启麦克风权限"];
+        return;
+    }
+    if (aType == EaseCallType1v1Video) {
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if (authStatus == AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied) {
+            [EMAlertController showErrorAlert:@"未开启相机权限"];
+            return;
+        }
+    }
     _chatter = [notify.object valueForKey:CALL_CHATTER] ;
     EMConversation* conversation = [[[EMClient sharedClient] chatManager] getConversationWithConvId:_chatter];
     NSString*msgId = [conversation latestMessage].messageId;

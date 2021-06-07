@@ -297,6 +297,13 @@
     [self loadData:NO];
 }
 
+- (void)didSendMessage:(EMMessage *)message error:(EMError *)error
+{
+    if (error) {
+        [self showHint:error.errorDescription];
+    }
+}
+
 #pragma mark - EMMessageCellDelegate
 
 //通话记录点击事件
