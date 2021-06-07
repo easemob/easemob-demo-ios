@@ -283,15 +283,26 @@
     }
     
     [confVC setDoneCompletion:^(NSArray *aInviteUsers) {
+        for (NSString* strId in aInviteUsers) {
+            EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:strId];
+            if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+                EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
+                [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:strId info:user];
+            }
+        }
         [[EaseCallManager sharedManager] startInviteUsers:aInviteUsers ext:aExt completion:nil];
     }];
     confVC.modalPresentationStyle = UIModalPresentationPopover;
     [vc presentViewController:confVC animated:NO completion:nil];
 }
 // 振铃时增加回调
-- (void)callDidReceive:(EaseCallType)aType inviter:(NSString*_Nonnull)user ext:(NSDictionary*)aExt
+- (void)callDidReceive:(EaseCallType)aType inviter:(NSString*_Nonnull)username ext:(NSDictionary*)aExt
 {
-    
+    EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:username];
+    if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+        EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
+        [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:username info:user];
+    }
 }
 
 // 异常回调
@@ -300,14 +311,14 @@
     
 }
 
-- (void)callDidRequestRTCTokenForAppId:(NSString *)aAppId channelName:(NSString *)aChannelName account:(NSString *)aUserAccount
+- (void)callDidRequestRTCTokenForAppId:(NSString *)aAppId channelName:(NSString *)aChannelName account:(NSString *)aUserAccount uid:(NSInteger)aAgoraUid
 {
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config
                                                           delegate:nil
                                                      delegateQueue:[NSOperationQueue mainQueue]];
 
-    NSString* strUrl = [NSString stringWithFormat:@"http://a1.easemob.com/token/rtcToken?userAccount=%@&channelName=%@&appkey=%@",[EMClient sharedClient].currentUsername,aChannelName,[EMClient sharedClient].options.appkey];
+    NSString* strUrl = [NSString stringWithFormat:@"http://a1.easemob.com/token/rtcToken/v1?userAccount=%@&channelName=%@&appkey=%@",[EMClient sharedClient].currentUsername,aChannelName,[EMClient sharedClient].options.appkey];
     NSString*utf8Url = [strUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
     NSURL* url = [NSURL URLWithString:utf8Url];
     NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -320,12 +331,73 @@
                 NSString* resCode = [body objectForKey:@"code"];
                 if([resCode isEqualToString:@"RES_0K"]) {
                     NSString* rtcToken = [body objectForKey:@"accessToken"];
-                    [[EaseCallManager sharedManager] setRTCToken:rtcToken channelName:aChannelName];
+                    NSNumber* uid = [body objectForKey:@"agoraUserId"];
+                    [[EaseCallManager sharedManager] setRTCToken:rtcToken channelName:aChannelName uid:[uid unsignedIntegerValue]];
                 }
             }
         }
         
         
+    }];
+
+    [task resume];
+}
+
+-(void)remoteUserDidJoinChannel:( NSString*_Nonnull)aChannelName uid:(NSInteger)aUid username:(NSString*_Nullable)aUserName
+{
+    if(aUserName.length > 0) {
+        EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:aUserName];
+        if(userInfo && (userInfo.avatarUrl.length > 0 || userInfo.nickName.length > 0)) {
+            EaseCallUser* user = [EaseCallUser userWithNickName:userInfo.nickName image:[NSURL URLWithString:userInfo.avatarUrl]];
+            [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:aUserName info:user];
+        }
+    }else{
+        [self _fetchUserMapsFromServer:aChannelName];
+    }
+}
+
+- (void)callDidJoinChannel:(NSString*_Nonnull)aChannelName uid:(NSUInteger)aUid
+{
+    [self _fetchUserMapsFromServer:aChannelName];
+}
+
+- (void)_fetchUserMapsFromServer:(NSString*)aChannelName
+{
+    // 这里设置映射表，设置头像，昵称
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config
+                                                          delegate:nil
+                                                     delegateQueue:[NSOperationQueue mainQueue]];
+
+    NSString* strUrl = [NSString stringWithFormat:@"http://a1.easemob.com/channel/mapper?userAccount=%@&channelName=%@&appkey=%@",[EMClient sharedClient].currentUsername,aChannelName,[EMClient sharedClient].options.appkey];
+    NSString*utf8Url = [strUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
+    NSURL* url = [NSURL URLWithString:utf8Url];
+    NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:url];
+    [urlReq setValue:[NSString stringWithFormat:@"Bearer %@",[EMClient sharedClient].accessUserToken ] forHTTPHeaderField:@"Authorization"];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:urlReq completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(data) {
+            NSDictionary* body = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            NSLog(@"mapperBody:%@",body);
+            if(body) {
+                NSString* resCode = [body objectForKey:@"code"];
+                if([resCode isEqualToString:@"RES_0K"]) {
+                    NSString* channelName = [body objectForKey:@"channelName"];
+                    NSDictionary* result = [body objectForKey:@"result"];
+                    NSMutableDictionary<NSNumber*,NSString*>* users = [NSMutableDictionary dictionary];
+                    for (NSString* strId in result) {
+                        NSString* username = [result objectForKey:strId];
+                        NSNumber* uId = [NSNumber numberWithInteger:[strId integerValue]];
+                        [users setObject:username forKey:uId];
+                        EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:username];
+                        if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+                            EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
+                            [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:username info:user];
+                        }
+                    }
+                    [[EaseCallManager sharedManager] setUsers:users channelName:channelName];
+                }
+            }
+        }
     }];
 
     [task resume];

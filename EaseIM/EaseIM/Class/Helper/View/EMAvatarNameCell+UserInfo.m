@@ -13,6 +13,8 @@
 @implementation EMAvatarNameCell (UserInfo)
 -(void) refreshUserInfo:(NSString*)aUid
 {
+    if(aUid.length == 0)
+        return;
     EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:aUid];
     if(userInfo) {
         if(userInfo.avatarUrl.length > 0) {

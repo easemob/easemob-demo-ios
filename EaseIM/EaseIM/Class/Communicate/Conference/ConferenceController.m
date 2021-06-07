@@ -12,6 +12,8 @@
 
 #import "EMGlobalVariables.h"
 
+#import "UserInfoStore.h"
+
 static ConferenceController *confManager = nil;
 
 @interface ConferenceController()
@@ -76,6 +78,13 @@ static ConferenceController *confManager = nil;
     
     [controller setDoneCompletion:^(NSArray *aInviteUsers) {
         gIsCalling = YES;
+        for (NSString* strId in aInviteUsers) {
+            EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:strId];
+            if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+                EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
+                [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:strId info:user];
+            }
+        }
         [[EaseCallManager sharedManager] startInviteUsers:aInviteUsers ext:@{@"groupId":aConversationId} completion:^(NSString * callId, EaseCallError * aError) {
             
         }];

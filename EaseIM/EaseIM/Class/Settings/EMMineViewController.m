@@ -119,7 +119,7 @@
     //[self performSelector:@selector(floatCard) withObject:nil afterDelay:0.1];
     
     EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:[EMClient sharedClient].currentUsername];
-    if(!userInfo) {
+    if(!userInfo && [EMClient sharedClient].currentUsername.length > 0) {
         [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[[EMClient sharedClient].currentUsername]];
     }else{
         [self userInfoUpdated];
