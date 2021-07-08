@@ -209,10 +209,12 @@ static EMDemoOptions *sharedOptions = nil;
     //self.specifyServer = YES;
     self.specifyServer = NO;
     self.chatServer = @"msync-im1.sandbox.easemob.com";
+    //self.chatServer = @"msync-im-41-p.easemob.com";
     //self.chatServer = @"116.85.43.118";
     //self.chatServer = @"106.75.100.247";
     self.chatPort = 6717;
     self.restServer = @"a1.sdb.easemob.com";
+    //self.restServer = @"a41-p.easemob.com";
     //self.restServer = @"a1-hsb.easemob.com";
 }
 
@@ -231,6 +233,7 @@ static EMDemoOptions *sharedOptions = nil;
     retOpt.apnsCertName = self.apnsCertName;
     retOpt.usingHttpsOnly = self.usingHttpsOnly;
 
+    //self.specifyServer = YES;
     if (self.specifyServer) {
         retOpt.enableDnsConfig = NO;
         retOpt.chatPort = self.chatPort;
