@@ -21,6 +21,7 @@
 #define EMVIEWTOPMARGIN (kIsBangsScreen ? 34.f : 0.f)
 
 //appkey
+//#define DEF_APPKEY @"easemob-demo#testmd1"
 #define DEF_APPKEY @"easemob-demo#easeim"
 //#define DEF_APPKEY @"easemob-demo#chatdemoui"
 

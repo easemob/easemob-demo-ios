@@ -696,26 +696,34 @@
 
 - (void)addMemberAction
 {
-    NSMutableArray *occupants = [[NSMutableArray alloc] init];
-    [occupants addObject:self.group.owner];
-    [occupants addObjectsFromArray:self.group.adminList];
-    [occupants addObjectsFromArray:self.group.memberList];
-    EMInviteGroupMemberViewController *controller = [[EMInviteGroupMemberViewController alloc] initWithBlocks:occupants];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-    navController.modalPresentationStyle = 0;
-    [self presentViewController:navController animated:YES completion:nil];
-    
     __weak typeof(self) weakself = self;
-    [controller setDoneCompletion:^(NSArray * _Nonnull aSelectedArray) {
-        [weakself showHudInView:weakself.view hint:@"添加成员..."];
-        [[EMClient sharedClient].groupManager addMembers:aSelectedArray toGroup:weakself.groupId message:@"" completion:^(EMGroup *aGroup, EMError *aError) {
-            [weakself hideHud];
-            if (aError) {
-                [EMAlertController showErrorAlert:aError.errorDescription];
-            } else {
-                [weakself _fetchGroupWithId:weakself.groupId isShowHUD:NO];
-            }
-        }];
+    [EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:self.groupId completion:^(EMGroup *aGroup, EMError *aError) {
+        if (!aError) {
+            weakself.group = aGroup;
+            [weakself _resetGroup:aGroup];
+            NSMutableArray *occupants = [[NSMutableArray alloc] init];
+            [occupants addObject:weakself.group.owner];
+            [occupants addObjectsFromArray:weakself.group.adminList];
+            [occupants addObjectsFromArray:weakself.group.memberList];
+            EMInviteGroupMemberViewController *controller = [[EMInviteGroupMemberViewController alloc] initWithBlocks:occupants];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+            navController.modalPresentationStyle = 0;
+            [self presentViewController:navController animated:YES completion:nil];
+            
+            [controller setDoneCompletion:^(NSArray * _Nonnull aSelectedArray) {
+                [weakself showHudInView:weakself.view hint:@"添加成员..."];
+                [[EMClient sharedClient].groupManager addMembers:aSelectedArray toGroup:weakself.groupId message:@"" completion:^(EMGroup *aGroup, EMError *aError) {
+                    [weakself hideHud];
+                    if (aError) {
+                        [EMAlertController showErrorAlert:aError.errorDescription];
+                    } else {
+                        [weakself _fetchGroupWithId:weakself.groupId isShowHUD:NO];
+                    }
+                }];
+            }];
+        } else {
+            [EMAlertController showErrorAlert:[NSString stringWithFormat:@"获取群组详情失败: %@",aError.description]];
+        }
     }];
 }
     
