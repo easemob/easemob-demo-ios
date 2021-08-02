@@ -10,11 +10,13 @@ target 'EaseIM' do
     pod 'MBProgressHUD'
     pod 'Masonry'
     pod 'MJRefresh'
-    pod 'HyphenateChat', "3.8.2"
     pod 'SDWebImage'
     pod 'AgoraRtcEngine_iOS'
     pod 'FMDB'
     pod 'EaseCallKit'
-    pod 'EaseIMKit', "3.8.2"
+    pod 'HyphenateChat','3.8.4'
+    pod 'EaseIMKit', '3.8.4'
+    #pod 'EaseIMKit',  :path => "../../EaseIMKit"
+    pod 'Bugly'
 end
 

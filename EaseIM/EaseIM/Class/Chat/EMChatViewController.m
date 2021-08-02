@@ -300,7 +300,7 @@
 - (void)didSendMessage:(EMMessage *)message error:(EMError *)error
 {
     if (error) {
-        [self showHint:error.errorDescription];
+        [EMAlertController showErrorAlert:error.errorDescription];
     }
 }
 
@@ -451,7 +451,9 @@
 #pragma mark - ConfirmUserCardViewDelegate
 - (void)clickOK:(NSString*)aUid nickName:(NSString*)aNickName avatarUrl:(NSString*)aUrl
 {
-    if(aUid.length > 0) {
+    if(aUid && aUid.length > 0) {
+        if (!aNickName) aNickName = @"";
+        if (!aUrl) aUrl = @"";
         EMCustomMessageBody* body = [[EMCustomMessageBody alloc] initWithEvent:@"userCard" ext:@{@"uid":aUid ,@"nickname":aNickName,@"avatar":aUrl}];
         [self.chatController sendMessageWithBody:body ext:nil];
     }
