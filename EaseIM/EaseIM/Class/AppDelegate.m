@@ -23,6 +23,7 @@
 #import "EMLoginViewController.h"
 #import "UserInfoStore.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <Bugly/Bugly.h>
 
 #define FIRSTLAUNCH @"firstLaunch"
 
@@ -40,7 +41,14 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self _initDemo];
     [self _initHyphenate];
-
+    BuglyConfig * config = [[BuglyConfig alloc] init];
+    // 设置自定义日志上报的级别，默认不上报自定义日志
+    config.reportLogLevel = BuglyLogLevelWarn;
+    config.version = [EMClient sharedClient].version;
+    config.deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    config.unexpectedTerminatingDetectionEnable = true;
+    [Bugly startWithAppId:@"3e7704ec60" config:config];
+    
     [self.window makeKeyAndVisible];
     
     return YES;

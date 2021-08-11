@@ -128,8 +128,18 @@
             }
         }
     }
-    if (section == 1)
-        cell.textLabel.text = @"查找聊天记录";
+    if (section == 1) cell.textLabel.text = @"查找聊天记录";
+    /*
+    if (section == 2) {
+        cell.textLabel.text = @"消息免打扰";
+        NSArray *ignoredUidList = [[EMClient sharedClient].pushManager noPushUIds];
+        if ([ignoredUidList containsObject:self.conversation.conversationId]) {
+            [switchControl setOn:(YES) animated:YES];
+        } else {
+            [switchControl setOn:(NO) animated:YES];
+        }
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }*/
     if (section == 2) {
         cell.textLabel.text = @"会话置顶";
         [switchControl setOn:([self.conversationModel isTop]) animated:YES];
@@ -229,9 +239,28 @@
 //cell开关
 - (void)cellSwitchValueChanged:(UISwitch *)aSwitch
 {
+    __weak typeof(self) weakself = self;
     NSIndexPath *indexPath = [self _indexPathWithTag:aSwitch.tag];
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
+    /*
+    if (section == 2) {
+        if (aSwitch.isOn) {
+            [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:YES completion:^(EMError * _Nonnull aError) {
+                if (aError) {
+                    [weakself showHint:[NSString stringWithFormat:@"设置免打扰失败 reason：%@",aError.errorDescription]];
+                    [aSwitch setOn:NO];
+                }
+            }];
+        } else {
+            [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:NO completion:^(EMError * _Nonnull aError) {
+                if (aError) {
+                    [weakself showHint:[NSString stringWithFormat:@"设置免打扰失败 reason：%@",aError.errorDescription]];
+                    [aSwitch setOn:YES];
+                }
+            }];
+        }
+    }*/
     if (section == 2) {
         if (row == 0) {
             //置顶

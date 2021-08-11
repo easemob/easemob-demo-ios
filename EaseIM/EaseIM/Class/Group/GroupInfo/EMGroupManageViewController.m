@@ -19,6 +19,10 @@
 
 @property (nonatomic, strong) UIButton *groupOwnerTurnOverBtn;
 
+@property (nonatomic, strong) NSMutableArray *mutesList;
+
+@property (nonatomic, strong) NSMutableArray *blackList;
+
 @end
 
 @implementation EMGroupManageViewController
@@ -35,16 +39,68 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
+    
     __weak typeof(self) weakself = self;
     [EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:self.groupId completion:^(EMGroup *aGroup, EMError *aError) {
         weakself.group = aGroup;
         [weakself _setupSubviews];
         weakself.showRefreshHeader = NO;
+        [weakself _fetchGroupBlackList:1];
+        [weakself _fetchGroupMutes:1];
+    }];
+
+    self.mutesList = [[NSMutableArray alloc]init];
+    self.blackList = [[NSMutableArray alloc]init];
+    // Do any additional setup after loading the view.
+}
+
+- (void)_fetchGroupBlackList:(int)aPage
+{
+    if (self.group.permissionType == EMGroupPermissionTypeMember || self.group.permissionType == EMGroupPermissionTypeNone) {
+        return;
+    }
+    if (aPage == 1) {
+        [self.blackList removeAllObjects];
+    }
+    __weak typeof(self) weakself = self;
+    [[EMClient sharedClient].groupManager getGroupBlacklistFromServerWithId:self.group.groupId pageNumber:self.page pageSize:200 completion:^(NSArray *aList, EMError *aError) {
+        if (aError) {
+            [EMAlertController showErrorAlert:aError.errorDescription];
+        } else {
+            [weakself.blackList addObjectsFromArray:aList];
+        }
+        if ([aList count] == 200) {
+            [weakself _fetchGroupBlackList:(aPage + 1)];
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakself.tableView reloadData];
+            });
+        }
+    }];
+}
+
+- (void)_fetchGroupMutes:(int)aPage
+{
+    if (self.group.permissionType == EMGroupPermissionTypeMember || self.group.permissionType == EMGroupPermissionTypeNone) {
+        return;
+    }
+    if (aPage == 1) {
+        [self.mutesList removeAllObjects];
+    }
+    __weak typeof(self) weakself = self;
+    [[EMClient sharedClient].groupManager getGroupMuteListFromServerWithId:self.group.groupId pageNumber:aPage pageSize:200 completion:^(NSArray *aList, EMError *aError) {
+        if (aError) {
+            [EMAlertController showErrorAlert:aError.errorDescription];
+        } else {
+            [weakself.mutesList addObjectsFromArray:aList];
+        }
+        if ([aList count] == 200) {
+            [weakself _fetchGroupMutes:(aPage + 1)];
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakself.tableView reloadData];
+            });
+        }
     }];
 }
 
@@ -109,10 +165,10 @@
     if (section == 0) {
         if (row == 0) {
             cell.textLabel.text = @"黑名单管理";
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"共%lu人",self.group.blacklist.count];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"共%lu人",self.blackList.count];
         } else if (row == 1) {
             cell.textLabel.text = @"禁言管理";
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"共%lu人",self.group.muteList.count];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"共%lu人",self.mutesList.count];
         }
     }
     
