@@ -27,7 +27,7 @@
 
 #define FIRSTLAUNCH @"firstLaunch"
 
-@interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate>
+@interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate,EMLocalNotificationDelegate>
 
 @end
 
@@ -106,12 +106,23 @@
     [[EMClient sharedClient] application:[UIApplication sharedApplication] didReceiveRemoteNotification:userInfo];
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler
 {
 //    if (gMainController) {
 //        [gMainController didReceiveUserNotification:response.notification];
 //    }
     completionHandler();
+}
+
+#pragma mark - EMLocalPushManagerDelegate
+- (void)emuserNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
+{
+    [self userNotificationCenter:center willPresentNotification:notification withCompletionHandler:completionHandler];
+}
+
+- (void)emuserNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
+{
+    [self userNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
 }
 
 #pragma mark - EMPushManagerDelegateDevice
@@ -159,7 +170,7 @@
     application.applicationIconBadgeNumber = 0;
     
     if (NSClassFromString(@"UNUserNotificationCenter")) {
-        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+        [[EMLocalNotificationManager sharedManager] launchWithDelegate:self];
         
         [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert completionHandler:^(BOOL granted, NSError *error) {
             if (granted) {
