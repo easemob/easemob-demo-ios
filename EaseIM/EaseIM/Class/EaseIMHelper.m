@@ -314,7 +314,9 @@ static EaseIMHelper *helper = nil;
     }
     if (aReason == EMGroupLeaveReasonDestroyed) {
         alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:@"群组 %@ 已解散", aGroup.groupName]];
-        [EMClient.sharedClient.chatManager deleteConversation:aGroup.groupId isDeleteMessages:YES completion:nil];
+        [EMClient.sharedClient.chatManager deleteConversation:aGroup.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+            [[TranslateManager sharedManager] removeTranslationByConversationId:aGroup.groupId];
+        }];
     }
     [alertView show];
 }

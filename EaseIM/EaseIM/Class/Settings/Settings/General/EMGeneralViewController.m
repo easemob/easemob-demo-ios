@@ -11,6 +11,7 @@
 
 #import "EMDemoOptions.h"
 #import "EMServiceCheckViewController.h"
+#import "Language/LanguageViewController.h"
 
 @interface EMGeneralViewController ()<SPDateTimePickerViewDelegate>
 
@@ -58,7 +59,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -77,6 +78,9 @@
             count = 1;
             break;
         case 2:
+            count = 1;
+            break;
+        case 3:
             count = 2;
             break;
         default:
@@ -95,7 +99,7 @@
     
     UISwitch *switchControl = nil;
     BOOL isSwitchCell = NO;
-    if (section != 0) {
+    if (section != 0 && section != 1) {
         isSwitchCell = YES;
     }
     
@@ -130,12 +134,17 @@
                 cell.detailTextLabel.text = @"全天";
             }
         }
-    } else if (section == 1) {
+    } else if(section == 1) {
+        if(row == 0) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.textLabel.text = NSLocalizedString(@"MultiLanguages", nil);
+        }
+    }else if (section == 2) {
         if (row == 0) {
             cell.textLabel.text = @"显示输入状态";
             [switchControl setOn:options.isChatTyping animated:YES];
         }
-    } else if (section == 2) {
+    } else if (section == 3) {
         if (row == 0) {
             cell.textLabel.text = @"自动接受群组邀请";
             [switchControl setOn:options.isAutoAcceptGroupInvitation animated:YES];
@@ -199,6 +208,11 @@
         if (row == 1) {
             [self changeDisturbDateAction];
         }
+    }
+    if(section == 1 && row == 0) {
+        // 多语言选择
+        LanguageViewController *languageController = [[LanguageViewController alloc] init];
+        [self.navigationController pushViewController:languageController animated:YES];
     }
 }
 

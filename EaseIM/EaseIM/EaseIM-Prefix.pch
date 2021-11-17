@@ -20,5 +20,6 @@
     #import <Masonry/Masonry.h>
     #import "EMHeaders.h"
     #import "EMDefines.h"
+#import <EMTranslate/TranslateManager.h>
 
 #endif

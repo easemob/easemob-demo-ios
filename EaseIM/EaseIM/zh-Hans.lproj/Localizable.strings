@@ -62,6 +62,13 @@
 "recallFailed" = "消息撤回失败:%@";
 "error.exceedServiceLimit" = "超过服务器上限";
 
+"translate" = "翻译";
+"retranslate" = "重译";
+"retranslatePrompt" = "每条翻译都只能被重译一次.提供的译文仅供参考";
+"hide" = "隐藏";
+"MultiLanguages" = "多语言";
+"languageSetting" = "设置语言";
+
 //app
 "AppName" = "环信Demo";
 

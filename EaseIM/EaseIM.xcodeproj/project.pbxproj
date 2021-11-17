@@ -335,6 +335,16 @@
 		C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E495262433B80080A126 /* titleTextImage@2x.png */; };
 		C075E49E26243C0B0080A126 /* titleBackImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49C26243C0B0080A126 /* titleBackImage@3x.png */; };
 		C075E49F26243C0B0080A126 /* titleBackImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49D26243C0B0080A126 /* titleBackImage@2x.png */; };
+		C0E75AD22744F03200E7B0E8 /* translate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75ACE2744F03100E7B0E8 /* translate@2x.png */; };
+		C0E75AD32744F03200E7B0E8 /* translate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75ACF2744F03100E7B0E8 /* translate@3x.png */; };
+		C0E75AD42744F03200E7B0E8 /* hide@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75AD02744F03200E7B0E8 /* hide@2x.png */; };
+		C0E75AD52744F03200E7B0E8 /* hide@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75AD12744F03200E7B0E8 /* hide@3x.png */; };
+		C0E75AD82744F05000E7B0E8 /* EMChatViewController+Translate.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75AD62744F05000E7B0E8 /* EMChatViewController+Translate.m */; };
+		C0E75ADB2744F06800E7B0E8 /* TranslateTextBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75ADA2744F06800E7B0E8 /* TranslateTextBubbleView.m */; };
+		C0E75AE42744F0AC00E7B0E8 /* languagechecked@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75AE02744F0AC00E7B0E8 /* languagechecked@3x.png */; };
+		C0E75AE52744F0AC00E7B0E8 /* languagechecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75AE12744F0AC00E7B0E8 /* languagechecked@2x.png */; };
+		C0E75AE62744F0AC00E7B0E8 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75AE22744F0AC00E7B0E8 /* LanguageViewController.m */; };
+		C0E75AE72744F0AC00E7B0E8 /* LanguageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75AE32744F0AC00E7B0E8 /* LanguageCell.m */; };
 		C0E9E48B26083E9E0080AB28 /* AvatarUrlStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E9E48A26083E9E0080AB28 /* AvatarUrlStore.m */; };
 		C0E9E4A3260892630080AB28 /* SelectAvatarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E9E4A2260892630080AB28 /* SelectAvatarViewController.m */; };
 		C0E9E4B0260B3E530080AB28 /* check-circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E9E4AD260B3E530080AB28 /* check-circle@2x.png */; };
@@ -830,6 +840,20 @@
 		C075E495262433B80080A126 /* titleTextImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@2x.png"; sourceTree = "<group>"; };
 		C075E49C26243C0B0080A126 /* titleBackImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@3x.png"; sourceTree = "<group>"; };
 		C075E49D26243C0B0080A126 /* titleBackImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@2x.png"; sourceTree = "<group>"; };
+		C0E75ACE2744F03100E7B0E8 /* translate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "translate@2x.png"; sourceTree = "<group>"; };
+		C0E75ACF2744F03100E7B0E8 /* translate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "translate@3x.png"; sourceTree = "<group>"; };
+		C0E75AD02744F03200E7B0E8 /* hide@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hide@2x.png"; sourceTree = "<group>"; };
+		C0E75AD12744F03200E7B0E8 /* hide@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hide@3x.png"; sourceTree = "<group>"; };
+		C0E75AD62744F05000E7B0E8 /* EMChatViewController+Translate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EMChatViewController+Translate.m"; sourceTree = "<group>"; };
+		C0E75AD72744F05000E7B0E8 /* EMChatViewController+Translate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMChatViewController+Translate.h"; sourceTree = "<group>"; };
+		C0E75AD92744F06800E7B0E8 /* TranslateTextBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TranslateTextBubbleView.h; sourceTree = "<group>"; };
+		C0E75ADA2744F06800E7B0E8 /* TranslateTextBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TranslateTextBubbleView.m; sourceTree = "<group>"; };
+		C0E75ADD2744F0AC00E7B0E8 /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageViewController.h; sourceTree = "<group>"; };
+		C0E75ADE2744F0AC00E7B0E8 /* LanguageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageCell.h; sourceTree = "<group>"; };
+		C0E75AE02744F0AC00E7B0E8 /* languagechecked@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "languagechecked@3x.png"; sourceTree = "<group>"; };
+		C0E75AE12744F0AC00E7B0E8 /* languagechecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "languagechecked@2x.png"; sourceTree = "<group>"; };
+		C0E75AE22744F0AC00E7B0E8 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageViewController.m; sourceTree = "<group>"; };
+		C0E75AE32744F0AC00E7B0E8 /* LanguageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageCell.m; sourceTree = "<group>"; };
 		C0E9E48926083E9E0080AB28 /* AvatarUrlStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvatarUrlStore.h; sourceTree = "<group>"; };
 		C0E9E48A26083E9E0080AB28 /* AvatarUrlStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvatarUrlStore.m; sourceTree = "<group>"; };
 		C0E9E4A1260892630080AB28 /* SelectAvatarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectAvatarViewController.h; sourceTree = "<group>"; };
@@ -1419,6 +1443,8 @@
 				3C729B64257102E0003DB315 /* EMChatViewController.m */,
 				3C729DA025727ACB003DB315 /* EMChatViewController+EMForwardMessage.h */,
 				3C729DA125727ACB003DB315 /* EMChatViewController+EMForwardMessage.m */,
+				C0E75AD72744F05000E7B0E8 /* EMChatViewController+Translate.h */,
+				C0E75AD62744F05000E7B0E8 /* EMChatViewController+Translate.m */,
 				3C9A95F42578EC6F00752F28 /* EMUserDataModel.h */,
 				3C9A95F52578EC6F00752F28 /* EMUserDataModel.m */,
 				3C729B672571045D003DB315 /* ChatInfoComponents */,
@@ -1538,6 +1564,10 @@
 				3C729DEC2572986F003DB315 /* icon-setting@3x.png */,
 				3C729D9A25727A04003DB315 /* forward@2x.png */,
 				3C729D9B25727A09003DB315 /* forward@3x.png */,
+				C0E75AD02744F03200E7B0E8 /* hide@2x.png */,
+				C0E75AD12744F03200E7B0E8 /* hide@3x.png */,
+				C0E75ACE2744F03100E7B0E8 /* translate@2x.png */,
+				C0E75ACF2744F03100E7B0E8 /* translate@3x.png */,
 			);
 			path = ChatImagsResources;
 			sourceTree = "<group>";
@@ -1596,6 +1626,8 @@
 				C0F4EBC02604A38700436782 /* EMUserCardMsgView.m */,
 				C0F4EBC22604A51400436782 /* EMMsgBubbleView.h */,
 				C0F4EBC32604A51400436782 /* EMMsgBubbleView.m */,
+				C0E75AD92744F06800E7B0E8 /* TranslateTextBubbleView.h */,
+				C0E75ADA2744F06800E7B0E8 /* TranslateTextBubbleView.m */,
 			);
 			path = MessageCell;
 			sourceTree = "<group>";
@@ -1703,6 +1735,7 @@
 			children = (
 				3A45E4142223A52100505786 /* EMGeneralViewController.h */,
 				3A45E4122223A52100505786 /* EMGeneralViewController.m */,
+				C0E75ADC2744F0AC00E7B0E8 /* Language */,
 				3C9B6BAE24B4758200D1C617 /* TimePickerTool */,
 			);
 			path = General;
@@ -1842,6 +1875,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C0E75ADC2744F0AC00E7B0E8 /* Language */ = {
+			isa = PBXGroup;
+			children = (
+				C0E75ADD2744F0AC00E7B0E8 /* LanguageViewController.h */,
+				C0E75ADE2744F0AC00E7B0E8 /* LanguageCell.h */,
+				C0E75ADF2744F0AC00E7B0E8 /* Images */,
+				C0E75AE22744F0AC00E7B0E8 /* LanguageViewController.m */,
+				C0E75AE32744F0AC00E7B0E8 /* LanguageCell.m */,
+			);
+			path = Language;
+			sourceTree = "<group>";
+		};
+		C0E75ADF2744F0AC00E7B0E8 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				C0E75AE02744F0AC00E7B0E8 /* languagechecked@3x.png */,
+				C0E75AE12744F0AC00E7B0E8 /* languagechecked@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		C0E9E4AC260B3E530080AB28 /* resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -1954,8 +2008,10 @@
 				3C37DF48238251ED00399AE8 /* icon-添加好友@2x.png in Resources */,
 				3C37DF52238251ED00399AE8 /* icon-音视频会议@3x.png in Resources */,
 				3A45E0242223A21B00505786 /* EMSDKOptions.plist in Resources */,
+				C0E75AD52744F03200E7B0E8 /* hide@3x.png in Resources */,
 				3C7A150F239118C000F4AC48 /* iMac@3x.png in Resources */,
 				3C3703C1238D06D500A8976B /* 多端多设备管理@3x.png in Resources */,
+				C0E75AD42744F03200E7B0E8 /* hide@2x.png in Resources */,
 				3A45E3982223A49E00505786 /* chatroom_create@2x.png in Resources */,
 				3C87A0F7248F819F0051E06E /* huanxin-logo@2x.png in Resources */,
 				3C37DF43238251ED00399AE8 /* icon-add@3x.png in Resources */,
@@ -1976,9 +2032,12 @@
 				3C68ED4A2574D70D004E167F /* video_conf@2x.png in Resources */,
 				3C9A961A2579E15B00752F28 /* msg_bg_send@2x.png in Resources */,
 				3C9A96282579E18500752F28 /* voice@3x.png in Resources */,
+				C0E75AD32744F03200E7B0E8 /* translate@3x.png in Resources */,
+				C0E75AE52744F0AC00E7B0E8 /* languagechecked@2x.png in Resources */,
 				3C9A963E2579E8F400752F28 /* msg_bg_recv@2x.png in Resources */,
 				3A45E53F2223D69800505786 /* checked@3x.png in Resources */,
 				3C3703BA238D06D500A8976B /* 黑名单@3x.png in Resources */,
+				C0E75AD22744F03200E7B0E8 /* translate@2x.png in Resources */,
 				3C8437672510B2D4003CFA53 /* webRefreshButton@3x.png in Resources */,
 				3C4AED0E2499FE5F001F7C50 /* unableClick.png in Resources */,
 				3C729D9D25727A09003DB315 /* forward@3x.png in Resources */,
@@ -2089,6 +2148,7 @@
 				3C37DF4E238251ED00399AE8 /* icon-创建群组@2x.png in Resources */,
 				3A45E3992223A49E00505786 /* chatroom_create@3x.png in Resources */,
 				3C8437652510B2CF003CFA53 /* webRefreshButton@2x.png in Resources */,
+				C0E75AE42744F0AC00E7B0E8 /* languagechecked@3x.png in Resources */,
 				3C4AED092499F8B7001F7C50 /* agreeProtocol@3x.png in Resources */,
 				3C91A0B325C4002C00103C2E /* BootPage.png in Resources */,
 				3C4AECF72499CF83001F7C50 /* hiddenPwd.png in Resources */,
@@ -2264,6 +2324,8 @@
 				3C7A14DD238F867C00F4AC48 /* YYBasicTickView.m in Sources */,
 				3A45E3C92223A4DC00505786 /* EMGroupsViewController.m in Sources */,
 				3A45E0522223A25100505786 /* EMDateHelper.m in Sources */,
+				C0E75AE72744F0AC00E7B0E8 /* LanguageCell.m in Sources */,
+				C0E75ADB2744F06800E7B0E8 /* TranslateTextBubbleView.m in Sources */,
 				3C729B4A2570F786003DB315 /* EMContactsViewController.m in Sources */,
 				3A45E38D2223A48700505786 /* EMChatroomInfoViewController.m in Sources */,
 				3A45E0552223A25100505786 /* EMRealtimeSearch.m in Sources */,
@@ -2287,6 +2349,7 @@
 				3A45E3E42223A4E900505786 /* EMGroupAdminsViewController.m in Sources */,
 				C0E9E4BA260C74AC0080AB28 /* ConfirmUserCardView.m in Sources */,
 				3C87A103249080900051E06E /* EMSettingsViewController.m in Sources */,
+				C0E75AE62744F0AC00E7B0E8 /* LanguageViewController.m in Sources */,
 				3C8437632510A3AB003CFA53 /* EMProtocolViewController..m in Sources */,
 				3A45E41F2223A52100505786 /* EMAccountViewController.m in Sources */,
 				3A45E41E2223A52100505786 /* EMDevicesViewController.m in Sources */,
@@ -2320,6 +2383,7 @@
 				C0F4EBC12604A38700436782 /* EMUserCardMsgView.m in Sources */,
 				3C8DFAB724ED1FD90047C277 /* EMAvatarNameModel.m in Sources */,
 				3C7A14DA238F6F3900F4AC48 /* EMMsgNotificViewController.m in Sources */,
+				C0E75AD82744F05000E7B0E8 /* EMChatViewController+Translate.m in Sources */,
 				3A45DA2622239DE200505786 /* main.m in Sources */,
 				3C729D09257144AE003DB315 /* EMButton.m in Sources */,
 				C0E9E5E826148D700080AB28 /* EMAvatarNameCell+UserInfo.m in Sources */,

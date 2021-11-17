@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) EMMessageStatusView *statusView;
+@property (nonatomic) BOOL isTranslating;
 
 @end
 
@@ -33,6 +34,26 @@
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     if (self) {
         _direction = aDirection;
+        self.msgView = aMsgView;
+        [self _setupViewsWithType:aType];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithDirection:(EMMessageDirection)aDirection
+                             type:(EMMessageType)aType
+                          msgView:(nonnull EMMsgBubbleView *)aMsgView
+                        translate:(EMTranslateResult*)translate
+                    isTranslating:(BOOL)isTranslating
+
+{
+    NSString *identifier = [EMMessageCell cellIdentifierWithDirection:aDirection type:aType];
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    if (self) {
+        _direction = aDirection;
+        _translateResult = translate;
+        _isTranslating = isTranslating;
         self.msgView = aMsgView;
         [self _setupViewsWithType:aType];
     }
@@ -111,22 +132,56 @@
     self.msgView.userInteractionEnabled = YES;
     self.msgView.clipsToBounds = YES;
     [self.contentView addSubview:_msgView];
-    if(self.direction == EMMessageDirectionSend) {
-        [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView).with.offset(60);
-            make.top.equalTo(self.contentView).with.offset(10);
-            make.right.equalTo(self.avatarView.mas_left).offset(-10);
-            make.height.equalTo(@120);
-            make.bottom.equalTo(self.contentView).with.offset(-10);
-        }];
-    }else{
-        [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.avatarView.mas_right).with.offset(10);
-            make.top.equalTo(self.contentView).with.offset(10);
-            make.right.equalTo(self.contentView).offset(-60);
-            make.height.equalTo(@120);
-            make.bottom.equalTo(self.contentView).with.offset(-10);
-        }];
+    
+    if(self.isTranslating || self.translateResult.showTranslation) {
+        self.translateView.clipsToBounds = YES;
+        [self.contentView addSubview:self.translateView];
+        if(self.direction == EMMessageDirectionSend) {
+            [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.greaterThanOrEqualTo(self.contentView).with.offset(60);
+                make.top.equalTo(self.avatarView).with.offset(10);
+                make.right.equalTo(self.avatarView.mas_left).offset(-10);
+            }];
+            [_translateView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.greaterThanOrEqualTo(self.contentView).with.offset(60);
+                make.right.equalTo(self.avatarView.mas_left).offset(-10);
+                make.top.equalTo(self.msgView.mas_bottom).offset(10);
+                make.bottom.equalTo(self.contentView).with.offset(-10);
+            }];
+        }else{
+            [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.avatarView.mas_right).with.offset(10);
+                make.top.equalTo(self.avatarView).with.offset(10);
+                make.right.lessThanOrEqualTo(self.contentView).offset(-60);
+            }];
+            [_translateView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.avatarView.mas_right).with.offset(10);
+                make.right.lessThanOrEqualTo(self.contentView).offset(-60);
+                make.top.equalTo(self.msgView.mas_bottom).offset(10);
+                make.bottom.equalTo(self.contentView).with.offset(-10);
+            }];
+        }
+        self.translateView.textLabel.text = self.translateResult.translations;
+        if(self.isTranslating)
+        {
+            [self.translateView.activity startAnimating];
+        }
+    }else {
+        if(self.direction == EMMessageDirectionSend) {
+            [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.greaterThanOrEqualTo(self.contentView).with.offset(60);
+                make.top.equalTo(self.avatarView).with.offset(10);
+                make.right.equalTo(self.avatarView.mas_left).offset(-10);
+                make.bottom.equalTo(self.contentView).with.offset(-10);
+            }];
+        }else{
+            [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.avatarView.mas_right).with.offset(10);
+                make.top.equalTo(self.avatarView).with.offset(10);
+                make.right.lessThanOrEqualTo(self.contentView).offset(-60);
+                make.bottom.equalTo(self.contentView).with.offset(-10);
+            }];
+        }
     }
 
     _statusView = [[EMMessageStatusView alloc] init];
@@ -171,6 +226,25 @@
 {
     _model = model;
     if (self.msgView) {
+        if(model.message.body.type == EMMessageTypeCustom) {
+            if(self.direction == EMMessageDirectionSend) {
+                [_msgView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(self.contentView).with.offset(60);
+                    make.top.equalTo(self.contentView).with.offset(10);
+                    make.right.equalTo(self.avatarView.mas_left).offset(-10);
+                    make.height.equalTo(@120);
+                    make.bottom.equalTo(self.contentView).with.offset(-10);
+                }];
+            }else{
+                [_msgView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(self.avatarView.mas_right).with.offset(10);
+                    make.top.equalTo(self.contentView).with.offset(10);
+                    make.right.equalTo(self.contentView).offset(-60);
+                    make.height.equalTo(@120);
+                    make.bottom.equalTo(self.contentView).with.offset(-10);
+                }];
+            }
+        }
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bubbleViewTapAction:)];
         [self.msgView addGestureRecognizer:tap];
     }
@@ -187,6 +261,16 @@
     }
     _avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
     [_avatarView showUserInfoAvatar:model.message.from];
+}
+
+#pragma mark - getter
+- (TranslateTextBubbleView*)translateView
+{
+    if(!_translateView) {
+        _translateView = [[TranslateTextBubbleView alloc] initWithDirection:self.direction type:self.model.type];
+        _translateView.clipsToBounds = YES;
+    }
+    return _translateView;
 }
 
 #pragma mark - Action

@@ -25,6 +25,12 @@
 #define DEF_APPKEY @"easemob-demo#easeim"
 //#define DEF_APPKEY @"easemob-demo#chatdemoui"
 
+// 翻译
+#define TRANSLATE_KEY 输入你的翻译服务key
+#define TRANSLATE_ENDPOINT 输入你的翻译服务endpoint
+#define TRANSLATE_LOCATION 输入你的翻译服务location
+
+
 #define RTC_BUTTON_WIDTH 65
 #define RTC_BUTTON_HEIGHT 90
 #define RTC_BUTTON_PADDING ([UIScreen mainScreen].bounds.size.width - RTC_BUTTON_WIDTH * 3) / 4

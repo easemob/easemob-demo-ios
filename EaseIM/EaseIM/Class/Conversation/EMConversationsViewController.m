@@ -187,6 +187,7 @@
             int unreadCount = [[EMClient sharedClient].chatManager getConversationWithConvId:model.easeId].unreadMessagesCount;
             [[EMClient sharedClient].chatManager deleteConversation:model.easeId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
                 if (!aError) {
+                    [[TranslateManager sharedManager] removeTranslationByConversationId:model.easeId];
                     [weakself.resultController.dataArray removeObjectAtIndex:indexPath.row];
                     [weakself.resultController.tableView reloadData];
                     if (unreadCount > 0 && weakself.deleteConversationCompletion) {
@@ -420,6 +421,7 @@
                                            isDeleteMessages:YES
                                                  completion:^(NSString *aConversationId, EMError *aError) {
         if (!aError) {
+            [[TranslateManager sharedManager] removeTranslationByConversationId:model.easeId];
             [weakSelf.easeConvsVC.dataAry removeObjectAtIndex:row];
             [weakSelf.easeConvsVC refreshTabView];
             if (unreadCount > 0 && weakSelf.deleteConversationCompletion) {
