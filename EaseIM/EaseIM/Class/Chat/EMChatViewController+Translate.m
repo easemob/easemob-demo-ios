@@ -17,6 +17,8 @@
     NSArray<UIGestureRecognizer *>* gestureRecognizers = customCell.gestureRecognizers;
     if(gestureRecognizers.count > 0 && [customCell isKindOfClass:[EMMessageCell class]]) {
         EMMessageCell* cell = (EMMessageCell*)customCell;
+        if(cell.model.message.body.type != EMMessageTypeText)
+            return defaultLongPressItems;
         UIGestureRecognizer * gestureRecognizer = [gestureRecognizers objectAtIndex:0];
         CGPoint pt = [gestureRecognizer locationInView:customCell.contentView];
         __weak typeof(self) weakself = self;

@@ -18,7 +18,6 @@
 }
 */
 
-
 - (instancetype)initWithDirection:(EMMessageDirection)aDirection
                              type:(EMMessageType)aType
 {
@@ -82,7 +81,9 @@
             make.left.equalTo(self).offset(10);
             make.top.equalTo(self).offset(10);
             make.width.height.equalTo(@15);
-            make.bottom.equalTo(self).offset(-10);
+            if(self.textLabel.text.length <= 0) {
+                make.bottom.equalTo(self).offset(-10);
+            }
         }];
         _activity.hidesWhenStopped = YES;
     }
