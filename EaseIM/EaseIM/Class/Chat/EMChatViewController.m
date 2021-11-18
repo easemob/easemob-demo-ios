@@ -178,7 +178,7 @@
     if(messageModel.message.body.type == EMMessageTypeText)
     {
         NSString* msgId = messageModel.message.messageId;
-        EMTranslateResult* translateResult = [[TranslateManager sharedManager] getTranslationByMsgId:msgId];
+        EMTranslationResult* translateResult = [[EMTranslationManager sharedManager] getTranslationByMsgId:msgId];
         TranslateTextBubbleView * bubbleView = [[TranslateTextBubbleView alloc] initWithDirection:messageModel.direction type:messageModel.type];
         [bubbleView setModel:messageModel];
         EMMessageCell* texMsgtCell = [[EMMessageCell alloc] initWithDirection:messageModel.direction type:messageModel.type msgView:bubbleView translate:translateResult isTranslating:[self.translatingMsgIds containsObject:messageModel.message.messageId]];

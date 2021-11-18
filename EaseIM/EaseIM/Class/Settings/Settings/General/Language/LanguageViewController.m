@@ -62,7 +62,6 @@
 
 - (void)_loadLanguages
 {
-    __weak typeof(self) weakself = self;
     // 加载目标语言
     self.selectLanguage = [EMDemoOptions sharedOptions].language;
     if(self.selectLanguage.length == 0) {
@@ -70,14 +69,33 @@
         NSDictionary* components = [NSLocale componentsFromLocaleIdentifier:localeID];
         self.selectLanguage = components[NSLocaleLanguageCode];
     }
-    [[TranslateManager sharedManager] fetchSupportedLangurages:^(NSArray<EMLanguage *> * _Nullable languages, EMError * _Nullable error) {
-        if(!error) {
-            weakself.allLanguages = languages;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakself.tableView reloadData];
-            });
-        }
-    }];
+    self.allLanguages = [self defaultLanguages];
+    [self.tableView reloadData];
+//    __weak typeof(self) weakself = self;
+//    [[EMTranslationManager sharedManager] fetchSupportedLangurages:^(NSArray<EMLanguage *> * _Nullable languages, EMError * _Nullable error) {
+//        if(!error) {
+//            weakself.allLanguages = languages;
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [weakself.tableView reloadData];
+//            });
+//        }
+//    }];
+}
+
+- (NSArray<EMLanguage*>*)defaultLanguages
+{
+    return @[
+        [EMLanguage initializeWithLanguageCode:@"zh-Hans" nativeName:@"中文 (简体)"],
+        [EMLanguage initializeWithLanguageCode:@"zh-Hant" nativeName:@"繁體中文 (繁體)"],
+        [EMLanguage initializeWithLanguageCode:@"en" nativeName:@"English"],
+        [EMLanguage initializeWithLanguageCode:@"id" nativeName:@"Indonesia"],
+        [EMLanguage initializeWithLanguageCode:@"ko" nativeName:@"한국어"],
+        [EMLanguage initializeWithLanguageCode:@"it" nativeName:@"Italiano"],
+        [EMLanguage initializeWithLanguageCode:@"pt" nativeName:@"Português (Brasil)"],
+        [EMLanguage initializeWithLanguageCode:@"ja" nativeName:@"日本語"],
+        [EMLanguage initializeWithLanguageCode:@"fr" nativeName:@"Français"],
+        [EMLanguage initializeWithLanguageCode:@"de" nativeName:@"Deutsch"]
+    ];
 }
 
 #pragma mark - Table view data source

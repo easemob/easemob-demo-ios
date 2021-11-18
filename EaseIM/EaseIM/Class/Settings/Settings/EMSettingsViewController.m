@@ -144,7 +144,7 @@
      __weak typeof(self) weakself = self;
      [self showHudInView:self.view hint:@"退出..."];
      [[EMClient sharedClient] logout:YES completion:^(EMError *aError) {
-         [[TranslateManager sharedManager] logout];
+         [[EMTranslationManager sharedManager] logout];
          [weakself hideHud];
          if (aError) {
              [EMAlertController showErrorAlert:aError.errorDescription];

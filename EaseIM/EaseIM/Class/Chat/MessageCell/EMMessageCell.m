@@ -44,7 +44,7 @@
 - (instancetype)initWithDirection:(EMMessageDirection)aDirection
                              type:(EMMessageType)aType
                           msgView:(nonnull EMMsgBubbleView *)aMsgView
-                        translate:(EMTranslateResult*)translate
+                        translate:(EMTranslationResult*)translate
                     isTranslating:(BOOL)isTranslating
 
 {

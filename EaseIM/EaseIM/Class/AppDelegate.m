@@ -235,9 +235,8 @@
         params.subscriptionKey = TRANSLATE_KEY;
         params.endpoint = TRANSLATE_ENDPOINT;
         params.location = TRANSLATE_LOCATION;
-        [[TranslateManager sharedManager] initialize];
-        [[TranslateManager sharedManager] setTranslateParam:params];
-        [TranslateManager sharedManager].useDefaultLanguages = YES;
+        [[EMTranslationManager sharedManager] initialize];
+        [[EMTranslationManager sharedManager] setTranslateParam:params];
     } else {//登录失败加载登录页面控制器
         EMLoginViewController *controller = [[EMLoginViewController alloc] init];
         navigationController = [[UINavigationController alloc] initWithRootViewController:controller];

@@ -69,7 +69,7 @@
 - (void)hideTranslateMenuItemAction:(EMMessageCell*)cell
 {
     cell.translateResult.showTranslation = NO;
-    [[TranslateManager sharedManager] updateTranslateResult:cell.translateResult conversation:cell.model.message.conversationId];
+    [[EMTranslationManager sharedManager] updateTranslateResult:cell.translateResult conversation:cell.model.message.conversationId];
     NSIndexPath* path = [self.chatController.tableView indexPathForCell:cell];
     if(path) {
         [self.chatController.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
@@ -88,7 +88,7 @@
     }
     EMTextMessageBody* textMsgBody = (EMTextMessageBody*)cell.model.message.body;
     __weak typeof(self) weakself = self;
-    [[TranslateManager sharedManager] translateMessage:cell.model.message.messageId text:textMsgBody.text language:[EMDemoOptions sharedOptions].language conversationId:cell.model.message.conversationId completion:^(EMTranslateResult * _Nullable msg, EMError * _Nullable err) {
+    [[EMTranslationManager sharedManager] translateMessage:cell.model.message.messageId text:textMsgBody.text language:[EMDemoOptions sharedOptions].language conversationId:cell.model.message.conversationId completion:^(EMTranslationResult * _Nullable msg, EMError * _Nullable err) {
         [self.translatingMsgIds removeObject:cell.model.message.messageId];
         if(err) {
             [self showHint:@"翻译失败"];
@@ -103,13 +103,13 @@
 
 - (void)translateMenuItemAction:(EMMessageCell*)cell
 {
-    EMTranslateResult* result = [[TranslateManager sharedManager] getTranslationByMsgId:cell.model.message.messageId];
+    EMTranslationResult* result = [[EMTranslationManager sharedManager] getTranslationByMsgId:cell.model.message.messageId];
     if(!result) {
         [self translateCell:cell];
     }else{
         // 展示
         result.showTranslation = YES;
-        [[TranslateManager sharedManager] updateTranslateResult:result conversation:cell.model.message.conversationId];
+        [[EMTranslationManager sharedManager] updateTranslateResult:result conversation:cell.model.message.conversationId];
         cell.translateResult = result;
         dispatch_async(dispatch_get_main_queue(), ^{
             NSIndexPath* path = [self.chatController.tableView indexPathForCell:cell];

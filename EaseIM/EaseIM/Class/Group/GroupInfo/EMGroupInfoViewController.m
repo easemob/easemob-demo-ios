@@ -676,7 +676,7 @@
     void (^block)(EMError *aError) = ^(EMError *aError) {
         if (!aError && [EMClient sharedClient].options.isDeleteMessagesWhenExitGroup) {
             [[EMClient sharedClient].chatManager deleteConversation:weakself.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
-                [[TranslateManager sharedManager] removeTranslationByConversationId:weakself.groupId];
+                [[EMTranslationManager sharedManager] removeTranslationByConversationId:weakself.groupId];
             }];
         }
         [weakself hideHud];
