@@ -11,12 +11,15 @@
 
 #import "EMDemoOptions.h"
 #import "EMServiceCheckViewController.h"
+#import "EMGeneralTitleSwitchCell.h"
+
+static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
 
 @interface EMGeneralViewController ()<SPDateTimePickerViewDelegate>
 
-@property (nonatomic, strong) NSString *logPath;
+@property (nonatomic, assign) BOOL silentModeEnabled;
 
-@property (nonatomic, strong) UISwitch *disturbSwitch;
+@property (nonatomic, strong) UITableViewCell *silentTimeCell;
 
 @end
 
@@ -50,23 +53,21 @@
         make.bottom.equalTo(self.view);
     }];
     
-    self.disturbSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.tableView.frame.size.width - 65, 20, 50, 40)];
-    [self.disturbSwitch addTarget:self action:@selector(disturbValueChanged) forControlEvents:UIControlEventValueChanged];
-    [self.disturbSwitch setOn:([EMClient sharedClient].pushManager.pushOptions.isNoDisturbEnable) animated:YES];
+    self.silentModeEnabled = [EMClient sharedClient].pushManager.pushOptions.isNoDisturbEnable;
 }
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
     NSInteger count = 0;
     switch (section) {
         case 0:
         {
-            if (!self.disturbSwitch.isOn) {
+            if(self.silentModeEnabled == NO){
                 count = 1;
             } else {
                 count = 2;
@@ -82,73 +83,81 @@
         default:
             break;
     }
+        
     return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
-    NSString *cellIdentifier = @"UITableViewCellSwitch";
-    if (section == 0 && row == 1) {
-        cellIdentifier = @"UITableViewCellValue1";
-    }
-    
-    UISwitch *switchControl = nil;
-    BOOL isSwitchCell = NO;
-    if (section != 0) {
-        isSwitchCell = YES;
-    }
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    // Configure the cell...
+        
+    EMGeneralTitleSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:generalCellIndetifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (isSwitchCell) {
-            switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(self.tableView.frame.size.width - 65, 20, 50, 40)];
-            switchControl.tag = [self _tagWithIndexPath:indexPath];
-            [switchControl addTarget:self action:@selector(cellSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
-            [cell.contentView addSubview:switchControl];
-        }
+        cell = [[EMGeneralTitleSwitchCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:generalCellIndetifier];
     }
     
     EMDemoOptions *options = [EMDemoOptions sharedOptions];
     
-    cell.detailTextLabel.text = nil;
-    cell.accessoryType = UITableViewCellAccessoryNone;
-
     if (section == 0) {
         if (row == 0) {
-            cell.textLabel.text = @"消息免打扰";
-            cell.accessoryView = self.disturbSwitch;
+            cell.nameLabel.text = @"消息免打扰";
+            [cell.aSwitch setOn:(self.silentModeEnabled) animated:NO];
+            
+            EM_WS
+            cell.switchActionBlock = ^(BOOL isOn) {
+                [weakSelf disturbValueChanged];
+            };
+            
         } else if (row == 1) {
-            cell.textLabel.text = @"免打扰时间";
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
             if ([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH > 0 && [EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH > 0) {
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@:00 - %@:00", @([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH), @([EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH)];
+                self.silentTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"%@:00 - %@:00", @([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH), @([EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH)];
             } else {
-                cell.detailTextLabel.text = @"全天";
+                self.silentTimeCell.detailTextLabel.text = @"全天";
             }
+            
+            return self.silentTimeCell;
         }
     } else if (section == 1) {
         if (row == 0) {
-            cell.textLabel.text = @"显示输入状态";
-            [switchControl setOn:options.isChatTyping animated:YES];
+            cell.nameLabel.text = @"显示输入状态";
+            [cell.aSwitch setOn:options.isChatTyping animated:NO];
+            EM_WS
+            cell.switchActionBlock = ^(BOOL isOn) {
+                options.isChatTyping = isOn;
+                [[EMDemoOptions sharedOptions] archive];
+                [weakSelf.tableView reloadData];
+            };
         }
     } else if (section == 2) {
         if (row == 0) {
-            cell.textLabel.text = @"自动接受群组邀请";
-            [switchControl setOn:options.isAutoAcceptGroupInvitation animated:YES];
+            cell.nameLabel.text = @"自动接受群组邀请";
+            [cell.aSwitch setOn:options.isAutoAcceptGroupInvitation animated:NO];
+            EM_WS
+            cell.switchActionBlock = ^(BOOL isOn) {
+                [EMClient sharedClient].options.isAutoAcceptGroupInvitation = isOn;
+                options.isAutoAcceptGroupInvitation = isOn;
+                [options archive];
+                [weakSelf.tableView reloadData];
+
+            };
+            
         } else if (row == 1) {
-            cell.textLabel.text = @"退出群组时删除会话";
-            [switchControl setOn:[EMClient sharedClient].options.isDeleteMessagesWhenExitGroup animated:YES];
+            cell.nameLabel.text = @"退出群组时删除会话";
+            [cell.aSwitch setOn:[EMClient sharedClient].options.isDeleteMessagesWhenExitGroup animated:NO];
+            EM_WS
+            cell.switchActionBlock = ^(BOOL isOn) {
+                [[EMClient sharedClient].options setIsDeleteMessagesWhenExitGroup:isOn];
+                [weakSelf.tableView reloadData];
+            };
+           
         }
     }
-    cell.textLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
-    cell.textLabel.font = [UIFont systemFontOfSize:14.0];
-    cell.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);
+
     return cell;
 }
+
 
 #pragma mark - Table view delegate
 
@@ -212,6 +221,7 @@
 
 - (NSIndexPath *)_indexPathWithTag:(NSInteger)aTag
 {
+    
     NSInteger section = aTag / 10;
     NSInteger row = aTag % 10;
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
@@ -219,49 +229,32 @@
 }
 
 #pragma mark - Action
-
-- (void)cellSwitchValueChanged:(UISwitch *)aSwitch
-{
-    EMDemoOptions *options = [EMDemoOptions sharedOptions];
-    NSIndexPath *indexPath = [self _indexPathWithTag:aSwitch.tag];
-    NSInteger section = indexPath.section;
-    NSInteger row = indexPath.row;
-    if (section == 1) {
-        options.isChatTyping = aSwitch.isOn;
-        [[EMDemoOptions sharedOptions] archive];
-    } else if (section == 2) {
-        if (row == 0) {
-            [EMClient sharedClient].options.isAutoAcceptGroupInvitation = aSwitch.isOn;
-            options.isAutoAcceptGroupInvitation = aSwitch.isOn;
-            [options archive];
-        } else if (row == 1) {
-            [[EMClient sharedClient].options setIsDeleteMessagesWhenExitGroup:aSwitch.isOn];
-        }
-    }
-}
-
 - (void)disturbValueChanged
 {
     int noDisturbingStartH = 0;
     int noDisturbingEndH = 24;
-    if (!self.disturbSwitch.isOn) {
+    
+    if (self.silentModeEnabled) {
         EMError *error = [[EMClient sharedClient].pushManager enableOfflinePush];
-        if (!error) {
+        if (error == nil) {
+            self.silentModeEnabled = NO;
             [self.tableView reloadData];
-            [self.disturbSwitch setOn:([EMClient sharedClient].pushManager.pushOptions.isNoDisturbEnable) animated:YES];
+
         } else {
             [EMAlertController showErrorAlert:error.errorDescription];
         }
-        return;
+    }else {
+        EMError *error = [[EMClient sharedClient].pushManager disableOfflinePushStart:noDisturbingStartH end:noDisturbingEndH];
+        if (error == nil) {
+            self.silentModeEnabled = YES;
+            [self.tableView reloadData];
+        }else {
+            [EMAlertController showErrorAlert:error.errorDescription];
+        }
+
     }
-    EMError *error = [[EMClient sharedClient].pushManager disableOfflinePushStart:noDisturbingStartH end:noDisturbingEndH];
-    if (error) {
-        [self.disturbSwitch setOn:!self.disturbSwitch.isOn animated:YES];
-        [EMAlertController showErrorAlert:error.errorDescription];
-        return;
-    }
-    [self.tableView reloadData];
 }
+
 
 - (void)changeDisturbDateAction
 {
@@ -288,12 +281,29 @@
     EMError *error = [[EMClient sharedClient].pushManager disableOfflinePushStart:noDisturbingStartH end:noDisturbingEndH];
     if (!error) {
         [self hideHud];
+        self.silentModeEnabled = YES;
         [self.tableView reloadData];
-        [self.disturbSwitch setOn:([EMClient sharedClient].pushManager.pushOptions.isNoDisturbEnable) animated:YES];
         return;
     } else {
         [EMAlertController showErrorAlert:error.errorDescription];
     }
 }
+
+
+#pragma mark getter and setter
+- (UITableViewCell *)silentTimeCell {
+    if (_silentTimeCell == nil) {
+        _silentTimeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"silentTimeCell"];
+        _silentTimeCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _silentTimeCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        _silentTimeCell.textLabel.text = @"免打扰时间";
+        _silentTimeCell.textLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
+        _silentTimeCell.textLabel.font = [UIFont systemFontOfSize:14.0];
+        _silentTimeCell.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);
+
+    }
+    return _silentTimeCell;
+}
+
 
 @end

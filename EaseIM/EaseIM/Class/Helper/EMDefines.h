@@ -20,6 +20,11 @@
 
 #define EMVIEWTOPMARGIN (kIsBangsScreen ? 34.f : 0.f)
 
+//weak & strong self
+#define EM_WS                  __weak __typeof(&*self)weakSelf = self;
+#define EM_SS(WKSELF)          __strong __typeof(&*self)strongSelf = WKSELF;
+
+
 //appkey
 //#define DEF_APPKEY @"easemob-demo#testmd1"
 #define DEF_APPKEY @"easemob-demo#easeim"

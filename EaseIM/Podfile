@@ -14,9 +14,9 @@ target 'EaseIM' do
     pod 'AgoraRtcEngine_iOS'
     pod 'FMDB'
     pod 'EaseCallKit'
-    pod 'HyphenateChat','3.8.4'
-    pod 'EaseIMKit', '3.8.4'
-    #pod 'EaseIMKit',  :path => "../../EaseIMKit"
+    pod 'HyphenateChat'
+    pod 'EaseIMKit'
     pod 'Bugly'
+    
 end
 
