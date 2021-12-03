@@ -52,7 +52,8 @@
     self.headerView.frame = CGRectMake(0, 0, 36, 36);
     self.headerView.userInteractionEnabled = YES;
     [self userInfoUpdated];
-    [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[[EMClient sharedClient].currentUsername]];
+    if([EMClient sharedClient].currentUsername.length > 0)
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[[EMClient sharedClient].currentUsername]];
 }
 
 -(void)userInfoUpdated
