@@ -111,10 +111,13 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
             
         } else if (row == 1) {
 
-            if ([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH > 0 && [EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH > 0) {
-                self.silentTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"%@:00 - %@:00", @([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH), @([EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH)];
-            } else {
+            NSInteger startHour = [EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH;
+            NSInteger endHour = [EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH;
+                        
+            if (startHour == 0  && endHour == 24) {
                 self.silentTimeCell.detailTextLabel.text = @"全天";
+            } else {
+                self.silentTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"%@:00 - %@:00", @([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH), @([EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH)];
             }
             
             return self.silentTimeCell;
