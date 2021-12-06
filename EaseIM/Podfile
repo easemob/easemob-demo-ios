@@ -15,7 +15,6 @@ target 'EaseIM' do
     pod 'AgoraRtcEngine_iOS'
     pod 'FMDB'
     pod 'EaseCallKit'
-    #pod 'EaseIMKit',  :path => "../../EaseIMKit"
     pod 'EaseIMKit'
     pod 'Bugly'
 end
