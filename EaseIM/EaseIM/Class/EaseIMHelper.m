@@ -19,6 +19,8 @@
 #import "EMAlertController.h"
 
 static EaseIMHelper *helper = nil;
+
+
 @implementation EaseIMHelper
 
 + (instancetype)shareHelper
