@@ -91,6 +91,8 @@
     NSString *cellIdentifier = @"UITableViewCellSwitch";
     if (section == 0 && row == 1) {
         cellIdentifier = @"UITableViewCellValue1";
+    }else if (section == 0 && row == 0){
+        cellIdentifier = @"UITableViewCellValue1Switch";
     }
     
     UISwitch *switchControl = nil;
@@ -124,7 +126,7 @@
         } else if (row == 1) {
             cell.textLabel.text = @"免打扰时间";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            if ([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH > 0 && [EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH > 0) {
+            if (!([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH == 0 && [EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH == 24)) {
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%@:00 - %@:00", @([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH), @([EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH)];
             } else {
                 cell.detailTextLabel.text = @"全天";
