@@ -18,7 +18,7 @@
 #import "EMConversationUserDataModel.h"
 #import "UserInfoStore.h"
 
-@interface EMConversationsViewController() <EaseConversationsViewControllerDelegate, EMSearchControllerDelegate>
+@interface EMConversationsViewController() <EaseConversationsViewControllerDelegate, EMSearchControllerDelegate, EMGroupManagerDelegate>
 
 @property (nonatomic, strong) UIButton *addImageBtn;
 @property (nonatomic, strong) EMInviteGroupMemberViewController *inviteController;
@@ -36,6 +36,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:CHAT_BACKOFF object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:GROUP_LIST_FETCHFINISHED object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
+    [EMClient.sharedClient.groupManager addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    
     [self _setupSubviews];
     if (![EMDemoOptions sharedOptions].isFirstLaunch) {
         [EMDemoOptions sharedOptions].isFirstLaunch = YES;
@@ -57,6 +59,7 @@
 
 - (void)dealloc
 {
+    [EMClient.sharedClient.groupManager removeDelegate:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -406,6 +409,10 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_PUSHVIEWCONTROLLER object:cell.model];
 }
 
+#pragma mark - EMGroupManagerDelegate
+- (void)didLeaveGroup:(EMGroup *)aGroup reason:(EMGroupLeaveReason)aReason {
+    [self refreshTableView];
+}
 
 #pragma mark - Action
 
