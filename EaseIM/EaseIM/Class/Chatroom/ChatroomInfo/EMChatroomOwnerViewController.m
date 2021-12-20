@@ -45,7 +45,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
-    self.title = @"移交聊天室Owner";
+    self.title = NSLocalizedString(@"changeChatroomOwner", nil);
     self.showRefreshHeader = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -79,7 +79,7 @@
         rightButton.backgroundColor = kColor_Blue;
         rightButton.titleLabel.font = [UIFont systemFontOfSize:16];
         rightButton.layer.cornerRadius = 5;
-        [rightButton setTitle:@"移交Owner" forState:UIControlStateNormal];
+        [rightButton setTitle:NSLocalizedString(@"changeOwner", nil) forState:UIControlStateNormal];
         [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         cell.accessoryButton = rightButton;
     }
@@ -103,14 +103,14 @@
 {
     NSString *name = aCell.nameLabel.text;
 
-    [self showHudInView:self.view hint:@"移交Owner..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"changeOwner...", nil)];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].roomManager updateChatroomOwner:self.chatroom.chatroomId newOwner:name completion:^(EMChatroom *aChatroom, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"移交聊天室Owner失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"changeChatroomOwnerFail", nil)];
         } else {
-            [EMAlertController showSuccessAlert:@"移交聊天室Owner成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"changeChatroomOwnerSuccess", nil)];
             
             if (weakself.successCompletion) {
                 weakself.chatroom = aChatroom;
@@ -141,7 +141,7 @@
                                 isShowHUD:(BOOL)aIsShowHUD
 {
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取聊天室成员..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchChatroomMembers...", nil)];
     }
     
     __weak typeof(self) weakself = self;

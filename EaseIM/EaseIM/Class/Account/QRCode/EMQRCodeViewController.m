@@ -57,7 +57,7 @@
     __weak typeof(self) weakself = self;
     self.scanTool = [[WSLNativeScanTool alloc] initWithPreview:self.scanOutputView andScanFrame:_scanView.scanRetangleRect];
     self.scanTool.scanFinishedBlock = ^(NSString *aScanString) {
-        NSLog(@"扫描结果 %@",aScanString);
+        NSLog(NSLocalizedString(@"scanResult...", nil),aScanString);
         NSDictionary *dic = nil;
         if ([aScanString length] > 0) {
             NSData *jsonData = [aScanString dataUsingEncoding:NSUTF8StringEncoding];
@@ -72,9 +72,9 @@
         }
         
         if (!dic) {
-            [EMAlertController showErrorAlert:@"未知的二维码信息"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"unknownQRCode", nil)];
         } else {
-            [EMAlertController showSuccessAlert:@"设置成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"setSuccess", nil)];
             
             if (weakself.scanFinishCompletion) {
                 weakself.scanFinishCompletion(dic);

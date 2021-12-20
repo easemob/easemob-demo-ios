@@ -38,7 +38,7 @@
     self.layer.cornerRadius = 4;
     self.layer.borderColor = [UIColor grayColor].CGColor;
     UILabel* titleLable = [[UILabel alloc] initWithFrame:CGRectMake(20, 16, 150, 28)];
-    titleLable.text = @"发送给:";
+    titleLable.text = NSLocalizedString(@"sendto...", nil);
     titleLable.textColor = [UIColor colorWithRed:66/255.0 green:66/255.0 blue:66/255.0 alpha:1.0];
     titleLable.font = [UIFont systemFontOfSize:28];
     [self addSubview:titleLable];
@@ -59,7 +59,7 @@
     [self addSubview:remoteTitle];
     
     UILabel* userCardLable = [[UILabel alloc] initWithFrame:CGRectMake(16, 140, 310, 36)];
-    userCardLable.text = [NSString stringWithFormat:@"   [个人名片] %@",self.showName];
+    userCardLable.text = [NSString stringWithFormat:NSLocalizedString(@"UserCard...", nil),self.showName];
     userCardLable.font = [UIFont systemFontOfSize:12];
     userCardLable.layer.cornerRadius = 4;
     userCardLable.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
@@ -67,7 +67,7 @@
     [self addSubview:userCardLable];
     
     UIButton* okButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [okButton setTitle:@"确定" forState:UIControlStateNormal];
+    [okButton setTitle:NSLocalizedString(@"ok", nil) forState:UIControlStateNormal];
     okButton.frame = CGRectMake(170, 193, 171, 57);
     okButton.layer.borderWidth = 1;
     okButton.layer.borderColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0].CGColor;
@@ -75,7 +75,7 @@
     [self addSubview:okButton];
     [okButton addTarget:self action:@selector(okAction) forControlEvents:UIControlEventTouchUpInside];
     UIButton* cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelButton setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
     [self addSubview:cancelButton];
     [cancelButton setTitleColor:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0] forState:UIControlStateNormal];
     cancelButton.frame = CGRectMake(0, 193, 171, 57);

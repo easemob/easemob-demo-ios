@@ -121,10 +121,10 @@
     }
     __weak typeof(self) weakself = self;
     UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
-                                                                               title:@"删除"
+                                                                               title:NSLocalizedString(@"delete", nil)
                                                                              handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
     {
-        [weakself showHudInView:weakself.view hint:@"删除好友..."];
+        [weakself showHudInView:weakself.view hint:NSLocalizedString(@"deleteContact...", nil)];
         [weakself _deleteContact:contact.easeId completion:^(EMError *aError) {
             [weakself.resultController hideHud];
         }];
@@ -161,7 +161,7 @@
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search"]];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.font = [UIFont systemFontOfSize:16];
-    label.text = @"搜索";
+    label.text = NSLocalizedString(@"search", nil);
     label.textColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:204.0/255.0 alpha:1];
     [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     UIView *subView = [[UIView alloc] init];
@@ -194,7 +194,7 @@
 {
     self.view.backgroundColor = [UIColor whiteColor];
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = @"通讯录";
+    titleLabel.text = NSLocalizedString(@"contactList", nil);
     titleLabel.textColor = [UIColor blackColor];
     titleLabel.font = [UIFont systemFontOfSize:18];
     [self.view addSubview:titleLabel];
@@ -274,15 +274,15 @@
 - (NSArray<EaseUserDelegate> *)items {
     EMContactModel *newFriends = [[EMContactModel alloc] init];
     newFriends.easeId = NEWFRIEND;
-    newFriends.showName = @"新的好友";
+    newFriends.showName = NSLocalizedString(@"newContact", nil);
     newFriends.defaultAvatar = [UIImage imageNamed:@"newFriend"];
     EMContactModel *groups = [[EMContactModel alloc] init];
     groups.easeId = GROUPLIST;
-    groups.showName = @"群聊";
+    groups.showName = NSLocalizedString(@"group", nil);
     groups.defaultAvatar = [UIImage imageNamed:@"groupchat"];
     EMContactModel *chatooms = [[EMContactModel alloc] init];
     chatooms.easeId = CHATROOMLIST;
-    chatooms.showName = @"聊天室";
+    chatooms.showName = NSLocalizedString(@"chatroom", nil);
     chatooms.defaultAvatar = [UIImage imageNamed:@"chatroom"];
     
     return (NSArray<EaseUserDelegate> *)@[newFriends, groups, chatooms];
@@ -311,12 +311,12 @@
     }];
     [self.resultController setTrailingSwipeActionsConfigurationForRowAtIndexPath:^UISwipeActionsConfiguration *(UITableView *tableView, NSIndexPath *indexPath) {
         UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
-                                                                                   title:@"删除"
+                                                                                   title:NSLocalizedString(@"delete", nil)
                                                                                  handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
         {
             NSInteger row = indexPath.row;
             NSString *contact = weakself.contancts[row];
-            [weakself.resultController showHudInView:weakself.resultController.view hint:@"删除好友..."];
+            [weakself.resultController showHudInView:weakself.resultController.view hint:NSLocalizedString(@"deleteContact...", nil)];
             [weakself _deleteContact:contact completion:^(EMError *aError) {
                 [weakself.resultController hideHud];
             }];
@@ -455,9 +455,9 @@
                                                completion:^(NSString *aUsername, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"删除好友失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"removeContactFail", nil)];
         } else {
-            [EMAlertController showSuccessAlert:[NSString stringWithFormat:@"您已删除好友%@", aContact]];
+            [EMAlertController showSuccessAlert:[NSString stringWithFormat:NSLocalizedString(@"deletedContact", nil), aContact]];
         }
         if (aCompletion) {
             aCompletion(aError);
@@ -468,7 +468,7 @@
 #pragma mark - moreAction
 - (void)addAction
 {
-    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-100, self.addImageBtn.frame.origin.y, 110, 104) selectData:@[@"找人",@"找群"] images:@[@"icon-添加好友",@"icon-加群"] locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index) {
+    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-200, self.addImageBtn.frame.origin.y, 200, 104) selectData:@[NSLocalizedString(@"searchContact", nil),NSLocalizedString(@"searchGroup", nil)] images:@[@"icon-添加好友",@"icon-加群"] locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index) {
         if(index == 0) {
             [self lookForSomeOne];
         } else if (index == 1) {

@@ -40,21 +40,21 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(createChatroomAction)];
-    self.title = @"创建聊天室";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"commit", nil) style:UIBarButtonItemStylePlain target:self action:@selector(createChatroomAction)];
+    self.title = NSLocalizedString(@"createChatroom", nil);
     
     self.tableView.backgroundColor = kColor_LightGray;
     
-    self.nameCell = [self _setupValue1CellWithName:@"名称" detail:@"请输入聊天室名称"];
+    self.nameCell = [self _setupValue1CellWithName:NSLocalizedString(@"subject", nil) detail:NSLocalizedString(@"inputchatroomSubject", nil)];
     
-    self.detailCell = [self _setupValue1CellWithName:@"简介" detail:@"请输入聊天室简介"];
+    self.detailCell = [self _setupValue1CellWithName:NSLocalizedString(@"description", nil) detail:NSLocalizedString(@"chatroomDescription", nil)];
     self.detailCell.separatorInset = UIEdgeInsetsMake(0, 0, 0, self.view.frame.size.width);
     self.contentCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellStyleDefault"];
     self.contentCell.textLabel.numberOfLines = 5;
     self.contentCell.selectionStyle = UITableViewCellSelectionStyleNone;
     self.contentCell.textLabel.textColor = [UIColor grayColor];
     
-    self.memberNumCell = [self _setupValue1CellWithName:@"聊天室人数" detail:@(self.maxMemNum).stringValue];
+    self.memberNumCell = [self _setupValue1CellWithName:NSLocalizedString(@"chatroomMembers", nil) detail:@(self.maxMemNum).stringValue];
 }
 
 - (UITableViewCell *)_setupValue1CellWithName:(NSString *)aName
@@ -124,29 +124,29 @@
     NSInteger row = indexPath.row;
     __weak typeof(self) weakself = self;
     if (row == 0) {
-        EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:self.name placeholder:@"请输入聊天室名称" isEditable:YES];
-        controller.title = @"聊天室名称";
+        EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:self.name placeholder:NSLocalizedString(@"inputchatroomSubject", nil) isEditable:YES];
+        controller.title = NSLocalizedString(@"chatroomSubject", nil);
         [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
             weakself.name = aString;
             if ([aString length] > 0) {
                 self.nameCell.detailTextLabel.text = aString;
             } else {
-                self.nameCell.detailTextLabel.text = @"请输入聊天室名称";
+                self.nameCell.detailTextLabel.text = NSLocalizedString(@"inputchatroomSubject", nil);
             }
             
             return YES;
         }];
         [self.navigationController pushViewController:controller animated:YES];
     } else if (row == 1 || row == 2) {
-        EMTextViewController *controller = [[EMTextViewController alloc] initWithString:self.detail placeholder:@"请输入聊天室简介" isEditable:YES];
-        controller.title = @"聊天室简介";
+        EMTextViewController *controller = [[EMTextViewController alloc] initWithString:self.detail placeholder:NSLocalizedString(@"chatroomDescription", nil) isEditable:YES];
+        controller.title = NSLocalizedString(@"chatroomDescription", nil);
         [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
             weakself.detail = aString;
             if ([aString length] > 0) {
                 self.detailCell.detailTextLabel.text = nil;
                 self.contentCell.textLabel.text = aString;
             } else {
-                self.detailCell.detailTextLabel.text = @"请输入聊天室简介";
+                self.detailCell.detailTextLabel.text = NSLocalizedString(@"chatroomDescription", nil);
                 self.contentCell.textLabel.text = nil;
             }
             return YES;
@@ -162,21 +162,21 @@
 - (void)createChatroomAction
 {
     if ([self.name length] == 0) {
-        [EMAlertController showErrorAlert:@"请输入聊天室名称"];
+        [EMAlertController showErrorAlert:NSLocalizedString(@"inputchatroomSubject", nil)];
         return;
     }
     
     __weak typeof(self) weakself = self;
-    [self showHudInView:self.view hint:@"创建聊天室..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"createChatroom...", nil)];
     [[EMClient sharedClient].roomManager createChatroomWithSubject:self.name description:self.detail invitees:nil message:nil maxMembersCount:self.maxMemNum completion:^(EMChatroom *aChatroom, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"创建聊天室失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"createChatroomFail", nil)];
         } else {
             if (weakself.successCompletion) {
                 weakself.successCompletion(aChatroom);
             }
-            [EMAlertController showSuccessAlert:@"创建聊天室成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"createChatroomSuccess", nil)];
             [weakself.navigationController popViewControllerAnimated:YES];
         }
     }];
@@ -184,23 +184,23 @@
 
 - (void)updateMaxMemberNum
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"聊天室人数" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"chatroomMembers", nil) message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"请输入聊天室人数 3-1000";
+        textField.placeholder = NSLocalizedString(@"chatroomMembrCounts", nil);
         textField.text = @(self.maxMemNum).stringValue;
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:cancelAction];
     
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         UITextField *textField = alertController.textFields.firstObject;
         NSInteger value = [textField.text integerValue];
         if (value > 2 && value < 1001) {
             self.maxMemNum = value;
             self.memberNumCell.detailTextLabel.text = @(value).stringValue;
         } else {
-            [EMAlertController showErrorAlert:@"聊天室人数范围：3-1000"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"inputChatroomMembrCounts", nil)];
         }
     }];
     [alertController addAction:okAction];

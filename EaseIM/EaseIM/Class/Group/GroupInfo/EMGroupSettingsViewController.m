@@ -41,7 +41,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"群组设置";
+    self.title = NSLocalizedString(@"groupSetting", nil);
     
     self.tableView.rowHeight = 55;
     self.tableView.backgroundColor = kColor_LightGray;
@@ -83,19 +83,19 @@
     if (section == 0) {
         if (row == 0) {
             cell.textLabel.textColor = [UIColor blackColor];
-            cell.textLabel.text = @"屏蔽群组消息";
+            cell.textLabel.text = NSLocalizedString(@"muteGroup", nil);
             [cell.contentView addSubview:self.shieldSwitch];
         }
     } else if (section == 1) {
         if (row == 0) {
             cell.textLabel.textColor = [UIColor blackColor];
-            cell.textLabel.text = self.pushSwitch.isOn ? @"接收并提示群消息" : @"只接收但不提示消息";
+            cell.textLabel.text = self.pushSwitch.isOn ? NSLocalizedString(@"recvGroupMsg", nil) : NSLocalizedString(@"recvWithoutNoticeMsg", nil);
             [cell.contentView addSubview:self.pushSwitch];
         }
     } else if (section == 2) {
         if (row == 0) {
             cell.textLabel.textColor = kColor_Blue;
-            cell.textLabel.text = @"清空消息";
+            cell.textLabel.text = NSLocalizedString(@"clearMsgs", nil);
         }
     }
     
@@ -142,9 +142,9 @@
     label.textColor = [UIColor lightGrayColor];
     label.numberOfLines = 2;
     if (section == 0) {
-        label.text = @"    屏蔽群组的全部消息";
+        label.text = NSLocalizedString(@"unrecvMsgPrompt", nil);
     } else if (section == 1) {
-        label.text = self.pushSwitch.isOn ? @"    接收消息并且提示消息通知" : @"    接收消息但是不提示消息通知";
+        label.text = self.pushSwitch.isOn ? NSLocalizedString(@"recvMsgPrompt", nil) : NSLocalizedString(@"recvWithoutNoticeMsg", nil);
     }
     
     return label;
@@ -155,7 +155,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 2 && indexPath.row == 0) {
-        [self showHudInView:self.view hint:@"正在删除..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"removing...", nil)];
         [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_CLEANMESSAGES object:self.group.groupId];
         [self hideHud];
     }
@@ -169,15 +169,15 @@
         return;
     }
     
-    [self showHudInView:self.view hint:@"更新群组设置..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"updateGroupSetting...", nil)];
     __weak typeof(self) weakself = self;
     void (^block)(EMGroup *aGroup, EMError *aError) = ^void(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (aError) {
             [weakself.shieldSwitch setOn:!weakself.shieldSwitch.isOn];
-            [EMAlertController showErrorAlert:@"更新群组设置失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"updateSettingFail", nil)];
         } else {
-            [EMAlertController showSuccessAlert:@"更新群组设置成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"updateSettingSuccess", nil)];
             weakself.group = aGroup;
             [weakself.tableView reloadData];
         }
@@ -196,15 +196,15 @@
         return;
     }
     
-    [self showHudInView:self.view hint:@"更新群组设置..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"updateGroupSetting...", nil)];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].groupManager updatePushServiceForGroup:self.group.groupId isPushEnabled:self.pushSwitch.isOn completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (aError) {
             [weakself.pushSwitch setOn:!weakself.pushSwitch.isOn];
-            [EMAlertController showErrorAlert:@"更新群组设置失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"updateSettingFail", nil)];
         } else {
-            [EMAlertController showSuccessAlert:@"更新群组设置成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"updateSettingSuccess", nil)];
             weakself.group = aGroup;
             [weakself.tableView reloadData];
         }

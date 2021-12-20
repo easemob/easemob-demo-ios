@@ -61,8 +61,8 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"上传" style:UIBarButtonItemStylePlain target:self action:@selector(moreAction)];
-    self.title = @"共享文件";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"upload", nil) style:UIBarButtonItemStylePlain target:self action:@selector(moreAction)];
+    self.title = NSLocalizedString(@"sharedFile", nil);
     self.showRefreshHeader = YES;
     
     self.tableView.rowHeight = 75;
@@ -102,7 +102,7 @@
     
     NSString *fileCreateTime = [_dateFormatter stringFromDate:[EMDateHelper dateWithTimeIntervalInMilliSecondSince1970:file.createTime]];
     NSString *fileOwner = [file.fileOwner length] <= 10 ? file.fileOwner : [NSString stringWithFormat:@"%@...",[file.fileOwner substringWithRange:NSMakeRange(0, 10)]];
-    cell.detailLabel.text = [NSString stringWithFormat:@"%@ 来自 %@ %.2lf MB",fileCreateTime,fileOwner,(float)file.fileSize / (1024 * 1024)];
+    cell.detailLabel.text = [NSString stringWithFormat:NSLocalizedString(@"fromPrompt", nil),fileCreateTime,fileOwner,(float)file.fileSize / (1024 * 1024)];
     
     return cell;
 }
@@ -141,13 +141,13 @@
         [self _openFileWithPath:filePath];
     } else {
         __weak typeof(self) weakself = self;
-        [self showHudInView:self.view hint:@"下载共享文件..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"downloadingShareFile...", nil)];
         [[EMClient sharedClient].groupManager downloadGroupSharedFileWithId:self.group.groupId filePath:filePath sharedFileId:file.fileId progress:^(int progress) {
             // NSLog(@"%d",progress);
         } completion:^(EMGroup *aGroup, EMError *aError) {
             [weakself hideHud];
             if (aError) {
-                [EMAlertController showErrorAlert:@"下载共享文件失败"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"downloadsharedFileFial", nil)];
             } else {
                 [weakself _openFileWithPath:filePath];
             }
@@ -264,7 +264,7 @@
 - (void)uploadAction:(NSString *)filePath
 {
     __weak typeof(self) weakself = self;
-    [self showHudInView:self.view hint:@"上传共享文件..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"uploadingShareFile...", nil)];
     [[EMClient sharedClient].groupManager uploadGroupSharedFileWithId:self.group.groupId filePath:filePath progress:^(int progress){
         //code
     } completion:^(EMGroupSharedFile *aSharedFile, EMError *aError) {
@@ -273,7 +273,7 @@
             [weakself.dataArray insertObject:aSharedFile atIndex:0];
             [weakself.tableView reloadData];
         } else {
-            [EMAlertController showErrorAlert:@"上传共享文件失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"uploadsharedFileFail", nil)];
         }
     }];
 }
@@ -283,14 +283,14 @@
     EMGroupSharedFile *file = [self.dataArray objectAtIndex:aIndexPath.row];
     
     __weak typeof(self) weakself = self;
-    [self showHudInView:self.view hint:@"删除共享文件..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"deleteShareFile...", nil)];
     [[EMClient sharedClient].groupManager removeGroupSharedFileWithId:self.group.groupId sharedFileId:file.fileId completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (!aError) {
             [weakself.dataArray removeObject:file];
             [weakself.tableView reloadData];
         } else {
-            [EMAlertController showErrorAlert:@"删除共享文件失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"removesharedFileFail", nil)];
         }
     }];
 }
@@ -373,7 +373,7 @@
 {
     NSInteger pageSize = 50;
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取共享文件..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchShareFile...", nil)];
     }
     
     __weak typeof(self) weakself = self;
@@ -389,7 +389,7 @@
             [weakself.dataArray addObjectsFromArray:aList];
             [weakself.tableView reloadData];
         } else {
-            [EMAlertController showErrorAlert:@"获取共享文件失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"fetchsharedFileFail", nil)];
         }
         
         if ([aList count] < pageSize) {
@@ -417,7 +417,7 @@
 
 - (void)moreAction
 {
-    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-150, 44, 145, 156) selectData:@[@"上传图片",@"上传视频",@"上传文件"] images:@[@"icon-创建群组",@"icon-添加好友",@"icon-添加好友"] locationY:0 action:^(NSInteger index){
+    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-200, 44, 185, 156) selectData:@[NSLocalizedString(@"uploadImage", nil),NSLocalizedString(@"uploadVideo", nil),NSLocalizedString(@"uploadFile", nil)] images:@[@"icon-创建群组",@"icon-添加好友",@"icon-添加好友"] locationY:0 action:^(NSInteger index){
         if(index == 0) {
             [self uploadMediaAction:0];
         } else if (index == 1) {
@@ -464,7 +464,7 @@
         [self selectedDocumentAtURLs:urls[0] reName:nil];
         [urls.firstObject stopAccessingSecurityScopedResource];
     } else {
-        [self showHint:@"授权失败!"];
+        [self showHint:NSLocalizedString(@"rightFail", nil)];
     }
 }
 - (void)documentPickerWasCancelled:(UIDocumentPickerViewController *)controller
@@ -479,7 +479,7 @@
         [self selectedDocumentAtURLs:url reName:nil];
         [url stopAccessingSecurityScopedResource];
     } else {
-        [self showHint:@"授权失败!"];
+        [self showHint:NSLocalizedString(@"rightFail", nil)];
     }
 }
 
@@ -494,7 +494,7 @@
         NSError *error = nil;
         NSData *fileData = [NSData dataWithContentsOfURL:newURL options:NSDataReadingMappedIfSafe error:&error];
         if (error) {
-            [self showHint:@"文件读取失败!"];;
+            [self showHint:NSLocalizedString(@"readFileFail", nil)];;
         }else {
             NSLog(@"fileName: %@\nfileUrl: %@", fileName, newURL);
             [self _uploadFileData:fileData fileName:fileName];

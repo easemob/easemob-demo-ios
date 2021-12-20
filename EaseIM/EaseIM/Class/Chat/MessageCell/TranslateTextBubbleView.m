@@ -53,7 +53,7 @@
     [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(10);
         make.bottom.equalTo(self).offset(-10);
-        make.left.equalTo(self.mas_left).offset(30);
+        make.left.equalTo(self.mas_left).offset(10);
         make.right.equalTo(self.mas_right).offset(-10);
     }];
     self.textLabel.textColor = [UIColor blackColor];
@@ -76,11 +76,14 @@
         }else{
             _activity.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
         }
+        CGAffineTransform transform = CGAffineTransformMakeScale(0.7, 0.7);
+
+        _activity.transform = transform;
         [self addSubview:_activity];
         [_activity mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(10);
+            make.left.equalTo(self).offset(1);
             make.top.equalTo(self).offset(10);
-            make.width.height.equalTo(@15);
+            make.width.height.equalTo(@10);
             if(self.textLabel.text.length <= 0) {
                 make.bottom.equalTo(self).offset(-10);
             }

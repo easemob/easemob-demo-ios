@@ -26,9 +26,9 @@
 //#define DEF_APPKEY @"easemob-demo#chatdemoui"
 
 // 翻译
-#define TRANSLATE_KEY 输入你的翻译服务key
-#define TRANSLATE_ENDPOINT 输入你的翻译服务endpoint
-#define TRANSLATE_LOCATION 输入你的翻译服务location
+#define TRANSLATE_KEY @"46c34219512d4f09ae6f8e04c083b7a3"
+#define TRANSLATE_ENDPOINT @"https://api.cognitive.microsofttranslator.com/"
+#define TRANSLATE_LOCATION @"global"
 
 
 #define RTC_BUTTON_WIDTH 65

@@ -77,24 +77,24 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(createGroupAction)];
-    self.title = @"创建群组";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(createGroupAction)];
+    self.title = NSLocalizedString(@"createGroup", nil);
     
     self.tableView.backgroundColor = kColor_LightGray;
     
-    self.nameCell = [self _setupValue1CellWithName:@"名称" detail:@"请填写群组名称"];
+    self.nameCell = [self _setupValue1CellWithName:NSLocalizedString(@"subject", nil) detail:NSLocalizedString(@"needGroupSubject", nil)];
     
-    self.detailCell = [self _setupValue1CellWithName:@"简介" detail:@"请输入群组简介"];
+    self.detailCell = [self _setupValue1CellWithName:NSLocalizedString(@"description", nil) detail:NSLocalizedString(@"inputGroupDescription", nil)];
     self.detailCell.separatorInset = UIEdgeInsetsMake(0, 0, 0, self.view.frame.size.width);
     self.contentCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellStyleDefault"];
     self.contentCell.textLabel.numberOfLines = 5;
     self.contentCell.selectionStyle = UITableViewCellSelectionStyleNone;
     self.contentCell.textLabel.textColor = [UIColor grayColor];
     
-    self.memberNumCell = [self _setupValue1CellWithName:@"群组人数" detail:@(self.maxMemNum).stringValue];
-    self.publicCell = [self _setupSwitchCellWithName:@"是否公开群组" action:@selector(publicSwitchValueChanged:)];
-    self.optionCell = [self _setupSwitchCellWithName:@"群成员是否有邀请权限" action:@selector(optionSwitchValueChanged:)];
-    self.inviteCountCell = [self _setupValue1CellWithName:@"群组成员" detail:@([self.members count]).stringValue];
+    self.memberNumCell = [self _setupValue1CellWithName:NSLocalizedString(@"memberCount", nil) detail:@(self.maxMemNum).stringValue];
+    self.publicCell = [self _setupSwitchCellWithName:NSLocalizedString(@"isPublic", nil) action:@selector(publicSwitchValueChanged:)];
+    self.optionCell = [self _setupSwitchCellWithName:NSLocalizedString(@"memberRight", nil) action:@selector(optionSwitchValueChanged:)];
+    self.inviteCountCell = [self _setupValue1CellWithName:NSLocalizedString(@"members", nil) detail:@([self.members count]).stringValue];
 }
 
 - (UITableViewCell *)_setupValue1CellWithName:(NSString *)aName
@@ -209,12 +209,12 @@
         label.font = [UIFont systemFontOfSize:13];
         label.textColor = [UIColor lightGrayColor];
         if (section == 1) {
-            label.text = self.isPublic ? @"    其他用户可以查找到此群" : @"    其他用户不能查找到此群";
+            label.text = self.isPublic ? NSLocalizedString(@"othersFindGroup", nil) : NSLocalizedString(@"othersCannotFindGroup",nil);
         } else if (section == 2) {
             if (self.isPublic) {
-                label.text = self.isNeedApply ? @"    用户加入群组需要群主同意" : @"    用户可以直接加入群组";
+                label.text = self.isNeedApply ? NSLocalizedString(@"joinNeedOwnerAgre", nil) : NSLocalizedString(@"directJoin",nil);
             } else {
-                label.text = self.isMemberCanInvite ? @"    允许群成员邀请用户进群" : @"    只允许群主邀请用户进群";
+                label.text = self.isMemberCanInvite ? NSLocalizedString(@"allowMembersInvite", nil) : NSLocalizedString(@"onlyOwnerInvite",nil);
             }
         }
         
@@ -248,14 +248,14 @@
 - (void)_updateName
 {
     __weak typeof(self) weakself = self;
-    EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:self.name placeholder:@"请填写群组名称" isEditable:YES];
-    controller.title = @"群组名称";
+    EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:self.name placeholder:NSLocalizedString(@"needGroupSubject", nil) isEditable:YES];
+    controller.title = NSLocalizedString(@"groupSubject", nil);
     [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
         weakself.name = aString;
         if ([aString length] > 0) {
             weakself.nameCell.detailTextLabel.text = aString;
         } else {
-            weakself.nameCell.detailTextLabel.text = @"请输入群组名称";
+            weakself.nameCell.detailTextLabel.text = NSLocalizedString(@"inputGroupSubject", nil);
         }
         return YES;
     }];
@@ -265,15 +265,15 @@
 - (void)_updateDetail
 {
     __weak typeof(self) weakself = self;
-    EMTextViewController *controller = [[EMTextViewController alloc] initWithString:self.detail placeholder:@"请输入群组简介" isEditable:YES];
-    controller.title = @"群组简介";
+    EMTextViewController *controller = [[EMTextViewController alloc] initWithString:self.detail placeholder:NSLocalizedString(@"inputGroupDescription", nil) isEditable:YES];
+    controller.title = NSLocalizedString(@"groupDescritption", nil);
     [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
         weakself.detail = aString;
         if ([aString length] > 0) {
             weakself.detailCell.detailTextLabel.text = nil;
             weakself.contentCell.textLabel.text = aString;
         } else {
-            weakself.detailCell.detailTextLabel.text = @"请输入群组简介";
+            weakself.detailCell.detailTextLabel.text = NSLocalizedString(@"inputGroupDescription", nil);
             weakself.contentCell.textLabel.text = nil;
         }
         return YES;
@@ -283,23 +283,23 @@
 
 - (void)_updateMaxMemberNum
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"群组人数" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"memberCount", nil) message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"请输入群组人数 3-3000";
+        textField.placeholder = NSLocalizedString(@"inputGroupMemCount", nil);
         textField.text = @(self.maxMemNum).stringValue;
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:cancelAction];
     
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         UITextField *textField = alertController.textFields.firstObject;
         NSInteger value = [textField.text integerValue];
         if (value > 2 && value < 3001) {
             self.maxMemNum = value;
             self.memberNumCell.detailTextLabel.text = @(value).stringValue;
         } else {
-            [EMAlertController showErrorAlert:@"群组人数范围：3-3000"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"groupMemberCounts", nil)];
         }
     }];
     [alertController addAction:okAction];
@@ -327,7 +327,7 @@
 {
     self.isPublic = aSwitch.isOn;
     
-    self.optionCell.textLabel.text = self.isPublic ? @"加入是否需要验证" : @"群成员是否有邀请权限";
+    self.optionCell.textLabel.text = self.isPublic ? NSLocalizedString(@"joinNeedAllow", nil) : NSLocalizedString(@"memberRight", nil);
     UISwitch *sw = (UISwitch *)self.optionCell.accessoryView;
     [sw setOn:NO];
     if (!self.isPublic)
@@ -349,12 +349,12 @@
 - (void)createGroupAction
 {
     if ([self.name length] == 0) {
-        [EMAlertController showErrorAlert:@"请输入群组名称"];
+        [EMAlertController showErrorAlert:NSLocalizedString(@"inputGroupSubject", nil)];
         return;
     }
     
     __weak typeof(self) weakself = self;
-    [self showHudInView:self.view hint:@"创建群组..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"creatGroup...", nil)];
     EMGroupOptions *options = [[EMGroupOptions alloc] init];
     options.maxUsersCount = self.maxMemNum;
     if (self.isPublic) {
@@ -374,9 +374,9 @@
     [[EMClient sharedClient].groupManager createGroupWithSubject:self.name description:self.detail invitees:self.members message:nil setting:options completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"创建群组失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"createGroupFail", nil)];
         } else {
-            [EMAlertController showSuccessAlert:@"创建群组成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"createGroupSucess", nil)];
             [weakself.navigationController popViewControllerAnimated:YES];
             if (weakself.successCompletion) {
                 weakself.successCompletion(aGroup);

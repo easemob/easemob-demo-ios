@@ -116,7 +116,7 @@
         }];
         
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = [UIFont systemFontOfSize:13];
+        _nameLabel.font = [UIFont systemFontOfSize:12];
         _nameLabel.textColor = [UIColor grayColor];
         if (_model.message.chatType != EMChatTypeChat) {
             [self.contentView addSubview:_nameLabel];
@@ -139,7 +139,7 @@
         if(self.direction == EMMessageDirectionSend) {
             [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.greaterThanOrEqualTo(self.contentView).with.offset(60);
-                make.top.equalTo(self.avatarView).with.offset(10);
+                make.top.equalTo(self.avatarView).with.offset(30);
                 make.right.equalTo(self.avatarView.mas_left).offset(-10);
             }];
             [_translateView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -151,7 +151,7 @@
         }else{
             [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self.avatarView.mas_right).with.offset(10);
-                make.top.equalTo(self.avatarView).with.offset(10);
+                make.top.equalTo(self.avatarView).with.offset(30);
                 make.right.lessThanOrEqualTo(self.contentView).offset(-60);
             }];
             [_translateView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -170,14 +170,14 @@
         if(self.direction == EMMessageDirectionSend) {
             [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.greaterThanOrEqualTo(self.contentView).with.offset(60);
-                make.top.equalTo(self.avatarView).with.offset(10);
+                make.top.equalTo(self.avatarView).with.offset(30);
                 make.right.equalTo(self.avatarView.mas_left).offset(-10);
                 make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
         }else{
             [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self.avatarView.mas_right).with.offset(10);
-                make.top.equalTo(self.avatarView).with.offset(10);
+                make.top.equalTo(self.avatarView).with.offset(30);
                 make.right.lessThanOrEqualTo(self.contentView).offset(-60);
                 make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
@@ -185,6 +185,12 @@
     }
 
     _statusView = [[EMMessageStatusView alloc] init];
+    __weak typeof(self) weakself = self;
+    [_statusView setResendCompletion:^{
+        if (weakself.delegate && [weakself.delegate respondsToSelector:@selector(messageCellDidResend:)]) {
+            [weakself.delegate messageCellDidResend:weakself];
+        }
+    }];
     [self.contentView addSubview:_statusView];
     if (self.direction == EMMessageDirectionSend) {
         [_statusView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -230,7 +236,7 @@
             if(self.direction == EMMessageDirectionSend) {
                 [_msgView mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(self.contentView).with.offset(60);
-                    make.top.equalTo(self.contentView).with.offset(10);
+                    make.top.equalTo(self.avatarView).with.offset(30);
                     make.right.equalTo(self.avatarView.mas_left).offset(-10);
                     make.height.equalTo(@120);
                     make.bottom.equalTo(self.contentView).with.offset(-10);
@@ -238,7 +244,7 @@
             }else{
                 [_msgView mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(self.avatarView.mas_right).with.offset(10);
-                    make.top.equalTo(self.contentView).with.offset(10);
+                    make.top.equalTo(self.avatarView).with.offset(30);
                     make.right.equalTo(self.contentView).offset(-60);
                     make.height.equalTo(@120);
                     make.bottom.equalTo(self.contentView).with.offset(-10);
@@ -252,7 +258,18 @@
     if (model.direction == EMMessageDirectionSend) {
         [self.statusView setSenderStatus:model.message.status isReadAcked:model.message.isReadAcked];
     } else {
+        
         self.nameLabel.text = model.message.from;
+        if(!self.nameLabel.superview) {
+            if (_model.message.chatType != EMChatTypeChat) {
+                [self.contentView addSubview:_nameLabel];
+                [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(self.avatarView);
+                    make.left.equalTo(self.avatarView.mas_right).offset(8);
+                    make.right.equalTo(self.contentView).offset(-componentSpacing);
+                }];
+            }
+        }
         if (model.type == EMMessageTypePictMixText) {
             if ([((EMTextMessageBody *)model.message.body).text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL])
                 self.statusView.hidden = model.message.isReadAcked;

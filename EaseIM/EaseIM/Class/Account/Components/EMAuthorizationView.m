@@ -50,7 +50,7 @@
     self.authorizationLabel = [[UILabel alloc] init];
     _authorizationLabel.numberOfLines = 0;
     _authorizationLabel.font = [UIFont systemFontOfSize:16];
-    _authorizationLabel.text = self.authorizationType == EMAuthLogin ? @"登 录" : @"注 册";
+    _authorizationLabel.text = self.authorizationType == EMAuthLogin ? NSLocalizedString(@"login", nil) : NSLocalizedString(@"regist", nil);
     [_authorizationLabel setTextColor:[UIColor whiteColor]];
     _authorizationLabel.textAlignment = NSTextAlignmentCenter;
     _authorizationLabel.alpha = 0.3;
@@ -79,7 +79,7 @@
 - (void)originalView
 {
     if (_authorizationType < 1 || _authorizationType > 2) return;
-    self.authorizationLabel.text = self.authorizationType == EMAuthLogin ? @"登 录" : @"注 册";
+    self.authorizationLabel.text = self.authorizationType == EMAuthLogin ? NSLocalizedString(@"login", nil) : NSLocalizedString(@"regist", nil);
     [self.loadingView stopTimer];
     [self.loadingView removeFromSuperview];
 }
@@ -95,7 +95,7 @@
     }];
     [self.loadingView startAnimation];
     if (_authorizationType < 1 || _authorizationType > 2) return;
-    self.authorizationLabel.text = self.authorizationType == EMAuthLogin ? @"正在登录..." : @"注册中...";
+    self.authorizationLabel.text = self.authorizationType == EMAuthLogin ? NSLocalizedString(@"loging..", nil) : NSLocalizedString(@"Registing..", nil);
 }
 
 #pragma mark - Action

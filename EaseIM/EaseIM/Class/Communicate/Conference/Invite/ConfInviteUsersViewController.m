@@ -83,7 +83,7 @@
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.titleLabel.font = [UIFont systemFontOfSize:18];
-    self.titleLabel.text = @"邀请参加";
+    self.titleLabel.text = NSLocalizedString(@"invite", nil);
     [self.view addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(45);
@@ -94,13 +94,13 @@
     
     UIButton *closeButton = [[UIButton alloc] init];
     closeButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [closeButton setTitle:@"关闭" forState:UIControlStateNormal];
+    [closeButton setTitle:NSLocalizedString(@"close", nil) forState:UIControlStateNormal];
     [closeButton setTitleColor:[UIColor colorWithRed:8 / 255.0 green:115 / 255.0 blue:222 / 255.0 alpha:1.0] forState:UIControlStateNormal];
     [closeButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [closeButton addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeButton];
     [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.titleLabel.mas_right);
+        //make.left.equalTo(self.titleLabel.mas_right);
         make.right.equalTo(self.view).offset(-10);
         make.top.equalTo(self.titleLabel);
         make.bottom.equalTo(self.titleLabel);
@@ -113,7 +113,7 @@
     UITextField *searchField = [self.searchBar valueForKey:@"searchField"];
     CGFloat color = 245 / 255.0;
     searchField.backgroundColor = [UIColor colorWithRed:color green:color blue:color alpha:1.0];
-    self.searchBar.placeholder = @"搜索联系人";
+    self.searchBar.placeholder = NSLocalizedString(@"serchContact", nil);
     [self.view addSubview:self.searchBar];
     [self.view sendSubviewToBack:self.searchBar];
     [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -133,9 +133,9 @@
     [startButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [startButton setImage:[UIImage imageNamed:@"video_white"] forState:UIControlStateNormal];
     if (self.isCreate) {
-        [startButton setTitle:@"  开始会议" forState:UIControlStateNormal];
+        [startButton setTitle:NSLocalizedString(@"start Comminucation", nil) forState:UIControlStateNormal];
     } else {
-        [startButton setTitle:@"  完成" forState:UIControlStateNormal];
+        [startButton setTitle:NSLocalizedString(@"done", nil) forState:UIControlStateNormal];
     }
     [startButton addTarget:self action:@selector(doneAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:startButton];
@@ -218,7 +218,7 @@
     cell.isChecked = !isChecked;
     
     NSInteger count = [self.inviteUsers count];
-    self.titleLabel.text = count == 0 ? @"邀请参加" : [[NSString alloc] initWithFormat:@"邀请参加(%@)", @(count)];
+    self.titleLabel.text = count == 0 ? NSLocalizedString(@"invite", nil) : [[NSString alloc] initWithFormat:[NSString stringWithFormat:@"%@(%@)",NSLocalizedString(@"invite", nil), @(count)]];
 }
 
 #pragma mark - UISearchBarDelegate
@@ -311,13 +311,13 @@
 {
     NSInteger pageSize = 50;
     __weak typeof(self) weakSelf = self;
-    [self showHudInView:self.view hint:@"正在获取群组成员..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"fetchingGroupMember...", nil)];
     [[EMClient sharedClient].groupManager getGroupMemberListFromServerWithId:self.gorcId cursor:self.cursor pageSize:pageSize completion:^(EMCursorResult *aResult, EMError *aError) {
         if (aError) {
             [weakSelf hideHud];
             [weakSelf tableViewDidFinishTriggerHeader:aIsHeader reload:NO];
             
-            [weakSelf showHint:[[NSString alloc] initWithFormat:@"获取群组成员失败: %@", aError.errorDescription]];
+            [weakSelf showHint:[[NSString alloc] initWithFormat:NSLocalizedString(@"fetchGroupMemberFail", nil), aError.errorDescription]];
             return ;
         }
         
@@ -355,13 +355,13 @@
 {
     NSInteger pageSize = 50;
     __weak typeof(self) weakSelf = self;
-    [self showHudInView:self.view hint:@"正在获取聊天室成员..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"fetchingChatroomMember...", nil)];
     [[EMClient sharedClient].roomManager getChatroomMemberListFromServerWithId:self.gorcId cursor:self.cursor pageSize:pageSize completion:^(EMCursorResult *aResult, EMError *aError) {
         if (aError) {
             [weakSelf hideHud];
             [weakSelf tableViewDidFinishTriggerHeader:aIsHeader reload:NO];
             
-            [weakSelf showHint:[[NSString alloc] initWithFormat:@"获取聊天室成员失败: %@", aError.errorDescription]];
+            [weakSelf showHint:[[NSString alloc] initWithFormat:NSLocalizedString(@"fetchChatroomMemberFail", nil), aError.errorDescription]];
             return ;
         }
         

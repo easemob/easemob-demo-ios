@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 - (void)messageCellDidSelected:(EMMessageCell *)aCell;
 - (void)messageAvatarDidSelected:(EaseMessageModel *)model;
+- (void)messageCellDidResend:(EMMessageCell *)aCell;
 
 @end
 

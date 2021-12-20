@@ -129,7 +129,7 @@
 - (NSDictionary *)protocolDict
 {
     if (!_protocolDict) {
-        _protocolDict = @{@"serviceClause":@"用户服务条款",@"privacyProtocol":@"用户隐私协议"};
+        _protocolDict = @{@"serviceClause":NSLocalizedString(@"servicePrompt", nil),@"privacyProtocol":NSLocalizedString(@"privacyPrompt", nil)};
     }
     return _protocolDict;
 }
@@ -151,7 +151,7 @@
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(estimatedProgress))]
         && object == _webView) {
         
-        NSLog(@"网页加载进度 = %f",_webView.estimatedProgress);
+        NSLog(NSLocalizedString(@"loading...", nil),_webView.estimatedProgress);
         self.progressView.progress = _webView.estimatedProgress;
         if (_webView.estimatedProgress >= 1.0f) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

@@ -38,12 +38,12 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
-    self.title = @"添加至黑名单";
+    self.title = NSLocalizedString(@"addToBlackList", nil);
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.searchBar = [[EMSearchBar alloc] init];
     self.searchBar.delegate = self;
-    self.searchBar.textField.placeholder = @"搜索用户ID";
+    self.searchBar.textField.placeholder = NSLocalizedString(@"serchUserId", nil);
     [self.view addSubview:self.searchBar];
     [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
@@ -84,9 +84,9 @@
         rightButton.backgroundColor = kColor_Blue;
         rightButton.titleLabel.font = [UIFont systemFontOfSize:16];
         rightButton.layer.cornerRadius = 5;
-        [rightButton setTitle:@"拉黑用户" forState:UIControlStateNormal];
+        [rightButton setTitle:NSLocalizedString(@"blackedUser", nil) forState:UIControlStateNormal];
         [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [rightButton setTitle:@"已拉黑" forState:UIControlStateDisabled];
+        [rightButton setTitle:NSLocalizedString(@"blacked", nil) forState:UIControlStateDisabled];
         [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
         cell.accessoryButton = rightButton;
     }
@@ -113,12 +113,12 @@
 {
     NSString *name = [self.dataArray objectAtIndex:aCell.indexPath.row];
     
-    [self showHudInView:self.view hint:@"拉黑用户..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"blUser...", nil)];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].contactManager addUserToBlackList:name completion:^(NSString *aUsername, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"拉黑用户失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"blackFail", nil)];
         } else {
             weakself.contacts = [[EMClient sharedClient].contactManager getContacts];
             weakself.blacklist = [[EMClient sharedClient].contactManager getBlackList];
@@ -126,7 +126,7 @@
             aCell.accessoryButton.enabled = NO;
             aCell.accessoryButton.backgroundColor = kColor_Gray;
             
-            [EMAlertController showSuccessAlert:@"拉黑用户成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"blackFail", nil)];
         }
     }];
 }

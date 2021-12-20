@@ -44,7 +44,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"聊天详情";
+    self.title = NSLocalizedString(@"msgInfo", nil);
 
     self.tableView.scrollEnabled = NO;
     self.tableView.rowHeight = 60;
@@ -128,10 +128,10 @@
             }
         }
     }
-    if (section == 1) cell.textLabel.text = @"查找聊天记录";
+    if (section == 1) cell.textLabel.text = NSLocalizedString(@"searchMsgList", nil);
     /*
     if (section == 2) {
-        cell.textLabel.text = @"消息免打扰";
+        cell.textLabel.text = NSLocalizedString(@"noNotice", nil);
         NSArray *ignoredUidList = [[EMClient sharedClient].pushManager noPushUIds];
         if ([ignoredUidList containsObject:self.conversation.conversationId]) {
             [switchControl setOn:(YES) animated:YES];
@@ -141,12 +141,12 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     }*/
     if (section == 2) {
-        cell.textLabel.text = @"会话置顶";
+        cell.textLabel.text = NSLocalizedString(@"conversationTop", nil);
         [switchControl setOn:([self.conversationModel isTop]) animated:YES];
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     if (section == 3)
-        cell.textLabel.text = @"清空聊天记录";
+        cell.textLabel.text = NSLocalizedString(@"clearConversation", nil);
     
     return cell;
 }
@@ -209,18 +209,18 @@
 - (void)deleteChatRecord
 {
     __weak typeof(self) weakself = self;
-    //UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:[NSString stringWithFormat:@"确定删除和%@的聊天记录吗？",self.conversationModel.emModel.conversationId] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"您确认要清空所有聊天记录吗？" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *clearAction = [UIAlertAction actionWithTitle:@"清空" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    //UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:[NSString stringWithFormat:NSLocalizedString(@"removePrompt", nil),self.conversationModel.emModel.conversationId] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"removeMsgPrompt", nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *clearAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"clear", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:self.conversation.conversationId type:EMConversationTypeChat createIfNotExist:NO];
         EMError *error = nil;
         [conversation deleteAllMessages:&error];
         if (weakself.clearRecordCompletion) {
             if (!error) {
-                [EMAlertController showSuccessAlert:@"聊天记录已清空！"];
+                [EMAlertController showSuccessAlert:NSLocalizedString(@"cleared", nil)];
                 weakself.clearRecordCompletion(YES);
             } else {
-                [EMAlertController showErrorAlert:@"清空聊天记录失败！"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"clearFail", nil)];
                 weakself.clearRecordCompletion(NO);
             }
         }
@@ -228,7 +228,7 @@
     [clearAction setValue:[UIColor colorWithRed:245/255.0 green:52/255.0 blue:41/255.0 alpha:1.0] forKey:@"_titleTextColor"];
     [alertController addAction:clearAction];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
     [cancelAction  setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
     [alertController addAction:cancelAction];
@@ -248,14 +248,14 @@
         if (aSwitch.isOn) {
             [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:YES completion:^(EMError * _Nonnull aError) {
                 if (aError) {
-                    [weakself showHint:[NSString stringWithFormat:@"设置免打扰失败 reason：%@",aError.errorDescription]];
+                    [weakself showHint:[NSString stringWithFormat:NSLocalizedString(@"setDistrbute", nil),aError.errorDescription]];
                     [aSwitch setOn:NO];
                 }
             }];
         } else {
             [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:NO completion:^(EMError * _Nonnull aError) {
                 if (aError) {
-                    [weakself showHint:[NSString stringWithFormat:@"设置免打扰失败 reason：%@",aError.errorDescription]];
+                    [weakself showHint:[NSString stringWithFormat:NSLocalizedString(@"setDistrbute", nil),aError.errorDescription]];
                     [aSwitch setOn:YES];
                 }
             }];

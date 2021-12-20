@@ -23,15 +23,32 @@
         CGPoint pt = [gestureRecognizer locationInView:customCell.contentView];
         __weak typeof(self) weakself = self;
         if([self point:pt insideView:cell.msgView] && cell.model.message.status == EMMessageStatusSucceed) {
+            NSMutableArray<EaseExtMenuModel *> * menuArray =[NSMutableArray<EaseExtMenuModel *> array];
+            if(defaultLongPressItems.count >= 2) {
+                [menuArray addObject:defaultLongPressItems[0]];
+                [menuArray addObject:defaultLongPressItems[1]];
+            }
+            EaseExtMenuModel *forwardMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"forward"] funcDesc:NSLocalizedString(@"forward", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+                if (isExecuted) {
+                    if([weakself respondsToSelector:@selector(forwardMenuItemAction:)]) {
+                        [weakself performSelector:@selector(forwardMenuItemAction:) withObject:cell.model.message];
+                    }
+                }
+            }];
+            [menuArray addObject:forwardMenu];
+            if ([defaultLongPressItems count] >= 3 && [cell.model.message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
+                [menuArray addObject:defaultLongPressItems[2]];
+            }
+            
             if(!cell.translateResult.showTranslation) {
                 EaseExtMenuModel *translateMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"translate"] funcDesc:NSLocalizedString(@"translate", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
                     if (isExecuted) {
                         [weakself translateMenuItemAction:cell];
                     }
                 }];
-                [defaultLongPressItems addObject:translateMenu];
+                [menuArray addObject:translateMenu];
             }
-            return defaultLongPressItems;
+            return menuArray;
         }
         if([self point:pt insideView:cell.translateView]) {
             EaseExtMenuModel *hideMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"hide"] funcDesc:NSLocalizedString(@"hide", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
@@ -39,8 +56,8 @@
                     [weakself hideTranslateMenuItemAction:cell];
                 }
             }];
-            NSMutableArray<EaseExtMenuModel *> * menuAarray =[NSMutableArray<EaseExtMenuModel *> array];
-            [menuAarray addObject:hideMenu];
+            NSMutableArray<EaseExtMenuModel *> * menuArray =[NSMutableArray<EaseExtMenuModel *> array];
+            [menuArray addObject:hideMenu];
             if(cell.translateResult.translateTimes < 2) {
                 EaseExtMenuModel *retanslateMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"translate"] funcDesc:NSLocalizedString(@"retranslate", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
                     if (isExecuted) {
@@ -50,9 +67,9 @@
                         
                     }
                 }];
-                [menuAarray addObject:retanslateMenu];
+                [menuArray addObject:retanslateMenu];
             }
-            return menuAarray;
+            return menuArray;
         }
         
     }
@@ -84,18 +101,28 @@
     [self.translatingMsgIds addObject:cell.model.message.messageId];
     NSIndexPath* path = [self.chatController.tableView indexPathForCell:cell];
     if(path) {
+        BOOL isAtBottom = [self isScrollViewInBottom:self.chatController.tableView];
         [self.chatController.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
+        if(isAtBottom) {
+            [self.chatController.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        }
     }
     EMTextMessageBody* textMsgBody = (EMTextMessageBody*)cell.model.message.body;
     __weak typeof(self) weakself = self;
     [[EMTranslationManager sharedManager] translateMessage:cell.model.message.messageId text:textMsgBody.text language:[EMDemoOptions sharedOptions].language conversationId:cell.model.message.conversationId completion:^(EMTranslationResult * _Nullable msg, EMError * _Nullable err) {
         [self.translatingMsgIds removeObject:cell.model.message.messageId];
-        if(err) {
-            [self showHint:@"翻译失败"];
-        }
         dispatch_async(dispatch_get_main_queue(), ^{
+            if(err) {
+                [weakself showHint:NSLocalizedString(@"translateFail", nil)];
+            }
             if(path) {
+                    
+                BOOL isAtBottom = [weakself isScrollViewInBottom:weakself.chatController.tableView];
                 [weakself.chatController.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
+                if(isAtBottom) {
+                    [weakself.chatController.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                }
+                
             }
         });
     }];
@@ -114,10 +141,22 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             NSIndexPath* path = [self.chatController.tableView indexPathForCell:cell];
             if(path) {
+                BOOL isAtBottom = [self isScrollViewInBottom:self.chatController.tableView];
                 [self.chatController.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
+                if(isAtBottom) {
+                    [self.chatController.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                }
             }
         });
     }
+}
+
+- (BOOL)isScrollViewInBottom:(UIScrollView*)scrollView
+{
+    CGFloat height = scrollView.frame.size.height;
+    CGFloat contentOffsetY = scrollView.contentOffset.y;
+    CGFloat bottomOffset = scrollView.contentSize.height - contentOffsetY;
+    return bottomOffset <= height;
 }
 
 - (NSMutableSet<NSString*>*)translatingMsgIds

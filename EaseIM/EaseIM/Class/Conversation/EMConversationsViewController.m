@@ -64,7 +64,7 @@
 {
     self.view.backgroundColor = [UIColor clearColor];
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = @"会话";
+    titleLabel.text = NSLocalizedString(@"conversation", nil);
     titleLabel.textColor = [UIColor blackColor];
     titleLabel.font = [UIFont systemFontOfSize:18];
     [self.view addSubview:titleLabel];
@@ -130,7 +130,7 @@
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search"]];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.font = [UIFont systemFontOfSize:16];
-    label.text = @"搜索";
+    label.text = NSLocalizedString(@"search", nil);
     label.textColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:204.0/255.0 alpha:1];
     [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     UIView *subView = [[UIView alloc] init];
@@ -180,7 +180,7 @@
     [self.resultController setTrailingSwipeActionsConfigurationForRowAtIndexPath:^UISwipeActionsConfiguration *(UITableView *tableView, NSIndexPath *indexPath) {
         EaseConversationModel *model = [weakself.resultController.dataArray objectAtIndex:indexPath.row];
         UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
-                                                                                   title:@"删除会话"
+                                                                                   title:NSLocalizedString(@"deleteConversation", nil)
                                                                                  handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
         {
             [weakself.resultController.tableView setEditing:NO];
@@ -197,7 +197,7 @@
             }];
         }];
         UIContextualAction *topAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
-                                                                                title:!model.isTop ? @"置顶" : @"取消置顶"
+                                                                                title:!model.isTop ? NSLocalizedString(@"top", nil) : NSLocalizedString(@"canceltop", nil)
                                                                               handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
         {
             [weakself.resultController.tableView setEditing:NO];
@@ -267,7 +267,7 @@
 
 - (void)moreAction
 {
-    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-160, self.addImageBtn.frame.origin.y, 145, 104) selectData:@[@"创建群组",@"添加好友"] images:@[@"icon-创建群组",@"icon-添加好友"] locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index){
+    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-200, self.addImageBtn.frame.origin.y, 185, 104) selectData:@[NSLocalizedString(@"createGroup", nil),NSLocalizedString(@"newContact", nil)] images:@[@"icon-创建群组",@"icon-添加好友"] locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index){
         if(index == 0) {
             [self createGroup];
         } else if (index == 1) {
@@ -370,18 +370,18 @@
     NSMutableArray<UIContextualAction *> *array = [[NSMutableArray<UIContextualAction *> alloc]init];
     __weak typeof(self) weakself = self;
     UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
-                                                                               title:@"删除"
+                                                                               title:NSLocalizedString(@"delete", nil)
                                                                              handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
     {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"确认删除？" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *clearAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"deletePrompt", nil) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *clearAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"delete", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [tableView setEditing:NO];
             [self _deleteConversation:indexPath];
         }];
         [clearAction setValue:[UIColor colorWithRed:245/255.0 green:52/255.0 blue:41/255.0 alpha:1.0] forKey:@"_titleTextColor"];
         [alertController addAction:clearAction];
         
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             [tableView setEditing:NO];
         }];
         [cancelAction  setValue:[UIColor blackColor] forKey:@"_titleTextColor"];

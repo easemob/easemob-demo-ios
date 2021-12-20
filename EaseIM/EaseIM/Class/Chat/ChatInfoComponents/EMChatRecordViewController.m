@@ -44,7 +44,7 @@
 - (void)_setupChatSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"聊天记录";
+    self.title = NSLocalizedString(@"msgList", nil);
     self.view.backgroundColor = [UIColor whiteColor];
     self.showRefreshHeader = NO;
     self.searchBar.delegate = self;

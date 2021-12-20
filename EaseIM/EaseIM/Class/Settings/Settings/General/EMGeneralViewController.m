@@ -36,7 +36,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"通用";
+    self.title = NSLocalizedString(@"General", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
     self.tableView.scrollEnabled = NO;
@@ -123,15 +123,15 @@
 
     if (section == 0) {
         if (row == 0) {
-            cell.textLabel.text = @"消息免打扰";
+            cell.textLabel.text = NSLocalizedString(@"noNotice", nil);
             cell.accessoryView = self.disturbSwitch;
         } else if (row == 1) {
-            cell.textLabel.text = @"免打扰时间";
+            cell.textLabel.text = NSLocalizedString(@"noNoticeTimes", nil);
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if ([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH > 0 && [EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH > 0) {
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%@:00 - %@:00", @([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH), @([EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH)];
             } else {
-                cell.detailTextLabel.text = @"全天";
+                cell.detailTextLabel.text = NSLocalizedString(@"allDay", nil);
             }
         }
     } else if(section == 1) {
@@ -141,15 +141,15 @@
         }
     }else if (section == 2) {
         if (row == 0) {
-            cell.textLabel.text = @"显示输入状态";
+            cell.textLabel.text = NSLocalizedString(@"showInputTip", nil);
             [switchControl setOn:options.isChatTyping animated:YES];
         }
     } else if (section == 3) {
         if (row == 0) {
-            cell.textLabel.text = @"自动接受群组邀请";
+            cell.textLabel.text = NSLocalizedString(@"autoJoin", nil);
             [switchControl setOn:options.isAutoAcceptGroupInvitation animated:YES];
         } else if (row == 1) {
-            cell.textLabel.text = @"退出群组时删除会话";
+            cell.textLabel.text = NSLocalizedString(@"delMsgWhenLeaveGroup", nil);
             [switchControl setOn:[EMClient sharedClient].options.isDeleteMessagesWhenExitGroup animated:YES];
         }
     }
@@ -178,7 +178,7 @@
         UILabel *label = [[UILabel alloc] init];
         label.font = [UIFont systemFontOfSize:14.0];
         label.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
-        label.text = @"     群组设置";
+        label.text = NSLocalizedString(@"groupSetting", nil);
         label.textAlignment = NSTextAlignmentLeft;
         return label;
     }
@@ -282,7 +282,7 @@
     SPDateTimePickerView *pickerView = [[SPDateTimePickerView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  self.view.frame.size.height)];
     pickerView.pickerViewMode = SPDatePickerModeTime;
     pickerView.delegate = self;
-    pickerView.title = @"设置时间段";
+    pickerView.title = NSLocalizedString(@"setTime", nil);
     [self.view addSubview:pickerView];
     [pickerView showDateTimePickerView];
 }
@@ -294,7 +294,7 @@
     NSString *start = [date substringToIndex:range.location];
     NSString *end = [date substringFromIndex:range.location + 1];
     if ([start isEqualToString:end]) {
-        [self showHint:@"起止时间不能相同"];
+        [self showHint:NSLocalizedString(@"timeWrong", nil)];
         return;
     }
     int noDisturbingStartH = [start intValue];;
