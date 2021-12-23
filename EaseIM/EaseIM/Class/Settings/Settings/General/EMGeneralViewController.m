@@ -114,7 +114,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
             NSInteger startHour = [EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH;
             NSInteger endHour = [EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH;
                         
-            if (startHour == 0  && endHour == 24) {
+            if (startHour == 0  && (endHour == 0 ||endHour == 24)) {
                 self.silentTimeCell.detailTextLabel.text = @"全天";
             } else {
                 self.silentTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"%@:00 - %@:00", @([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH), @([EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH)];
@@ -234,27 +234,35 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
 #pragma mark - Action
 - (void)disturbValueChanged
 {
-    int noDisturbingStartH = 0;
-    int noDisturbingEndH = 24;
-    
+   
     if (self.silentModeEnabled) {
-        EMError *error = [[EMClient sharedClient].pushManager enableOfflinePush];
-        if (error == nil) {
-            self.silentModeEnabled = NO;
-            [self.tableView reloadData];
-
-        } else {
-            [EMAlertController showErrorAlert:error.errorDescription];
-        }
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            EMError *error = [[EMClient sharedClient].pushManager enableOfflinePush];
+            if (error == nil) {
+                self.silentModeEnabled = NO;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
+            } else {
+                [EMAlertController showErrorAlert:error.errorDescription];
+            }
+        });
+        
     }else {
-        EMError *error = [[EMClient sharedClient].pushManager disableOfflinePushStart:noDisturbingStartH end:noDisturbingEndH];
-        if (error == nil) {
-            self.silentModeEnabled = YES;
-            [self.tableView reloadData];
-        }else {
-            [EMAlertController showErrorAlert:error.errorDescription];
-        }
-
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            int noDisturbingStartH = 0;
+            int noDisturbingEndH = 24;
+            
+            EMError *error = [[EMClient sharedClient].pushManager disableOfflinePushStart:noDisturbingStartH end:noDisturbingEndH];
+            if (error == nil) {
+                self.silentModeEnabled = YES;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
+            }else {
+                [EMAlertController showErrorAlert:error.errorDescription];
+            }
+        });
     }
 }
 
@@ -279,17 +287,22 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
         [self showHint:@"起止时间不能相同"];
         return;
     }
-    int noDisturbingStartH = [start intValue];;
-    int noDisturbingEndH = [end intValue];
-    EMError *error = [[EMClient sharedClient].pushManager disableOfflinePushStart:noDisturbingStartH end:noDisturbingEndH];
-    if (!error) {
-        [self hideHud];
-        self.silentModeEnabled = YES;
-        [self.tableView reloadData];
-        return;
-    } else {
-        [EMAlertController showErrorAlert:error.errorDescription];
-    }
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        int noDisturbingStartH = [start intValue];;
+        int noDisturbingEndH = [end intValue];
+        EMError *error = [[EMClient sharedClient].pushManager disableOfflinePushStart:noDisturbingStartH end:noDisturbingEndH];
+        if (!error) {
+            [self hideHud];
+            self.silentModeEnabled = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+        } else {
+            [EMAlertController showErrorAlert:error.errorDescription];
+        }
+    });
+    
 }
 
 
