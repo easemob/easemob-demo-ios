@@ -125,7 +125,13 @@
     [[EMClient sharedClient].contactManager addContact:name message:nil completion:^(NSString *aUsername, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"添加失败"];
+            if (aError.code == EMErrorContactReachLimit) {
+                [EMAlertController showErrorAlert:@"操作失败，你的好友列表已满"];
+            } else if (aError.code == EMErrorContactReachLimitPeer) {
+                [EMAlertController showErrorAlert:@"操作失败，对方的好友列表已满"];
+            } else {
+                [EMAlertController showErrorAlert:@"添加失败"];
+            }
         } else {
             [weakself.invitedUsers addObject:name];
             

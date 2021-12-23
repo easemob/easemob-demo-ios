@@ -104,7 +104,15 @@
     
     if (aModel.type == EMNotificationModelTypeContact) {
         [[EMClient sharedClient].contactManager approveFriendRequestFromUser:aModel.sender completion:^(NSString *aUsername, EMError *aError) {
-            if (!aError) {
+            if (aError) {
+                if (aError.code == EMErrorContactReachLimit) {
+                    [EMAlertController showErrorAlert:@"操作失败，你的好友列表已满"];
+                } else if (aError.code == EMErrorContactReachLimitPeer) {
+                    [EMAlertController showErrorAlert:@"操作失败，对方的好友列表已满"];
+                } else {
+                    [EMAlertController showErrorAlert:@"添加失败"];
+                }
+            } else {
                 NSString *msg = [NSString stringWithFormat:@"您已同意 %@ 的好友请求",aModel.sender];
                 [self showAlertWithTitle:@"O(∩_∩)O" message:msg];
             }
