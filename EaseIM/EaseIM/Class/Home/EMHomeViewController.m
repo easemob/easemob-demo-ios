@@ -11,6 +11,7 @@
 #import "EMRemindManager.h"
 #import "EMConversationsViewController.h"
 #import "EMContactsViewController.h"
+#import "EaseIMHelper.h"
 
 #define kTabbarItemTag_Conversation 0
 #define kTabbarItemTag_Contact 1
@@ -198,10 +199,14 @@
                 continue;
             }
         }
+        
+        [EMRemindManager remindMessage:msg];
     }
+    
     if (self.isViewAppear) {
         [self _loadConversationTabBarItemBadge];
     }
+    
 }
 
 //　收到已读回执
