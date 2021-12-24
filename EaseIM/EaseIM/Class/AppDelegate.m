@@ -304,7 +304,7 @@
     [confVC setDoneCompletion:^(NSArray *aInviteUsers) {
         for (NSString* strId in aInviteUsers) {
             EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:strId];
-            if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+            if(info && (info.avatarUrl.length > 0 || info.nickName.length > 0)) {
                 EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
                 [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:strId info:user];
             }
@@ -318,7 +318,7 @@
 - (void)callDidReceive:(EaseCallType)aType inviter:(NSString*_Nonnull)username ext:(NSDictionary*)aExt
 {
     EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:username];
-    if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+    if(info && (info.avatarUrl.length > 0 || info.nickName.length > 0)) {
         EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
         [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:username info:user];
     }
@@ -408,7 +408,7 @@
                         NSNumber* uId = [NSNumber numberWithInteger:[strId integerValue]];
                         [users setObject:username forKey:uId];
                         EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:username];
-                        if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+                        if(info && (info.avatarUrl.length > 0 || info.nickName.length > 0)) {
                             EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
                             [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:username info:user];
                         }
