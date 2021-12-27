@@ -90,7 +90,14 @@
 - (void)willBeginRefresh {
     [EMClient.sharedClient.contactManager getContactsFromServerWithCompletion:^(NSArray *aList, EMError *aError) {
         if (!aError) {
-            [self showUsers:aList];
+            NSArray* blockUsers = [[[EMClient sharedClient] contactManager] getBlackList];
+            NSMutableArray* array = [aList mutableCopy];
+            if(blockUsers.count > 0) {
+                for(NSString* user in blockUsers) {
+                    [array removeObject:user];
+                }
+            }
+            [self showUsers:array];
         }
     }];
 }
@@ -343,7 +350,15 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSArray* userIds = [[[EMClient sharedClient] contactManager] getContacts];
-        [self showUsers:userIds];
+        NSArray* blockUsers = [[[EMClient sharedClient] contactManager] getBlackList];
+        NSMutableArray* array = [userIds mutableCopy];
+        if(blockUsers.count > 0) {
+            for(NSString* user in blockUsers) {
+                [array removeObject:user];
+            }
+        }
+        
+        [self showUsers:array];
     });
 }
 

@@ -88,7 +88,7 @@
 "delMsgWhenLeaveGroup" = "Delete session when exiting group";
 "groupSetting" = "Group Settings";
 "setTime" = "Set a time slot";
-"timeWrong" = "The start and end times cannot be the same";
+"timeWrong" = "Start and end times cannot be the same";
 "year" = "%ldYear";
 "moon" = "%ldMonth";
 "day" = "%ldDay";

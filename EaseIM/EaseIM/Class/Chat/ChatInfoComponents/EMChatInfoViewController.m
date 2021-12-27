@@ -63,7 +63,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
    
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -78,7 +78,7 @@
     
     UISwitch *switchControl = nil;
     BOOL isSwitchCell = NO;
-    if (section == 2) {
+    if (section == 2 || section == 3) {
         isSwitchCell = YES;
         cellIdentifier = @"UITableViewCellSwitch";
     }
@@ -129,7 +129,6 @@
         }
     }
     if (section == 1) cell.textLabel.text = NSLocalizedString(@"searchMsgList", nil);
-    /*
     if (section == 2) {
         cell.textLabel.text = NSLocalizedString(@"noNotice", nil);
         NSArray *ignoredUidList = [[EMClient sharedClient].pushManager noPushUIds];
@@ -139,13 +138,13 @@
             [switchControl setOn:(NO) animated:YES];
         }
         cell.accessoryType = UITableViewCellAccessoryNone;
-    }*/
-    if (section == 2) {
+    }
+    if (section == 3) {
         cell.textLabel.text = NSLocalizedString(@"conversationTop", nil);
         [switchControl setOn:([self.conversationModel isTop]) animated:YES];
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
-    if (section == 3)
+    if (section == 4)
         cell.textLabel.text = NSLocalizedString(@"clearConversation", nil);
     
     return cell;
@@ -171,7 +170,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 4)
+    if (section == 5)
         return 40;
     
     return 1;
@@ -198,7 +197,7 @@
         [self.navigationController pushViewController:chatRrcordController animated:YES];
         return;
     }
-    if (section == 3) {
+    if (section == 4) {
         //清空聊天记录
         [self deleteChatRecord];
         return;
@@ -243,7 +242,7 @@
     NSIndexPath *indexPath = [self _indexPathWithTag:aSwitch.tag];
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
-    /*
+    
     if (section == 2) {
         if (aSwitch.isOn) {
             [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:YES completion:^(EMError * _Nonnull aError) {
@@ -260,8 +259,8 @@
                 }
             }];
         }
-    }*/
-    if (section == 2) {
+    }
+    if (section == 3) {
         if (row == 0) {
             //置顶
             if (aSwitch.isOn) {

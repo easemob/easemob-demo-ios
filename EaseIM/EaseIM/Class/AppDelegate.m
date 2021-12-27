@@ -48,6 +48,8 @@
     config.deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     config.unexpectedTerminatingDetectionEnable = true;
     [Bugly startWithAppId:@"3e7704ec60" config:config];
+    NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
+    NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
     [self.window makeKeyAndVisible];
     
     return YES;
@@ -160,6 +162,9 @@
     
     //注册推送
     [self _registerRemoteNotification];
+    
+    //初始化EaseIMHelper，注册 EMClient 监听
+    [EaseIMHelper shareHelper];
 }
 
 //注册远程通知
@@ -218,7 +223,6 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_LIST_FETCHFINISHED object:nil];
             }
         }];
-        [EaseIMHelper shareHelper];
         [EMNotificationHelper shared];
         [SingleCallController sharedManager];
         [ConferenceController sharedManager];

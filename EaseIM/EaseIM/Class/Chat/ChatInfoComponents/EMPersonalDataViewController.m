@@ -216,7 +216,7 @@
     [[EMClient sharedClient].contactManager addUserToBlackList:self.nickName completion:^(NSString *aUsername, EMError *aError) {
         [weakself hideHud];
         if (!aError)
-            [EMAlertController showSuccessAlert:NSLocalizedString(@"blackFail", nil)];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"blackSucess", nil)];
         else
             [EMAlertController showErrorAlert:NSLocalizedString(@"blackFail", nil)];
         if (!aError)

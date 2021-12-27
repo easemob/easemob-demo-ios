@@ -125,8 +125,9 @@
             
             aCell.accessoryButton.enabled = NO;
             aCell.accessoryButton.backgroundColor = kColor_Gray;
+            [[NSNotificationCenter defaultCenter] postNotificationName:CONTACT_BLACKLIST_UPDATE object:nil];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"blackSucess", nil)];
             
-            [EMAlertController showSuccessAlert:NSLocalizedString(@"blackFail", nil)];
         }
     }];
 }

@@ -279,10 +279,10 @@
 		3C8DFAA324EA282F0047C277 /* currentAppkey@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DFA9D24EA282D0047C277 /* currentAppkey@3x.png */; };
 		3C8DFAA524EA282F0047C277 /* optionalAppkey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DFA9F24EA282E0047C277 /* optionalAppkey@2x.png */; };
 		3C8DFAA824EBC2510047C277 /* EMFeedBackType.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8DFAA724EBC2510047C277 /* EMFeedBackType.m */; };
-		3C8DFAAF24EBDA0F0047C277 /* unCheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DFAA924EBDA0A0047C277 /* unCheck@2x.png */; };
+		3C8DFAAF24EBDA0F0047C277 /* unSlected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DFAA924EBDA0A0047C277 /* unSlected@2x.png */; };
 		3C8DFAB124EBDA0F0047C277 /* check@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DFAAB24EBDA0C0047C277 /* check@3x.png */; };
 		3C8DFAB224EBDA0F0047C277 /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DFAAC24EBDA0D0047C277 /* check@2x.png */; };
-		3C8DFAB424EBDA0F0047C277 /* unCheck@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DFAAE24EBDA0E0047C277 /* unCheck@3x.png */; };
+		3C8DFAB424EBDA0F0047C277 /* unSlected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DFAAE24EBDA0E0047C277 /* unSlected@3x.png */; };
 		3C8DFAB724ED1FD90047C277 /* EMAvatarNameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8DFAB624ED1FD90047C277 /* EMAvatarNameModel.m */; };
 		3C8EBEEE24AC913600B6560A /* EMRightViewToolView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8EBEED24AC913600B6560A /* EMRightViewToolView.m */; };
 		3C8EBEF124AD967C00B6560A /* EMUserAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8EBEF024AD967C00B6560A /* EMUserAgreementView.m */; };
@@ -331,10 +331,12 @@
 		90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECC1930492300121AEC /* CFNetwork.framework */; };
 		90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECE1930492B00121AEC /* AddressBook.framework */; };
 		921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C6A9D1D2A841600D8257F /* CoreMotion.framework */; };
+		A69A76CFFDB76E2B47A45E58 /* Pods_EaseIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 461BC291639C89BC553D7DBB /* Pods_EaseIM.framework */; };
 		C075E496262433B80080A126 /* titleTextImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E494262433B80080A126 /* titleTextImage@3x.png */; };
 		C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E495262433B80080A126 /* titleTextImage@2x.png */; };
 		C075E49E26243C0B0080A126 /* titleBackImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49C26243C0B0080A126 /* titleBackImage@3x.png */; };
 		C075E49F26243C0B0080A126 /* titleBackImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49D26243C0B0080A126 /* titleBackImage@2x.png */; };
+		C0899C192779BCB90039B885 /* EMEmojiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C0899C172779BCB90039B885 /* EMEmojiHelper.m */; };
 		C0DB11A627707D2D00E4B8A9 /* sendFail@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DB11A427707D2C00E4B8A9 /* sendFail@3x.png */; };
 		C0DB11A727707D2D00E4B8A9 /* sendFail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DB11A527707D2C00E4B8A9 /* sendFail@2x.png */; };
 		C0E75AD22744F03200E7B0E8 /* translate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75ACE2744F03100E7B0E8 /* translate@2x.png */; };
@@ -366,6 +368,7 @@
 		C0F4EBC42604A51400436782 /* EMMsgBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F4EBC32604A51400436782 /* EMMsgBubbleView.m */; };
 		D29A6BB51B7209C1002324BB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D29A6BB41B7209C1002324BB /* Accounts.framework */; };
 		D29A6BB61B7209C8002324BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3527421931D33A00385240 /* Social.framework */; };
+		EC6B516A2759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC6B51692759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -379,7 +382,7 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C0F4EBAC26037CFC00436782 /* Embed Frameworks */ = {
+		C0899C162779617B0039B885 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -770,10 +773,10 @@
 		3C8DFA9F24EA282E0047C277 /* optionalAppkey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "optionalAppkey@2x.png"; sourceTree = "<group>"; };
 		3C8DFAA624EBC2500047C277 /* EMFeedBackType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMFeedBackType.h; sourceTree = "<group>"; };
 		3C8DFAA724EBC2510047C277 /* EMFeedBackType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMFeedBackType.m; sourceTree = "<group>"; };
-		3C8DFAA924EBDA0A0047C277 /* unCheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unCheck@2x.png"; sourceTree = "<group>"; };
+		3C8DFAA924EBDA0A0047C277 /* unSlected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unSlected@2x.png"; sourceTree = "<group>"; };
 		3C8DFAAB24EBDA0C0047C277 /* check@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@3x.png"; sourceTree = "<group>"; };
 		3C8DFAAC24EBDA0D0047C277 /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
-		3C8DFAAE24EBDA0E0047C277 /* unCheck@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unCheck@3x.png"; sourceTree = "<group>"; };
+		3C8DFAAE24EBDA0E0047C277 /* unSlected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unSlected@3x.png"; sourceTree = "<group>"; };
 		3C8DFAB524ED1FD90047C277 /* EMAvatarNameModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMAvatarNameModel.h; sourceTree = "<group>"; };
 		3C8DFAB624ED1FD90047C277 /* EMAvatarNameModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMAvatarNameModel.m; sourceTree = "<group>"; };
 		3C8EBEEC24AC913600B6560A /* EMRightViewToolView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMRightViewToolView.h; sourceTree = "<group>"; };
@@ -828,6 +831,9 @@
 		3CBCF5F623A24FC10053E227 /* systemNotify@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "systemNotify@2x.png"; sourceTree = "<group>"; };
 		3CBCF5F823A24FC60053E227 /* systemNotify@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "systemNotify@3x.png"; sourceTree = "<group>"; };
 		3CE6293219A1B13700829632 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		461BC291639C89BC553D7DBB /* Pods_EaseIM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseIM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		616738B286E44A8D2F2A5CFA /* Pods-EaseIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.debug.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.debug.xcconfig"; sourceTree = "<group>"; };
+		7EF38071D71CDAB2F8F53909 /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		90911024192EEA70008A48AA /* EaseIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90911027192EEA70008A48AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		90911029192EEA70008A48AA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -842,6 +848,8 @@
 		C075E495262433B80080A126 /* titleTextImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@2x.png"; sourceTree = "<group>"; };
 		C075E49C26243C0B0080A126 /* titleBackImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@3x.png"; sourceTree = "<group>"; };
 		C075E49D26243C0B0080A126 /* titleBackImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@2x.png"; sourceTree = "<group>"; };
+		C0899C172779BCB90039B885 /* EMEmojiHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMEmojiHelper.m; sourceTree = "<group>"; };
+		C0899C182779BCB90039B885 /* EMEmojiHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMEmojiHelper.h; sourceTree = "<group>"; };
 		C0DB11A427707D2C00E4B8A9 /* sendFail@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sendFail@3x.png"; sourceTree = "<group>"; };
 		C0DB11A527707D2C00E4B8A9 /* sendFail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sendFail@2x.png"; sourceTree = "<group>"; };
 		C0E75ACE2744F03100E7B0E8 /* translate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "translate@2x.png"; sourceTree = "<group>"; };
@@ -889,6 +897,10 @@
 		D2B1B9EC1C3B800E0087A74F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D2B1B9EE1C3B80290087A74F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		EBF955E21ADD17700087E035 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		EC6B51652758D28D00FA4350 /* EaseCallKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = EaseCallKit.xcframework; sourceTree = "<group>"; };
+		EC6B51682759BC8A00FA4350 /* EMGeneralTitleSwitchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMGeneralTitleSwitchCell.h; sourceTree = "<group>"; };
+		EC6B51692759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMGeneralTitleSwitchCell.m; sourceTree = "<group>"; };
+		EC8A473B2701C08F00F106B0 /* HyphenateChat.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = HyphenateChat.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -915,12 +927,22 @@
 				90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */,
 				9091102C192EEA70008A48AA /* UIKit.framework in Frameworks */,
 				90911028192EEA70008A48AA /* Foundation.framework in Frameworks */,
+				A69A76CFFDB76E2B47A45E58 /* Pods_EaseIM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C24ABA72E955083521D161D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				616738B286E44A8D2F2A5CFA /* Pods-EaseIM.debug.xcconfig */,
+				7EF38071D71CDAB2F8F53909 /* Pods-EaseIM.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		3A45D69922239DE200505786 /* EaseIM */ = {
 			isa = PBXGroup;
 			children = (
@@ -981,8 +1003,8 @@
 			children = (
 				3C8DFAAC24EBDA0D0047C277 /* check@2x.png */,
 				3C8DFAAB24EBDA0C0047C277 /* check@3x.png */,
-				3C8DFAA924EBDA0A0047C277 /* unCheck@2x.png */,
-				3C8DFAAE24EBDA0E0047C277 /* unCheck@3x.png */,
+				3C8DFAA924EBDA0A0047C277 /* unSlected@2x.png */,
+				3C8DFAAE24EBDA0E0047C277 /* unSlected@3x.png */,
 				3C878A1524DD0FF900A8D995 /* groupSharedFile@3x.png */,
 				3A45E3E62223A4F300505786 /* group_create@2x.png */,
 				3A45E3E92223A4F300505786 /* group_create@3x.png */,
@@ -1331,7 +1353,6 @@
 				3C9B6BA424B46D9600D1C617 /* OpinionFeedback */,
 				3C9B6BA524B46DDA00D1C617 /* ConnectUs */,
 				3C9B6BA624B46E5600D1C617 /* DeveloperService */,
-				3C9B6BAB24B4725B00D1C617 /* ExtensibleFunction */,
 				3C37036C238CE5AA00A8976B /* mine_imgs */,
 			);
 			path = Settings;
@@ -1634,6 +1655,8 @@
 				C0F4EBC32604A51400436782 /* EMMsgBubbleView.m */,
 				C0E75AD92744F06800E7B0E8 /* TranslateTextBubbleView.h */,
 				C0E75ADA2744F06800E7B0E8 /* TranslateTextBubbleView.m */,
+				C0899C182779BCB90039B885 /* EMEmojiHelper.h */,
+				C0899C172779BCB90039B885 /* EMEmojiHelper.m */,
 			);
 			path = MessageCell;
 			sourceTree = "<group>";
@@ -1742,6 +1765,8 @@
 				3A45E4142223A52100505786 /* EMGeneralViewController.h */,
 				3A45E4122223A52100505786 /* EMGeneralViewController.m */,
 				C0E75ADC2744F0AC00E7B0E8 /* Language */,
+				EC6B51682759BC8A00FA4350 /* EMGeneralTitleSwitchCell.h */,
+				EC6B51692759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m */,
 				3C9B6BAE24B4758200D1C617 /* TimePickerTool */,
 			);
 			path = General;
@@ -1755,13 +1780,6 @@
 				3A45DCD12223A1FC00505786 /* Blacklist */,
 			);
 			path = Privacy;
-			sourceTree = "<group>";
-		};
-		3C9B6BAB24B4725B00D1C617 /* ExtensibleFunction */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ExtensibleFunction;
 			sourceTree = "<group>";
 		};
 		3C9B6BAC24B4735300D1C617 /* MessageNotificationMold */ = {
@@ -1837,6 +1855,7 @@
 				3A45D69922239DE200505786 /* EaseIM */,
 				90911026192EEA70008A48AA /* Frameworks */,
 				90911025192EEA70008A48AA /* Products */,
+				2C24ABA72E955083521D161D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1851,6 +1870,8 @@
 		90911026192EEA70008A48AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EC6B51652758D28D00FA4350 /* EaseCallKit.xcframework */,
+				EC8A473B2701C08F00F106B0 /* HyphenateChat.xcframework */,
 				C0E9E5212611D5480080AB28 /* libsqlite3.0.tbd */,
 				D29A6BB41B7209C1002324BB /* Accounts.framework */,
 				90F1BECE1930492B00121AEC /* AddressBook.framework */,
@@ -1877,6 +1898,7 @@
 				3C3527421931D33A00385240 /* Social.framework */,
 				3C3527441931D37900385240 /* SystemConfiguration.framework */,
 				9091102B192EEA70008A48AA /* UIKit.framework */,
+				461BC291639C89BC553D7DBB /* Pods_EaseIM.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1947,7 +1969,8 @@
 				90911022192EEA70008A48AA /* Resources */,
 				3CDE808924FD024000BAA3E2 /* Embed App Extensions */,
 				8B898B12304B923E6A9C67D9 /* [CP] Embed Pods Frameworks */,
-				C0F4EBAC26037CFC00436782 /* Embed Frameworks */,
+				DE38D073118038A72FD5B72F /* [CP] Copy Pods Resources */,
+				C0899C162779617B0039B885 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2130,7 +2153,7 @@
 				3C4AED57249A2FAB001F7C50 /* icon-tab会话@2x.png in Resources */,
 				3C4AECFC2499CFF8001F7C50 /* showPwd.png in Resources */,
 				3C3703C7238D06D500A8976B /* developerService@2x.png in Resources */,
-				3C8DFAB424EBDA0F0047C277 /* unCheck@3x.png in Resources */,
+				3C8DFAB424EBDA0F0047C277 /* unSlected@3x.png in Resources */,
 				3C9A96242579E18500752F28 /* video-me@2x.png in Resources */,
 				3A45DA2722239DE200505786 /* Images.xcassets in Resources */,
 				3A45E0862223A28F00505786 /* close_white@2x.png in Resources */,
@@ -2169,7 +2192,7 @@
 				3C37DF1A2382508500399AE8 /* back_left@3x.png in Resources */,
 				3C37DF47238251ED00399AE8 /* icon-add@2x.png in Resources */,
 				3A45E0882223A28F00505786 /* close_gray@3x.png in Resources */,
-				3C8DFAAF24EBDA0F0047C277 /* unCheck@2x.png in Resources */,
+				3C8DFAAF24EBDA0F0047C277 /* unSlected@2x.png in Resources */,
 				3C4AED5D249A2FB8001F7C50 /* icon-tab会话unselected@3x.png in Resources */,
 				3C878A1624DD0FF900A8D995 /* groupSharedFile@3x.png in Resources */,
 				3C3703B5238D06D500A8976B /* developerService@3x.png in Resources */,
@@ -2259,15 +2282,17 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraAIDenoiseExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraRtcKit.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agoraffmpeg.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCore.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraSoundTouch.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agorafdkaac.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraDav1dExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraFDExtension.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraJNDExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraRtcKit.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraSoundTouch.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraVideoSegmentationExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agorafdkaac.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agoraffmpeg.framework",
+				"${PODS_ROOT}/EMTranslate/EMTranslate.framework",
 				"${BUILT_PRODUCTS_DIR}/EaseCallKit/EaseCallKit.framework",
-				"${PODS_ROOT}/EaseIMKit/EaseIMKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${PODS_ROOT}/HyphenateChat/HyphenateChat.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
@@ -2278,15 +2303,17 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraAIDenoiseExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraDav1dExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraFDExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraJNDExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoSegmentationExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EMTranslate.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseCallKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseIMKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyphenateChat.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
@@ -2297,6 +2324,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE38D073118038A72FD5B72F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-resources.sh",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EaseIMKit.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2375,6 +2420,7 @@
 				3C729D1C257238FD003DB315 /* EMContactModel.m in Sources */,
 				3A45E38E2223A48700505786 /* EMChatroomOwnerViewController.m in Sources */,
 				3A45DF5B2223A1FD00505786 /* EMRefreshTableViewController.m in Sources */,
+				EC6B516A2759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m in Sources */,
 				3A45E05E2223A25C00505786 /* UIViewController+HUD.m in Sources */,
 				3A45E0992223A29B00505786 /* EMBadgeLabel.m in Sources */,
 				3C729E7D25739AF0003DB315 /* EMNotificationViewController.m in Sources */,
@@ -2388,6 +2434,7 @@
 				3A45EAFA2224186400505786 /* EMDemoOptions.m in Sources */,
 				3C76D3F9257758A000E7AF7A /* OneLoadingAnimationView.m in Sources */,
 				3A45E0442223A23000505786 /* EMQRCodeViewController.m in Sources */,
+				C0899C192779BCB90039B885 /* EMEmojiHelper.m in Sources */,
 				C0F4EBC12604A38700436782 /* EMUserCardMsgView.m in Sources */,
 				3C8DFAB724ED1FD90047C277 /* EMAvatarNameModel.m in Sources */,
 				3C7A14DA238F6F3900F4AC48 /* EMMsgNotificViewController.m in Sources */,
@@ -2546,6 +2593,7 @@
 		};
 		90911051192EEA70008A48AA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 616738B286E44A8D2F2A5CFA /* Pods-EaseIM.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2556,12 +2604,12 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseIM/EaseIM.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = "";
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
@@ -2586,7 +2634,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.8.3.1;
+				MARKETING_VERSION = 3.8.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2631,6 +2679,7 @@
 		};
 		90911052192EEA70008A48AA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF38071D71CDAB2F8F53909 /* Pods-EaseIM.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2641,11 +2690,10 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseIM/EaseIM.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = "";
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
@@ -2671,7 +2719,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.8.3.1;
+				MARKETING_VERSION = 3.8.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2704,7 +2752,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "EaseIM Enterprise InHouse";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = NO;
 				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";

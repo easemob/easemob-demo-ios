@@ -19,7 +19,7 @@
     [super viewDidLoad];
     [self _setupSubviews];
     self.showRefreshHeader = NO;
-    // Do any additional setup after loading the view.
+    
 }
 
 - (void)_setupSubviews
@@ -28,17 +28,18 @@
     self.title = NSLocalizedString(@"AccountInfo", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
 
+    self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
+    
     self.tableView.scrollEnabled = NO;
-    self.tableView.rowHeight = 60;
+    self.tableView.rowHeight = 66;
     self.tableView.tableFooterView = [[UIView alloc] init];
-    self.tableView.backgroundColor = [UIColor whiteColor];
-    self.tableView.scrollEnabled = NO;
+    self.tableView.backgroundColor = kColor_LightGray;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
-        make.height.equalTo(@70);
+        make.bottom.equalTo(self.view);
     }];
 
 }
@@ -88,11 +89,6 @@
 }
 
 #pragma mark - Table view delegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 66;
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {

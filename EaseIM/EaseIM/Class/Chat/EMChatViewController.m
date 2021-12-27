@@ -315,7 +315,7 @@
 - (void)didSendMessage:(EMMessage *)message error:(EMError *)error
 {
     if (error) {
-        [self showHint:error.errorDescription];
+        [EMAlertController showErrorAlert:error.errorDescription];
     }
 }
 

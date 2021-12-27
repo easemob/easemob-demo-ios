@@ -7,6 +7,7 @@
 //
 
 #import "TranslateTextBubbleView.h"
+#import "EMEmojiHelper.h"
 
 @implementation TranslateTextBubbleView
 
@@ -63,7 +64,7 @@
 - (void)setModel:(EaseMessageModel *)model
 {
     EMTextMessageBody *body = (EMTextMessageBody *)model.message.body;
-    self.textLabel.text = body.text;
+    self.textLabel.text = [EMEmojiHelper convertEmoji:body.text];
 }
 
 - (UIActivityIndicatorView*)activity

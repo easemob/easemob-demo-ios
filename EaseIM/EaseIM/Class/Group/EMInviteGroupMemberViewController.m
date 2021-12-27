@@ -97,7 +97,7 @@
         
         UIButton *checkButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 45, 45)];
         checkButton.tag = 100;
-        [checkButton setImage:[UIImage imageNamed:@"unCheck"] forState:UIControlStateNormal];
+        [checkButton setImage:[UIImage imageNamed:@"unSlected"] forState:UIControlStateNormal];
         [checkButton setImage:[UIImage imageNamed:@"check"] forState:UIControlStateSelected];
         checkButton.userInteractionEnabled = NO;
         cell.accessoryView = checkButton;

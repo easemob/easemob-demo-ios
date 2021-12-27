@@ -69,17 +69,17 @@
         NSDictionary* components = [NSLocale componentsFromLocaleIdentifier:localeID];
         self.selectLanguage = components[NSLocaleLanguageCode];
     }
-//    self.allLanguages = [self defaultLanguages];
-//    [self.tableView reloadData];
-    __weak typeof(self) weakself = self;
-    [[EMTranslationManager sharedManager] fetchSupportedLangurages:^(NSArray<EMLanguage *> * _Nullable languages, EMError * _Nullable error) {
-        if(!error) {
-            weakself.allLanguages = languages;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakself.tableView reloadData];
-            });
-        }
-    }];
+    self.allLanguages = [self defaultLanguages];
+    [self.tableView reloadData];
+//    __weak typeof(self) weakself = self;
+//    [[EMTranslationManager sharedManager] fetchSupportedLangurages:^(NSArray<EMLanguage *> * _Nullable languages, EMError * _Nullable error) {
+//        if(!error) {
+//            weakself.allLanguages = languages;
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [weakself.tableView reloadData];
+//            });
+//        }
+//    }];
 }
 
 - (NSArray<EMLanguage*>*)defaultLanguages
