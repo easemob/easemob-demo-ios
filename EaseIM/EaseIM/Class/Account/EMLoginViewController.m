@@ -36,6 +36,10 @@
 @property (nonatomic, strong) UIButton *loginTypeButton;
 @property (nonatomic) BOOL isLogin;
 
+@property (nonatomic, strong) UIImageView* titleTextImageView;
+@property (nonatomic, strong) UIImageView* sdkVersionBackView;
+@property (nonatomic, strong) UILabel* sdkVersionLable;
+
 @end
 
 @implementation EMLoginViewController
@@ -90,6 +94,40 @@
         make.top.equalTo(self.backView.mas_top).offset(96);
     }];
     
+    self.titleTextImageView = [[UIImageView alloc]init];
+    self.titleTextImageView.image = [UIImage imageNamed:@"titleTextImage"];
+    [self.backView addSubview:self.titleTextImageView];
+    [self.titleTextImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.backView);
+        make.width.equalTo(@108);
+        make.height.equalTo(@29);
+        make.top.equalTo(self.titleImageView.mas_bottom).offset(20);
+    }];
+    
+    self.sdkVersionBackView = [[UIImageView alloc] init];
+    self.sdkVersionBackView.image = [UIImage imageNamed:@"titleBackImage"];
+    [self.backView addSubview:self.sdkVersionBackView];
+    [self.sdkVersionBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.titleTextImageView.mas_right).offset(5);
+        make.width.equalTo(@50);
+        make.height.equalTo(@17);
+        make.top.equalTo(self.titleTextImageView.mas_top);
+    }];
+    
+    
+    self.sdkVersionLable = [[UILabel alloc] init];
+    [self.backView addSubview:self.sdkVersionLable];
+    self.sdkVersionLable.textColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:246/255.0 alpha:1.0];
+    self.sdkVersionLable.font = [UIFont systemFontOfSize:10];
+    NSString* version = [NSString stringWithFormat:@"V%@",[[EMClient sharedClient] version] ];
+    self.sdkVersionLable.text = version;
+    self.sdkVersionLable.textAlignment = NSTextAlignmentCenter;
+    self.sdkVersionLable.alpha = 0.6;
+    
+    [self.sdkVersionLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.sdkVersionBackView);
+    }];
+    
     self.nameField = [[UITextField alloc] init];
     self.nameField.backgroundColor = [UIColor whiteColor];
     self.nameField.delegate = self;
@@ -112,7 +150,7 @@
     [self.nameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.backView).offset(30);
         make.right.equalTo(self.backView).offset(-30);
-        make.top.equalTo(self.titleImageView.mas_bottom).offset(20);
+        make.top.equalTo(self.titleTextImageView.mas_bottom).offset(40);
         make.height.equalTo(@55);
     }];
     self.pswdField = [[UITextField alloc] init];

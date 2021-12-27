@@ -18,12 +18,18 @@
 #import "EMMessageCell.h"
 #import "EMDateHelper.h"
 #import "EMDemoOptions.h"
+#import "SelectUserViewController.h"
+#import "EMUserCardMsgView.h"
+#import "UserInfoStore.h"
+#import "ConfirmUserCardView.h"
+#import "EMAccountViewController.h"
 
-@interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate>
+@interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *titleDetailLabel;
 @property (nonatomic, strong) NSString *moreMsgId;  //第一条消息的消息id
+@property (nonatomic, strong) UIView* fullScreenView;
 @end
 
 @implementation EMChatViewController
@@ -32,8 +38,9 @@
     if (self = [super init]) {
         _conversation = [EMClient.sharedClient.chatManager getConversation:conversationId type:conType createIfNotExist:YES];
         _conversationModel = [[EaseConversationModel alloc]initWithConversation:_conversation];
+        
         EaseChatViewModel *viewModel = [[EaseChatViewModel alloc]init];
-        _chatController = [[EaseChatViewController alloc] initWithConversationId:conversationId
+        _chatController = [EaseChatViewController initWithConversationId:conversationId
                                                     conversationType:conType
                                                         chatViewModel:viewModel];
         [_chatController setEditingStatusVisible:[EMDemoOptions sharedOptions].isChatTyping];
@@ -46,6 +53,8 @@
     [super viewDidLoad];
     //单聊主叫方才能发送通话记录信息(本地通话记录)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertLocationCallRecord:) name:EMCOMMMUNICATE_RECORD object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendUserCard:) name:CONFIRM_USERCARD object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
     [[EMClient sharedClient].roomManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     [self _setupChatSubviews];
@@ -58,6 +67,7 @@
 {
     [[EMClient sharedClient].roomManager removeDelegate:self];
     [[EMClient sharedClient].groupManager removeDelegate:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -111,6 +121,11 @@
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.titleLabel.text = _conversationModel.showName;
+    if(self.conversation.type == EMConversationTypeChat) {
+        EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
+        if(userInfo && userInfo.nickName.length > 0)
+            self.titleLabel.text = userInfo.nickName;
+    }
     [titleView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleView);
@@ -138,20 +153,33 @@
 //自定义通话记录cell
 - (UITableViewCell *)cellForItem:(UITableView *)tableView messageModel:(EaseMessageModel *)messageModel
 {
-    if (messageModel.type == EMMessageTypePictMixText) {
-        EMMessageCell *cell = [[EMMessageCell alloc]initWithDirection:messageModel.direction type:messageModel.type];
-        cell.model = messageModel;
-        cell.delegate = self;
-        return cell;
+//    if (messageModel.type == EMMessageTypePictMixText) {
+//        EMMsgPicMixTextBubbleView* picMixBV = [[EMMsgPicMixTextBubbleView alloc] init];
+//        [picMixBV setModel:messageModel];
+//        EMMessageCell *cell = [[EMMessageCell alloc] initWithDirection:messageModel.direction type:messageModel.type msgView:picMixBV];
+//        cell.model = messageModel;
+//        cell.delegate = self;
+//        return cell;
+//    }
+
+    if(messageModel.message.body.type == EMMessageBodyTypeCustom) {
+        EMCustomMessageBody* body = (EMCustomMessageBody*)messageModel.message.body;
+        if([body.event isEqualToString:@"userCard"]){
+            EMUserCardMsgView* userCardMsgView = [[EMUserCardMsgView alloc] init];
+            userCardMsgView.backgroundColor = [UIColor whiteColor];
+            [userCardMsgView setModel:messageModel];
+            EMMessageCell* userCardCell = [[EMMessageCell alloc] initWithDirection:messageModel.direction type:messageModel.type msgView:userCardMsgView];
+            userCardCell.model = messageModel;
+            userCardCell.delegate = self;
+            return userCardCell;
+        }
     }
     return nil;
 }
 //对方输入状态
 - (void)beginTyping
 {
-    if (EMDemoOptions.sharedOptions.isChatTyping) {
-        self.titleDetailLabel.text = @"对方正在输入";
-    }
+    self.titleDetailLabel.text = @"对方正在输入";
 }
 - (void)endTyping
 {
@@ -160,7 +188,18 @@
 //userdata
 - (id<EaseUserDelegate>)userData:(NSString *)huanxinID
 {
-    EMUserDataModel *model = [[EMUserDataModel alloc]initWithHuanxinId:huanxinID];
+    EMUserDataModel *model = [[EMUserDataModel alloc] initWithEaseId:huanxinID];
+    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:huanxinID];
+    if(userInfo) {
+        if(userInfo.avatarUrl.length > 0) {
+            model.avatarURL = userInfo.avatarUrl;
+        }
+        if(userInfo.nickName.length > 0) {
+            model.showName = userInfo.nickName;
+        }
+    }else{
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];
+    }
     return model;
 }
 
@@ -171,6 +210,7 @@
         [self personData:userData.easeId];
     }
 }
+
 //群组阅读回执
 - (void)groupMessageReadReceiptDetail:(EMMessage *)message groupId:(NSString *)groupId
 {
@@ -240,6 +280,14 @@
             [menuArray addObject:groupReadReceiptExtModel];
         }
     }
+    // 用户名片
+    {
+        EaseExtMenuModel *userCardExtModal = [[EaseExtMenuModel alloc] initWithData:[UIImage imageNamed:@"userinfo"] funcDesc:@"用户名片" handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+            [weakself userCardAction];
+        }];
+        [menuArray addObject:userCardExtModal];
+    }
+    
     return menuArray;
 }
 
@@ -247,6 +295,13 @@
 {
     self.moreMsgId = firstMessageId;
     [self loadData:NO];
+}
+
+- (void)didSendMessage:(EMMessage *)message error:(EMError *)error
+{
+    if (error) {
+        [EMAlertController showErrorAlert:error.errorDescription];
+    }
 }
 
 #pragma mark - EMMessageCellDelegate
@@ -257,6 +312,14 @@
     if (!aCell.model.message.isReadAcked) {
         [[EMClient sharedClient].chatManager sendMessageReadAck:aCell.model.message.messageId toUser:aCell.model.message.conversationId completion:nil];
     }
+    if(aCell.model.message.body.type == EMMessageBodyTypeCustom) {
+        EMCustomMessageBody* body = (EMCustomMessageBody*)aCell.model.message.body;
+        if([body.event isEqualToString:@"userCard"]) {
+            NSString* uid = [body.customExt objectForKey:@"uid"];
+            if(uid.length > 0)
+                [self personData:uid];
+        }
+    }
     NSString *callType = nil;
     NSDictionary *dic = aCell.model.message.ext;
     if ([[dic objectForKey:EMCOMMUNICATE_TYPE] isEqualToString:EMCOMMUNICATE_TYPE_VOICE])
@@ -264,9 +327,9 @@
     if ([[dic objectForKey:EMCOMMUNICATE_TYPE] isEqualToString:EMCOMMUNICATE_TYPE_VIDEO])
         callType = EMCOMMUNICATE_TYPE_VIDEO;
     if ([callType isEqualToString:EMCOMMUNICATE_TYPE_VOICE])
-        [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:aCell.model.message.conversationId, CALL_TYPE:@(EMCallTypeVoice)}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:aCell.model.message.conversationId, CALL_TYPE:@(EaseCallType1v1Audio)}];
     if ([callType isEqualToString:EMCOMMUNICATE_TYPE_VIDEO])
-        [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:aCell.model.message.conversationId,   CALL_TYPE:@(EMCallTypeVideo)}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:aCell.model.message.conversationId,   CALL_TYPE:@(EaseCallType1v1Video)}];
 }
 //通话记录cell头像点击事件
 - (void)messageAvatarDidSelected:(EaseMessageModel *)model
@@ -281,14 +344,14 @@
     __weak typeof(self) weakself = self;
     void (^block)(NSArray *aMessages, EMError *aError) = ^(NSArray *aMessages, EMError *aError) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakself.chatController refreshTableViewWithData:aMessages isScrollBottom:isScrollBottom];
+            [weakself.chatController refreshTableViewWithData:aMessages isInsertBottom:NO isScrollBottom:isScrollBottom];
         });
     };
     
     if ([EMDemoOptions sharedOptions].isPriorityGetMsgFromServer) {
         EMConversation *conversation = self.conversation;
         [EMClient.sharedClient.chatManager asyncFetchHistoryMessagesFromServer:conversation.conversationId conversationType:conversation.type startMessageId:self.moreMsgId pageSize:10 completion:^(EMCursorResult *aResult, EMError *aError) {
-            block(aResult.list, aError);
+            [self.conversation loadMessagesStartFromId:self.moreMsgId count:10 searchDirection:EMMessageSearchDirectionUp completion:block];
          }];
     } else {
         [self.conversation loadMessagesStartFromId:self.moreMsgId count:50 searchDirection:EMMessageSearchDirectionUp completion:block];
@@ -304,6 +367,13 @@
     readReceiptControl.delegate = self;
     readReceiptControl.modalPresentationStyle = 0;
     [self presentViewController:readReceiptControl animated:YES completion:nil];
+}
+
+// 用户名片
+- (void)userCardAction
+{
+    SelectUserViewController* selectUserVC = [[SelectUserViewController alloc] init];
+    [self.navigationController pushViewController:selectUserVC animated:NO];
 }
 
 #pragma mark - EMReadReceiptMsgDelegate
@@ -329,21 +399,70 @@
 //本地通话记录
 - (void)insertLocationCallRecord:(NSNotification*)noti
 {
-    EMMessage *message = (EMMessage *)[noti.object objectForKey:@"msg"];
-    EMTextMessageBody *body = (EMTextMessageBody*)message.body;
-    if ([body.text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL]) {
-        if ([message.from isEqualToString:[EMClient sharedClient].currentUsername]) {
-            [self showHint:@"对方拒绝通话"];
-        } else {
-            [self showHint:@"对方已取消"];
+    NSArray<EMMessage *> * messages = (NSArray *)[noti.object objectForKey:@"msg"];
+//    EMTextMessageBody *body = (EMTextMessageBody*)message.body;
+//    if ([body.text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL]) {
+//        if ([message.from isEqualToString:[EMClient sharedClient].currentUsername]) {
+//            [self showHint:@"对方拒绝通话"];
+//        } else {
+//            [self showHint:@"对方已取消"];
+//        }
+//    }
+    if(messages && messages.count > 0) {
+        NSArray *formated = [self formatMessages:messages];
+        [self.chatController.dataArray addObjectsFromArray:formated];
+        if (!self.chatController.moreMsgId)
+            //新会话的第一条消息
+            self.chatController.moreMsgId = [messages objectAtIndex:0].messageId;
+        [self.chatController refreshTableView:YES];
+    }
+}
+
+- (void)refreshTableView
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.view.window)
+            [self.chatController triggerUserInfoCallBack:YES];
+    });
+}
+
+// 确认发送名片消息
+- (void)sendUserCard:(NSNotification*)noti
+{
+    NSString*user = (NSString *)[noti.object objectForKey:@"user"];
+    if(user.length > 0) {
+        EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:user];
+        if(userInfo) {
+            
+            self.fullScreenView = [[UIView alloc] initWithFrame:self.view.frame];
+            self.fullScreenView.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.8];
+            [self.view.window addSubview:self.fullScreenView];
+            ConfirmUserCardView* cuView = [[ConfirmUserCardView alloc] initWithRemoteName:self.conversation.conversationId avatarUrl:userInfo.avatarUrl showName:userInfo.nickName uid:user delegate:self];
+            [self.fullScreenView addSubview:cuView];
+            [cuView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.center.equalTo(self.view);
+                make.width.equalTo(@340);
+                make.height.equalTo(@250);
+            }];
         }
     }
-    NSArray *formated = [self formatMessages:@[message]];
-    [self.chatController.dataArray addObjectsFromArray:formated];
-    if (!self.chatController.moreMsgId)
-        //新会话的第一条消息
-        self.chatController.moreMsgId = message.messageId;
-    [self.chatController refreshTableView:YES];
+}
+
+#pragma mark - ConfirmUserCardViewDelegate
+- (void)clickOK:(NSString*)aUid nickName:(NSString*)aNickName avatarUrl:(NSString*)aUrl
+{
+    if(aUid && aUid.length > 0) {
+        if (!aNickName) aNickName = @"";
+        if (!aUrl) aUrl = @"";
+        EMCustomMessageBody* body = [[EMCustomMessageBody alloc] initWithEvent:@"userCard" ext:@{@"uid":aUid ,@"nickname":aNickName,@"avatar":aUrl}];
+        [self.chatController sendMessageWithBody:body ext:nil];
+    }
+    [self.fullScreenView removeFromSuperview];
+}
+
+- (void)clickCancel
+{
+    [self.fullScreenView removeFromSuperview];
 }
 
 - (NSArray *)formatMessages:(NSArray<EMMessage *> *)aMessages
@@ -381,10 +500,10 @@
     __weak typeof(self) weakself = self;
     if (self.conversation.type == EMConversationTypeChat) {
         [alertController addAction:[UIAlertAction actionWithTitle:@"视频通话" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EMCallTypeVideo)}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EaseCallType1v1Video)}];
         }]];
         [alertController addAction:[UIAlertAction actionWithTitle:@"语音通话" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EMCallTypeVoice)}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EaseCallType1v1Audio)}];
         }]];
         [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }]];
@@ -395,7 +514,7 @@
         return;
     }
     //群聊/聊天室 多人会议
-    [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKECONFERENCE object:@{CALL_TYPE:@(EMConferenceTypeCommunication), CALL_MODEL:weakself.conversation, NOTIF_NAVICONTROLLER:self.navigationController}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKECONFERENCE object:@{CALL_TYPE:@(EaseCallTypeMulti), CALL_MODEL:weakself.conversation, NOTIF_NAVICONTROLLER:self.navigationController}];
 }
 
 //@群成员
@@ -424,7 +543,12 @@
 //个人资料页
 - (void)personData:(NSString*)contanct
 {
-    EMPersonalDataViewController *controller = [[EMPersonalDataViewController alloc]initWithNickName:contanct];
+    UIViewController* controller = nil;
+    if([[EMClient sharedClient].currentUsername isEqualToString:contanct]) {
+        controller = [[EMAccountViewController alloc] init];
+    }else{
+        controller = [[EMPersonalDataViewController alloc]initWithNickName:contanct];
+    }
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -450,7 +574,7 @@
     if (self.conversation.type == EMConversationTypeGroupChat) {
         [self.chatController cleanPopupControllerView];
         __weak typeof(self) weakself = self;
-        EMGroupInfoViewController *groupInfocontroller = [[EMGroupInfoViewController alloc] initWithGroupId:self.conversation.conversationId];
+        EMGroupInfoViewController *groupInfocontroller = [[EMGroupInfoViewController alloc] initWithConversation:self.conversation];
         [groupInfocontroller setLeaveOrDestroyCompletion:^{
             [weakself.navigationController popViewControllerAnimated:YES];
         }];

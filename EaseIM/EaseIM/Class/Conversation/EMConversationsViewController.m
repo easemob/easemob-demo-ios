@@ -16,7 +16,7 @@
 #import "EMInviteFriendViewController.h"
 #import "EMNotificationViewController.h"
 #import "EMConversationUserDataModel.h"
-#import <EaseIMKit/EaseIMKit.h>
+#import "UserInfoStore.h"
 
 @interface EMConversationsViewController() <EaseConversationsViewControllerDelegate, EMSearchControllerDelegate>
 
@@ -35,6 +35,7 @@
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:CHAT_BACKOFF object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:GROUP_LIST_FETCHFINISHED object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
     [self _setupSubviews];
     if (![EMDemoOptions sharedOptions].isFirstLaunch) {
         [EMDemoOptions sharedOptions].isFirstLaunch = YES;
@@ -52,6 +53,11 @@
 {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden = NO;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)_setupSubviews
@@ -221,7 +227,10 @@
 
 - (void)refreshTableView
 {
-    [self.easeConvsVC refreshTabView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.view.window)
+            [self.easeConvsVC refreshTable];
+    });
 }
 
 - (void)refreshTableViewWithData
@@ -337,6 +346,21 @@
 - (id<EaseUserDelegate>)easeUserDelegateAtConversationId:(NSString *)conversationId conversationType:(EMConversationType)type
 {
     EMConversationUserDataModel *userData = [[EMConversationUserDataModel alloc]initWithEaseId:conversationId conversationType:type];
+    if(type == EMConversationTypeChat) {
+        if (![conversationId isEqualToString:EMSYSTEMNOTIFICATIONID]) {
+            EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:conversationId];
+            if(userInfo) {
+                if([userInfo.nickName length] > 0) {
+                    userData.showName = userInfo.nickName;
+                }
+                if([userInfo.avatarUrl length] > 0) {
+                    userData.avatarURL = userInfo.avatarUrl;
+                }
+            }else{
+                [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[conversationId]];
+            }
+        }
+    }
     return userData;
 }
 

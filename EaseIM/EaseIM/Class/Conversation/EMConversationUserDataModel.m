@@ -14,6 +14,16 @@
 {
     if (self = [super init]) {
         _easeId = easeId;
+        _showName = easeId;
+        if (type == EMConversationTypeChat) {
+            if ([easeId isEqualToString:EMSYSTEMNOTIFICATIONID]) {
+                _showName = @"系统通知";
+            }
+        }
+        if(type == EMConversationTypeGroupChat) {
+            EMGroup* group = [EMGroup groupWithId:easeId];
+            _showName = [group groupName];
+        }
         _defaultAvatar = [self _getDefaultAvatarImage:easeId conversationType:type];
     }
     return self;

@@ -8,12 +8,14 @@
 
 #import "EMChatroomMembersViewController.h"
 #import "EMPersonalDataViewController.h"
-#import "EMAvatarNameCell.h"
+#import "EMAvatarNameCell+UserInfo.h"
+#import "EMAccountViewController.h"
 
 @interface EMChatroomMembersViewController ()
 
 @property (nonatomic, strong) EMChatroom *chatroom;
 @property (nonatomic, strong) NSString *cursor;
+@property (nonatomic, strong) NSMutableArray *mutesList;
 @property (nonatomic) BOOL isUpdated;
 
 @end
@@ -38,6 +40,8 @@
     
     [self _setupSubviews];
     [self _fetchChatroomMembersWithIsHeader:YES isShowHUD:YES];
+    self.mutesList = [[NSMutableArray alloc]init];
+    [self _fetchChatRoomMutes:1];
 }
 
 #pragma mark - Subviews
@@ -72,6 +76,7 @@
     
     cell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
     cell.nameLabel.text = [self.dataArray objectAtIndex:indexPath.row];
+    [cell refreshUserInfo:[self.dataArray objectAtIndex:indexPath.row]];
     cell.indexPath = indexPath;
     
     if (self.chatroom.permissionType == EMChatroomPermissionTypeOwner || self.chatroom.permissionType == EMChatroomPermissionTypeAdmin) {
@@ -117,12 +122,16 @@
     blackAction.backgroundColor = [UIColor colorWithRed: 50 / 255.0 green: 63 / 255.0 blue: 72 / 255.0 alpha:1.0];
     
     UIContextualAction *muteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
-                                                                            title:@"禁言"
+                                                                            title:[weakself.mutesList containsObject:userName] ? @"取消禁言" : @"禁言"
                                                                           handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
     {
-        [weakself _muteAdmin:userName];
+        if ([weakself.mutesList containsObject:userName]) {
+            [weakself _unMuteMember:userName];
+        } else {
+            [weakself _muteMember:userName];
+        }
     }];
-    blackAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
+    muteAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
     
     UIContextualAction *adminAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
                                                                             title:@"升权"
@@ -130,9 +139,7 @@
     {
         [weakself _memberToAdmin:userName];
     }];
-    blackAction.backgroundColor = [UIColor blackColor];
-    
-    blackAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
+    adminAction.backgroundColor = [UIColor blackColor];
     
     UIContextualAction *transferAdminAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
                                                                             title:@"转让"
@@ -206,6 +213,27 @@
     }];
 }
 
+- (void)_fetchChatRoomMutes:(int)aPage
+{
+    if (self.chatroom.permissionType == EMChatroomPermissionTypeMember || self.chatroom.permissionType == EMChatroomPermissionTypeNone) {
+        return;
+    }
+    if (aPage == 1) {
+        [self.mutesList removeAllObjects];
+    }
+    __weak typeof(self) weakself = self;
+    [[EMClient sharedClient].roomManager getChatroomMuteListFromServerWithId:self.chatroom.chatroomId pageNumber:aPage pageSize:200 completion:^(NSArray *aList, EMError *aError) {
+        if (aError) {
+            [EMAlertController showErrorAlert:aError.errorDescription];
+        } else {
+            [weakself.mutesList addObjectsFromArray:aList];
+        }
+        if ([aList count] == 200) {
+            [weakself _fetchChatRoomMutes:(aPage + 1)];
+        }
+    }];
+}
+
 - (void)tableViewDidTriggerHeaderRefresh
 {
     self.cursor = nil;
@@ -258,7 +286,7 @@
     }];
 }
 
-- (void)_muteAdmin:(NSString *)aUsername
+- (void)_muteMember:(NSString *)aUsername
 {
     [self showHudInView:self.view hint:@"禁言成员..."];
     
@@ -270,6 +298,26 @@
         } else {
             weakself.isUpdated = YES;
             [EMAlertController showSuccessAlert:@"禁言成功"];
+            [weakself _fetchChatRoomMutes:1];
+            [weakself.tableView reloadData];
+        }
+    }];
+}
+
+- (void)_unMuteMember:(NSString *)aUsername
+{
+    [self showHudInView:self.view hint:@"解除禁言..."];
+    
+    __weak typeof(self) weakself = self;
+    [[EMClient sharedClient].roomManager unmuteMembers:@[aUsername] fromChatroom:self.chatroom.chatroomId completion:^(EMChatroom *aChatroom, EMError *aError) {
+        [weakself hideHud];
+        if (aError) {
+            [EMAlertController showErrorAlert:@"解除禁言失败"];
+        } else {
+            weakself.isUpdated = YES;
+            [EMAlertController showSuccessAlert:@"解除禁言成功"];
+            [weakself _fetchChatRoomMutes:1];
+            [weakself.tableView reloadData];
         }
     }];
 }
@@ -311,7 +359,12 @@
 //个人资料卡
 - (void)personalData:(NSString *)nickName
 {
-    EMPersonalDataViewController *controller = [[EMPersonalDataViewController alloc]initWithNickName:nickName];
+    UIViewController* controller = nil;
+    if([[EMClient sharedClient].currentUsername isEqualToString:nickName]) {
+        controller = [[EMAccountViewController alloc] init];
+    }else{
+        controller = [[EMPersonalDataViewController alloc]initWithNickName:nickName];
+    }
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     UIViewController *rootViewController = window.rootViewController;
     if ([rootViewController isKindOfClass:[UINavigationController class]]) {

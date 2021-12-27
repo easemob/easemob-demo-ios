@@ -10,7 +10,6 @@
 
 #import "EMNotificationHelper.h"
 #import "EMNotificationCell.h"
-#import <EaseIMKit/EaseIMKit.h>
 
 @interface EMNotificationViewController ()<EMNotificationsDelegate, EMNotificationCellDelegate>
 

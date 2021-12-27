@@ -19,7 +19,7 @@
 #import "EMContactModel.h"
 #import "EMPersonalDataViewController.h"
 #import "EMSearchResultController.h"
-#import <EaseIMKit/EaseIMKit.h>
+#import "UserInfoStore.h"
 
 @interface EMContactsViewController ()<EMMultiDevicesDelegate, EMContactManagerDelegate, EMSearchControllerDelegate, EaseContactsViewControllerDelegate>
 @property (nonatomic, strong) EaseContactsViewController *contactsVC;
@@ -37,6 +37,7 @@
     [[EMClient sharedClient].contactManager addDelegate:self delegateQueue:nil];
     [self _setupSubviews];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:CONTACT_BLACKLIST_UPDATE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -58,22 +59,39 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+-(void) showUsers:(NSArray*)aUserIds
+{
+    self->_contancts = [aUserIds mutableCopy];
+    NSMutableArray<EaseUserDelegate> *contacts = [NSMutableArray<EaseUserDelegate> array];
+    for (NSString *username in aUserIds) {
+        EMContactModel *model = [[EMContactModel alloc] init];
+        EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:username];
+        model.easeId = username;
+        if(userInfo) {
+            if([userInfo.avatarUrl length] > 0) {
+                model.avatarURL = userInfo.avatarUrl;
+            }
+            if(userInfo.nickName.length > 0) {
+                model.showName = userInfo.nickName;
+            }
+        }else{
+            [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[username]];
+        }
+            
+        [contacts addObject:model];
+    }
+    
+    [self->_contactsVC setContacts:contacts];
+    [self->_contactsVC endRefresh];
+}
+
 #pragma mark - EaseContactsViewControllerDelegate
 
 - (void)willBeginRefresh {
     [EMClient.sharedClient.contactManager getContactsFromServerWithCompletion:^(NSArray *aList, EMError *aError) {
         if (!aError) {
-            self->_contancts = [aList mutableCopy];
-            NSMutableArray<EaseUserDelegate> *contacts = [NSMutableArray<EaseUserDelegate> array];
-            for (NSString *username in aList) {
-                EMContactModel *model = [[EMContactModel alloc] init];
-                model.huanXinId = username;
-                [contacts addObject:model];
-            }
-            
-            [self->_contactsVC setContacts:contacts];
+            [self showUsers:aList];
         }
-        [self->_contactsVC endRefresh];
     }];
 }
 
@@ -211,21 +229,61 @@
         make.bottom.equalTo(self.view);
     }];
     [self updateContactViewTableHeader];
+
+    [self fetchAllContactsUserInfo];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
+
+- (void)fetchAllContactsUserInfo
+{
+    NSArray* aList = [[[EMClient sharedClient] contactManager] getContacts];
+    NSMutableArray * array = [NSMutableArray array];
+    for (NSString* userId in aList) {
+        if(![[UserInfoStore sharedInstance] getUserInfoById:userId])
+            [array addObject:userId];
+    }
+    NSInteger count = array.count;
+    int index = 0;
+    while (count > 0) {
+        NSRange range;
+        range.location = 100*index;
+        if(count > 100) {
+            range.length = 100;
+        }else
+            range.length = count;
+        NSArray* arr = [array subarrayWithRange:range];
+        [[[EMClient sharedClient] userInfoManager] fetchUserInfoById:arr completion:^(NSDictionary *aUserDatas, EMError *aError) {
+            if(!aError) {
+                NSMutableArray* arrayUserInfo = [NSMutableArray array];
+                for (NSString* uid in aUserDatas) {
+                    EMUserInfo* userInfo = [aUserDatas objectForKey:uid];
+                    if(uid.length > 0 && userInfo)
+                    {
+                        [arrayUserInfo addObject:userInfo];
+                    }
+                }
+                [[UserInfoStore sharedInstance] addUserInfos:arrayUserInfo];
+            }
+        }];
+        count -= 100;
+    }
 }
 
 - (NSArray<EaseUserDelegate> *)items {
     EMContactModel *newFriends = [[EMContactModel alloc] init];
-    newFriends.huanXinId = NEWFRIEND;
-    newFriends.nickname = @"新的好友";
-    newFriends.avatar = [UIImage imageNamed:@"newFriend"];
+    newFriends.easeId = NEWFRIEND;
+    newFriends.showName = @"新的好友";
+    newFriends.defaultAvatar = [UIImage imageNamed:@"newFriend"];
     EMContactModel *groups = [[EMContactModel alloc] init];
-    groups.huanXinId = GROUPLIST;
-    groups.nickname = @"群聊";
-    groups.avatar = [UIImage imageNamed:@"groupchat"];
+    groups.easeId = GROUPLIST;
+    groups.showName = @"群聊";
+    groups.defaultAvatar = [UIImage imageNamed:@"groupchat"];
     EMContactModel *chatooms = [[EMContactModel alloc] init];
-    chatooms.huanXinId = CHATROOMLIST;
-    chatooms.nickname = @"聊天室";
-    chatooms.avatar = [UIImage imageNamed:@"chatroom"];
+    chatooms.easeId = CHATROOMLIST;
+    chatooms.showName = @"聊天室";
+    chatooms.defaultAvatar = [UIImage imageNamed:@"chatroom"];
     
     return (NSArray<EaseUserDelegate> *)@[newFriends, groups, chatooms];
 }
@@ -283,7 +341,10 @@
 
 - (void)refreshTableView
 {
-    [self.contactsVC refreshTabView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSArray* userIds = [[[EMClient sharedClient] contactManager] getContacts];
+        [self showUsers:userIds];
+    });
 }
 
 #pragma mark - EMMultiDevicesDelegate
@@ -309,6 +370,11 @@
 
 - (void)friendshipDidAddByUser:(NSString *)aUsername
 {
+    [[[EMClient sharedClient] userInfoManager] fetchUserInfoById:@[aUsername] completion:^(NSDictionary *aUserDatas, EMError *aError) {
+        if(!aError) {
+            
+        }
+    }];
     [self.contactsVC refreshTable];
     [self.contancts addObject:aUsername];
 }

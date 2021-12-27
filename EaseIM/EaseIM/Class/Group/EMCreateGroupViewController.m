@@ -295,7 +295,7 @@
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         UITextField *textField = alertController.textFields.firstObject;
         NSInteger value = [textField.text integerValue];
-        if (value > 2 && value < 1001) {
+        if (value > 2 && value < 3001) {
             self.maxMemNum = value;
             self.memberNumCell.detailTextLabel.text = @(value).stringValue;
         } else {

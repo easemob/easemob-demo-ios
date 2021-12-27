@@ -10,8 +10,13 @@ target 'EaseIM' do
     pod 'MBProgressHUD'
     pod 'Masonry'
     pod 'MJRefresh'
-    pod 'Hyphenate'
+    pod 'SDWebImage'
+    pod 'AgoraRtcEngine_iOS'
+    pod 'FMDB'
+    pod 'EaseCallKit'
+    pod 'HyphenateChat'
     pod 'EaseIMKit'
+    pod 'Bugly'
     
 end
 

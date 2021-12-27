@@ -11,7 +11,7 @@
 #import "EMRemindManager.h"
 #import "EMConversationsViewController.h"
 #import "EMContactsViewController.h"
-#import <EaseIMKit/EaseIMKit.h>
+#import "EaseIMHelper.h"
 
 #define kTabbarItemTag_Conversation 0
 #define kTabbarItemTag_Contact 1
@@ -199,16 +199,14 @@
                 continue;
             }
         }
-            
-        if ([(NSString *)[msg.ext objectForKey:MSG_EXT_CALLID] length] != 0 || [(NSString *)[msg.ext objectForKey:@"conferenceId"] length] != 0) {
-            //会议邀请消息
-            [[NSNotificationCenter defaultCenter] postNotificationName:CALL_INVITECONFERENCEVIEW object:msg];
-            break;
-        }
+        
+        [EMRemindManager remindMessage:msg];
     }
+    
     if (self.isViewAppear) {
         [self _loadConversationTabBarItemBadge];
     }
+    
 }
 
 //　收到已读回执

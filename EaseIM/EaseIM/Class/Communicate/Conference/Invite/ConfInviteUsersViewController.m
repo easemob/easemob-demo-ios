@@ -11,6 +11,8 @@
 #import "EMRealtimeSearch.h"
 #import "ConferenceController.h"
 #import "ConfInviteUserCell.h"
+#import "UserInfoStore.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ConfInviteUsersViewController ()<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
@@ -50,6 +52,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
     // Do any additional setup after loading the view.
     self.searchDataArray = [[NSMutableArray alloc] init];
     self.inviteUsers = [[NSMutableArray alloc] init];
@@ -178,7 +181,24 @@
     
     NSString *username = self.isSearching ? [self.searchDataArray objectAtIndex:indexPath.row] : [self.dataArray objectAtIndex:indexPath.row];
     cell.nameLabel.text = username;
+    cell.imageView.image = [UIImage imageNamed:@"defaultAvatar"];
     cell.isChecked = [self.inviteUsers containsObject:username];
+    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:username];
+    if(userInfo) {
+        if(userInfo.nickName.length > 0) {
+            cell.nameLabel.text = userInfo.nickName;
+        }
+        if(userInfo.avatarUrl.length > 0) {
+            NSURL* url = [NSURL URLWithString:userInfo.avatarUrl];
+            if(url) {
+                [cell.imageView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                    [cell setNeedsLayout];
+                }];
+            }
+        }
+    }else{
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[username]];
+    }
     
     return cell;
 }
@@ -256,6 +276,14 @@
     [self.searchTableView removeFromSuperview];
     [self.searchTableView reloadData];
     [self.tableView reloadData];
+}
+
+- (void)refreshTableView
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.view.window)
+            [self.tableView reloadData];
+    });
 }
 
 #pragma mark - Data
@@ -401,15 +429,23 @@
 
 - (void)closeAction
 {
-    if (self.isCreate) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    if (self.isCreate) {
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    } else {
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }
 }
 
 - (void)doneAction
 {
+    __weak typeof(self) weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (weakSelf.doneCompletion) {
+            weakSelf.doneCompletion(self.inviteUsers);
+        }
+    }];
+    return;
     if (self.isCreate) {
         __weak typeof(self) weakSelf = self;
         [self dismissViewControllerAnimated:YES completion:^{

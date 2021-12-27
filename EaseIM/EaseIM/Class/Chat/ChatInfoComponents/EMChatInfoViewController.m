@@ -9,7 +9,9 @@
 #import "EMChatInfoViewController.h"
 #import "EMPersonalDataViewController.h"
 #import "EMChatRecordViewController.h"
-#import <EaseIMKit/EaseIMKit.h>
+#import "EMAccountViewController.h"
+#import "UserInfoStore.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface EMChatInfoViewController ()
 
@@ -61,7 +63,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
    
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -76,7 +78,7 @@
     
     UISwitch *switchControl = nil;
     BOOL isSwitchCell = NO;
-    if (section == 2) {
+    if (section == 2 || section == 3) {
         isSwitchCell = YES;
         cellIdentifier = @"UITableViewCellSwitch";
     }
@@ -110,15 +112,40 @@
         cell.textLabel.font = [UIFont systemFontOfSize:18.0];
         cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
         cell.textLabel.text = self.conversation.conversationId;
+        if(self.conversation.type == EMConversationTypeChat) {
+            EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
+            if(userInfo) {
+                if(userInfo.avatarUrl.length > 0) {
+                    NSURL * url = [NSURL URLWithString:userInfo.avatarUrl];
+                    if(url) {
+                        [cell.imageView sd_setImageWithURL:url completed:nil];
+                    }
+                }
+                if(userInfo.nickName.length > 0) {
+                    cell.textLabel.text = userInfo.nickName;
+                    cell.detailTextLabel.text = self.conversation.conversationId;
+                }
+            }
+        }
     }
-    if (section == 1)
-        cell.textLabel.text = @"查找聊天记录";
+    if (section == 1) cell.textLabel.text = @"查找聊天记录";
+    
     if (section == 2) {
+        cell.textLabel.text = @"消息免打扰";
+        NSArray *ignoredUidList = [[EMClient sharedClient].pushManager noPushUIds];
+        if ([ignoredUidList containsObject:self.conversation.conversationId]) {
+            [switchControl setOn:(YES) animated:YES];
+        } else {
+            [switchControl setOn:(NO) animated:YES];
+        }
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    if (section == 3) {
         cell.textLabel.text = @"会话置顶";
         [switchControl setOn:([self.conversationModel isTop]) animated:YES];
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
-    if (section == 3)
+    if (section == 4)
         cell.textLabel.text = @"清空聊天记录";
     
     return cell;
@@ -144,7 +171,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 4)
+    if (section == 5)
         return 40;
     
     return 1;
@@ -155,7 +182,12 @@
     NSInteger section = indexPath.section;
     if (section == 0) {
         //好友资料
-        EMPersonalDataViewController *controller = [[EMPersonalDataViewController alloc]initWithNickName:self.conversation.conversationId];
+        UIViewController* controller = nil;
+        if([[EMClient sharedClient].currentUsername isEqualToString:self.conversation.conversationId]) {
+            controller = [[EMAccountViewController alloc] init];
+        }else{
+            controller = [[EMPersonalDataViewController alloc]initWithNickName:self.conversation.conversationId];
+        }
         [self.navigationController pushViewController:controller animated:YES];
         return;
     }
@@ -166,7 +198,7 @@
         [self.navigationController pushViewController:chatRrcordController animated:YES];
         return;
     }
-    if (section == 3) {
+    if (section == 4) {
         //清空聊天记录
         [self deleteChatRecord];
         return;
@@ -207,10 +239,29 @@
 //cell开关
 - (void)cellSwitchValueChanged:(UISwitch *)aSwitch
 {
+    __weak typeof(self) weakself = self;
     NSIndexPath *indexPath = [self _indexPathWithTag:aSwitch.tag];
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
+    
     if (section == 2) {
+        if (aSwitch.isOn) {
+            [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:YES completion:^(EMError * _Nonnull aError) {
+                if (aError) {
+                    [weakself showHint:[NSString stringWithFormat:@"设置免打扰失败 reason：%@",aError.errorDescription]];
+                    [aSwitch setOn:NO];
+                }
+            }];
+        } else {
+            [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:NO completion:^(EMError * _Nonnull aError) {
+                if (aError) {
+                    [weakself showHint:[NSString stringWithFormat:@"设置免打扰失败 reason：%@",aError.errorDescription]];
+                    [aSwitch setOn:YES];
+                }
+            }];
+        }
+    }
+    if (section == 3) {
         if (row == 0) {
             //置顶
             if (aSwitch.isOn) {

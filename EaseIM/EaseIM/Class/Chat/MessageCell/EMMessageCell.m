@@ -10,6 +10,9 @@
 
 #import "EMMessageStatusView.h"
 #import "EMMsgPicMixTextBubbleView.h"
+#import "UserInfoStore.h"
+#import <UIImageView+WebCache.h>
+#import "UIImageView+UserInfo.h"
 
 @interface EMMessageCell()
 
@@ -23,12 +26,14 @@
 
 - (instancetype)initWithDirection:(EMMessageDirection)aDirection
                              type:(EMMessageType)aType
+                          msgView:(nonnull EMMsgBubbleView *)aMsgView
 
 {
     NSString *identifier = [EMMessageCell cellIdentifierWithDirection:aDirection type:aType];
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     if (self) {
         _direction = aDirection;
+        self.msgView = aMsgView;
         [self _setupViewsWithType:aType];
     }
     
@@ -102,23 +107,25 @@
         }
     }
     
-    self.bubbleView = [self _getBubbleViewWithType];
-    self.bubbleView.userInteractionEnabled = YES;
-    self.bubbleView.clipsToBounds = YES;
-    [self.contentView addSubview:_bubbleView];
-    if (self.direction == EMMessageDirectionReceive) {
-        [_bubbleView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.avatarView);
-            make.bottom.equalTo(self.contentView).offset(-15);
-            make.left.equalTo(self.avatarView.mas_right).offset(componentSpacing);
-            make.right.lessThanOrEqualTo(self.contentView).offset(-70);
+//    self.msgView = [self _getBubbleViewWithType];
+    self.msgView.userInteractionEnabled = YES;
+    self.msgView.clipsToBounds = YES;
+    [self.contentView addSubview:_msgView];
+    if(self.direction == EMMessageDirectionSend) {
+        [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView).with.offset(60);
+            make.top.equalTo(self.contentView).with.offset(10);
+            make.right.equalTo(self.avatarView.mas_left).offset(-10);
+            make.height.equalTo(@120);
+            make.bottom.equalTo(self.contentView).with.offset(-10);
         }];
-    } else {
-        [_bubbleView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.avatarView);
-            make.bottom.equalTo(self.contentView).offset(-15);
-            make.left.greaterThanOrEqualTo(self.contentView).offset(70);
-            make.right.equalTo(self.avatarView.mas_left).offset(-componentSpacing);
+    }else{
+        [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.avatarView.mas_right).with.offset(10);
+            make.top.equalTo(self.contentView).with.offset(10);
+            make.right.equalTo(self.contentView).offset(-60);
+            make.height.equalTo(@120);
+            make.bottom.equalTo(self.contentView).with.offset(-10);
         }];
     }
 
@@ -126,8 +133,8 @@
     [self.contentView addSubview:_statusView];
     if (self.direction == EMMessageDirectionSend) {
         [_statusView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.bubbleView.mas_centerY);
-            make.right.equalTo(self.bubbleView.mas_left).offset(-5);
+            make.centerY.equalTo(self.msgView.mas_centerY);
+            make.right.equalTo(self.msgView.mas_left).offset(-5);
             make.height.equalTo(@(componentSpacing * 2));
         }];
     } else {
@@ -135,35 +142,39 @@
         _statusView.clipsToBounds = YES;
         _statusView.layer.cornerRadius = 4;
         [_statusView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.bubbleView);
-            make.left.equalTo(self.bubbleView.mas_right).offset(5);
+            make.centerY.equalTo(self.msgView);
+            make.left.equalTo(self.msgView.mas_right).offset(5);
             make.width.height.equalTo(@8);
         }];
     }
 }
 
-- (EMMsgPicMixTextBubbleView *)_getBubbleViewWithType
-{
-    self.bubbleView = [[EMMsgPicMixTextBubbleView alloc]init];
-    if (self.direction == EMMessageDirectionSend) {
-        self.bubbleView.image = [[UIImage imageNamed:@"msg_bg_send"] stretchableImageWithLeftCapWidth:15 topCapHeight:15];
-    } else {
-        self.bubbleView.image = [[UIImage imageNamed:@"msg_bg_recv"] stretchableImageWithLeftCapWidth:15 topCapHeight:15];
-    }
-    if (self.bubbleView) {
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bubbleViewTapAction:)];
-        [self.bubbleView addGestureRecognizer:tap];
-    }
-    
-    return self.bubbleView;
-}
+//- (EMMsgPicMixTextBubbleView *)_getBubbleViewWithType
+//{
+//    self.msgView = [[EMMsgPicMixTextBubbleView alloc]init];
+//    if (self.direction == EMMessageDirectionSend) {
+//        self.msgView.image = [[UIImage imageNamed:@"msg_bg_send"] stretchableImageWithLeftCapWidth:15 topCapHeight:15];
+//    } else {
+//        self.msgView.image = [[UIImage imageNamed:@"msg_bg_recv"] stretchableImageWithLeftCapWidth:15 topCapHeight:15];
+//    }
+//    if (self.msgView) {
+//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bubbleViewTapAction:)];
+//        [self.msgView addGestureRecognizer:tap];
+//    }
+//
+//    return self.msgView;
+//}
 
 #pragma mark - Setter
 
 - (void)setModel:(EaseMessageModel *)model
 {
     _model = model;
-    [self.bubbleView setModel:_model];
+    if (self.msgView) {
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bubbleViewTapAction:)];
+        [self.msgView addGestureRecognizer:tap];
+    }
+    //[self.msgView setModel:_model];
     if (model.direction == EMMessageDirectionSend) {
         [self.statusView setSenderStatus:model.message.status isReadAcked:model.message.isReadAcked];
     } else {
@@ -175,6 +186,7 @@
         }
     }
     _avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
+    [_avatarView showUserInfoAvatar:model.message.from];
 }
 
 #pragma mark - Action

@@ -16,17 +16,7 @@
 
 @property (nonatomic,strong) NSString *callDurationTime; //通话持续时间
 
-@property (nonatomic) EMCallType type;
-
 + (instancetype)sharedManager;
-
-//实时单聊通话：语音/视频
-- (void)communicateWithContact:(NSString *)conversationId callType:(EMCallType)callType;
-
-- (void)answerCall:(NSString *)aCallId;
-
-- (void)endCallWithId:(NSString *)aCallId
-               reason:(EMCallEndReason)aReason;
 
 - (void)saveCallOptions;
 
