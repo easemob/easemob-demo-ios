@@ -15,7 +15,6 @@
 @interface EMGroupsViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
 
 @property (nonatomic, strong) EMInviteGroupMemberViewController *inviteController;
-@property (nonatomic, strong) UIButton *addButton;
 
 @end
 
@@ -55,8 +54,6 @@
     self.tableView.rowHeight = 74;
     self.searchResultTableView.rowHeight = 74;
     
-    self.addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.view addSubview:self.addButton];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"创建" style:UIBarButtonItemStylePlain target:self action:@selector(addButtonClick)];
 }
 
