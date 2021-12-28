@@ -44,7 +44,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"黑名单";
+    self.title = NSLocalizedString(@"blacklist", nil);
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.showRefreshHeader = YES;
@@ -108,14 +108,14 @@
             return;
         }
         
-        [self showHudInView:self.view hint:@"移除黑名单..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"removingBL", nil)];
         __weak typeof(self) weakself = self;
         [[EMClient sharedClient].contactManager removeUserFromBlackList:username completion:^(NSString *aUsername, EMError *aError) {
             [weakself hideHud];
             if (aError) {
                 [EMAlertController showErrorAlert:aError.errorDescription];
             } else {
-                [EMAlertController showSuccessAlert:@"已将用户移出黑名单"];
+                [EMAlertController showSuccessAlert:NSLocalizedString(@"removedBlacklist", nil)];
                 [[NSNotificationCenter defaultCenter] postNotificationName:CONTACT_BLACKLIST_UPDATE object:nil];
                 if (tableView != weakself.tableView) {
                     [self.searchResults removeObject:username];
@@ -155,7 +155,7 @@
     [[EMRealtimeSearch shared] realtimeSearchWithSource:self.blacklist searchText:aString collationStringSelector:nil resultBlock:^(NSArray *results) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (results.count <= 0) {
-                [weakself showHint:@"黑名单无该用户"];
+                [weakself showHint:NSLocalizedString(@"notInBlackList", nil)];
                 return;
             }
             [weakself.searchResults removeAllObjects];

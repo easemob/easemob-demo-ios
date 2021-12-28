@@ -45,7 +45,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
-    self.title = @"群组成员列表";
+    self.title = NSLocalizedString(@"memberList", nil);
     self.showRefreshHeader = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -128,7 +128,7 @@
                              isShowHUD:(BOOL)aIsShowHUD
 {
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取群组成员..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchGroupMember...", nil)];
     }
     
     __weak typeof(self) weakself = self;

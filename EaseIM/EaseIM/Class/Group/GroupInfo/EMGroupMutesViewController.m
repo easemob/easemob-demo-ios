@@ -49,7 +49,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
-    self.title = @"群禁言列表";
+    self.title = NSLocalizedString(@"groupmutes", nil);
     self.showRefreshHeader = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -115,20 +115,20 @@
         }
         
         //hint解除禁言
-        EMConfirmViewController *confirmControl = [[EMConfirmViewController alloc]initWithMembername:userName titleText:@"解除该成员禁言？"];
+        EMConfirmViewController *confirmControl = [[EMConfirmViewController alloc]initWithMembername:userName titleText:NSLocalizedString(@"unmuteGroupMemberPrompt", nil)];
         confirmControl.modalPresentationStyle = 0;
         [self presentViewController:confirmControl animated:YES completion:nil];
         [confirmControl setDoneCompletion:^BOOL(BOOL aConfirm) {
             if (aConfirm) {
-               [self showHudInView:self.view hint:@"移出禁言列表..."];
+               [self showHudInView:self.view hint:NSLocalizedString(@"removeMuteList", nil)];
                __weak typeof(self) weakself = self;
                [[EMClient sharedClient].groupManager unmuteMembers:@[userName] fromGroup:self.group.groupId completion:^(EMGroup *aGroup, EMError *aError) {
                    [weakself hideHud];
                    if (aError) {
-                       [EMAlertController showErrorAlert:@"移出禁言列表失败"];
+                       [EMAlertController showErrorAlert:NSLocalizedString(@"unmuteGroupMemberFail", nil)];
                    } else {
                        weakself.isUpdated = YES;
-                       [EMAlertController showSuccessAlert:@"移出禁言列表成功"];
+                       [EMAlertController showSuccessAlert:NSLocalizedString(@"unmuteGroupMemberSuccess", nil)];
                        [weakself.dataArray removeObject:userName];
                        [weakself.tableView reloadData];
                        [weakself.searchResults removeObject:userName];
@@ -161,7 +161,7 @@
                            isShowHUD:(BOOL)aIsShowHUD
 {
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取群组禁言列表..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchingMuteList...", nil)];
     }
     
     __weak typeof(self) weakself = self;

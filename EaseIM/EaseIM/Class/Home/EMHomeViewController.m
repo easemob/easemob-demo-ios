@@ -11,6 +11,7 @@
 #import "EMRemindManager.h"
 #import "EMConversationsViewController.h"
 #import "EMContactsViewController.h"
+#import "EaseIMHelper.h"
 
 #define kTabbarItemTag_Conversation 0
 #define kTabbarItemTag_Contact 1
@@ -129,19 +130,19 @@
             [weakself _loadConversationTabBarItemBadge];
         }
     }];
-    UITabBarItem *consItem = [self _setupTabBarItemWithTitle:@"会话" imgName:@"icon-tab会话unselected" selectedImgName:@"icon-tab会话" tag:kTabbarItemTag_Conversation];
+    UITabBarItem *consItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"conversation", nil) imgName:@"icon-tab会话unselected" selectedImgName:@"icon-tab会话" tag:kTabbarItemTag_Conversation];
     self.conversationsController.tabBarItem = consItem;
     [self addChildViewController:self.conversationsController];
     
     self.contactsController = [[EMContactsViewController alloc]init];
-    UITabBarItem *contItem = [self _setupTabBarItemWithTitle:@"通讯录" imgName:@"icon-tab通讯录unselected" selectedImgName:@"icon-tab通讯录" tag:kTabbarItemTag_Contact];
+    UITabBarItem *contItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"contactList", nil) imgName:@"icon-tab通讯录unselected" selectedImgName:@"icon-tab通讯录" tag:kTabbarItemTag_Contact];
     self.contactsController.tabBarItem = contItem;
     [self addChildViewController:self.contactsController];
     
-    //UITabBarItem *discoverItem = [self _setupTabBarItemWithTitle:@"发现" imgName:@"icon-tab发现unselected" selectedImgName:@"icon-tab发现" tag:kTabbarItemTag_Settings];
+    //UITabBarItem *discoverItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"discover", nil) imgName:@"icon-tab发现unselected" selectedImgName:@"icon-tab发现" tag:kTabbarItemTag_Settings];
     
     self.mineController = [[EMMineViewController alloc] init];
-    UITabBarItem *mineItem = [self _setupTabBarItemWithTitle:@"我" imgName:@"icon-tab我unselected" selectedImgName:@"icon-tab我" tag:kTabbarItemTag_Settings];
+    UITabBarItem *mineItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"mine", nil) imgName:@"icon-tab我unselected" selectedImgName:@"icon-tab我" tag:kTabbarItemTag_Settings];
     self.mineController.tabBarItem = mineItem;
     [self addChildViewController:self.mineController];
     
@@ -198,10 +199,14 @@
                 continue;
             }
         }
+        
+        [EMRemindManager remindMessage:msg];
     }
+    
     if (self.isViewAppear) {
         [self _loadConversationTabBarItemBadge];
     }
+    
 }
 
 //　收到已读回执

@@ -49,7 +49,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
-    self.title = @"聊天室成员";
+    self.title = NSLocalizedString(@"chatroomMembers", nil);
     self.showRefreshHeader = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -106,7 +106,7 @@
     __weak typeof(self) weakself = self;
     NSString *userName = [self.dataArray objectAtIndex:indexPath.row];
     UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
-                                                                               title:@"移除"
+                                                                               title:NSLocalizedString(@"remove", nil)
                                                                              handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
     {
         [weakself _deleteAdmin:userName];
@@ -114,7 +114,7 @@
     deleteAction.backgroundColor = [UIColor redColor];
     
     UIContextualAction *blackAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
-                                                                            title:@"拉黑"
+                                                                            title:NSLocalizedString(@"bringtobl", nil)
                                                                           handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
     {
         [weakself _blockAdmin:userName];
@@ -122,7 +122,7 @@
     blackAction.backgroundColor = [UIColor colorWithRed: 50 / 255.0 green: 63 / 255.0 blue: 72 / 255.0 alpha:1.0];
     
     UIContextualAction *muteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
-                                                                            title:[weakself.mutesList containsObject:userName] ? @"取消禁言" : @"禁言"
+                                                                            title:[weakself.mutesList containsObject:userName] ? NSLocalizedString(@"unmute", nil) : NSLocalizedString(@"mute", nil)
                                                                           handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
     {
         if ([weakself.mutesList containsObject:userName]) {
@@ -134,7 +134,7 @@
     muteAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
     
     UIContextualAction *adminAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
-                                                                            title:@"升权"
+                                                                            title:NSLocalizedString(@"upRight", nil)
                                                                           handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
     {
         [weakself _memberToAdmin:userName];
@@ -142,17 +142,17 @@
     adminAction.backgroundColor = [UIColor blackColor];
     
     UIContextualAction *transferAdminAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
-                                                                            title:@"转让"
+                                                                            title:NSLocalizedString(@"transfer", nil)
                                                                           handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
     {
         __weak typeof(self) weakself = self;
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:[NSString stringWithFormat:@"转让聊天室给 %@?",userName] preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *clearAction = [UIAlertAction actionWithTitle:@"转让" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:[NSString stringWithFormat:NSLocalizedString(@"changeChatroomOwnerPrompt", nil),userName] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *clearAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"transfer", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [weakself _transferChatroom:userName];
         }];
         [clearAction setValue:[UIColor colorWithRed:245/255.0 green:52/255.0 blue:41/255.0 alpha:1.0] forKey:@"_titleTextColor"];
         [alertController addAction:clearAction];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }];
         [cancelAction  setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
         [alertController addAction:cancelAction];
@@ -180,7 +180,7 @@
                                 isShowHUD:(BOOL)aIsShowHUD
 {
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取普通成员..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchMembers...", nil)];
     }
     NSLog(@"username:   %@",EMClient.sharedClient.currentUsername);
     __weak typeof(self) weakself = self;
@@ -249,16 +249,16 @@
 
 - (void)_deleteAdmin:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:@"删除成员..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"removeMember...", nil)];
     
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].roomManager removeMembers:@[aUsername] fromChatroom:self.chatroom.chatroomId completion:^(EMChatroom *aChatroom, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"删除成员失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"removeMemberFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"删除成员成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"removeMemberSuccess", nil)];
             [weakself.dataArray removeObject:aUsername];
             [weakself.tableView reloadData];
         }
@@ -267,16 +267,16 @@
 
 - (void)_blockAdmin:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:@"移至黑名单..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"removeToBL...", nil)];
     
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].roomManager blockMembers:@[aUsername] fromChatroom:self.chatroom.chatroomId completion:^(EMChatroom *aChatroom, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"移至黑名单失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"moveToBLFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"移至黑名单成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"moveToBLSuccess", nil)];
             [[EMClient sharedClient].roomManager removeMembers:@[aUsername] fromChatroom:weakself.chatroom.chatroomId completion:^(EMChatroom *aChatroom, EMError *aError) {
                 weakself.chatroom = aChatroom;
             }];
@@ -288,16 +288,16 @@
 
 - (void)_muteMember:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:@"禁言成员..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"muteMember...", nil)];
     
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].roomManager muteMembers:@[aUsername] muteMilliseconds:-1 fromChatroom:self.chatroom.chatroomId completion:^(EMChatroom *aChatroom, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"禁言失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"muteFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"禁言成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"muteSuccess", nil)];
             [weakself _fetchChatRoomMutes:1];
             [weakself.tableView reloadData];
         }
@@ -306,16 +306,16 @@
 
 - (void)_unMuteMember:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:@"解除禁言..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"unmuteMember...", nil)];
     
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].roomManager unmuteMembers:@[aUsername] fromChatroom:self.chatroom.chatroomId completion:^(EMChatroom *aChatroom, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"解除禁言失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"unmuteFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"解除禁言成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"unmuteSuccess", nil)];
             [weakself _fetchChatRoomMutes:1];
             [weakself.tableView reloadData];
         }
@@ -324,16 +324,16 @@
 
 - (void)_memberToAdmin:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:@"升级为管理员..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"toBeAdmin...", nil)];
     
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].roomManager addAdmin:aUsername toChatroom:self.chatroom.chatroomId completion:^(EMChatroom *aChatroomp, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"升级为管理员失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"tobeAdminFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"升级为管理员成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"tobeAdminSuccess", nil)];
             [weakself.dataArray removeObject:aUsername];
             [weakself.tableView reloadData];
         }
@@ -342,15 +342,15 @@
 
 - (void)_transferChatroom:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:[NSString stringWithFormat:@"转让聊天室给 %@",aUsername]];
+    [self showHudInView:self.view hint:[NSString stringWithFormat:NSLocalizedString(@"changeChatroomTo...", nil),aUsername]];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].roomManager updateChatroomOwner:self.chatroom.chatroomId newOwner:aUsername completion:^(EMChatroom *aChatroom, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"转让聊天室失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"transferChatroomFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"转让聊天室成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"transferChatroomSuccess", nil)];
             [weakself _fetchChatroomMembersWithIsHeader:NO isShowHUD:NO];
         }
     }];

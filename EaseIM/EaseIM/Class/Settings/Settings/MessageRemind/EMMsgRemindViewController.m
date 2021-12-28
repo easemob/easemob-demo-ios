@@ -33,7 +33,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"新消息提醒";
+    self.title = NSLocalizedString(@"msgPrompt", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
     self.tableView.scrollEnabled = NO;
@@ -88,11 +88,11 @@
 
     if (section == 0) {
         if (row == 0) {
-            cell.textLabel.text = @"接收新消息通知";
+            cell.textLabel.text = NSLocalizedString(@"recvNewMsgNotice", nil);
             cell.accessoryView = self.msgRemindSwitch;
         } else if (row == 1) {
-            cell.textLabel.text = @"显示消息详情";
-            cell.detailTextLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayStyle == EMPushDisplayStyleSimpleBanner ? @"仅未读提示" : @"详细信息";
+            cell.textLabel.text = NSLocalizedString(@"showMsgInfo", nil);
+            cell.detailTextLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayStyle == EMPushDisplayStyleSimpleBanner ? NSLocalizedString(@"unreadPrompt", nil) : NSLocalizedString(@"showMsgInfo", nil);
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
@@ -117,7 +117,7 @@
         UILabel *label = [[UILabel alloc] init];
         label.font = [UIFont systemFontOfSize:14];
         label.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
-        label.text = @"     新消息通知";
+        label.text = NSLocalizedString(@"newMsgNotice", nil);
         label.textAlignment = NSTextAlignmentLeft;
         return label;
     }

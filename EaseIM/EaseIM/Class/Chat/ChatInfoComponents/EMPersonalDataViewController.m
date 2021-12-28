@@ -34,7 +34,7 @@
     if (self) {
         _nickName = aNickName;
         _contacts = [[EMClient sharedClient].contactManager getContacts];
-        _hint = @"添加到通讯录";
+        _hint = NSLocalizedString(@"addContact", nil);
     }
     return self;
 }
@@ -46,7 +46,7 @@
         _nickName = aNickName;
         _contacts = [[EMClient sharedClient].contactManager getContacts];
         _isChatting = isChatting;
-        _hint = @"添加到通讯录";
+        _hint = NSLocalizedString(@"addContact", nil);
     }
     return self;
 }
@@ -69,7 +69,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"个人资料";
+    self.title = NSLocalizedString(@"personalInfo", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
     if ([self.contacts containsObject:self.nickName])
@@ -132,11 +132,11 @@
     if (section == 1)
         self.funLabel.text = [self.contacts containsObject:self.nickName] ? @"" : self.hint;
     if (section == 2)
-        self.funLabel.text = @"发消息";
+        self.funLabel.text = NSLocalizedString(@"sendMsg", nil);
     if (section == 3)
-        self.funLabel.text = @"语音通话";
+        self.funLabel.text = NSLocalizedString(@"audioCall", nil);
     if (section == 4 )
-        self.funLabel.text = @"视频通话";
+        self.funLabel.text = NSLocalizedString(@"videoCall", nil);
     
     [cell.contentView addSubview:self.funLabel];
     [self.funLabel mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -196,7 +196,7 @@
 //黑名单view
 - (void)addBlackListView
 {
-    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-140, self.navigationController.navigationBar.frame.size.height + 30, 125, 52) selectData:@[@"加入黑名单"] images:@[@""] locationY:30 + EMVIEWTOPMARGIN action:^(NSInteger index){
+    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-180, self.navigationController.navigationBar.frame.size.height + 30, 165, 52) selectData:@[NSLocalizedString(@"addBlacklist", nil)] images:@[@""] locationY:30 + EMVIEWTOPMARGIN action:^(NSInteger index){
         if(index == 0) {
             [self addContactToBlackList];
         }
@@ -208,17 +208,17 @@
 - (void)addContactToBlackList
 {
     if ([[self getchBlackList] containsObject:self.nickName]) {
-        [self showHint:@"该好友已在黑名单"];
+        [self showHint:NSLocalizedString(@"inBlackList", nil)];
         return;
     }
-    [self showHudInView:self.view hint:@"拉黑用户..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"blUser...", nil)];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].contactManager addUserToBlackList:self.nickName completion:^(NSString *aUsername, EMError *aError) {
         [weakself hideHud];
         if (!aError)
-            [EMAlertController showSuccessAlert:@"拉黑用户成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"blackSucess", nil)];
         else
-            [EMAlertController showErrorAlert:@"拉黑用户失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"blackFail", nil)];
         if (!aError)
             [[NSNotificationCenter defaultCenter] postNotificationName:CONTACT_BLACKLIST_UPDATE object:nil];
     }];
@@ -227,17 +227,17 @@
 //添加联系人
 - (void)addContact
 {
-    [self showHudInView:self.view hint:@"发送好友请求..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"inviteContact...", nil)];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].contactManager addContact:self.nickName message:nil completion:^(NSString *aUsername, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"添加失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail", nil)];
             return;
         }
-        self.hint = @"已申请";
+        self.hint = NSLocalizedString(@"applied", nil);
         [self.tableView reloadData];
-        [EMAlertController showSuccessAlert:@"已发出好友申请"];
+        [EMAlertController showSuccessAlert:NSLocalizedString(@"sendInvite", nil)];
     }];
 }
 

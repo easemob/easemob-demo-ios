@@ -46,7 +46,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
-    self.title = @"移交群主";
+    self.title = NSLocalizedString(@"changeOwner", nil);
     self.showRefreshHeader = YES;
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
@@ -80,7 +80,7 @@
         rightButton.backgroundColor = kColor_Blue;
         rightButton.titleLabel.font = [UIFont systemFontOfSize:16];
         rightButton.layer.cornerRadius = 5;
-        [rightButton setTitle:@"移交群主" forState:UIControlStateNormal];
+        [rightButton setTitle:NSLocalizedString(@"changeOwner", nil) forState:UIControlStateNormal];
         [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         cell.accessoryButton = rightButton;
     }
@@ -103,21 +103,21 @@
 - (void)cellAccessoryButtonAction:(EMAvatarNameCell *)aCell
 {
     NSString *name = aCell.nameLabel.text;
-    EMConfirmViewController *confirmControl = [[EMConfirmViewController alloc]initWithMembername:name titleText:@"是否移交群主给该成员？"];
+    EMConfirmViewController *confirmControl = [[EMConfirmViewController alloc]initWithMembername:name titleText:NSLocalizedString(@"changeOwnerPrompt", nil)];
     confirmControl.modalPresentationStyle = 0;
     [self presentViewController:confirmControl animated:YES completion:nil];
     
     [confirmControl setDoneCompletion:^BOOL(BOOL aConfirm) {
         
         if (aConfirm) {
-            [self showHudInView:self.view hint:@"移交群主..."];
+            [self showHudInView:self.view hint:NSLocalizedString(@"changingGroupOwner...", nil)];
                __weak typeof(self) weakself = self;
                [[EMClient sharedClient].groupManager updateGroupOwner:self.group.groupId newOwner:name completion:^(EMGroup *aGroup, EMError *aError) {
                    [weakself hideHud];
                    if (aError) {
-                       [EMAlertController showErrorAlert:@"移交群主失败"];
+                       [EMAlertController showErrorAlert:NSLocalizedString(@"changeOwnerFail", nil)];
                    } else {
-                       [EMAlertController showSuccessAlert:@"移交群主成功"];
+                       [EMAlertController showSuccessAlert:NSLocalizedString(@"changeOwnerSuccess", nil)];
                        
                        if (weakself.successCompletion) {
                            weakself.group = aGroup;
@@ -151,7 +151,7 @@
                              isShowHUD:(BOOL)aIsShowHUD
 {
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取群组成员..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchGroupMember...", nil)];
     }
     
     __weak typeof(self) weakself = self;

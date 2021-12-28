@@ -43,7 +43,7 @@
     self.textField.delegate = self;
     self.textField.backgroundColor = kColor_textViewGray;
     self.textField.font = [UIFont systemFontOfSize:16];
-    self.textField.placeholder = @"搜索";
+    self.textField.placeholder = NSLocalizedString(@"search", nil);
     self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.textField.leftViewMode = UITextFieldViewModeAlways;
     self.textField.returnKeyType = UIReturnKeySearch;
@@ -64,7 +64,7 @@
     
     self.cancelButton = [[UIButton alloc] init];
     self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    [self.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [self.cancelButton setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
     [self.cancelButton setTitleColor:kColor_Blue forState:UIControlStateNormal];
     [self.cancelButton addTarget:self action:@selector(searchCancelButtonClicked) forControlEvents:UIControlEventTouchUpInside];
 }

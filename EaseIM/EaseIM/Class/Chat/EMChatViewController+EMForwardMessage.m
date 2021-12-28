@@ -48,12 +48,12 @@
     [[EMClient sharedClient].chatManager sendMessage:message progress:nil completion:^(EMMessage *message, EMError *error) {
         if (error) {
             [weakself.conversation deleteMessageWithId:message.messageId error:nil];
-            [EMAlertController showErrorAlert:@"转发消息失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"forwardMsgFail", nil)];
         } else {
             if (aCompletionBlock) {
                 aCompletionBlock(message);
             }
-            [EMAlertController showSuccessAlert:@"转发消息成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"forwardMsgSucess", nil)];
             if ([aTo isEqualToString:weakself.conversation.conversationId]) {
                 [weakself.conversation markMessageAsReadWithId:message.messageId error:nil];
                 NSArray *formated = [weakself formatMessages:@[message]];
@@ -76,7 +76,7 @@
         newBody = [[EMImageMessageBody alloc]initWithLocalPath:imgBody.localPath displayName:imgBody.displayName];
     } else {
         if (imgBody.downloadStatus != EMDownloadStatusSuccessed) {
-            [EMAlertController showErrorAlert:@"请先下载原图"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"downloadImageFirst", nil)];
             return;
         }
         
@@ -109,7 +109,7 @@
     if (![[NSFileManager defaultManager] fileExistsAtPath:oldBody.localPath]) {
         [[EMClient sharedClient].chatManager downloadMessageAttachment:aMsg progress:nil completion:^(EMMessage *message, EMError *error) {
             if (error) {
-                [EMAlertController showErrorAlert:@"转发消息失败"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"forwardMsgFail", nil)];
             } else {
                 block(aMsg);
             }

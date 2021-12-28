@@ -37,10 +37,10 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"加群";
+    self.title = NSLocalizedString(@"joinGroup", nil);
     
     self.showRefreshHeader = YES;
-    self.searchBar.textField.placeholder = @"搜索群组ID";
+    self.searchBar.textField.placeholder = NSLocalizedString(@"searchingGroupId", nil);
     self.tableView.rowHeight = 60;
 }
 
@@ -77,9 +77,9 @@
         rightButton.backgroundColor = kColor_Blue;
         rightButton.titleLabel.font = [UIFont systemFontOfSize:16];
         rightButton.layer.cornerRadius = 5;
-        [rightButton setTitle:@"加入" forState:UIControlStateNormal];
+        [rightButton setTitle:NSLocalizedString(@"join", nil) forState:UIControlStateNormal];
         [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [rightButton setTitle:@"已申请" forState:UIControlStateDisabled];
+        [rightButton setTitle:NSLocalizedString(@"applied", nil) forState:UIControlStateDisabled];
         [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
         cell.accessoryButton = rightButton;
     }
@@ -102,11 +102,11 @@
     
     if ([self.applyedIdArray containsObject:group.groupId]) {
         cell.accessoryButton.enabled = NO;
-        [cell.accessoryButton setTitle:@"已申请" forState:UIControlStateDisabled];
+        [cell.accessoryButton setTitle:NSLocalizedString(@"applied", nil) forState:UIControlStateDisabled];
         cell.accessoryButton.backgroundColor = kColor_Gray;
     } else if ([self.joinedIdArray containsObject:group.groupId]) {
         cell.accessoryButton.enabled = NO;
-        [cell.accessoryButton setTitle:@"已加入" forState:UIControlStateDisabled];
+        [cell.accessoryButton setTitle:NSLocalizedString(@"joined", nil) forState:UIControlStateDisabled];
         cell.accessoryButton.backgroundColor = kColor_Gray;
     } else {
         cell.accessoryButton.enabled = YES;
@@ -123,28 +123,28 @@
 {
     __weak typeof(self) weakself = self;
     if (aGroup.setting.style == EMGroupStylePublicOpenJoin) {
-        [self showHudInView:self.view hint:@"加入群组..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"joiningGroup...", nil)];
         [[EMClient sharedClient].groupManager joinPublicGroup:aGroup.groupId completion:^(EMGroup *aGroup1, EMError *aError) {
             [weakself hideHud];
             if (aError) {
-                [EMAlertController showErrorAlert:@"加入群组失败"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"joinGroupFail", nil)];
             } else {
                 [weakself.joinedIdArray addObject:aGroup1.groupId];
                 aButton.enabled = NO;
-                [aButton setTitle:@"已加入" forState:UIControlStateDisabled];
+                [aButton setTitle:NSLocalizedString(@"joined", nil) forState:UIControlStateDisabled];
                 aButton.backgroundColor = kColor_Gray;
             }
         }];
     } else if (aGroup.setting.style == EMGroupStylePublicJoinNeedApproval) {
-        [self showHudInView:self.view hint:@"发送入群申请..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"sendGroupJoin..", nil)];
         [[EMClient sharedClient].groupManager requestToJoinPublicGroup:aGroup.groupId message:nil completion:^(EMGroup *aGroup1, EMError *aError) {
             [weakself hideHud];
             if (aError) {
-                [EMAlertController showErrorAlert:@"发送申请失败"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"sendInviteFail", nil)];
             } else {
                 [weakself.applyedIdArray addObject:aGroup1.groupId];
                 aButton.enabled = NO;
-                [aButton setTitle:@"已申请" forState:UIControlStateDisabled];
+                [aButton setTitle:NSLocalizedString(@"applied", nil) forState:UIControlStateDisabled];
                 aButton.backgroundColor = kColor_Gray;
             }
         }];
@@ -161,7 +161,7 @@
         group = [self.searchResults objectAtIndex:aCell.indexPath.row];
     }
     
-    [self showHudInView:self.view hint:@"获取群组信息..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"fetchingGroupInfo...", nil)];
     [[EMClient sharedClient].groupManager getGroupSpecificationFromServerWithId:group.groupId completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (aError) {
@@ -198,7 +198,7 @@
                          isShowHUD:(BOOL)aIsShowHUD
 {
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取公开群组..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchingPublicGroup...", nil)];
     }
     
     __weak typeof(self) weakself = self;
@@ -258,7 +258,7 @@
 - (void)_searchGroupWithId:(NSString *)aId
 {
     __weak typeof(self) weakself = self;
-    [self showHudInView:self.view hint:@"搜索群组..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"searchingGroup...", nil)];
     [[EMClient sharedClient].groupManager searchPublicGroupWithId:aId completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (!aError) {
@@ -266,7 +266,7 @@
             [weakself.searchResults addObject:aGroup];
             [weakself.searchResultTableView reloadData];
         } else {
-            [EMAlertController showErrorAlert:@"未搜索到群组"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"noSearchGroups", nil)];
         }
     }];
 }

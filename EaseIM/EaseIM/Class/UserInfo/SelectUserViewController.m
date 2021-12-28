@@ -28,7 +28,7 @@
 - (void)setupSubViews
 {
     [self addPopBackLeftItem];
-    self.title = @"选择联系人";
+    self.title = NSLocalizedString(@"chooseContact", nil);
     
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.delegate = self;
@@ -37,7 +37,7 @@
     UITextField *searchField = [self.searchBar valueForKey:@"searchField"];
     CGFloat color = 245 / 255.0;
     searchField.backgroundColor = [UIColor colorWithRed:color green:color blue:color alpha:1.0];
-    self.searchBar.placeholder = @"搜索联系人";
+    self.searchBar.placeholder = NSLocalizedString(@"serchContact", nil);
     [self.view addSubview:self.searchBar];
     [self.view sendSubviewToBack:self.searchBar];
     [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {

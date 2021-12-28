@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface EMMsgBubbleView : UIView
+@interface EMMsgBubbleView : UIImageView
 - (void)setModel:(EaseMessageModel *)model;
 @end
 

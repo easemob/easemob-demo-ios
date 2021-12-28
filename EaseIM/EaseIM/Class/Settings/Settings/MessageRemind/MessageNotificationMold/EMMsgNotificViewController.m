@@ -33,7 +33,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"消息详情";
+    self.title = NSLocalizedString(@"msgInfo", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
     self.tableView.rowHeight = 66;
@@ -86,14 +86,14 @@
 
     if (section == 0) {
         if (row == 0) {
-            cell.textLabel.text = @"仅未读提示";
+            cell.textLabel.text = NSLocalizedString(@"unreadPrompt", nil);
             if (options.displayStyle == EMPushDisplayStyleSimpleBanner) {
                 [basicTick setTick:YES];
             } else {
                 [basicTick setTick:NO];
             }
         } else if (row == 1) {
-            cell.textLabel.text = @"显示消息详情";
+            cell.textLabel.text = NSLocalizedString(@"showMsgInfo", nil);
             if (options.displayStyle == EMPushDisplayStyleMessageSummary) {
                 [basicTick setTick:YES];
             } else {

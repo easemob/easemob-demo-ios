@@ -107,6 +107,8 @@ static DBManager *databaseManager = nil;
         BOOL bFirst = YES;
         [self.lock lock];
         NSString*(^format)(NSString*) = ^(NSString* str) {
+            if([str isKindOfClass:[NSNull class]])
+                return @"";
             return str.length>0?str:@"";
         };
         NSDate* now = [NSDate date];
@@ -116,7 +118,7 @@ static DBManager *databaseManager = nil;
                 bFirst = NO;
                 stmt = [stmt stringByAppendingFormat:@"('%@','%@','%@','%@',%ld,'%@','%@','%@','%@',%ld)",format(userInfo.userId),format(userInfo.nickName),format(userInfo.avatarUrl),format(userInfo.sign),userInfo.gender,format(userInfo.mail),format(userInfo.phone),format(userInfo.ext),format(userInfo.birth),ts];
             }else{
-                stmt = [stmt stringByAppendingFormat:@",('%@','%@','%@','%@',%ld,'%@','%@','%@','%@',%ld)",userInfo.userId,userInfo.nickName,userInfo.avatarUrl,userInfo.sign,userInfo.gender,userInfo.mail,userInfo.phone,userInfo.ext,userInfo.birth,ts];
+                stmt = [stmt stringByAppendingFormat:@",('%@','%@','%@','%@',%ld,'%@','%@','%@','%@',%ld)",format(userInfo.userId),format(userInfo.nickName),format(userInfo.avatarUrl),format(userInfo.sign),userInfo.gender,format(userInfo.mail),format(userInfo.phone),format(userInfo.ext),format(userInfo.birth),ts];
             }
         }
         [self.usersInfoArray removeAllObjects];
