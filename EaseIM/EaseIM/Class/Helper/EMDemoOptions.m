@@ -260,8 +260,9 @@ static EMDemoOptions *sharedOptions = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedOptions = EMDemoOptions.customOptions;
-        if (!sharedOptions || !sharedOptions.isCustomServer) {
+        if (!sharedOptions) {
             sharedOptions = EMDemoOptions.defaultOptions;
+            [sharedOptions archive];
         }
     });
     

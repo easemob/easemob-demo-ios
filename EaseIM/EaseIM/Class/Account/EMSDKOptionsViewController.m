@@ -498,7 +498,7 @@
         if (self.enableEdit) {
             [EMDemoOptions reInitAndSaveServerOptions];
             
-            self.demoOptions = [[EMDemoOptions sharedOptions] copy];
+            self.demoOptions = [EMDemoOptions.sharedOptions copy];
             [self _reloadCellValues];
         } else {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:@"当前appkey以及环境配置已生效，如果需要更改需要重启客户端" preferredStyle:UIAlertControllerStyleAlert];
@@ -552,17 +552,22 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:@"当前appkey以及环境配置已生效，如果需要更改需要重启客户端" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
-        demoOptions.appkey = self.demoOptions.appkey;
-        demoOptions.apnsCertName = self.demoOptions.apnsCertName;
-        demoOptions.specifyServer = self.demoOptions.specifyServer;
-        demoOptions.chatPort = self.demoOptions.chatPort;
-        demoOptions.chatServer = self.demoOptions.chatServer;
-        demoOptions.restServer = self.demoOptions.restServer;
-        demoOptions.usingHttpsOnly = self.demoOptions.usingHttpsOnly;
         demoOptions.isCustomServer = self.sw.isOn;
-        [demoOptions.locationAppkeyArray removeAllObjects];
-        [demoOptions.locationAppkeyArray insertObject:demoOptions.appkey atIndex:0];
-        [demoOptions archive];
+        if (self.sw.isOn) {
+            demoOptions.appkey = self.demoOptions.appkey;
+            demoOptions.apnsCertName = self.demoOptions.apnsCertName;
+            demoOptions.specifyServer = self.demoOptions.specifyServer;
+            demoOptions.chatPort = self.demoOptions.chatPort;
+            demoOptions.chatServer = self.demoOptions.chatServer;
+            demoOptions.restServer = self.demoOptions.restServer;
+            demoOptions.usingHttpsOnly = self.demoOptions.usingHttpsOnly;
+            [demoOptions.locationAppkeyArray removeAllObjects];
+            [demoOptions.locationAppkeyArray insertObject:demoOptions.appkey atIndex:0];
+            [demoOptions archive];
+        } else {
+            [demoOptions.locationAppkeyArray removeAllObjects];
+            [EMDemoOptions reInitAndSaveServerOptions];
+        }
         
         exit(0);
     }];
