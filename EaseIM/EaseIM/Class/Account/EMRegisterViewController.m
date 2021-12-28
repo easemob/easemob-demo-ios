@@ -424,7 +424,7 @@
                 errorDes = @"注册用户名已存在，请重新输入";
                 break;
             case EMErrorExceedServiceLimit:
-                errorDes = @"请求过于频繁，请稍后再试";
+                errorDes = @"对不起，注册用户数量已达上限";
                 break;
             default:
                 break;
