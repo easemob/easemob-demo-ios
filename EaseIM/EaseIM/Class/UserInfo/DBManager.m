@@ -107,10 +107,9 @@ static DBManager *databaseManager = nil;
         BOOL bFirst = YES;
         [self.lock lock];
         NSString*(^format)(NSString*) = ^(NSString* str) {
-            if ((str.length > 0) && (![str isEqualToString:@"@(null)"])) {
-                return str;
-            }
-            return @"";
+            if([str isKindOfClass:[NSNull class]])
+                return @"";
+            return str.length>0?str:@"";
         };
         NSDate* now = [NSDate date];
         NSInteger ts = [now timeIntervalSince1970];

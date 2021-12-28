@@ -186,10 +186,10 @@ static EMNotificationHelper *shared = nil;
     aModel.time = time;
     if ([aModel.message length] == 0) {
         if (aModel.type == EMNotificationModelTypeContact) {
-            aModel.message = @"申请添加您为好友";
+            aModel.message = NSLocalizedString(@"requestapplyContact", nil);
         } else if (aModel.type == EMNotificationModelTypeGroupInvite) {
             EMGroup *group = [EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:aModel.groupId error:nil];
-            aModel.message = [NSString stringWithFormat:@"邀请您加入群组\"%@\"，是否同意加入？", group.groupName];
+            aModel.message = [NSString stringWithFormat:NSLocalizedString(@"invite...", nil), group.groupName];
         }
     }
 
@@ -264,7 +264,7 @@ static EMNotificationHelper *shared = nil;
     }
     
     if ([aMessage length] == 0) {
-        aMessage = @"申请添加您为好友";
+        aMessage = NSLocalizedString(@"requestapplyContact", nil);
     }
     
     EMNotificationModel *model = [[EMNotificationModel alloc] init];
@@ -304,7 +304,7 @@ static EMNotificationHelper *shared = nil;
     model.sender = aUsername;
     model.groupId = aGroup.groupId;
     model.type = EMNotificationModelTypeGroupJoin;
-    model.message = [NSString stringWithFormat:@"\"%@\"申请加入群组\"%@\",是否同意该申请？",aUsername, aGroup.groupName];
+    model.message = [NSString stringWithFormat:NSLocalizedString(@"groupRequestPrompt", nil),aUsername, aGroup.groupName];
     [[EMNotificationHelper shared] insertModel:model];
 }
 

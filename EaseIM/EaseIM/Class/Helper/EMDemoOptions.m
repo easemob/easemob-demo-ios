@@ -103,6 +103,7 @@ static EMDemoOptions *sharedOptions = nil;
         self.isSupportWechatMiniProgram = [aDecoder decodeBoolForKey:kOptions_IsSupportWechatMiniProgram];
         self.isCustomServer = [aDecoder decodeBoolForKey:kOptions_IsCustomServer];
         self.isFirstLaunch = [aDecoder decodeBoolForKey:kOptions_IsFirstLaunch];
+        self.language = [aDecoder decodeObjectForKey:kOptions_TranslateLanguage];
     }
     return self;
 }
@@ -149,6 +150,7 @@ static EMDemoOptions *sharedOptions = nil;
     [aCoder encodeObject:self.locationAppkeyArray forKey:kOptions_LocationAppkeyArray];
     [aCoder encodeBool:self.isCustomServer forKey:kOptions_IsCustomServer];
     [aCoder encodeBool:self.isFirstLaunch forKey:kOptions_IsFirstLaunch];
+    [aCoder encodeObject:self.language forKey:kOptions_TranslateLanguage];
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone
@@ -184,6 +186,7 @@ static EMDemoOptions *sharedOptions = nil;
     retModel.isCustomServer = self.isCustomServer;
     retModel.locationAppkeyArray = self.locationAppkeyArray;
     retModel.isFirstLaunch = self.isFirstLaunch;
+    retModel.language = self.language;
     return retModel;
 }
 

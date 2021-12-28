@@ -43,7 +43,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
-    self.title = @"聊天室禁言列表";
+    self.title = NSLocalizedString(@"chatroomMutes", nil);
     self.showRefreshHeader = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -89,15 +89,15 @@
     //在iOS8.0上，必须加上这个方法才能出发左划操作
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *userName = [self.dataArray objectAtIndex:indexPath.row];
-        [self showHudInView:self.view hint:@"移出禁言列表..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"removeMuteList", nil)];
         __weak typeof(self) weakself = self;
         [[EMClient sharedClient].roomManager unmuteMembers:@[userName] fromChatroom:self.chatroom.chatroomId completion:^(EMChatroom *aChatroom, EMError *aError) {
             [weakself hideHud];
             if (aError) {
-                [EMAlertController showErrorAlert:@"移出禁言列表失败"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"unmuteGroupMemberFail", nil)];
             } else {
                 weakself.isUpdated = YES;
-                [EMAlertController showSuccessAlert:@"移出禁言列表成功"];
+                [EMAlertController showSuccessAlert:NSLocalizedString(@"unmuteGroupMemberSuccess", nil)];
                 [weakself.dataArray removeObject:userName];
                 [weakself.tableView reloadData];
             }
@@ -111,7 +111,7 @@
                               isShowHUD:(BOOL)aIsShowHUD
 {
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取禁言列表..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchMuteList...", nil)];
     }
     
     __weak typeof(self) weakself = self;

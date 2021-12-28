@@ -121,25 +121,25 @@ SystemSoundID soundID = 1007;
                 break;
             case EMMessageBodyTypeImage:
             {
-                messageStr = @"图片";
+                messageStr = NSLocalizedString(@"Image", nil);
             }
                 break;
             case EMMessageBodyTypeLocation:
             {
-                messageStr = @"位置";
+                messageStr = NSLocalizedString(@"Location", nil);
             }
                 break;
             case EMMessageBodyTypeVoice:
             {
-                messageStr = @"音频";
+                messageStr = NSLocalizedString(@"Audio", nil);
             }
                 break;
             case EMMessageBodyTypeVideo:{
-                messageStr = @"视频";
+                messageStr = NSLocalizedString(@"Video", nil);
             }
                 break;
             case EMMessageBodyTypeFile:{
-                messageStr = @"文件";
+                messageStr = NSLocalizedString(@"File", nil);
             }
                 break;
             default:
@@ -153,7 +153,7 @@ SystemSoundID soundID = 1007;
         }
     }
     else{
-        alertBody = @"您有一条新消息";
+        alertBody = NSLocalizedString(@"newmsg", nil);
     }
     
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:self.lastPlaySoundDate];
@@ -178,7 +178,7 @@ SystemSoundID soundID = 1007;
         UILocalNotification *notification = [[UILocalNotification alloc] init];
         notification.fireDate = [NSDate date]; //触发通知的时间
         notification.alertBody = alertBody;
-        notification.alertAction = @"打开";
+        notification.alertAction = NSLocalizedString(@"open", nil);
         notification.timeZone = [NSTimeZone defaultTimeZone];
         if (playSound) {
             notification.soundName = UILocalNotificationDefaultSoundName;

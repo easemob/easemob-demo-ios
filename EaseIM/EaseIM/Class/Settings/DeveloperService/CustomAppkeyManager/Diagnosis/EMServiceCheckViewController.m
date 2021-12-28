@@ -50,12 +50,12 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(serviceCheckBeginAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"begin", nil) style:UIBarButtonItemStylePlain target:self action:@selector(serviceCheckBeginAction)];
     
-    self.title = @"诊断";
+    self.title = NSLocalizedString(@"check", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
-    self.dnsLabel = [self _setupLabelWithStr:@"获取服务器DNS校验"];
+    self.dnsLabel = [self _setupLabelWithStr:NSLocalizedString(@"dnsCheck", nil)];
     [self.view addSubview:self.dnsLabel];
     [self.dnsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(20);
@@ -71,7 +71,7 @@
         make.height.equalTo(@35);
     }];
     
-    self.tokenLabel = [self _setupLabelWithStr:@"获取Token校验"];
+    self.tokenLabel = [self _setupLabelWithStr:NSLocalizedString(@"tokenCheck", nil)];
     [self.view addSubview:self.tokenLabel];
     [self.tokenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.dnsLabel.mas_bottom);
@@ -87,7 +87,7 @@
         make.height.equalTo(@35);
     }];
     
-    self.loginLabel = [self _setupLabelWithStr:@"登录校验"];
+    self.loginLabel = [self _setupLabelWithStr:NSLocalizedString(@"loginCheck", nil)];
     [self.view addSubview:self.loginLabel];
     [self.loginLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tokenLabel.mas_bottom);
@@ -154,23 +154,23 @@
     self.loginValueLabel.text = @"-";
     
     if ([self.username length] == 0 || [self.password length] == 0) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"获取权限" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"fetchRight", nil) message:nil preferredStyle:UIAlertControllerStyleAlert];
         
         [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            textField.placeholder = @"输入当前账号的密码";
+            textField.placeholder = NSLocalizedString(@"pwd", nil);
             textField.secureTextEntry = YES;
         }];
         
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:cancelAction];
         
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             UITextField *passwordField = alertController.textFields.firstObject;
             self.password = passwordField.text;
             
             if ([EMClient sharedClient].isLoggedIn && ![self.username isEqualToString:[EMClient sharedClient].currentUsername]) {
                 self.password = nil;
-                [self showHint:@"请输入当前登录账号密码"];
+                [self showHint:NSLocalizedString(@"inputPwd", nil)];
                 return ;
             }
             

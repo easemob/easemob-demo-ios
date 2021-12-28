@@ -52,12 +52,12 @@
     EMTextMessageBody *body = (EMTextMessageBody *)model.message.body;
     if ([body.text isEqualToString:EMCOMMUNICATE_CALLER_MISSEDCALL]) {
         if ([model.message.from isEqualToString:[EMClient sharedClient].currentUsername])
-            self.textLabel.text = @"已取消";
-        else self.textLabel.text = @"未接听，点击回拨";
+            self.textLabel.text = NSLocalizedString(@"canceled", nil);
+        else self.textLabel.text = NSLocalizedString(@"no,response", nil);
     } else if ([body.text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL]) {
         if ([model.message.from isEqualToString:[EMClient sharedClient].currentUsername])
-            self.textLabel.text = @"对方拒绝通话";
-        else self.textLabel.text = @"对方已取消";
+            self.textLabel.text = NSLocalizedString(@"remoteRefuse", nil);
+        else self.textLabel.text = NSLocalizedString(@"remoteCancl", nil);
     } else
         self.textLabel.text = body.text;
     

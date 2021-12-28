@@ -43,7 +43,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
-    self.title = @"聊天室黑名单";
+    self.title = NSLocalizedString(@"chatroomBlacklist", nil);
     self.showRefreshHeader = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -89,15 +89,15 @@
     //在iOS8.0上，必须加上这个方法才能出发左划操作
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *userName = [self.dataArray objectAtIndex:indexPath.row];
-        [self showHudInView:self.view hint:@"移出黑名单..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"removeBL...", nil)];
         __weak typeof(self) weakself = self;
         [[EMClient sharedClient].roomManager unblockMembers:@[userName] fromChatroom:self.chatroom.chatroomId completion:^(EMChatroom *aChatroom, EMError *aError) {
             [weakself hideHud];
             if (aError) {
-                [EMAlertController showErrorAlert:@"移出黑名单失败"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"removeBLFail", nil)];
             } else {
                 weakself.isUpdated = YES;
-                [EMAlertController showSuccessAlert:@"移出黑名单成功"];
+                [EMAlertController showSuccessAlert:NSLocalizedString(@"removeBLSuccess", nil)];
                 [weakself.dataArray removeObject:userName];
                 [weakself.tableView reloadData];
             }
@@ -111,7 +111,7 @@
                                   isShowHUD:(BOOL)aIsShowHUD
 {
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取黑名单..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchBL...", nil)];
     }
     
     __weak typeof(self) weakself = self;

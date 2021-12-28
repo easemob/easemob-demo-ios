@@ -47,7 +47,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"群组列表";
+    self.title = NSLocalizedString(@"groupList", nil);
     self.view.backgroundColor = [UIColor whiteColor];
     self.showRefreshHeader = YES;
     self.tableView.rowHeight = 74;
@@ -223,7 +223,7 @@
 {
     [self hideHud];
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取群组..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchingGroup...", nil)];
     }
     
     __weak typeof(self) weakself = self;

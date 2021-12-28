@@ -48,7 +48,8 @@
     config.deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     config.unexpectedTerminatingDetectionEnable = true;
     [Bugly startWithAppId:@"3e7704ec60" config:config];
-    
+    NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
+    NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
     [self.window makeKeyAndVisible];
     
     return YES;
@@ -80,7 +81,7 @@
 // 注册deviceToken失败，此处失败，与环信SDK无关，一般是您的环境配置或者证书配置有误
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-    EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"注册device token失败" message:error.description];
+    EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"registefail", nil) message:error.description];
     [alertView show];
 }
 
@@ -134,7 +135,7 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfo options:NSJSONWritingPrettyPrinted error:&parseError];
     NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:@"推送内容" message:str];
+    EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"pushInfo", nil) message:str];
     [alertView show];
 }
 
@@ -161,6 +162,9 @@
     
     //注册推送
     [self _registerRemoteNotification];
+    
+    //初始化EaseIMHelper，注册 EMClient 监听
+    [EaseIMHelper shareHelper];
 }
 
 //注册远程通知
@@ -219,7 +223,6 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_LIST_FETCHFINISHED object:nil];
             }
         }];
-        [EaseIMHelper shareHelper];
         [EMNotificationHelper shared];
         [SingleCallController sharedManager];
         [ConferenceController sharedManager];
@@ -231,6 +234,12 @@
         [[EaseCallManager sharedManager] initWithConfig:config delegate:self];
 //        NSString* path = [[NSBundle mainBundle] pathForResource:@"huahai128" ofType:@"mp3"];
 //        config.ringFileUrl = [NSURL fileURLWithPath:path];
+        EMMicrosoftTranslateParams* params = [[EMMicrosoftTranslateParams alloc] init];
+        params.subscriptionKey = TRANSLATE_KEY;
+        params.endpoint = TRANSLATE_ENDPOINT;
+        params.location = TRANSLATE_LOCATION;
+        [[EMTranslationManager sharedManager] initialize];
+        [[EMTranslationManager sharedManager] setTranslateParam:params];
     } else {//登录失败加载登录页面控制器
         EMLoginViewController *controller = [[EMLoginViewController alloc] init];
         navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
@@ -257,28 +266,28 @@
     NSString* msg = @"";
     switch (aReason) {
         case EaseCallEndReasonHandleOnOtherDevice:
-            msg = @"已在其他端处理";
+            msg = NSLocalizedString(@"otherDevice", nil);
             break;
         case EaseCallEndReasonBusy:
-            msg = @"对方忙";
+            msg = NSLocalizedString(@"remoteBusy", nil);
             break;
         case EaseCallEndReasonRefuse:
-            msg = @"拒绝通话";
+            msg = NSLocalizedString(@"refuseCall", nil);
             break;
         case EaseCallEndReasonCancel:
-            msg = @"您已取消呼叫";
+            msg = NSLocalizedString(@"cancelCall", nil);
             break;
         case EaseCallEndReasonRemoteCancel:
-            msg = @"通话已取消";
+            msg = NSLocalizedString(@"callCancel", nil);
             break;
         case EaseCallEndReasonRemoteNoResponse:
-            msg = @"对方超时未响应";
+            msg = NSLocalizedString(@"remoteNoResponse", nil);
             break;
         case EaseCallEndReasonNoResponse:
-            msg = @"未接听";
+            msg = NSLocalizedString(@"noResponse", nil);
             break;
         case EaseCallEndReasonHangup:
-            msg = [NSString stringWithFormat:@"通话已结束，通话时长：%d秒",aTm];
+            msg = [NSString stringWithFormat:NSLocalizedString(@"callendPrompt", nil),aTm];
             break;
         default:
             break;

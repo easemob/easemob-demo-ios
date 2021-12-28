@@ -66,7 +66,7 @@
 {
     [self addPopBackLeftItem];
     
-    self.title = @"登录设备列表";
+    self.title = NSLocalizedString(@"deviceList", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
     self.showRefreshHeader = YES;
@@ -169,7 +169,7 @@
 {
     __weak typeof(self) weakself = self;
     UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
-                                                                               title:@"删除"
+                                                                               title:NSLocalizedString(@"delete", nil)
                                                                              handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
                                         {
         [weakself deleteCellAction:indexPath];
@@ -184,23 +184,23 @@
 - (void)tableViewDidTriggerHeaderRefresh
 {
     if (!self.isAuthed) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"获取权限" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"fetchRight", nil) message:nil preferredStyle:UIAlertControllerStyleAlert];
         
         [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            textField.placeholder = @"输入当前账号的密码";
+            textField.placeholder = NSLocalizedString(@"pwd", nil);
             textField.secureTextEntry = YES;
         }];
         
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:cancelAction];
         
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             UITextField *passwordField = alertController.textFields.firstObject;
             self.password = passwordField.text;
             
             if ([EMClient sharedClient].isLoggedIn && ![self.username isEqualToString:[EMClient sharedClient].currentUsername]) {
                 [self.tableView.refreshControl endRefreshing];
-                [self showHint:@"请输入当前登录账号密码"];
+                [self showHint:NSLocalizedString(@"inputPwd", nil)];
                 return ;
             }
             

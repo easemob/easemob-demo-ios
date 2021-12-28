@@ -52,8 +52,8 @@
     [self.navigationController.navigationBar.layer setMasksToBounds:YES];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"close_gray"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(closeAction)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成( 0 )" style:UIBarButtonItemStylePlain target:self action:@selector(doneAction)];
-    self.title = @"选择群组成员";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"done(0)", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneAction)];
+    self.title = NSLocalizedString(@"chooseGroupMembers", nil);
     
     self.view.backgroundColor = kColor_LightGray;
     self.tableView.backgroundColor = kColor_LightGray;
@@ -97,7 +97,7 @@
         
         UIButton *checkButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 45, 45)];
         checkButton.tag = 100;
-        [checkButton setImage:[UIImage imageNamed:@"unCheck"] forState:UIControlStateNormal];
+        [checkButton setImage:[UIImage imageNamed:@"unSlected"] forState:UIControlStateNormal];
         [checkButton setImage:[UIImage imageNamed:@"check"] forState:UIControlStateSelected];
         checkButton.userInteractionEnabled = NO;
         cell.accessoryView = checkButton;
@@ -151,7 +151,7 @@
     EMAvatarNameCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     UIButton *checkButton = (UIButton *)cell.accessoryView;
     checkButton.selected = !isChecked;
-    [self.navigationItem.rightBarButtonItem setTitle:[NSString stringWithFormat:@"完成( %@ )", @([self.selectedArray count])]];
+    [self.navigationItem.rightBarButtonItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"done()", nil), @([self.selectedArray count])]];
 }
 
 #pragma mark - EMSearchBarDelegate
@@ -188,7 +188,7 @@
 
 - (void)_fetchContactsWithIsShowHUD:(BOOL)aIsShowHUD
 {
-    [self showHudInView:self.view hint:@"获取联系人..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"fetchingContacts...", nil)];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].contactManager getContactsFromServerWithCompletion:^(NSArray *aList, EMError *aError) {
         [weakself hideHud];

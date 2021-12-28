@@ -12,7 +12,7 @@
 
 - (void)_showAlertController:(UIAlertController *)aAlert
 {
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleCancel handler:nil];
     [aAlert addAction:okAction];
     
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
