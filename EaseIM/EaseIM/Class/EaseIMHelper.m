@@ -19,6 +19,8 @@
 #import "EMAlertController.h"
 
 static EaseIMHelper *helper = nil;
+
+
 @implementation EaseIMHelper
 
 + (instancetype)shareHelper
@@ -71,14 +73,14 @@ static EaseIMHelper *helper = nil;
 - (void)connectionStateDidChange:(EMConnectionState)aConnectionState
 {
     if (aConnectionState == EMConnectionDisconnected) {
-        [EMAlertController showErrorAlert:@"当前属于离线状态，请检查网络"];
+        [EMAlertController showErrorAlert:NSLocalizedString(@"offlinePrompt", nil)];
     }
 }
 
 - (void)autoLoginDidCompleteWithError:(EMError *)error
 {
     if (error) {
-        [self showAlertWithMessage:@"自动登录失败，请重新登录"];
+        [self showAlertWithMessage:NSLocalizedString(@"loginPrompt", nil)];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
     }
@@ -87,7 +89,7 @@ static EaseIMHelper *helper = nil;
 - (void)userAccountDidLoginFromOtherDevice
 {
     [[EMClient sharedClient] logout:NO];
-    [self showAlertWithMessage:@"您的账号已在其他地方登录"];
+    [self showAlertWithMessage:NSLocalizedString(@"loginOtherPrompt", nil)];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
 }
@@ -98,7 +100,7 @@ static EaseIMHelper *helper = nil;
     options.isAutoLogin = NO;
     [options archive];
     [[EMClient sharedClient] logout:NO];
-    [self showAlertWithMessage:@"您的账号已被从服务器端移除"];
+    [self showAlertWithMessage:NSLocalizedString(@"removedByServerPrompt", nil)];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
 }
@@ -109,7 +111,7 @@ static EaseIMHelper *helper = nil;
     options.isAutoLogin = NO;
     [options archive];
     [[EMClient sharedClient] logout:NO];
-    [self showAlertWithMessage:@"账号被禁用"];
+    [self showAlertWithMessage:NSLocalizedString(@"accountForbiddenPrompt", nil)];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
 }
@@ -129,7 +131,7 @@ static EaseIMHelper *helper = nil;
                                        ext:(NSString *)aExt
 {
     NSString *message = [NSString stringWithFormat:@"%li-%@-%@", (long)aEvent, aTarget, aExt];
-    [self showAlertWithTitle:@"多设备[好友]" message:message];
+    [self showAlertWithTitle:NSLocalizedString(@"multiDevices[Contact]", nil) message:message];
 }
 
 - (void)multiDevicesGroupEventDidReceive:(EMMultiDevicesEvent)aEvent
@@ -137,7 +139,7 @@ static EaseIMHelper *helper = nil;
                                      ext:(id)aExt
 {
     NSString *message = [NSString stringWithFormat:@"%li-%@-%@", (long)aEvent, aGroupId, aExt];
-    [self showAlertWithTitle:@"多设备[群组]" message:message];
+    [self showAlertWithTitle:NSLocalizedString(@"multiDevices[Group]", nil) message:message];
 }
 
 #pragma mark - EMChatManagerDelegate
@@ -155,7 +157,7 @@ static EaseIMHelper *helper = nil;
 
 - (void)didJoinGroup:(EMGroup *)aGroup inviter:(NSString *)aInviter message:(NSString *)aMessage
 {
-    NSString *message = [NSString stringWithFormat:@"您已加入群 %@",[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"agreeJoinGroup", nil),[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:message];
     [alertView show];
 }
@@ -172,7 +174,7 @@ static EaseIMHelper *helper = nil;
                           invitee:(NSString *)aInvitee
                            reason:(NSString *)aReason
 {
-    NSString *message = [NSString stringWithFormat:@"%@ 已拒绝了您的加群「%@」邀请", aInvitee, aGroup.groupName];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"refuseJoinPrompt", nil), aInvitee, aGroup.groupName];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:message];
     [alertView show];
 }
@@ -180,7 +182,7 @@ static EaseIMHelper *helper = nil;
 - (void)groupInvitationDidAccept:(EMGroup *)aGroup
                          invitee:(NSString *)aInvitee
 {
-    NSString *message = [NSString stringWithFormat:@"您在群「%@」的加群邀请已经被 %@ 同意", aGroup.groupName, aInvitee];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"agreeJoinPrompt", nil), aGroup.groupName, aInvitee];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:message];
     [alertView show];
 }
@@ -196,7 +198,7 @@ static EaseIMHelper *helper = nil;
 
 - (void)joinGroupRequestDidApprove:(EMGroup *)aGroup
 {
-    NSString *message = [NSString stringWithFormat:@"群主同意您加入群 %@",[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"agreedJoinGroup", nil),[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:message];
     [alertView show];
 }
@@ -208,7 +210,7 @@ static EaseIMHelper *helper = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateGroupDetail" object:aGroup];
     NSString *message = NSLocalizedString(@"group.toMute", @"Mute");
     if ([aMutedMembers containsObject:EMClient.sharedClient.currentUsername])
-        message = [NSString stringWithFormat:@"您在群 %@ 已被禁言",[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
+        message = [NSString stringWithFormat:NSLocalizedString(@"mutedPrompt", nil),[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.update", @"Group update") message:message];
     [alertView show];
 }
@@ -219,14 +221,14 @@ static EaseIMHelper *helper = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateGroupDetail" object:aGroup];
     NSString *message = NSLocalizedString(@"group.toMute", @"Mute");
     if ([aMutedMembers containsObject:EMClient.sharedClient.currentUsername])
-        message = [NSString stringWithFormat:@"您在群 %@ 恢复发言",[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
+        message = [NSString stringWithFormat:NSLocalizedString(@"unmutedPrompt", nil),[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.update", @"Group update") message:message];
     [alertView show];
 }
 
 - (void)groupAllMemberMuteChanged:(EMGroup *)aGroup isAllMemberMuted:(BOOL)aMuted
 {
-    NSString * message = [NSString stringWithFormat:@"您所在在群 %@ 群主已%@全员禁言",[NSString stringWithFormat:@"「%@」",aGroup.groupName],aMuted ? @"开启" : @"关闭"];
+    NSString * message = [NSString stringWithFormat:NSLocalizedString(@"allMutedPrompt", nil),[NSString stringWithFormat:@"「%@」",aGroup.groupName],aMuted ? NSLocalizedString(@"enable", nil) : NSLocalizedString(@"close", nil)];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.update", @"Group update") message:message];
     [alertView show];
 }
@@ -235,7 +237,7 @@ static EaseIMHelper *helper = nil;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateGroupDetail" object:aGroup];
     if ([aMembers containsObject:EMClient.sharedClient.currentUsername]) {
-        NSString * message = [NSString stringWithFormat:@"您在群 %@ 被添加进白名单",[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
+        NSString * message = [NSString stringWithFormat:NSLocalizedString(@"addtowhitelistPrompt", nil),[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
         EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.update", @"Group update") message:message];
         [alertView show];
     }
@@ -245,7 +247,7 @@ static EaseIMHelper *helper = nil;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateGroupDetail" object:aGroup];
     if ([aMembers containsObject:EMClient.sharedClient.currentUsername]) {
-        NSString * message = [NSString stringWithFormat:@"您在群 %@ 被移出进白名单",[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
+        NSString * message = [NSString stringWithFormat:NSLocalizedString(@"removefromwhitelistPrompt", nil),[NSString stringWithFormat:@"「%@」",aGroup.groupName]];
         EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.update", @"Group update") message:message];
         [alertView show];
     }
@@ -256,7 +258,7 @@ static EaseIMHelper *helper = nil;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateGroupDetail" object:aGroup];
     
-    NSString *msg = [NSString stringWithFormat:@"%@ 在群 %@ 已被群主指定为管理员", aAdmin, [NSString stringWithFormat:@"「%@」",aGroup.groupName]];
+    NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"tobeadminPrompt", nil), aAdmin, [NSString stringWithFormat:@"「%@」",aGroup.groupName]];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.adminUpdate", @"Group Admin Update") message:msg];
     [alertView show];
     [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_INFO_REFRESH object:nil];
@@ -267,7 +269,7 @@ static EaseIMHelper *helper = nil;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateGroupDetail" object:aGroup];
     
-    NSString *msg = [NSString stringWithFormat:@"%@ 在群 %@ 已被群主取消管理员权限", aAdmin, [NSString stringWithFormat:@"「%@」",aGroup.groupName]];
+    NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"memberPrompt", nil), aAdmin, [NSString stringWithFormat:@"「%@」",aGroup.groupName]];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.adminUpdate", @"Group Admin Update") message:msg];
     [alertView show];
     [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_INFO_REFRESH object:nil];
@@ -279,7 +281,7 @@ static EaseIMHelper *helper = nil;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateGroupDetail" object:aGroup];
 
-    NSString *msg = [NSString stringWithFormat:@"%@ 在群 %@ 已将群主移交给 %@", aOldOwner, [NSString stringWithFormat:@"「%@」",aGroup.groupName], aNewOwner];
+    NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"groupOwnerChangePrompt", nil), aOldOwner, [NSString stringWithFormat:@"「%@」",aGroup.groupName], aNewOwner];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.ownerUpdate", @"Group Owner Update") message:msg];
     [alertView show];
     [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_INFO_REFRESH object:aGroup];
@@ -309,12 +311,14 @@ static EaseIMHelper *helper = nil;
 {
     EMAlertView *alertView = nil;
     if (aReason == EMGroupLeaveReasonBeRemoved) {
-        alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:@"您已被群管理员移出群组: %@", aGroup.groupName]];
+        alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"removedFromGroupPrompt", nil), aGroup.groupName]];
         [EMClient.sharedClient.chatManager deleteConversation:aGroup.groupId isDeleteMessages:NO completion:nil];
     }
     if (aReason == EMGroupLeaveReasonDestroyed) {
-        alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:@"群组 %@ 已解散", aGroup.groupName]];
-        [EMClient.sharedClient.chatManager deleteConversation:aGroup.groupId isDeleteMessages:YES completion:nil];
+        alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"groupDestroiedPrompt", nil), aGroup.groupName]];
+        [EMClient.sharedClient.chatManager deleteConversation:aGroup.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+            [[EMTranslationManager sharedManager] removeTranslationByConversationId:aGroup.groupId];
+        }];
     }
     [alertView show];
 }
@@ -324,7 +328,7 @@ static EaseIMHelper *helper = nil;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateGroupDetail" object:aGroup];
     
-    NSString *msg = [NSString stringWithFormat:@"群组「%@」 公告内容已更新，请查看",aGroup.groupName];
+    NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"annoumentUpdate", nil),aGroup.groupName];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.announcementUpdate", @"Group Announcement Update") message:msg];
     [alertView show];
 }
@@ -353,13 +357,13 @@ static EaseIMHelper *helper = nil;
 
 - (void)friendRequestDidApproveByUser:(NSString *)aUsername
 {
-    NSString *msg = [NSString stringWithFormat:@"'%@'同意了您的好友请求", aUsername];
+    NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"agreeContactPrompt", nil), aUsername];
     [self showAlertWithTitle:@"O(∩_∩)O" message:msg];
 }
 
 - (void)friendRequestDidDeclineByUser:(NSString *)aUsername
 {
-    NSString *msg = [NSString stringWithFormat:@"'%@'拒绝了您的好友请求", aUsername];
+    NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"refuseContactPrompt", nil), aUsername];
     [self showAlertWithTitle:@"O(∩_∩)O" message:msg];
 }
 

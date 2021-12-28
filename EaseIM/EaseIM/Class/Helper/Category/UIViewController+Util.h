@@ -22,6 +22,6 @@
 
 //+ (BOOL)isUseChinese;
 
-- (void)showAlertControllerWithMessage:(NSString *)aMsg;
+- (void)showAlertControllerWithMessage:(NSString *)aMsg title:(NSString*)title handler:(void (^ __nullable)(UIAlertAction *action))handler;
 
 @end

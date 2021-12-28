@@ -31,7 +31,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"关于环信";
+    self.title = NSLocalizedString(@"about", nil);
     [self.view addSubview:self.logoView];
     [_logoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(self.view);
@@ -78,7 +78,7 @@
             make.top.equalTo(_logoView.mas_top).offset(20);
         }];
         UILabel *productName = [[UILabel alloc]init];
-        productName.text = [NSString stringWithFormat:@"环信IM %@",[EMClient sharedClient].version];
+        productName.text = [NSString stringWithFormat:NSLocalizedString(@"huanxinIM", nil),[EMClient sharedClient].version];
         productName.textAlignment = NSTextAlignmentCenter;
         productName.textColor = [UIColor colorWithRed:86/255.0 green:86/255.0 blue:86/255.0 alpha:1.0];
         productName.font = [UIFont systemFontOfSize:14.f];
@@ -99,8 +99,8 @@
         _productIntroduceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _productIntroduceBtn.backgroundColor = [UIColor whiteColor];
         _productIntroduceBtn.tag = 0;
-        UILabel *regard = [[UILabel alloc]initWithFrame:CGRectMake(16, 20, 100, 20)];
-        regard.text = @"产品介绍";
+        UILabel *regard = [[UILabel alloc]initWithFrame:CGRectMake(16, 20, 140, 20)];
+        regard.text = NSLocalizedString(@"product", nil);
         regard.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
         regard.font = [UIFont systemFontOfSize:14.0];
         [_productIntroduceBtn addSubview:regard];
@@ -118,8 +118,8 @@
         _companyIntroduceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _companyIntroduceBtn.backgroundColor = [UIColor whiteColor];
         _companyIntroduceBtn.tag = 1;
-        UILabel *regard = [[UILabel alloc]initWithFrame:CGRectMake(16, 20, 100, 20)];
-        regard.text = @"公司介绍";
+        UILabel *regard = [[UILabel alloc]initWithFrame:CGRectMake(16, 20, 140, 20)];
+        regard.text = NSLocalizedString(@"company", nil);
         regard.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
         regard.font = [UIFont systemFontOfSize:14.0];
         [_companyIntroduceBtn addSubview:regard];

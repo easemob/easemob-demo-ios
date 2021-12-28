@@ -52,7 +52,7 @@
 - (void)setupSubViews
 {
     [self addPopBackLeftItem];
-    self.title = @"选择头像";
+    self.title = NSLocalizedString(@"ChooseAvatar", nil);
     self.view.backgroundColor = [UIColor whiteColor];
     
     NSInteger width = self.view.bounds.size.width;
@@ -67,7 +67,7 @@
     [self.view addSubview:self.collectView];
     
     UIButton* okButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [okButton setTitle:@"保存" forState:UIControlStateNormal];
+    [okButton setTitle:NSLocalizedString(@"save", nil) forState:UIControlStateNormal];
     okButton.backgroundColor = [UIColor colorWithRed:0/255.0 green:145/255.0 blue:255/255.0 alpha:1.0];
     okButton.layer.cornerRadius = 3;
     [okButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -180,7 +180,7 @@
                     [[NSNotificationCenter defaultCenter] postNotificationName:USERINFO_UPDATE  object:nil];
                 }else {
                     dispatch_sync(dispatch_get_main_queue(), ^{
-                        [self showHint:[NSString stringWithFormat:@"修改头像失败：%@",aError.errorDescription]];
+                        [self showHint:[NSString stringWithFormat:NSLocalizedString(@"updateAvatarFail...", nil),aError.errorDescription]];
                     });
                 }
             }];

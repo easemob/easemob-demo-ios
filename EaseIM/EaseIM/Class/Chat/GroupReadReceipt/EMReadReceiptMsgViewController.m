@@ -75,7 +75,7 @@
                 [weakself.dataArray insertObjects:formated atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [formated count])]];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    weakself.countLable.text = [NSString stringWithFormat:@"已阅读用户：%d",count];
+                    weakself.countLable.text = [NSString stringWithFormat:NSLocalizedString(@"readers...", nil),count];
                     [weakself.memberTableView reloadData];
                     
                 });
@@ -123,9 +123,9 @@
     
     self.titleLabel = [[UILabel alloc] init];
     if(_message) {
-        self.titleLabel.text = @"阅读回执详情";
+        self.titleLabel.text = NSLocalizedString(@"readSyncInfo", nil);
     } else {
-        self.titleLabel.text = @"阅读回执";
+        self.titleLabel.text = NSLocalizedString(@"readSync", nil);
     }
     [self.titleLabel setTextColor:[UIColor blackColor]];
     self.titleLabel.font = [UIFont systemFontOfSize:18];
@@ -214,7 +214,7 @@
     }];
     //计数器
     self.countLable = [[UILabel alloc]init];
-    self.countLable.text = @"已阅读用户：";
+    self.countLable.text = NSLocalizedString(@"readers", nil);
     self.countLable.font = [UIFont systemFontOfSize:14];
     self.countLable.textColor = [UIColor blackColor];
     self.countLable.numberOfLines = 0;
@@ -239,7 +239,7 @@
     }];
     /*
     [self.view addSubview:self.textView];
-    self.textView.placeholder = @"请输入搜索内容";
+    self.textView.placeholder = NSLocalizedString(@"inputSearchContent", nil);
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(lineBelow.mas_bottom).offset(5);
         make.left.right.equalTo(msgView);
@@ -268,7 +268,7 @@
 - (void)_setupSendReadReceiptView {
     
     [self.view addSubview:self.textView];
-    self.textView.placeholder = @"请输入消息内容";
+    self.textView.placeholder = NSLocalizedString(@"inputMsgContent", nil);
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(LRSafeAreaTopHeight + 50);
         make.left.equalTo(self.view).offset(8);
@@ -278,7 +278,7 @@
     
     UIButton *sendBtn;
     sendBtn = [[UIButton alloc] init];
-    [sendBtn setTitle:@"发送" forState:UIControlStateNormal];
+    [sendBtn setTitle:NSLocalizedString(@"send", nil) forState:UIControlStateNormal];
     [sendBtn setTitleColor:kColor_Blue forState:UIControlStateNormal];
     sendBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     sendBtn.titleLabel.font = [UIFont systemFontOfSize: 18.0];
@@ -297,7 +297,7 @@
 {
     NSString *str = self.textView.text;
     if([str length] == 0){
-        [self showHint:@"请输入消息."];
+        [self showHint:NSLocalizedString(@"inputMsg.", nil)];
         return;
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(sendReadReceiptMsg:)]) {
@@ -329,10 +329,10 @@
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    NSLog(@"开始编辑");
+    NSLog(NSLocalizedString(@"beginEdit", nil));
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
-    NSLog(@"结束编辑");
+    NSLog(NSLocalizedString(@"endEdit", nil));
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range

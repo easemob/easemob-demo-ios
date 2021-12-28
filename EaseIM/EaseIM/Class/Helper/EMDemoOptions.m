@@ -103,6 +103,7 @@ static EMDemoOptions *sharedOptions = nil;
         self.isSupportWechatMiniProgram = [aDecoder decodeBoolForKey:kOptions_IsSupportWechatMiniProgram];
         self.isCustomServer = [aDecoder decodeBoolForKey:kOptions_IsCustomServer];
         self.isFirstLaunch = [aDecoder decodeBoolForKey:kOptions_IsFirstLaunch];
+        self.language = [aDecoder decodeObjectForKey:kOptions_TranslateLanguage];
     }
     return self;
 }
@@ -149,6 +150,7 @@ static EMDemoOptions *sharedOptions = nil;
     [aCoder encodeObject:self.locationAppkeyArray forKey:kOptions_LocationAppkeyArray];
     [aCoder encodeBool:self.isCustomServer forKey:kOptions_IsCustomServer];
     [aCoder encodeBool:self.isFirstLaunch forKey:kOptions_IsFirstLaunch];
+    [aCoder encodeObject:self.language forKey:kOptions_TranslateLanguage];
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone
@@ -184,6 +186,7 @@ static EMDemoOptions *sharedOptions = nil;
     retModel.isCustomServer = self.isCustomServer;
     retModel.locationAppkeyArray = self.locationAppkeyArray;
     retModel.isFirstLaunch = self.isFirstLaunch;
+    retModel.language = self.language;
     return retModel;
 }
 
@@ -208,14 +211,14 @@ static EMDemoOptions *sharedOptions = nil;
     self.usingHttpsOnly = YES;
     //self.specifyServer = YES;
     self.specifyServer = NO;
-    self.chatServer = @"msync-im1.sandbox.easemob.com";
+    //self.chatServer = @"msync-im1.sandbox.easemob.com";
     //self.chatServer = @"msync-im-41-p.easemob.com";
     //self.chatServer = @"116.85.43.118";
-    //self.chatServer = @"106.75.100.247";
+    self.chatServer = @"106.75.100.247";
     self.chatPort = 6717;
-    self.restServer = @"a1.sdb.easemob.com";
+    //self.restServer = @"a1.sdb.easemob.com";
     //self.restServer = @"a41-p.easemob.com";
-    //self.restServer = @"a1-hsb.easemob.com";
+    self.restServer = @"a1-hsb.easemob.com";
 }
 
 #pragma mark - Public

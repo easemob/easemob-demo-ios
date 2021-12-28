@@ -43,23 +43,24 @@
 //用户协议内容链接
 - (void)_setupLinkProtocol
 {
-    NSString *linkStr = @"同意《环信服务条款》与《环信隐私协议》";
+    NSString *linkStr = NSLocalizedString(@"agreePrompt", nil);
     UIFont *linkFont = [UIFont systemFontOfSize:12.0];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:linkStr];
-    [attributedString addAttribute:NSLinkAttributeName value:@"serviceClause://" range:[[attributedString string] rangeOfString:@"《环信服务条款》"]];
-    [attributedString addAttribute:NSLinkAttributeName value:@"privacyProtocol://" range:[[attributedString string] rangeOfString:@"《环信隐私协议》"]];
+    [attributedString addAttribute:NSLinkAttributeName value:@"serviceClause://" range:[[attributedString string] rangeOfString:NSLocalizedString(@"servicePrompt", nil)]];
+    [attributedString addAttribute:NSLinkAttributeName value:@"privacyProtocol://" range:[[attributedString string] rangeOfString:NSLocalizedString(@"privacyPrompt", nil)]];
     NSDictionary *attriDict = @{NSFontAttributeName:linkFont};
     [attributedString addAttributes:attriDict range:NSMakeRange(0, attributedString.length)];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, [attributedString length])];
     
     self.linkProtocol.attributedText = attributedString;
     self.linkProtocol.linkTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor], NSUnderlineColorAttributeName: [UIColor whiteColor], NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-    self.protocolTextHeight = [self getAttributionHeightWithString:linkStr lineSpace:1.5 kern:1 font:linkFont width:[UIScreen mainScreen].bounds.size.width - self.userAgreementBtn.frame.origin.x - ComponentHeight].height;
+    //self.protocolTextHeight = [self getAttributionHeightWithString:linkStr lineSpace:1.5 kern:1 font:linkFont width:[UIScreen mainScreen].bounds.size.width - self.userAgreementBtn.frame.origin.x - ComponentHeight].height;
     [self addSubview:self.linkProtocol];
     [self.linkProtocol mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.userAgreementBtn.mas_right).offset(5);
+        make.right.equalTo(self).offset(-30);
         make.centerY.equalTo(self.userAgreementBtn);
-        make.height.equalTo(@(self.protocolTextHeight));
+        //make.height.equalTo(@(self.protocolTextHeight));
     }];
 }
 

@@ -17,6 +17,7 @@ target 'EaseIM' do
     pod 'HyphenateChat'
     pod 'EaseIMKit'
     pod 'Bugly'
+    pod 'EMTranslate'
     
 end
 

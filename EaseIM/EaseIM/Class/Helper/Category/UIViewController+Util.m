@@ -40,10 +40,10 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)showAlertControllerWithMessage:(NSString *)aMsg
+- (void)showAlertControllerWithMessage:(NSString *)aMsg title:(NSString *)title handler:(void (^ __nullable)(UIAlertAction *action))handler
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"o(TωT)o" message:aMsg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:aMsg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleCancel handler:handler];
     [alertController addAction:okAction];
     alertController.modalPresentationStyle = 0;
     [self presentViewController:alertController animated:YES completion:nil];

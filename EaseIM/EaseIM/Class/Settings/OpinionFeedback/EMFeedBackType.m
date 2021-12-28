@@ -42,7 +42,7 @@
     }];
     
     UILabel *content = [[UILabel alloc]init];
-    content.text = @"选择类型";
+    content.text = NSLocalizedString(@"type", nil);
     content.textColor = [UIColor colorWithRed:66/255.0 green:66/255.0 blue:66/255.0 alpha:1.0];
     content.textAlignment = NSTextAlignmentCenter;
     content.font = [UIFont fontWithName:@"PingFangSC" size: 20];
@@ -68,7 +68,7 @@
     
     UILabel *bugFeedback = [[UILabel alloc]init];
     bugFeedback.font = [UIFont systemFontOfSize:14.0];
-    bugFeedback.text = @"BUG反馈";
+    bugFeedback.text = NSLocalizedString(@"bug", nil);
     [confirmView addSubview:bugFeedback];
     [bugFeedback mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.bugFeedbackBtn);
@@ -89,7 +89,7 @@
     
     UILabel *experienceKartun = [[UILabel alloc]init];
     experienceKartun.font = [UIFont systemFontOfSize:14.0];
-    experienceKartun.text = @"使用卡顿";
+    experienceKartun.text = NSLocalizedString(@"caton", nil);
     [self addSubview:experienceKartun];
     [experienceKartun mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.experienceKartunBtn);
@@ -97,7 +97,7 @@
     }];
     
     UIButton *cancelBtn = [[UIButton alloc]init];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
     cancelBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
     [cancelBtn setTitleColor:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0] forState:UIControlStateNormal];
     [cancelBtn setBackgroundColor:[UIColor whiteColor]];
@@ -115,7 +115,7 @@
     }];
     
     UIButton *confirmBtn = [[UIButton alloc]init];
-    [confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [confirmBtn setTitle:NSLocalizedString(@"ok", nil) forState:UIControlStateNormal];
     confirmBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
     [confirmBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:43/255.0 blue:43/255.0 alpha:1.0] forState:UIControlStateNormal];
     [confirmBtn setBackgroundColor:[UIColor whiteColor]];
@@ -159,7 +159,7 @@
         confirm = true;
     }
     if (_doneCompletion && confirm) {
-        _doneCompletion(self.currentBtnType.tag == 0 ? @"BUG反馈" : @"使用卡顿");
+        _doneCompletion(self.currentBtnType.tag == 0 ? NSLocalizedString(@"bug", nil) : NSLocalizedString(@"caton", nil));
     }
     [self removeFromSuperview];
 }
