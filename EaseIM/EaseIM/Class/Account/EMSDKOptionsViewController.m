@@ -99,7 +99,7 @@
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.numberOfLines = 0;
-    titleLabel.text = @"使用自定义服务器？";
+    titleLabel.text = NSLocalizedString(@"customServerPrompt", nil);
     titleLabel.font = [UIFont systemFontOfSize:16];
     titleLabel.textColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
     //titleLabel.textColor = [UIColor blueColor];
@@ -230,14 +230,14 @@
     self.loginLabel = [[UILabel alloc] init];
     _loginLabel.numberOfLines = 0;
     _loginLabel.font = [UIFont systemFontOfSize:16];
-    _loginLabel.text = @"保存配置";
+    _loginLabel.text = NSLocalizedString(@"saveConfig", nil);
     [_loginLabel setTextColor:[UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1.0]];
     _loginLabel.textAlignment = NSTextAlignmentCenter;
     [cell.contentView addSubview:_loginLabel];
     [_loginLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.loginButton);
         make.centerX.equalTo(self.loginButton);
-        make.width.equalTo(@120);
+        make.width.equalTo(@160);
         make.height.equalTo(@23);
     }];
     
@@ -257,7 +257,7 @@
     _viewArrow.layer.backgroundColor = ([UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0].CGColor);;
     
     //cell.textLabel.textColor = kColor_Blue;
-    //cell.textLabel.text = @"还原默认配置";
+    //cell.textLabel.text = NSLocalizedString(@"useDefaultConfig", nil);
     cell.layer.cornerRadius = 20;
     cell.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
     [array addObject:cell];
@@ -453,7 +453,7 @@
     }*/
     if (section == 0 &&  !self.enableEdit) {
         [self.loginButton removeTarget:self action:@selector(saveOptionsAction) forControlEvents:UIControlEventAllEvents];
-        self.loginLabel.text = @"还原默认配置";
+        self.loginLabel.text = NSLocalizedString(@"useDefaultConfig", nil);
         return 50;
     }
     return 0;
@@ -467,7 +467,7 @@
         label.numberOfLines = 0;
         label.font = [UIFont systemFontOfSize:13];
         label.textColor = [UIColor lightGrayColor];
-        label.text = @"demo已经绑定以下环境设置，如果需要修改配置请双击\"还原默认配置\"重新启动App";
+        label.text = [NSString stringWithFormat:NSLocalizedString(@"demobindingPrompt", nil),NSLocalizedString(@"useDefaultConfig", nil)];
         [view addSubview:label];
         view.layer.cornerRadius = 25;
         view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
@@ -501,15 +501,15 @@
             self.demoOptions = [EMDemoOptions.sharedOptions copy];
             [self _reloadCellValues];
         } else {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:@"当前appkey以及环境配置已生效，如果需要更改需要重启客户端" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:NSLocalizedString(@"applyConfigPrompt", nil) preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"well", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [EMDemoOptions reInitAndSaveServerOptions];
                 
                 exit(0);
             }];
             [alertController addAction:okAction];
             
-            [alertController addAction: [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [alertController addAction: [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             }]];
             alertController.modalPresentationStyle = 0;
             [self presentViewController:alertController animated:YES completion:nil];
@@ -549,8 +549,8 @@
 - (void)saveOptionsAction
 {
     [self.view endEditing:YES];
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:@"当前appkey以及环境配置已生效，如果需要更改需要重启客户端" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:NSLocalizedString(@"applyConfigPrompt", nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"well", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
         demoOptions.isCustomServer = self.sw.isOn;
         if (self.sw.isOn) {
@@ -573,7 +573,7 @@
     }];
     [alertController addAction:okAction];
     
-    [alertController addAction: [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    [alertController addAction: [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }]];
     alertController.modalPresentationStyle = 0;
     [self presentViewController:alertController animated:YES completion:nil];

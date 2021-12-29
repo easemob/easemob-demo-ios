@@ -34,8 +34,8 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"添加自定义APPKey";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(addAppkeyAction)];
+    self.title = NSLocalizedString(@"addcustomAppkey", nil);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"commit", nil) style:UIBarButtonItemStylePlain target:self action:@selector(addAppkeyAction)];
     
     UILabel *appkeyLabel = [[UILabel alloc]init];
     appkeyLabel.text = @"Appkey";
@@ -49,7 +49,7 @@
     
     self.appkeyTextView = [[EMTextView alloc]init];
     self.appkeyTextView.delegate = self;
-    self.appkeyTextView.placeholder = @"必填";
+    self.appkeyTextView.placeholder = NSLocalizedString(@"must", nil);
     self.appkeyTextView.textContainerInset = UIEdgeInsetsMake(8, 20, 8, 20);
     self.appkeyTextView.font = [UIFont systemFontOfSize:14.0];
     self.appkeyTextView.backgroundColor = [UIColor whiteColor];
@@ -61,7 +61,7 @@
     }];
     
     UILabel *apnsNameLabel = [[UILabel alloc]init];
-    apnsNameLabel.text = @"Aps Cert Name";
+    apnsNameLabel.text = @"Apns Cert Name";
     apnsNameLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
     apnsNameLabel.font = [UIFont systemFontOfSize:14.0f];
     [apnsNameLabel sizeToFit];
@@ -72,7 +72,7 @@
     }];
     
     self.aspCertNameTextView = [[EMTextView alloc]init];
-    self.aspCertNameTextView.placeholder = @"选填";
+    self.aspCertNameTextView.placeholder = NSLocalizedString(@"option", nil);
     self.aspCertNameTextView.font = [UIFont systemFontOfSize:14.0];
     self.aspCertNameTextView.textContainerInset = UIEdgeInsetsMake(8, 20, 8, 20);
     [self.view addSubview:self.aspCertNameTextView];
@@ -84,7 +84,7 @@
     /*
     UIButton *configurationBtn = [[UIButton alloc]init];
     configurationBtn.backgroundColor = [UIColor clearColor];
-    [configurationBtn setTitle:@"配置说明" forState:UIControlStateNormal];
+    [configurationBtn setTitle:NSLocalizedString(@"configuration", nil) forState:UIControlStateNormal];
     [configurationBtn setTitleColor:[UIColor colorWithRed:4/255.0 green:174/255.0 blue:240/255.0 alpha:1.0] forState:UIControlStateNormal];
     [configurationBtn.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     configurationBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -125,7 +125,7 @@
     if ([self.appkeyTextView.text length] == 0) {
         [self.view endEditing:YES];
         self.isCorrectAppkey = NO;
-        self.appkeyTextView.text = @" 请填入您的appkey";
+        self.appkeyTextView.text = NSLocalizedString(@"inputAppkey", nil);
         self.appkeyTextView.textColor = [UIColor systemRedColor];
         return;
     }

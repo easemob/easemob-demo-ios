@@ -30,7 +30,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"设置";
+    self.title = NSLocalizedString(@"setting", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
     self.tableView.rowHeight = 66;
@@ -78,19 +78,19 @@
 
     if (section == 0) {
         if (row == 0) {
-            cell.textLabel.text = @"账号与安全";
+            cell.textLabel.text = NSLocalizedString(@"AccountInfo", nil);
         } else if (row == 1) {
-            cell.textLabel.text = @"新消息提醒";
+            cell.textLabel.text = NSLocalizedString(@"msgPrompt", nil);
         }
     } else if (section == 1) {
         if (row == 0) {
-            cell.textLabel.text = @"通用";
+            cell.textLabel.text = NSLocalizedString(@"General", nil);
         } else if (row == 1) {
-            cell.textLabel.text = @"隐私";
+            cell.textLabel.text = NSLocalizedString(@"private", nil);
         }
     } else if (section == 2) {
         self.logoutLabel = [[UILabel alloc]init];
-        self.logoutLabel.text = @"退出";
+        self.logoutLabel.text = NSLocalizedString(@"exit", nil);
         self.logoutLabel.font = [UIFont systemFontOfSize:16.f];
         self.logoutLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
         [cell.contentView addSubview:self.logoutLabel];
@@ -142,8 +142,9 @@
  - (void)logoutAction
  {
      __weak typeof(self) weakself = self;
-     [self showHudInView:self.view hint:@"退出..."];
+     [self showHudInView:self.view hint:NSLocalizedString(@"exit...", nil)];
      [[EMClient sharedClient] logout:YES completion:^(EMError *aError) {
+         [[EMTranslationManager sharedManager] logout];
          [weakself hideHud];
          if (aError) {
              [EMAlertController showErrorAlert:aError.errorDescription];

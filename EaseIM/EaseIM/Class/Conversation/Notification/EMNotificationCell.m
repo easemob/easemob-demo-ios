@@ -151,7 +151,7 @@
     if (_declineButton == nil) {
         _declineButton = [[UIButton alloc] init];
         _declineButton.titleLabel.font = [UIFont systemFontOfSize:18];
-        [_declineButton setTitle:@"拒绝" forState:UIControlStateNormal];
+        [_declineButton setTitle:NSLocalizedString(@"refuse", nil) forState:UIControlStateNormal];
         [_declineButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [_declineButton addTarget:self action:@selector(declineButtonAction) forControlEvents:UIControlEventTouchUpInside];
         [self.cardView addSubview:_declineButton];
@@ -172,7 +172,7 @@
     if (_agreeButton == nil) {
         _agreeButton = [[UIButton alloc] init];
         _agreeButton.titleLabel.font = [UIFont systemFontOfSize:18];
-        [_agreeButton setTitle:@"同意" forState:UIControlStateNormal];
+        [_agreeButton setTitle:NSLocalizedString(@"agree", nil) forState:UIControlStateNormal];
         [_agreeButton setTitleColor:kColor_Blue forState:UIControlStateNormal];
         [_agreeButton addTarget:self action:@selector(agreeButtonAction) forControlEvents:UIControlEventTouchUpInside];
         [self.cardView addSubview:_agreeButton];
@@ -211,11 +211,11 @@
         [self declineButton];
         [self agreeButton];
     } else {
-        NSString *str = @"已同意";
+        NSString *str = NSLocalizedString(@"agreed", nil);
         if (model.status == EMNotificationModelStatusDeclined) {
-            str = @"已拒绝";
+            str = NSLocalizedString(@"refused", nil);
         } else if (model.status == EMNotificationModelStatusExpired) {
-            str = @"已过期";
+            str = NSLocalizedString(@"expired", nil);
         }
         [self.doneButton setTitle:str forState:UIControlStateNormal];
     }

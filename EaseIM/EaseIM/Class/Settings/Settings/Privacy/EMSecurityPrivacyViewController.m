@@ -25,7 +25,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"隐私";
+    self.title = NSLocalizedString(@"private", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
 
     self.tableView.scrollEnabled = NO;
@@ -75,8 +75,8 @@
     }];*/
     
     if (section == 0) {
-        //imgView.image = [UIImage imageNamed:@"黑名单"];
-        cell.textLabel.text = @"黑名单";
+        //imgView.image = [UIImage imageNamed:NSLocalizedString(@"blacklist", nil)];
+        cell.textLabel.text = NSLocalizedString(@"blacklist", nil);
     }
     
     cell.textLabel.font = [UIFont systemFontOfSize:14.0];

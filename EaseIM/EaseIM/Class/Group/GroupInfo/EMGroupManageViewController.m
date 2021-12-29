@@ -107,7 +107,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"群管理";
+    self.title = NSLocalizedString(@"groupAdmin", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
 
     self.tableView.scrollEnabled = NO;
@@ -123,7 +123,7 @@
     
     self.groupOwnerTurnOverBtn = [[UIButton alloc]init];
     [self.groupOwnerTurnOverBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:43/255.0 blue:43/255.0 alpha:1.0] forState:UIControlStateNormal];
-    [self.groupOwnerTurnOverBtn setTitle:@"群主移交" forState:UIControlStateNormal];
+    [self.groupOwnerTurnOverBtn setTitle:NSLocalizedString(@"groupOwner", nil) forState:UIControlStateNormal];
     self.groupOwnerTurnOverBtn.titleLabel.font = [UIFont systemFontOfSize:18.0];
     [self.groupOwnerTurnOverBtn setBackgroundColor:[UIColor whiteColor]];
     [self.groupOwnerTurnOverBtn addTarget:self action:@selector(_turnOverGroupOwner) forControlEvents:UIControlEventTouchUpInside];
@@ -164,11 +164,11 @@
     
     if (section == 0) {
         if (row == 0) {
-            cell.textLabel.text = @"黑名单管理";
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"共%lu人",self.blackList.count];
+            cell.textLabel.text = NSLocalizedString(@"blManger", nil);
+            cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"usersCount", nil),self.blackList.count];
         } else if (row == 1) {
-            cell.textLabel.text = @"禁言管理";
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"共%lu人",self.mutesList.count];
+            cell.textLabel.text = NSLocalizedString(@"muteManager", nil);
+            cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"usersCount", nil),self.mutesList.count];
         }
     }
     

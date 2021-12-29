@@ -89,7 +89,7 @@
     }];
     
     UIButton *cancelBtn = [[UIButton alloc]init];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
     cancelBtn.titleLabel.font = [UIFont systemFontOfSize:18.0];
     [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [cancelBtn setBackgroundColor:[UIColor whiteColor]];
@@ -106,7 +106,7 @@
     }];
     
     UIButton *confirmBtn = [[UIButton alloc]init];
-    [confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
+    [confirmBtn setTitle:NSLocalizedString(@"confirm", nil) forState:UIControlStateNormal];
     confirmBtn.titleLabel.font = [UIFont systemFontOfSize:18.0];
     [confirmBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:43/255.0 blue:43/255.0 alpha:1.0] forState:UIControlStateNormal];
     [confirmBtn setBackgroundColor:[UIColor whiteColor]];

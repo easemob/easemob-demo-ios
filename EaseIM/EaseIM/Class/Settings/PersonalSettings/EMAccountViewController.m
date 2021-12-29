@@ -41,7 +41,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"个人资料";
+    self.title = NSLocalizedString(@"personalInfo", nil);
 
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.backgroundColor = kColor_LightGray;
@@ -135,19 +135,18 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     if (section == 0) {
         if (row == 0) {
-            cell.textLabel.text = @"头像";
+            cell.textLabel.text = NSLocalizedString(@"avatar", nil);
             cell.accessoryView = self.headerView;
         } else if (row == 1) {
-//            cell.textLabel.text = @"环信ID";
 //            cell.detailTextLabel.text = [EMClient sharedClient].currentUsername;
-            cell.textLabel.text = @"昵称";
+            cell.textLabel.text = NSLocalizedString(@"nickname", nil);
             if(self.userInfo)
                 cell.detailTextLabel.text = self.userInfo.nickName;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
 //    else if (section == 1) {
-//        cell.textLabel.text = @"昵称";
+//        cell.textLabel.text = NSLocalizedString(@"nickname", nil);
 //        cell.detailTextLabel.text = [EMClient sharedClient].pushManager.pushOptions.displayName;
 //        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 //    }
@@ -178,7 +177,7 @@
 //        UILabel *label = [[UILabel alloc] init];
 //        label.font = [UIFont systemFontOfSize:13];
 //        label.textColor = [UIColor lightGrayColor];
-//        label.text = @"     iOS APNS推送时使用的显示昵称";
+//        label.text = NSLocalizedString(@"pushPrompt", nil);
 //        return label;
 //    }
     return nil;
@@ -202,7 +201,7 @@
 - (void)_updateNikeName:(NSString *)aName
 {
     //设置推送设置
-    [self showHint:@"修改昵称..."];
+    [self showHint:NSLocalizedString(@"updateNickname...", nil)];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].pushManager updatePushDisplayName:aName completion:^(NSString * _Nonnull aDisplayName, EMError * _Nonnull aError) {
         if (!aError) {
@@ -221,7 +220,7 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:USERINFO_UPDATE  object:nil];
             }else{
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    [weakself showHint:[NSString stringWithFormat:@"修改昵称失败：%@",aError.errorDescription]];
+                    [weakself showHint:[NSString stringWithFormat:NSLocalizedString(@"updateNicknameFail", nil),aError.errorDescription]];
                 });
             }
             }];
@@ -229,18 +228,18 @@
 
 - (void)changeNikeNameAction
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"更改昵称" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"upateNickname", nil) message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"请输入昵称";
+        textField.placeholder = NSLocalizedString(@"inputNickname", nil);
         if(self.userInfo)
             textField.text = self.userInfo.nickName;
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:cancelAction];
     
     __weak typeof(self) weakself = self;
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         UITextField *textField = alertController.textFields.firstObject;
         [weakself _updateNikeName:textField.text];
     }];

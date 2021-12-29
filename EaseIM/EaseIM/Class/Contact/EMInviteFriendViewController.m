@@ -34,11 +34,11 @@
 - (void)_setupViews
 {
     [self addPopBackLeftItem];
-    self.title = @"添加好友";
+    self.title = NSLocalizedString(@"newContact", nil);
     
     self.searchBar = [[EMSearchBar alloc] init];
     self.searchBar.delegate = self;
-    self.searchBar.textField.placeholder = @"搜索用户ID";
+    self.searchBar.textField.placeholder = NSLocalizedString(@"serchUserId", nil);
     [self.view addSubview:self.searchBar];
     [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
@@ -79,9 +79,9 @@
         rightButton.backgroundColor = kColor_Blue;
         rightButton.titleLabel.font = [UIFont systemFontOfSize:16];
         rightButton.layer.cornerRadius = 5;
-        [rightButton setTitle:@"添加好友" forState:UIControlStateNormal];
+        [rightButton setTitle:NSLocalizedString(@"applyContact", nil) forState:UIControlStateNormal];
         [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [rightButton setTitle:@"已申请" forState:UIControlStateDisabled];
+        [rightButton setTitle:NSLocalizedString(@"applied", nil) forState:UIControlStateDisabled];
         [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
         cell.accessoryButton = rightButton;
     }
@@ -96,10 +96,10 @@
     name = [name lowercaseString];
     if ([contacts containsObject:name] || [blacks containsObject:name]) {
         cell.accessoryButton.enabled = NO;
-        [cell.accessoryButton setTitle:@"已添加" forState:UIControlStateDisabled];
+        [cell.accessoryButton setTitle:NSLocalizedString(@"added", nil) forState:UIControlStateDisabled];
         cell.accessoryButton.backgroundColor = kColor_Gray;
     } else if ([self.invitedUsers containsObject:name]) {
-        [cell.accessoryButton setTitle:@"已申请" forState:UIControlStateDisabled];
+        [cell.accessoryButton setTitle:NSLocalizedString(@"applied", nil) forState:UIControlStateDisabled];
         cell.accessoryButton.backgroundColor = kColor_Gray;
     } else {
         cell.accessoryButton.enabled = YES;
@@ -116,30 +116,30 @@
     NSString *name = [self.dataArray objectAtIndex:aCell.indexPath.row];
     
     if([[name uppercaseString] isEqualToString:[EMClient.sharedClient.currentUsername uppercaseString]]) {
-        [EMAlertController showErrorAlert:@"无法添加自己为好友"];
+        [EMAlertController showErrorAlert:NSLocalizedString(@"apply.ownprompt", nil)];
         return;
     }
     
-    [self showHudInView:self.view hint:@"发送好友请求..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"inviteContact...", nil)];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].contactManager addContact:name message:nil completion:^(NSString *aUsername, EMError *aError) {
         [weakself hideHud];
         if (aError) {
             if (aError.code == EMErrorContactReachLimit) {
-                [EMAlertController showErrorAlert:@"操作失败，你的好友列表已满"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail.ContactReachLimit", nil)];
             } else if (aError.code == EMErrorContactReachLimitPeer) {
-                [EMAlertController showErrorAlert:@"操作失败，对方的好友列表已满"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail.ContactReachLimitPeer", nil)];
             } else {
-                [EMAlertController showErrorAlert:@"添加失败"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail", nil)];
             }
         } else {
             [weakself.invitedUsers addObject:name];
             
             aCell.accessoryButton.enabled = NO;
-            [aCell.accessoryButton setTitle:@"已申请" forState:UIControlStateDisabled];
+            [aCell.accessoryButton setTitle:NSLocalizedString(@"applied", nil) forState:UIControlStateDisabled];
             aCell.accessoryButton.backgroundColor = kColor_Gray;
             
-            [EMAlertController showSuccessAlert:@"已发出好友申请"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"sendInvite", nil)];
         }
     }];
 }

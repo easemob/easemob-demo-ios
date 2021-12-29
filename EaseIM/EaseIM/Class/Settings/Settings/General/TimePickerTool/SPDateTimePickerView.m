@@ -69,8 +69,8 @@
 - (UIButton *)cancelButton {
     if (!_cancelButton) {
         _cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _cancelButton.frame = CGRectMake(12, 0, 40, 40);
-        [_cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        _cancelButton.frame = CGRectMake(12, 0, 60, 40);
+        [_cancelButton setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
         _cancelButton.backgroundColor = [UIColor clearColor];
         _cancelButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [_cancelButton setTitleColor:UIColorFromRGB(0x0d8bf5) forState:UIControlStateNormal];
@@ -81,8 +81,8 @@
 - (UIButton *)chooseButton {
     if (!_chooseButton) {
         _chooseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _chooseButton.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 52, 0, 40, 40);
-        [_chooseButton setTitle:@"确定" forState:UIControlStateNormal];
+        _chooseButton.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 52, 0, 60, 40);
+        [_chooseButton setTitle:NSLocalizedString(@"ok", nil) forState:UIControlStateNormal];
         _chooseButton.backgroundColor = [UIColor clearColor];
         _chooseButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [_chooseButton setTitleColor:UIColorFromRGB(0x0d8bf5) forState:UIControlStateNormal];
@@ -96,7 +96,7 @@
         _titleLabel.textColor = [UIColor blackColor];
         _titleLabel.font = [UIFont systemFontOfSize:14];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
-       // _titleLabel.text = @"设置时间段";
+       // _titleLabel.text = NSLocalizedString(@"setTime", nil);
     }
     return _titleLabel;
 }
@@ -541,7 +541,7 @@
             switch (component) {
                 case 0:
                 {
-                    label.text = [NSString stringWithFormat:@"%ld年",(long)(startYear + row)];
+                    label.text = [NSString stringWithFormat:NSLocalizedString(@"year", nil),(long)(startYear + row)];
                 }
                     break;
                     
@@ -556,12 +556,12 @@
             switch (component) {
                 case 0:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld年",(long)(startYear + row)];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"year", nil),(long)(startYear + row)];
                 }
                     break;
                 case 1:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld月",(long)row+1];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"moon", nil),(long)row+1];
                 }
                     break;
                     
@@ -575,18 +575,18 @@
             switch (component) {
                 case 0:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld年",(long)(startYear + row)];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"year", nil),(long)(startYear + row)];
                 }
                     break;
                 case 1:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld月",(long)row+1];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"moon", nil),(long)row+1];
                 }
                     break;
                 case 2:
                 {
                     
-                    label.text=[NSString stringWithFormat:@"%ld日",(long)row+1];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"day", nil),(long)row+1];
                 }
                     break;
                     
@@ -600,23 +600,23 @@
             switch (component) {
                 case 0:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld年",(long)(startYear + row)];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"year", nil),(long)(startYear + row)];
                 }
                     break;
                 case 1:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld月",(long)row+1];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"moon", nil),(long)row+1];
                 }
                     break;
                 case 2:
                 {
                     
-                    label.text=[NSString stringWithFormat:@"%ld日",(long)row+1];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"day", nil),(long)row+1];
                 }
                     break;
                 case 3:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld时",(long)row];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"hour", nil),(long)row];
                 }
                     break;
                     
@@ -632,28 +632,28 @@
             switch (component) {
                 case 0:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld年",(long)(startYear + row)];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"year", nil),(long)(startYear + row)];
                 }
                     break;
                 case 1:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld月",(long)row+1];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"moon", nil),(long)row+1];
                 }
                     break;
                 case 2:
                 {
                     
-                    label.text=[NSString stringWithFormat:@"%ld日",(long)row+1];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"day", nil),(long)row+1];
                 }
                     break;
                 case 3:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld时",(long)row];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"hour", nil),(long)row];
                 }
                     break;
                 case 4:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld分",(long)row];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"min", nil),(long)row];
                 }
                     break;
                     
@@ -669,18 +669,18 @@
             switch (component) {
                 case 0:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld年",(long)(startYear + row)];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"year", nil),(long)(startYear + row)];
                 }
                     break;
                 case 1:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld月",(long)row+1];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"moon", nil),(long)row+1];
                 }
                     break;
                 case 2:
                 {
                     
-                    label.text=[NSString stringWithFormat:@"%ld日",(long)row+1];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"day", nil),(long)row+1];
                 }
                     break;
                 case 3:
@@ -690,12 +690,12 @@
                     break;
                 case 4:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld分",(long)row];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"min", nil),(long)row];
                 }
                     break;
                 case 5:
                 {
-                    label.text=[NSString stringWithFormat:@"%ld秒",(long)row];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"second", nil),(long)row];
                 }
                     break;
                     
@@ -739,13 +739,13 @@
                 case 1:
                 {
                     label.textAlignment=NSTextAlignmentCenter;
-                    label.text=[NSString stringWithFormat:@"%ld分",(long)row];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"min", nil),(long)row];
                 }
                     break;
                 case 2:
                 {
                     label.textAlignment=NSTextAlignmentRight;
-                    label.text=[NSString stringWithFormat:@"%ld秒",(long)row];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"second", nil),(long)row];
                 }
                     break;
                     
@@ -760,13 +760,13 @@
                 case 0:
                 {
                     label.textAlignment=NSTextAlignmentLeft;
-                    label.text=[NSString stringWithFormat:@"%ld分",(long)row];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"min", nil),(long)row];
                 }
                     break;
                 case 1:
                 {
                     label.textAlignment=NSTextAlignmentRight;
-                    label.text=[NSString stringWithFormat:@"%ld秒",(long)row];
+                    label.text=[NSString stringWithFormat:NSLocalizedString(@"second", nil),(long)row];
                 }
                     break;
                     

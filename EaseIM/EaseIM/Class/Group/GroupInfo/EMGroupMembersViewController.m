@@ -56,7 +56,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
-    self.title = @"群组普通成员";
+    self.title = NSLocalizedString(@"groupMembers", nil);
     self.showRefreshHeader = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     self.tableView.rowHeight = 60;
@@ -121,17 +121,17 @@
     NSString *userName = [self.dataArray objectAtIndex:indexPath.row];
     
     __weak typeof(self) weakself = self;
-    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"移除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:NSLocalizedString(@"remove", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         [weakself _deleteMember:userName];
     }];
     deleteAction.backgroundColor = [UIColor redColor];
     
-    UITableViewRowAction *blackAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"拉黑" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    UITableViewRowAction *blackAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:NSLocalizedString(@"bringtobl", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         [weakself _blockMember:userName];
     }];
     blackAction.backgroundColor = [UIColor colorWithRed: 50 / 255.0 green: 63 / 255.0 blue: 72 / 255.0 alpha:1.0];
     
-    UITableViewRowAction *muteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:[weakself.mutesList containsObject:userName] ? @"取消禁言" : @"禁言" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    UITableViewRowAction *muteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:[weakself.mutesList containsObject:userName] ? NSLocalizedString(@"unmute", nil) : NSLocalizedString(@"mute", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         if ([weakself.mutesList containsObject:userName]) {
             [weakself _unMuteMemeber:userName];
         } else {
@@ -140,7 +140,7 @@
     }];
     muteAction.backgroundColor = [UIColor colorWithRed: 116 / 255.0 green: 134 / 255.0 blue: 147 / 255.0 alpha:1.0];
     if (self.group.permissionType == EMGroupPermissionTypeOwner) {
-        UITableViewRowAction *adminAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"升权" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        UITableViewRowAction *adminAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:NSLocalizedString(@"upRight", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
             [weakself _memberToAdmin:userName];
         }];
         adminAction.backgroundColor = [UIColor blackColor];
@@ -157,7 +157,7 @@
     NSMutableArray *swipeActions = [[NSMutableArray alloc] init];
     __weak typeof(self) weakself = self;
     UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
-                                                                               title:@"移除"
+                                                                               title:NSLocalizedString(@"remove", nil)
                                                                              handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
                                         {
         [weakself _deleteMember:userName];
@@ -165,7 +165,7 @@
     deleteAction.backgroundColor = [UIColor redColor];
     
     UIContextualAction *blackAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
-                                                                               title:@"拉黑"
+                                                                               title:NSLocalizedString(@"bringtobl", nil)
                                                                              handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
                                         {
         [weakself _blockMember:userName];
@@ -173,7 +173,7 @@
     blackAction.backgroundColor = [UIColor colorWithRed: 50 / 255.0 green: 63 / 255.0 blue: 72 / 255.0 alpha:1.0];
     
     UIContextualAction *muteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
-                                                                             title:[weakself.mutesList containsObject:userName] ? @"取消禁言" : @"禁言"
+                                                                             title:[weakself.mutesList containsObject:userName] ? NSLocalizedString(@"unmute", nil) : NSLocalizedString(@"mute", nil)
                                                                              handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
                                         {
         if ([weakself.mutesList containsObject:userName]) {
@@ -190,7 +190,7 @@
     
     if (self.group.permissionType == EMGroupPermissionTypeOwner) {
         UIContextualAction *adminAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal
-                                                                                   title:@"升权"
+                                                                                   title:NSLocalizedString(@"upRight", nil)
                                                                                  handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL))
                                             {
             [weakself _memberToAdmin:userName];
@@ -209,7 +209,7 @@
                              isShowHUD:(BOOL)aIsShowHUD
 {
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取群组普通成员..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchingGroupMembers...", nil)];
     }
     
     __weak typeof(self) weakself = self;
@@ -277,16 +277,16 @@
 
 - (void)_deleteMember:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:[NSString stringWithFormat:@"删除群成员 %@",aUsername]];
+    [self showHudInView:self.view hint:[NSString stringWithFormat:NSLocalizedString(@"removeGroupMember", nil),aUsername]];
     
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].groupManager removeMembers:@[aUsername] fromGroup:self.group.groupId completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"删除群成员失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"removeContactFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"删除群成员成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"removeContactSucess", nil)];
             [weakself.dataArray removeObject:aUsername];
             [weakself.tableView reloadData];
         }
@@ -295,16 +295,16 @@
 
 - (void)_blockMember:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:[NSString stringWithFormat:@"%@ 移至黑名单",aUsername]];
+    [self showHudInView:self.view hint:[NSString stringWithFormat:NSLocalizedString(@"moveToBL", nil),aUsername]];
     
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].groupManager blockMembers:@[aUsername] fromGroup:self.group.groupId completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"移至黑名单失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"moveToBLFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"移至黑名单成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"moveToBLSuccess", nil)];
             [weakself.dataArray removeObject:aUsername];
             [weakself.tableView reloadData];
         }
@@ -313,16 +313,16 @@
 
 - (void)_muteMember:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:[NSString stringWithFormat:@"禁言群成员 %@",aUsername]];
+    [self showHudInView:self.view hint:[NSString stringWithFormat:NSLocalizedString(@"muteGroupMember", nil),aUsername]];
     
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].groupManager muteMembers:@[aUsername] muteMilliseconds:-1 fromGroup:self.group.groupId completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"禁言失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"muteFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"禁言成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"muteSuccess", nil)];
             [weakself.tableView reloadData];
             [weakself _fetchGroupMutes:1];
         }
@@ -331,16 +331,16 @@
 
 - (void)_unMuteMemeber:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:[NSString stringWithFormat:@"解除禁言 %@",aUsername]];
+    [self showHudInView:self.view hint:[NSString stringWithFormat:NSLocalizedString(@"unmuteGroupMember", nil),aUsername]];
     
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].groupManager unmuteMembers:@[aUsername] fromGroup:self.group.groupId completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"解除禁言失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"unmuteFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"解除禁言成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"unmuteSuccess", nil)];
             [weakself _fetchGroupMutes:1];
             [weakself.tableView reloadData];
         }
@@ -349,16 +349,16 @@
 
 - (void)_memberToAdmin:(NSString *)aUsername
 {
-    [self showHudInView:self.view hint:[NSString stringWithFormat:@"%@ 升级为管理员",aUsername]];
+    [self showHudInView:self.view hint:[NSString stringWithFormat:NSLocalizedString(@"beComeAdmin", nil),aUsername]];
     
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].groupManager addAdmin:aUsername toGroup:self.group.groupId completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:@"升级为管理员失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"tobeAdminFail", nil)];
         } else {
             weakself.isUpdated = YES;
-            [EMAlertController showSuccessAlert:@"升级为管理员成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"tobeAdminSuccess", nil)];
             [weakself.dataArray removeObject:aUsername];
             [weakself.tableView reloadData];
         }

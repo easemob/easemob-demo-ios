@@ -75,7 +75,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = @"我";
+    titleLabel.text = NSLocalizedString(@"mine", nil);
     titleLabel.textColor = [UIColor blackColor];
     titleLabel.font = [UIFont systemFontOfSize:18];
     [self.view addSubview:titleLabel];
@@ -152,7 +152,7 @@
     [self.backView.layer addSublayer:gl];
     
     UILabel *tabLabel = [[UILabel alloc]init];
-    tabLabel.text = @"我";
+    tabLabel.text = NSLocalizedString(@"mine", nil);
     tabLabel.font = [UIFont systemFontOfSize:18.0];
     tabLabel.textAlignment = NSTextAlignmentCenter;
     tabLabel.textColor = [UIColor whiteColor];
@@ -295,16 +295,16 @@
     if (section == 1) {
         if (row == 0) {
             imgView.image = [UIImage imageNamed:@"settings"];
-            self.funLabel.text = @"设置";
+            self.funLabel.text = NSLocalizedString(@"setting", nil);
         } else if (row == 3){
             imgView.image = [UIImage imageNamed:@"opinionFeedback"];
-            self.funLabel.text = @"意见反馈";
+            self.funLabel.text = NSLocalizedString(@"advices", nil);
         } else if (row == 1) {
             imgView.image = [UIImage imageNamed:@"aboutHX"];
-            self.funLabel.text = @"关于环信IM";
+            self.funLabel.text = NSLocalizedString(@"about", nil);
         } else if (row == 2) {
             imgView.image = [UIImage imageNamed:@"developerService"];
-            self.funLabel.text = @"开发者服务";
+            self.funLabel.text = NSLocalizedString(@"developerService", nil);
         }
     }
     self.funLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];

@@ -90,7 +90,7 @@
     }];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = @"注册账号";
+    titleLabel.text = NSLocalizedString(@"regist", nil);
     titleLabel.textColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
     titleLabel.font = [UIFont systemFontOfSize:18];
     [backView addSubview:titleLabel];
@@ -105,7 +105,7 @@
     self.nameField.backgroundColor = [UIColor whiteColor];
     self.nameField.delegate = self;
     self.nameField.borderStyle = UITextBorderStyleNone;
-    self.nameField.placeholder = @"用户名";
+    self.nameField.placeholder = NSLocalizedString(@"userId", nil);
     self.nameField.returnKeyType = UIReturnKeyDone;
     self.nameField.font = [UIFont systemFontOfSize:17];
     self.nameField.rightViewMode = UITextFieldViewModeWhileEditing;
@@ -131,7 +131,7 @@
     self.pswdField.backgroundColor = [UIColor whiteColor];
     self.pswdField.delegate = self;
     self.pswdField.borderStyle = UITextBorderStyleNone;
-    self.pswdField.placeholder = @"密码";
+    self.pswdField.placeholder = NSLocalizedString(@"password", nil);
     self.pswdField.font = [UIFont systemFontOfSize:17];
     self.pswdField.returnKeyType = UIReturnKeyDone;
     self.pswdField.secureTextEntry = YES;
@@ -157,7 +157,7 @@
     self.confirmPswdField.backgroundColor = [UIColor whiteColor];
     self.confirmPswdField.delegate = self;
     self.confirmPswdField.borderStyle = UITextBorderStyleNone;
-    self.confirmPswdField.placeholder = @"确认密码";
+    self.confirmPswdField.placeholder = NSLocalizedString(@"confirmPwd", nil);
     self.confirmPswdField.font = [UIFont systemFontOfSize:17];
     self.confirmPswdField.returnKeyType = UIReturnKeyDone;
     self.confirmPswdField.secureTextEntry = YES;
@@ -317,13 +317,13 @@
     [self.view endEditing:YES];
     
     if (gIsInitializedSDK) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:@"当前appkey以及环境配置已生效，如果需要更改需要重启客户端" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:NSLocalizedString(@"applyConfigPrompt", nil) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"well", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             exit(0);
         }];
         [alertController addAction:okAction];
         
-        [alertController addAction: [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alertController addAction: [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }]];
         alertController.modalPresentationStyle = 0;
         [self presentViewController:alertController animated:YES completion:nil];
@@ -374,7 +374,7 @@
     [self.view endEditing:YES];
     
     if (!self.userAgreementView.userAgreementBtn.selected) {
-        [EMAlertController showErrorAlert:@"请选择同意服务条款与隐私协议！"];
+        [EMAlertController showErrorAlert:NSLocalizedString(@"agreePrompt", nil)];
         return;
     }
 
@@ -384,14 +384,14 @@
     
     /*
     if ([name length] == 0 || [pswd length] == 0) {
-        [EMAlertController showErrorAlert:@"用户ID或者密码不能为空"];
+        [EMAlertController showErrorAlert:NSLocalizedString(@"userOrPwdEmpty", nil)];
         return;
     }*/
     
     if(![pswd isEqualToString:confirmPwd]) {
-        [EMAlertController showErrorAlert:@"两次输入密码不一致,请重新输入"];
+        [EMAlertController showErrorAlert:NSLocalizedString(@"pwdWrongInput", nil)];
         /*
-        EMErrorAlertViewController *errorAlerController = [[EMErrorAlertViewController alloc]initWithErrorReason:@"两次输入密码不一致"];
+        EMErrorAlertViewController *errorAlerController = [[EMErrorAlertViewController alloc]initWithErrorReason:NSLocalizedString(@"pwdWrong", nil)];
         errorAlerController.modalPresentationStyle = 0;
         [self presentViewController:errorAlerController animated:YES completion:nil];*/
         return;
@@ -403,7 +403,7 @@
         [weakself hideHud];
         
         if (!aError) {
-            [EMAlertController showSuccessAlert:@"注册成功，请登录"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"registerSuccess", nil)];
             if (weakself.successCompletion) {
                 weakself.successCompletion(name);
             }
@@ -412,19 +412,19 @@
             return ;
         }
         
-        NSString *errorDes = @"注册失败，请重试";
+        NSString *errorDes = NSLocalizedString(@"registerFail", nil);
         switch (aError.code) {
             case EMErrorServerNotReachable:
-                errorDes = @"无法连接服务器";
+                errorDes = NSLocalizedString(@"notReachServer", nil);
                 break;
             case EMErrorNetworkUnavailable:
-                errorDes = @"网络未连接";
+                errorDes = NSLocalizedString(@"offlinePrompt", nil);
                 break;
             case EMErrorUserAlreadyExist:
-                errorDes = @"注册用户名已存在，请重新输入";
+                errorDes = NSLocalizedString(@"userUsed", nil);
                 break;
             case EMErrorExceedServiceLimit:
-                errorDes = @"对不起，注册用户数量已达上限";
+                errorDes = NSLocalizedString(@"ExceedServiceLimit", nil);
                 break;
             default:
                 break;
