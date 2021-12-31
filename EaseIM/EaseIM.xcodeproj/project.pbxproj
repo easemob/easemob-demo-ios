@@ -326,11 +326,11 @@
 		3CBCF5FB23A24FC70053E227 /* systemNotify@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CBCF5F823A24FC60053E227 /* systemNotify@3x.png */; };
 		3CE6293319A1B13700829632 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE6293219A1B13700829632 /* CoreText.framework */; };
 		6654495F27796B1D008AA2AE /* undisturbDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495927796B1D008AA2AE /* undisturbDot@2x.png */; };
-		6654496027796B1D008AA2AE /* undisturbRing.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495A27796B1D008AA2AE /* undisturbRing.png */; };
-		6654496127796B1D008AA2AE /* undisturbRing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495B27796B1D008AA2AE /* undisturbRing@2x.png */; };
-		6654496227796B1D008AA2AE /* undisturbRing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495C27796B1D008AA2AE /* undisturbRing@3x.png */; };
 		6654496327796B1D008AA2AE /* undisturbDot.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495D27796B1D008AA2AE /* undisturbDot.png */; };
 		6654496427796B1D008AA2AE /* undisturbDot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495E27796B1D008AA2AE /* undisturbDot@3x.png */; };
+		668D54E9277EF37E007E5097 /* undisturbRing.png in Resources */ = {isa = PBXBuildFile; fileRef = 668D54E6277EF37E007E5097 /* undisturbRing.png */; };
+		668D54EA277EF37E007E5097 /* undisturbRing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 668D54E7277EF37E007E5097 /* undisturbRing@2x.png */; };
+		668D54EB277EF37E007E5097 /* undisturbRing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 668D54E8277EF37E007E5097 /* undisturbRing@3x.png */; };
 		90911028192EEA70008A48AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90911027192EEA70008A48AA /* Foundation.framework */; };
 		9091102C192EEA70008A48AA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9091102B192EEA70008A48AA /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		90AE9446230D2CDC00A905E5 /* EMRemindManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 90AE9445230D2CDC00A905E5 /* EMRemindManager.m */; };
@@ -375,6 +375,7 @@
 		D29A6BB51B7209C1002324BB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D29A6BB41B7209C1002324BB /* Accounts.framework */; };
 		D29A6BB61B7209C8002324BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3527421931D33A00385240 /* Social.framework */; };
 		EC6B516A2759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC6B51692759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m */; };
+		F2ECD817E58C9D7AF6ACDAC6 /* Pods_EaseIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 461BC291639C89BC553D7DBB /* Pods_EaseIM.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -839,13 +840,13 @@
 		3CE6293219A1B13700829632 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		461BC291639C89BC553D7DBB /* Pods_EaseIM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseIM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		616738B286E44A8D2F2A5CFA /* Pods-EaseIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.debug.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.debug.xcconfig"; sourceTree = "<group>"; };
-		7EF38071D71CDAB2F8F53909 /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		6654495927796B1D008AA2AE /* undisturbDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbDot@2x.png"; sourceTree = "<group>"; };
-		6654495A27796B1D008AA2AE /* undisturbRing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undisturbRing.png; sourceTree = "<group>"; };
-		6654495B27796B1D008AA2AE /* undisturbRing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbRing@2x.png"; sourceTree = "<group>"; };
-		6654495C27796B1D008AA2AE /* undisturbRing@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbRing@3x.png"; sourceTree = "<group>"; };
 		6654495D27796B1D008AA2AE /* undisturbDot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undisturbDot.png; sourceTree = "<group>"; };
 		6654495E27796B1D008AA2AE /* undisturbDot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbDot@3x.png"; sourceTree = "<group>"; };
+		668D54E6277EF37E007E5097 /* undisturbRing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undisturbRing.png; sourceTree = "<group>"; };
+		668D54E7277EF37E007E5097 /* undisturbRing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbRing@2x.png"; sourceTree = "<group>"; };
+		668D54E8277EF37E007E5097 /* undisturbRing@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbRing@3x.png"; sourceTree = "<group>"; };
+		7EF38071D71CDAB2F8F53909 /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		90911024192EEA70008A48AA /* EaseIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90911027192EEA70008A48AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		90911029192EEA70008A48AA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -858,7 +859,6 @@
 		921C6A9D1D2A841600D8257F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		9ED2B26D271EB17F00CB1CCA /* EMHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHttpRequest.m; sourceTree = "<group>"; };
 		9ED2B26E271EB17F00CB1CCA /* EMHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHttpRequest.h; sourceTree = "<group>"; };
-		B6117C42B792433B23C4273D /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		C075E494262433B80080A126 /* titleTextImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@3x.png"; sourceTree = "<group>"; };
 		C075E495262433B80080A126 /* titleTextImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@2x.png"; sourceTree = "<group>"; };
 		C075E49C26243C0B0080A126 /* titleBackImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@3x.png"; sourceTree = "<group>"; };
@@ -917,7 +917,6 @@
 		EC6B51692759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMGeneralTitleSwitchCell.m; sourceTree = "<group>"; };
 		EC8A473B2701C08F00F106B0 /* HyphenateChat.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = HyphenateChat.xcframework; sourceTree = "<group>"; };
 		F6B53D2520C3A9555FA0F94F /* Pods_EaseIM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseIM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F79976371CC23C1712C1B659 /* Pods-EaseIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.debug.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -944,8 +943,8 @@
 				90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */,
 				9091102C192EEA70008A48AA /* UIKit.framework in Frameworks */,
 				90911028192EEA70008A48AA /* Foundation.framework in Frameworks */,
-
 				B5F4BAC1CDAB507CF7350753 /* Pods_EaseIM.framework in Frameworks */,
+				F2ECD817E58C9D7AF6ACDAC6 /* Pods_EaseIM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1582,12 +1581,12 @@
 		3C729D9F25727A4B003DB315 /* ChatImagsResources */ = {
 			isa = PBXGroup;
 			children = (
+				668D54E6277EF37E007E5097 /* undisturbRing.png */,
+				668D54E7277EF37E007E5097 /* undisturbRing@2x.png */,
+				668D54E8277EF37E007E5097 /* undisturbRing@3x.png */,
 				6654495D27796B1D008AA2AE /* undisturbDot.png */,
 				6654495927796B1D008AA2AE /* undisturbDot@2x.png */,
 				6654495E27796B1D008AA2AE /* undisturbDot@3x.png */,
-				6654495A27796B1D008AA2AE /* undisturbRing.png */,
-				6654495B27796B1D008AA2AE /* undisturbRing@2x.png */,
-				6654495C27796B1D008AA2AE /* undisturbRing@3x.png */,
 				C0E9E528261339FD0080AB28 /* userinfo.png */,
 				C0E9E526261339FD0080AB28 /* userinfo@2x.png */,
 				C0E9E527261339FD0080AB28 /* userinfo@3x.png */,
@@ -1874,6 +1873,14 @@
 			path = Diagnosis;
 			sourceTree = "<group>";
 		};
+		666D1711277BF9AE00B4FA69 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				F6B53D2520C3A9555FA0F94F /* Pods_EaseIM.framework */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		9091101B192EEA70008A48AA = {
 			isa = PBXGroup;
 			children = (
@@ -1882,7 +1889,7 @@
 				90911026192EEA70008A48AA /* Frameworks */,
 				90911025192EEA70008A48AA /* Products */,
 				2C24ABA72E955083521D161D /* Pods */,
-
+				666D1711277BF9AE00B4FA69 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1926,7 +1933,6 @@
 				3C3527441931D37900385240 /* SystemConfiguration.framework */,
 				9091102B192EEA70008A48AA /* UIKit.framework */,
 				461BC291639C89BC553D7DBB /* Pods_EaseIM.framework */,
-
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2104,7 +2110,6 @@
 				3C37DF142382508500399AE8 /* icon_failure.png in Resources */,
 				3C4AED132499FE7B001F7C50 /* enableClick.png in Resources */,
 				3A45E0872223A28F00505786 /* back_gary@2x.png in Resources */,
-				6654496127796B1D008AA2AE /* undisturbRing@2x.png in Resources */,
 				C0E9E52B261339FE0080AB28 /* userinfo.png in Resources */,
 				3A45E0372223A22600505786 /* qr@2x.png in Resources */,
 				3A45E0F72223A30000505786 /* alert_default@3x.png in Resources */,
@@ -2119,6 +2124,7 @@
 				C0E9E529261339FE0080AB28 /* userinfo@2x.png in Resources */,
 				3A45E3EC2223A4F300505786 /* group_join@2x.png in Resources */,
 				3C4AED4B249A2F95001F7C50 /* icon-tab通讯录@2x.png in Resources */,
+				668D54EB277EF37E007E5097 /* undisturbRing@3x.png in Resources */,
 				3C4AEDCB249B801D001F7C50 /* blankConversation@3x.png in Resources */,
 				3C4AED45249A2F89001F7C50 /* icon-tab我unselected@3x.png in Resources */,
 				3C4AED27249A1415001F7C50 /* unAgreeProtocol.png in Resources */,
@@ -2163,7 +2169,6 @@
 				3C87A0F9248F81AB0051E06E /* icon-enter@2x.png in Resources */,
 				3A45E0932223A28F00505786 /* search_gray@3x.png in Resources */,
 				3A45E0852223A28F00505786 /* search_gray@2x.png in Resources */,
-				6654496227796B1D008AA2AE /* undisturbRing@3x.png in Resources */,
 				3C91A0B025C4002500103C2E /* BootPage@2x.png in Resources */,
 				3A45D9B422239DE200505786 /* InfoPlist.strings in Resources */,
 				3C4AED4A249A2F95001F7C50 /* icon-tab通讯录.png in Resources */,
@@ -2201,7 +2206,6 @@
 				3C68ED192574D134004E167F /* backleft@3x.png in Resources */,
 				3C4AED3E249A2F7B001F7C50 /* icon-tab我.png in Resources */,
 				3C4AEDB0249B5A5A001F7C50 /* aboutHX@2x.png in Resources */,
-				6654496027796B1D008AA2AE /* undisturbRing.png in Resources */,
 				3A45E3EE2223A4F300505786 /* group_create@3x.png in Resources */,
 				3A45E08C2223A28F00505786 /* user_avatar_blue@2x.png in Resources */,
 				3C37DF4D238251ED00399AE8 /* icon-添加好友@3x.png in Resources */,
@@ -2234,6 +2238,7 @@
 				3CBCF5FB23A24FC70053E227 /* systemNotify@3x.png in Resources */,
 				3A45E0382223A22600505786 /* device@3x.png in Resources */,
 				C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */,
+				668D54E9277EF37E007E5097 /* undisturbRing.png in Resources */,
 				3C7A1515239118C100F4AC48 /* web@3x.png in Resources */,
 				3C91A0B125C4002500103C2E /* BootPage@3x.png in Resources */,
 				3C729DEE25729875003DB315 /* icon-setting@3x.png in Resources */,
@@ -2250,6 +2255,7 @@
 				3C4AED5B249A2FB8001F7C50 /* icon-tab会话unselected.png in Resources */,
 				3C7A14E2238FC72800F4AC48 /* back_left_black@3x.png in Resources */,
 				3C4AED56249A2FAB001F7C50 /* icon-tab会话.png in Resources */,
+				668D54EA277EF37E007E5097 /* undisturbRing@2x.png in Resources */,
 				3C37DF44238251ED00399AE8 /* icon-search@3x.png in Resources */,
 				3C4AECFD2499CFF8001F7C50 /* showPwd@3x.png in Resources */,
 				3C4AEDAF249B5A5A001F7C50 /* aboutHX@3x.png in Resources */,
@@ -2371,7 +2377,6 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-resources.sh",
-
 				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -2489,7 +2494,6 @@
 				C0E9E5E5261482B00080AB28 /* UIImageView+UserInfo.m in Sources */,
 				3C8EBEF524ADDF7E00B6560A /* EMAuthorizationView.m in Sources */,
 				3C9A95DD2578E38700752F28 /* EMReadReceiptMsgViewController.m in Sources */,
-				9ED2B26F271EB17F00CB1CCA /* EMHttpRequest.m in Sources */,
 				3A45E0212223A21B00505786 /* EMRegisterViewController.m in Sources */,
 				3A45E37E2223A47900505786 /* EMChatroomsViewController.m in Sources */,
 				3C8EBEF124AD967C00B6560A /* EMUserAgreementView.m in Sources */,
@@ -2634,7 +2638,6 @@
 		90911051192EEA70008A48AA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 616738B286E44A8D2F2A5CFA /* Pods-EaseIM.debug.xcconfig */;
-
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2650,7 +2653,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
@@ -2701,6 +2704,7 @@
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"-fembed-bitcode",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2721,7 +2725,6 @@
 		90911052192EEA70008A48AA /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7EF38071D71CDAB2F8F53909 /* Pods-EaseIM.release.xcconfig */;
-
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2734,9 +2737,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
-
 				DEPLOYMENT_POSTPROCESSING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
@@ -2788,6 +2790,7 @@
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"-fembed-bitcode",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
