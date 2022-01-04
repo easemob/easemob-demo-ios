@@ -12,6 +12,7 @@
 #import "EMAccountViewController.h"
 #import "UserInfoStore.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "EaseIMKitManager.h"
 
 @interface EMChatInfoViewController ()
 
@@ -244,21 +245,13 @@
     NSInteger row = indexPath.row;
     
     if (section == 2) {
-        if (aSwitch.isOn) {
-            [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:YES completion:^(EMError * _Nonnull aError) {
-                if (aError) {
-                    [weakself showHint:[NSString stringWithFormat:NSLocalizedString(@"setDistrbute", nil),aError.errorDescription]];
-                    [aSwitch setOn:NO];
-                }
-            }];
-        } else {
-            [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:NO completion:^(EMError * _Nonnull aError) {
-                if (aError) {
-                    [weakself showHint:[NSString stringWithFormat:NSLocalizedString(@"setDistrbute", nil),aError.errorDescription]];
-                    [aSwitch setOn:YES];
-                }
-            }];
-        }
+        [[EaseIMKitManager shared] updateUndisturbMapsKey:self.conversation.conversationId value:aSwitch.isOn];
+        [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:aSwitch.isOn completion:^(EMError * _Nonnull aError) {
+            if (aError) {
+                [weakself showHint:[NSString stringWithFormat:NSLocalizedString(@"setDistrbute", nil),aError.errorDescription]];
+                [aSwitch setOn:NO];
+            }
+        }];
     }
     if (section == 3) {
         if (row == 0) {
