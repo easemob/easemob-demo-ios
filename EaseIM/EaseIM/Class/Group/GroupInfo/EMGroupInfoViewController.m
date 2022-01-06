@@ -462,9 +462,17 @@
         if (row == 0) {
             //免打扰
             __weak typeof(self) weakself = self;
-            [EMClient.sharedClient.groupManager updatePushServiceForGroup:self.group.groupId isPushEnabled:aSwitch.isOn ? NO : YES completion:^(EMGroup *aGroup, EMError *aError) {
-                weakself.group = aGroup;
-                [weakself reloadInfo];
+            
+            [[EaseIMKitManager shared] updateUndisturbMapsKey:self.conversation.conversationId value:aSwitch.isOn];
+            [EMClient.sharedClient.groupManager updatePushServiceForGroup:self.group.groupId isPushEnabled:!aSwitch.isOn completion:^(EMGroup *aGroup, EMError *aError) {
+                if (!aError) {
+                    weakself.group = aGroup;
+                } else {
+                    if (aError) {
+                        [weakself showHint:[NSString stringWithFormat:NSLocalizedString(@"setDistrbute", nil),aError.errorDescription]];
+                        [aSwitch setOn:NO];
+                    }
+                }
             }];
         } else if (row == 1) {
             //置顶

@@ -84,13 +84,18 @@ SystemSoundID soundID = 1007;
         return;
     }
     
-    // 是否是群免打扰的消息
-    if (aMessage.chatType != EMChatTypeChat) {
-        if (![self _needRemind:aMessage.conversationId]) {
+    // 是否是免打扰的消息(聊天室没有免打扰消息)
+    BOOL unremindChat = [self _unremindChat:aMessage.conversationId];//单聊免打扰
+    BOOL unremindGroup = [self _unremindGroup:aMessage.conversationId];//群组免打扰
+    if (aMessage.chatType != EMChatTypeChatRoom) {
+        if (unremindGroup && aMessage.chatType == EMChatTypeGroupChat) {
+            return;
+        }
+        if (aMessage.chatType == EMChatTypeChat && unremindChat) {
             return;
         }
     }
-    
+        
     BOOL isBackground = NO;
     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
     if (state == UIApplicationStateBackground) {
@@ -189,19 +194,12 @@ SystemSoundID soundID = 1007;
     }
 }
 
-- (BOOL)_needRemind:(NSString *)fromChatter
-{
-    BOOL ret = NO;
-    do {
-        NSArray *igGroupIds = [[EMClient sharedClient].groupManager getGroupsWithoutPushNotification:nil];
-        for (NSString *str in igGroupIds) {
-            if ([str isEqualToString:fromChatter]) {
-                return NO;
-            }
-        }
-        ret = YES;
-    } while (0);
-    return ret;
+- (BOOL)_unremindGroup:(NSString *)fromChatter {
+    return [[[EMClient sharedClient].pushManager noPushGroups] containsObject:fromChatter];
+}
+
+- (BOOL)_unremindChat:(NSString *)conversationId {
+    return [[[EMClient sharedClient].pushManager noPushUIds] containsObject:conversationId];
 }
 
 // 播放等待铃声
