@@ -59,7 +59,7 @@ static EMDemoOptions *sharedOptions = nil;
         NSMutableArray *tempArray = [aDecoder decodeObjectForKey:kOptions_LocationAppkeyArray];
         if (tempArray == nil || [tempArray count] == 0) {
             self.locationAppkeyArray = [[NSMutableArray alloc]init];
-            [self.locationAppkeyArray insertObject:DEF_APPKEY atIndex:0];
+            [self.locationAppkeyArray insertObject:EM_APPKEY atIndex:0];
         } else {
             self.locationAppkeyArray = tempArray;
         }
@@ -202,12 +202,8 @@ static EMDemoOptions *sharedOptions = nil;
 
 - (void)_initServerOptions
 {
-    self.appkey = DEF_APPKEY;
-#if DEBUG
-    self.apnsCertName = @"EaseIM_APNS_Developer";
-#else
-    self.apnsCertName = @"EaseIM_APNS_Product";
-#endif
+    self.appkey = EM_APPKEY;
+    self.apnsCertName = EM_APNS_CERT_NAME;
     self.usingHttpsOnly = YES;
     //self.specifyServer = YES;
     self.specifyServer = NO;
@@ -296,14 +292,10 @@ static EMDemoOptions *sharedOptions = nil;
     NSString *apns = [aDic objectForKey:kOptions_ApnsCertname];
     BOOL httpsOnly = [[aDic objectForKey:kOptions_HttpsOnly] boolValue];
     if ([appkey length] == 0) {
-        appkey = DEF_APPKEY;
+        appkey = EM_APPKEY;
     }
     if ([apns length] == 0) {
-#if DEBUG
-        apns = @"EaseIM_APNS_Developer";
-#else
-        apns = @"EaseIM_APNS_Product";
-#endif
+        apns = EM_APNS_CERT_NAME;
     }
     
     EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];

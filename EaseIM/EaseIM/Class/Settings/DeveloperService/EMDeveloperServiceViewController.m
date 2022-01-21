@@ -94,7 +94,7 @@
     } else if (section == 1) {
         if (row == 0) {
             cell.textLabel.text = NSLocalizedString(@"customAppkey", nil);
-            cell.detailTextLabel.text = [EMDemoOptions.sharedOptions.appkey isEqualToString:DEF_APPKEY] ? NSLocalizedString(@"default", nil) : EMDemoOptions.sharedOptions.appkey;
+            cell.detailTextLabel.text = [EMDemoOptions.sharedOptions.appkey isEqualToString:EM_APPKEY] ? NSLocalizedString(@"default", nil) : EMDemoOptions.sharedOptions.appkey;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else if (row == 1) {
             cell.textLabel.text = NSLocalizedString(@"fetchFromSerFirst", nil);

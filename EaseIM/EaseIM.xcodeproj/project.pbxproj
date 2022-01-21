@@ -402,6 +402,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		39E6396A279A65390050E3E5 /* Keys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keys.h; sourceTree = "<group>"; };
 		3A45D69B22239DE200505786 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3A45D69D22239DE200505786 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		3A45D69E22239DE200505786 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -960,6 +961,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		39E63969279A65390050E3E5 /* global */ = {
+			isa = PBXGroup;
+			children = (
+				39E6396A279A65390050E3E5 /* Keys.h */,
+			);
+			path = global;
+			sourceTree = "<group>";
+		};
 		3A45D69922239DE200505786 /* EaseIM */ = {
 			isa = PBXGroup;
 			children = (
@@ -979,6 +988,7 @@
 		3A45D72222239DE200505786 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				39E63969279A65390050E3E5 /* global */,
 				C0F4EBA826037CB600436782 /* UserInfo */,
 				3A45D9B122239DE200505786 /* EaseIMHelper.h */,
 				3A45D8FF22239DE200505786 /* EaseIMHelper.m */,
@@ -2377,7 +2387,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-resources.sh",
-				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
+				"${PODS_ROOT}/EaseIMKit/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (

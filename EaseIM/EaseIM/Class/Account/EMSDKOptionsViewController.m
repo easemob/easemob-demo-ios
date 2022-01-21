@@ -277,7 +277,7 @@
                                      tag:(NSInteger)aTag
 {
     UITableViewCell *cell = nil;
-    if ([aValue isEqual:DEF_APPKEY]) {
+    if ([aValue isEqual:EM_APPKEY]) {
         aValue = @"Appkey";
     }
     if (self.enableEdit) {

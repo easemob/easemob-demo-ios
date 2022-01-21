@@ -24,13 +24,6 @@
 #define EM_WS                  __weak __typeof(&*self)weakSelf = self;
 #define EM_SS(WKSELF)          __strong __typeof(&*self)strongSelf = WKSELF;
 
-
-//appkey
-//#define DEF_APPKEY @"41351358#427351"
-//#define DEF_APPKEY @"easemob-demo#testmd1"
-#define DEF_APPKEY @"easemob-demo#easeim"
-//#define DEF_APPKEY @"easemob-demo#chatdemoui"
-
 // 翻译
 #define TRANSLATE_KEY @""
 #define TRANSLATE_ENDPOINT @""

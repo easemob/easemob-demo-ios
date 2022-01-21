@@ -47,7 +47,7 @@
     config.version = [EMClient sharedClient].version;
     config.deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     config.unexpectedTerminatingDetectionEnable = true;
-    [Bugly startWithAppId:@"3e7704ec60" config:config];
+    [Bugly startWithAppId:BUGLY_APPID config:config];
     NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
     NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
     [self.window makeKeyAndVisible];
@@ -228,7 +228,7 @@
         [ConferenceController sharedManager];
         [[UserInfoStore sharedInstance] loadInfosFromLocal];
         EaseCallConfig* config = [[EaseCallConfig alloc] init];
-        config.agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
+        config.agoraAppId = AGORA_APPID;
         config.enableRTCTokenValidate = YES;
 
         [[EaseCallManager sharedManager] initWithConfig:config delegate:self];
