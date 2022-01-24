@@ -140,6 +140,8 @@
 "added" = "Added";
 "apply.ownprompt" = "You can’t add yourself as a friend";
 "applyfail" = "Failed to add";
+"applyfail.ContactReachLimit" = "Failed to add: Your contact list is full.";
+"applyfail.ContactReachLimitPeer" = "Failed to add: The contact list of the other party is full.";
 "sendInvite" = "Friend request sent";
 "readed" = "Read";
 "canceled" = "Canceled";
@@ -408,6 +410,7 @@
 "registerFail" = "Registration failed, please try again.";
 "userUsed" = "Username already exists, please enter another one.";
 "applyBusy" = "You have sent too many requests. Please try again later.";
+"ExceedServiceLimit" = "Sorry. You have reached the maximum number of registered users.";
 "requestapplyContact" = "You have a new friend invitation.";
 "editRight" = "Contact the administrator for editing permission.";
 "Image" = "Image";
