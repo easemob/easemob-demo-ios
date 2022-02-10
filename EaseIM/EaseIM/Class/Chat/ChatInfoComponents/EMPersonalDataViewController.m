@@ -232,7 +232,13 @@
     [[EMClient sharedClient].contactManager addContact:self.nickName message:nil completion:^(NSString *aUsername, EMError *aError) {
         [weakself hideHud];
         if (aError) {
-            [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail", nil)];
+            if (aError.code == EMErrorContactReachLimit) {
+                [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail.ContactReachLimit", nil)];
+            } else if (aError.code == EMErrorContactReachLimitPeer) {
+                [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail.ContactReachLimitPeer", nil)];
+            } else {
+                [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail", nil)];
+            }
             return;
         }
         self.hint = NSLocalizedString(@"applied", nil);
