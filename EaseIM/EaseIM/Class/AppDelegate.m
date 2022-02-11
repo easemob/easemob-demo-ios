@@ -24,7 +24,6 @@
 #import "UserInfoStore.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Bugly/Bugly.h>
-#import "EMChatViewController.h"
 
 #define FIRSTLAUNCH @"firstLaunch"
 
@@ -102,6 +101,8 @@
 //    }
 }
 
+//#pragma mark - UNUserNotificationCenterDelegate
+
 /*
 // 如果用户在app设置了UNUserNotificationCenter的代理delegate 则需要实现以下两个方法并调用em的相关方法
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
@@ -155,10 +156,9 @@
     
     if (state == EMDidReceiveNotificationResponse) {
         //通知被点开
-        //扩展字段实现跳转示例
-        [self extHandleExample:userInfo];
+       
     }else{
-        //展示通知
+        //即将展示通知
     }
 }
 
@@ -167,34 +167,6 @@
 {
     NSLog(@"emDidRecivePushSilentMessage : %@",messageDic);
 }
-
-/**
- 后续动作跳转通过扩展字段（ext）实现示例代码
- ext参数示例 ext需要自行添加
- "ext":{"opreation":{"type":"3","page":"EMChatViewController","data":{“type”:"0","conversationId":"amy1"}}}
-
- */
-- (void)extHandleExample:(NSDictionary*)userInfo
- {    // 获取opreation字段（跳转指定页面推送时候用户自己在扩展字段里面添加opreation事件）按扩展字段获取数据处理，打开url sdk 内部已实现
-    NSDictionary *opreationDic = userInfo[@"ext"][@"opreation"];
-    if (opreationDic) {
-        NSInteger type = [opreationDic[@"type"] integerValue];
-        if (type == 3) {
-            NSString *page = opreationDic[@"page"];
-            if ([page isEqualToString:@"EMChatViewController"]) {
-                NSString *conversationId = opreationDic[@"data"][@"conversationId"];
-                EMConversationType conversionType = (EMConversationType)[opreationDic[@"data"][@"type"] integerValue];
-                EMChatViewController *controller = [[EMChatViewController alloc]initWithConversationId:conversationId conversationType:conversionType];
-                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-                UIViewController *rootViewController = window.rootViewController;
-                if ([rootViewController isKindOfClass:[UINavigationController class]]) {
-                    UINavigationController *nav = (UINavigationController* )rootViewController;
-                    [nav pushViewController:controller animated:YES];
-                }
-            }
-        }
-    }
- }
 
 #pragma mark - EMPushManagerDelegateDevice
 
