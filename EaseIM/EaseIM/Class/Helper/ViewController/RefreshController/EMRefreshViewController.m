@@ -30,6 +30,10 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tableView];
+    
+    if(@available(iOS 15.0,*) ){
+        self.tableView.sectionHeaderTopPadding = 0.0f;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
