@@ -162,7 +162,7 @@
     }
 }
 
-//当应用收到环信推送透传消息时，此方法会被调用 注意这里是使用环信推送功能的透传消息，
+//当应用收到环信推送透传消息时，此方法会被调用 注意这里指是指使用环信推送功能的透传消息
 - (void)emDidRecivePushSilentMessage:(NSDictionary *)messageDic
 {
     NSLog(@"emDidRecivePushSilentMessage : %@",messageDic);
