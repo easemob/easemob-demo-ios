@@ -47,7 +47,7 @@
     config.version = [EMClient sharedClient].version;
     config.deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     config.unexpectedTerminatingDetectionEnable = true;
-    [Bugly startWithAppId:@"3e7704ec60" config:config];
+    [Bugly startWithAppId:@"请填写您的 bugly ID" config:config];
     NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
     NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
     [self.window makeKeyAndVisible];
