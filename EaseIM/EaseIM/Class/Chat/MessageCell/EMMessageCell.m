@@ -197,6 +197,7 @@
             make.centerY.equalTo(self.msgView.mas_centerY);
             make.right.equalTo(self.msgView.mas_left).offset(-5);
             make.height.equalTo(@(componentSpacing * 2));
+            make.width.greaterThanOrEqualTo(@(componentSpacing * 2));
         }];
     } else {
         _statusView.backgroundColor = [UIColor redColor];

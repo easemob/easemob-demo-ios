@@ -47,7 +47,7 @@
     config.version = [EMClient sharedClient].version;
     config.deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     config.unexpectedTerminatingDetectionEnable = true;
-    [Bugly startWithAppId:@"3e7704ec60" config:config];
+    [Bugly startWithAppId:@"请填写您的 bugly ID" config:config];
     NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
     NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
     [self.window makeKeyAndVisible];
@@ -101,29 +101,71 @@
 //    }
 }
 
+//#pragma mark - UNUserNotificationCenterDelegate
+
+/*
+// 如果用户在app设置了UNUserNotificationCenter的代理delegate 则需要实现以下两个方法并调用em的相关方法
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
 {
-    NSDictionary *userInfo = notification.request.content.userInfo;
-    [[EMClient sharedClient] application:[UIApplication sharedApplication] didReceiveRemoteNotification:userInfo];
+    [[EMLocalNotificationManager sharedManager] userNotificationCenter:center willPresentNotification:notification withCompletionHandler:completionHandler];
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler
 {
-//    if (gMainController) {
-//        [gMainController didReceiveUserNotification:response.notification];
-//    }
-    completionHandler();
+    [[EMLocalNotificationManager sharedManager] userNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
 }
+ */
 
 #pragma mark - EMLocalPushManagerDelegate
+/*
+ //如果自己设置通知方式，则通过下面方式修改
 - (void)emuserNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
 {
-    [self userNotificationCenter:center willPresentNotification:notification withCompletionHandler:completionHandler];
+    NSDictionary *userInfo = notification.request.content.userInfo;
+    if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        NSLog(@"APNS userInfo : %@ : %@",userInfo);
+    }else{
+        NSLog(@"EaseMob userInfo : %@ \n ext : %@",userInfo,userInfo[@"ext"]);
+    }
+    completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert);//通知方式 可选badge，sound，alert 如果实现了这个代理方法，则必须有completionHandler回调
 }
 
 - (void)emuserNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
 {
-    [self userNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+    NSDictionary *userInfo = response.notification.request.content.userInfo;
+    if ([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        NSLog(@"APNS userInfo : %@ \n",userInfo);
+    }else{
+        NSLog(@"EaseMob userInfo : %@ \n ext : %@",userInfo,userInfo[@"ext"]);
+    }
+    completionHandler();//如果实现了这个代理方法 ，则必须有completionHandler回调
+}
+*/
+
+//如果需要获取数据 只实现这一个代理方法即可
+- (void)emGetNotificationMessage:(UNNotification *)notification state:(EMNotificationState)state
+{
+    NSDictionary *userInfo = notification.request.content.userInfo;
+    if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //apns推送
+        NSLog(@"userInfo : %@",userInfo);
+    }else{
+        //本地推送
+        NSLog(@"userInfo : %@ \n ext : %@",userInfo,userInfo[@"ext"]);
+    }
+    
+    if (state == EMDidReceiveNotificationResponse) {
+        //通知被点开
+       
+    }else{
+        //即将展示通知
+    }
+}
+
+//当应用收到环信推送透传消息时，此方法会被调用 注意这里指是指使用环信推送功能的透传消息
+- (void)emDidRecivePushSilentMessage:(NSDictionary *)messageDic
+{
+    NSLog(@"emDidRecivePushSilentMessage : %@",messageDic);
 }
 
 #pragma mark - EMPushManagerDelegateDevice
@@ -313,7 +355,7 @@
     [confVC setDoneCompletion:^(NSArray *aInviteUsers) {
         for (NSString* strId in aInviteUsers) {
             EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:strId];
-            if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+            if(info && (info.avatarUrl.length > 0 || info.nickName.length > 0)) {
                 EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
                 [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:strId info:user];
             }
@@ -327,7 +369,7 @@
 - (void)callDidReceive:(EaseCallType)aType inviter:(NSString*_Nonnull)username ext:(NSDictionary*)aExt
 {
     EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:username];
-    if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+    if(info && (info.avatarUrl.length > 0 || info.nickName.length > 0)) {
         EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
         [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:username info:user];
     }
@@ -417,7 +459,7 @@
                         NSNumber* uId = [NSNumber numberWithInteger:[strId integerValue]];
                         [users setObject:username forKey:uId];
                         EMUserInfo* info = [[UserInfoStore sharedInstance] getUserInfoById:username];
-                        if(info && (info.avatarUrl.length > 0 || info.nickName > 0)) {
+                        if(info && (info.avatarUrl.length > 0 || info.nickName.length > 0)) {
                             EaseCallUser* user = [EaseCallUser userWithNickName:info.nickName image:[NSURL URLWithString:info.avatarUrl]];
                             [[[EaseCallManager sharedManager] getEaseCallConfig] setUser:username info:user];
                         }

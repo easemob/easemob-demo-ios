@@ -104,7 +104,15 @@
     
     if (aModel.type == EMNotificationModelTypeContact) {
         [[EMClient sharedClient].contactManager approveFriendRequestFromUser:aModel.sender completion:^(NSString *aUsername, EMError *aError) {
-            if (!aError) {
+            if (aError) {
+                if (aError.code == EMErrorContactReachLimit) {
+                    [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail.ContactReachLimit", nil)];
+                } else if (aError.code == EMErrorContactReachLimitPeer) {
+                    [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail.ContactReachLimitPeer", nil)];
+                } else {
+                    [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail", nil)];
+                }
+            } else {
                 NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"acceptPrompt", nil),aModel.sender];
                 [self showAlertWithTitle:@"O(∩_∩)O" message:msg];
             }

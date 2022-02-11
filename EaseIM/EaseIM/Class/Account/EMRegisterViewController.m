@@ -424,7 +424,7 @@
                 errorDes = NSLocalizedString(@"userUsed", nil);
                 break;
             case EMErrorExceedServiceLimit:
-                errorDes = NSLocalizedString(@"applyBusy", nil);
+                errorDes = NSLocalizedString(@"ExceedServiceLimit", nil);
                 break;
             default:
                 break;
