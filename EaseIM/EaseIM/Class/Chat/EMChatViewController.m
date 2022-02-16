@@ -232,7 +232,7 @@
 }
 
 //群组阅读回执
-- (void)groupMessageReadReceiptDetail:(EMMessage *)message groupId:(NSString *)groupId
+- (void)groupMessageReadReceiptDetail:(EMChatMessage *)message groupId:(NSString *)groupId
 {
     EMReadReceiptMsgViewController *readReceiptControl = [[EMReadReceiptMsgViewController alloc] initWithMessage:message groupId:groupId];
     readReceiptControl.modalPresentationStyle = 0;
@@ -247,7 +247,7 @@
     return YES;
 }
 //添加转发消息
-- (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMMessage *)message
+- (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMChatMessage *)message
 {
     NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]init];
     if (message.body.type == EMMessageTypeText) {
@@ -311,13 +311,13 @@
     return menuArray;
 }
 
-- (void)loadMoreMessageData:(NSString *)firstMessageId currentMessageList:(NSArray<EMMessage *> *)messageList
+- (void)loadMoreMessageData:(NSString *)firstMessageId currentMessageList:(NSArray<EMChatMessage *> *)messageList
 {
     self.moreMsgId = firstMessageId;
     [self loadData:NO];
 }
 
-- (void)didSendMessage:(EMMessage *)message error:(EMError *)error
+- (void)didSendMessage:(EMChatMessage *)message error:(EMError *)error
 {
     if (error) {
         [EMAlertController showErrorAlert:error.errorDescription];
@@ -361,7 +361,7 @@
 {
     __weak typeof(self) weakself = self;
     if(cell.model.message.status == EMMessageStatusFailed) {
-        [[[EMClient sharedClient] chatManager] resendMessage:cell.model.message progress:nil completion:^(EMMessage *message, EMError *error) {
+        [[[EMClient sharedClient] chatManager] resendMessage:cell.model.message progress:nil completion:^(EMChatMessage *message, EMError *error) {
             if(!error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSIndexPath *indexPath = [weakself.chatController.tableView indexPathForCell:cell];
@@ -437,7 +437,7 @@
 //本地通话记录
 - (void)insertLocationCallRecord:(NSNotification*)noti
 {
-    NSArray<EMMessage *> * messages = (NSArray *)[noti.object objectForKey:@"msg"];
+    NSArray<EMChatMessage *> * messages = (NSArray *)[noti.object objectForKey:@"msg"];
 //    EMTextMessageBody *body = (EMTextMessageBody*)message.body;
 //    if ([body.text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL]) {
 //        if ([message.from isEqualToString:[EMClient sharedClient].currentUsername]) {
@@ -503,12 +503,12 @@
     [self.fullScreenView removeFromSuperview];
 }
 
-- (NSArray *)formatMessages:(NSArray<EMMessage *> *)aMessages
+- (NSArray *)formatMessages:(NSArray<EMChatMessage *> *)aMessages
 {
     NSMutableArray *formated = [[NSMutableArray alloc] init];
 
     for (int i = 0; i < [aMessages count]; i++) {
-        EMMessage *msg = aMessages[i];
+        EMChatMessage *msg = aMessages[i];
         if (msg.chatType == EMChatTypeChat && msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
             [[EMClient sharedClient].chatManager sendMessageReadAck:msg.messageId toUser:msg.conversationId completion:nil];
         }
