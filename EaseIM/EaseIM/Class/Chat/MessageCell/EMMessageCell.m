@@ -13,6 +13,7 @@
 #import "UserInfoStore.h"
 #import <UIImageView+WebCache.h>
 #import "UIImageView+UserInfo.h"
+@import EaseIMKit;
 
 @interface EMMessageCell()
 
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) EMMessageStatusView *statusView;
 @property (nonatomic) BOOL isTranslating;
+@property (nonatomic, strong) EMMessageReactionView *reactionView;
 
 @end
 
@@ -133,6 +135,9 @@
     self.msgView.clipsToBounds = YES;
     [self.contentView addSubview:_msgView];
     
+    _reactionView = [[EMMessageReactionView alloc] init];
+    [self.contentView addSubview:_reactionView];
+    
     if(self.isTranslating || self.translateResult.showTranslation) {
         self.translateView.clipsToBounds = YES;
         [self.contentView addSubview:self.translateView];
@@ -146,6 +151,11 @@
                 make.left.greaterThanOrEqualTo(self.contentView).with.offset(60);
                 make.right.equalTo(self.avatarView.mas_left).offset(-10);
                 make.top.equalTo(self.msgView.mas_bottom).offset(10);
+                make.bottom.equalTo(self.reactionView.mas_top);
+            }];
+            [_reactionView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(self.msgView);
+                make.width.mas_equalTo(100);
                 make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
         }else{
@@ -158,6 +168,11 @@
                 make.left.equalTo(self.avatarView.mas_right).with.offset(10);
                 make.right.lessThanOrEqualTo(self.contentView).offset(-60);
                 make.top.equalTo(self.msgView.mas_bottom).offset(10);
+                make.bottom.equalTo(self.reactionView.mas_top);
+            }];
+            [_reactionView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.msgView);
+                make.width.mas_equalTo(100);
                 make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
         }
@@ -172,6 +187,11 @@
                 make.left.greaterThanOrEqualTo(self.contentView).with.offset(60);
                 make.top.equalTo(self.avatarView).with.offset(30);
                 make.right.equalTo(self.avatarView.mas_left).offset(-10);
+                make.bottom.equalTo(self.reactionView.mas_top);
+            }];
+            [_reactionView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(self.msgView);
+                make.width.mas_equalTo(100);
                 make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
         }else{
@@ -179,6 +199,11 @@
                 make.left.equalTo(self.avatarView.mas_right).with.offset(10);
                 make.top.equalTo(self.avatarView).with.offset(30);
                 make.right.lessThanOrEqualTo(self.contentView).offset(-60);
+                make.bottom.equalTo(self.reactionView.mas_top);
+            }];
+            [_reactionView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.msgView);
+                make.width.mas_equalTo(100);
                 make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
         }
@@ -259,7 +284,6 @@
     if (model.direction == EMMessageDirectionSend) {
         [self.statusView setSenderStatus:model.message.status isReadAcked:model.message.isReadAcked];
     } else {
-        
         self.nameLabel.text = model.message.from;
         if(!self.nameLabel.superview) {
             if (_model.message.chatType != EMChatTypeChat) {
@@ -279,6 +303,7 @@
     }
     _avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
     [_avatarView showUserInfoAvatar:model.message.from];
+    _reactionView.reactionList = model.message.reactionList;
 }
 
 #pragma mark - getter

@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) EMTranslationResult* translateResult;
 @property (nonatomic,strong) TranslateTextBubbleView* translateView;
 
+
 - (instancetype)initWithDirection:(EMMessageDirection)aDirection
                              type:(EMMessageType)aType
                           msgView:(EMMsgBubbleView*)aMsgView;

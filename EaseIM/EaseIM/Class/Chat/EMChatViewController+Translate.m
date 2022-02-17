@@ -12,6 +12,7 @@
 #import <objc/runtime.h>
 
 @implementation EMChatViewController (Translate)
+
 - (NSMutableArray<EaseExtMenuModel *> *)customCellLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel*>*)defaultLongPressItems customCell:(UITableViewCell*)customCell
 {
     NSArray<UIGestureRecognizer *>* gestureRecognizers = customCell.gestureRecognizers;
@@ -38,6 +39,9 @@
             [menuArray addObject:forwardMenu];
             if ([defaultLongPressItems count] >= 3 && [cell.model.message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
                 [menuArray addObject:defaultLongPressItems[2]];
+            }
+            if ([defaultLongPressItems count] >= 4 && [cell.model.message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
+                [menuArray addObject:defaultLongPressItems[3]];
             }
             
             if(!cell.translateResult.showTranslation) {
