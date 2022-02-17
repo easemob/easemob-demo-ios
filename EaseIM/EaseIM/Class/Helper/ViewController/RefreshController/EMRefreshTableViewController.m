@@ -26,6 +26,10 @@
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
 
+    if(@available(iOS 15.0,*) ){
+        self.tableView.sectionHeaderTopPadding = 0.0f;
+    }
+    
     self.tableView.tableFooterView = self.defaultFooterView;
     
     _page = 0;
