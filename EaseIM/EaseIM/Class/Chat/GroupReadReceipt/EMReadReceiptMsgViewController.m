@@ -22,7 +22,7 @@
 @property (nonatomic, strong) UIButton *closeButton;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) EMTextView *textView;
-@property (nonatomic, strong) EMMessage *message;
+@property (nonatomic, strong) EMChatMessage *message;
 @property (strong, nonatomic) NSMutableArray *dataArray;
 @property (strong, nonatomic) NSString *groupId;
 
@@ -54,7 +54,7 @@
     return self;
 }
 
-- (instancetype)initWithMessage:(EMMessage *)message groupId:(NSString *)groupId {
+- (instancetype)initWithMessage:(EMChatMessage *)message groupId:(NSString *)groupId {
     self = [super init];
     if(self){
         self.message = message;
@@ -88,12 +88,12 @@
     }];
 }
 
-- (NSArray *)_formatMessages:(NSArray<EMMessage *> *)aMessages
+- (NSArray *)_formatMessages:(NSArray<EMChatMessage *> *)aMessages
 {
     NSMutableArray *formated = [[NSMutableArray alloc] init];
     NSString *timeStr;
     for (int i = 0; i < [aMessages count]; i++) {
-        EMMessage *msg = aMessages[i];
+        EMChatMessage *msg = aMessages[i];
         CGFloat interval = (self.msgTimelTag - msg.timestamp) / 1000;
         if (self.msgTimelTag < 0 || interval > 60 || interval < -60) {
             timeStr = [EMDateHelper formattedTimeFromTimeInterval:self.message.timestamp];

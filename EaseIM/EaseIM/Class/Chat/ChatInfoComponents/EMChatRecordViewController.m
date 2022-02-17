@@ -112,7 +112,7 @@
             dispatch_async(self.msgQueue, ^{
                 NSMutableArray *msgArray = [[NSMutableArray alloc] init];
                 for (int i = 0; i < [aMessages count]; i++) {
-                    EMMessage *msg = aMessages[i];
+                    EMChatMessage *msg = aMessages[i];
                     if(msg.body.type == EMMessageBodyTypeText) {
                         EMTextMessageBody* textBody = (EMTextMessageBody*)msg.body;
                         NSRange range = [textBody.text rangeOfString:aString options:NSCaseInsensitiveSearch];
@@ -139,12 +139,12 @@
 
 #pragma mark - Data
 
-- (NSArray *)_formatMessages:(NSArray<EMMessage *> *)aMessages
+- (NSArray *)_formatMessages:(NSArray<EMChatMessage *> *)aMessages
 {
     NSMutableArray *formated = [[NSMutableArray alloc] init];
     NSString *timeStr;
     for (int i = 0; i < [aMessages count]; i++) {
-        EMMessage *msg = aMessages[i];
+        EMChatMessage *msg = aMessages[i];
         if (!(msg.body.type == EMMessageBodyTypeText))
             continue;
         if ([msg.ext objectForKey:MSG_EXT_GIF] || [msg.ext objectForKey:MSG_EXT_RECALL] || [msg.ext objectForKey:MSG_EXT_NEWNOTI])
