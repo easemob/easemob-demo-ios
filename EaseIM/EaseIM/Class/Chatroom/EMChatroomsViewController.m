@@ -23,17 +23,23 @@
     self.page = 1;
     [self _fetchChatroomsWithPage:self.page isHeader:YES isShowHUD:YES];
     [[EMClient sharedClient].roomManager addDelegate:self delegateQueue:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(reloadData) name:CHATROOM_INFO_UPDATED object:nil];
 }
 
 - (void)dealloc
 {
     [[EMClient sharedClient].roomManager removeDelegate:self];
+    [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+}
+
+- (void)reloadData {
+    [self.tableView reloadData];
 }
 
 #pragma mark - Subviews

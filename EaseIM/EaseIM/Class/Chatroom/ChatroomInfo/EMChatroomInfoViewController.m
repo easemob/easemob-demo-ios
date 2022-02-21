@@ -370,6 +370,7 @@
             if (!aError) {
                 [weakself _resetChatroom:aChatroom];
                 [weakController.navigationController popViewControllerAnimated:YES];
+                [NSNotificationCenter.defaultCenter postNotificationName:CHATROOM_INFO_UPDATED object:nil];
             } else {
                 [EMAlertController showErrorAlert:NSLocalizedString(@"updateChatroomSubjectFail", nil)];
             }

@@ -37,7 +37,7 @@
 {
     self = [super init];
     if (self) {
-        self.demoOptions = [[EMDemoOptions sharedOptions] copy];
+        self.demoOptions = [EMDemoOptions.sharedOptions copy];
         self.enableEdit = aEnableEdit;
         self.finishCompletion = aFinishBlock;
     }
@@ -148,14 +148,7 @@
 //是否使用自定义服务器
 - (void)switchServerChanged:(UISwitch *)sw
 {
-    if(sw.isOn) {
-        self.tableView.hidden = NO;
-        [self gl];
-        _gl.frame = CGRectMake(0,0,_loginButton.frame.size.width,_loginButton.frame.size.height);
-        [self.loginButton.layer addSublayer:self.gl];
-    }else{
-        self.tableView.hidden = YES;
-    }
+    [self.tableView reloadData];
 }
 
 - (void)backBackion
@@ -415,9 +408,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger count = [((NSArray *)self.cellArray[section]) count];
-    
-    return count;
+    if (self.sw.isOn || section == self.cellArray.count - 1) {
+        return [self.cellArray[section] count];
+    } else {
+        return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -435,8 +430,9 @@
     }];
     if(indexPath.section == 3) {
         backView.backgroundColor = [UIColor clearColor];
-        [self gl];
-        _gl.frame = CGRectMake(0,0,backView.frame.size.width,backView.frame.size.height);
+        [self.gl removeFromSuperlayer];
+        [backView layoutIfNeeded];
+        self.gl.frame = CGRectMake(0,0,backView.frame.size.width,backView.frame.size.height);
         [backView.layer addSublayer:self.gl];
     }
     return cell;
@@ -502,7 +498,7 @@
         if (self.enableEdit) {
             [EMDemoOptions reInitAndSaveServerOptions];
             
-            self.demoOptions = [[EMDemoOptions sharedOptions] copy];
+            self.demoOptions = [EMDemoOptions.sharedOptions copy];
             [self _reloadCellValues];
         } else {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:NSLocalizedString(@"applyConfigPrompt", nil) preferredStyle:UIAlertControllerStyleAlert];
@@ -556,17 +552,22 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:NSLocalizedString(@"applyConfigPrompt", nil) preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"well", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
-        demoOptions.appkey = self.demoOptions.appkey;
-        demoOptions.apnsCertName = self.demoOptions.apnsCertName;
-        demoOptions.specifyServer = self.demoOptions.specifyServer;
-        demoOptions.chatPort = self.demoOptions.chatPort;
-        demoOptions.chatServer = self.demoOptions.chatServer;
-        demoOptions.restServer = self.demoOptions.restServer;
-        demoOptions.usingHttpsOnly = self.demoOptions.usingHttpsOnly;
-        demoOptions.isCustomServer = YES;
-        [demoOptions.locationAppkeyArray removeAllObjects];
-        [demoOptions.locationAppkeyArray insertObject:demoOptions.appkey atIndex:0];
-        [demoOptions archive];
+        demoOptions.isCustomServer = self.sw.isOn;
+        if (self.sw.isOn) {
+            demoOptions.appkey = self.demoOptions.appkey;
+            demoOptions.apnsCertName = self.demoOptions.apnsCertName;
+            demoOptions.specifyServer = self.demoOptions.specifyServer;
+            demoOptions.chatPort = self.demoOptions.chatPort;
+            demoOptions.chatServer = self.demoOptions.chatServer;
+            demoOptions.restServer = self.demoOptions.restServer;
+            demoOptions.usingHttpsOnly = self.demoOptions.usingHttpsOnly;
+            [demoOptions.locationAppkeyArray removeAllObjects];
+            [demoOptions.locationAppkeyArray insertObject:demoOptions.appkey atIndex:0];
+            [demoOptions archive];
+        } else {
+            [demoOptions.locationAppkeyArray removeAllObjects];
+            [EMDemoOptions reInitAndSaveServerOptions];
+        }
         
         exit(0);
     }];

@@ -262,24 +262,24 @@ static EMDemoOptions *sharedOptions = nil;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedOptions = [EMDemoOptions getOptionsFromLocal];
+        sharedOptions = EMDemoOptions.customOptions;
+        if (!sharedOptions) {
+            sharedOptions = EMDemoOptions.defaultOptions;
+            [sharedOptions archive];
+        }
     });
     
     return sharedOptions;
 }
 
-+ (EMDemoOptions *)getOptionsFromLocal
-{
-    EMDemoOptions *retModel = nil;
++ (instancetype)customOptions {
     NSString *fileName = @"emdemo_options.data";
     NSString *file = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:fileName];
-    retModel = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
-    if (!retModel) {
-        retModel = [[EMDemoOptions alloc] init];
-        [retModel archive];
-    }
-    
-    return retModel;
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:file];
+}
+
++ (instancetype)defaultOptions {
+    return [[EMDemoOptions alloc] init];
 }
 
 + (void)reInitAndSaveServerOptions
