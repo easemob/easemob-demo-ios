@@ -683,8 +683,14 @@
     __weak typeof(self) weakself = self;
     void (^block)(EMError *aError) = ^(EMError *aError) {
         if (!aError && [EMClient sharedClient].options.isDeleteMessagesWhenExitGroup) {
-            [[EMClient sharedClient].chatManager deleteConversation:weakself.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
-                [[EMTranslationManager sharedManager] removeTranslationByConversationId:weakself.groupId];
+            [[EMClient sharedClient].chatManager deleteServerConversation:weakself.groupId conversationType:EMConversationTypeGroupChat isDeleteServerMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+                if (aError) {
+                    [weakself showHint:aError.errorDescription];
+                }
+                
+                [[EMClient sharedClient].chatManager deleteConversation:weakself.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+                    [[EMTranslationManager sharedManager] removeTranslationByConversationId:weakself.groupId];
+                }];
             }];
         }
         [weakself hideHud];

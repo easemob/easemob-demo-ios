@@ -209,8 +209,8 @@ static EMDemoOptions *sharedOptions = nil;
     self.apnsCertName = @"EaseIM_APNS_Product";
 #endif
     self.usingHttpsOnly = YES;
-    //self.specifyServer = YES;
-    self.specifyServer = NO;
+    self.specifyServer = YES;
+    //self.specifyServer = NO;
     //self.chatServer = @"msync-im1.sandbox.easemob.com";
     //self.chatServer = @"msync-im-41-p.easemob.com";
     //self.chatServer = @"116.85.43.118";
