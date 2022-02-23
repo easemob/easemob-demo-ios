@@ -11,7 +11,7 @@ target 'EaseIM' do
     pod 'Masonry'
     pod 'MJRefresh'
     pod 'SDWebImage'
-    pod 'AgoraRtcEngine_iOS'
+    pod 'AgoraRtcEngine_iOS','3.6.1.2'
     pod 'FMDB'
     pod 'HyphenateChat'
     pod 'EaseIMKit'
