@@ -2369,11 +2369,23 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-resources.sh",
-				"${PODS_ROOT}/../../../EaseIMKit_Release/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Classes/Chat/ChatBar/MoreView/MoreFunction/EMBottomMoreFunctionView.xib",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Classes/Chat/ChatBar/MoreView/MoreFunction/EMBottomMoreFunctionViewEmojiCell.xib",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Classes/Chat/ChatBar/MoreView/MoreFunction/EMBottomMoreFunctionViewMenuItemCell.xib",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Classes/Chat/ChatBar/MoreView/MoreFunction/EMBottomReactionDetailReactionCell.xib",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Classes/Chat/ChatBar/MoreView/MoreFunction/EMBottomReactionDetailUserCell.xib",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Classes/Chat/ChatBar/MoreView/MoreFunction/EMBottomReactionDetailView.xib",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EaseIMKit.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EMBottomMoreFunctionView.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EMBottomMoreFunctionViewEmojiCell.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EMBottomMoreFunctionViewMenuItemCell.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EMBottomReactionDetailReactionCell.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EMBottomReactionDetailUserCell.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EMBottomReactionDetailView.nib",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

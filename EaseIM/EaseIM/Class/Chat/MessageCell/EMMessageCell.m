@@ -13,6 +13,7 @@
 #import "UserInfoStore.h"
 #import <UIImageView+WebCache.h>
 #import "UIImageView+UserInfo.h"
+
 @import EaseIMKit;
 
 @interface EMMessageCell()
@@ -136,6 +137,11 @@
     [self.contentView addSubview:_msgView];
     
     _reactionView = [[EMMessageReactionView alloc] init];
+    _reactionView.onClick = ^{
+        [EMBottomReactionDetailView showMenuItems:self.model.message animation:YES didRemoveSelfReaction:^(NSString * _Nonnull reaction) {
+            
+        }];
+    };
     [self.contentView addSubview:_reactionView];
     
     if(self.isTranslating || self.translateResult.showTranslation) {
@@ -151,12 +157,13 @@
                 make.left.greaterThanOrEqualTo(self.contentView).with.offset(60);
                 make.right.equalTo(self.avatarView.mas_left).offset(-10);
                 make.top.equalTo(self.msgView.mas_bottom).offset(10);
-                make.bottom.equalTo(self.reactionView.mas_top);
+                make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
             [_reactionView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.right.equalTo(self.msgView);
                 make.width.mas_equalTo(100);
-                make.bottom.equalTo(self.contentView).with.offset(-10);
+                make.top.equalTo(self.msgView).offset(-18);
+                make.height.mas_equalTo(28);
             }];
         }else{
             [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -168,12 +175,13 @@
                 make.left.equalTo(self.avatarView.mas_right).with.offset(10);
                 make.right.lessThanOrEqualTo(self.contentView).offset(-60);
                 make.top.equalTo(self.msgView.mas_bottom).offset(10);
-                make.bottom.equalTo(self.reactionView.mas_top);
+                make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
             [_reactionView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self.msgView);
+                make.right.equalTo(self.msgView);
                 make.width.mas_equalTo(100);
-                make.bottom.equalTo(self.contentView).with.offset(-10);
+                make.top.equalTo(self.msgView).offset(-18);
+                make.height.mas_equalTo(28);
             }];
         }
         self.translateView.textLabel.text = self.translateResult.translations;
@@ -187,24 +195,26 @@
                 make.left.greaterThanOrEqualTo(self.contentView).with.offset(60);
                 make.top.equalTo(self.avatarView).with.offset(30);
                 make.right.equalTo(self.avatarView.mas_left).offset(-10);
-                make.bottom.equalTo(self.reactionView.mas_top);
+                make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
             [_reactionView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.right.equalTo(self.msgView);
                 make.width.mas_equalTo(100);
-                make.bottom.equalTo(self.contentView).with.offset(-10);
+                make.top.equalTo(self.msgView).offset(-18);
+                make.height.mas_equalTo(28);
             }];
         }else{
             [_msgView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self.avatarView.mas_right).with.offset(10);
                 make.top.equalTo(self.avatarView).with.offset(30);
                 make.right.lessThanOrEqualTo(self.contentView).offset(-60);
-                make.bottom.equalTo(self.reactionView.mas_top);
+                make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
             [_reactionView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self.msgView);
+                make.right.equalTo(self.msgView);
                 make.width.mas_equalTo(100);
-                make.bottom.equalTo(self.contentView).with.offset(-10);
+                make.top.equalTo(self.msgView).offset(-18);
+                make.height.mas_equalTo(28);
             }];
         }
     }
