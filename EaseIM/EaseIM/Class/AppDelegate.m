@@ -47,7 +47,7 @@
     config.version = [EMClient sharedClient].version;
     config.deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     config.unexpectedTerminatingDetectionEnable = true;
-    [Bugly startWithAppId:@"3e7704ec60" config:config];
+    [Bugly startWithAppId:@"请填写您的 bugly ID" config:config];
     NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
     NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
     [self.window makeKeyAndVisible];
@@ -149,23 +149,35 @@
     if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         //apns推送
         NSLog(@"userInfo : %@",userInfo);
+        [self pushDataToTestLog:[NSString stringWithFormat:@"notificationlog:type==%@ channel==%@ title==%@ \n userInfo===",(state == EMWillPresentNotification?@"arrive":@"click"),@"apns推送",notification.request.content.title] userInfo:userInfo];
     }else{
         //本地推送
         NSLog(@"userInfo : %@ \n ext : %@",userInfo,userInfo[@"ext"]);
+        [self pushDataToTestLog:[NSString stringWithFormat:@"notificationlog:type===%@ channel===%@ title===%@ \n userInfo===",(state == EMWillPresentNotification?@"arrive":@"click"),@"环信在线推送",notification.request.content.title] userInfo:userInfo];
     }
-    
+
     if (state == EMDidReceiveNotificationResponse) {
         //通知被点开
-       
+
     }else{
         //即将展示通知
     }
+
 }
 
-//当应用收到环信推送透传消息时，此方法会被调用 注意这里指是指使用环信推送功能的透传消息
+//当应用收到环信推送透传消息时，此方法会被调用 注意这里是使用环信推送功能的透传消息
 - (void)emDidRecivePushSilentMessage:(NSDictionary *)messageDic
 {
     NSLog(@"emDidRecivePushSilentMessage : %@",messageDic);
+    [self pushDataToTestLog:@"notificationlog:透传消息===" userInfo:messageDic];
+}
+
+-(void)pushDataToTestLog:(NSString*)keyStr userInfo:(NSDictionary*)userInfo
+{
+    NSError *parseError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfo options:NSJSONWritingPrettyPrinted error:&parseError];
+    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    [[EMClient sharedClient] log:[NSString stringWithFormat:@"%@%@",keyStr,userInfo]];
 }
 
 #pragma mark - EMPushManagerDelegateDevice
@@ -259,6 +271,10 @@
         }
         
         [[EMClient sharedClient].pushManager getPushNotificationOptionsFromServerWithCompletion:^(EMPushOptions * _Nonnull aOptions, EMError * _Nonnull aError) {
+            if (!aError) {
+                [[EaseIMKitManager shared] cleanMemoryUndisturbMaps];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"EMUserPushConfigsUpdateSuccess" object:nil];//更新用户重启App时，会话免打扰状态UI同步
+            }
         }];
         [[EMClient sharedClient].groupManager getJoinedGroupsFromServerWithPage:0 pageSize:-1 completion:^(NSArray *aList, EMError *aError) {
             if (!aError) {

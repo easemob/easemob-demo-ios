@@ -101,7 +101,7 @@ static SingleCallController *callManager = nil;
 - (void)insertLocationCallRecord:(NSArray*)messages
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:EMCOMMMUNICATE_RECORD object:@{@"msg":messages}];//刷新页面
-   // EMMessage *message = [[EMMessage alloc] initWithConversationID:callSession.remoteName from:from to:to body:body ext:ext];
+   // EMChatMessage *message = [[EMChatMessage alloc] initWithConversationID:callSession.remoteName from:from to:to body:body ext:ext];
 //    message.direction = [from isEqualToString:[[EMClient sharedClient] currentUsername]] ? EMMessageDirectionSend : EMMessageDirectionReceive;
 //    message.chatType = EMChatTypeChat;
 //    [conversation appendMessage:message error:nil];
