@@ -12,12 +12,13 @@
 #import "EMConversationsViewController.h"
 #import "EMContactsViewController.h"
 #import "EaseIMHelper.h"
+#import "UserInfoStore.h"
 
 #define kTabbarItemTag_Conversation 0
 #define kTabbarItemTag_Contact 1
 #define kTabbarItemTag_Settings 2
 
-@interface EMHomeViewController ()<UITabBarDelegate, EMChatManagerDelegate, EaseIMKitManagerDelegate>
+@interface EMHomeViewController ()<UITabBarDelegate, EMChatManagerDelegate, EaseIMKitManagerDelegate, EaseIMKitManagerGeneralDelegate>
 
 @property (nonatomic) BOOL isViewAppear;
 
@@ -41,6 +42,7 @@
     //监听消息接收，主要更新会话tabbaritem的badge
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     [EaseIMKitManager.shared addDelegate:self];
+    EaseIMKitManager.shared.generalDelegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -235,6 +237,16 @@
         weakself.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;
     });
     [EMRemindManager updateApplicationIconBadgeNumber:unreadCount];
+}
+
+- (void)getUserInfo:(NSString *)userId result:(void (^)(EMUserInfo * _Nonnull))result
+{
+    EMUserInfo *userInfo = [UserInfoStore.sharedInstance getUserInfoById:userId];
+    result(userInfo);
+}
+
+- (UIImage *)defaultAvatar {
+    return [UIImage imageNamed:@"defaultAvatar"];
 }
 
 #pragma mark - Private

@@ -16,7 +16,7 @@
 
 @import EaseIMKit;
 
-@interface EMMessageCell()
+@interface EMMessageCell() <EMMaskHighlightViewDelegate>
 
 @property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
@@ -136,11 +136,13 @@
     self.msgView.clipsToBounds = YES;
     [self.contentView addSubview:_msgView];
     
+    __weak typeof(self)weakSelf = self;
     _reactionView = [[EMMessageReactionView alloc] init];
+    _reactionView.direction = _direction;
     _reactionView.onClick = ^{
-        [EMBottomReactionDetailView showMenuItems:self.model.message animation:YES didRemoveSelfReaction:^(NSString * _Nonnull reaction) {
-            
-        }];
+        if ([weakSelf.delegate respondsToSelector:@selector(messageCellDidClickReactionView:)]) {
+            [weakSelf.delegate messageCellDidClickReactionView:weakSelf.model];
+        }
     };
     [self.contentView addSubview:_reactionView];
     
@@ -178,7 +180,7 @@
                 make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
             [_reactionView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(self.msgView);
+                make.left.equalTo(self.msgView);
                 make.width.mas_equalTo(100);
                 make.top.equalTo(self.msgView).offset(-18);
                 make.height.mas_equalTo(28);
@@ -211,7 +213,7 @@
                 make.bottom.equalTo(self.contentView).with.offset(-10);
             }];
             [_reactionView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(self.msgView);
+                make.left.equalTo(self.msgView);
                 make.width.mas_equalTo(100);
                 make.top.equalTo(self.msgView).offset(-18);
                 make.height.mas_equalTo(28);
@@ -345,6 +347,11 @@
             [self.delegate messageCellDidSelected:self];
         }
     }
+}
+
+#pragma mark - EMHollowedOutPathDelegate
+- (NSArray<UIView *> *)maskHighlight {
+    return @[_msgView, _reactionView, _avatarView];
 }
 
 @end

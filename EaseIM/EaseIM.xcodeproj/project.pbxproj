@@ -232,8 +232,6 @@
 		3C729D09257144AE003DB315 /* EMButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C729C66257144AE003DB315 /* EMButton.m */; };
 		3C729D1C257238FD003DB315 /* EMContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C729D1B257238FD003DB315 /* EMContactModel.m */; };
 		3C729D9825727461003DB315 /* EMAtGroupMembersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C729D962572745E003DB315 /* EMAtGroupMembersViewController.m */; };
-		3C729D9C25727A09003DB315 /* forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C729D9A25727A04003DB315 /* forward@2x.png */; };
-		3C729D9D25727A09003DB315 /* forward@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C729D9B25727A09003DB315 /* forward@3x.png */; };
 		3C729DA225727ACB003DB315 /* EMChatViewController+EMForwardMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C729DA125727ACB003DB315 /* EMChatViewController+EMForwardMessage.m */; };
 		3C729DA625727CC3003DB315 /* EMMsgTranspondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C729DA425727CC0003DB315 /* EMMsgTranspondViewController.m */; };
 		3C729DD52572937B003DB315 /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C729DD325729379003DB315 /* search@2x.png */; };
@@ -324,6 +322,8 @@
 		3CBCF5F923A24FC70053E227 /* systemNotify@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CBCF5F623A24FC10053E227 /* systemNotify@2x.png */; };
 		3CBCF5FB23A24FC70053E227 /* systemNotify@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CBCF5F823A24FC60053E227 /* systemNotify@3x.png */; };
 		3CE6293319A1B13700829632 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE6293219A1B13700829632 /* CoreText.framework */; };
+		5DE7875B27CE07E30064A4EA /* forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5DE7875927CE07E30064A4EA /* forward@2x.png */; };
+		5DE7875C27CE07E30064A4EA /* forward@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5DE7875A27CE07E30064A4EA /* forward@3x.png */; };
 		6654495F27796B1D008AA2AE /* undisturbDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495927796B1D008AA2AE /* undisturbDot@2x.png */; };
 		6654496327796B1D008AA2AE /* undisturbDot.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495D27796B1D008AA2AE /* undisturbDot.png */; };
 		6654496427796B1D008AA2AE /* undisturbDot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495E27796B1D008AA2AE /* undisturbDot@3x.png */; };
@@ -712,8 +712,6 @@
 		3C729D1B257238FD003DB315 /* EMContactModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMContactModel.m; sourceTree = "<group>"; };
 		3C729D962572745E003DB315 /* EMAtGroupMembersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMAtGroupMembersViewController.m; sourceTree = "<group>"; };
 		3C729D9725727461003DB315 /* EMAtGroupMembersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAtGroupMembersViewController.h; sourceTree = "<group>"; };
-		3C729D9A25727A04003DB315 /* forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@2x.png"; sourceTree = "<group>"; };
-		3C729D9B25727A09003DB315 /* forward@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@3x.png"; sourceTree = "<group>"; };
 		3C729DA025727ACB003DB315 /* EMChatViewController+EMForwardMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EMChatViewController+EMForwardMessage.h"; sourceTree = "<group>"; };
 		3C729DA125727ACB003DB315 /* EMChatViewController+EMForwardMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "EMChatViewController+EMForwardMessage.m"; sourceTree = "<group>"; };
 		3C729DA425727CC0003DB315 /* EMMsgTranspondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMMsgTranspondViewController.m; sourceTree = "<group>"; };
@@ -836,6 +834,8 @@
 		3CBCF5F623A24FC10053E227 /* systemNotify@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "systemNotify@2x.png"; sourceTree = "<group>"; };
 		3CBCF5F823A24FC60053E227 /* systemNotify@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "systemNotify@3x.png"; sourceTree = "<group>"; };
 		3CE6293219A1B13700829632 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		5DE7875927CE07E30064A4EA /* forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@2x.png"; sourceTree = "<group>"; };
+		5DE7875A27CE07E30064A4EA /* forward@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@3x.png"; sourceTree = "<group>"; };
 		6654495927796B1D008AA2AE /* undisturbDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbDot@2x.png"; sourceTree = "<group>"; };
 		6654495D27796B1D008AA2AE /* undisturbDot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undisturbDot.png; sourceTree = "<group>"; };
 		6654495E27796B1D008AA2AE /* undisturbDot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbDot@3x.png"; sourceTree = "<group>"; };
@@ -1592,14 +1592,14 @@
 				3C68ED492574D70C004E167F /* video_conf@3x.png */,
 				3C68ED202574D154004E167F /* groupInfo@2x.png */,
 				3C68ED212574D156004E167F /* groupInfo@3x.png */,
+				5DE7875927CE07E30064A4EA /* forward@2x.png */,
+				5DE7875A27CE07E30064A4EA /* forward@3x.png */,
 				3C68ED1B2574D147004E167F /* userData@2x.png */,
 				3C68ED1C2574D149004E167F /* userData@3x.png */,
 				3C68ED162574D133004E167F /* backleft@2x.png */,
 				3C68ED172574D134004E167F /* backleft@3x.png */,
 				3C729DED25729874003DB315 /* icon-setting@2x.png */,
 				3C729DEC2572986F003DB315 /* icon-setting@3x.png */,
-				3C729D9A25727A04003DB315 /* forward@2x.png */,
-				3C729D9B25727A09003DB315 /* forward@3x.png */,
 				C0E75AD02744F03200E7B0E8 /* hide@2x.png */,
 				C0E75AD12744F03200E7B0E8 /* hide@3x.png */,
 				C0E75ACE2744F03100E7B0E8 /* translate@2x.png */,
@@ -2014,7 +2014,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0810;
-				ORGANIZATIONNAME = ___FULLUSERNAME___;
+				ORGANIZATIONNAME = "___FULLUSERNAME___";
 				TargetAttributes = {
 					90911023192EEA70008A48AA = {
 						DevelopmentTeam = 499WYUV8Q2;
@@ -2094,7 +2094,6 @@
 				C0E75AD22744F03200E7B0E8 /* translate@2x.png in Resources */,
 				3C8437672510B2D4003CFA53 /* webRefreshButton@3x.png in Resources */,
 				3C4AED0E2499FE5F001F7C50 /* unableClick.png in Resources */,
-				3C729D9D25727A09003DB315 /* forward@3x.png in Resources */,
 				3A45E3962223A49E00505786 /* chatroom_avatar@2x.png in Resources */,
 				3C37DF112382508500399AE8 /* back_left.png in Resources */,
 				C0DB11A627707D2D00E4B8A9 /* sendFail@3x.png in Resources */,
@@ -2131,6 +2130,7 @@
 				3A45E0942223A28F00505786 /* user_avatar_gray@3x.png in Resources */,
 				3C7A1512239118C100F4AC48 /* win@3x.png in Resources */,
 				3A45E0892223A28F00505786 /* close_gray@2x.png in Resources */,
+				5DE7875C27CE07E30064A4EA /* forward@3x.png in Resources */,
 				3A45E08D2223A28F00505786 /* group_avatar@3x.png in Resources */,
 				C0E9E52A261339FE0080AB28 /* userinfo@3x.png in Resources */,
 				3A45E0362223A22600505786 /* device_disable@2x.png in Resources */,
@@ -2145,7 +2145,6 @@
 				3C4AED072499F8B7001F7C50 /* agreeProtocol.png in Resources */,
 				3C91A0A925C3FFBD00103C2E /* music.mp3 in Resources */,
 				3C66262C250B2C2400B88AD5 /* groupConversation@3x.png in Resources */,
-				3C729D9C25727A09003DB315 /* forward@2x.png in Resources */,
 				3C9A97BA257CDFD300752F28 /* groupchat@2x.png in Resources */,
 				3A45E0322223A22600505786 /* qr@3x.png in Resources */,
 				3C59EDCB257E4C640009DF69 /* pin_readReceipt@2x.png in Resources */,
@@ -2245,6 +2244,7 @@
 				3C4AED25249A1415001F7C50 /* unAgreeProtocol@3x.png in Resources */,
 				3A45E0FA2223A30000505786 /* alert_default@2x.png in Resources */,
 				3C4AED5B249A2FB8001F7C50 /* icon-tab会话unselected.png in Resources */,
+				5DE7875B27CE07E30064A4EA /* forward@2x.png in Resources */,
 				3C7A14E2238FC72800F4AC48 /* back_left_black@3x.png in Resources */,
 				3C4AED56249A2FAB001F7C50 /* icon-tab会话.png in Resources */,
 				668D54EA277EF37E007E5097 /* undisturbRing@2x.png in Resources */,

@@ -24,6 +24,7 @@
 #import "ConfirmUserCardView.h"
 #import "EMAccountViewController.h"
 #import "EMChatViewController+Translate.h"
+#import "EMBottomReactionDetailView.h"
 
 @interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
@@ -372,7 +373,15 @@
             }
         }];
     }
-    
+}
+
+- (void)messageCellDidClickReactionView:(EaseMessageModel *)aModel {
+    [EMBottomReactionDetailView showMenuItems:aModel.message animation:YES didRemoveSelfReaction:^(NSString * _Nonnull reaction) {
+        __weak typeof(self)weakSelf = self;
+        [EMClient.sharedClient.reactionManager removeReaction:reaction fromMessage:aModel.message.messageId completion:^(EMError * _Nullable error) {
+            [weakSelf.chatController.tableView reloadData];
+        }];
+    }];
 }
 
 #pragma mark - data
@@ -395,8 +404,6 @@
         [self.conversation loadMessagesStartFromId:self.moreMsgId count:50 searchDirection:EMMessageSearchDirectionUp completion:block];
     }
 }
-
-#pragma mark - EMMoreFunctionViewDelegate
 
 //群组阅读回执跳转
 - (void)groupReadReceiptAction
