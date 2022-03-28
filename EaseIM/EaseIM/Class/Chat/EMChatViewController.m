@@ -183,7 +183,7 @@
             return userCardCell;
         }
     }
-    if(messageModel.message.body.type == EMMessageTypeText)
+    if(messageModel.type == EMMessageTypeText)
     {
         NSString* msgId = messageModel.message.messageId;
         EMTranslationResult* translateResult = [[EMTranslationManager sharedManager] getTranslationByMsgId:msgId];
