@@ -378,8 +378,8 @@
 - (void)messageCellDidClickReactionView:(EaseMessageModel *)aModel {
     [EMBottomReactionDetailView showMenuItems:aModel.message animation:YES didRemoveSelfReaction:^(NSString * _Nonnull reaction) {
         __weak typeof(self)weakSelf = self;
-        [EMClient.sharedClient.reactionManager removeReaction:reaction fromMessage:aModel.message.messageId completion:^(EMError * _Nullable error) {
-            [weakSelf.chatController.tableView reloadData];
+        [EMClient.sharedClient.chatManager removeReaction:reaction fromMessage:aModel.message.messageId completion:^(EMError * _Nullable error) {
+            [weakSelf.chatController reloadVisibleRowsWithMessageIds:[NSSet setWithObject:aModel.message.messageId]];
         }];
     }];
 }
