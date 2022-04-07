@@ -196,6 +196,13 @@
         {
             [weakself.resultController.tableView setEditing:NO];
             int unreadCount = [[EMClient sharedClient].chatManager getConversationWithConvId:model.easeId].unreadMessagesCount;
+            
+            [[EMClient sharedClient].chatManager deleteServerConversation:model.easeId conversationType:model.type isDeleteServerMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+                if (aError) {
+                    [weakself showHint:aError.errorDescription];
+                }
+            }];
+            
             [[EMClient sharedClient].chatManager deleteConversation:model.easeId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
                 if (!aError) {
                     [[EMTranslationManager sharedManager] removeTranslationByConversationId:model.easeId];
@@ -432,17 +439,17 @@
     NSInteger row = indexPath.row;
     EaseConversationModel *model = [self.easeConvsVC.dataAry objectAtIndex:row];
     int unreadCount = [[EMClient sharedClient].chatManager getConversationWithConvId:model.easeId].unreadMessagesCount;
-    [[EMClient sharedClient].chatManager deleteConversation:model.easeId
-                                           isDeleteMessages:YES
-                                                 completion:^(NSString *aConversationId, EMError *aError) {
-        if (!aError) {
-            [[EMTranslationManager sharedManager] removeTranslationByConversationId:model.easeId];
+    [[EMClient sharedClient].chatManager deleteServerConversation:model.easeId conversationType:model.type isDeleteServerMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+        if (aError) {
+            [weakSelf showHint:aError.errorDescription];
+        }
+        [[EMClient sharedClient].chatManager deleteConversation:model.easeId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
             [weakSelf.easeConvsVC.dataAry removeObjectAtIndex:row];
             [weakSelf.easeConvsVC refreshTabView];
             if (unreadCount > 0 && weakSelf.deleteConversationCompletion) {
                 weakSelf.deleteConversationCompletion(YES);
             }
-        }
+        }];
     }];
 }
 

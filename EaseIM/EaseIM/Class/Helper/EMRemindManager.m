@@ -25,7 +25,7 @@ SystemSoundID soundID = 1007;
 @end
 
 @implementation EMRemindManager
-+ (void)remindMessage:(EMMessage *)aMessage {
++ (void)remindMessage:(EMChatMessage *)aMessage {
     [[EMRemindManager shared] remindMessage:aMessage];
 }
 
@@ -70,7 +70,7 @@ SystemSoundID soundID = 1007;
     });
 }
 
-- (void)remindMessage:(EMMessage *)aMessage {
+- (void)remindMessage:(EMChatMessage *)aMessage {
     if ([aMessage.from isEqualToString:EMClient.sharedClient.currentUsername]) {
         return;
     }
@@ -112,7 +112,7 @@ SystemSoundID soundID = 1007;
 }
 
 // 本地通知 needInfo: 是否显示通知详情
-- (void)_localNotification:(EMMessage *)message
+- (void)_localNotification:(EMChatMessage *)message
                   needInfo:(BOOL)isNeed {
     NSString *alertBody = nil;
     if (isNeed) {
