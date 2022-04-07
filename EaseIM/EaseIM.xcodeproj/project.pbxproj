@@ -337,6 +337,9 @@
 		90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECE1930492B00121AEC /* AddressBook.framework */; };
 		921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C6A9D1D2A841600D8257F /* CoreMotion.framework */; };
 		9EA3D50327BA3FD000FD621D /* ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9EA3D50227BA3FD000FD621D /* ring.caf */; };
+		A54CAED727FEDF0E0092282A /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = A54CAED627FEDF0E0092282A /* NotificationService.m */; };
+		A54CAEDB27FEDF0E0092282A /* EMPushServerExt.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A54CAED327FEDF0E0092282A /* EMPushServerExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A54CAEE027FEDF2F0092282A /* EMPushExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54CAEDF27FEDF2F0092282A /* EMPushExtension.framework */; };
 		C075E496262433B80080A126 /* titleTextImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E494262433B80080A126 /* titleTextImage@3x.png */; };
 		C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E495262433B80080A126 /* titleTextImage@2x.png */; };
 		C075E49E26243C0B0080A126 /* titleBackImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49C26243C0B0080A126 /* titleBackImage@3x.png */; };
@@ -376,6 +379,16 @@
 		EC6B516A2759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC6B51692759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A54CAED927FEDF0E0092282A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9091101C192EEA70008A48AA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A54CAED227FEDF0E0092282A;
+			remoteInfo = EMPushServerExt;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		3CDE808924FD024000BAA3E2 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -383,6 +396,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				A54CAEDB27FEDF0E0092282A /* EMPushServerExt.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -854,6 +868,11 @@
 		9EA3D50227BA3FD000FD621D /* ring.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ring.caf; sourceTree = "<group>"; };
 		9ED2B26D271EB17F00CB1CCA /* EMHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHttpRequest.m; sourceTree = "<group>"; };
 		9ED2B26E271EB17F00CB1CCA /* EMHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHttpRequest.h; sourceTree = "<group>"; };
+		A54CAED327FEDF0E0092282A /* EMPushServerExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EMPushServerExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A54CAED527FEDF0E0092282A /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
+		A54CAED627FEDF0E0092282A /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
+		A54CAED827FEDF0E0092282A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A54CAEDF27FEDF2F0092282A /* EMPushExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EMPushExtension.framework; sourceTree = "<group>"; };
 		C075E494262433B80080A126 /* titleTextImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@3x.png"; sourceTree = "<group>"; };
 		C075E495262433B80080A126 /* titleTextImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@2x.png"; sourceTree = "<group>"; };
 		C075E49C26243C0B0080A126 /* titleBackImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@3x.png"; sourceTree = "<group>"; };
@@ -935,6 +954,14 @@
 				90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */,
 				9091102C192EEA70008A48AA /* UIKit.framework in Frameworks */,
 				90911028192EEA70008A48AA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A54CAED027FEDF0E0092282A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A54CAEE027FEDF2F0092282A /* EMPushExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1866,6 +1893,7 @@
 			children = (
 				9EA3D50227BA3FD000FD621D /* ring.caf */,
 				3A45D69922239DE200505786 /* EaseIM */,
+				A54CAED427FEDF0E0092282A /* EMPushServerExt */,
 				90911026192EEA70008A48AA /* Frameworks */,
 				90911025192EEA70008A48AA /* Products */,
 				666D1711277BF9AE00B4FA69 /* Recovered References */,
@@ -1876,6 +1904,7 @@
 			isa = PBXGroup;
 			children = (
 				90911024192EEA70008A48AA /* EaseIM.app */,
+				A54CAED327FEDF0E0092282A /* EMPushServerExt.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1911,6 +1940,17 @@
 				9091102B192EEA70008A48AA /* UIKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A54CAED427FEDF0E0092282A /* EMPushServerExt */ = {
+			isa = PBXGroup;
+			children = (
+				A54CAEDF27FEDF2F0092282A /* EMPushExtension.framework */,
+				A54CAED527FEDF0E0092282A /* NotificationService.h */,
+				A54CAED627FEDF0E0092282A /* NotificationService.m */,
+				A54CAED827FEDF0E0092282A /* Info.plist */,
+			);
+			path = EMPushServerExt;
 			sourceTree = "<group>";
 		};
 		C0E75ADC2744F0AC00E7B0E8 /* Language */ = {
@@ -1985,11 +2025,29 @@
 			buildRules = (
 			);
 			dependencies = (
+				A54CAEDA27FEDF0E0092282A /* PBXTargetDependency */,
 			);
 			name = EaseIM;
 			productName = "ChatDemo-UI3.0";
 			productReference = 90911024192EEA70008A48AA /* EaseIM.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A54CAED227FEDF0E0092282A /* EMPushServerExt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A54CAEDE27FEDF0E0092282A /* Build configuration list for PBXNativeTarget "EMPushServerExt" */;
+			buildPhases = (
+				A54CAECF27FEDF0E0092282A /* Sources */,
+				A54CAED027FEDF0E0092282A /* Frameworks */,
+				A54CAED127FEDF0E0092282A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EMPushServerExt;
+			productName = EMPushServerExt;
+			productReference = A54CAED327FEDF0E0092282A /* EMPushServerExt.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -2012,6 +2070,11 @@
 							};
 						};
 					};
+					A54CAED227FEDF0E0092282A = {
+						CreatedOnToolsVersion = 13.0;
+						DevelopmentTeam = 499WYUV8Q2;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 9091101F192EEA70008A48AA /* Build configuration list for PBXProject "EaseIM" */;
@@ -2030,6 +2093,7 @@
 			projectRoot = "";
 			targets = (
 				90911023192EEA70008A48AA /* EaseIM */,
+				A54CAED227FEDF0E0092282A /* EMPushServerExt */,
 			);
 		};
 /* End PBXProject section */
@@ -2262,6 +2326,13 @@
 				3C37DF162382508500399AE8 /* icon_failure@2x.png in Resources */,
 				3C68ED1D2574D149004E167F /* userData@2x.png in Resources */,
 				3C87A0FB248F81BD0051E06E /* huanxin-logo@3x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A54CAED127FEDF0E0092282A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2501,7 +2572,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A54CAECF27FEDF0E0092282A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A54CAED727FEDF0E0092282A /* NotificationService.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A54CAEDA27FEDF0E0092282A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A54CAED227FEDF0E0092282A /* EMPushServerExt */;
+			targetProxy = A54CAED927FEDF0E0092282A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		3A45D69A22239DE200505786 /* Localizable.strings */ = {
@@ -2784,6 +2871,98 @@
 			};
 			name = Release;
 		};
+		A54CAEDC27FEDF0E0092282A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EMPushServerExt",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EMPushServerExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EMPushServerExt;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 hxq. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim.EMPushServerExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A54CAEDD27FEDF0E0092282A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EMPushServerExt",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EMPushServerExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EMPushServerExt;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 hxq. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim.EMPushServerExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2801,6 +2980,15 @@
 			buildConfigurations = (
 				90911051192EEA70008A48AA /* Debug */,
 				90911052192EEA70008A48AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A54CAEDE27FEDF0E0092282A /* Build configuration list for PBXNativeTarget "EMPushServerExt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A54CAEDC27FEDF0E0092282A /* Debug */,
+				A54CAEDD27FEDF0E0092282A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
