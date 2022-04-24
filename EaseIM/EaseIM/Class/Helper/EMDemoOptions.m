@@ -214,11 +214,13 @@ static EMDemoOptions *sharedOptions = nil;
     //self.chatServer = @"msync-im1.sandbox.easemob.com";
     //self.chatServer = @"msync-im-41-p.easemob.com";
     //self.chatServer = @"116.85.43.118";
-    self.chatServer = @"106.75.100.247";
-    self.chatPort = 6717;
+    
+//    self.chatServer = @"106.75.100.247";
+//    self.chatPort = 6717;
+//    self.restServer = @"a1-hsb.easemob.com";
+    
     //self.restServer = @"a1.sdb.easemob.com";
     //self.restServer = @"a41-p.easemob.com";
-    self.restServer = @"a1-hsb.easemob.com";
 }
 
 #pragma mark - Public
@@ -262,24 +264,24 @@ static EMDemoOptions *sharedOptions = nil;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedOptions = [EMDemoOptions getOptionsFromLocal];
+        sharedOptions = EMDemoOptions.customOptions;
+        if (!sharedOptions) {
+            sharedOptions = EMDemoOptions.defaultOptions;
+            [sharedOptions archive];
+        }
     });
     
     return sharedOptions;
 }
 
-+ (EMDemoOptions *)getOptionsFromLocal
-{
-    EMDemoOptions *retModel = nil;
++ (instancetype)customOptions {
     NSString *fileName = @"emdemo_options.data";
     NSString *file = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:fileName];
-    retModel = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
-    if (!retModel) {
-        retModel = [[EMDemoOptions alloc] init];
-        [retModel archive];
-    }
-    
-    return retModel;
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:file];
+}
+
++ (instancetype)defaultOptions {
+    return [[EMDemoOptions alloc] init];
 }
 
 + (void)reInitAndSaveServerOptions

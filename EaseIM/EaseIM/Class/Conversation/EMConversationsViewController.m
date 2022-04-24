@@ -18,7 +18,7 @@
 #import "EMConversationUserDataModel.h"
 #import "UserInfoStore.h"
 
-@interface EMConversationsViewController() <EaseConversationsViewControllerDelegate, EMSearchControllerDelegate>
+@interface EMConversationsViewController() <EaseConversationsViewControllerDelegate, EMSearchControllerDelegate, EMGroupManagerDelegate>
 
 @property (nonatomic, strong) UIButton *addImageBtn;
 @property (nonatomic, strong) EMInviteGroupMemberViewController *inviteController;
@@ -36,6 +36,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:CHAT_BACKOFF object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:GROUP_LIST_FETCHFINISHED object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
+    [EMClient.sharedClient.groupManager addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    
     [self _setupSubviews];
     if (![EMDemoOptions sharedOptions].isFirstLaunch) {
         [EMDemoOptions sharedOptions].isFirstLaunch = YES;
@@ -57,6 +59,7 @@
 
 - (void)dealloc
 {
+    [EMClient.sharedClient.groupManager removeDelegate:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -185,6 +188,13 @@
         {
             [weakself.resultController.tableView setEditing:NO];
             int unreadCount = [[EMClient sharedClient].chatManager getConversationWithConvId:model.easeId].unreadMessagesCount;
+            
+            [[EMClient sharedClient].chatManager deleteServerConversation:model.easeId conversationType:model.type isDeleteServerMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+                if (aError) {
+                    [weakself showHint:aError.errorDescription];
+                }
+            }];
+            
             [[EMClient sharedClient].chatManager deleteConversation:model.easeId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
                 if (!aError) {
                     [[EMTranslationManager sharedManager] removeTranslationByConversationId:model.easeId];
@@ -407,6 +417,10 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_PUSHVIEWCONTROLLER object:cell.model];
 }
 
+#pragma mark - EMGroupManagerDelegate
+- (void)didLeaveGroup:(EMGroup *)aGroup reason:(EMGroupLeaveReason)aReason {
+    [self refreshTableView];
+}
 
 #pragma mark - Action
 
@@ -417,17 +431,17 @@
     NSInteger row = indexPath.row;
     EaseConversationModel *model = [self.easeConvsVC.dataAry objectAtIndex:row];
     int unreadCount = [[EMClient sharedClient].chatManager getConversationWithConvId:model.easeId].unreadMessagesCount;
-    [[EMClient sharedClient].chatManager deleteConversation:model.easeId
-                                           isDeleteMessages:YES
-                                                 completion:^(NSString *aConversationId, EMError *aError) {
-        if (!aError) {
-            [[EMTranslationManager sharedManager] removeTranslationByConversationId:model.easeId];
+    [[EMClient sharedClient].chatManager deleteServerConversation:model.easeId conversationType:model.type isDeleteServerMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+        if (aError) {
+            [weakSelf showHint:aError.errorDescription];
+        }
+        [[EMClient sharedClient].chatManager deleteConversation:model.easeId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
             [weakSelf.easeConvsVC.dataAry removeObjectAtIndex:row];
             [weakSelf.easeConvsVC refreshTabView];
             if (unreadCount > 0 && weakSelf.deleteConversationCompletion) {
                 weakSelf.deleteConversationCompletion(YES);
             }
-        }
+        }];
     }];
 }
 

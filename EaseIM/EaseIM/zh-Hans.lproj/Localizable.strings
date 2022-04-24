@@ -140,6 +140,8 @@
 "added" = "已添加";
 "apply.ownprompt" = "无法添加自己为好友";
 "applyfail" = "添加失败";
+"applyfail.ContactReachLimit" = "操作失败，你的好友列表已满";
+"applyfail.ContactReachLimitPeer" = "操作失败，对方的好友列表已满";
 "sendInvite" = "已发出好友申请";
 "readed" = "已读";
 "canceled" = "已取消";
@@ -408,6 +410,7 @@
 "registerFail" = "注册失败，请重试";
 "userUsed" = "注册用户名已存在，请重新输入";
 "applyBusy" = "请求过于频繁，请稍后再试";
+"ExceedServiceLimit" = "对不起，注册用户数量已达上限";
 "requestapplyContact" = "申请添加您为好友";
 "editRight" = "联系管理员获取编辑权限";
 "Image" = "图片";

@@ -56,6 +56,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertLocationCallRecord:) name:EMCOMMMUNICATE_RECORD object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendUserCard:) name:CONFIRM_USERCARD object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNavigationTitle) name:CHATROOM_INFO_UPDATED object:nil];
     [[EMClient sharedClient].roomManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     [self _setupChatSubviews];
@@ -121,12 +122,6 @@
     self.titleLabel.font = [UIFont systemFontOfSize:18];
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
-    self.titleLabel.text = _conversationModel.showName;
-    if(self.conversation.type == EMConversationTypeChat) {
-        EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
-        if(userInfo && userInfo.nickName.length > 0)
-            self.titleLabel.text = userInfo.nickName;
-    }
     [titleView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleView);
@@ -147,6 +142,16 @@
     }];
     
     self.navigationItem.titleView = titleView;
+    [self updateNavigationTitle];
+}
+
+- (void)updateNavigationTitle {
+    self.titleLabel.text = _conversationModel.showName;
+    if (self.conversation.type == EMConversationTypeChat) {
+        EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
+        if(userInfo && userInfo.nickName.length > 0)
+            self.titleLabel.text = userInfo.nickName;
+    }
 }
 
 #pragma mark - EaseChatViewControllerDelegate
@@ -177,7 +182,7 @@
             return userCardCell;
         }
     }
-    if(messageModel.message.body.type == EMMessageTypeText)
+    if(messageModel.type == EMMessageTypeText)
     {
         NSString* msgId = messageModel.message.messageId;
         EMTranslationResult* translateResult = [[EMTranslationManager sharedManager] getTranslationByMsgId:msgId];
@@ -227,7 +232,7 @@
 }
 
 //群组阅读回执
-- (void)groupMessageReadReceiptDetail:(EMMessage *)message groupId:(NSString *)groupId
+- (void)groupMessageReadReceiptDetail:(EMChatMessage *)message groupId:(NSString *)groupId
 {
     EMReadReceiptMsgViewController *readReceiptControl = [[EMReadReceiptMsgViewController alloc] initWithMessage:message groupId:groupId];
     readReceiptControl.modalPresentationStyle = 0;
@@ -242,7 +247,7 @@
     return YES;
 }
 //添加转发消息
-- (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMMessage *)message
+- (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMChatMessage *)message
 {
     NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]init];
     if (message.body.type == EMMessageTypeText) {
@@ -306,13 +311,13 @@
     return menuArray;
 }
 
-- (void)loadMoreMessageData:(NSString *)firstMessageId currentMessageList:(NSArray<EMMessage *> *)messageList
+- (void)loadMoreMessageData:(NSString *)firstMessageId currentMessageList:(NSArray<EMChatMessage *> *)messageList
 {
     self.moreMsgId = firstMessageId;
     [self loadData:NO];
 }
 
-- (void)didSendMessage:(EMMessage *)message error:(EMError *)error
+- (void)didSendMessage:(EMChatMessage *)message error:(EMError *)error
 {
     if (error) {
         [EMAlertController showErrorAlert:error.errorDescription];
@@ -356,7 +361,7 @@
 {
     __weak typeof(self) weakself = self;
     if(cell.model.message.status == EMMessageStatusFailed) {
-        [[[EMClient sharedClient] chatManager] resendMessage:cell.model.message progress:nil completion:^(EMMessage *message, EMError *error) {
+        [[[EMClient sharedClient] chatManager] resendMessage:cell.model.message progress:nil completion:^(EMChatMessage *message, EMError *error) {
             if(!error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSIndexPath *indexPath = [weakself.chatController.tableView indexPathForCell:cell];
@@ -432,7 +437,7 @@
 //本地通话记录
 - (void)insertLocationCallRecord:(NSNotification*)noti
 {
-    NSArray<EMMessage *> * messages = (NSArray *)[noti.object objectForKey:@"msg"];
+    NSArray<EMChatMessage *> * messages = (NSArray *)[noti.object objectForKey:@"msg"];
 //    EMTextMessageBody *body = (EMTextMessageBody*)message.body;
 //    if ([body.text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL]) {
 //        if ([message.from isEqualToString:[EMClient sharedClient].currentUsername]) {
@@ -498,12 +503,12 @@
     [self.fullScreenView removeFromSuperview];
 }
 
-- (NSArray *)formatMessages:(NSArray<EMMessage *> *)aMessages
+- (NSArray *)formatMessages:(NSArray<EMChatMessage *> *)aMessages
 {
     NSMutableArray *formated = [[NSMutableArray alloc] init];
 
     for (int i = 0; i < [aMessages count]; i++) {
-        EMMessage *msg = aMessages[i];
+        EMChatMessage *msg = aMessages[i];
         if (msg.chatType == EMChatTypeChat && msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
             [[EMClient sharedClient].chatManager sendMessageReadAck:msg.messageId toUser:msg.conversationId completion:nil];
         }

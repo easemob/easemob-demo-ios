@@ -56,7 +56,7 @@
 }
 - (void)setModel:(EaseMessageModel *)model
 {
-    EMMessage* msg = model.message;
+    EMChatMessage* msg = model.message;
     if(msg.body.type == EMMessageBodyTypeCustom) {
         EMCustomMessageBody* body = (EMCustomMessageBody* )msg.body;
         NSString* uid = [body.customExt objectForKey:@"uid"];

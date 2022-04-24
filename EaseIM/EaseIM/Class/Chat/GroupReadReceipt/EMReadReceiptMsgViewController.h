@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) UILabel *countLable;
 
-- (instancetype)initWithMessage:(EMMessage *)message groupId:(NSString *)groupId;
+- (instancetype)initWithMessage:(EMChatMessage *)message groupId:(NSString *)groupId;
 @end
 
 @protocol EMReadReceiptMsgDelegate <NSObject>

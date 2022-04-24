@@ -288,7 +288,6 @@
 		3C8EBEF124AD967C00B6560A /* EMUserAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8EBEF024AD967C00B6560A /* EMUserAgreementView.m */; };
 		3C8EBEF524ADDF7E00B6560A /* EMAuthorizationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8EBEF424ADDF7E00B6560A /* EMAuthorizationView.m */; };
 		3C91A0A925C3FFBD00103C2E /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C91A0A825C3FFBC00103C2E /* music.mp3 */; };
-		3C91A0AB25C3FFC400103C2E /* ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3C91A0AA25C3FFC400103C2E /* ring.caf */; };
 		3C91A0B025C4002500103C2E /* BootPage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C91A0AE25C4002400103C2E /* BootPage@2x.png */; };
 		3C91A0B125C4002500103C2E /* BootPage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C91A0AF25C4002400103C2E /* BootPage@3x.png */; };
 		3C91A0B325C4002C00103C2E /* BootPage.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C91A0B225C4002B00103C2E /* BootPage.png */; };
@@ -325,12 +324,19 @@
 		3CBCF5F923A24FC70053E227 /* systemNotify@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CBCF5F623A24FC10053E227 /* systemNotify@2x.png */; };
 		3CBCF5FB23A24FC70053E227 /* systemNotify@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CBCF5F823A24FC60053E227 /* systemNotify@3x.png */; };
 		3CE6293319A1B13700829632 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE6293219A1B13700829632 /* CoreText.framework */; };
+		6654495F27796B1D008AA2AE /* undisturbDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495927796B1D008AA2AE /* undisturbDot@2x.png */; };
+		6654496327796B1D008AA2AE /* undisturbDot.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495D27796B1D008AA2AE /* undisturbDot.png */; };
+		6654496427796B1D008AA2AE /* undisturbDot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495E27796B1D008AA2AE /* undisturbDot@3x.png */; };
+		668D54E9277EF37E007E5097 /* undisturbRing.png in Resources */ = {isa = PBXBuildFile; fileRef = 668D54E6277EF37E007E5097 /* undisturbRing.png */; };
+		668D54EA277EF37E007E5097 /* undisturbRing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 668D54E7277EF37E007E5097 /* undisturbRing@2x.png */; };
+		668D54EB277EF37E007E5097 /* undisturbRing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 668D54E8277EF37E007E5097 /* undisturbRing@3x.png */; };
 		90911028192EEA70008A48AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90911027192EEA70008A48AA /* Foundation.framework */; };
 		9091102C192EEA70008A48AA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9091102B192EEA70008A48AA /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		90AE9446230D2CDC00A905E5 /* EMRemindManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 90AE9445230D2CDC00A905E5 /* EMRemindManager.m */; };
 		90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECC1930492300121AEC /* CFNetwork.framework */; };
 		90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECE1930492B00121AEC /* AddressBook.framework */; };
 		921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C6A9D1D2A841600D8257F /* CoreMotion.framework */; };
+		9EA3D50327BA3FD000FD621D /* ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9EA3D50227BA3FD000FD621D /* ring.caf */; };
 		C075E496262433B80080A126 /* titleTextImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E494262433B80080A126 /* titleTextImage@3x.png */; };
 		C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E495262433B80080A126 /* titleTextImage@2x.png */; };
 		C075E49E26243C0B0080A126 /* titleBackImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49C26243C0B0080A126 /* titleBackImage@3x.png */; };
@@ -785,7 +791,6 @@
 		3C8EBEF324ADDF7E00B6560A /* EMAuthorizationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMAuthorizationView.h; sourceTree = "<group>"; };
 		3C8EBEF424ADDF7E00B6560A /* EMAuthorizationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMAuthorizationView.m; sourceTree = "<group>"; };
 		3C91A0A825C3FFBC00103C2E /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = SOURCE_ROOT; };
-		3C91A0AA25C3FFC400103C2E /* ring.caf */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = ring.caf; sourceTree = "<group>"; };
 		3C91A0AE25C4002400103C2E /* BootPage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BootPage@2x.png"; sourceTree = "<group>"; };
 		3C91A0AF25C4002400103C2E /* BootPage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BootPage@3x.png"; sourceTree = "<group>"; };
 		3C91A0B225C4002B00103C2E /* BootPage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BootPage.png; sourceTree = "<group>"; };
@@ -830,9 +835,12 @@
 		3CBCF5F623A24FC10053E227 /* systemNotify@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "systemNotify@2x.png"; sourceTree = "<group>"; };
 		3CBCF5F823A24FC60053E227 /* systemNotify@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "systemNotify@3x.png"; sourceTree = "<group>"; };
 		3CE6293219A1B13700829632 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		461BC291639C89BC553D7DBB /* Pods_EaseIM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseIM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		616738B286E44A8D2F2A5CFA /* Pods-EaseIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.debug.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.debug.xcconfig"; sourceTree = "<group>"; };
-		7EF38071D71CDAB2F8F53909 /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
+		6654495927796B1D008AA2AE /* undisturbDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbDot@2x.png"; sourceTree = "<group>"; };
+		6654495D27796B1D008AA2AE /* undisturbDot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undisturbDot.png; sourceTree = "<group>"; };
+		6654495E27796B1D008AA2AE /* undisturbDot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbDot@3x.png"; sourceTree = "<group>"; };
+		668D54E6277EF37E007E5097 /* undisturbRing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undisturbRing.png; sourceTree = "<group>"; };
+		668D54E7277EF37E007E5097 /* undisturbRing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbRing@2x.png"; sourceTree = "<group>"; };
+		668D54E8277EF37E007E5097 /* undisturbRing@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undisturbRing@3x.png"; sourceTree = "<group>"; };
 		90911024192EEA70008A48AA /* EaseIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90911027192EEA70008A48AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		90911029192EEA70008A48AA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -843,6 +851,7 @@
 		90F1BECE1930492B00121AEC /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		90F1BED41930495800121AEC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		921C6A9D1D2A841600D8257F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		9EA3D50227BA3FD000FD621D /* ring.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ring.caf; sourceTree = "<group>"; };
 		9ED2B26D271EB17F00CB1CCA /* EMHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHttpRequest.m; sourceTree = "<group>"; };
 		9ED2B26E271EB17F00CB1CCA /* EMHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHttpRequest.h; sourceTree = "<group>"; };
 		C075E494262433B80080A126 /* titleTextImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@3x.png"; sourceTree = "<group>"; };
@@ -898,10 +907,8 @@
 		D2B1B9EC1C3B800E0087A74F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D2B1B9EE1C3B80290087A74F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		EBF955E21ADD17700087E035 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		EC6B51652758D28D00FA4350 /* EaseCallKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = EaseCallKit.xcframework; sourceTree = "<group>"; };
 		EC6B51682759BC8A00FA4350 /* EMGeneralTitleSwitchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMGeneralTitleSwitchCell.h; sourceTree = "<group>"; };
 		EC6B51692759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMGeneralTitleSwitchCell.m; sourceTree = "<group>"; };
-		EC8A473B2701C08F00F106B0 /* HyphenateChat.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = HyphenateChat.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -928,22 +935,12 @@
 				90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */,
 				9091102C192EEA70008A48AA /* UIKit.framework in Frameworks */,
 				90911028192EEA70008A48AA /* Foundation.framework in Frameworks */,
-				A69A76CFFDB76E2B47A45E58 /* Pods_EaseIM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2C24ABA72E955083521D161D /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				616738B286E44A8D2F2A5CFA /* Pods-EaseIM.debug.xcconfig */,
-				7EF38071D71CDAB2F8F53909 /* Pods-EaseIM.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		3A45D69922239DE200505786 /* EaseIM */ = {
 			isa = PBXGroup;
 			children = (
@@ -1565,6 +1562,12 @@
 		3C729D9F25727A4B003DB315 /* ChatImagsResources */ = {
 			isa = PBXGroup;
 			children = (
+				668D54E6277EF37E007E5097 /* undisturbRing.png */,
+				668D54E7277EF37E007E5097 /* undisturbRing@2x.png */,
+				668D54E8277EF37E007E5097 /* undisturbRing@3x.png */,
+				6654495D27796B1D008AA2AE /* undisturbDot.png */,
+				6654495927796B1D008AA2AE /* undisturbDot@2x.png */,
+				6654495E27796B1D008AA2AE /* undisturbDot@3x.png */,
 				C0E9E528261339FD0080AB28 /* userinfo.png */,
 				C0E9E526261339FD0080AB28 /* userinfo@2x.png */,
 				C0E9E527261339FD0080AB28 /* userinfo@3x.png */,
@@ -1851,14 +1854,21 @@
 			path = Diagnosis;
 			sourceTree = "<group>";
 		};
+		666D1711277BF9AE00B4FA69 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		9091101B192EEA70008A48AA = {
 			isa = PBXGroup;
 			children = (
-				3C91A0AA25C3FFC400103C2E /* ring.caf */,
+				9EA3D50227BA3FD000FD621D /* ring.caf */,
 				3A45D69922239DE200505786 /* EaseIM */,
 				90911026192EEA70008A48AA /* Frameworks */,
 				90911025192EEA70008A48AA /* Products */,
-				2C24ABA72E955083521D161D /* Pods */,
+				666D1711277BF9AE00B4FA69 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1873,8 +1883,6 @@
 		90911026192EEA70008A48AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EC6B51652758D28D00FA4350 /* EaseCallKit.xcframework */,
-				EC8A473B2701C08F00F106B0 /* HyphenateChat.xcframework */,
 				C0E9E5212611D5480080AB28 /* libsqlite3.0.tbd */,
 				D29A6BB41B7209C1002324BB /* Accounts.framework */,
 				90F1BECE1930492B00121AEC /* AddressBook.framework */,
@@ -1901,7 +1909,6 @@
 				3C3527421931D33A00385240 /* Social.framework */,
 				3C3527441931D37900385240 /* SystemConfiguration.framework */,
 				9091102B192EEA70008A48AA /* UIKit.framework */,
-				461BC291639C89BC553D7DBB /* Pods_EaseIM.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2055,7 +2062,6 @@
 				3C7A14EE238FD0B600F4AC48 /* android@3x.png in Resources */,
 				3A45E5422223D69800505786 /* checked@2x.png in Resources */,
 				3A45E08A2223A28F00505786 /* close_white@3x.png in Resources */,
-				3C91A0AB25C3FFC400103C2E /* ring.caf in Resources */,
 				3C4AED022499D04B001F7C50 /* clearContent@3x.png in Resources */,
 				3A45E0F62223A30000505786 /* alert_success@3x.png in Resources */,
 				3C37DF45238251ED00399AE8 /* icon-search@2x.png in Resources */,
@@ -2093,15 +2099,18 @@
 				C0E9E529261339FE0080AB28 /* userinfo@2x.png in Resources */,
 				3A45E3EC2223A4F300505786 /* group_join@2x.png in Resources */,
 				3C4AED4B249A2F95001F7C50 /* icon-tab通讯录@2x.png in Resources */,
+				668D54EB277EF37E007E5097 /* undisturbRing@3x.png in Resources */,
 				3C4AEDCB249B801D001F7C50 /* blankConversation@3x.png in Resources */,
 				3C4AED45249A2F89001F7C50 /* icon-tab我unselected@3x.png in Resources */,
 				3C4AED27249A1415001F7C50 /* unAgreeProtocol.png in Resources */,
 				3C9A97B5257CDFD300752F28 /* newFriend@3x.png in Resources */,
 				3C4AED142499FE7B001F7C50 /* enableClick@2x.png in Resources */,
 				3A45D9B322239DE200505786 /* Localizable.strings in Resources */,
+				6654496327796B1D008AA2AE /* undisturbDot.png in Resources */,
 				3C37DF4F238251ED00399AE8 /* icon-加群@3x.png in Resources */,
 				3C4AECF62499CF83001F7C50 /* hiddenPwd@3x.png in Resources */,
 				3C4AED44249A2F89001F7C50 /* icon-tab我unselected.png in Resources */,
+				6654496427796B1D008AA2AE /* undisturbDot@3x.png in Resources */,
 				3C9A96232579E18500752F28 /* voice@2x.png in Resources */,
 				3A45E0942223A28F00505786 /* user_avatar_gray@3x.png in Resources */,
 				3C7A1512239118C100F4AC48 /* win@3x.png in Resources */,
@@ -2151,6 +2160,7 @@
 				3A45E0912223A28F00505786 /* user_avatar_blue@3x.png in Resources */,
 				3C9A9700257A45E600752F28 /* defaultAvatar@3x.png in Resources */,
 				3C9A96FF257A45E600752F28 /* defaultAvatar@2x.png in Resources */,
+				6654495F27796B1D008AA2AE /* undisturbDot@2x.png in Resources */,
 				3C4AED032499D04B001F7C50 /* clearContent.png in Resources */,
 				3C4AED4F249A2F9D001F7C50 /* icon-tab通讯录unselected@2x.png in Resources */,
 				3C4AED57249A2FAB001F7C50 /* icon-tab会话@2x.png in Resources */,
@@ -2200,9 +2210,11 @@
 				3C878A1624DD0FF900A8D995 /* groupSharedFile@3x.png in Resources */,
 				3C3703B5238D06D500A8976B /* developerService@3x.png in Resources */,
 				3C729DD52572937B003DB315 /* search@2x.png in Resources */,
+				9EA3D50327BA3FD000FD621D /* ring.caf in Resources */,
 				3CBCF5FB23A24FC70053E227 /* systemNotify@3x.png in Resources */,
 				3A45E0382223A22600505786 /* device@3x.png in Resources */,
 				C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */,
+				668D54E9277EF37E007E5097 /* undisturbRing.png in Resources */,
 				3C7A1515239118C100F4AC48 /* web@3x.png in Resources */,
 				3C91A0B125C4002500103C2E /* BootPage@3x.png in Resources */,
 				3C729DEE25729875003DB315 /* icon-setting@3x.png in Resources */,
@@ -2219,6 +2231,7 @@
 				3C4AED5B249A2FB8001F7C50 /* icon-tab会话unselected.png in Resources */,
 				3C7A14E2238FC72800F4AC48 /* back_left_black@3x.png in Resources */,
 				3C4AED56249A2FAB001F7C50 /* icon-tab会话.png in Resources */,
+				668D54EA277EF37E007E5097 /* undisturbRing@2x.png in Resources */,
 				3C37DF44238251ED00399AE8 /* icon-search@3x.png in Resources */,
 				3C4AECFD2499CFF8001F7C50 /* showPwd@3x.png in Resources */,
 				3C4AEDAF249B5A5A001F7C50 /* aboutHX@3x.png in Resources */,
@@ -2285,18 +2298,22 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraAIDenoiseExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCIExtension.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCore.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraDav1dExtension.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraFDExtension.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraJNDExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraMediaPlayerPlugin.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraRtcKit.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraSoundTouch.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraVideoProcessExtension.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraVideoSegmentationExtension.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agorafdkaac.framework",
 				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agoraffmpeg.framework",
 				"${PODS_ROOT}/EMTranslate/EMTranslate.framework",
 				"${BUILT_PRODUCTS_DIR}/EaseCallKit/EaseCallKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
+				"${PODS_ROOT}/HyphenateChat/HyphenateChat.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
@@ -2305,18 +2322,22 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraAIDenoiseExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCIExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraDav1dExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraFDExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraJNDExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraMediaPlayerPlugin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoProcessExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoSegmentationExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EMTranslate.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseCallKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyphenateChat.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
@@ -2334,6 +2355,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-resources.sh",
+				"${PODS_ROOT}/../../../EaseIMKit_Release/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -2450,7 +2472,6 @@
 				C0E9E5E5261482B00080AB28 /* UIImageView+UserInfo.m in Sources */,
 				3C8EBEF524ADDF7E00B6560A /* EMAuthorizationView.m in Sources */,
 				3C9A95DD2578E38700752F28 /* EMReadReceiptMsgViewController.m in Sources */,
-				9ED2B26F271EB17F00CB1CCA /* EMHttpRequest.m in Sources */,
 				3A45E0212223A21B00505786 /* EMRegisterViewController.m in Sources */,
 				3A45E37E2223A47900505786 /* EMChatroomsViewController.m in Sources */,
 				3C8EBEF124AD967C00B6560A /* EMUserAgreementView.m in Sources */,
@@ -2594,7 +2615,6 @@
 		};
 		90911051192EEA70008A48AA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 616738B286E44A8D2F2A5CFA /* Pods-EaseIM.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2610,7 +2630,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
@@ -2635,7 +2655,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.8.9;
+				MARKETING_VERSION = 3.9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2661,6 +2681,7 @@
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"-fembed-bitcode",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2680,7 +2701,6 @@
 		};
 		90911052192EEA70008A48AA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7EF38071D71CDAB2F8F53909 /* Pods-EaseIM.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2694,7 +2714,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
@@ -2720,7 +2740,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.8.9;
+				MARKETING_VERSION = 3.9.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2746,6 +2766,7 @@
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"-fembed-bitcode",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
