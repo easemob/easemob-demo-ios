@@ -43,7 +43,7 @@
         make.bottom.equalTo(self).offset(-30);
     }];
     UILabel* lable = [[UILabel alloc] init];
-    lable.text = @"[个人名片]";
+    lable.text = NSLocalizedString(@"userCard", nil);
     lable.font = [UIFont systemFontOfSize:12];
     lable.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
     [self addSubview:lable];
@@ -56,7 +56,7 @@
 }
 - (void)setModel:(EaseMessageModel *)model
 {
-    EMMessage* msg = model.message;
+    EMChatMessage* msg = model.message;
     if(msg.body.type == EMMessageBodyTypeCustom) {
         EMCustomMessageBody* body = (EMCustomMessageBody* )msg.body;
         NSString* uid = [body.customExt objectForKey:@"uid"];

@@ -23,6 +23,7 @@
 #import "UserInfoStore.h"
 #import "ConfirmUserCardView.h"
 #import "EMAccountViewController.h"
+#import "EMChatViewController+Translate.h"
 
 @interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
@@ -55,6 +56,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertLocationCallRecord:) name:EMCOMMMUNICATE_RECORD object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendUserCard:) name:CONFIRM_USERCARD object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNavigationTitle) name:CHATROOM_INFO_UPDATED object:nil];
     [[EMClient sharedClient].roomManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     [self _setupChatSubviews];
@@ -120,12 +122,6 @@
     self.titleLabel.font = [UIFont systemFontOfSize:18];
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
-    self.titleLabel.text = _conversationModel.showName;
-    if(self.conversation.type == EMConversationTypeChat) {
-        EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
-        if(userInfo && userInfo.nickName.length > 0)
-            self.titleLabel.text = userInfo.nickName;
-    }
     [titleView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleView);
@@ -146,6 +142,16 @@
     }];
     
     self.navigationItem.titleView = titleView;
+    [self updateNavigationTitle];
+}
+
+- (void)updateNavigationTitle {
+    self.titleLabel.text = _conversationModel.showName;
+    if (self.conversation.type == EMConversationTypeChat) {
+        EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
+        if(userInfo && userInfo.nickName.length > 0)
+            self.titleLabel.text = userInfo.nickName;
+    }
 }
 
 #pragma mark - EaseChatViewControllerDelegate
@@ -162,6 +168,8 @@
 //        return cell;
 //    }
 
+    if(![messageModel isKindOfClass:[EaseMessageModel class]])
+        return nil;
     if(messageModel.message.body.type == EMMessageBodyTypeCustom) {
         EMCustomMessageBody* body = (EMCustomMessageBody*)messageModel.message.body;
         if([body.event isEqualToString:@"userCard"]){
@@ -174,12 +182,24 @@
             return userCardCell;
         }
     }
+    if(messageModel.type == EMMessageTypeText)
+    {
+        NSString* msgId = messageModel.message.messageId;
+        EMTranslationResult* translateResult = [[EMTranslationManager sharedManager] getTranslationByMsgId:msgId];
+        TranslateTextBubbleView * bubbleView = [[TranslateTextBubbleView alloc] initWithDirection:messageModel.direction type:messageModel.type];
+        [bubbleView setModel:messageModel];
+        EMMessageCell* texMsgtCell = [[EMMessageCell alloc] initWithDirection:messageModel.direction type:messageModel.type msgView:bubbleView translate:translateResult isTranslating:[self.translatingMsgIds containsObject:messageModel.message.messageId]];
+        texMsgtCell.translateResult = translateResult;
+        texMsgtCell.model = messageModel;
+        texMsgtCell.delegate = self;
+        return texMsgtCell;
+    }
     return nil;
 }
 //对方输入状态
 - (void)beginTyping
 {
-    self.titleDetailLabel.text = @"对方正在输入";
+    self.titleDetailLabel.text = NSLocalizedString(@"remoteInputing", nil);
 }
 - (void)endTyping
 {
@@ -212,7 +232,7 @@
 }
 
 //群组阅读回执
-- (void)groupMessageReadReceiptDetail:(EMMessage *)message groupId:(NSString *)groupId
+- (void)groupMessageReadReceiptDetail:(EMChatMessage *)message groupId:(NSString *)groupId
 {
     EMReadReceiptMsgViewController *readReceiptControl = [[EMReadReceiptMsgViewController alloc] initWithMessage:message groupId:groupId];
     readReceiptControl.modalPresentationStyle = 0;
@@ -227,7 +247,7 @@
     return YES;
 }
 //添加转发消息
-- (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMMessage *)message
+- (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMChatMessage *)message
 {
     NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]init];
     if (message.body.type == EMMessageTypeText) {
@@ -237,7 +257,7 @@
     //转发
     __weak typeof(self) weakself = self;
     if (message.body.type == EMMessageBodyTypeText || message.body.type == EMMessageBodyTypeImage || message.body.type == EMMessageBodyTypeLocation || message.body.type == EMMessageBodyTypeVideo) {
-        EaseExtMenuModel *forwardMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"forward"] funcDesc:@"转发" handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+        EaseExtMenuModel *forwardMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"forward"] funcDesc:NSLocalizedString(@"forward", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
             if (isExecuted) {
                 [weakself forwardMenuItemAction:message];
             }
@@ -260,7 +280,7 @@
     //音视频
     __weak typeof(self) weakself = self;
     if (conversationType != EMConversationTypeChatRoom) {
-        EaseExtMenuModel *rtcMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"video_conf"] funcDesc:@"音视频" handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+        EaseExtMenuModel *rtcMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"video_conf"] funcDesc:NSLocalizedString(@"Call", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
             if (isExecuted) {
                 [weakself chatSealRtcAction];
             }
@@ -274,7 +294,7 @@
     //群组回执
     if (conversationType == EMConversationTypeGroupChat) {
         if ([[EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:_conversation.conversationId error:nil].owner isEqualToString:EMClient.sharedClient.currentUsername]) {
-            EaseExtMenuModel *groupReadReceiptExtModel = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"pin_readReceipt"] funcDesc:@"群组回执" handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+            EaseExtMenuModel *groupReadReceiptExtModel = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"pin_readReceipt"] funcDesc:NSLocalizedString(@"groupSync", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
                 [weakself groupReadReceiptAction];
             }];
             [menuArray addObject:groupReadReceiptExtModel];
@@ -282,7 +302,7 @@
     }
     // 用户名片
     {
-        EaseExtMenuModel *userCardExtModal = [[EaseExtMenuModel alloc] initWithData:[UIImage imageNamed:@"userinfo"] funcDesc:@"用户名片" handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+        EaseExtMenuModel *userCardExtModal = [[EaseExtMenuModel alloc] initWithData:[UIImage imageNamed:@"userinfo"] funcDesc:NSLocalizedString(@"UserCard", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
             [weakself userCardAction];
         }];
         [menuArray addObject:userCardExtModal];
@@ -291,13 +311,13 @@
     return menuArray;
 }
 
-- (void)loadMoreMessageData:(NSString *)firstMessageId currentMessageList:(NSArray<EMMessage *> *)messageList
+- (void)loadMoreMessageData:(NSString *)firstMessageId currentMessageList:(NSArray<EMChatMessage *> *)messageList
 {
     self.moreMsgId = firstMessageId;
     [self loadData:NO];
 }
 
-- (void)didSendMessage:(EMMessage *)message error:(EMError *)error
+- (void)didSendMessage:(EMChatMessage *)message error:(EMError *)error
 {
     if (error) {
         [EMAlertController showErrorAlert:error.errorDescription];
@@ -335,6 +355,24 @@
 - (void)messageAvatarDidSelected:(EaseMessageModel *)model
 {
     [self personData:model.message.from];
+}
+
+- (void)messageCellDidResend:(EMMessageCell *)cell
+{
+    __weak typeof(self) weakself = self;
+    if(cell.model.message.status == EMMessageStatusFailed) {
+        [[[EMClient sharedClient] chatManager] resendMessage:cell.model.message progress:nil completion:^(EMChatMessage *message, EMError *error) {
+            if(!error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSIndexPath *indexPath = [weakself.chatController.tableView indexPathForCell:cell];
+                    if(indexPath) {
+                        [weakself.chatController.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                    }
+                });
+            }
+        }];
+    }
+    
 }
 
 #pragma mark - data
@@ -391,7 +429,7 @@
             //是群主才可以发送阅读回执信息
             [self.chatController sendTextAction:str ext:@{MSG_EXT_READ_RECEIPT:@"receipt"}];
         } else {
-            [EMAlertController showErrorAlert:@"获取群组失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"groupFail", nil)];
         }
     }];
 }
@@ -399,13 +437,13 @@
 //本地通话记录
 - (void)insertLocationCallRecord:(NSNotification*)noti
 {
-    NSArray<EMMessage *> * messages = (NSArray *)[noti.object objectForKey:@"msg"];
+    NSArray<EMChatMessage *> * messages = (NSArray *)[noti.object objectForKey:@"msg"];
 //    EMTextMessageBody *body = (EMTextMessageBody*)message.body;
 //    if ([body.text isEqualToString:EMCOMMUNICATE_CALLED_MISSEDCALL]) {
 //        if ([message.from isEqualToString:[EMClient sharedClient].currentUsername]) {
-//            [self showHint:@"对方拒绝通话"];
+//            [self showHint:EaseLocalizableString(@"remoteRefuse", nil)];
 //        } else {
-//            [self showHint:@"对方已取消"];
+//            [self showHint:NSLocalizedString(@"remoteCancl", nil)];
 //        }
 //    }
     if(messages && messages.count > 0) {
@@ -465,12 +503,12 @@
     [self.fullScreenView removeFromSuperview];
 }
 
-- (NSArray *)formatMessages:(NSArray<EMMessage *> *)aMessages
+- (NSArray *)formatMessages:(NSArray<EMChatMessage *> *)aMessages
 {
     NSMutableArray *formated = [[NSMutableArray alloc] init];
 
     for (int i = 0; i < [aMessages count]; i++) {
-        EMMessage *msg = aMessages[i];
+        EMChatMessage *msg = aMessages[i];
         if (msg.chatType == EMChatTypeChat && msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
             [[EMClient sharedClient].chatManager sendMessageReadAck:msg.messageId toUser:msg.conversationId completion:nil];
         }
@@ -499,13 +537,13 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     __weak typeof(self) weakself = self;
     if (self.conversation.type == EMConversationTypeChat) {
-        [alertController addAction:[UIAlertAction actionWithTitle:@"视频通话" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"videoCall", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EaseCallType1v1Video)}];
         }]];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"语音通话" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"audioCall", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:weakself.conversation.conversationId, CALL_TYPE:@(EaseCallType1v1Audio)}];
         }]];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }]];
         for (UIAlertAction *alertAction in alertController.actions)
             [alertAction setValue:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1.0] forKey:@"_titleTextColor"];
@@ -621,7 +659,7 @@
                        user:(NSString *)aUsername
 {
     if (self.conversation.type == EMChatTypeChatRoom && [aChatroom.chatroomId isEqualToString:self.conversation.conversationId]) {
-        NSString *str = [NSString stringWithFormat:@"%@ 加入聊天室", aUsername];
+        NSString *str = [NSString stringWithFormat:NSLocalizedString(@"joinChatroomPrompt", nil), aUsername];
         [self showHint:str];
     }
 }
@@ -630,7 +668,7 @@
                         user:(NSString *)aUsername
 {
     if (self.conversation.type == EMChatTypeChatRoom && [aChatroom.chatroomId isEqualToString:self.conversation.conversationId]) {
-        NSString *str = [NSString stringWithFormat:@"%@ 离开聊天室", aUsername];
+        NSString *str = [NSString stringWithFormat:NSLocalizedString(@"leaveChatroomPrompt", nil), aUsername];
         [self showHint:str];
     }
 }
@@ -639,11 +677,11 @@
                         reason:(EMChatroomBeKickedReason)aReason
 {
     if (aReason == 0)
-        [self showHint:[NSString stringWithFormat:@"被移出聊天室 %@", aChatroom.subject]];
+        [self showHint:[NSString stringWithFormat:NSLocalizedString(@"removedChatroom", nil), aChatroom.subject]];
     if (aReason == 1)
-        [self showHint:[NSString stringWithFormat:@"聊天室 %@ 已解散", aChatroom.subject]];
+        [self showHint:[NSString stringWithFormat:NSLocalizedString(@"chatroomDestroed", nil), aChatroom.subject]];
     if (aReason == 2)
-        [self showHint:@"您的账号已离线"];
+        [self showHint:NSLocalizedString(@"offlinePrompt", nil)];
     if (self.conversation.type == EMChatTypeChatRoom && [aChatroom.chatroomId isEqualToString:self.conversation.conversationId]) {
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -652,54 +690,54 @@
 - (void)chatroomMuteListDidUpdate:(EMChatroom *)aChatroom removedMutedMembers:(NSArray *)aMutes
 {
     if ([aMutes containsObject:EMClient.sharedClient.currentUsername]) {
-        [self showHint:@"您已被解除禁言"];
+        [self showHint:NSLocalizedString(@"unmutePrompt", nil)];
     }
 }
 
 - (void)chatroomMuteListDidUpdate:(EMChatroom *)aChatroom addedMutedMembers:(NSArray *)aMutes muteExpire:(NSInteger)aMuteExpire
 {
     if ([aMutes containsObject:EMClient.sharedClient.currentUsername]) {
-        [self showHint:@"您已被禁言"];
+        [self showHint:NSLocalizedString(@"muteePrompt", nil)];
     }
 }
 
 - (void)chatroomWhiteListDidUpdate:(EMChatroom *)aChatroom addedWhiteListMembers:(NSArray *)aMembers
 {
     if ([aMembers containsObject:EMClient.sharedClient.currentUsername]) {
-        [self showHint:@"您已被加入白名单"];
+        [self showHint:NSLocalizedString(@"inwhitelist", nil)];
     }
 }
 
 - (void)chatroomWhiteListDidUpdate:(EMChatroom *)aChatroom removedWhiteListMembers:(NSArray *)aMembers
 {
     if ([aMembers containsObject:EMClient.sharedClient.currentUsername]) {
-        [self showHint:@"您已被移出白名单"];
+        [self showHint:NSLocalizedString(@"outwhitelist", nil)];
     }
 }
 
 - (void)chatroomAllMemberMuteChanged:(EMChatroom *)aChatroom isAllMemberMuted:(BOOL)aMuted
 {
-    [self showHint:[NSString stringWithFormat:@"全员禁言已%@", aMuted ? @"开启" : @"关闭"]];
+    [self showHint:[NSString stringWithFormat:NSLocalizedString(@"allMute", nil), aMuted ? NSLocalizedString(@"enable", nil) : NSLocalizedString(@"close", nil)]];
 }
 
 - (void)chatroomAdminListDidUpdate:(EMChatroom *)aChatroom addedAdmin:(NSString *)aAdmin
 {
-    [self showHint:[NSString stringWithFormat:@"%@已成为管理员", aAdmin]];
+    [self showHint:[NSString stringWithFormat:NSLocalizedString(@"becomeAdmin", nil), aAdmin]];
 }
 
 - (void)chatroomAdminListDidUpdate:(EMChatroom *)aChatroom removedAdmin:(NSString *)aAdmin
 {
-    [self showHint:[NSString stringWithFormat:@"%@被降级为普通成员", aAdmin]];
+    [self showHint:[NSString stringWithFormat:NSLocalizedString(@"becomeMember", nil), aAdmin]];
 }
 
 - (void)chatroomOwnerDidUpdate:(EMChatroom *)aChatroom newOwner:(NSString *)aNewOwner oldOwner:(NSString *)aOldOwner
 {
-    [self showHint:[NSString stringWithFormat:@"%@ 已将聊天室移交给 %@", aOldOwner, aNewOwner]];
+    [self showHint:[NSString stringWithFormat:NSLocalizedString(@"changeChatroomOwnerPrompt", nil), aOldOwner, aNewOwner]];
 }
 
 - (void)chatroomAnnouncementDidUpdate:(EMChatroom *)aChatroom announcement:(NSString *)aAnnouncement
 {
-    [self showHint:@"聊天室公告内容已更新，请查看"];
+    [self showHint:NSLocalizedString(@"annupdated", nil)];
 }
 
 @end

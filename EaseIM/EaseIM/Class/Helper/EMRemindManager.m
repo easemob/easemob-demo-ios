@@ -25,7 +25,7 @@ SystemSoundID soundID = 1007;
 @end
 
 @implementation EMRemindManager
-+ (void)remindMessage:(EMMessage *)aMessage {
++ (void)remindMessage:(EMChatMessage *)aMessage {
     [[EMRemindManager shared] remindMessage:aMessage];
 }
 
@@ -70,7 +70,7 @@ SystemSoundID soundID = 1007;
     });
 }
 
-- (void)remindMessage:(EMMessage *)aMessage {
+- (void)remindMessage:(EMChatMessage *)aMessage {
     if ([aMessage.from isEqualToString:EMClient.sharedClient.currentUsername]) {
         return;
     }
@@ -84,13 +84,18 @@ SystemSoundID soundID = 1007;
         return;
     }
     
-    // 是否是群免打扰的消息
-    if (aMessage.chatType != EMChatTypeChat) {
-        if (![self _needRemind:aMessage.conversationId]) {
+    // 是否是免打扰的消息(聊天室没有免打扰消息)
+    BOOL unremindChat = [self _unremindChat:aMessage.conversationId];//单聊免打扰
+    BOOL unremindGroup = [self _unremindGroup:aMessage.conversationId];//群组免打扰
+    if (aMessage.chatType != EMChatTypeChatRoom) {
+        if (unremindGroup && aMessage.chatType == EMChatTypeGroupChat) {
+            return;
+        }
+        if (aMessage.chatType == EMChatTypeChat && unremindChat) {
             return;
         }
     }
-    
+        
     BOOL isBackground = NO;
     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
     if (state == UIApplicationStateBackground) {
@@ -107,7 +112,7 @@ SystemSoundID soundID = 1007;
 }
 
 // 本地通知 needInfo: 是否显示通知详情
-- (void)_localNotification:(EMMessage *)message
+- (void)_localNotification:(EMChatMessage *)message
                   needInfo:(BOOL)isNeed {
     NSString *alertBody = nil;
     if (isNeed) {
@@ -121,25 +126,25 @@ SystemSoundID soundID = 1007;
                 break;
             case EMMessageBodyTypeImage:
             {
-                messageStr = @"图片";
+                messageStr = NSLocalizedString(@"Image", nil);
             }
                 break;
             case EMMessageBodyTypeLocation:
             {
-                messageStr = @"位置";
+                messageStr = NSLocalizedString(@"Location", nil);
             }
                 break;
             case EMMessageBodyTypeVoice:
             {
-                messageStr = @"音频";
+                messageStr = NSLocalizedString(@"Audio", nil);
             }
                 break;
             case EMMessageBodyTypeVideo:{
-                messageStr = @"视频";
+                messageStr = NSLocalizedString(@"Video", nil);
             }
                 break;
             case EMMessageBodyTypeFile:{
-                messageStr = @"文件";
+                messageStr = NSLocalizedString(@"File", nil);
             }
                 break;
             default:
@@ -153,7 +158,7 @@ SystemSoundID soundID = 1007;
         }
     }
     else{
-        alertBody = @"您有一条新消息";
+        alertBody = NSLocalizedString(@"newmsg", nil);
     }
     
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:self.lastPlaySoundDate];
@@ -178,7 +183,7 @@ SystemSoundID soundID = 1007;
         UILocalNotification *notification = [[UILocalNotification alloc] init];
         notification.fireDate = [NSDate date]; //触发通知的时间
         notification.alertBody = alertBody;
-        notification.alertAction = @"打开";
+        notification.alertAction = NSLocalizedString(@"open", nil);
         notification.timeZone = [NSTimeZone defaultTimeZone];
         if (playSound) {
             notification.soundName = UILocalNotificationDefaultSoundName;
@@ -189,19 +194,12 @@ SystemSoundID soundID = 1007;
     }
 }
 
-- (BOOL)_needRemind:(NSString *)fromChatter
-{
-    BOOL ret = NO;
-    do {
-        NSArray *igGroupIds = [[EMClient sharedClient].groupManager getGroupsWithoutPushNotification:nil];
-        for (NSString *str in igGroupIds) {
-            if ([str isEqualToString:fromChatter]) {
-                return NO;
-            }
-        }
-        ret = YES;
-    } while (0);
-    return ret;
+- (BOOL)_unremindGroup:(NSString *)fromChatter {
+    return [[[EMClient sharedClient].pushManager noPushGroups] containsObject:fromChatter];
+}
+
+- (BOOL)_unremindChat:(NSString *)conversationId {
+    return [[[EMClient sharedClient].pushManager noPushUIds] containsObject:conversationId];
 }
 
 // 播放等待铃声

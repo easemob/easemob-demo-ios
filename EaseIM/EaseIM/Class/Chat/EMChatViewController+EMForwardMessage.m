@@ -13,7 +13,7 @@
 
 #pragma mark - Transpond Message
 
-- (void)forwardMenuItemAction:(EMMessage *)message
+- (void)forwardMenuItemAction:(EMChatMessage *)message
 {
     EMMsgTranspondViewController *controller = [[EMMsgTranspondViewController alloc] init];
     [self.navigationController pushViewController:controller animated:NO];
@@ -23,7 +23,7 @@
     }];
 }
 
-- (void)_forwardMsg:(EMMessage *)message
+- (void)_forwardMsg:(EMChatMessage *)message
                toUser:(NSString *)aUsername
 {
     EMMessageBodyType type = message.body.type;
@@ -38,22 +38,22 @@
 - (void)_forwardMsgWithBody:(EMMessageBody *)aBody
                          to:(NSString *)aTo
                         ext:(NSDictionary *)aExt
-                 completion:(void (^)(EMMessage *message))aCompletionBlock
+                 completion:(void (^)(EMChatMessage *message))aCompletionBlock
 {
     NSString *from = [[EMClient sharedClient] currentUsername];
-    EMMessage *message = [[EMMessage alloc] initWithConversationID:aTo from:from to:aTo body:aBody ext:aExt];
+    EMChatMessage *message = [[EMChatMessage alloc] initWithConversationID:aTo from:from to:aTo body:aBody ext:aExt];
     message.chatType = EMChatTypeChat;
     
     __weak typeof(self) weakself = self;
-    [[EMClient sharedClient].chatManager sendMessage:message progress:nil completion:^(EMMessage *message, EMError *error) {
+    [[EMClient sharedClient].chatManager sendMessage:message progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if (error) {
             [weakself.conversation deleteMessageWithId:message.messageId error:nil];
-            [EMAlertController showErrorAlert:@"转发消息失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"forwardMsgFail", nil)];
         } else {
             if (aCompletionBlock) {
                 aCompletionBlock(message);
             }
-            [EMAlertController showSuccessAlert:@"转发消息成功"];
+            [EMAlertController showSuccessAlert:NSLocalizedString(@"forwardMsgSucess", nil)];
             if ([aTo isEqualToString:weakself.conversation.conversationId]) {
                 [weakself.conversation markMessageAsReadWithId:message.messageId error:nil];
                 NSArray *formated = [weakself formatMessages:@[message]];
@@ -66,7 +66,7 @@
     }];
 }
 
-- (void)_forwardImageMsg:(EMMessage *)aMsg
+- (void)_forwardImageMsg:(EMChatMessage *)aMsg
                   toUser:(NSString *)aUsername
 {
     EMImageMessageBody *newBody = nil;
@@ -76,7 +76,7 @@
         newBody = [[EMImageMessageBody alloc]initWithLocalPath:imgBody.localPath displayName:imgBody.displayName];
     } else {
         if (imgBody.downloadStatus != EMDownloadStatusSuccessed) {
-            [EMAlertController showErrorAlert:@"请先下载原图"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"downloadImageFirst", nil)];
             return;
         }
         
@@ -85,31 +85,31 @@
     
     newBody.size = imgBody.size;
     __weak typeof(self) weakself = self;
-    [weakself _forwardMsgWithBody:newBody to:aUsername ext:aMsg.ext completion:^(EMMessage *message) {
+    [weakself _forwardMsgWithBody:newBody to:aUsername ext:aMsg.ext completion:^(EMChatMessage *message) {
         
     }];
 }
 
-- (void)_forwardVideoMsg:(EMMessage *)aMsg
+- (void)_forwardVideoMsg:(EMChatMessage *)aMsg
                   toUser:(NSString *)aUsername
 {
     EMVideoMessageBody *oldBody = (EMVideoMessageBody *)aMsg.body;
 
     __weak typeof(self) weakself = self;
-    void (^block)(EMMessage *aMessage) = ^(EMMessage *aMessage) {
+    void (^block)(EMChatMessage *aMessage) = ^(EMChatMessage *aMessage) {
         EMVideoMessageBody *newBody = [[EMVideoMessageBody alloc] initWithLocalPath:oldBody.localPath displayName:oldBody.displayName];
         newBody.thumbnailLocalPath = oldBody.thumbnailLocalPath;
         
-        [weakself _forwardMsgWithBody:newBody to:aUsername ext:aMsg.ext completion:^(EMMessage *message) {
+        [weakself _forwardMsgWithBody:newBody to:aUsername ext:aMsg.ext completion:^(EMChatMessage *message) {
             [(EMVideoMessageBody *)message.body setLocalPath:[(EMVideoMessageBody *)aMessage.body localPath]];
             [[EMClient sharedClient].chatManager updateMessage:message completion:nil];
         }];
     };
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:oldBody.localPath]) {
-        [[EMClient sharedClient].chatManager downloadMessageAttachment:aMsg progress:nil completion:^(EMMessage *message, EMError *error) {
+        [[EMClient sharedClient].chatManager downloadMessageAttachment:aMsg progress:nil completion:^(EMChatMessage *message, EMError *error) {
             if (error) {
-                [EMAlertController showErrorAlert:@"转发消息失败"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"forwardMsgFail", nil)];
             } else {
                 block(aMsg);
             }

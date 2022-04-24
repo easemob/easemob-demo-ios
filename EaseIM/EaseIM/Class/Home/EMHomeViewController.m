@@ -130,19 +130,19 @@
             [weakself _loadConversationTabBarItemBadge];
         }
     }];
-    UITabBarItem *consItem = [self _setupTabBarItemWithTitle:@"会话" imgName:@"icon-tab会话unselected" selectedImgName:@"icon-tab会话" tag:kTabbarItemTag_Conversation];
+    UITabBarItem *consItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"conversation", nil) imgName:@"icon-tab会话unselected" selectedImgName:@"icon-tab会话" tag:kTabbarItemTag_Conversation];
     self.conversationsController.tabBarItem = consItem;
     [self addChildViewController:self.conversationsController];
     
     self.contactsController = [[EMContactsViewController alloc]init];
-    UITabBarItem *contItem = [self _setupTabBarItemWithTitle:@"通讯录" imgName:@"icon-tab通讯录unselected" selectedImgName:@"icon-tab通讯录" tag:kTabbarItemTag_Contact];
+    UITabBarItem *contItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"contactList", nil) imgName:@"icon-tab通讯录unselected" selectedImgName:@"icon-tab通讯录" tag:kTabbarItemTag_Contact];
     self.contactsController.tabBarItem = contItem;
     [self addChildViewController:self.contactsController];
     
-    //UITabBarItem *discoverItem = [self _setupTabBarItemWithTitle:@"发现" imgName:@"icon-tab发现unselected" selectedImgName:@"icon-tab发现" tag:kTabbarItemTag_Settings];
+    //UITabBarItem *discoverItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"discover", nil) imgName:@"icon-tab发现unselected" selectedImgName:@"icon-tab发现" tag:kTabbarItemTag_Settings];
     
     self.mineController = [[EMMineViewController alloc] init];
-    UITabBarItem *mineItem = [self _setupTabBarItemWithTitle:@"我" imgName:@"icon-tab我unselected" selectedImgName:@"icon-tab我" tag:kTabbarItemTag_Settings];
+    UITabBarItem *mineItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"mine", nil) imgName:@"icon-tab我unselected" selectedImgName:@"icon-tab我" tag:kTabbarItemTag_Settings];
     self.mineController.tabBarItem = mineItem;
     [self addChildViewController:self.mineController];
     
@@ -190,7 +190,8 @@
 
 - (void)messagesDidReceive:(NSArray *)aMessages
 {
-    for (EMMessage *msg in aMessages) {
+    for (EMChatMessage *msg in aMessages) {
+        [EMRemindManager remindMessage:msg];
         if (msg.body.type == EMMessageBodyTypeText && [((EMTextMessageBody *)msg.body).text isEqualToString:EMCOMMUNICATE_CALLINVITE]) {
             //通话邀请
             EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:msg.conversationId type:EMConversationTypeGroupChat createIfNotExist:YES];
@@ -243,6 +244,12 @@
     NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
     NSInteger unreadCount = 0;
     for (EMConversation *conversation in conversations) {
+        if ([[[EMClient sharedClient].pushManager noPushUIds] containsObject:conversation.conversationId]) {//单聊免打扰会话
+            continue;
+        }
+        if ([[[EMClient sharedClient].pushManager noPushGroups] containsObject:conversation.conversationId]) {//群聊免打扰会话
+            continue;
+        }
         unreadCount += conversation.unreadMessagesCount;
     }
     self.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;

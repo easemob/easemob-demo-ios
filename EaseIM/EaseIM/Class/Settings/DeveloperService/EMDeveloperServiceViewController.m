@@ -26,7 +26,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"开发者服务";
+    self.title = NSLocalizedString(@"developerService", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
     self.tableView.rowHeight = 66;
@@ -88,32 +88,32 @@
 
     EMDemoOptions *options = [EMDemoOptions sharedOptions];
     if (section == 0) {
-        cell.textLabel.text = @"当前SDK版本";
+        cell.textLabel.text = NSLocalizedString(@"curSDKVer", nil);
         cell.detailTextLabel.text = [NSString stringWithFormat:@"V %@",[EMClient sharedClient].version];
         cell.accessoryType = UITableViewCellSelectionStyleNone;
     } else if (section == 1) {
         if (row == 0) {
-            cell.textLabel.text = @"自定义APPKey";
-            cell.detailTextLabel.text = [EMDemoOptions.sharedOptions.appkey isEqualToString:DEF_APPKEY] ? @"默认" : EMDemoOptions.sharedOptions.appkey;
+            cell.textLabel.text = NSLocalizedString(@"customAppkey", nil);
+            cell.detailTextLabel.text = [EMDemoOptions.sharedOptions.appkey isEqualToString:DEF_APPKEY] ? NSLocalizedString(@"default", nil) : EMDemoOptions.sharedOptions.appkey;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else if (row == 1) {
-            cell.textLabel.text = @"优先从服务器获取消息";
+            cell.textLabel.text = NSLocalizedString(@"fetchFromSerFirst", nil);
             [switchControl setOn:options.isPriorityGetMsgFromServer animated:YES];
         } else if (row == 2) {
-            cell.textLabel.text = @"消息附件上传到环信服务器";
+            cell.textLabel.text = NSLocalizedString(@"uploadAttachment", nil);
             [switchControl setOn:options.isAutoTransferMessageAttachments animated:YES];
         }
     } else if (section == 2) {
         if (row == 0) {
-            cell.textLabel.text = @"自动下载图片缩略图";
+            cell.textLabel.text = NSLocalizedString(@"autoDownloadImageThuinail", nil);
             [switchControl setOn:options.isAutoDownloadThumbnail animated:YES];
         } else if (row == 1) {
-            cell.textLabel.text = @"消息排序";
-            cell.detailTextLabel.text = options.isSortMessageByServerTime ? @"按服务器时间" : @"按接收顺序";
+            cell.textLabel.text = NSLocalizedString(@"sort", nil);
+            cell.detailTextLabel.text = options.isSortMessageByServerTime ? NSLocalizedString(@"serverTime", nil) : NSLocalizedString(@"receiveOrder", nil);
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     } else if (section == 3) {
-        cell.textLabel.text = @"导出日志到文件目录";
+        cell.textLabel.text = NSLocalizedString(@"exportLog", nil);
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     cell.textLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
@@ -187,11 +187,19 @@
 - (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 1) {
+        UIView * view = [[UIView alloc] init];
         UILabel *label = [[UILabel alloc] init];
         label.font = [UIFont systemFontOfSize:12.0];
         label.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
-        label.text = @"    上传附件到环信服务器，关闭需自定义文件上传";
-        return label;
+        label.numberOfLines = 0;
+        label.text = NSLocalizedString(@"uploadAttachmengtPrompt", nil);
+        [view addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.equalTo(view);
+            make.left.equalTo(view).offset(20);
+            make.right.equalTo(view).offset(-20);
+        }];
+        return view;
     }
     
     return nil;
@@ -215,22 +223,22 @@
 //修改消息排序
 - (void)updateMessageSort
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"消息排序" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sort", nil) message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     EMDemoOptions *options = [EMDemoOptions sharedOptions];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"按服务器时间" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"serverTime", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         options.isSortMessageByServerTime = YES;
         [options archive];
         [EMClient sharedClient].options.sortMessageByServerTime = YES;
         [self.tableView reloadData];
     }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"按接收顺序" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"receiveOrder", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         options.isSortMessageByServerTime = NO;
         [options archive];
         [EMClient sharedClient].options.sortMessageByServerTime = NO;
         [self.tableView reloadData];
     }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }]];
     
     [self presentViewController:alertController animated:YES completion:nil];
@@ -240,7 +248,7 @@
 - (void)saveLogToDocument {
     [[EMClient sharedClient] getLogFilesPathWithCompletion:^(NSString *aPath, EMError *aError) {
         if (!aPath) {
-            [EMAlertController showErrorAlert:@"日志获取失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"fetchLogFail", nil)];
             return ;
         }
         
@@ -253,7 +261,7 @@
         toPath = [toPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ log.gz", currentTimeString]];
         [fm copyItemAtPath:aPath toPath:toPath error:nil];
         
-        [EMAlertController showSuccessAlert:@"已将文件移动到沙箱"];
+        [EMAlertController showSuccessAlert:NSLocalizedString(@"moveLog", nil)];
         
         NSURL *url = [NSURL fileURLWithPath:toPath];
         UIDocumentInteractionController *documentController = [UIDocumentInteractionController interactionControllerWithURL:url];

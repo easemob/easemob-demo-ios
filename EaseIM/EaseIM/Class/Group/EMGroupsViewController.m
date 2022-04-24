@@ -10,6 +10,7 @@
 
 #import "EMAvatarNameCell.h"
 #import "EMInviteGroupMemberViewController.h"
+#import "EMCreateGroupViewController.h"
 
 @interface EMGroupsViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
 
@@ -47,11 +48,30 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"群组列表";
+    self.title = NSLocalizedString(@"groupList", nil);
     self.view.backgroundColor = [UIColor whiteColor];
     self.showRefreshHeader = YES;
     self.tableView.rowHeight = 74;
     self.searchResultTableView.rowHeight = 74;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"创建" style:UIBarButtonItemStylePlain target:self action:@selector(addButtonClick)];
+}
+
+- (void)addButtonClick {
+    EMInviteGroupMemberViewController *vc = [[EMInviteGroupMemberViewController alloc] init];
+    __weak typeof(self) weakself = self;
+    [vc setDoneCompletion:^(NSArray * _Nonnull aSelectedArray) {
+        EMCreateGroupViewController *createController = [[EMCreateGroupViewController alloc] initWithSelectedMembers:aSelectedArray];
+        createController.inviteController = weakself.inviteController;
+        [createController setSuccessCompletion:^(EMGroup * _Nonnull aGroup) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_PUSHVIEWCONTROLLER object:aGroup];
+        }];
+        [weakself.navigationController pushViewController:createController animated:YES];
+    }];
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:vc];
+    navController.modalPresentationStyle = 0;
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 #pragma mark - EMSearchBarDelegate
@@ -223,7 +243,7 @@
 {
     [self hideHud];
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取群组..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchingGroup...", nil)];
     }
     
     __weak typeof(self) weakself = self;

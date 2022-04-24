@@ -40,7 +40,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"群成员";
+    self.title = NSLocalizedString(@"groupMembers", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
 
     self.tableView.scrollEnabled = NO;
@@ -80,11 +80,11 @@
     
     if (section == 0) {
         if (row == 0) {
-            cell.textLabel.text = @"群管理员";
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"共%lu人",(unsigned long)self.group.adminList.count + 1];
+            cell.textLabel.text = NSLocalizedString(@"groupAdmin", nil);
+            cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"usersCount", nil),(unsigned long)self.group.adminList.count + 1];
         } else if (row == 1) {
-            cell.textLabel.text = @"群成员";
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"共%lu人",(self.group.occupantsCount - self.group.adminList.count - 1)];
+            cell.textLabel.text = NSLocalizedString(@"groupMembers", nil);
+            cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"usersCount", nil),(self.group.occupantsCount - self.group.adminList.count - 1)];
         }
     }
     

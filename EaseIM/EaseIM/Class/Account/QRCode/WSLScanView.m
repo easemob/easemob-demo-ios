@@ -71,7 +71,7 @@
     descLabel.font = [UIFont systemFontOfSize:12];
     descLabel.textAlignment = NSTextAlignmentCenter;
     descLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
-    descLabel.text = @"扫描环信console快速集成页面的二维码";
+    descLabel.text = NSLocalizedString(@"installPrompt", nil);
     [self addSubview:descLabel];
 }
 
@@ -298,7 +298,7 @@
         handleLabel.font = [UIFont systemFontOfSize:12];
         handleLabel.textAlignment = NSTextAlignmentCenter;
         handleLabel.textColor = [UIColor whiteColor];
-        handleLabel.text = @"正在处理...";
+        handleLabel.text = NSLocalizedString(@"dealing...", nil);
         [_handlingView addSubview:handleLabel];
     }
     return _handlingView;

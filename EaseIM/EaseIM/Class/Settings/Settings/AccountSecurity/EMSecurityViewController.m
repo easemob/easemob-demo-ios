@@ -25,7 +25,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"账号与安全";
+    self.title = NSLocalizedString(@"AccountInfo", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
 
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
@@ -76,8 +76,8 @@
     }];
     */
     if (section == 0) {
-        //imgView.image = [UIImage imageNamed:@"多端多设备管理"];
-        cell.textLabel.text = @"多端多设备管理";
+        //imgView.image = [UIImage imageNamed:NSLocalizedString(@"devicesManager", nil)];
+        cell.textLabel.text = NSLocalizedString(@"devicesManager", nil);
         cell.textLabel.font = [UIFont systemFontOfSize:14.f];
     }
     

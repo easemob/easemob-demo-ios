@@ -55,7 +55,7 @@
 - (void)_setupViews
 {
     [self addPopBackLeftItem];
-    self.title = @"系统通知";
+    self.title = NSLocalizedString(@"systemNotice", nil);
     
     self.tableView.backgroundColor = kColor_LightGray;
     self.tableView.estimatedRowHeight = 150;
@@ -104,8 +104,16 @@
     
     if (aModel.type == EMNotificationModelTypeContact) {
         [[EMClient sharedClient].contactManager approveFriendRequestFromUser:aModel.sender completion:^(NSString *aUsername, EMError *aError) {
-            if (!aError) {
-                NSString *msg = [NSString stringWithFormat:@"您已同意 %@ 的好友请求",aModel.sender];
+            if (aError) {
+                if (aError.code == EMErrorContactReachLimit) {
+                    [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail.ContactReachLimit", nil)];
+                } else if (aError.code == EMErrorContactReachLimitPeer) {
+                    [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail.ContactReachLimitPeer", nil)];
+                } else {
+                    [EMAlertController showErrorAlert:NSLocalizedString(@"applyfail", nil)];
+                }
+            } else {
+                NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"acceptPrompt", nil),aModel.sender];
                 [self showAlertWithTitle:@"O(∩_∩)O" message:msg];
             }
             block(aError);
@@ -114,7 +122,7 @@
         [[EMClient sharedClient].groupManager acceptInvitationFromGroup:aModel.groupId inviter:aModel.sender completion:^(EMGroup *aGroup, EMError *aError) {
             block(aError);
             if (!aError) {
-                NSString *msg = [NSString stringWithFormat:@"您已加入群 「%@」",aGroup.groupName];
+                NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"joinGroupPrompt", nil),aGroup.groupName];
                 [self showAlertWithTitle:@"O(∩_∩)O" message:msg];
                 [[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_ADD_SOCIAL_CONTACT object:@{CONVERSATION_ID:aModel.groupId,CONVERSATION_OBJECT:EMClient.sharedClient.currentUsername}];
             }
@@ -145,7 +153,7 @@
     if (aModel.type == EMNotificationModelTypeContact) {
         [[EMClient sharedClient].contactManager declineFriendRequestFromUser:aModel.sender completion:^(NSString *aUsername, EMError *aError) {
             if (!aError) {
-                NSString *msg = [NSString stringWithFormat:@"您已拒绝 %@ 的好友请求",aModel.sender];
+                NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"refusePrompt", nil),aModel.sender];
                 [self showAlertWithTitle:@"O(∩_∩)O" message:msg];
             }
             block(aError);

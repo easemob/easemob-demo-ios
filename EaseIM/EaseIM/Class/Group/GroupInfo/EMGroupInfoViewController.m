@@ -74,7 +74,7 @@
             weakself.group = aGroup;
             [weakself _resetGroup:aGroup];
         } else {
-            [EMAlertController showErrorAlert:[NSString stringWithFormat:@"获取群组详情失败: %@",aError.description]];
+            [EMAlertController showErrorAlert:[NSString stringWithFormat:NSLocalizedString(@"fetchGroupSubjectFail", nil),aError.description]];
         }
     }];
 }
@@ -95,7 +95,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"群组信息";
+    self.title = NSLocalizedString(@"groupInfo", nil);
 
     self.tableView.rowHeight = 60;
     self.tableView.tableFooterView = [[UIView alloc] init];
@@ -110,12 +110,12 @@
     self.addMemberCell = [[EMAvatarNameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EMAvatarNameCell"];
     self.addMemberCell.avatarView.image = [UIImage imageNamed:@"group_join"];
     self.addMemberCell.nameLabel.textColor = kColor_Blue;
-    self.addMemberCell.nameLabel.text = @"邀请成员";
+    self.addMemberCell.nameLabel.text = NSLocalizedString(@"inviteMembers", nil);
     self.addMemberCell.separatorInset = UIEdgeInsetsMake(0, [UIScreen mainScreen].bounds.size.width, 0, 0);
     
     self.leaveCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellStyleDefaultRedFont"];
     self.leaveCellContentLabel = [[UILabel alloc]init];
-    self.leaveCellContentLabel.text = @"删除并退出";
+    self.leaveCellContentLabel.text = NSLocalizedString(@"remove&exit", nil);
     self.leaveCellContentLabel.textColor = [UIColor colorWithRed:245/255.0 green:52/255.0 blue:41/255.0 alpha:1.0];
     self.leaveCellContentLabel.font = [UIFont systemFontOfSize:18.0];
     [self.leaveCell.contentView addSubview:self.leaveCellContentLabel];
@@ -211,49 +211,49 @@
             if (self.group.description && ![self.group.description isEqualToString:@""]) {
                 cell.detailTextLabel.text = self.group.description;
             } else {
-                cell.detailTextLabel.text = @"群主很懒，还没有群介绍哦～";
+                cell.detailTextLabel.text = NSLocalizedString(@"noGroupDescription", nil);
             }
             cell.accessoryType = UITableViewCellAccessoryNone;
         } else if (row == 1) {
-            cell.textLabel.text = @"群聊成员";
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"共%ld人",(long)self.group.occupantsCount];
+            cell.textLabel.text = NSLocalizedString(@"groupMembers", nil);
+            cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"groupCount", nil),(long)self.group.occupantsCount];
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, [UIScreen mainScreen].bounds.size.width);
         }
     } else if (section == 1) {
         if (row == 0) {
-            cell.textLabel.text = @"群聊名称";
+            cell.textLabel.text = NSLocalizedString(@"groupSubject", nil);
             cell.detailTextLabel.text = self.group.groupName;
             cell.accessoryType = self.group.permissionType == EMGroupPermissionTypeOwner ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
         } else if (row == 1) {
-            cell.textLabel.text = @"共享文件";
+            cell.textLabel.text = NSLocalizedString(@"sharedFile", nil);
             cell.detailTextLabel.text = @"";
         } else if (row == 2) {
-            cell.textLabel.text = @"群公告";
+            cell.textLabel.text = NSLocalizedString(@"groupAnn", nil);
             cell.detailTextLabel.text = @"";
         } else if (row == 3) {
-            cell.textLabel.text = @"群介绍";
+            cell.textLabel.text = NSLocalizedString(@"groupDescription", nil);
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",self.group.description];
             cell.accessoryType = self.group.permissionType == EMGroupPermissionTypeOwner ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
         } else if (row == 4) {
-            cell.textLabel.text = @"群管理";
+            cell.textLabel.text = NSLocalizedString(@"groupAdmin", nil);
             cell.detailTextLabel.text = @"";
         }
     }  else if (section == 2) {
         if (row == 0) {
-            cell.textLabel.text = @"查找聊天记录";
+            cell.textLabel.text = NSLocalizedString(@"searchMsgList", nil);
             cell.detailTextLabel.text = @"";
         }
     } else if (section == 3) {
         if (row == 0) {
-            cell.textLabel.text = @"消息免打扰";
+            cell.textLabel.text = NSLocalizedString(@"noNotice", nil);
             [switchControl setOn:!self.group.isPushNotificationEnabled animated:YES];
         } else if (row == 1) {
-            cell.textLabel.text = @"会话置顶";
+            cell.textLabel.text = NSLocalizedString(@"conversationTop", nil);
             [switchControl setOn:[self.conversationModel isTop] animated:YES];
         }
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (section == 4) {
-        cell.textLabel.text = @"清空聊天记录";
+        cell.textLabel.text = NSLocalizedString(@"clearConversation", nil);
         cell.detailTextLabel.text = @"";
     }
     return cell;
@@ -374,9 +374,9 @@
     
     self.group = aGroup;
     if (aGroup.permissionType == EMGroupPermissionTypeOwner) {
-        self.leaveCellContentLabel.text = @"解散群组";
+        self.leaveCellContentLabel.text = NSLocalizedString(@"destoryGroup", nil);
     } else {
-        self.leaveCellContentLabel.text = @"退出群组";
+        self.leaveCellContentLabel.text = NSLocalizedString(@"exitGroup", nil);
     }
     [self.tableView reloadData];
 }
@@ -387,14 +387,14 @@
     __weak typeof(self) weakself = self;
     
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取群组详情..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchGroupSubject...", nil)];
     }
     [[EMClient sharedClient].groupManager getGroupSpecificationFromServerWithId:aGroupId completion:^(EMGroup *aGroup, EMError *aError) {
         [weakself hideHud];
         if (!aError) {
             [weakself _resetGroup:aGroup];
         } else {
-            [EMAlertController showErrorAlert:@"获取群组详情失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"fetchGroupSubjectFail", nil)];
         }
         [weakself tableViewDidFinishTriggerHeader:YES reload:NO];
     }];
@@ -462,9 +462,17 @@
         if (row == 0) {
             //免打扰
             __weak typeof(self) weakself = self;
-            [EMClient.sharedClient.groupManager updatePushServiceForGroup:self.group.groupId isPushEnabled:aSwitch.isOn ? NO : YES completion:^(EMGroup *aGroup, EMError *aError) {
-                weakself.group = aGroup;
-                [weakself reloadInfo];
+            
+            [[EaseIMKitManager shared] updateUndisturbMapsKey:self.conversation.conversationId value:aSwitch.isOn];
+            [EMClient.sharedClient.groupManager updatePushServiceForGroup:self.group.groupId isPushEnabled:!aSwitch.isOn completion:^(EMGroup *aGroup, EMError *aError) {
+                if (!aError) {
+                    weakself.group = aGroup;
+                } else {
+                    if (aError) {
+                        [weakself showHint:[NSString stringWithFormat:NSLocalizedString(@"setDistrbute", nil),aError.errorDescription]];
+                        [aSwitch setOn:NO];
+                    }
+                }
             }];
         } else if (row == 1) {
             //置顶
@@ -481,17 +489,17 @@
 - (void)deleteGroupRecord
 {
     __weak typeof(self) weakself = self;
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"确定删除群的聊天记录吗？" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *clearAction = [UIAlertAction actionWithTitle:@"清空" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"removeGroupMsgs", nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *clearAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"clear", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:self.group.groupId type:EMConversationTypeGroupChat createIfNotExist:NO];
         EMError *error = nil;
         [conversation deleteAllMessages:&error];
         if (weakself.clearRecordCompletion) {
             if (!error) {
-                [EMAlertController showSuccessAlert:@"聊天记录已清空！"];
+                [EMAlertController showSuccessAlert:NSLocalizedString(@"cleared", nil)];
                 weakself.clearRecordCompletion(YES);
             } else {
-                [EMAlertController showErrorAlert:@"清空聊天记录失败！"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"clearFail", nil)];
                 weakself.clearRecordCompletion(NO);
             }
         }
@@ -499,7 +507,7 @@
     [clearAction setValue:[UIColor colorWithRed:245/255.0 green:52/255.0 blue:41/255.0 alpha:1.0] forKey:@"_titleTextColor"];
     [alertController addAction:clearAction];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
     [cancelAction  setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
     [alertController addAction:cancelAction];
@@ -510,7 +518,7 @@
 - (void)groupAnnouncementAction
 {
     __weak typeof(self) weakself = self;
-    [self showHudInView:self.view hint:@"获取群组公告..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"fetchingGroupAnn...", nil)];
     [[EMClient sharedClient].groupManager getGroupAnnouncementWithId:self.groupId completion:^(NSString *aAnnouncement, EMError *aError) {
         [weakself hideHud];
         if (!aError) {
@@ -520,20 +528,20 @@
             }
             NSString *hint;
             if (isEditable) {
-                hint = @"请输入群组公告";
+                hint = NSLocalizedString(@"inputGroupAnn", nil);
             } else {
-                hint = @"暂无群公告哦～";
+                hint = NSLocalizedString(@"noGroupAnn", nil);
             }
             EMTextViewController *controller = [[EMTextViewController alloc] initWithString:aAnnouncement placeholder:hint isEditable:isEditable];
-            controller.title = @"群组公告";
+            controller.title = NSLocalizedString(@"groupAnn", nil);
             
             __weak typeof(controller) weakController = controller;
             [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
-                [weakController showHudInView:weakController.view hint:@"更新群组公告..."];
+                [weakController showHudInView:weakController.view hint:NSLocalizedString(@"updateGroupAnn...", nil)];
                 [[EMClient sharedClient].groupManager updateGroupAnnouncementWithId:weakself.groupId announcement:aString completion:^(EMGroup *aGroup, EMError *aError) {
                     [weakController hideHud];
                     if (aError) {
-                        [EMAlertController showErrorAlert:@"更新群组公告失败"];
+                        [EMAlertController showErrorAlert:NSLocalizedString(@"updateGroupAnnFail", nil)];
                     } else {
                         [weakController.navigationController popViewControllerAnimated:YES];
                     }
@@ -544,7 +552,7 @@
             
             [weakself.navigationController pushViewController:controller animated:YES];
         } else {
-            [EMAlertController showErrorAlert:@"获取群组公告失败"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"fetchGroupAnnFail", nil)];
         }
     }];
 }
@@ -562,8 +570,8 @@
 //修改我的群昵称
 - (void)_updateGroupNickNameOfMine
 {
-    EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:[self acquireGroupNickNamkeOfMine] placeholder:@"输入你的群昵称" isEditable:YES];
-    controller.title = @"编辑群昵称";
+    EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:[self acquireGroupNickNamkeOfMine] placeholder:NSLocalizedString(@"inputGroupNickname", nil) isEditable:YES];
+    controller.title = NSLocalizedString(@"editGroupSubject", nil);
     [self.navigationController pushViewController:controller animated:YES];
     
     __weak typeof(self) weakself = self;
@@ -578,7 +586,7 @@
         } else {
             [nickNameDic setObject:aString forKey:EMClient.sharedClient.currentUsername];
         }
-        [weakController showHudInView:weakController.view hint:@"更新我的群昵称..."];
+        [weakController showHudInView:weakController.view hint:NSLocalizedString(@"updateNickname...", nil)];
         [weakController hideHud];
         //修改我的群昵称
         NSData *data=[NSJSONSerialization dataWithJSONObject:nickNameDic options:NSJSONWritingPrettyPrinted error:nil];
@@ -600,26 +608,26 @@
     if (!isEditable) {
         return;
     }
-    EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:self.group.groupName placeholder:@"输入群聊名称" isEditable:isEditable];
-    controller.title = @"编辑群聊名称";
+    EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:self.group.groupName placeholder:NSLocalizedString(@"inputGroupSubject", nil) isEditable:isEditable];
+    controller.title = NSLocalizedString(@"editGroupSubject", nil);
     [self.navigationController pushViewController:controller animated:YES];
     
     __weak typeof(self) weakself = self;
     __weak typeof(controller) weakController = controller;
     [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
         if ([aString length] == 0) {
-            [EMAlertController showErrorAlert:@"群聊名称不能为空"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"emtpyGroupSubject", nil)];
             return NO;
         }
         
-        [weakController showHudInView:weakController.view hint:@"更新群聊名称..."];
+        [weakController showHudInView:weakController.view hint:NSLocalizedString(@"updateGroupName...", nil)];
         [[EMClient sharedClient].groupManager updateGroupSubject:aString forGroup:weakself.groupId completion:^(EMGroup *aGroup, EMError *aError) {
             [weakController hideHud];
             if (!aError) {
                 [weakself _resetGroup:aGroup];
                 [weakController.navigationController popViewControllerAnimated:YES];
             } else {
-                [EMAlertController showErrorAlert:@"更新群聊名称失败"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"updateGroupSubjectFail", nil)];
             }
         }];
         
@@ -630,25 +638,25 @@
 - (void)_updateGroupDetailAction
 {
     BOOL isEditable = self.group.permissionType == EMGroupPermissionTypeOwner ? YES : NO;
-    EMTextViewController *controller = [[EMTextViewController alloc] initWithString:self.group.description placeholder:@"请输入群介绍" isEditable:isEditable];
+    EMTextViewController *controller = [[EMTextViewController alloc] initWithString:self.group.description placeholder:NSLocalizedString(@"inputGroupDescription", nil) isEditable:isEditable];
     if (isEditable) {
-         controller.title = @"编辑群介绍";
+         controller.title = NSLocalizedString(@"editGroupDescription", nil);
     } else {
-        controller.title = @"群介绍";
+        controller.title = NSLocalizedString(@"groupDescription", nil);
     }
     [self.navigationController pushViewController:controller animated:YES];
     
     __weak typeof(self) weakself = self;
     __weak typeof(controller) weakController = controller;
     [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
-        [weakController showHudInView:weakController.view hint:@"更新群介绍..."];
+        [weakController showHudInView:weakController.view hint:NSLocalizedString(@"updateGroupDescription...", nil)];
         [[EMClient sharedClient].groupManager updateDescription:aString forGroup:weakself.groupId completion:^(EMGroup *aGroup, EMError *aError) {
             [weakController hideHud];
             if (!aError) {
                 [weakself _resetGroup:aGroup];
                 [weakController.navigationController popViewControllerAnimated:YES];
             } else {
-                [EMAlertController showErrorAlert:@"更新群介绍失败"];
+                [EMAlertController showErrorAlert:NSLocalizedString(@"updateGroupDescriptionFail", nil)];
             }
         }];
         
@@ -675,7 +683,14 @@
     __weak typeof(self) weakself = self;
     void (^block)(EMError *aError) = ^(EMError *aError) {
         if (!aError && [EMClient sharedClient].options.isDeleteMessagesWhenExitGroup) {
-            [[EMClient sharedClient].chatManager deleteConversation:weakself.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+            [[EMClient sharedClient].chatManager deleteServerConversation:weakself.groupId conversationType:EMConversationTypeGroupChat isDeleteServerMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+                if (aError) {
+                    [weakself showHint:aError.errorDescription];
+                }
+                
+                [[EMClient sharedClient].chatManager deleteConversation:weakself.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
+                    [[EMTranslationManager sharedManager] removeTranslationByConversationId:weakself.groupId];
+                }];
             }];
         }
         [weakself hideHud];
@@ -686,10 +701,10 @@
     };
     
     if (self.group.permissionType == EMGroupPermissionTypeOwner) {
-        [self showHudInView:self.view hint:@"解散群组..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"destroyGroup...", nil)];
         [[EMClient sharedClient].groupManager destroyGroup:self.groupId finishCompletion:block];
     } else {
-        [self showHudInView:self.view hint:@"离开群组..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"leaveGroup...", nil)];
         [[EMClient sharedClient].groupManager leaveGroup:self.groupId completion:block];
     }
 }
@@ -711,7 +726,7 @@
             [self presentViewController:navController animated:YES completion:nil];
             
             [controller setDoneCompletion:^(NSArray * _Nonnull aSelectedArray) {
-                [weakself showHudInView:weakself.view hint:@"添加成员..."];
+                [weakself showHudInView:weakself.view hint:NSLocalizedString(@"addMember", nil)];
                 [[EMClient sharedClient].groupManager addMembers:aSelectedArray toGroup:weakself.groupId message:@"" completion:^(EMGroup *aGroup, EMError *aError) {
                     [weakself hideHud];
                     if (aError) {
@@ -722,7 +737,7 @@
                 }];
             }];
         } else {
-            [EMAlertController showErrorAlert:[NSString stringWithFormat:@"获取群组详情失败: %@",aError.description]];
+            [EMAlertController showErrorAlert:[NSString stringWithFormat:NSLocalizedString(@"fetchGroupSubjectFail", nil),aError.description]];
         }
     }];
 }

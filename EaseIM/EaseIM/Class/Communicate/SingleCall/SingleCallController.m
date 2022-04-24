@@ -66,13 +66,13 @@ static SingleCallController *callManager = nil;
     EaseCallType aType = (EaseCallType)[[notify.object objectForKey:CALL_TYPE] integerValue];
     AVAudioSessionRecordPermission permissionStatus = [[AVAudioSession sharedInstance] recordPermission];
     if (permissionStatus == AVAudioSessionRecordPermissionDenied) {
-        [EMAlertController showErrorAlert:@"未开启麦克风权限"];
+        [EMAlertController showErrorAlert:NSLocalizedString(@"needMicRight", nil)];
         return;
     }
     if (aType == EaseCallType1v1Video) {
         AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if (authStatus == AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied) {
-            [EMAlertController showErrorAlert:@"未开启相机权限"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"needCameraRight", nil)];
             return;
         }
     }
@@ -101,7 +101,7 @@ static SingleCallController *callManager = nil;
 - (void)insertLocationCallRecord:(NSArray*)messages
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:EMCOMMMUNICATE_RECORD object:@{@"msg":messages}];//刷新页面
-   // EMMessage *message = [[EMMessage alloc] initWithConversationID:callSession.remoteName from:from to:to body:body ext:ext];
+   // EMChatMessage *message = [[EMChatMessage alloc] initWithConversationID:callSession.remoteName from:from to:to body:body ext:ext];
 //    message.direction = [from isEqualToString:[[EMClient sharedClient] currentUsername]] ? EMMessageDirectionSend : EMMessageDirectionReceive;
 //    message.chatType = EMChatTypeChat;
 //    [conversation appendMessage:message error:nil];

@@ -17,7 +17,7 @@
         _showName = easeId;
         if (type == EMConversationTypeChat) {
             if ([easeId isEqualToString:EMSYSTEMNOTIFICATIONID]) {
-                _showName = @"系统通知";
+                _showName = NSLocalizedString(@"systemNotice", nil);
             }
         }
         if(type == EMConversationTypeGroupChat) {

@@ -26,9 +26,16 @@
 
 
 //appkey
+//#define DEF_APPKEY @"41351358#427351"
 //#define DEF_APPKEY @"easemob-demo#testmd1"
 #define DEF_APPKEY @"easemob-demo#easeim"
 //#define DEF_APPKEY @"easemob-demo#chatdemoui"
+
+// 翻译
+#define TRANSLATE_KEY @""
+#define TRANSLATE_ENDPOINT @""
+#define TRANSLATE_LOCATION @""
+
 
 #define RTC_BUTTON_WIDTH 65
 #define RTC_BUTTON_HEIGHT 90
@@ -143,5 +150,7 @@
 
 //确认发送名片消息
 #define CONFIRM_USERCARD @"EMUserCardConfirm"
+//用户推送设置更新
+#define USER_PUSH_CONFIG_UPDATE @"EMUserPushConfigsUpdateSuccess"
 
 #endif /* EMDefines_h */

@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EMRemindManager : NSObject
 // 消息提醒
-+ (void)remindMessage:(EMMessage *)aMessage;
++ (void)remindMessage:(EMChatMessage *)aMessage;
 
 // app角标更新
 + (void)updateApplicationIconBadgeNumber:(NSInteger)aBadgeNumber;

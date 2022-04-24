@@ -37,12 +37,12 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"自定义APPKey";
+    self.title = NSLocalizedString(@"customAppkey", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
     self.addAppkeyBtn = [[UIButton alloc]init];
     self.addAppkeyBtn.backgroundColor = [UIColor whiteColor];
-    [self.addAppkeyBtn setTitle:@"添加自定义APPKey" forState:UIControlStateNormal];
+    [self.addAppkeyBtn setTitle:NSLocalizedString(@"addcustomAppkey", nil) forState:UIControlStateNormal];
     [self.addAppkeyBtn setTitleColor:[UIColor colorWithRed:4/255.0 green:174/255.0 blue:240/255.0 alpha:1.0] forState:UIControlStateNormal];
     [self.addAppkeyBtn.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     self.addAppkeyBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -72,11 +72,6 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     return [EMDemoOptions.sharedOptions.locationAppkeyArray count];
@@ -104,8 +99,8 @@
 {
     NSString *appkey = [EMDemoOptions.sharedOptions.locationAppkeyArray objectAtIndex:indexPath.row];
     if (![appkey isEqualToString:EMDemoOptions.sharedOptions.appkey]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:@"当前appkey以及环境配置已生效，更换当前正使用appkey需重启客户端" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:NSLocalizedString(@"applyConfigPrompt", nil) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"well", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             EMDemoOptions.sharedOptions.appkey = appkey;
             [EMDemoOptions.sharedOptions.locationAppkeyArray insertObject:appkey atIndex:0];
             [EMDemoOptions.sharedOptions.locationAppkeyArray removeObjectAtIndex:(indexPath.row + 1)];
@@ -114,7 +109,7 @@
         }];
         [alertController addAction:okAction];
         
-        [alertController addAction: [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alertController addAction: [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }]];
         alertController.modalPresentationStyle = 0;
         [self presentViewController:alertController animated:YES completion:nil];
@@ -129,7 +124,7 @@
 - (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *userName = [EMDemoOptions.sharedOptions.locationAppkeyArray objectAtIndex:indexPath.row];
     __weak typeof(self) weakself = self;
-    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"移除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:NSLocalizedString(@"remove", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         [weakself _deleteAppkey:userName];
     }];
     deleteAction.backgroundColor = [UIColor redColor];
@@ -140,18 +135,18 @@
 - (void)_deleteAppkey:(NSString *)appkey
 {
     if ([EMDemoOptions.sharedOptions.locationAppkeyArray count] <= 1) {
-        [self showHint:@"不可移除最后的appkey"];
+        [self showHint:NSLocalizedString(@"cannotremoveLastAppkey", nil)];
         return;
     } else if ([appkey isEqualToString:EMDemoOptions.sharedOptions.appkey]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:@"当前appkey以及环境配置已生效，移除当前正使用appkey需重启客户端" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:NSLocalizedString(@"applyConfigPrompt", nil) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"well", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             EMDemoOptions.sharedOptions.appkey = @"";
             [EMDemoOptions.sharedOptions.locationAppkeyArray removeObject:appkey];
             exit(0);
         }];
         [alertController addAction:okAction];
         
-        [alertController addAction: [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alertController addAction: [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }]];
         alertController.modalPresentationStyle = 0;
         [self presentViewController:alertController animated:YES completion:nil];

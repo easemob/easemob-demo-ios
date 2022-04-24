@@ -100,8 +100,8 @@
     [self.titleTextImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.backView);
         make.width.equalTo(@108);
-        make.height.equalTo(@29);
-        make.top.equalTo(self.titleImageView.mas_bottom).offset(20);
+        make.height.equalTo(@24);
+        make.top.equalTo(self.titleImageView.mas_bottom).offset(22);
     }];
     
     self.sdkVersionBackView = [[UIImageView alloc] init];
@@ -132,7 +132,7 @@
     self.nameField.backgroundColor = [UIColor whiteColor];
     self.nameField.delegate = self;
     self.nameField.borderStyle = UITextBorderStyleNone;
-    self.nameField.placeholder = @"用户名";
+    self.nameField.placeholder = NSLocalizedString(@"userId", nil);
     self.nameField.returnKeyType = UIReturnKeyGo;
     self.nameField.font = [UIFont systemFontOfSize:17];
     self.nameField.rightViewMode = UITextFieldViewModeWhileEditing;
@@ -157,7 +157,7 @@
     self.pswdField.backgroundColor = [UIColor whiteColor];
     self.pswdField.delegate = self;
     self.pswdField.borderStyle = UITextBorderStyleNone;
-    self.pswdField.placeholder = @"密码";
+    self.pswdField.placeholder = NSLocalizedString(@"password", nil);
     self.pswdField.font = [UIFont systemFontOfSize:17];
     self.pswdField.returnKeyType = UIReturnKeyGo;
     self.pswdField.secureTextEntry = YES;
@@ -199,7 +199,7 @@
     
     UIButton *registerButton = [[UIButton alloc] init];
     registerButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    [registerButton setTitle:@"账户注册" forState:UIControlStateNormal];
+    [registerButton setTitle:NSLocalizedString(@"regist", nil) forState:UIControlStateNormal];
     [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [registerButton addTarget:self action:@selector(registerAction) forControlEvents:UIControlEventTouchUpInside];
     [self.backView addSubview:registerButton];
@@ -212,13 +212,13 @@
     
     UIButton *serverConfigurationBtn = [[UIButton alloc] init];
     serverConfigurationBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [serverConfigurationBtn setTitle:@"服务器配置" forState:UIControlStateNormal];
+    [serverConfigurationBtn setTitle:NSLocalizedString(@"serverConfig", nil) forState:UIControlStateNormal];
     [serverConfigurationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [serverConfigurationBtn addTarget:self action:@selector(changeAppkeyAction) forControlEvents:UIControlEventTouchUpInside];
     
     [self.backView addSubview:serverConfigurationBtn];
     [serverConfigurationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@80);
+        make.width.equalTo(@100);
         make.height.equalTo(@17);
         make.right.equalTo(self.authorizationView);
         make.bottom.equalTo(self.backView.mas_bottom).offset(-60);
@@ -226,7 +226,7 @@
     /*
     self.loginTypeButton = [[UIButton alloc] init];
     self.loginTypeButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    [self.loginTypeButton setTitle:@"token登录" forState:UIControlStateNormal];
+    [self.loginTypeButton setTitle:NSLocalizedString(@"loginWithToken", nil) forState:UIControlStateNormal];
     [self.loginTypeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginTypeButton addTarget:self action:@selector(loginTypeChangeAction) forControlEvents:UIControlEventTouchUpInside];
     [self.backView addSubview:self.loginTypeButton];
@@ -331,13 +331,13 @@
     [self.backView endEditing:YES];
     
     if (gIsInitializedSDK) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:@"当前appkey以及环境配置已生效，如果需要更改需要重启客户端" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(づ｡◕‿‿◕｡)づ" message:NSLocalizedString(@"applyConfigPrompt", nil) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"well", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             exit(0);
         }];
         [alertController addAction:okAction];
         
-        [alertController addAction: [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alertController addAction: [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }]];
         alertController.modalPresentationStyle = 0;
         [self presentViewController:alertController animated:YES completion:nil];
@@ -419,28 +419,28 @@
             return ;
         }
         
-        NSString *errorDes = @"登录失败，请重试";
+        NSString *errorDes = NSLocalizedString(@"loginFailPrompt", nil);
         switch (aError.code) {
             case EMErrorUserNotFound:
-                errorDes = @"用户ID不存在";
+                errorDes = NSLocalizedString(@"userNotFount", nil);
                 break;
             case EMErrorNetworkUnavailable:
-                errorDes = @"网络未连接";
+                errorDes = NSLocalizedString(@"offlinePrompt", nil);
                 break;
             case EMErrorServerNotReachable:
-                errorDes = @"无法连接服务器";
+                errorDes = NSLocalizedString(@"notReachServer", nil);
                 break;
             case EMErrorUserAuthenticationFailed:
-                errorDes = @"您输入的用户名或密码不正确";
+                errorDes = NSLocalizedString(@"userIdOrPwdError", nil);
                 break;
             case EMErrorUserLoginTooManyDevices:
-                errorDes = @"登录设备数已达上限";
+                errorDes = NSLocalizedString(@"devicesExceedLimit", nil);
                 break;
             case EMErrorUserLoginOnAnotherDevice:
-                errorDes = @"已在其他设备登录";
+                errorDes = NSLocalizedString(@"loginOnOtherDevice", nil);
                 break;
                 case EMErrorUserRemoved:
-                errorDes = @"当前帐号已被后台删除";
+                errorDes = NSLocalizedString(@"userRemovedByServer", nil);
             break;
             default:
                 break;
@@ -490,16 +490,16 @@
         self.pswdField.rightView = nil;
         self.pswdField.rightViewMode = UITextFieldViewModeNever;
         self.pswdField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        [self.loginTypeButton setTitle:@"密码登录" forState:UIControlStateNormal];
+        [self.loginTypeButton setTitle:NSLocalizedString(@"loginWithPwd", nil) forState:UIControlStateNormal];
         return;
     }
-    self.pswdField.placeholder = @"密码";
+    self.pswdField.placeholder = NSLocalizedString(@"password", nil);
     self.pswdField.secureTextEntry = !self.pswdRightView.rightViewBtn.selected;
     self.pswdField.rightView = self.pswdRightView;
     self.pswdRightView.hidden = YES;
     self.pswdField.rightViewMode = UITextFieldViewModeAlways;
     self.pswdField.clearButtonMode = UITextFieldViewModeNever;
-    [self.loginTypeButton setTitle:@"token登录" forState:UIControlStateNormal];
+    [self.loginTypeButton setTitle:NSLocalizedString(@"loginWithToken", nil) forState:UIControlStateNormal];
 }
 
 @end

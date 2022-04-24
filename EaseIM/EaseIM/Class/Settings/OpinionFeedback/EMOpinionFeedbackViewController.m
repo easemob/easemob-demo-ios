@@ -51,8 +51,8 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"意见反馈";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(commitAction)];
+    self.title = NSLocalizedString(@"advices", nil);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"commit", nil) style:UIBarButtonItemStylePlain target:self action:@selector(commitAction)];
     
     self.tableView.backgroundColor = kColor_LightGray;
     self.tableView.delegate = self;
@@ -83,7 +83,7 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.section == 0) {
-        cell.textLabel.text = @"选择问题类型";
+        cell.textLabel.text = NSLocalizedString(@"qustionType", nil);
         [cell.contentView addSubview:self.feedBackTypeLabel];
         [self.feedBackTypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(cell.contentView);
@@ -92,7 +92,7 @@
         }];
     }
     if (indexPath.section == 1 && row == 0) {
-        cell.textLabel.text = @"您的邮箱";
+        cell.textLabel.text = NSLocalizedString(@"email", nil);
         [cell.contentView addSubview:self.mailTextFiled];
         [self.mailTextFiled mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(cell.contentView);
@@ -101,7 +101,7 @@
         }];
     }
     if (indexPath.section == 1 && row == 1) {
-        cell.textLabel.text = @"您的QQ";
+        cell.textLabel.text = NSLocalizedString(@"yourQQ", nil);
         [cell.contentView addSubview:self.imTextFiled];
         [self.imTextFiled mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(cell.contentView);
@@ -132,7 +132,7 @@
         [footerView addSubview:descView];
         self.opinionDescTextView = [[EMTextView alloc] init];
         self.opinionDescTextView.delegate = self;
-        self.opinionDescTextView.placeholder = @"问题描述";
+        self.opinionDescTextView.placeholder = NSLocalizedString(@"question", nil);
         self.opinionDescTextView.font = [UIFont systemFontOfSize:14];
         self.opinionDescTextView.textAlignment = NSTextAlignmentLeft;
         self.opinionDescTextView.returnKeyType = UIReturnKeyDone;
@@ -215,7 +215,7 @@
 {
     if (_feedBackTypeLabel == nil) {
         _feedBackTypeLabel = [[UILabel alloc]init];
-        _feedBackTypeLabel.text = @"BUG反馈";
+        _feedBackTypeLabel.text = NSLocalizedString(@"bug", nil);
         _feedBackTypeLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
         _feedBackTypeLabel.font = [UIFont systemFontOfSize:14.0];
         _feedBackTypeLabel.textAlignment = NSTextAlignmentRight;
@@ -233,7 +233,7 @@
         _mailTextFiled.textAlignment = NSTextAlignmentRight;
         _mailTextFiled.returnKeyType = UIReturnKeyDone;
         _mailTextFiled.delegate = self;
-        _mailTextFiled.placeholder = @"请输入邮箱地址";
+        _mailTextFiled.placeholder = NSLocalizedString(@"inputEmail", nil);
     }
     return _mailTextFiled;
 }
@@ -247,7 +247,7 @@
         _imTextFiled.textAlignment = NSTextAlignmentRight;
         _imTextFiled.returnKeyType = UIReturnKeyDone;
         _imTextFiled.delegate = self;
-        _imTextFiled.placeholder = @"请输入QQ号";
+        _imTextFiled.placeholder = NSLocalizedString(@"inputQQ", nil);
     }
     return _imTextFiled;
 }

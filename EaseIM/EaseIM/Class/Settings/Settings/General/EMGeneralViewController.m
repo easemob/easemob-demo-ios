@@ -11,6 +11,7 @@
 
 #import "EMDemoOptions.h"
 #import "EMServiceCheckViewController.h"
+#import "Language/LanguageViewController.h"
 #import "EMGeneralTitleSwitchCell.h"
 
 static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
@@ -38,7 +39,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"通用";
+    self.title = NSLocalizedString(@"General", nil);
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     
     self.tableView.scrollEnabled = NO;
@@ -58,7 +59,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -78,6 +79,9 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
             count = 1;
             break;
         case 2:
+            count = 1;
+            break;
+        case 3:
             count = 2;
             break;
         default:
@@ -101,7 +105,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
     
     if (section == 0) {
         if (row == 0) {
-            cell.nameLabel.text = @"消息免打扰";
+            cell.nameLabel.text = NSLocalizedString(@"noNotice", nil);
             [cell.aSwitch setOn:(self.silentModeEnabled) animated:NO];
             
             EM_WS
@@ -115,16 +119,27 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
             NSInteger endHour = [EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH;
                         
             if (startHour == 0  && (endHour == 0 ||endHour == 24)) {
-                self.silentTimeCell.detailTextLabel.text = @"全天";
+                self.silentTimeCell.detailTextLabel.text = NSLocalizedString(@"allDay", nil);
             } else {
                 self.silentTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"%@:00 - %@:00", @([EMClient sharedClient].pushManager.pushOptions.noDisturbingStartH), @([EMClient sharedClient].pushManager.pushOptions.noDisturbingEndH)];
             }
             
             return self.silentTimeCell;
         }
-    } else if (section == 1) {
+    } else if(section == 1) {
+        UITableViewCell *generalCell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCellValue1"];
+        if (generalCell == nil) {
+            generalCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCellValue1"];
+        }
+        generalCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if(row == 0) {
+            generalCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            generalCell.textLabel.text = NSLocalizedString(@"MultiLanguages", nil);
+        }
+        return generalCell;
+    }else if (section == 2) {
         if (row == 0) {
-            cell.nameLabel.text = @"显示输入状态";
+            cell.nameLabel.text = NSLocalizedString(@"showInputTip", nil);
             [cell.aSwitch setOn:options.isChatTyping animated:NO];
             EM_WS
             cell.switchActionBlock = ^(BOOL isOn) {
@@ -133,9 +148,9 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
                 [weakSelf.tableView reloadData];
             };
         }
-    } else if (section == 2) {
+    } else if (section == 3) {
         if (row == 0) {
-            cell.nameLabel.text = @"自动接受群组邀请";
+            cell.nameLabel.text = NSLocalizedString(@"autoJoin", nil);
             [cell.aSwitch setOn:options.isAutoAcceptGroupInvitation animated:NO];
             EM_WS
             cell.switchActionBlock = ^(BOOL isOn) {
@@ -147,7 +162,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
             };
             
         } else if (row == 1) {
-            cell.nameLabel.text = @"退出群组时删除会话";
+            cell.nameLabel.text = NSLocalizedString(@"delMsgWhenLeaveGroup", nil);
             [cell.aSwitch setOn:[EMClient sharedClient].options.isDeleteMessagesWhenExitGroup animated:NO];
             EM_WS
             cell.switchActionBlock = ^(BOOL isOn) {
@@ -181,7 +196,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
         UILabel *label = [[UILabel alloc] init];
         label.font = [UIFont systemFontOfSize:14.0];
         label.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
-        label.text = @"     群组设置";
+        label.text = NSLocalizedString(@"groupSetting", nil);
         label.textAlignment = NSTextAlignmentLeft;
         return label;
     }
@@ -211,6 +226,11 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
         if (row == 1) {
             [self changeDisturbDateAction];
         }
+    }
+    if(section == 1 && row == 0) {
+        // 多语言选择
+        LanguageViewController *languageController = [[LanguageViewController alloc] init];
+        [self.navigationController pushViewController:languageController animated:YES];
     }
 }
 
@@ -272,7 +292,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
     SPDateTimePickerView *pickerView = [[SPDateTimePickerView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  self.view.frame.size.height)];
     pickerView.pickerViewMode = SPDatePickerModeTime;
     pickerView.delegate = self;
-    pickerView.title = @"设置时间段";
+    pickerView.title = NSLocalizedString(@"setTime", nil);
     [self.view addSubview:pickerView];
     [pickerView showDateTimePickerView];
 }
@@ -284,7 +304,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
     NSString *start = [date substringToIndex:range.location];
     NSString *end = [date substringFromIndex:range.location + 1];
     if ([start isEqualToString:end]) {
-        [self showHint:@"起止时间不能相同"];
+        [self showHint:NSLocalizedString(@"timeWrong", nil)];
         return;
     }
     
@@ -312,7 +332,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
         _silentTimeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"silentTimeCell"];
         _silentTimeCell.selectionStyle = UITableViewCellSelectionStyleNone;
         _silentTimeCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        _silentTimeCell.textLabel.text = @"免打扰时间";
+        _silentTimeCell.textLabel.text = NSLocalizedString(@"timeWrong", nil);
         _silentTimeCell.textLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
         _silentTimeCell.textLabel.font = [UIFont systemFontOfSize:14.0];
         _silentTimeCell.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);

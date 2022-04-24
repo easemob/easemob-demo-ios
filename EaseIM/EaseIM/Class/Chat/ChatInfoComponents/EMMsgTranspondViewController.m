@@ -30,8 +30,8 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"转发" style:UIBarButtonItemStylePlain target:self action:@selector(doneAction)];
-    self.title = @"转发消息";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"forward", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneAction)];
+    self.title = NSLocalizedString(@"forwardMsg", nil);
     
     self.tableView.rowHeight = 60;
 }
@@ -112,7 +112,7 @@
 
 - (void)_fetchContactsFromServer
 {
-    [self showHudInView:self.view hint:@"获取好友..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"fetchingContacts...", nil)];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].contactManager getContactsFromServerWithCompletion:^(NSArray *aContactsList, EMError *aContactsError) {
         [weakself hideHud];

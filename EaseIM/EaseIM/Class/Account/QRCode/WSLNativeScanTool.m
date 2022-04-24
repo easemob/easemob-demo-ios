@@ -95,7 +95,7 @@
             self.scanFinishedBlock(feature.messageString);
         }
     }else{
-        NSLog(@"无法识别图中二维码");
+        NSLog(NSLocalizedString(@"unknownQRCode", nil));
     }
 }
 
@@ -160,8 +160,6 @@
     
     if (metadataObjects.count > 0){
         AVMetadataMachineReadableCodeObject *metadataObject = [metadataObjects firstObject];
-        // 扫描完成后的字符
-        //        NSLog(@"扫描出 %@",metadataObject.stringValue);
         if(self.scanFinishedBlock != nil){
             self.scanFinishedBlock(metadataObject.stringValue);
         }
@@ -181,7 +179,6 @@
     NSDictionary *exifMetadata = [[metadata objectForKey:(NSString *)kCGImagePropertyExifDictionary] mutableCopy];
     float brightnessValue = [[exifMetadata objectForKey:(NSString *)kCGImagePropertyExifBrightnessValue] floatValue];
     
-    //    NSLog(@"环境光感 ： %f",brightnessValue);
     
     // 根据brightnessValue的值来判断是否需要打开和关闭闪光灯
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];

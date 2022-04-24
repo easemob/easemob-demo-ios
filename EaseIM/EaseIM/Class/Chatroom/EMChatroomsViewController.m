@@ -23,11 +23,13 @@
     self.page = 1;
     [self _fetchChatroomsWithPage:self.page isHeader:YES isShowHUD:YES];
     [[EMClient sharedClient].roomManager addDelegate:self delegateQueue:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(reloadData) name:CHATROOM_INFO_UPDATED object:nil];
 }
 
 - (void)dealloc
 {
     [[EMClient sharedClient].roomManager removeDelegate:self];
+    [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -36,12 +38,16 @@
     self.navigationController.navigationBarHidden = NO;
 }
 
+- (void)reloadData {
+    [self.tableView reloadData];
+}
+
 #pragma mark - Subviews
 
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"聊天室";
+    self.title = NSLocalizedString(@"chatroom", nil);
     self.view.backgroundColor = [UIColor whiteColor];
     self.showRefreshHeader = YES;
 }
@@ -157,7 +163,7 @@
                       isShowHUD:(BOOL)aIsShowHUD
 {
     if (aIsShowHUD) {
-        [self showHudInView:self.view hint:@"获取聊天室..."];
+        [self showHudInView:self.view hint:NSLocalizedString(@"fetchingChatroom...", nil)];
     }
     
     __weak typeof(self) weakself = self;
@@ -193,7 +199,7 @@
 - (void)_searchChatroomWithId:(NSString *)aId
 {
     __weak typeof(self) weakself = self;
-    [self showHudInView:self.view hint:@"搜索聊天室..."];
+    [self showHudInView:self.view hint:NSLocalizedString(@"searingChatroom...", nil)];
     [[EMClient sharedClient].roomManager getChatroomSpecificationFromServerWithId:aId completion:^(EMChatroom *aChatroom, EMError *aError) {
         [weakself hideHud];
         if (!aError) {
@@ -201,7 +207,7 @@
             [weakself.searchResults addObject:aChatroom];
             [weakself.searchResultTableView reloadData];
         } else {
-            [EMAlertController showErrorAlert:@"未搜索到聊天室"];
+            [EMAlertController showErrorAlert:NSLocalizedString(@"searchChatroom", nil)];
         }
     }];
 }
