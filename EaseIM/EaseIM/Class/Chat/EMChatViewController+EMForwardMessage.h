@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EMChatViewController (EMForwardMessage)
 
-- (void)forwardMenuItemAction:(EMMessage*)message;
+- (void)forwardMenuItemAction:(EMChatMessage*)message;
 
 @end
 

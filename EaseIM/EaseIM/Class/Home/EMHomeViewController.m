@@ -190,7 +190,7 @@
 
 - (void)messagesDidReceive:(NSArray *)aMessages
 {
-    for (EMMessage *msg in aMessages) {
+    for (EMChatMessage *msg in aMessages) {
         [EMRemindManager remindMessage:msg];
         if (msg.body.type == EMMessageBodyTypeText && [((EMTextMessageBody *)msg.body).text isEqualToString:EMCOMMUNICATE_CALLINVITE]) {
             //通话邀请

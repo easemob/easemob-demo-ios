@@ -146,7 +146,7 @@ static EaseIMHelper *helper = nil;
 
 - (void)messagesDidReceive:(NSArray *)aMessages
 {
-    for (EMMessage *msg in aMessages) {
+    for (EMChatMessage *msg in aMessages) {
         if (msg.body.type == EMMessageBodyTypeText && [((EMTextMessageBody *)msg.body).text isEqualToString:EMCOMMUNICATE_CALLINVITE]) //通话邀请
             continue;
         [EMRemindManager remindMessage:msg];
@@ -309,18 +309,28 @@ static EaseIMHelper *helper = nil;
 
 - (void)didLeaveGroup:(EMGroup *)aGroup reason:(EMGroupLeaveReason)aReason
 {
-    EMAlertView *alertView = nil;
+    __block EMAlertView *alertView = nil;
     if (aReason == EMGroupLeaveReasonBeRemoved) {
         alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"removedFromGroupPrompt", nil), aGroup.groupName]];
-        [EMClient.sharedClient.chatManager deleteConversation:aGroup.groupId isDeleteMessages:NO completion:nil];
+        
+        [[EMClient sharedClient].chatManager deleteServerConversation:aGroup.groupId conversationType:EMConversationTypeGroupChat isDeleteServerMessages:NO completion:^(NSString *aConversationId, EMError *aError) {
+            
+            alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"removedFromGroupPrompt", nil), aError.errorDescription]];
+            [alertView show];
+            
+            [[EMClient sharedClient].chatManager deleteConversation:aGroup.groupId isDeleteMessages:NO completion:nil];
+        }];
     }
     if (aReason == EMGroupLeaveReasonDestroyed) {
         alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"groupDestroiedPrompt", nil), aGroup.groupName]];
-        [EMClient.sharedClient.chatManager deleteConversation:aGroup.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
-            [[EMTranslationManager sharedManager] removeTranslationByConversationId:aGroup.groupId];
+        [[EMClient sharedClient].chatManager deleteServerConversation:aGroup.groupId conversationType:EMConversationTypeGroupChat isDeleteServerMessages:NO completion:^(NSString *aConversationId, EMError *aError) {
+            
+            alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"removedFromGroupPrompt", nil), aError.errorDescription]];
+            [alertView show];
+            
+            [[EMClient sharedClient].chatManager deleteConversation:aGroup.groupId isDeleteMessages:NO completion:nil];
         }];
     }
-    [alertView show];
 }
 
 - (void)groupAnnouncementDidUpdate:(EMGroup *)aGroup
