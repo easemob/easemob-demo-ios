@@ -252,7 +252,7 @@ static EMDemoOptions *sharedOptions = nil;
     retOpt.isAutoTransferMessageAttachments = self.isAutoTransferMessageAttachments;
     retOpt.isAutoDownloadThumbnail = self.isAutoDownloadThumbnail;
     retOpt.sortMessageByServerTime = self.isSortMessageByServerTime;
-    
+    retOpt.enableFpa = YES;
     retOpt.enableDeliveryAck = self.isAutoDeliveryAck;
     retOpt.enableConsoleLog = YES;
     return retOpt;
