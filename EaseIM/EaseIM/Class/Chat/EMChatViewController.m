@@ -170,6 +170,12 @@
 
     if(![messageModel isKindOfClass:[EaseMessageModel class]])
         return nil;
+    
+    
+#if YANGJIANXIUGAI
+    return nil;
+#else
+#endif
     if(messageModel.message.body.type == EMMessageBodyTypeCustom) {
         EMCustomMessageBody* body = (EMCustomMessageBody*)messageModel.message.body;
         if([body.event isEqualToString:@"userCard"]){
