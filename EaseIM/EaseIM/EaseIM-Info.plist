@@ -76,6 +76,8 @@
 	<string>环信需要使用您的麦克风进行录制</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>环信需要访问您的相册</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>语音识别权限</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
