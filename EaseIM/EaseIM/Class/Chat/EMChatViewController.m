@@ -25,6 +25,8 @@
 #import "EMAccountViewController.h"
 #import "EMChatViewController+Translate.h"
 
+#import <EMsgBaseCellModel.h>
+
 @interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -168,10 +170,7 @@
 //        return cell;
 //    }
 
-    if(![messageModel isKindOfClass:[EaseMessageModel class]])
-        return nil;
-    
-    
+    if(![messageModel isKindOfClass:[EaseMessageModel class]]){return nil;}
 #if YANGJIANXIUGAI
     return nil;
 #else
@@ -220,8 +219,8 @@
         if(userInfo.avatarUrl.length > 0) {
             model.avatarURL = userInfo.avatarUrl;
         }
-        if(userInfo.nickName.length > 0) {
-            model.showName = userInfo.nickName;
+        if(userInfo.nickname.length > 0) {
+            model.showName = userInfo.nickname;
         }
     }else{
         [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];
@@ -522,14 +521,27 @@
         CGFloat interval = (self.chatController.msgTimelTag - msg.timestamp) / 1000;
         if (self.chatController.msgTimelTag < 0 || interval > 60 || interval < -60) {
             NSString *timeStr = [EMDateHelper formattedTimeFromTimeInterval:msg.timestamp];
+#if YANGJIANXIUGAI
+            EMsgBaseCellModel *model = [[EMsgBaseCellModel alloc] initWithTimeMarker:timeStr];
+            [formated addObject:model];
+#else
             [formated addObject:timeStr];
+#endif
             self.chatController.msgTimelTag = msg.timestamp;
         }
         EaseMessageModel *model = nil;
+#if YANGJIANXIUGAI
+        model = [[EMsgBaseCellModel alloc] initWithEMMessage:msg];
+        if (!model) {
+            model = [[EMsgBaseCellModel alloc]init];
+        }
+#else
         model = [[EaseMessageModel alloc] initWithEMMessage:msg];
         if (!model) {
-            model = [[EaseMessageModel alloc]init];
+            model = [[EaseMessageModel alloc] init];
         }
+#endif
+
         model.userDataDelegate = [self userData:msg.from];
         [formated addObject:model];
     }

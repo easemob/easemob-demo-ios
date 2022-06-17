@@ -14,6 +14,7 @@
 {
     if (self = [super init]) {
         _easeId = easeId;
+        self.showName = easeId;
         _defaultAvatar = [UIImage imageNamed:@"defaultAvatar"];
     }
     return self;
