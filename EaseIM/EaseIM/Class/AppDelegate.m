@@ -200,6 +200,10 @@
     [EaseIMKitManager initWithEMOptions:[demoOptions toOptions]];
     
     gIsInitializedSDK = YES;
+    
+    //初始化EaseIMHelper，注册 EMClient 监听
+    [EaseIMHelper shareHelper];
+    
     if (demoOptions.isAutoLogin){
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(YES)];
     } else {
@@ -217,8 +221,6 @@
     //注册推送
     [self _registerRemoteNotification];
     
-    //初始化EaseIMHelper，注册 EMClient 监听
-    [EaseIMHelper shareHelper];
 }
 
 //注册远程通知
@@ -281,6 +283,8 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_LIST_FETCHFINISHED object:nil];
             }
         }];
+        
+        
         [EMNotificationHelper shared];
         [SingleCallController sharedManager];
         [ConferenceController sharedManager];
