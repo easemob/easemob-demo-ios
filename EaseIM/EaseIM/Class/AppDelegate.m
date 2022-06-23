@@ -51,7 +51,6 @@
     NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
     NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
     [self.window makeKeyAndVisible];
-    
     return YES;
 }
 
@@ -199,6 +198,7 @@
 {
     EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
     [EaseIMKitManager initWithEMOptions:[demoOptions toOptions]];
+    
     gIsInitializedSDK = YES;
     if (demoOptions.isAutoLogin){
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(YES)];

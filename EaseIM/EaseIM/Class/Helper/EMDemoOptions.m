@@ -255,7 +255,7 @@ static EMDemoOptions *sharedOptions = nil;
     
     retOpt.enableDeliveryAck = self.isAutoDeliveryAck;
     retOpt.enableConsoleLog = YES;
-    retOpt.enableFpa = YES;
+    retOpt.enableFpa = NO;
     return retOpt;
 }
 
