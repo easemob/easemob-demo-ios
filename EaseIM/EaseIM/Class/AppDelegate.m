@@ -200,6 +200,10 @@
     EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
     [EaseIMKitManager initWithEMOptions:[demoOptions toOptions]];
     gIsInitializedSDK = YES;
+    
+    //初始化EaseIMHelper，注册 EMClient 监听
+    [EaseIMHelper shareHelper];
+    
     if (demoOptions.isAutoLogin){
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(YES)];
     } else {
@@ -280,8 +284,6 @@
             }
         }];
         
-        //初始化EaseIMHelper，注册 EMClient 监听
-        [EaseIMHelper shareHelper];
         
         [EMNotificationHelper shared];
         [SingleCallController sharedManager];
