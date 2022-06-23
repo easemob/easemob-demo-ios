@@ -687,6 +687,20 @@
     }
 }
 
+- (void)didReciveMessage:(EMChatMessage *)message {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self showHint:[NSString stringWithFormat:@"消息在线状态:%d",message.onlineState]];
+    });
+}
+
+- (void)groupSpecificationDidUpdate:(EMGroup *)aGroup {
+    [self showHint:[NSString stringWithFormat:@"群变更回调:%@",aGroup.groupName]];
+}
+
+- (void)chatroomSpecificationDidUpdate:(EMChatroom *)aChatroom {
+    [self showHint:[NSString stringWithFormat:@"聊天室变更回调:%@",aChatroom.subject]];
+}
+
 - (void)chatroomMuteListDidUpdate:(EMChatroom *)aChatroom removedMutedMembers:(NSArray *)aMutes
 {
     if ([aMutes containsObject:EMClient.sharedClient.currentUsername]) {
