@@ -275,6 +275,27 @@ static EMNotificationHelper *shared = nil;
 }
 
 #pragma mark - EMGroupManagerDelegate
+- (void)groupInvitationDidReceive:(NSString *)aGroupId
+                        groupName:(NSString *)aGroupName
+                          inviter:(NSString *)aInviter
+                          message:(NSString *)aMessage {
+   
+    NSString *alertMsg = [NSString stringWithFormat:@"aGroupId:%@ aGroupName:%@ aInviter:%@ aMessage:%@",aGroupId,aGroupName,aInviter,aMessage];
+    
+    [self showAlertWithMessage:alertMsg];
+    
+    if ([aGroupId length] == 0 || [aInviter length] == 0) {
+        return;
+    }
+    
+    EMNotificationModel *model = [[EMNotificationModel alloc] init];
+    model.sender = aInviter;
+    model.groupId = aGroupId;
+    model.type = EMNotificationModelTypeGroupInvite;
+    model.message = aMessage;
+    [[EMNotificationHelper shared] insertModel:model];
+    
+}
 
 - (void)groupInvitationDidReceive:(NSString *)aGroupId
                           inviter:(NSString *)aInviter

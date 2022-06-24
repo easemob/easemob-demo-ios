@@ -206,7 +206,12 @@ static EMDateHelper *shared = nil;
                     toDate:(NSDate *)aToDate
 {
     NSTimeInterval ti = [aFromDate timeIntervalSinceDate:aToDate];
-    return (NSInteger) (ti / D_HOUR);
+      float fi = ti / D_HOUR;
+      if (ti < 0) {
+          fi --;
+      }
+      return (NSInteger) fi;
+    
 }
 
 @end
