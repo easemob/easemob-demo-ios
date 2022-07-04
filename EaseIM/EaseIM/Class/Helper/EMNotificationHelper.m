@@ -297,6 +297,13 @@ static EMNotificationHelper *shared = nil;
     
 }
 
+- (void)groupMuteListDidUpdate:(EMGroup *)aGroup
+             addedMutedMembers:(NSArray *)aMutedMembers
+                    muteExpire:(NSInteger)aMuteExpire
+{
+    
+}
+
 - (void)groupInvitationDidReceive:(NSString *)aGroupId
                           inviter:(NSString *)aInviter
                           message:(NSString *)aMessage

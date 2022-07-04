@@ -255,10 +255,10 @@
 - (void)refreshTableViewWithData
 {
     __weak typeof(self) weakself = self;
-    [[EMClient sharedClient].chatManager getConversationsFromServer:^(NSArray *aCoversations, EMError *aError) {
-        if (!aError && [aCoversations count] > 0) {
+    [[EMClient sharedClient].chatManager getConversationsFromServer:^(NSArray *aConversations, EMError *aError) {
+        if (!aError && [aConversations count] > 0) {
             [weakself.easeConvsVC.dataAry removeAllObjects];
-            [weakself.easeConvsVC.dataAry addObjectsFromArray:aCoversations];
+            [weakself.easeConvsVC.dataAry addObjectsFromArray:aConversations];
             [weakself.easeConvsVC refreshTable];
         }
     }];
