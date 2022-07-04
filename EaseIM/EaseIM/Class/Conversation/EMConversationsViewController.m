@@ -36,14 +36,22 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:CHAT_BACKOFF object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:GROUP_LIST_FETCHFINISHED object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshConversations)
+                                                 name:USER_PUSH_CONFIG_UPDATE object:nil];
     [EMClient.sharedClient.groupManager addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    
     [self _setupSubviews];
     if (![EMDemoOptions sharedOptions].isFirstLaunch) {
         [EMDemoOptions sharedOptions].isFirstLaunch = YES;
         [[EMDemoOptions sharedOptions] archive];
         [self refreshTableViewWithData];
     }
+}
+
+- (void)refreshConversations {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -247,10 +255,10 @@
 - (void)refreshTableViewWithData
 {
     __weak typeof(self) weakself = self;
-    [[EMClient sharedClient].chatManager getConversationsFromServer:^(NSArray *aCoversations, EMError *aError) {
-        if (!aError && [aCoversations count] > 0) {
+    [[EMClient sharedClient].chatManager getConversationsFromServer:^(NSArray *aConversations, EMError *aError) {
+        if (!aError && [aConversations count] > 0) {
             [weakself.easeConvsVC.dataAry removeAllObjects];
-            [weakself.easeConvsVC.dataAry addObjectsFromArray:aCoversations];
+            [weakself.easeConvsVC.dataAry addObjectsFromArray:aConversations];
             [weakself.easeConvsVC refreshTable];
         }
     }];

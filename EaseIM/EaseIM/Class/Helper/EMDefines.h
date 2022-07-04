@@ -150,5 +150,7 @@
 
 //确认发送名片消息
 #define CONFIRM_USERCARD @"EMUserCardConfirm"
+//用户推送设置更新
+#define USER_PUSH_CONFIG_UPDATE @"EMUserPushConfigsUpdateSuccess"
 
 #endif /* EMDefines_h */
