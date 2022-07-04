@@ -323,9 +323,6 @@
     quick.dataSource = self;
     quick.currentPreviewItemIndex = 0;
     [self.navigationController pushViewController:quick animated:YES];
-    
-//    [quick reloadData];
-//    [quick refreshCurrentPreviewItem];
 }
 
 - (NSURL *)_videoConvert2Mp4:(NSURL *)movUrl
