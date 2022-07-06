@@ -254,8 +254,8 @@
         }
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bubbleViewTapAction:)];
         [self.msgView addGestureRecognizer:tap];
+        [self.msgView setModel:_model];
     }
-    //[self.msgView setModel:_model];
     if (model.direction == EMMessageDirectionSend) {
         [self.statusView setSenderStatus:model.message.status isReadAcked:model.message.isReadAcked];
     } else {
