@@ -258,10 +258,45 @@
     [[EMClient sharedClient].chatManager getConversationsFromServer:^(NSArray *aConversations, EMError *aError) {
         if (!aError && [aConversations count] > 0) {
             [weakself.easeConvsVC.dataAry removeAllObjects];
-            [weakself.easeConvsVC.dataAry addObjectsFromArray:aConversations];
-            [weakself.easeConvsVC refreshTable];
+            NSArray<EaseConversationModel *> *modelAry = [self formateConversations:aCoversations];
+            if (modelAry.count > 0) {
+                [weakself.easeConvsVC.dataAry addObjectsFromArray:modelAry];
+                [weakself.easeConvsVC refreshTable];
+            }
         }
     }];
+}
+
+- (NSArray<EaseConversationModel *> *)formateConversations:(NSArray *)conversations
+{
+    NSMutableArray<EaseConversationModel *> *convs = [NSMutableArray array];
+    
+    for (EMConversation *conv in conversations) {
+        if (!conv.latestMessage) {
+            continue;
+        }
+        
+        if (conv.type == EMConversationTypeChatRoom) {
+            continue;
+        }
+
+        EaseConversationModel *item = [[EaseConversationModel alloc] initWithConversation:conv];
+        item.userDelegate = [self easeUserDelegateAtConversationId:conv.conversationId conversationType:conv.type];
+        
+        [convs addObject:item];
+    }
+    
+    NSArray<EaseConversationModel *> *normalConvList = [convs sortedArrayUsingComparator:
+                               ^NSComparisonResult(EaseConversationModel *obj1, EaseConversationModel *obj2)
+                               {
+        if (obj1.lastestUpdateTime > obj2.lastestUpdateTime) {
+            return(NSComparisonResult)NSOrderedAscending;
+        }else {
+            return(NSComparisonResult)NSOrderedDescending;
+        }
+    }];
+    
+    return normalConvList;
 }
 
 #pragma mark - searchButtonAction
