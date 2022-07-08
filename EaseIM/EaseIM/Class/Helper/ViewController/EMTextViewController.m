@@ -51,9 +51,9 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneAction)];
     }
     
-    self.view.backgroundColor = kColor_LightGray;
+    self.view.backgroundColor = ViewBgBlackColor;
     UIView *bgView = [[UIView alloc] init];
-    bgView.backgroundColor = [UIColor whiteColor];
+    bgView.backgroundColor = ViewBgBlackColor;
     [self.view addSubview:bgView];
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
@@ -64,8 +64,10 @@
     
     self.textView = [[EMTextView alloc] init];
     self.textView.delegate = self;
-    self.textView.backgroundColor = [UIColor clearColor];
-    self.textView.font = [UIFont systemFontOfSize:16];
+    self.textView.backgroundColor = ViewBgBlackColor;
+    self.textView.font = [UIFont systemFontOfSize:14.0];
+    self.textView.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
+    
     if (!self.isEditable)
         self.textView.placeholder = NSLocalizedString(@"editRight", nil);
     else

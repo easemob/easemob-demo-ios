@@ -7,10 +7,10 @@
 //
 
 #import "EMGroupMembersViewController.h"
-#import "EMAvatarNameCell+UserInfo.h"
 #import "EMPersonalDataViewController.h"
 #import "UserInfoStore.h"
 #import "EMAccountViewController.h"
+#import "BQAvatarTitleRoleCell.h"
 
 @interface EMGroupMembersViewController ()
 
@@ -28,6 +28,7 @@
     self = [super init];
     if (self) {
         self.group = aGroup;
+        
     }
     
     return self;
@@ -35,9 +36,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
     self.cursor = nil;
     self.isUpdated = NO;
+
+    [self.tableView registerClass:[BQAvatarTitleRoleCell class] forCellReuseIdentifier:NSStringFromClass([BQAvatarTitleRoleCell class])];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:USERINFO_UPDATE object:nil];
     
     [self _setupSubviews];
@@ -58,7 +62,6 @@
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
     self.title = NSLocalizedString(@"groupMembers", nil);
     self.showRefreshHeader = YES;
-    self.view.backgroundColor = [UIColor whiteColor];
     self.tableView.rowHeight = 60;
 }
 
@@ -73,37 +76,38 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    EMAvatarNameCell *cell = (EMAvatarNameCell *)[tableView dequeueReusableCellWithIdentifier:@"EMAvatarNameCell"];
+    BQAvatarTitleRoleCell *cell = (BQAvatarTitleRoleCell *)[tableView dequeueReusableCellWithIdentifier:NSStringFromClass([BQAvatarTitleRoleCell class])];
     
-    // Configure the cell...
-    if (cell == nil) {
-        cell = [[EMAvatarNameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EMAvatarNameCell"];
-    }
-    cell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
-    cell.nameLabel.text = [self.dataArray objectAtIndex:indexPath.row];
-    [cell refreshUserInfo:[self.dataArray objectAtIndex:indexPath.row]];
+    [cell updateWithObj:self.dataArray[indexPath.row]];
     
-    
-    cell.indexPath = indexPath;
-    
-    if (self.group.permissionType == EMGroupPermissionTypeOwner || self.group.permissionType == EMGroupPermissionTypeAdmin) {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    
+//    // Configure the cell...
+//    if (cell == nil) {
+//        cell = [[BQAvatarTitleRoleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BQAvatarTitleRoleCell"];
+//    }
+//    cell.avatarView.image = [UIImage imageNamed:@"defaultAvatar"];
+//    cell.nameLabel.text = [self.dataArray objectAtIndex:indexPath.row];
+//    [cell refreshUserInfo:[self.dataArray objectAtIndex:indexPath.row]];
+//
+//
+//    cell.indexPath = indexPath;
+//
+//    if (self.group.permissionType == EMGroupPermissionTypeOwner || self.group.permissionType == EMGroupPermissionTypeAdmin) {
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    } else {
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//    }
+//
     return cell;
 }
 
 #pragma mark - Table view delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self personalData:[self.dataArray objectAtIndex:indexPath.row]];
+//    [self personalData:[self.dataArray objectAtIndex:indexPath.row]];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
     return (self.group.permissionType == EMGroupPermissionTypeOwner || self.group.permissionType == EMGroupPermissionTypeAdmin) ? YES : NO;
 }
 

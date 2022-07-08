@@ -36,6 +36,7 @@
 - (void)_setupSubviews
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.contentView.backgroundColor = ViewBgBlackColor;
     
     _avatarView = [[UIImageView alloc] init];
     [self.contentView addSubview:_avatarView];

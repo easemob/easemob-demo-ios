@@ -52,6 +52,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     //单聊主叫方才能发送通话记录信息(本地通话记录)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertLocationCallRecord:) name:EMCOMMMUNICATE_RECORD object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendUserCard:) name:CONFIRM_USERCARD object:nil];
@@ -95,7 +96,10 @@
     [self.view addSubview:_chatController.view];
     _chatController.view.frame = self.view.bounds;
     [self loadData:YES];
-    self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
+//    self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
+    
+    self.view.backgroundColor = UIColor.blackColor;
+
 }
 
 - (void)_setupNavigationBarRightItem

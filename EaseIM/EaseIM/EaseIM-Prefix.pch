@@ -21,5 +21,9 @@
     #import <Masonry/Masonry.h>
     #import "EMHeaders.h"
     #import "EMDefines.h"
+    
+    #import "BQDemoUIDefine.h"
+    #import "BQAppStyle.h"
+    #import "UIColor+BQ.h"
 
 #endif

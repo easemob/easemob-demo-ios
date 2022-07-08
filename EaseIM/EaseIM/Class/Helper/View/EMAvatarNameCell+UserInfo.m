@@ -32,4 +32,5 @@
         [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[aUid]];
     }
 }
+
 @end

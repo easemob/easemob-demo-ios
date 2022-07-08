@@ -35,6 +35,10 @@
     _page = 0;
     _showRefreshHeader = NO;
     _showRefreshFooter = NO;
+    
+    self.view.backgroundColor = ViewBgBlackColor;
+    self.tableView.backgroundColor = ViewBgBlackColor;
+    
 }
 
 - (void)didReceiveMemoryWarning {

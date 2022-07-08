@@ -12,7 +12,7 @@
 #import "EMAccountViewController.h"
 #import "UserInfoStore.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "EaseIMKitManager.h"
+//#import "EaseIMKitManager.h"
 
 @interface EMChatInfoViewController ()
 

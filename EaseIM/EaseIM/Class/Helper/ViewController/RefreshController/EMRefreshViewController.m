@@ -7,7 +7,6 @@
 //
 
 #import "EMRefreshViewController.h"
-
 #import "MJRefresh.h"
 
 @interface EMRefreshViewController ()
@@ -28,7 +27,7 @@
     _showRefreshHeader = NO;
     _showRefreshFooter = NO;
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"#171717"];
     [self.view addSubview:self.tableView];
     
     if(@available(iOS 15.0,*) ){
@@ -114,6 +113,8 @@
         _tableView.tableFooterView = self.defaultFooterView;
         _tableView.estimatedSectionHeaderHeight = 0;
         _tableView.estimatedSectionFooterHeight = 0;
+        _tableView.backgroundColor = [UIColor colorWithHexString:@"#171717"];
+        
     }
     
     return _tableView;
