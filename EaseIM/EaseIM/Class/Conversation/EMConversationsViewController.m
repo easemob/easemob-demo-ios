@@ -95,6 +95,20 @@
         make.right.equalTo(self.view).offset(-16);
     }];
     
+    {
+        UIButton *button = UIButton.new;
+        [button setTitle:@"TEST" forState:UIControlStateNormal];
+        [button setTitleColor:UIColor.grayColor forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(testAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:button];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@60);
+            make.height.equalTo(@44);
+            make.centerY.equalTo(titleLabel);
+            make.left.equalTo(self.view).offset(-0);
+        }];
+    }
+    
     self.viewModel = [[EaseConversationViewModel alloc] init];
     self.viewModel.canRefresh = YES;
     self.viewModel.badgeLabelPosition = EMAvatarTopRight;
@@ -111,6 +125,31 @@
     }];
     [self _updateConversationViewTableHeader];
 }
+
+- (void)testAction:(UIButton *)sender{
+    
+    NSString *username = EMClient.sharedClient.currentUsername;
+    NSString *password = @"1";
+    
+    [EMClient.sharedClient getLoggedInDevicesFromServerWithUsername:username password:password completion:^(NSArray *aList, EMError *aError) {
+        NSLog(@"%@",aList);
+        for (EMDeviceConfig *deviceConfig in aList) {
+            NSLog(@"======%@,%@,%@",deviceConfig.deviceUUID,deviceConfig.resource,deviceConfig.deviceName);
+            if ([deviceConfig.deviceName isEqualToString:@"野摩托"]) {
+                [EMClient.sharedClient kickDeviceWithUsername:username password:password resource:deviceConfig.resource completion:^(EMError *aError) {
+                    NSString *action = @"退出某设备";
+                    if (aError) {
+                        NSLog(@"%@ - 失败 - %d(%@)",action,aError.code,aError.errorDescription);
+                    }else{
+                        NSLog(@"%@ - 成功",action);
+                    }
+                }];
+            }
+        }
+    }];
+}
+
+
 
 - (void)_updateConversationViewTableHeader {
     self.easeConvsVC.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
