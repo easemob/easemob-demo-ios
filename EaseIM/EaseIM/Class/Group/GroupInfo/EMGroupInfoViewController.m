@@ -31,6 +31,8 @@
 #import "BQTitleSwitchCell.h"
 #import "BQGroupMemberCell.h"
 #import "BQAddGroupMemberViewController.h"
+#import "EMInviteGroupMemberViewController.h"
+#import "BQChatRecordContainerViewController.h"
 
 
 @interface EMGroupInfoViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
@@ -449,8 +451,8 @@
 - (void)goSearchChatRecord {
     //查找聊天记录
     EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:self.groupId type:EMConversationTypeGroupChat createIfNotExist:NO];
-    EMChatRecordViewController *chatRrcordController = [[EMChatRecordViewController alloc]initWithCoversationModel:conversation];
-    //EMChatViewController *controller = [[EMChatViewController alloc]initWithConversationId:self.conversationModel.emModel.conversationId type:EMConversationTypeChat createIfNotExist:NO isChatRecord:YES];
+    BQChatRecordContainerViewController *chatRrcordController = [[BQChatRecordContainerViewController alloc]initWithCoversationModel:conversation];
+  
     [self.navigationController pushViewController:chatRrcordController animated:YES];
 }
 
@@ -861,10 +863,11 @@
             [occupants addObjectsFromArray:weakself.group.adminList];
             [occupants addObjectsFromArray:weakself.group.memberList];
             EMInviteGroupMemberViewController *controller = [[EMInviteGroupMemberViewController alloc] initWithBlocks:occupants];
+            
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
             navController.modalPresentationStyle = 0;
             [self presentViewController:navController animated:YES completion:nil];
-            
+                    
             [controller setDoneCompletion:^(NSArray * _Nonnull aSelectedArray) {
                 [weakself showHudInView:weakself.view hint:NSLocalizedString(@"addMember", nil)];
                 [[EMClient sharedClient].groupManager addMembers:aSelectedArray toGroup:weakself.groupId message:@"" completion:^(EMGroup *aGroup, EMError *aError) {
@@ -916,7 +919,7 @@
         
         BQ_WS
         _groupMemberCell.addMemberBlock = ^{
-            [weakSelf inviteGroupMember];
+            [weakSelf addGroupMember];
         };
         
         _groupMemberCell.moreMemberBlock = ^{
@@ -927,10 +930,12 @@
     return _groupMemberCell;
 }
 
-- (void)inviteGroupMember {
-//    BQAddGroupMemberViewController *controller = [[BQAddGroupMemberViewController alloc]initWithGroup:self.group];
-//    [self.navigationController pushViewController:controller animated:YES];
+- (void)addGroupMember {
+    BQAddGroupMemberViewController *controller = [[BQAddGroupMemberViewController alloc] init];
+    [self.navigationController pushViewController:controller animated:YES];
+    
 }
+
 
 - (void)checkGroupMember {
     EMGroupMembersViewController *controller = [[EMGroupMembersViewController alloc]initWithGroup:self.group];

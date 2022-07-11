@@ -340,6 +340,11 @@
 		9EA3D50327BA3FD000FD621D /* ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9EA3D50227BA3FD000FD621D /* ring.caf */; };
 		C063486028757D9F008E55D3 /* BQGroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C063485F28757D9F008E55D3 /* BQGroupListViewController.m */; };
 		C063486328757F40008E55D3 /* BQNoDataPlaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C063486128757F40008E55D3 /* BQNoDataPlaceHolderView.m */; };
+		C06472CE287C2C3800320EAF /* jh_search_leftIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06472CC287C2C3800320EAF /* jh_search_leftIcon@2x.png */; };
+		C06472CF287C2C3800320EAF /* jh_search_leftIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06472CD287C2C3800320EAF /* jh_search_leftIcon@3x.png */; };
+		C06472D2287C422000320EAF /* EMSearchContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C06472D1287C422000320EAF /* EMSearchContainerViewController.m */; };
+		C06472D5287C438F00320EAF /* BQChatRecordImageVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C06472D4287C438F00320EAF /* BQChatRecordImageVideoViewController.m */; };
+		C06472D8287C45D800320EAF /* BQRecordImageVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C06472D7287C45D800320EAF /* BQRecordImageVideoCell.m */; };
 		C075E496262433B80080A126 /* titleTextImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E494262433B80080A126 /* titleTextImage@3x.png */; };
 		C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E495262433B80080A126 /* titleTextImage@2x.png */; };
 		C075E49E26243C0B0080A126 /* titleBackImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49C26243C0B0080A126 /* titleBackImage@3x.png */; };
@@ -369,13 +374,25 @@
 		C07F2C0D28782E63005D6F0D /* jh_group_owner@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C0B28782E63005D6F0D /* jh_group_owner@3x.png */; };
 		C07F2C1028782E78005D6F0D /* icon-close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C0E28782E78005D6F0D /* icon-close@3x.png */; };
 		C07F2C1128782E78005D6F0D /* icon-close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C0F28782E78005D6F0D /* icon-close@2x.png */; };
-		C07F2C1428782E87005D6F0D /* icon-uncheck@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C1228782E86005D6F0D /* icon-uncheck@3x.png */; };
-		C07F2C1528782E87005D6F0D /* icon-uncheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C1328782E86005D6F0D /* icon-uncheck@2x.png */; };
-		C07F2C1828782E91005D6F0D /* icon-check@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C1628782E91005D6F0D /* icon-check@3x.png */; };
-		C07F2C1928782E91005D6F0D /* icon-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C1728782E91005D6F0D /* icon-check@2x.png */; };
+		C07F2C1428782E87005D6F0D /* jh_user_normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C1228782E86005D6F0D /* jh_user_normal@3x.png */; };
+		C07F2C1528782E87005D6F0D /* jh_user_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C1328782E86005D6F0D /* jh_user_normal@2x.png */; };
+		C07F2C1828782E91005D6F0D /* jh_user_check@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C1628782E91005D6F0D /* jh_user_check@3x.png */; };
+		C07F2C1928782E91005D6F0D /* jh_user_check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C1728782E91005D6F0D /* jh_user_check@2x.png */; };
 		C07F2C1C28782E9F005D6F0D /* jh_invite_delete@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C1A28782E9F005D6F0D /* jh_invite_delete@3x.png */; };
 		C07F2C1D28782E9F005D6F0D /* jh_invite_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C1B28782E9F005D6F0D /* jh_invite_delete@2x.png */; };
 		C07F2C2028783FB3005D6F0D /* BQAvatarTitleRoleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C1F28783FB3005D6F0D /* BQAvatarTitleRoleCell.m */; };
+		C07F2C23287935CD005D6F0D /* BQGroupSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C22287935CD005D6F0D /* BQGroupSearchCell.m */; };
+		C07F2C26287A6E14005D6F0D /* BQGroupSearchAddView.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C25287A6E14005D6F0D /* BQGroupSearchAddView.m */; };
+		C07F2C29287BD1E3005D6F0D /* BQChatRecordContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C28287BD1E3005D6F0D /* BQChatRecordContainerViewController.m */; };
+		C07F2C3F287BD3CE005D6F0D /* MISScrollPageCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C2C287BD3CD005D6F0D /* MISScrollPageCollectionView.m */; };
+		C07F2C40287BD3CE005D6F0D /* MISScrollPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C2E287BD3CD005D6F0D /* MISScrollPageController.m */; };
+		C07F2C41287BD3CE005D6F0D /* MISScrollPageStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C32287BD3CE005D6F0D /* MISScrollPageStyle.m */; };
+		C07F2C42287BD3CE005D6F0D /* MISScrollPageSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C34287BD3CE005D6F0D /* MISScrollPageSegmentView.m */; };
+		C07F2C43287BD3CE005D6F0D /* UIView+MISHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C37287BD3CE005D6F0D /* UIView+MISHelper.m */; };
+		C07F2C44287BD3CE005D6F0D /* MISScrollPageContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C39287BD3CE005D6F0D /* MISScrollPageContentView.m */; };
+		C07F2C45287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C3A287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.m */; };
+		C07F2C46287BD3CE005D6F0D /* MISScrollPageControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C3C287BD3CE005D6F0D /* MISScrollPageControllerDelegate.m */; };
+		C07F2C47287BD3CE005D6F0D /* UIView+MISRedPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C3D287BD3CE005D6F0D /* UIView+MISRedPoint.m */; };
 		C0899C192779BCB90039B885 /* EMEmojiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C0899C172779BCB90039B885 /* EMEmojiHelper.m */; };
 		C0DB11A627707D2D00E4B8A9 /* sendFail@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DB11A427707D2C00E4B8A9 /* sendFail@3x.png */; };
 		C0DB11A727707D2D00E4B8A9 /* sendFail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DB11A527707D2C00E4B8A9 /* sendFail@2x.png */; };
@@ -906,6 +923,14 @@
 		C063486128757F40008E55D3 /* BQNoDataPlaceHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQNoDataPlaceHolderView.m; sourceTree = "<group>"; };
 		C063486228757F40008E55D3 /* BQNoDataPlaceHolderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQNoDataPlaceHolderView.h; sourceTree = "<group>"; };
 		C0634864287585C2008E55D3 /* BQDemoUIDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQDemoUIDefine.h; sourceTree = "<group>"; };
+		C06472CC287C2C3800320EAF /* jh_search_leftIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_search_leftIcon@2x.png"; sourceTree = "<group>"; };
+		C06472CD287C2C3800320EAF /* jh_search_leftIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_search_leftIcon@3x.png"; sourceTree = "<group>"; };
+		C06472D0287C422000320EAF /* EMSearchContainerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMSearchContainerViewController.h; sourceTree = "<group>"; };
+		C06472D1287C422000320EAF /* EMSearchContainerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMSearchContainerViewController.m; sourceTree = "<group>"; };
+		C06472D3287C438F00320EAF /* BQChatRecordImageVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQChatRecordImageVideoViewController.h; sourceTree = "<group>"; };
+		C06472D4287C438F00320EAF /* BQChatRecordImageVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQChatRecordImageVideoViewController.m; sourceTree = "<group>"; };
+		C06472D6287C45D800320EAF /* BQRecordImageVideoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQRecordImageVideoCell.h; sourceTree = "<group>"; };
+		C06472D7287C45D800320EAF /* BQRecordImageVideoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQRecordImageVideoCell.m; sourceTree = "<group>"; };
 		C075E494262433B80080A126 /* titleTextImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@3x.png"; sourceTree = "<group>"; };
 		C075E495262433B80080A126 /* titleTextImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@2x.png"; sourceTree = "<group>"; };
 		C075E49C26243C0B0080A126 /* titleBackImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@3x.png"; sourceTree = "<group>"; };
@@ -946,14 +971,39 @@
 		C07F2C0B28782E63005D6F0D /* jh_group_owner@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_group_owner@3x.png"; sourceTree = "<group>"; };
 		C07F2C0E28782E78005D6F0D /* icon-close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-close@3x.png"; sourceTree = "<group>"; };
 		C07F2C0F28782E78005D6F0D /* icon-close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-close@2x.png"; sourceTree = "<group>"; };
-		C07F2C1228782E86005D6F0D /* icon-uncheck@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-uncheck@3x.png"; sourceTree = "<group>"; };
-		C07F2C1328782E86005D6F0D /* icon-uncheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-uncheck@2x.png"; sourceTree = "<group>"; };
-		C07F2C1628782E91005D6F0D /* icon-check@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-check@3x.png"; sourceTree = "<group>"; };
-		C07F2C1728782E91005D6F0D /* icon-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-check@2x.png"; sourceTree = "<group>"; };
+		C07F2C1228782E86005D6F0D /* jh_user_normal@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_user_normal@3x.png"; sourceTree = "<group>"; };
+		C07F2C1328782E86005D6F0D /* jh_user_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_user_normal@2x.png"; sourceTree = "<group>"; };
+		C07F2C1628782E91005D6F0D /* jh_user_check@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_user_check@3x.png"; sourceTree = "<group>"; };
+		C07F2C1728782E91005D6F0D /* jh_user_check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_user_check@2x.png"; sourceTree = "<group>"; };
 		C07F2C1A28782E9F005D6F0D /* jh_invite_delete@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "jh_invite_delete@3x.png"; path = "../../../../../../../Downloads/OA team library-20/jh_invite_delete@3x.png"; sourceTree = "<group>"; };
 		C07F2C1B28782E9F005D6F0D /* jh_invite_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "jh_invite_delete@2x.png"; path = "../../../../../../../Downloads/OA team library-20/jh_invite_delete@2x.png"; sourceTree = "<group>"; };
 		C07F2C1E28783FB3005D6F0D /* BQAvatarTitleRoleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQAvatarTitleRoleCell.h; sourceTree = "<group>"; };
 		C07F2C1F28783FB3005D6F0D /* BQAvatarTitleRoleCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQAvatarTitleRoleCell.m; sourceTree = "<group>"; };
+		C07F2C21287935CD005D6F0D /* BQGroupSearchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQGroupSearchCell.h; sourceTree = "<group>"; };
+		C07F2C22287935CD005D6F0D /* BQGroupSearchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQGroupSearchCell.m; sourceTree = "<group>"; };
+		C07F2C24287A6E14005D6F0D /* BQGroupSearchAddView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQGroupSearchAddView.h; sourceTree = "<group>"; };
+		C07F2C25287A6E14005D6F0D /* BQGroupSearchAddView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQGroupSearchAddView.m; sourceTree = "<group>"; };
+		C07F2C27287BD1E3005D6F0D /* BQChatRecordContainerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQChatRecordContainerViewController.h; sourceTree = "<group>"; };
+		C07F2C28287BD1E3005D6F0D /* BQChatRecordContainerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQChatRecordContainerViewController.m; sourceTree = "<group>"; };
+		C07F2C2C287BD3CD005D6F0D /* MISScrollPageCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MISScrollPageCollectionView.m; sourceTree = "<group>"; };
+		C07F2C2D287BD3CD005D6F0D /* UIView+MISHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MISHelper.h"; sourceTree = "<group>"; };
+		C07F2C2E287BD3CD005D6F0D /* MISScrollPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MISScrollPageController.m; sourceTree = "<group>"; };
+		C07F2C2F287BD3CD005D6F0D /* MISScrollPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MISScrollPage.h; sourceTree = "<group>"; };
+		C07F2C30287BD3CE005D6F0D /* MISScrollPageContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MISScrollPageContentView.h; sourceTree = "<group>"; };
+		C07F2C31287BD3CE005D6F0D /* MISScrollPageControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MISScrollPageControllerDelegate.h; sourceTree = "<group>"; };
+		C07F2C32287BD3CE005D6F0D /* MISScrollPageStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MISScrollPageStyle.m; sourceTree = "<group>"; };
+		C07F2C33287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MISScrollPageSegmentTitleView.h; sourceTree = "<group>"; };
+		C07F2C34287BD3CE005D6F0D /* MISScrollPageSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MISScrollPageSegmentView.m; sourceTree = "<group>"; };
+		C07F2C35287BD3CE005D6F0D /* UIView+MISRedPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MISRedPoint.h"; sourceTree = "<group>"; };
+		C07F2C36287BD3CE005D6F0D /* MISScrollPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MISScrollPageController.h; sourceTree = "<group>"; };
+		C07F2C37287BD3CE005D6F0D /* UIView+MISHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MISHelper.m"; sourceTree = "<group>"; };
+		C07F2C38287BD3CE005D6F0D /* MISScrollPageCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MISScrollPageCollectionView.h; sourceTree = "<group>"; };
+		C07F2C39287BD3CE005D6F0D /* MISScrollPageContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MISScrollPageContentView.m; sourceTree = "<group>"; };
+		C07F2C3A287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MISScrollPageSegmentTitleView.m; sourceTree = "<group>"; };
+		C07F2C3B287BD3CE005D6F0D /* MISScrollPageStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MISScrollPageStyle.h; sourceTree = "<group>"; };
+		C07F2C3C287BD3CE005D6F0D /* MISScrollPageControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MISScrollPageControllerDelegate.m; sourceTree = "<group>"; };
+		C07F2C3D287BD3CE005D6F0D /* UIView+MISRedPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MISRedPoint.m"; sourceTree = "<group>"; };
+		C07F2C3E287BD3CE005D6F0D /* MISScrollPageSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MISScrollPageSegmentView.h; sourceTree = "<group>"; };
 		C0899C172779BCB90039B885 /* EMEmojiHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMEmojiHelper.m; sourceTree = "<group>"; };
 		C0899C182779BCB90039B885 /* EMEmojiHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMEmojiHelper.h; sourceTree = "<group>"; };
 		C0DB11A427707D2C00E4B8A9 /* sendFail@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sendFail@3x.png"; sourceTree = "<group>"; };
@@ -1084,6 +1134,12 @@
 				C063486128757F40008E55D3 /* BQNoDataPlaceHolderView.m */,
 				C07F2C072877FF02005D6F0D /* BQAddGroupMemberViewController.h */,
 				C07F2C082877FF02005D6F0D /* BQAddGroupMemberViewController.m */,
+				C07F2C27287BD1E3005D6F0D /* BQChatRecordContainerViewController.h */,
+				C07F2C28287BD1E3005D6F0D /* BQChatRecordContainerViewController.m */,
+				C06472D0287C422000320EAF /* EMSearchContainerViewController.h */,
+				C06472D1287C422000320EAF /* EMSearchContainerViewController.m */,
+				C06472D3287C438F00320EAF /* BQChatRecordImageVideoViewController.h */,
+				C06472D4287C438F00320EAF /* BQChatRecordImageVideoViewController.m */,
 				C07F2BD228758DA9005D6F0D /* BQAppStyle.h */,
 				C07F2BD328758DA9005D6F0D /* BQAppStyle.m */,
 				C0634864287585C2008E55D3 /* BQDemoUIDefine.h */,
@@ -2046,12 +2102,14 @@
 		C0634865287588F2008E55D3 /* BQResource */ = {
 			isa = PBXGroup;
 			children = (
-				C07F2C1728782E91005D6F0D /* icon-check@2x.png */,
-				C07F2C1628782E91005D6F0D /* icon-check@3x.png */,
+				C06472CC287C2C3800320EAF /* jh_search_leftIcon@2x.png */,
+				C06472CD287C2C3800320EAF /* jh_search_leftIcon@3x.png */,
+				C07F2C1728782E91005D6F0D /* jh_user_check@2x.png */,
+				C07F2C1628782E91005D6F0D /* jh_user_check@3x.png */,
 				C07F2C0F28782E78005D6F0D /* icon-close@2x.png */,
 				C07F2C0E28782E78005D6F0D /* icon-close@3x.png */,
-				C07F2C1328782E86005D6F0D /* icon-uncheck@2x.png */,
-				C07F2C1228782E86005D6F0D /* icon-uncheck@3x.png */,
+				C07F2C1328782E86005D6F0D /* jh_user_normal@2x.png */,
+				C07F2C1228782E86005D6F0D /* jh_user_normal@3x.png */,
 				C07F2C042877DBFF005D6F0D /* jh_addMember@2x.png */,
 				C07F2C032877DBFF005D6F0D /* jh_addMember@3x.png */,
 				C07F2C0A28782E63005D6F0D /* jh_group_owner@2x.png */,
@@ -2073,26 +2131,67 @@
 		C07F2BE72876DEBA005D6F0D /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				C07F2BF32876DEBA005D6F0D /* BQCustomCell.h */,
-				C07F2BEC2876DEBA005D6F0D /* BQCustomCell.m */,
-				C07F2BEA2876DEBA005D6F0D /* BQTitleAvatarCell.h */,
-				C07F2BEF2876DEBA005D6F0D /* BQTitleAvatarCell.m */,
+				C06472D6287C45D800320EAF /* BQRecordImageVideoCell.h */,
+				C06472D7287C45D800320EAF /* BQRecordImageVideoCell.m */,
 				C07F2C1E28783FB3005D6F0D /* BQAvatarTitleRoleCell.h */,
 				C07F2C1F28783FB3005D6F0D /* BQAvatarTitleRoleCell.m */,
-				C07F2BEE2876DEBA005D6F0D /* BQTitleValueAccessCell.h */,
-				C07F2BF22876DEBA005D6F0D /* BQTitleValueAccessCell.m */,
-				C07F2BE92876DEBA005D6F0D /* BQTitleValueCell.h */,
-				C07F2BF02876DEBA005D6F0D /* BQTitleValueCell.m */,
-				C07F2BF52876DEBA005D6F0D /* BQTitleDetailCell.h */,
-				C07F2BEB2876DEBA005D6F0D /* BQTitleDetailCell.m */,
-				C07F2BF42876DEBA005D6F0D /* BQTitleSwitchCell.h */,
-				C07F2BED2876DEBA005D6F0D /* BQTitleSwitchCell.m */,
+				C07F2BF32876DEBA005D6F0D /* BQCustomCell.h */,
+				C07F2BEC2876DEBA005D6F0D /* BQCustomCell.m */,
 				C07F2BFD28773357005D6F0D /* BQGroupMemberCell.h */,
 				C07F2BFE28773357005D6F0D /* BQGroupMemberCell.m */,
 				C07F2C002877CC2B005D6F0D /* BQGroupMemberView.h */,
 				C07F2C012877CC2B005D6F0D /* BQGroupMemberView.m */,
+				C07F2C24287A6E14005D6F0D /* BQGroupSearchAddView.h */,
+				C07F2C25287A6E14005D6F0D /* BQGroupSearchAddView.m */,
+				C07F2C21287935CD005D6F0D /* BQGroupSearchCell.h */,
+				C07F2C22287935CD005D6F0D /* BQGroupSearchCell.m */,
+				C07F2BEA2876DEBA005D6F0D /* BQTitleAvatarCell.h */,
+				C07F2BEF2876DEBA005D6F0D /* BQTitleAvatarCell.m */,
+				C07F2BF52876DEBA005D6F0D /* BQTitleDetailCell.h */,
+				C07F2BEB2876DEBA005D6F0D /* BQTitleDetailCell.m */,
+				C07F2BF42876DEBA005D6F0D /* BQTitleSwitchCell.h */,
+				C07F2BED2876DEBA005D6F0D /* BQTitleSwitchCell.m */,
+				C07F2BEE2876DEBA005D6F0D /* BQTitleValueAccessCell.h */,
+				C07F2BF22876DEBA005D6F0D /* BQTitleValueAccessCell.m */,
+				C07F2BE92876DEBA005D6F0D /* BQTitleValueCell.h */,
+				C07F2BF02876DEBA005D6F0D /* BQTitleValueCell.m */,
+				C07F2C2A287BD3CD005D6F0D /* MISScrollPage */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		C07F2C2A287BD3CD005D6F0D /* MISScrollPage */ = {
+			isa = PBXGroup;
+			children = (
+				C07F2C2B287BD3CD005D6F0D /* Classes */,
+			);
+			path = MISScrollPage;
+			sourceTree = "<group>";
+		};
+		C07F2C2B287BD3CD005D6F0D /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C07F2C2C287BD3CD005D6F0D /* MISScrollPageCollectionView.m */,
+				C07F2C2D287BD3CD005D6F0D /* UIView+MISHelper.h */,
+				C07F2C2E287BD3CD005D6F0D /* MISScrollPageController.m */,
+				C07F2C2F287BD3CD005D6F0D /* MISScrollPage.h */,
+				C07F2C30287BD3CE005D6F0D /* MISScrollPageContentView.h */,
+				C07F2C31287BD3CE005D6F0D /* MISScrollPageControllerDelegate.h */,
+				C07F2C32287BD3CE005D6F0D /* MISScrollPageStyle.m */,
+				C07F2C33287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.h */,
+				C07F2C34287BD3CE005D6F0D /* MISScrollPageSegmentView.m */,
+				C07F2C35287BD3CE005D6F0D /* UIView+MISRedPoint.h */,
+				C07F2C36287BD3CE005D6F0D /* MISScrollPageController.h */,
+				C07F2C37287BD3CE005D6F0D /* UIView+MISHelper.m */,
+				C07F2C38287BD3CE005D6F0D /* MISScrollPageCollectionView.h */,
+				C07F2C39287BD3CE005D6F0D /* MISScrollPageContentView.m */,
+				C07F2C3A287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.m */,
+				C07F2C3B287BD3CE005D6F0D /* MISScrollPageStyle.h */,
+				C07F2C3C287BD3CE005D6F0D /* MISScrollPageControllerDelegate.m */,
+				C07F2C3D287BD3CE005D6F0D /* UIView+MISRedPoint.m */,
+				C07F2C3E287BD3CE005D6F0D /* MISScrollPageSegmentView.h */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		C0E75ADC2744F0AC00E7B0E8 /* Language */ = {
@@ -2226,6 +2325,7 @@
 				C07F2C1028782E78005D6F0D /* icon-close@3x.png in Resources */,
 				3C729C77257144AE003DB315 /* ConfInviteUserCell.xib in Resources */,
 				3C8DFAA024EA282F0047C277 /* optionalAppkey@3x.png in Resources */,
+				C06472CF287C2C3800320EAF /* jh_search_leftIcon@3x.png in Resources */,
 				3C37DF48238251ED00399AE8 /* icon-添加好友@2x.png in Resources */,
 				3C37DF52238251ED00399AE8 /* icon-音视频会议@3x.png in Resources */,
 				3A45E0242223A21B00505786 /* EMSDKOptions.plist in Resources */,
@@ -2258,7 +2358,7 @@
 				C0E75AE52744F0AC00E7B0E8 /* languagechecked@2x.png in Resources */,
 				3C9A963E2579E8F400752F28 /* msg_bg_recv@2x.png in Resources */,
 				3A45E53F2223D69800505786 /* checked@3x.png in Resources */,
-				C07F2C1528782E87005D6F0D /* icon-uncheck@2x.png in Resources */,
+				C07F2C1528782E87005D6F0D /* jh_user_normal@2x.png in Resources */,
 				3C3703BA238D06D500A8976B /* 黑名单@3x.png in Resources */,
 				C0E75AD22744F03200E7B0E8 /* translate@2x.png in Resources */,
 				3C8437672510B2D4003CFA53 /* webRefreshButton@3x.png in Resources */,
@@ -2426,15 +2526,15 @@
 				3C7A14E2238FC72800F4AC48 /* back_left_black@3x.png in Resources */,
 				3C4AED56249A2FAB001F7C50 /* icon-tab会话.png in Resources */,
 				C07F2BD128758979005D6F0D /* ji_nodata@2x.png in Resources */,
-				C07F2C1928782E91005D6F0D /* icon-check@2x.png in Resources */,
+				C07F2C1928782E91005D6F0D /* jh_user_check@2x.png in Resources */,
 				668D54EA277EF37E007E5097 /* undisturbRing@2x.png in Resources */,
 				3C37DF44238251ED00399AE8 /* icon-search@3x.png in Resources */,
 				3C4AECFD2499CFF8001F7C50 /* showPwd@3x.png in Resources */,
 				3C4AEDAF249B5A5A001F7C50 /* aboutHX@3x.png in Resources */,
 				3A45E0F52223A30000505786 /* alert_success@2x.png in Resources */,
-				C07F2C1428782E87005D6F0D /* icon-uncheck@3x.png in Resources */,
+				C07F2C1428782E87005D6F0D /* jh_user_normal@3x.png in Resources */,
 				3A45E3EB2223A4F300505786 /* group_create@2x.png in Resources */,
-				C07F2C1828782E91005D6F0D /* icon-check@3x.png in Resources */,
+				C07F2C1828782E91005D6F0D /* jh_user_check@3x.png in Resources */,
 				3C3703BC238D06D500A8976B /* 多端多设备管理.png in Resources */,
 				3A45E08B2223A28F00505786 /* user_avatar_gray@2x.png in Resources */,
 				3A45E5412223D69800505786 /* uncheck@2x.png in Resources */,
@@ -2443,6 +2543,7 @@
 				3C7A1514239118C100F4AC48 /* web@2x.png in Resources */,
 				C07F2C052877DBFF005D6F0D /* jh_addMember@3x.png in Resources */,
 				3C4AED0D2499FE5F001F7C50 /* unableClick@2x.png in Resources */,
+				C06472CE287C2C3800320EAF /* jh_search_leftIcon@2x.png in Resources */,
 				3C37DF42238251ED00399AE8 /* icon-创建群组@3x.png in Resources */,
 				3C9A97B7257CDFD300752F28 /* groupchat@3x.png in Resources */,
 				3C4AEDA9249B5A38001F7C50 /* opinionFeedback@2x.png in Resources */,
@@ -2563,11 +2664,13 @@
 				C0E9E48B26083E9E0080AB28 /* AvatarUrlStore.m in Sources */,
 				3A45E38F2223A48700505786 /* EMChatroomAdminsViewController.m in Sources */,
 				3C729A4D2570F785003DB315 /* EMConversationsViewController.m in Sources */,
+				C06472D8287C45D800320EAF /* BQRecordImageVideoCell.m in Sources */,
 				3C729C7A257144AE003DB315 /* ConferenceController.m in Sources */,
 				C0E9E5202611C51C0080AB28 /* DBManager.m in Sources */,
 				3A45E0532223A25100505786 /* EMGlobalVariables.m in Sources */,
 				C0E9E4A3260892630080AB28 /* SelectAvatarViewController.m in Sources */,
 				3A45E05D2223A25C00505786 /* NSObject+Alert.m in Sources */,
+				C07F2C42287BD3CE005D6F0D /* MISScrollPageSegmentView.m in Sources */,
 				3C729DA625727CC3003DB315 /* EMMsgTranspondViewController.m in Sources */,
 				3C7A14FB2390D49F00F4AC48 /* SPDateTimePickerView.m in Sources */,
 				3C9A96082579148000752F28 /* EMMsgPicMixTextBubbleView.m in Sources */,
@@ -2578,6 +2681,9 @@
 				3C8EBEEE24AC913600B6560A /* EMRightViewToolView.m in Sources */,
 				3C7A14DD238F867C00F4AC48 /* YYBasicTickView.m in Sources */,
 				3A45E3C92223A4DC00505786 /* EMGroupsViewController.m in Sources */,
+				C06472D5287C438F00320EAF /* BQChatRecordImageVideoViewController.m in Sources */,
+				C07F2C29287BD1E3005D6F0D /* BQChatRecordContainerViewController.m in Sources */,
+				C07F2C44287BD3CE005D6F0D /* MISScrollPageContentView.m in Sources */,
 				3A45E0522223A25100505786 /* EMDateHelper.m in Sources */,
 				C0E75AE72744F0AC00E7B0E8 /* LanguageCell.m in Sources */,
 				C0E75ADB2744F06800E7B0E8 /* TranslateTextBubbleView.m in Sources */,
@@ -2601,6 +2707,7 @@
 				3C87A1062490BF560051E06E /* EMMsgRemindViewController.m in Sources */,
 				3A45E0E92223A2EB00505786 /* EMTextFieldViewController.m in Sources */,
 				3A45E0E82223A2EB00505786 /* EMTextViewController.m in Sources */,
+				C07F2C46287BD3CE005D6F0D /* MISScrollPageControllerDelegate.m in Sources */,
 				3A45DF0D2223A1FD00505786 /* EMBlacklistViewController.m in Sources */,
 				C07F2BF92876DEBA005D6F0D /* BQTitleSwitchCell.m in Sources */,
 				3A45DF0E2223A1FD00505786 /* EMAddBlacklistViewController.m in Sources */,
@@ -2610,8 +2717,10 @@
 				C0E9E4BA260C74AC0080AB28 /* ConfirmUserCardView.m in Sources */,
 				3C87A103249080900051E06E /* EMSettingsViewController.m in Sources */,
 				C0E75AE62744F0AC00E7B0E8 /* LanguageViewController.m in Sources */,
+				C07F2C47287BD3CE005D6F0D /* UIView+MISRedPoint.m in Sources */,
 				3C8437632510A3AB003CFA53 /* EMProtocolViewController..m in Sources */,
 				3A45E41F2223A52100505786 /* EMAccountViewController.m in Sources */,
+				C07F2C23287935CD005D6F0D /* BQGroupSearchCell.m in Sources */,
 				3A45E41E2223A52100505786 /* EMDevicesViewController.m in Sources */,
 				3A45E4222223A52100505786 /* EMServiceCheckViewController.m in Sources */,
 				C07F2BFA2876DEBA005D6F0D /* BQTitleAvatarCell.m in Sources */,
@@ -2627,6 +2736,8 @@
 				3A45E05C2223A25C00505786 /* UIViewController+Util.m in Sources */,
 				3A45E3DD2223A4E900505786 /* EMGroupOwnerViewController.m in Sources */,
 				3C729D1C257238FD003DB315 /* EMContactModel.m in Sources */,
+				C07F2C43287BD3CE005D6F0D /* UIView+MISHelper.m in Sources */,
+				C07F2C40287BD3CE005D6F0D /* MISScrollPageController.m in Sources */,
 				3A45E38E2223A48700505786 /* EMChatroomOwnerViewController.m in Sources */,
 				3A45DF5B2223A1FD00505786 /* EMRefreshTableViewController.m in Sources */,
 				EC6B516A2759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m in Sources */,
@@ -2634,6 +2745,7 @@
 				3A45E0992223A29B00505786 /* EMBadgeLabel.m in Sources */,
 				3C729E7D25739AF0003DB315 /* EMNotificationViewController.m in Sources */,
 				3C9A95F62578EC6F00752F28 /* EMUserDataModel.m in Sources */,
+				C06472D2287C422000320EAF /* EMSearchContainerViewController.m in Sources */,
 				3C729C76257144AE003DB315 /* ConfInviteUsersViewController.m in Sources */,
 				3C3BAE8123975F6D00344F63 /* EMGroupManageViewController.m in Sources */,
 				3A45E0222223A21B00505786 /* EMSDKOptionsViewController.m in Sources */,
@@ -2652,11 +2764,14 @@
 				3C729D09257144AE003DB315 /* EMButton.m in Sources */,
 				C0E9E5E826148D700080AB28 /* EMAvatarNameCell+UserInfo.m in Sources */,
 				3A45E3912223A48700505786 /* EMChatroomMutesViewController.m in Sources */,
+				C07F2C45287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.m in Sources */,
 				3C37DEFC23824EBB00399AE8 /* PellTableViewSelect.m in Sources */,
+				C07F2C41287BD3CE005D6F0D /* MISScrollPageStyle.m in Sources */,
 				3C9A96102579158C00752F28 /* EMMessageStatusView.m in Sources */,
 				C063486028757D9F008E55D3 /* BQGroupListViewController.m in Sources */,
 				3A45E3CC2223A4DC00505786 /* EMCreateGroupViewController.m in Sources */,
 				3A45E38C2223A48700505786 /* EMChatroomMembersViewController.m in Sources */,
+				C07F2C26287A6E14005D6F0D /* BQGroupSearchAddView.m in Sources */,
 				C0E9E5E5261482B00080AB28 /* UIImageView+UserInfo.m in Sources */,
 				3C8EBEF524ADDF7E00B6560A /* EMAuthorizationView.m in Sources */,
 				3C9A95DD2578E38700752F28 /* EMReadReceiptMsgViewController.m in Sources */,
@@ -2669,6 +2784,7 @@
 				3C8DFAA824EBC2510047C277 /* EMFeedBackType.m in Sources */,
 				3A45E1092223A30C00505786 /* EMSearchBar.m in Sources */,
 				3A45E1072223A30C00505786 /* EMSearchResultController.m in Sources */,
+				C07F2C3F287BD3CE005D6F0D /* MISScrollPageCollectionView.m in Sources */,
 				3A45E3CB2223A4DC00505786 /* EMInviteGroupMemberViewController.m in Sources */,
 				3A45E3E02223A4E900505786 /* EMGroupBlacklistViewController.m in Sources */,
 				3C1B68CF252046EE005CAB3C /* EMAlertView.m in Sources */,

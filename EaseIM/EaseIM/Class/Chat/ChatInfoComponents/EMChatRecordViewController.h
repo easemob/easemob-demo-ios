@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "EMSearchViewController.h"
+#import "EMSearchContainerViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface EMChatRecordViewController : EMSearchViewController
+@interface EMChatRecordViewController : EMSearchContainerViewController
 
 - (instancetype)initWithCoversationModel:(EMConversation *)conversation;
 

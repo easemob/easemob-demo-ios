@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EMSearchBar.h"
+#import "EMRealtimeSearch.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BQAddGroupMemberViewController : UIViewController
+@interface BQAddGroupMemberViewController : UIViewController<EMSearchBarDelegate>
+
+@property (nonatomic) BOOL isSearching;
+
+@property (nonatomic, strong) EMSearchBar *searchBar;
+
+- (void)keyBoardWillShow:(NSNotification *)note;
+
+- (void)keyBoardWillHide:(NSNotification *)note;
 
 @end
 

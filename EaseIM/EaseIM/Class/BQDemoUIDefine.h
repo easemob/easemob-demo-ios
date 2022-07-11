@@ -69,7 +69,7 @@
 #define ImageWithName(imageName) [UIImage imageNamed:imageName]
 
 #define kAgroaPadding 10.0f
-#define kAvatarHeight 32.0f
+#define kAvatarHeight 38.0f
 #define kContactAvatarHeight 40.0f
 #define kSearchBarHeight 32.0
 #define kBQPadding 10.0

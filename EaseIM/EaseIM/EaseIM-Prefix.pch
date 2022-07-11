@@ -25,5 +25,8 @@
     #import "BQDemoUIDefine.h"
     #import "BQAppStyle.h"
     #import "UIColor+BQ.h"
+    #import <SDWebImage/UIImageView+WebCache.h>
+    #import "MISScrollPage.h"
+
 
 #endif

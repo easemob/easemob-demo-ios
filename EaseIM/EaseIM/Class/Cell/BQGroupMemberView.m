@@ -57,13 +57,13 @@
 @end
 
 
-@interface BQGroupMemberItemCell : UICollectionViewCell
+@interface BQGroupAddedMemberCell : UICollectionViewCell
 @property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 
 @end
 
-@implementation BQGroupMemberItemCell
+@implementation BQGroupAddedMemberCell
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -231,7 +231,7 @@
         return addCell;
     }
     
-    BQGroupMemberItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[BQGroupMemberItemCell reuseIdentifier] forIndexPath:indexPath];
+    BQGroupAddedMemberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[BQGroupAddedMemberCell reuseIdentifier] forIndexPath:indexPath];
     
     id obj = [self.dataArray objectAtIndex:indexPath.row -1];
     [cell updateWithObj:obj];
@@ -261,7 +261,7 @@
         
         [_collectionView registerClass:[BQGroupMemberAddCell class] forCellWithReuseIdentifier:[BQGroupMemberAddCell reuseIdentifier]];
         
-        [_collectionView registerClass:[BQGroupMemberItemCell class] forCellWithReuseIdentifier:[BQGroupMemberItemCell reuseIdentifier]];
+        [_collectionView registerClass:[BQGroupAddedMemberCell class] forCellWithReuseIdentifier:[BQGroupAddedMemberCell reuseIdentifier]];
 
         _collectionView.backgroundColor = [UIColor clearColor];
         _collectionView.delegate = self;

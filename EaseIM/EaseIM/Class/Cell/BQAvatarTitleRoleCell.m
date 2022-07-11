@@ -23,6 +23,10 @@
     [self.contentView addSubview:self.iconImageView];
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.roleImageView];
+    
+//    self.contentView.backgroundColor = UIColor.redColor;
+//    self.nameLabel.backgroundColor = UIColor.yellowColor;
+    
 }
 
 
@@ -36,18 +40,18 @@
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView);
         make.left.equalTo(self.iconImageView.mas_right).offset(8.0);
+        make.width.lessThanOrEqualTo(@(200.0));
+        make.height.equalTo(@(10));
     }];
 
-    
     [self.roleImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView);
         make.left.equalTo(self.nameLabel.mas_right).offset(5.0);
-        make.right.equalTo(self.iconImageView.mas_left);
     }];
 
 }
 
-- (void)updateWithObj:(id)obj {
+- (void)updateWithObj:(id)obj isOwner:(BOOL)isOwner {
     NSString *aUid = (NSString *)obj;
     
     EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:aUid];
@@ -60,9 +64,10 @@
         }else {
             [self.iconImageView setImage:ImageWithName(@"jh_user")];
         }
-                
-        self.nameLabel.text = userInfo.nickName.length > 0 ? userInfo.nickName: userInfo.userId;
-
+             
+        self.nameLabel.text = userInfo.nickname.length > 0 ? userInfo.nickname: userInfo.userId;
+        self.roleImageView.hidden = !isOwner;
+        
     }else{
         [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[aUid]];
     }
@@ -71,21 +76,10 @@
 
 
 #pragma mark getter and setter
-- (UILabel *)detailLabel {
-    if (_detailLabel == nil) {
-        _detailLabel = [[UILabel alloc] init];
-        _detailLabel.font = NFont(14.0f);
-        _detailLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
-        _detailLabel.textAlignment = NSTextAlignmentRight;
-        _detailLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    }
-    return _detailLabel;
-}
-
 - (UIImageView *)roleImageView {
     if (_roleImageView == nil) {
         _roleImageView = [[UIImageView alloc] init];
-        [_roleImageView setImage:ImageWithName(@"gray_right_arrow")];
+        [_roleImageView setImage:ImageWithName(@"jh_group_owner")];
         _roleImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _roleImageView;

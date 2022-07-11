@@ -8,6 +8,8 @@
 
 #import "EMSearchBar.h"
 
+#define kTextFieldHeight 32.0f
+
 @interface EMSearchBar()<UITextFieldDelegate>
 
 @property (nonatomic, strong) UIButton *cancelButton;
@@ -37,29 +39,47 @@
 
 - (void)_setupSubviews
 {
-    self.backgroundColor = [UIColor whiteColor];
+//    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = ViewBgBlackColor;
     
     self.textField = [[UITextField alloc] init];
     self.textField.delegate = self;
-    self.textField.backgroundColor = kColor_textViewGray;
-    self.textField.font = [UIFont systemFontOfSize:16];
+//    self.textField.backgroundColor = kColor_textViewGray;
+    self.textField.backgroundColor = [UIColor colorWithHexString:@"#252525"];
+    
+//    self.textField.font = [UIFont systemFontOfSize:16];
+    self.textField.font = [UIFont systemFontOfSize:14.0];
     self.textField.placeholder = NSLocalizedString(@"search", nil);
     self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.textField.leftViewMode = UITextFieldViewModeAlways;
     self.textField.returnKeyType = UIReturnKeySearch;
-    self.textField.layer.cornerRadius = 8;
+    self.textField.layer.cornerRadius = kTextFieldHeight * 0.5;
+    
+    
+    
     [self addSubview:self.textField];
     [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);
         make.left.equalTo(self).offset(15);
         make.right.equalTo(self).offset(-15);
-        make.height.equalTo(@35);
+        make.height.equalTo(@(kTextFieldHeight));
     }];
+    
     
     UIImageView *leftView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 15)];
     leftView.contentMode = UIViewContentModeScaleAspectFit;
-    leftView.image = [UIImage imageNamed:@"search_gray"];
+//    leftView.image = [UIImage imageNamed:@"search_gray"];
+    leftView.image = [UIImage imageNamed:@"jh_search_leftIcon"];
     self.textField.leftView = leftView;
+    
+    UIImageView *rightView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 15)];
+    rightView.contentMode = UIViewContentModeScaleAspectFit;
+//    leftView.image = [UIImage imageNamed:@"search_gray"];
+    rightView.image = [UIImage imageNamed:@"jh_invite_delete"];
+    self.textField.rightView = rightView;
+    
+    [self.textField setTextColor:[UIColor colorWithHexString:@"#F5F5F5"]];
+    self.textField.tintColor = [UIColor colorWithHexString:@"#04D0A4"];
     
     
     self.cancelButton = [[UIButton alloc] init];
@@ -128,3 +148,5 @@
 }
 
 @end
+#undef kTextFieldHeight
+

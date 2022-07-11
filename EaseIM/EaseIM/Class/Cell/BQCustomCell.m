@@ -72,7 +72,7 @@
 - (UILabel *)nameLabel {
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:14.0f];
+        _nameLabel.font = NFont(14.0);
         _nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;

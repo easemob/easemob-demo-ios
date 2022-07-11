@@ -78,7 +78,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BQAvatarTitleRoleCell *cell = (BQAvatarTitleRoleCell *)[tableView dequeueReusableCellWithIdentifier:NSStringFromClass([BQAvatarTitleRoleCell class])];
     
-    [cell updateWithObj:self.dataArray[indexPath.row]];
+    NSString *userId = self.dataArray[indexPath.row];
+    BOOL isOwner = [self.group.owner isEqualToString:userId];
+    [cell updateWithObj:userId isOwner:isOwner];
+    
     
 //    // Configure the cell...
 //    if (cell == nil) {
@@ -227,6 +230,8 @@
         } else {
             if (aIsHeader) {
                 [weakself.dataArray removeAllObjects];
+                [weakself.dataArray addObject:self.group.owner];
+                [weakself.dataArray addObjectsFromArray:self.group.adminList];
             }
             
             weakself.cursor = aResult.cursor;

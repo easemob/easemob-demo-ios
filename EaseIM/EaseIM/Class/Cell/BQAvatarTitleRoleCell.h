@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BQAvatarTitleRoleCell : BQCustomCell
-@property (nonatomic, strong) UILabel *detailLabel;
+
+- (void)updateWithObj:(id)obj isOwner:(BOOL)isOwner;
 
 @end
 
