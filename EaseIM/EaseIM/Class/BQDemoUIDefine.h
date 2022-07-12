@@ -103,5 +103,6 @@
 
 #define ViewBgBlackColor  COLOR_HEX(0x171717)
 
+#define ViewCellBgBlackColor   COLOR_HEX(0x1C1C1C)
 
 #endif /* BQDemoUIDefine_h */

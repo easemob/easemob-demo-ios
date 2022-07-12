@@ -25,7 +25,6 @@
 @implementation BQGroupSearchCell
 
 - (void)prepare {
-    self.contentView.backgroundColor = ViewBgBlackColor;
     
     [self.contentView addSubview:self.iconImageView];
     [self.contentView addSubview:self.nameLabel];
@@ -93,7 +92,7 @@
                 [self.iconImageView sd_setImageWithURL:url completed:nil];
             }
         }else {
-            [self.iconImageView setImage:ImageWithName(@"jh_user")];
+            [self.iconImageView setImage:ImageWithName(@"jh_user_icon")];
         }
                 
         self.nameLabel.text = userInfo.nickName.length > 0 ? userInfo.nickName: userInfo.userId;
@@ -175,7 +174,7 @@
     if (highlighted) {
         self.contentView.backgroundColor = COLOR_HEX(0x333333);
     }else {
-        self.contentView.backgroundColor = ViewBgBlackColor;
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
     }
 }
 
@@ -183,7 +182,7 @@
     if (selected) {
         self.contentView.backgroundColor = COLOR_HEX(0x333333);
     }else {
-        self.contentView.backgroundColor = ViewBgBlackColor;
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
     }
 
 }

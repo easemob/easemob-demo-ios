@@ -154,7 +154,7 @@
 
 
 - (void)placeAndLayoutSubViews {
-    self.backgroundColor = ViewBgBlackColor;
+    self.backgroundColor = ViewCellBgBlackColor;
     
     [self addSubview:self.titleLabel];
     [self addSubview:self.collectionView];

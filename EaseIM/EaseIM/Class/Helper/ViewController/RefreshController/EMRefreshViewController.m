@@ -114,7 +114,6 @@
         _tableView.estimatedSectionHeaderHeight = 0;
         _tableView.estimatedSectionFooterHeight = 0;
         _tableView.backgroundColor = [UIColor colorWithHexString:@"#171717"];
-        
     }
     
     return _tableView;

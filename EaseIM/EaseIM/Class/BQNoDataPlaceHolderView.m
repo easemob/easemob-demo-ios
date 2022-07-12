@@ -39,12 +39,13 @@
     }];
     
     [self.prompt mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.noDataImageView.mas_bottom).offset(30.0);
+        make.top.equalTo(self.noDataImageView.mas_bottom).offset(10.0);
         make.left.equalTo(self).offset(20);
         make.right.equalTo(self).offset(-20);
         make.height.mas_equalTo(14.0);
         make.bottom.equalTo(self);
     }];
+    
 }
 
 #pragma mark getter and setter

@@ -25,7 +25,7 @@
         make.top.equalTo(self.view);
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
-        make.height.equalTo(@50);
+        make.height.equalTo(@(48.0));
     }];
     
     self.tableView.rowHeight = 74;
@@ -42,6 +42,10 @@
     self.searchResultTableView.rowHeight = self.tableView.rowHeight;
     self.searchResultTableView.delegate = self;
     self.searchResultTableView.dataSource = self;
+    
+    self.view.backgroundColor = ViewBgBlackColor;
+    
+    
 }
 
 - (void)dealloc
@@ -66,8 +70,16 @@
             make.right.equalTo(self.view);
             make.bottom.equalTo(self.view);
         }];
+        
+        [self.view addSubview:self.noDataPromptView];
+        [self.noDataPromptView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.searchBar.mas_bottom).offset(60.0);
+            make.centerX.left.right.equalTo(self.view);
+        }];
+
     }
 }
+
 
 - (void)searchBarCancelButtonAction:(EMSearchBar *)searchBar
 {
@@ -79,6 +91,8 @@
     [self.searchResults removeAllObjects];
     [self.searchResultTableView reloadData];
     [self.searchResultTableView removeFromSuperview];
+    [self.noDataPromptView removeFromSuperview];
+    
 }
 
 - (void)searchBarSearchButtonClicked:(EMSearchBar *)searchBar
@@ -144,6 +158,17 @@
     } else {
         animation();
     }
+}
+
+#pragma mark getter and setter
+- (BQNoDataPlaceHolderView *)noDataPromptView {
+    if (_noDataPromptView == nil) {
+        _noDataPromptView = BQNoDataPlaceHolderView.new;
+        [_noDataPromptView.noDataImageView setImage:ImageWithName(@"ji_search_nodata")];
+        _noDataPromptView.prompt.text = @"搜索无结果";
+        _noDataPromptView.hidden = YES;
+    }
+    return _noDataPromptView;
 }
 
 @end

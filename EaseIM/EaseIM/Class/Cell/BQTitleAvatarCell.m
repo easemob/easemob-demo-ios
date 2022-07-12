@@ -16,7 +16,6 @@
 @implementation BQTitleAvatarCell
 
 - (void)prepare {
-    self.contentView.backgroundColor = ViewBgBlackColor;
     [self.contentView addSubview:self.iconImageView];
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.bottomLine];
@@ -71,7 +70,7 @@
     if (highlighted) {
         self.contentView.backgroundColor = COLOR_HEX(0x333333);
     }else {
-        self.contentView.backgroundColor = ViewBgBlackColor;
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
     }
 }
 
@@ -79,7 +78,7 @@
     if (selected) {
         self.contentView.backgroundColor = COLOR_HEX(0x333333);
     }else {
-        self.contentView.backgroundColor = ViewBgBlackColor;
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
     }
 
 }

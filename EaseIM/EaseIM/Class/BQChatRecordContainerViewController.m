@@ -11,6 +11,8 @@
 
 #import "EMChatRecordViewController.h"
 #import "BQChatRecordImageVideoViewController.h"
+#import "BQChatRecordFileViewController.h"
+
 
 #define kViewTopPadding  200.0f
 
@@ -22,7 +24,7 @@ MISScrollPageControllerDelegate>
 @property (nonatomic, assign) NSInteger currentPageIndex;
 
 @property (nonatomic,strong) EMChatRecordViewController *textRecordVC;
-@property (nonatomic,strong) EMChatRecordViewController *fileRecordVC;
+@property (nonatomic,strong) BQChatRecordFileViewController *fileRecordVC;
 @property (nonatomic,strong) BQChatRecordImageVideoViewController *imageVideoRecordVC;
 
 @property (nonatomic, strong) NSMutableArray *navTitleArray;
@@ -185,9 +187,9 @@ MISScrollPageControllerDelegate>
 }
 
 
-- (EMChatRecordViewController *)fileRecordVC {
+- (BQChatRecordFileViewController *)fileRecordVC {
     if (_fileRecordVC == nil) {
-        _fileRecordVC = [[EMChatRecordViewController alloc] initWithCoversationModel:self.conversation];
+        _fileRecordVC = [[BQChatRecordFileViewController alloc] initWithCoversationModel:self.conversation];
     }
     return _fileRecordVC;
 }

@@ -12,7 +12,6 @@
 
 - (void)prepare {
     
-    self.contentView.backgroundColor = ViewBgBlackColor;
     self.selectionStyle = UITableViewCellSelectionStyleDefault;
     
     [self.contentView addSubview:self.nameLabel];
@@ -60,7 +59,7 @@
     if (highlighted) {
         self.contentView.backgroundColor = COLOR_HEX(0x333333);
     }else {
-        self.contentView.backgroundColor = ViewBgBlackColor;
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
     }
 }
 

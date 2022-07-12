@@ -17,7 +17,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = ViewBgBlackColor;
 }
+
 
 
 #pragma mark - MISScrollPageControllerContentSubViewControllerDelegate

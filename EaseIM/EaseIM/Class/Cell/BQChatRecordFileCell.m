@@ -1,14 +1,15 @@
 //
-//  EMAvatarNameCell.m
-//  ChatDemo-UI3.0
+//  BQChatRecordFileCell.m
+//  EaseIM
 //
-//  Created by XieYajie on 2019/1/9.
-//  Copyright © 2019 XieYajie. All rights reserved.
+//  Created by liu001 on 2022/7/12.
+//  Copyright © 2022 liu001. All rights reserved.
 //
 
-#import "EMAvatarNameCell.h"
+#import "BQChatRecordFileCell.h"
+#import "BQChatRecordFileModel.h"
 
-@implementation EMAvatarNameCell
+@implementation BQChatRecordFileCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
               reuseIdentifier:(NSString *)reuseIdentifier
@@ -20,19 +21,8 @@
     return self;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 #pragma mark - Subviews
-
 - (void)_setupSubviews
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -91,7 +81,7 @@
     
 }
 
-- (void)setModel:(EMAvatarNameModel *)model
+- (void)setModel:(BQChatRecordFileModel *)model
 {
     _model = model;
     _avatarView.image = model.avatarImg;
@@ -117,9 +107,8 @@
 
 - (void)accessoryButtonAction
 {
-    if (_delegate && [_delegate respondsToSelector:@selector(cellAccessoryButtonAction:)]) {
-        [_delegate cellAccessoryButtonAction:self];
-    }
+
 }
 
 @end
+

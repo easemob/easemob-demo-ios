@@ -9,7 +9,8 @@
 #import "BQChatRecordImageVideoViewController.h"
 #import "BQRecordImageVideoCell.h"
 
-@interface BQChatRecordImageVideoViewController ()<MISScrollPageControllerContentSubViewControllerDelegate>
+@interface BQChatRecordImageVideoViewController ()<MISScrollPageControllerContentSubViewControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
+
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -17,6 +18,7 @@
 
 @property (nonatomic, strong) EMConversation *conversation;
 @property (nonatomic, strong) dispatch_queue_t msgQueue;
+@property (nonatomic, strong) NSString *moreMsgId;
 
 
 @end
@@ -28,6 +30,7 @@
     if (self = [super init]) {
         _conversation = conversation;
         _msgQueue = dispatch_queue_create("emmessagerecord.com", NULL);
+        _moreMsgId = @"";
     }
     return self;
 }
@@ -36,11 +39,58 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = ViewBgBlackColor;
     
     [self.view addSubview:self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    
+    [self loadDatas];
+}
+
+- (void)loadDatas {
+    
+    if ([EMDemoOptions sharedOptions].isPriorityGetMsgFromServer) {
+        EMConversation *conversation = self.conversation;
+        [EMClient.sharedClient.chatManager asyncFetchHistoryMessagesFromServer:conversation.conversationId conversationType:conversation.type startMessageId:self.moreMsgId pageSize:10 completion:^(EMCursorResult *aResult, EMError *aError) {
+            [self.conversation loadMessagesStartFromId:self.moreMsgId count:10 searchDirection:EMMessageSearchDirectionUp completion:^(NSArray<EMChatMessage *> * _Nullable aMessages, EMError * _Nullable aError) {
+                [self loadMessages:aMessages withError:aError];
+            }];
+         }];
+    } else {
+        [self.conversation loadMessagesStartFromId:self.moreMsgId count:50 searchDirection:EMMessageSearchDirectionUp completion:^(NSArray<EMChatMessage *> * _Nullable aMessages, EMError * _Nullable aError) {
+            [self loadMessages:aMessages withError:aError];
+        }];
+    }
+}
+
+
+- (void)loadMessages:(NSArray *)aMessages  withError:(EMError *)aError {
+    if (!aError && [aMessages count] > 0) {
+        dispatch_async(self.msgQueue, ^{
+            NSMutableArray *msgArray = [[NSMutableArray alloc] init];
+            for (int i = 0; i < [aMessages count]; i++) {
+                EMChatMessage *msg = aMessages[i];
+                if(msg.body.type == EMMessageBodyTypeImage) {
+                    [msgArray addObject:msg];
+                }
+                
+                if(msg.body.type == EMMessageBodyTypeVideo) {
+                    [msgArray addObject:msg];
+                }
+
+            }
+            
+            BQ_WS
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.dataArray removeAllObjects];
+                [weakSelf.dataArray addObjectsFromArray:msgArray];
+                [weakSelf.collectionView reloadData];
+            });
+        });
+    }
+    
 }
 
 
@@ -79,7 +129,7 @@
         
         [_collectionView registerClass:[BQRecordImageVideoCell class] forCellWithReuseIdentifier:[BQRecordImageVideoCell reuseIdentifier]];
         
-        _collectionView.backgroundColor = [UIColor clearColor];
+        _collectionView.backgroundColor = ViewBgBlackColor;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsVerticalScrollIndicator = NO;
@@ -95,12 +145,14 @@
 - (UICollectionViewFlowLayout *)collectionViewLayout {
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    CGFloat itemWidth = 38.0;
-    CGFloat itemHeight = 58.0;
+    
+    CGFloat itemWidth = (KScreenWidth - 10.0 * 3 - 16.0 * 2)/4.0;
+    CGFloat itemHeight = itemWidth;
+    
     flowLayout.itemSize = CGSizeMake(itemWidth, itemHeight);
-    flowLayout.minimumLineSpacing = 14.0;
-    flowLayout.minimumInteritemSpacing = 12.0;
-    flowLayout.sectionInset = UIEdgeInsetsMake(0, 16.0, 0, 16.0);
+    flowLayout.minimumLineSpacing = 10.0;
+    flowLayout.minimumInteritemSpacing = 10.0;
+    flowLayout.sectionInset = UIEdgeInsetsMake(10.0, 16.0, 10.0, 16.0);
     
     return flowLayout;
 }
@@ -112,7 +164,6 @@
     }
     return _dataArray;
 }
-
 
 
 #pragma mark - MISScrollPageControllerContentSubViewControllerDelegate

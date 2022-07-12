@@ -12,7 +12,6 @@
 
 - (void)prepare {
     
-    self.contentView.backgroundColor = ViewBgBlackColor;
     [self.contentView addGestureRecognizer:self.tapGestureRecognizer];
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.detailLabel];
@@ -49,7 +48,7 @@
     if (highlighted) {
         self.contentView.backgroundColor = COLOR_HEX(0xF5F5F5);
     }else {
-        self.contentView.backgroundColor = ViewBgBlackColor;
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
     }
 }
 

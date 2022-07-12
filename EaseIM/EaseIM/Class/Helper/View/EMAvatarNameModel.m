@@ -21,7 +21,10 @@
         
         NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:text];
         if(range.length > 0) {
-            [attributedStr setAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:4/255.0 green:174/255.0 blue:240/255.0 alpha:1.0]} range:NSMakeRange(range.location, keyWord.length)];
+//            [attributedStr setAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:4/255.0 green:174/255.0 blue:240/255.0 alpha:1.0]} range:NSMakeRange(range.location, keyWord.length)];
+            
+            [attributedStr setAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"#4798CB"]} range:NSMakeRange(range.location, keyWord.length)];
+
         }
         _detail = attributedStr;
         _timestamp = timestamp;

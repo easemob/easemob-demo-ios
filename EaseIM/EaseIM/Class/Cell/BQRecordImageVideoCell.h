@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BQRecordImageVideoCell : UICollectionViewCell
-@property (nonatomic, strong) UIImageView *iconImageView;
+
 - (void)updateWithObj:(id)obj;
 
 + (NSString *)reuseIdentifier;

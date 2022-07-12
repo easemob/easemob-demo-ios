@@ -20,7 +20,6 @@
 @implementation BQGroupMemberCell
 
 - (void)prepare {
-    self.contentView.backgroundColor = ViewBgBlackColor;
     [self.contentView addSubview:self.groupMemberView];
     [self.contentView addSubview:self.moreButton];
 }
@@ -143,7 +142,7 @@
     if (highlighted) {
         self.contentView.backgroundColor = COLOR_HEX(0x333333);
     }else {
-        self.contentView.backgroundColor = ViewBgBlackColor;
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
     }
 }
 

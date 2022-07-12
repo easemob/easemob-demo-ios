@@ -19,14 +19,10 @@
 @implementation BQAvatarTitleRoleCell
 
 - (void)prepare {
-    self.contentView.backgroundColor = ViewBgBlackColor;
     [self.contentView addSubview:self.iconImageView];
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.roleImageView];
-    
-//    self.contentView.backgroundColor = UIColor.redColor;
-//    self.nameLabel.backgroundColor = UIColor.yellowColor;
-    
+     
 }
 
 
@@ -62,7 +58,7 @@
                 [self.iconImageView sd_setImageWithURL:url completed:nil];
             }
         }else {
-            [self.iconImageView setImage:ImageWithName(@"jh_user")];
+            [self.iconImageView setImage:ImageWithName(@"jh_user_icon")];
         }
              
         self.nameLabel.text = userInfo.nickname.length > 0 ? userInfo.nickname: userInfo.userId;
@@ -89,7 +85,7 @@
     if (highlighted) {
         self.contentView.backgroundColor = COLOR_HEX(0x333333);
     }else {
-        self.contentView.backgroundColor = ViewBgBlackColor;
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
     }
 }
 
@@ -97,7 +93,7 @@
     if (selected) {
         self.contentView.backgroundColor = COLOR_HEX(0x333333);
     }else {
-        self.contentView.backgroundColor = ViewBgBlackColor;
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
     }
 
 }

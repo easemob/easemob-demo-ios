@@ -315,7 +315,7 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             titleAvatarCell.nameLabel.text = @"群头像";
-            [titleAvatarCell.iconImageView setImage:ImageWithName(@"jh_group")];
+            [titleAvatarCell.iconImageView setImage:ImageWithName(@"jh_group_icon")];
             return titleAvatarCell;
         }else {
             [self.groupMemberCell updateWithObj:self.group];

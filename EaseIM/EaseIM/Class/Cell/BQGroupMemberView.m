@@ -108,7 +108,7 @@
                 [self.iconImageView sd_setImageWithURL:url completed:nil];
             }
         }else {
-            [self.iconImageView setImage:ImageWithName(@"jh_user")];
+            [self.iconImageView setImage:ImageWithName(@"jh_user_icon")];
         }
                 
         self.nameLabel.text = userInfo.nickName.length > 0 ? userInfo.nickName: userInfo.userId;

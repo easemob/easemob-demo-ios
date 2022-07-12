@@ -1,18 +1,18 @@
 //
-//  EMChatRecordViewController.m
+//  BQChatRecordFileViewController.m
 //  EaseIM
 //
-//  Created by 娜塔莎 on 2020/7/15.
-//  Copyright © 2020 娜塔莎. All rights reserved.
+//  Created by liu001 on 2022/7/12.
+//  Copyright © 2022 liu001. All rights reserved.
 //
 
-#import "EMChatRecordViewController.h"
-#import "EMAvatarNameCell.h"
+#import "BQChatRecordFileViewController.h"
 #import "EMDateHelper.h"
-#import "EMAvatarNameModel.h"
 #import "EMChatViewController.h"
+#import "BQChatRecordFileModel.h"
+#import "BQChatRecordFileCell.h"
 
-@interface EMChatRecordViewController ()<EMSearchBarDelegate, EMAvatarNameCellDelegate>
+@interface BQChatRecordFileViewController ()<EMSearchBarDelegate>
 
 @property (nonatomic, strong) EMConversation *conversation;
 @property (nonatomic, strong) dispatch_queue_t msgQueue;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation EMChatRecordViewController
+@implementation BQChatRecordFileViewController
 
 - (instancetype)initWithCoversationModel:(EMConversation *)conversation
 {
@@ -46,7 +46,6 @@
 {
     [self addPopBackLeftItem];
     self.title = NSLocalizedString(@"msgList", nil);
-//    self.view.backgroundColor = [UIColor whiteColor];
     self.view.backgroundColor = ViewBgBlackColor;
 
     self.showRefreshHeader = NO;
@@ -60,7 +59,6 @@
     }];
     [self.searchBar.textField becomeFirstResponder];
     
-//    self.searchResultTableView.backgroundColor = kColor_LightGray;
     self.searchResultTableView.backgroundColor = ViewBgBlackColor;
     self.searchResultTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.searchResultTableView.rowHeight = UITableViewAutomaticDimension;
@@ -79,24 +77,27 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     id obj = [self.searchResults objectAtIndex:indexPath.row];
-    EMAvatarNameModel *model = (EMAvatarNameModel *)obj;
+    BQChatRecordFileModel *model = (BQChatRecordFileModel *)obj;
 
-    EMAvatarNameCell *cell = (EMAvatarNameCell *)[tableView dequeueReusableCellWithIdentifier:@"chatRecord"];
+    BQChatRecordFileCell *cell = (BQChatRecordFileCell *)[tableView dequeueReusableCellWithIdentifier:@"chatRecord"];
     // Configure the cell...
     if (cell == nil) {
-        cell = [[EMAvatarNameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"chatRecord"];
+        cell = [[BQChatRecordFileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"chatRecord"];
     }
     cell.indexPath = indexPath;
     cell.model = model;
-    cell.delegate = self;
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    id obj = [self.searchResults objectAtIndex:indexPath.row];
+    BQChatRecordFileModel *model = (BQChatRecordFileModel *)obj;
+    
+}
 
-
-#pragma mark - EMAvatarNameCellDelegate
-
-- (void)cellAccessoryButtonAction:(EMAvatarNameCell *)aCell
+#pragma mark - BQChatRecordFileCellDelegate
+- (void)cellAccessoryButtonAction:(BQChatRecordFileCell *)aCell
 {
     EMChatViewController *chatController = [[EMChatViewController alloc]initWithConversationId:self.conversation.conversationId conversationType:self.conversation.type];
     chatController.modalPresentationStyle = 0;
@@ -120,9 +121,9 @@
                 NSMutableArray *msgArray = [[NSMutableArray alloc] init];
                 for (int i = 0; i < [aMessages count]; i++) {
                     EMChatMessage *msg = aMessages[i];
-                    if(msg.body.type == EMMessageBodyTypeText) {
-                        EMTextMessageBody* textBody = (EMTextMessageBody*)msg.body;
-                        NSRange range = [textBody.text rangeOfString:aString options:NSCaseInsensitiveSearch];
+                    if(msg.body.type == EMMessageBodyTypeFile) {
+                        EMFileMessageBody* fileBody = (EMFileMessageBody*)msg.body;
+                        NSRange range = [fileBody.displayName rangeOfString:aString options:NSCaseInsensitiveSearch];
                         if(range.length)
                             [msgArray addObject:msg];
                     }
@@ -155,7 +156,7 @@
     NSString *timeStr;
     for (int i = 0; i < [aMessages count]; i++) {
         EMChatMessage *msg = aMessages[i];
-        if (!(msg.body.type == EMMessageBodyTypeText))
+        if (!(msg.body.type == EMMessageBodyTypeFile))
             continue;
         if ([msg.ext objectForKey:MSG_EXT_GIF] || [msg.ext objectForKey:MSG_EXT_RECALL] || [msg.ext objectForKey:MSG_EXT_NEWNOTI])
             continue;
@@ -166,14 +167,7 @@
             self.msgTimelTag = msg.timestamp;
         }
         
-        UIImage *avatarImage = nil;
-        if (self.conversation.type == EMConversationTypeGroupChat) {
-            avatarImage = ImageWithName(@"jh_group_icon");
-        }else {
-            avatarImage = ImageWithName(@"jh_user_icon");
-        }
-        
-        EMAvatarNameModel *model = [[EMAvatarNameModel alloc]initWithInfo:_keyWord img:avatarImage msg:msg time:timeStr];
+        BQChatRecordFileModel *model = [[BQChatRecordFileModel alloc]initWithInfo:_keyWord img:[UIImage imageNamed:@"defaultAvatar"] msg:msg time:timeStr];
         [formated addObject:model];
     }
     

@@ -11,7 +11,6 @@
 @implementation BQTitleSwitchCell
 
 - (void)prepare {
-    self.contentView.backgroundColor = ViewBgBlackColor;
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.aSwitch];
 }
