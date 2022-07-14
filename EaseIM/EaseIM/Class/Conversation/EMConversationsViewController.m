@@ -20,7 +20,7 @@
 
 @interface EMConversationsViewController() <EaseConversationsViewControllerDelegate, EMSearchControllerDelegate, EMGroupManagerDelegate>
 
-@property (nonatomic, strong) UIButton *addImageBtn;
+@property (nonatomic, strong) UIButton *backImageBtn;
 @property (nonatomic, strong) EMInviteGroupMemberViewController *inviteController;
 @property (nonatomic, strong) EaseConversationsViewController *easeConvsVC;
 @property (nonatomic, strong) EaseConversationViewModel *viewModel;
@@ -64,13 +64,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)_setupSubviews
-{
-//    self.view.backgroundColor = ViewBgBlackColor;
-    
+- (void)_setupSubviews {
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = NSLocalizedString(@"conversation", nil);
-    titleLabel.textColor = [UIColor blackColor];
+    titleLabel.text = @"我的专属服务";
+    titleLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
     titleLabel.font = [UIFont systemFontOfSize:18];
     [self.view addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -79,14 +76,14 @@
         make.height.equalTo(@25);
     }];
     
-    self.addImageBtn = [[UIButton alloc]init];
-    [self.addImageBtn setImage:[UIImage imageNamed:@"icon-add"] forState:UIControlStateNormal];
-    [self.addImageBtn addTarget:self action:@selector(moreAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.addImageBtn];
-    [self.addImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.backImageBtn = [[UIButton alloc]init];
+    [self.backImageBtn setImage:ImageWithName(@"jh_backleft") forState:UIControlStateNormal];
+    [self.backImageBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backImageBtn];
+    [self.backImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.equalTo(@35);
         make.centerY.equalTo(titleLabel);
-        make.right.equalTo(self.view).offset(-16);
+        make.left.equalTo(self.view).offset(16);
     }];
     
     self.viewModel = [[EaseConversationViewModel alloc] init];
@@ -103,7 +100,11 @@
         make.right.equalTo(self.view);
         make.bottom.equalTo(self.view);
     }];
-    [self _updateConversationViewTableHeader];
+//    [self _updateConversationViewTableHeader];
+}
+
+- (void)backAction {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)_updateConversationViewTableHeader {
@@ -279,7 +280,7 @@
 
 - (void)moreAction
 {
-    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-200, self.addImageBtn.frame.origin.y, 185, 104) selectData:@[NSLocalizedString(@"createGroup", nil),NSLocalizedString(@"newContact", nil)] images:@[@"icon-创建群组",@"icon-添加好友"] locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index){
+    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-200, self.backImageBtn.frame.origin.y, 185, 104) selectData:@[NSLocalizedString(@"createGroup", nil),NSLocalizedString(@"newContact", nil)] images:@[@"icon-创建群组",@"icon-添加好友"] locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index){
         if(index == 0) {
             [self createGroup];
         } else if (index == 1) {

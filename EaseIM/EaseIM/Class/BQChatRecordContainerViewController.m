@@ -49,12 +49,18 @@ MISScrollPageControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = ViewBgBlackColor;
+    self.title = @"查找聊天记录";
+    
+    [self addPopBackLeftItemWithTarget:self action:@selector(backItemAction)];
     
     [self setTitleAndContentVC];
     [self placeAndLayoutSubviews];
     [self.pageController reloadData];
 }
 
+- (void)backItemAction {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)placeAndLayoutSubviews {
     [self.view addSubview:self.segView];
@@ -86,6 +92,7 @@ MISScrollPageControllerDelegate>
 
 
 - (void)setTitleAndContentVC {
+    
     if ([self isGroupChat]) {
         self.navTitleArray = [
             @[@"消息",@"文件",@"图片及视频"] mutableCopy];

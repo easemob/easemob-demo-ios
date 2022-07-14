@@ -25,18 +25,13 @@
     //hidden navigation bottom line
 //    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarStyleBlack];
 
-//    [UINavigationBar appearance].barStyle = UIBarStyleBlack;
-//    [UINavigationBar appearance].translucent = NO;
-//    [UINavigationBar appearance].tintColor = [UIColor whiteColor];
-
-    [[UINavigationBar appearance] setBarTintColor:[UIColor redColor]];
-
-//
-//    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
-//    [[UINavigationBar appearance] setTranslucent:NO];
-//
-//    [UINavigationBar.appearance setBarTintColor:UIColor.whiteColor];
-//    [UINavigationBar.appearance setTintColor:UIColor.whiteColor];
+    [UINavigationBar appearance].barStyle = UIBarStyleBlack;
+    [UINavigationBar appearance].translucent = NO;
+    [UINavigationBar appearance].tintColor = ViewBgBlackColor;
+    [[UINavigationBar appearance] setBarTintColor:ViewBgBlackColor];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:
+         [NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithHexString:@"#F5F5F5"], NSForegroundColorAttributeName, [UIFont systemFontOfSize:16.0], NSFontAttributeName, nil]];
 
     
     //UITabBarItem
@@ -56,6 +51,24 @@
 //    [UITabBar appearance].layer.borderWidth = 0.0f;
 //    [UITabBar appearance].clipsToBounds = YES;
 //    [[UITabBar appearance] setTranslucent:YES];
+
+    
+    
+    //    navigationController.navigationBar.barStyle = UIBarStyleDefault;
+        
+    //    [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navbar_white"] forBarMetrics:UIBarMetricsDefault];
+    //    [navigationController.navigationBar.layer setMasksToBounds:YES];
+    //    navigationController.view.backgroundColor = [UIColor whiteColor];
+
+    
+    //    [[UINavigationBar appearance] setTitleTextAttributes:
+    //     [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont systemFontOfSize:18], NSFontAttributeName, nil]];
+    //    [[UITableViewHeaderFooterView appearance] setTintColor:kColor_LightGray];
+    //
+    //    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+    //    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+    //        statusBar.backgroundColor = [UIColor whiteColor];
+    //    }
 
     
 }

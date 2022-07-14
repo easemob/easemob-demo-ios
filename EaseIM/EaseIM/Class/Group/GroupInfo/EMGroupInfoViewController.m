@@ -118,7 +118,8 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = NSLocalizedString(@"groupInfo", nil);
+//    self.title = NSLocalizedString(@"groupInfo", nil);
+    self.title = @"群设置";
     
     self.tableView.rowHeight = 60;
     self.tableView.tableFooterView = [[UIView alloc] init];

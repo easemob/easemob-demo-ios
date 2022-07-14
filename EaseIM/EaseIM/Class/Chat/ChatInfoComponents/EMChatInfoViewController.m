@@ -14,6 +14,12 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 //#import "EaseIMKitManager.h"
 
+
+#import "BQTitleValueAccessCell.h"
+#import "BQTitleSwitchCell.h"
+#import "BQAvatarTitleRoleCell.h"
+#import "BQChatRecordContainerViewController.h"
+
 @interface EMChatInfoViewController ()
 
 @property (nonatomic, strong) UITableViewCell *clearChatRecordCell;
@@ -37,9 +43,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self registeCell];
     [self _setupSubviews];
     
     self.showRefreshHeader = NO;
+}
+
+- (void)registeCell {
+    
+    [self.tableView registerClass:[BQAvatarTitleRoleCell class] forCellReuseIdentifier:NSStringFromClass([BQAvatarTitleRoleCell class])];
+    [self.tableView registerClass:[BQTitleValueAccessCell class] forCellReuseIdentifier:NSStringFromClass([BQTitleValueAccessCell class])];
+    [self.tableView registerClass:[BQTitleSwitchCell class] forCellReuseIdentifier:NSStringFromClass([BQTitleSwitchCell class])];
+
 }
 
 - (void)_setupSubviews
@@ -50,7 +65,6 @@
     self.tableView.scrollEnabled = NO;
     self.tableView.rowHeight = 60;
     self.tableView.tableFooterView = [[UIView alloc] init];
-    self.tableView.backgroundColor = [UIColor whiteColor];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
         make.left.equalTo(self.view);
@@ -60,96 +74,165 @@
     
 }
 
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-   
-    return 5;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    if (section == 0) {
+        return 1;
+    }
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger section = indexPath.section;
-    NSString *cellIdentifier = @"UITableViewCellValue1";
-    if (section == 0)
-        cellIdentifier = @"UITableViewCellStyleSubtitle";
+//    NSInteger section = indexPath.section;
+//    NSString *cellIdentifier = @"UITableViewCellValue1";
+//    if (section == 0)
+//        cellIdentifier = @"UITableViewCellStyleSubtitle";
+//
+//    UISwitch *switchControl = nil;
+//    BOOL isSwitchCell = NO;
+//    if (section == 2 || section == 3) {
+//        isSwitchCell = YES;
+//        cellIdentifier = @"UITableViewCellSwitch";
+//    }
+//
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+//    // Configure the cell...
+//    if (cell == nil) {
+//        if (section == 0) {
+//            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+//        } else {
+//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+//        }
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        if (isSwitchCell) {
+//            switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(self.tableView.frame.size.width - 65, 20, 50, 40)];
+//            switchControl.tag = [self _tagWithIndexPath:indexPath];
+//            [switchControl addTarget:self action:@selector(cellSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
+//            [cell.contentView addSubview:switchControl];
+//        }
+//    }
+//
+//    if (isSwitchCell)
+//        switchControl = [cell.contentView viewWithTag:[self _tagWithIndexPath:indexPath]];
+//
+//    cell.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);
+//    cell.detailTextLabel.textColor = [UIColor grayColor];
+//    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//
+//    if (section == 0) {
+//        cell.imageView.image = [UIImage imageNamed:self.conversation.type == EMConversationTypeChat ? @"defaultAvatar" : @"groupChat"];
+//        cell.textLabel.font = [UIFont systemFontOfSize:18.0];
+//        cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
+//        cell.textLabel.text = self.conversation.conversationId;
+//        if(self.conversation.type == EMConversationTypeChat) {
+//            EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
+//            if(userInfo) {
+//                if(userInfo.avatarUrl.length > 0) {
+//                    NSURL * url = [NSURL URLWithString:userInfo.avatarUrl];
+//                    if(url) {
+//                        [cell.imageView sd_setImageWithURL:url completed:nil];
+//                    }
+//                }
+//                if(userInfo.nickName.length > 0) {
+//                    cell.textLabel.text = userInfo.nickName;
+//                    cell.detailTextLabel.text = self.conversation.conversationId;
+//                }
+//            }
+//        }
+//    }
+//    if (section == 1) cell.textLabel.text = NSLocalizedString(@"searchMsgList", nil);
+//    if (section == 2) {
+//        cell.textLabel.text = NSLocalizedString(@"noNotice", nil);
+//        NSArray *ignoredUidList = [[EMClient sharedClient].pushManager noPushUIds];
+//        if ([ignoredUidList containsObject:self.conversation.conversationId]) {
+//            [switchControl setOn:(YES) animated:YES];
+//        } else {
+//            [switchControl setOn:(NO) animated:YES];
+//        }
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//    }
+//    if (section == 3) {
+//        cell.textLabel.text = NSLocalizedString(@"conversationTop", nil);
+//        [switchControl setOn:([self.conversationModel isTop]) animated:YES];
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//    }
+//    if (section == 4)
+//        cell.textLabel.text = NSLocalizedString(@"clearConversation", nil);
+//
+//    return cell;
     
-    UISwitch *switchControl = nil;
-    BOOL isSwitchCell = NO;
-    if (section == 2 || section == 3) {
-        isSwitchCell = YES;
-        cellIdentifier = @"UITableViewCellSwitch";
-    }
+    
+    BQAvatarTitleRoleCell *titleAvatarCell = [tableView dequeueReusableCellWithIdentifier:[BQAvatarTitleRoleCell reuseIdentifier]];
+    
+    BQTitleValueAccessCell *titleValueAccessCell = [tableView dequeueReusableCellWithIdentifier:[BQTitleValueAccessCell reuseIdentifier]];
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    // Configure the cell...
-    if (cell == nil) {
-        if (section == 0) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-        } else {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+    BQTitleSwitchCell *titleSwitchCell = [tableView dequeueReusableCellWithIdentifier:[BQTitleSwitchCell reuseIdentifier]];
+
+
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            [titleAvatarCell updateWithObj:self.conversation.conversationId  isOwner:NO];
+            return titleAvatarCell;
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (isSwitchCell) {
-            switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(self.tableView.frame.size.width - 65, 20, 50, 40)];
-            switchControl.tag = [self _tagWithIndexPath:indexPath];
-            [switchControl addTarget:self action:@selector(cellSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
-            [cell.contentView addSubview:switchControl];
-        }
-    }
-    
-    if (isSwitchCell)
-        switchControl = [cell.contentView viewWithTag:[self _tagWithIndexPath:indexPath]];
-    
-    cell.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);
-    cell.detailTextLabel.textColor = [UIColor grayColor];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    if (section == 0) {
-        cell.imageView.image = [UIImage imageNamed:self.conversation.type == EMConversationTypeChat ? @"defaultAvatar" : @"groupChat"];
-        cell.textLabel.font = [UIFont systemFontOfSize:18.0];
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
-        cell.textLabel.text = self.conversation.conversationId;
-        if(self.conversation.type == EMConversationTypeChat) {
-            EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
-            if(userInfo) {
-                if(userInfo.avatarUrl.length > 0) {
-                    NSURL * url = [NSURL URLWithString:userInfo.avatarUrl];
-                    if(url) {
-                        [cell.imageView sd_setImageWithURL:url completed:nil];
-                    }
-                }
-                if(userInfo.nickName.length > 0) {
-                    cell.textLabel.text = userInfo.nickName;
-                    cell.detailTextLabel.text = self.conversation.conversationId;
-                }
+        
+    }else if (indexPath.section == 1){
+        
+        if (indexPath.row == 0) {
+            titleValueAccessCell.nameLabel.text = @"查找聊天内容";
+            titleValueAccessCell.detailLabel.text = @"";
+            titleValueAccessCell.tapCellBlock = ^{
+                [self goSearchChatRecord];
+            };
+            return titleValueAccessCell;
+        }else {
+            titleSwitchCell.nameLabel.text = @"消息免打扰";
+            NSArray *ignoredUidList = [[EMClient sharedClient].pushManager noPushUIds];
+            if ([ignoredUidList containsObject:self.conversation.conversationId]) {
+                [titleSwitchCell.aSwitch setOn:YES];
+            } else {
+                [titleSwitchCell.aSwitch setOn:NO];
             }
+            
+            BQ_WS
+            titleSwitchCell.switchActionBlock = ^(UISwitch * _Nonnull aSwitch) {
+                [weakSelf noDisturbEnableWithSwitch:aSwitch];
+            };
+            
+            return titleSwitchCell;
         }
     }
-    if (section == 1) cell.textLabel.text = NSLocalizedString(@"searchMsgList", nil);
-    if (section == 2) {
-        cell.textLabel.text = NSLocalizedString(@"noNotice", nil);
-        NSArray *ignoredUidList = [[EMClient sharedClient].pushManager noPushUIds];
-        if ([ignoredUidList containsObject:self.conversation.conversationId]) {
-            [switchControl setOn:(YES) animated:YES];
-        } else {
-            [switchControl setOn:(NO) animated:YES];
-        }
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    if (section == 3) {
-        cell.textLabel.text = NSLocalizedString(@"conversationTop", nil);
-        [switchControl setOn:([self.conversationModel isTop]) animated:YES];
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    if (section == 4)
-        cell.textLabel.text = NSLocalizedString(@"clearConversation", nil);
-    
-    return cell;
+    return nil;
+
 }
+
+- (void)goSearchChatRecord {
+    //查找聊天记录
+    EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:self.conversation.conversationId type:EMConversationTypeGroupChat createIfNotExist:NO];
+    BQChatRecordContainerViewController *chatRrcordController = [[BQChatRecordContainerViewController alloc]initWithCoversationModel:conversation];
+  
+    [self.navigationController pushViewController:chatRrcordController animated:YES];
+}
+
+#pragma mark - Action
+- (void)noDisturbEnableWithSwitch:(UISwitch *)aSwitch {
+    BQ_WS
+    [[EaseIMKitManager shared] updateUndisturbMapsKey:self.conversation.conversationId value:aSwitch.isOn];
+    [[EMClient sharedClient].pushManager updatePushServiceForUsers:@[self.conversation.conversationId] disablePush:aSwitch.isOn completion:^(EMError * _Nonnull aError) {
+        if (aError) {
+            [weakSelf showHint:[NSString stringWithFormat:NSLocalizedString(@"setDistrbute", nil),aError.errorDescription]];
+            [aSwitch setOn:NO];
+        }
+    }];
+
+
+}
+
 
 #pragma mark - Table view delegate
 

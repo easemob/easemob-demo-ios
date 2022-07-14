@@ -311,19 +311,18 @@
     }
     
 //    navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navbar_white"] forBarMetrics:UIBarMetricsDefault];
-    [navigationController.navigationBar.layer setMasksToBounds:YES];
-    navigationController.view.backgroundColor = [UIColor whiteColor];
+    
+//    [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navbar_white"] forBarMetrics:UIBarMetricsDefault];
+//    [navigationController.navigationBar.layer setMasksToBounds:YES];
+//    navigationController.view.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = navigationController;
+    navigationController.view.backgroundColor = ViewBgBlackColor;
+
+//    [[UINavigationBar appearance] setTitleTextAttributes:
+//     [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont systemFontOfSize:18], NSFontAttributeName, nil]];
+//    [[UITableViewHeaderFooterView appearance] setTintColor:kColor_LightGray];
+//    
     
-    [[UINavigationBar appearance] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont systemFontOfSize:18], NSFontAttributeName, nil]];
-    [[UITableViewHeaderFooterView appearance] setTintColor:kColor_LightGray];
-    
-//    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
-//    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-//        statusBar.backgroundColor = [UIColor whiteColor];
-//    }
 }
 
 - (void)callDidEnd:(NSString*)aChannelName reason:(EaseCallEndReason)aReason time:(int)aTm type:(EaseCallType)aCallType

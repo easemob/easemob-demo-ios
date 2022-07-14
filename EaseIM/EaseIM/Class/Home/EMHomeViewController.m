@@ -9,9 +9,10 @@
 #import "EMHomeViewController.h"
 #import "EMMineViewController.h"
 #import "EMRemindManager.h"
-#import "EMConversationsViewController.h"
+//#import "EMConversationsViewController.h"
 #import "EMContactsViewController.h"
 #import "EaseIMHelper.h"
+#import "BQPersonalGroupEnterViewController.h"
 
 #define kTabbarItemTag_Conversation 0
 #define kTabbarItemTag_Contact 1
@@ -24,7 +25,7 @@
 @property (nonatomic, strong) UITabBar *tabBar;
 @property (strong, nonatomic) NSArray *viewControllers;
 
-@property (nonatomic, strong) EMConversationsViewController *conversationsController;
+@property (nonatomic, strong) BQPersonalGroupEnterViewController *conversationsController;
 @property (nonatomic, strong) EMContactsViewController *contactsController;
 @property (nonatomic, strong) EMMineViewController *mineController;
 @property (nonatomic, strong) UIView *addView;
@@ -124,12 +125,12 @@
 - (void)_setupChildController
 {
     __weak typeof(self) weakself = self;
-    self.conversationsController = [[EMConversationsViewController alloc]init];
-    [self.conversationsController setDeleteConversationCompletion:^(BOOL isDelete) {
-        if (isDelete) {
-            [weakself _loadConversationTabBarItemBadge];
-        }
-    }];
+    self.conversationsController = [[BQPersonalGroupEnterViewController alloc]init];
+//    [self.conversationsController setDeleteConversationCompletion:^(BOOL isDelete) {
+//        if (isDelete) {
+//            [weakself _loadConversationTabBarItemBadge];
+//        }
+//    }];
     UITabBarItem *consItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"conversation", nil) imgName:@"icon-tab会话unselected" selectedImgName:@"icon-tab会话" tag:kTabbarItemTag_Conversation];
     self.conversationsController.tabBarItem = consItem;
     [self addChildViewController:self.conversationsController];

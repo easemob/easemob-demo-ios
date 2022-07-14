@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25CC1C4832BAD980C5273000 /* Pods_EaseIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 344E5C73D32CA2BB5EB4141B /* Pods_EaseIM.framework */; };
 		3A03FE9F1E360BEE00DC1ABC /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B1B9EE1C3B80290087A74F /* MessageUI.framework */; };
 		3A45D9B322239DE200505786 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A45D69A22239DE200505786 /* Localizable.strings */; };
 		3A45D9B422239DE200505786 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A45D69C22239DE200505786 /* InfoPlist.strings */; };
@@ -324,7 +325,6 @@
 		3CBCF5F923A24FC70053E227 /* systemNotify@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CBCF5F623A24FC10053E227 /* systemNotify@2x.png */; };
 		3CBCF5FB23A24FC70053E227 /* systemNotify@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CBCF5F823A24FC60053E227 /* systemNotify@3x.png */; };
 		3CE6293319A1B13700829632 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE6293219A1B13700829632 /* CoreText.framework */; };
-		522F40EB46031AB969B869A3 /* Pods_EaseIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 344E5C73D32CA2BB5EB4141B /* Pods_EaseIM.framework */; };
 		6654495F27796B1D008AA2AE /* undisturbDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495927796B1D008AA2AE /* undisturbDot@2x.png */; };
 		6654496327796B1D008AA2AE /* undisturbDot.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495D27796B1D008AA2AE /* undisturbDot.png */; };
 		6654496427796B1D008AA2AE /* undisturbDot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6654495E27796B1D008AA2AE /* undisturbDot@3x.png */; };
@@ -338,6 +338,15 @@
 		90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECE1930492B00121AEC /* AddressBook.framework */; };
 		921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C6A9D1D2A841600D8257F /* CoreMotion.framework */; };
 		9EA3D50327BA3FD000FD621D /* ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9EA3D50227BA3FD000FD621D /* ring.caf */; };
+		C0359250287FB52E0053CE49 /* jh_groupInfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924C287FB52E0053CE49 /* jh_groupInfo@2x.png */; };
+		C0359251287FB52E0053CE49 /* jh_backleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924D287FB52E0053CE49 /* jh_backleft@2x.png */; };
+		C0359252287FB52E0053CE49 /* jh_groupInfo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924E287FB52E0053CE49 /* jh_groupInfo@3x.png */; };
+		C0359253287FB52E0053CE49 /* jh_backleft@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924F287FB52E0053CE49 /* jh_backleft@3x.png */; };
+		C0359256287FE7D10053CE49 /* BQPersonalGroupEnterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0359255287FE7D10053CE49 /* BQPersonalGroupEnterViewController.m */; };
+		C0359259287FF0700053CE49 /* jh_undisturbDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0359257287FF0700053CE49 /* jh_undisturbDot@2x.png */; };
+		C035925A287FF0700053CE49 /* jh_undisturbDot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0359258287FF0700053CE49 /* jh_undisturbDot@3x.png */; };
+		C035925D287FF11E0053CE49 /* jh_undisturbRing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035925B287FF11E0053CE49 /* jh_undisturbRing@2x.png */; };
+		C035925E287FF11E0053CE49 /* jh_undisturbRing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035925C287FF11E0053CE49 /* jh_undisturbRing@3x.png */; };
 		C063486028757D9F008E55D3 /* BQGroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C063485F28757D9F008E55D3 /* BQGroupListViewController.m */; };
 		C063486328757F40008E55D3 /* BQNoDataPlaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C063486128757F40008E55D3 /* BQNoDataPlaceHolderView.m */; };
 		C06472CE287C2C3800320EAF /* jh_search_leftIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06472CC287C2C3800320EAF /* jh_search_leftIcon@2x.png */; };
@@ -399,12 +408,6 @@
 		C0899C192779BCB90039B885 /* EMEmojiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C0899C172779BCB90039B885 /* EMEmojiHelper.m */; };
 		C0DB11A627707D2D00E4B8A9 /* sendFail@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DB11A427707D2C00E4B8A9 /* sendFail@3x.png */; };
 		C0DB11A727707D2D00E4B8A9 /* sendFail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DB11A527707D2C00E4B8A9 /* sendFail@2x.png */; };
-		C0DCAF942861667D00C1D9A6 /* EaseIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0DCAF932861667D00C1D9A6 /* EaseIMKit.framework */; };
-		C0DCAF952861667D00C1D9A6 /* EaseIMKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0DCAF932861667D00C1D9A6 /* EaseIMKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C0DCAF972861668900C1D9A6 /* HyphenateChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0DCAF962861668900C1D9A6 /* HyphenateChat.framework */; };
-		C0DCAF982861668900C1D9A6 /* HyphenateChat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0DCAF962861668900C1D9A6 /* HyphenateChat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C0DCAF9A2861668F00C1D9A6 /* EaseCallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0DCAF992861668F00C1D9A6 /* EaseCallKit.framework */; };
-		C0DCAF9B2861668F00C1D9A6 /* EaseCallKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0DCAF992861668F00C1D9A6 /* EaseCallKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C0E75AD22744F03200E7B0E8 /* translate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75ACE2744F03100E7B0E8 /* translate@2x.png */; };
 		C0E75AD32744F03200E7B0E8 /* translate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75ACF2744F03100E7B0E8 /* translate@3x.png */; };
 		C0E75AD42744F03200E7B0E8 /* hide@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75AD02744F03200E7B0E8 /* hide@2x.png */; };
@@ -446,19 +449,6 @@
 			files = (
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C0899C162779617B0039B885 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				C0DCAF9B2861668F00C1D9A6 /* EaseCallKit.framework in Embed Frameworks */,
-				C0DCAF952861667D00C1D9A6 /* EaseIMKit.framework in Embed Frameworks */,
-				C0DCAF982861668900C1D9A6 /* HyphenateChat.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -921,6 +911,16 @@
 		9EA3D50227BA3FD000FD621D /* ring.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ring.caf; sourceTree = "<group>"; };
 		9ED2B26D271EB17F00CB1CCA /* EMHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHttpRequest.m; sourceTree = "<group>"; };
 		9ED2B26E271EB17F00CB1CCA /* EMHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHttpRequest.h; sourceTree = "<group>"; };
+		C035924C287FB52E0053CE49 /* jh_groupInfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_groupInfo@2x.png"; sourceTree = "<group>"; };
+		C035924D287FB52E0053CE49 /* jh_backleft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_backleft@2x.png"; sourceTree = "<group>"; };
+		C035924E287FB52E0053CE49 /* jh_groupInfo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_groupInfo@3x.png"; sourceTree = "<group>"; };
+		C035924F287FB52E0053CE49 /* jh_backleft@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_backleft@3x.png"; sourceTree = "<group>"; };
+		C0359254287FE7D10053CE49 /* BQPersonalGroupEnterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQPersonalGroupEnterViewController.h; sourceTree = "<group>"; };
+		C0359255287FE7D10053CE49 /* BQPersonalGroupEnterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQPersonalGroupEnterViewController.m; sourceTree = "<group>"; };
+		C0359257287FF0700053CE49 /* jh_undisturbDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_undisturbDot@2x.png"; sourceTree = "<group>"; };
+		C0359258287FF0700053CE49 /* jh_undisturbDot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_undisturbDot@3x.png"; sourceTree = "<group>"; };
+		C035925B287FF11E0053CE49 /* jh_undisturbRing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_undisturbRing@2x.png"; sourceTree = "<group>"; };
+		C035925C287FF11E0053CE49 /* jh_undisturbRing@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_undisturbRing@3x.png"; sourceTree = "<group>"; };
 		C063485E28757D9F008E55D3 /* BQGroupListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQGroupListViewController.h; sourceTree = "<group>"; };
 		C063485F28757D9F008E55D3 /* BQGroupListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQGroupListViewController.m; sourceTree = "<group>"; };
 		C063486128757F40008E55D3 /* BQNoDataPlaceHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQNoDataPlaceHolderView.m; sourceTree = "<group>"; };
@@ -1075,7 +1075,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C710D5F24E2A718003D2467 /* CoreServices.framework in Frameworks */,
-				C0DCAF9A2861668F00C1D9A6 /* EaseCallKit.framework in Frameworks */,
 				3AFDAE65201AE58F0088D44E /* Security.framework in Frameworks */,
 				C0E9E5222611D5550080AB28 /* libsqlite3.0.tbd in Frameworks */,
 				3A03FE9F1E360BEE00DC1ABC /* MessageUI.framework in Frameworks */,
@@ -1090,13 +1089,11 @@
 				3C06AB0319405D330076FF0B /* MapKit.framework in Frameworks */,
 				3C06AAFF194050A00076FF0B /* CoreLocation.framework in Frameworks */,
 				3C3527451931D37900385240 /* SystemConfiguration.framework in Frameworks */,
-				C0DCAF972861668900C1D9A6 /* HyphenateChat.framework in Frameworks */,
-				C0DCAF942861667D00C1D9A6 /* EaseIMKit.framework in Frameworks */,
 				90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */,
 				90F1BECD1930492300121AEC /* CFNetwork.framework in Frameworks */,
 				9091102C192EEA70008A48AA /* UIKit.framework in Frameworks */,
 				90911028192EEA70008A48AA /* Foundation.framework in Frameworks */,
-				522F40EB46031AB969B869A3 /* Pods_EaseIM.framework in Frameworks */,
+				25CC1C4832BAD980C5273000 /* Pods_EaseIM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1153,6 +1150,8 @@
 				C06472DA287D632C00320EAF /* BQChatRecordFileViewController.m */,
 				C06472DC287D6B5D00320EAF /* BQChatRecordFileModel.h */,
 				C06472DD287D6B5D00320EAF /* BQChatRecordFileModel.m */,
+				C0359254287FE7D10053CE49 /* BQPersonalGroupEnterViewController.h */,
+				C0359255287FE7D10053CE49 /* BQPersonalGroupEnterViewController.m */,
 				C07F2BD228758DA9005D6F0D /* BQAppStyle.h */,
 				C07F2BD328758DA9005D6F0D /* BQAppStyle.m */,
 				C0634864287585C2008E55D3 /* BQDemoUIDefine.h */,
@@ -2115,6 +2114,14 @@
 		C0634865287588F2008E55D3 /* BQResource */ = {
 			isa = PBXGroup;
 			children = (
+				C035925B287FF11E0053CE49 /* jh_undisturbRing@2x.png */,
+				C035925C287FF11E0053CE49 /* jh_undisturbRing@3x.png */,
+				C0359257287FF0700053CE49 /* jh_undisturbDot@2x.png */,
+				C0359258287FF0700053CE49 /* jh_undisturbDot@3x.png */,
+				C035924C287FB52E0053CE49 /* jh_groupInfo@2x.png */,
+				C035924E287FB52E0053CE49 /* jh_groupInfo@3x.png */,
+				C035924D287FB52E0053CE49 /* jh_backleft@2x.png */,
+				C035924F287FB52E0053CE49 /* jh_backleft@3x.png */,
 				C06472CC287C2C3800320EAF /* jh_search_leftIcon@2x.png */,
 				C06472CD287C2C3800320EAF /* jh_search_leftIcon@3x.png */,
 				C07F2C1728782E91005D6F0D /* jh_user_check@2x.png */,
@@ -2275,7 +2282,7 @@
 				90911022192EEA70008A48AA /* Resources */,
 				3CDE808924FD024000BAA3E2 /* Embed App Extensions */,
 				8B898B12304B923E6A9C67D9 /* [CP] Embed Pods Frameworks */,
-				C0899C162779617B0039B885 /* Embed Frameworks */,
+				FB26E09BFF18BC7C1243CFBE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2340,6 +2347,7 @@
 				C07F2C1028782E78005D6F0D /* icon-close@3x.png in Resources */,
 				3C729C77257144AE003DB315 /* ConfInviteUserCell.xib in Resources */,
 				3C8DFAA024EA282F0047C277 /* optionalAppkey@3x.png in Resources */,
+				C035925E287FF11E0053CE49 /* jh_undisturbRing@3x.png in Resources */,
 				C06472CF287C2C3800320EAF /* jh_search_leftIcon@3x.png in Resources */,
 				3C37DF48238251ED00399AE8 /* icon-添加好友@2x.png in Resources */,
 				3C37DF52238251ED00399AE8 /* icon-音视频会议@3x.png in Resources */,
@@ -2381,6 +2389,7 @@
 				3C4AED0E2499FE5F001F7C50 /* unableClick.png in Resources */,
 				3C729D9D25727A09003DB315 /* forward@3x.png in Resources */,
 				3A45E3962223A49E00505786 /* chatroom_avatar@2x.png in Resources */,
+				C035925A287FF0700053CE49 /* jh_undisturbDot@3x.png in Resources */,
 				3C37DF112382508500399AE8 /* back_left.png in Resources */,
 				C0DB11A627707D2D00E4B8A9 /* sendFail@3x.png in Resources */,
 				3C37DF142382508500399AE8 /* icon_failure.png in Resources */,
@@ -2429,6 +2438,7 @@
 				3CB106C7247FBEAC00479BC1 /* ios@2x.png in Resources */,
 				3C729DEF25729875003DB315 /* icon-setting@2x.png in Resources */,
 				3A45E0352223A22600505786 /* device_disable@3x.png in Resources */,
+				C0359251287FB52E0053CE49 /* jh_backleft@2x.png in Resources */,
 				3C59EDCC257E4C640009DF69 /* pin_readReceipt@3x.png in Resources */,
 				3C4AED3F249A2F7B001F7C50 /* icon-tab我@3x.png in Resources */,
 				3C4AED072499F8B7001F7C50 /* agreeProtocol.png in Resources */,
@@ -2451,6 +2461,7 @@
 				3A45E0852223A28F00505786 /* search_gray@2x.png in Resources */,
 				3C91A0B025C4002500103C2E /* BootPage@2x.png in Resources */,
 				3A45D9B422239DE200505786 /* InfoPlist.strings in Resources */,
+				C0359250287FB52E0053CE49 /* jh_groupInfo@2x.png in Resources */,
 				3C4AED4A249A2F95001F7C50 /* icon-tab通讯录.png in Resources */,
 				3C7A1510239118C000F4AC48 /* win@2x.png in Resources */,
 				3C8DFAB224EBDA0F0047C277 /* check@2x.png in Resources */,
@@ -2472,6 +2483,7 @@
 				3C4AECFC2499CFF8001F7C50 /* showPwd.png in Resources */,
 				3C3703C7238D06D500A8976B /* developerService@2x.png in Resources */,
 				3C8DFAB424EBDA0F0047C277 /* unSlected@3x.png in Resources */,
+				C0359253287FB52E0053CE49 /* jh_backleft@3x.png in Resources */,
 				3C9A96242579E18500752F28 /* video-me@2x.png in Resources */,
 				3A45DA2722239DE200505786 /* Images.xcassets in Resources */,
 				3A45E0862223A28F00505786 /* close_white@2x.png in Resources */,
@@ -2492,6 +2504,7 @@
 				3C37DF4D238251ED00399AE8 /* icon-添加好友@3x.png in Resources */,
 				C07F2C1C28782E9F005D6F0D /* jh_invite_delete@3x.png in Resources */,
 				3C4AED0F2499FE5F001F7C50 /* unableClick@3x.png in Resources */,
+				C0359252287FB52E0053CE49 /* jh_groupInfo@3x.png in Resources */,
 				C07F2C1D28782E9F005D6F0D /* jh_invite_delete@2x.png in Resources */,
 				3C9A97B6257CDFD300752F28 /* newFriend@2x.png in Resources */,
 				3A45E08E2223A28F00505786 /* back_gary@3x.png in Resources */,
@@ -2527,11 +2540,13 @@
 				3C91A0B125C4002500103C2E /* BootPage@3x.png in Resources */,
 				3C729DEE25729875003DB315 /* icon-setting@3x.png in Resources */,
 				3C4AED152499FE7B001F7C50 /* enableClick@3x.png in Resources */,
+				C035925D287FF11E0053CE49 /* jh_undisturbRing@2x.png in Resources */,
 				3C9A963F2579E8F400752F28 /* msg_bg_recv@3x.png in Resources */,
 				C07F2C0C28782E63005D6F0D /* jh_group_owner@2x.png in Resources */,
 				3C37DF53238251ED00399AE8 /* icon-加群@2x.png in Resources */,
 				3C9A96182579E15B00752F28 /* msg_bg_send@3x.png in Resources */,
 				C0E9E4B1260B3E530080AB28 /* check-circle@3x.png in Resources */,
+				C0359259287FF0700053CE49 /* jh_undisturbDot@2x.png in Resources */,
 				3C7A14E1238FC72800F4AC48 /* back_left_black@2x.png in Resources */,
 				3C4AED26249A1415001F7C50 /* unAgreeProtocol@2x.png in Resources */,
 				3C66262E250B2C2400B88AD5 /* groupConversation@2x.png in Resources */,
@@ -2614,51 +2629,77 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraAIDenoiseExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCIExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCore.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraDav1dExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraFDExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraJNDExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraMediaPlayerPlugin.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraRtcKit.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraSoundTouch.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraVideoProcessExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraVideoSegmentationExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agorafdkaac.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agoraffmpeg.framework",
 				"${PODS_ROOT}/EMTranslate/EMTranslate.framework",
+				"${BUILT_PRODUCTS_DIR}/EaseCallKit/EaseCallKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
+				"${PODS_ROOT}/HyphenateChat/HyphenateChat.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/AINS/AgoraAIDenoiseExtension.framework/AgoraAIDenoiseExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/AV1Dec/AgoraDav1dExtension.framework/AgoraDav1dExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ContentInspect/AgoraCIExtension.framework/AgoraCIExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/FullAudioFormat/AgoraFullAudioFormatExtension.framework/AgoraFullAudioFormatExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/JND/AgoraJNDExtension.framework/AgoraJNDExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ROIEnc/AgoraFDExtension.framework/AgoraFDExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ReplayKit/AgoraReplayKitExtension.framework/AgoraReplayKitExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraRtcKit.framework/AgoraRtcKit",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraCore.framework/AgoraCore",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agoraffmpeg.framework/Agoraffmpeg",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agorafdkaac.framework/Agorafdkaac",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraSoundTouch.framework/AgoraSoundTouch",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/SuperResolution/AgoraSuperResolutionExtension.framework/AgoraSuperResolutionExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VideoPreprocess/AgoraVideoProcessExtension.framework/AgoraVideoProcessExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VirtualBackground/AgoraVideoSegmentationExtension.framework/AgoraVideoSegmentationExtension",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraAIDenoiseExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCIExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraDav1dExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraFDExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraJNDExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraMediaPlayerPlugin.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoProcessExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoSegmentationExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EMTranslate.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseCallKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyphenateChat.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraAIDenoiseExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraDav1dExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCIExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraFullAudioFormatExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraJNDExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraFDExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraReplayKitExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSuperResolutionExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoProcessExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoSegmentationExtension.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FB26E09BFF18BC7C1243CFBE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-resources.sh",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EaseIMKit.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2804,6 +2845,7 @@
 				3A45E1072223A30C00505786 /* EMSearchResultController.m in Sources */,
 				C07F2C3F287BD3CE005D6F0D /* MISScrollPageCollectionView.m in Sources */,
 				3A45E3CB2223A4DC00505786 /* EMInviteGroupMemberViewController.m in Sources */,
+				C0359256287FE7D10053CE49 /* BQPersonalGroupEnterViewController.m in Sources */,
 				3A45E3E02223A4E900505786 /* EMGroupBlacklistViewController.m in Sources */,
 				3C1B68CF252046EE005CAB3C /* EMAlertView.m in Sources */,
 				3C729B6E2571045E003DB315 /* EMChatRecordViewController.m in Sources */,
