@@ -17,4 +17,6 @@
 
 @property (nonatomic) BOOL isChecked;
 
+- (void)updateWithObj:(id)obj;
+
 @end

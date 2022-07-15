@@ -45,8 +45,9 @@
     
     self.view.backgroundColor = ViewBgBlackColor;
     
-    
 }
+
+
 
 - (void)dealloc
 {

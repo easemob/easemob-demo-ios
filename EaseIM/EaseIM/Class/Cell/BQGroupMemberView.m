@@ -190,6 +190,7 @@
         make.right.equalTo(self.accessoryImageView.mas_left);
     }];
     
+    
     [self.accessoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.nameLabel);
         make.width.equalTo(@(28.0));

@@ -18,7 +18,6 @@ static ConferenceController *confManager = nil;
 
 @interface ConferenceController()
 
-@property (strong, nonatomic) UINavigationController *confNavController;
 
 @end
 
@@ -89,9 +88,11 @@ static ConferenceController *confManager = nil;
             
         }];
     }];
-    self.confNavController = [[UINavigationController alloc] initWithRootViewController:controller];
-    self.confNavController.modalPresentationStyle = UIModalPresentationFullScreen;
-    [aController presentViewController:self.confNavController animated:YES completion:nil];
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+    nav.view.backgroundColor = ViewBgBlackColor;
+    nav.modalPresentationStyle = UIModalPresentationFullScreen;
+    [aController presentViewController:nav animated:YES completion:nil];
 }
 
 #pragma mark - NSNotification

@@ -7,6 +7,7 @@
 //
 
 #import "ConfInviteUserCell.h"
+#import "UserInfoStore.h"
 
 @interface ConfInviteUserCell()
 
@@ -23,8 +24,36 @@
     
 //    self.selectionStyle = UITableViewCellSelectionStyleNone;
 //    self.checkView.contentMode = UIViewContentModeScaleAspectFit;
+    self.contentView.backgroundColor = ViewBgBlackColor;
     self.checkView.image = [UIImage imageNamed:@"unSlected"];
+    self.nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
+    
 }
+
+
+- (void)updateWithObj:(id)obj {
+    NSString *username = (NSString *)obj;
+    
+    self.nameLabel.text = username;
+    self.imageView.image = ImageWithName(@"jh_user_icon");
+    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:username];
+    if(userInfo) {
+        if(userInfo.nickName.length > 0) {
+            self.nameLabel.text = userInfo.nickName;
+        }
+        if(userInfo.avatarUrl.length > 0) {
+            NSURL* url = [NSURL URLWithString:userInfo.avatarUrl];
+            if(url) {
+                [self.imageView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                    [self setNeedsLayout];
+                }];
+            }
+        }
+    }else{
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[username]];
+    }
+}
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

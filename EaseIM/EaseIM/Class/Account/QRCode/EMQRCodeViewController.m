@@ -97,7 +97,7 @@
     
     UIButton *backButton = [[UIButton alloc] init];
     [backButton setImage:[UIImage imageNamed:@"close_white"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
+    [backButton addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backButton];
     [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(5);

@@ -281,46 +281,91 @@
     return menuArray;
 }
 
+//- (NSMutableArray<EaseExtMenuModel *> *)inputBarExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultInputBarItems conversationType:(EMConversationType)conversationType
+//{
+//    NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]init];
+//    //相册
+//    [menuArray addObject:[defaultInputBarItems objectAtIndex:0]];
+//    //相机
+//    [menuArray addObject:[defaultInputBarItems objectAtIndex:1]];
+//    //音视频
+//    __weak typeof(self) weakself = self;
+//    if (conversationType != EMConversationTypeChatRoom) {
+//        EaseExtMenuModel *rtcMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"video_conf"] funcDesc:NSLocalizedString(@"Call", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+//            if (isExecuted) {
+//                [weakself chatSealRtcAction];
+//            }
+//        }];
+//        [menuArray addObject:rtcMenu];
+//    }
+//    //位置
+//    [menuArray addObject:[defaultInputBarItems objectAtIndex:2]];
+//    //文件
+//    [menuArray addObject:[defaultInputBarItems objectAtIndex:3]];
+//
+//    //群组回执
+//    if (conversationType == EMConversationTypeGroupChat) {
+//        if ([[EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:_conversation.conversationId error:nil].owner isEqualToString:EMClient.sharedClient.currentUsername]) {
+//            EaseExtMenuModel *groupReadReceiptExtModel = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"pin_readReceipt"] funcDesc:NSLocalizedString(@"groupSync", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+//                [weakself groupReadReceiptAction];
+//            }];
+//            [menuArray addObject:groupReadReceiptExtModel];
+//        }
+//    }
+//
+//    // 用户名片
+//    {
+//        EaseExtMenuModel *userCardExtModal = [[EaseExtMenuModel alloc] initWithData:[UIImage imageNamed:@"userinfo"] funcDesc:NSLocalizedString(@"UserCard", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+//            [weakself userCardAction];
+//        }];
+//        [menuArray addObject:userCardExtModal];
+//    }
+//
+//    return menuArray;
+//}
+
+
 - (NSMutableArray<EaseExtMenuModel *> *)inputBarExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultInputBarItems conversationType:(EMConversationType)conversationType
 {
     NSMutableArray<EaseExtMenuModel *> *menuArray = [[NSMutableArray<EaseExtMenuModel *> alloc]init];
-    //相册
-    [menuArray addObject:[defaultInputBarItems objectAtIndex:0]];
+
     //相机
     [menuArray addObject:[defaultInputBarItems objectAtIndex:1]];
-    //音视频
-    __weak typeof(self) weakself = self;
-    if (conversationType != EMConversationTypeChatRoom) {
+    //相册
+    [menuArray addObject:[defaultInputBarItems objectAtIndex:0]];
+    //位置
+    [menuArray addObject:[defaultInputBarItems objectAtIndex:2]];
+    
+
+    if (conversationType == EMConversationTypeGroupChat) {
+        //音视频
         EaseExtMenuModel *rtcMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"video_conf"] funcDesc:NSLocalizedString(@"Call", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
             if (isExecuted) {
-                [weakself chatSealRtcAction];
+                [self chatSealRtcAction];
             }
         }];
         [menuArray addObject:rtcMenu];
-    }
-    //位置
-    [menuArray addObject:[defaultInputBarItems objectAtIndex:2]];
-    //文件
-    [menuArray addObject:[defaultInputBarItems objectAtIndex:3]];
-    //群组回执
-    if (conversationType == EMConversationTypeGroupChat) {
-        if ([[EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:_conversation.conversationId error:nil].owner isEqualToString:EMClient.sharedClient.currentUsername]) {
-            EaseExtMenuModel *groupReadReceiptExtModel = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"pin_readReceipt"] funcDesc:NSLocalizedString(@"groupSync", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
-                [weakself groupReadReceiptAction];
-            }];
-            [menuArray addObject:groupReadReceiptExtModel];
-        }
-    }
-    // 用户名片
-    {
+        
+        //文件
+        [menuArray addObject:[defaultInputBarItems objectAtIndex:3]];
+        //订单
+        [menuArray addObject:[defaultInputBarItems objectAtIndex:4]];
+
+    }else  if (conversationType == EMConversationTypeGroupChat) {
+       
+    }else {
+        // 用户名片
         EaseExtMenuModel *userCardExtModal = [[EaseExtMenuModel alloc] initWithData:[UIImage imageNamed:@"userinfo"] funcDesc:NSLocalizedString(@"UserCard", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
-            [weakself userCardAction];
+            [self userCardAction];
         }];
         [menuArray addObject:userCardExtModal];
+
     }
-    
+   
     return menuArray;
 }
+
+
 
 - (void)loadMoreMessageData:(NSString *)firstMessageId currentMessageList:(NSArray<EMChatMessage *> *)messageList
 {

@@ -347,6 +347,7 @@
 		C035925A287FF0700053CE49 /* jh_undisturbDot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0359258287FF0700053CE49 /* jh_undisturbDot@3x.png */; };
 		C035925D287FF11E0053CE49 /* jh_undisturbRing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035925B287FF11E0053CE49 /* jh_undisturbRing@2x.png */; };
 		C035925E287FF11E0053CE49 /* jh_undisturbRing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035925C287FF11E0053CE49 /* jh_undisturbRing@3x.png */; };
+		C0359261288019030053CE49 /* BQConfInviteSelectedUsersView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0359260288019030053CE49 /* BQConfInviteSelectedUsersView.m */; };
 		C063486028757D9F008E55D3 /* BQGroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C063485F28757D9F008E55D3 /* BQGroupListViewController.m */; };
 		C063486328757F40008E55D3 /* BQNoDataPlaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C063486128757F40008E55D3 /* BQNoDataPlaceHolderView.m */; };
 		C06472CE287C2C3800320EAF /* jh_search_leftIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06472CC287C2C3800320EAF /* jh_search_leftIcon@2x.png */; };
@@ -921,6 +922,8 @@
 		C0359258287FF0700053CE49 /* jh_undisturbDot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_undisturbDot@3x.png"; sourceTree = "<group>"; };
 		C035925B287FF11E0053CE49 /* jh_undisturbRing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_undisturbRing@2x.png"; sourceTree = "<group>"; };
 		C035925C287FF11E0053CE49 /* jh_undisturbRing@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_undisturbRing@3x.png"; sourceTree = "<group>"; };
+		C035925F288019030053CE49 /* BQConfInviteSelectedUsersView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQConfInviteSelectedUsersView.h; sourceTree = "<group>"; };
+		C0359260288019030053CE49 /* BQConfInviteSelectedUsersView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQConfInviteSelectedUsersView.m; sourceTree = "<group>"; };
 		C063485E28757D9F008E55D3 /* BQGroupListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQGroupListViewController.h; sourceTree = "<group>"; };
 		C063485F28757D9F008E55D3 /* BQGroupListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQGroupListViewController.m; sourceTree = "<group>"; };
 		C063486128757F40008E55D3 /* BQNoDataPlaceHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQNoDataPlaceHolderView.m; sourceTree = "<group>"; };
@@ -1725,11 +1728,11 @@
 		3C729BC7257144AD003DB315 /* Invite */ = {
 			isa = PBXGroup;
 			children = (
-				3C729BC8257144AD003DB315 /* ConfInviteUsersViewController.m */,
-				3C729BC9257144AD003DB315 /* ConfInviteUserCell.xib */,
-				3C729BCA257144AD003DB315 /* ConfInviteUserCell.m */,
-				3C729BCB257144AD003DB315 /* ConfInviteUsersViewController.h */,
 				3C729BCC257144AD003DB315 /* ConfInviteUserCell.h */,
+				3C729BCA257144AD003DB315 /* ConfInviteUserCell.m */,
+				3C729BC9257144AD003DB315 /* ConfInviteUserCell.xib */,
+				3C729BCB257144AD003DB315 /* ConfInviteUsersViewController.h */,
+				3C729BC8257144AD003DB315 /* ConfInviteUsersViewController.m */,
 			);
 			path = Invite;
 			sourceTree = "<group>";
@@ -2163,6 +2166,8 @@
 				C07F2BFE28773357005D6F0D /* BQGroupMemberCell.m */,
 				C07F2C002877CC2B005D6F0D /* BQGroupMemberView.h */,
 				C07F2C012877CC2B005D6F0D /* BQGroupMemberView.m */,
+				C035925F288019030053CE49 /* BQConfInviteSelectedUsersView.h */,
+				C0359260288019030053CE49 /* BQConfInviteSelectedUsersView.m */,
 				C07F2C24287A6E14005D6F0D /* BQGroupSearchAddView.h */,
 				C07F2C25287A6E14005D6F0D /* BQGroupSearchAddView.m */,
 				C07F2C21287935CD005D6F0D /* BQGroupSearchCell.h */,
@@ -2723,6 +2728,7 @@
 				C06472D8287C45D800320EAF /* BQRecordImageVideoCell.m in Sources */,
 				3C729C7A257144AE003DB315 /* ConferenceController.m in Sources */,
 				C0E9E5202611C51C0080AB28 /* DBManager.m in Sources */,
+				C0359261288019030053CE49 /* BQConfInviteSelectedUsersView.m in Sources */,
 				3A45E0532223A25100505786 /* EMGlobalVariables.m in Sources */,
 				C0E9E4A3260892630080AB28 /* SelectAvatarViewController.m in Sources */,
 				3A45E05D2223A25C00505786 /* NSObject+Alert.m in Sources */,
