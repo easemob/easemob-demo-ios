@@ -24,11 +24,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = ViewBgBlackColor;
+    self.title = @"选择用户";
+    [self addPopBackLeftItemWithTarget:self action:@selector(backItemAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(completionAction)];
+
     
     [self placeAndLayoutSubviews];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(completionAction)];
-    
+}
+
+- (void)backItemAction {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

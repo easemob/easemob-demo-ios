@@ -500,33 +500,13 @@
 //    }
 }
 
-- (void)doneAction
-{
-//    __weak typeof(self) weakSelf = self;
-//    [self dismissViewControllerAnimated:YES completion:^{
-//        if (weakSelf.doneCompletion) {
-//            weakSelf.doneCompletion(self.inviteUsers);
-//        }
-//    }];
-//    return;
-    
-    if (self.isCreate) {
-        BQ_WS
-        [self dismissViewControllerAnimated:YES completion:^{
-            if (weakSelf.doneCompletion) {
-                weakSelf.doneCompletion(self.inviteUsers);
-            }
-        }];
-    } else {
-        if (self.doneCompletion) {
-            self.doneCompletion(self.inviteUsers);
-        }
-        
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
-
 - (void)confirmButtonAction {
+    BQ_WS
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (weakSelf.doneCompletion) {
+            weakSelf.doneCompletion(self.inviteUsers);
+        }
+    }];
     
 }
 

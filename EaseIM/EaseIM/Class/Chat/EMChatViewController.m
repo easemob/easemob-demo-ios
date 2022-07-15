@@ -351,7 +351,7 @@
         //订单
         [menuArray addObject:[defaultInputBarItems objectAtIndex:4]];
 
-    }else  if (conversationType == EMConversationTypeGroupChat) {
+    }else  if (conversationType == EMConversationTypeChat) {
        
     }else {
         // 用户名片

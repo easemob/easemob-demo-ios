@@ -11,6 +11,8 @@
 #import "UserInfoStore.h"
 #import "EMAccountViewController.h"
 #import "BQAvatarTitleRoleCell.h"
+#import "BQAddGroupMemberViewController.h"
+
 
 @interface EMGroupMembersViewController ()
 
@@ -60,10 +62,20 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItemWithTarget:self action:@selector(backAction)];
-    self.title = NSLocalizedString(@"groupMembers", nil);
+//    self.title = NSLocalizedString(@"groupMembers", nil);
+    self.title = @"群成员列表";
     self.showRefreshHeader = YES;
     self.tableView.rowHeight = 60;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(inviteMemberAction)];
+    
 }
+
+- (void)inviteMemberAction {
+    BQAddGroupMemberViewController *controller = [[BQAddGroupMemberViewController alloc] init];
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
 
 #pragma mark - Table view data source
 
