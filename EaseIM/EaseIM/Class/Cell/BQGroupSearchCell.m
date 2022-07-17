@@ -110,6 +110,8 @@
     if (self.servicerBlock) {
         self.servicerBlock(self.currentUserId);
     }
+    
+    self.groupUserType = BQGroupUserTypeServicer;
 }
 
 
@@ -117,6 +119,7 @@
     if (self.customerBlock) {
         self.customerBlock(self.currentUserId);
     }
+    self.groupUserType = BQGroupUserTypeCustomer;
 }
 
 
@@ -187,5 +190,20 @@
 
 }
 
+- (void)setGroupUserType:(BQGroupUserType)groupUserType {
+    
+    if(groupUserType == BQGroupUserTypeServicer) {
+        [self.servicerButton setImage:ImageWithName(@"jh_user_check") forState:UIControlStateNormal];
+        [self.customerButton setImage:ImageWithName(@"jh_user_normal") forState:UIControlStateNormal];
+    }else if(groupUserType == BQGroupUserTypeCustomer) {
+        [self.servicerButton setImage:ImageWithName(@"jh_user_normal") forState:UIControlStateNormal];
+        [self.customerButton setImage:ImageWithName(@"jh_user_check") forState:UIControlStateNormal];
+    }else {
+        [self.servicerButton setImage:ImageWithName(@"jh_user_normal") forState:UIControlStateNormal];
+        [self.customerButton setImage:ImageWithName(@"jh_user_normal") forState:UIControlStateNormal];
+
+    }
+    
+}
 
 @end

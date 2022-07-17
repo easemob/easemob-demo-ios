@@ -8,12 +8,20 @@
 
 #import "BQCustomCell.h"
 
+typedef enum : NSUInteger {
+    BQGroupUserTypeNone,
+    BQGroupUserTypeServicer,
+    BQGroupUserTypeCustomer,
+} BQGroupUserType;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BQGroupSearchCell : BQCustomCell
 
 @property (nonatomic, copy) void (^servicerBlock)(NSString *userId);
 @property (nonatomic, copy) void (^customerBlock)(NSString *userId);
+@property (nonatomic, assign) BQGroupUserType groupUserType;
+
 
 @end
 

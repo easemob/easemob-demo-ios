@@ -11,11 +11,15 @@
 #import "EMChatViewController.h"
 #import "BQChatRecordFileModel.h"
 #import "BQChatRecordFileCell.h"
+#import "EMSearchBar.h"
+
 
 @interface BQChatRecordFileViewController ()<EMSearchBarDelegate>
 
 @property (nonatomic, strong) EMConversation *conversation;
 @property (nonatomic, strong) dispatch_queue_t msgQueue;
+@property (nonatomic, strong) NSString *moreMsgId;
+
 //消息格式化
 @property (nonatomic) NSTimeInterval msgTimelTag;
 @property (nonatomic, strong) NSString *keyWord;
@@ -38,7 +42,50 @@
     
     self.msgTimelTag = -1;
     [self _setupChatSubviews];
+    self.isSearching = NO;
+    [self loadDatas];
 }
+
+- (void)loadDatas {
+    
+    if ([EMDemoOptions sharedOptions].isPriorityGetMsgFromServer) {
+        EMConversation *conversation = self.conversation;
+        [EMClient.sharedClient.chatManager asyncFetchHistoryMessagesFromServer:conversation.conversationId conversationType:conversation.type startMessageId:self.moreMsgId pageSize:10 completion:^(EMCursorResult *aResult, EMError *aError) {
+            [self.conversation loadMessagesStartFromId:self.moreMsgId count:100 searchDirection:EMMessageSearchDirectionUp completion:^(NSArray<EMChatMessage *> * _Nullable aMessages, EMError * _Nullable aError) {
+                [self loadMessages:aMessages withError:aError];
+            }];
+         }];
+    } else {
+        [self.conversation loadMessagesStartFromId:self.moreMsgId count:50 searchDirection:EMMessageSearchDirectionUp completion:^(NSArray<EMChatMessage *> * _Nullable aMessages, EMError * _Nullable aError) {
+            [self loadMessages:aMessages withError:aError];
+        }];
+    }
+}
+
+- (void)loadMessages:(NSArray *)aMessages  withError:(EMError *)aError {
+    if (!aError && [aMessages count] > 0) {
+        dispatch_async(self.msgQueue, ^{
+            NSMutableArray *msgArray = [[NSMutableArray alloc] init];
+            for (int i = 0; i < [aMessages count]; i++) {
+                EMChatMessage *msg = aMessages[i];
+                if(msg.body.type == EMMessageTypeFile) {
+                    [msgArray addObject:msg];
+                }
+            }
+            
+            NSLog(@"%s msgArray:%@",__func__,msgArray);
+            
+            BQ_WS
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.dataArray removeAllObjects];
+                [weakSelf.dataArray addObjectsFromArray:msgArray];
+                [weakSelf.tableView reloadData];
+            });
+        });
+    }
+    
+}
+
 
 #pragma mark - Subviews
 
@@ -72,18 +119,29 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.searchResults count];
+    if (self.isSearching) {
+        return [self.searchResults count];
+    }
+    return [self.dataArray count];
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id obj = [self.searchResults objectAtIndex:indexPath.row];
-    BQChatRecordFileModel *model = (BQChatRecordFileModel *)obj;
-
     BQChatRecordFileCell *cell = (BQChatRecordFileCell *)[tableView dequeueReusableCellWithIdentifier:@"chatRecord"];
-    // Configure the cell...
+
     if (cell == nil) {
         cell = [[BQChatRecordFileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"chatRecord"];
     }
+    
+    id obj = nil;
+    if (self.isSearching) {
+        obj = [self.searchResults objectAtIndex:indexPath.row];
+    }else {
+        obj = [self.dataArray objectAtIndex:indexPath.row];
+    }
+    
+    BQChatRecordFileModel *model = (BQChatRecordFileModel *)obj;
+    
     cell.indexPath = indexPath;
     cell.model = model;
     return cell;
@@ -106,47 +164,81 @@
 
 #pragma mark - EMSearchBarDelegate
 
-- (void)searchBarSearchButtonClicked:(NSString *)aString
+//- (void)searchBarSearchButtonClicked:(NSString *)aString
+//{
+//    _keyWord = aString;
+//    [self.view endEditing:YES];
+//    if ([_keyWord length] < 1)
+//        return;
+//    if (!self.isSearching) return;
+//
+//    __weak typeof(self) weakself = self;
+//    [self.conversation loadMessagesWithKeyword:aString timestamp:0 count:100 fromUser:nil searchDirection:EMMessageSearchDirectionDown completion:^(NSArray *aMessages, EMError *aError) {
+//        if (!aError && [aMessages count] > 0) {
+//            dispatch_async(self.msgQueue, ^{
+//                NSMutableArray *msgArray = [[NSMutableArray alloc] init];
+//                for (int i = 0; i < [aMessages count]; i++) {
+//                    EMChatMessage *msg = aMessages[i];
+//                    if(msg.body.type == EMMessageBodyTypeFile) {
+//                        EMFileMessageBody* fileBody = (EMFileMessageBody*)msg.body;
+//                        NSRange range = [fileBody.displayName rangeOfString:aString options:NSCaseInsensitiveSearch];
+//                        if(range.length)
+//                            [msgArray addObject:msg];
+//                    }
+//
+//                }
+//                NSArray *formated = [weakself _formatMessages:[msgArray copy]];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    weakself.noDataPromptView.hidden = YES;
+//                    [weakself.searchResults removeAllObjects];
+//                    [weakself.searchResults addObjectsFromArray:formated];
+//                    [weakself.searchResultTableView reloadData];
+//                });
+//            });
+//        } else {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                weakself.noDataPromptView.hidden = NO;
+//                [weakself.searchResults removeAllObjects];
+//                [weakself.searchResultTableView reloadData];
+//            });
+//        }
+//    }];
+//}
+
+#pragma mark - EMSearchControllerDelegate
+
+- (void)searchBarWillBeginEditing:(UISearchBar *)searchBar
 {
-    _keyWord = aString;
-    [self.view endEditing:YES];
-    if ([_keyWord length] < 1)
-        return;
-    if (!self.isSearching) return;
-    
-    __weak typeof(self) weakself = self;
-    [self.conversation loadMessagesWithKeyword:aString timestamp:0 count:100 fromUser:nil searchDirection:EMMessageSearchDirectionDown completion:^(NSArray *aMessages, EMError *aError) {
-        if (!aError && [aMessages count] > 0) {
-            dispatch_async(self.msgQueue, ^{
-                NSMutableArray *msgArray = [[NSMutableArray alloc] init];
-                for (int i = 0; i < [aMessages count]; i++) {
-                    EMChatMessage *msg = aMessages[i];
-                    if(msg.body.type == EMMessageBodyTypeFile) {
-                        EMFileMessageBody* fileBody = (EMFileMessageBody*)msg.body;
-                        NSRange range = [fileBody.displayName rangeOfString:aString options:NSCaseInsensitiveSearch];
-                        if(range.length)
-                            [msgArray addObject:msg];
-                    }
-                    
-                }
-                NSArray *formated = [weakself _formatMessages:[msgArray copy]];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    weakself.noDataPromptView.hidden = YES;
-                    [weakself.searchResults removeAllObjects];
-                    [weakself.searchResults addObjectsFromArray:formated];
-                    [weakself.searchResultTableView reloadData];
-                });
-            });
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                weakself.noDataPromptView.hidden = NO;
-                [weakself.searchResults removeAllObjects];
-                [weakself.searchResultTableView reloadData];
-            });
-        }
-    }];
+    [self.tableView reloadData];
 }
 
+- (void)searchBarCancelButtonAction:(UISearchBar *)searchBar
+{
+    [[EMRealtimeSearch shared] realtimeSearchStop];
+    
+//    [self.resultController.dataArray removeAllObjects];
+//    [self.resultController.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.view endEditing:YES];
+}
+
+- (void)searchTextDidChangeWithString:(NSString *)aString
+{
+//    self.resultController.searchKeyword = aString;
+//
+//    __weak typeof(self) weakself = self;
+//    [[EMRealtimeSearch shared] realtimeSearchWithSource:self.contancts searchText:aString collationStringSelector:nil resultBlock:^(NSArray *results) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            if ([weakself.resultController.dataArray count] > 0)
+//                [weakself.resultController.dataArray removeAllObjects];
+//            [weakself.resultController.dataArray addObjectsFromArray:results];
+//            [weakself.resultController.tableView reloadData];
+//        });
+//    }];
+}
 
 #pragma mark - Data
 

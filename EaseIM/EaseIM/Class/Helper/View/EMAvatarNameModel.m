@@ -15,6 +15,7 @@
     self = [super init];
     if (self) {
         _avatarImg = img;
+        _message = msg;
         _from = msg.from;
         NSString *text = ((EMTextMessageBody *)msg.body).text;
         NSRange range = [text rangeOfString:keyWord options:NSCaseInsensitiveSearch];

@@ -12,9 +12,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol EMChatRecordViewControllerDelegate <NSObject>
+@optional
+- (void)didTapSearchMessage:(EMChatMessage *)message;
+
+@end
+
 @interface EMChatRecordViewController : EMSearchContainerViewController
+@property (nonatomic, assign) id<EMChatRecordViewControllerDelegate> delegate;
 
 - (instancetype)initWithCoversationModel:(EMConversation *)conversation;
+
 
 @end
 

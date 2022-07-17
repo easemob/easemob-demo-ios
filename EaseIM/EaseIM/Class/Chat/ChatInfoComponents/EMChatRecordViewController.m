@@ -93,9 +93,18 @@
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    EMAvatarNameModel *model = [self.searchResults objectAtIndex:indexPath.row];
+    EMChatMessage *msg = model.message;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapSearchMessage:)]) {
+        [self.delegate didTapSearchMessage:msg];
+    }
+    
+}
 
 #pragma mark - EMAvatarNameCellDelegate
-
 - (void)cellAccessoryButtonAction:(EMAvatarNameCell *)aCell
 {
     EMChatViewController *chatController = [[EMChatViewController alloc]initWithConversationId:self.conversation.conversationId conversationType:self.conversation.type];

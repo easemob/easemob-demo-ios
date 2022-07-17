@@ -63,7 +63,7 @@
         make.top.equalTo(self.searchBar.mas_bottom);
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
-        make.height.equalTo(@(50));
+        make.height.equalTo(@(0));
     }];
     
     
@@ -73,9 +73,7 @@
         make.right.equalTo(self.view);
         make.bottom.equalTo(self.view);
     }];
-    
 }
-
 
 
 - (void)dealloc

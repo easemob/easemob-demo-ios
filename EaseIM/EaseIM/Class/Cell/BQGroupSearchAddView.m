@@ -219,6 +219,12 @@
 
 - (void)updateViewHeight {
     CGFloat height = 100.0;
+    if (self.dataArray.count > 0) {
+        height = 100.0;
+    }else {
+        height = 0;
+    }
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(heightForGroupSearchAddView:)]) {
         [self.delegate heightForGroupSearchAddView:height];
     }

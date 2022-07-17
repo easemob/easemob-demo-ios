@@ -31,6 +31,8 @@
 @property (nonatomic, strong) UILabel *titleDetailLabel;
 @property (nonatomic, strong) NSString *moreMsgId;  //第一条消息的消息id
 @property (nonatomic, strong) UIView* fullScreenView;
+
+
 @end
 
 @implementation EMChatViewController
@@ -452,6 +454,15 @@
     }
 }
 
+- (void)loadKeyMessageUpAndDownMessages {
+    [self.conversation loadMessagesStartFromId:self.moreMsgId count:50 searchDirection:EMMessageSearchDirectionUp completion:^(NSArray<EMChatMessage *> * _Nullable aMessages, EMError * _Nullable aError) {
+        
+    }];
+        
+}
+
+
+
 #pragma mark - EMMoreFunctionViewDelegate
 
 //群组阅读回执跳转
@@ -794,6 +805,10 @@
 - (void)chatroomAnnouncementDidUpdate:(EMChatroom *)aChatroom announcement:(NSString *)aAnnouncement
 {
     [self showHint:NSLocalizedString(@"annupdated", nil)];
+}
+
+- (void)scrollToAssignMessage:(EMChatMessage *)message {
+    self.chatRecordKeyMessage = message;
 }
 
 @end

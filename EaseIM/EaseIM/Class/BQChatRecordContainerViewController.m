@@ -10,14 +10,16 @@
 #import "MISScrollPage.h"
 
 #import "EMChatRecordViewController.h"
-#import "BQChatRecordImageVideoViewController.h"
 #import "BQChatRecordFileViewController.h"
+//#import "BQChatRecordImageVideoViewController.h"
+#import "BQChatRecordImageVideoDemoViewController.h"
+#import "EMChatViewController.h"
 
 
 #define kViewTopPadding  200.0f
 
 @interface BQChatRecordContainerViewController ()<MISScrollPageControllerDataSource,
-MISScrollPageControllerDelegate>
+MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate>
 @property (nonatomic, strong) MISScrollPageController *pageController;
 @property (nonatomic, strong) MISScrollPageSegmentView *segView;
 @property (nonatomic, strong) MISScrollPageContentView *contentView;
@@ -25,7 +27,10 @@ MISScrollPageControllerDelegate>
 
 @property (nonatomic,strong) EMChatRecordViewController *textRecordVC;
 @property (nonatomic,strong) BQChatRecordFileViewController *fileRecordVC;
-@property (nonatomic,strong) BQChatRecordImageVideoViewController *imageVideoRecordVC;
+
+//@property (nonatomic,strong) BQChatRecordImageVideoViewController *imageVideoRecordVC;
+@property (nonatomic,strong) BQChatRecordImageVideoDemoViewController *imageVideoRecordVC;
+
 
 @property (nonatomic, strong) NSMutableArray *navTitleArray;
 @property (nonatomic, strong) NSMutableArray *contentVCArray;
@@ -104,6 +109,14 @@ MISScrollPageControllerDelegate>
     }
 }
 
+#pragma mark EMChatRecordViewControllerDelegate
+- (void)didTapSearchMessage:(EMChatMessage *)message {
+    EMChatViewController *chatController = [[EMChatViewController alloc]initWithConversationId:self.conversation.conversationId conversationType:self.conversation.type];
+    [chatController scrollToAssignMessage:message];
+    chatController.modalPresentationStyle = 0;
+    [self.navigationController pushViewController:chatController animated:YES];
+
+}
 
 #pragma mark - scrool pager data source and delegate
 - (NSUInteger)numberOfChildViewControllers {
@@ -189,6 +202,7 @@ MISScrollPageControllerDelegate>
 - (EMChatRecordViewController *)textRecordVC {
     if (_textRecordVC == nil) {
         _textRecordVC = [[EMChatRecordViewController alloc] initWithCoversationModel:self.conversation];
+        _textRecordVC.delegate = self;
     }
     return _textRecordVC;
 }
@@ -201,9 +215,16 @@ MISScrollPageControllerDelegate>
     return _fileRecordVC;
 }
 
-- (BQChatRecordImageVideoViewController *)imageVideoRecordVC {
+//- (BQChatRecordImageVideoViewController *)imageVideoRecordVC {
+//    if (_imageVideoRecordVC == nil) {
+//        _imageVideoRecordVC = [[BQChatRecordImageVideoViewController alloc] initWithCoversationModel:self.conversation];
+//    }
+//    return _imageVideoRecordVC;
+//}
+
+- (BQChatRecordImageVideoDemoViewController *)imageVideoRecordVC {
     if (_imageVideoRecordVC == nil) {
-        _imageVideoRecordVC = [[BQChatRecordImageVideoViewController alloc] initWithCoversationModel:self.conversation];
+        _imageVideoRecordVC = [[BQChatRecordImageVideoDemoViewController alloc] initWithCoversationModel:self.conversation];
     }
     return _imageVideoRecordVC;
 }

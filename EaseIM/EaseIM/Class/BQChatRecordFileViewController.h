@@ -6,11 +6,9 @@
 //  Copyright © 2022 liu001. All rights reserved.
 //
 
-#import "EMSearchContainerViewController.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BQChatRecordFileViewController : EMSearchContainerViewController
+@interface BQChatRecordFileViewController : UIViewController
 
 - (instancetype)initWithCoversationModel:(EMConversation *)conversation;
 
