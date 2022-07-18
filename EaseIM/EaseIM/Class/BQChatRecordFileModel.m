@@ -10,26 +10,20 @@
 
 @implementation BQChatRecordFileModel
 
-- (instancetype)initWithInfo:(NSString *)keyWord img:(UIImage *)img msg:(EMChatMessage *)msg time:(NSString *)timestamp
+- (instancetype)initWithMessage:(EMChatMessage *)msg time:(NSString *)timestamp
 {
     self = [super init];
     if (self) {
-        _avatarImg = img;
+        _avatarImg = ImageWithName(@"jh_user_icon");
+        
         _from = msg.from;
         NSString *fileName = [NSString stringWithFormat:@"[%@]",((EMFileMessageBody *)msg.body).displayName];
-        
-        NSRange range = [fileName rangeOfString:keyWord options:NSCaseInsensitiveSearch];
-        
-        NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:fileName];
-        if(range.length > 0) {
-   
-            [attributedStr setAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"#4798CB"]} range:NSMakeRange(range.location, keyWord.length)];
-
-        }
-        _detail = attributedStr;
+        _filename = fileName;
         _timestamp = timestamp;
     }
     return self;
 }
+
+
 
 @end

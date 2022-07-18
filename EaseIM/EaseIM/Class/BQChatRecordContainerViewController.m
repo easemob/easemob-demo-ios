@@ -11,8 +11,8 @@
 
 #import "EMChatRecordViewController.h"
 #import "BQChatRecordFileViewController.h"
-//#import "BQChatRecordImageVideoViewController.h"
-#import "BQChatRecordImageVideoDemoViewController.h"
+#import "BQChatRecordImageVideoViewController.h"
+//#import "BQChatRecordImageVideoDemoViewController.h"
 #import "EMChatViewController.h"
 
 
@@ -28,8 +28,8 @@ MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate>
 @property (nonatomic,strong) EMChatRecordViewController *textRecordVC;
 @property (nonatomic,strong) BQChatRecordFileViewController *fileRecordVC;
 
-//@property (nonatomic,strong) BQChatRecordImageVideoViewController *imageVideoRecordVC;
-@property (nonatomic,strong) BQChatRecordImageVideoDemoViewController *imageVideoRecordVC;
+@property (nonatomic,strong) BQChatRecordImageVideoViewController *imageVideoRecordVC;
+//@property (nonatomic,strong) BQChatRecordImageVideoDemoViewController *imageVideoRecordVC;
 
 
 @property (nonatomic, strong) NSMutableArray *navTitleArray;
@@ -215,19 +215,19 @@ MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate>
     return _fileRecordVC;
 }
 
-//- (BQChatRecordImageVideoViewController *)imageVideoRecordVC {
-//    if (_imageVideoRecordVC == nil) {
-//        _imageVideoRecordVC = [[BQChatRecordImageVideoViewController alloc] initWithCoversationModel:self.conversation];
-//    }
-//    return _imageVideoRecordVC;
-//}
-
-- (BQChatRecordImageVideoDemoViewController *)imageVideoRecordVC {
+- (BQChatRecordImageVideoViewController *)imageVideoRecordVC {
     if (_imageVideoRecordVC == nil) {
-        _imageVideoRecordVC = [[BQChatRecordImageVideoDemoViewController alloc] initWithCoversationModel:self.conversation];
+        _imageVideoRecordVC = [[BQChatRecordImageVideoViewController alloc] initWithCoversationModel:self.conversation];
     }
     return _imageVideoRecordVC;
 }
+
+//- (BQChatRecordImageVideoDemoViewController *)imageVideoRecordVC {
+//    if (_imageVideoRecordVC == nil) {
+//        _imageVideoRecordVC = [[BQChatRecordImageVideoDemoViewController alloc] initWithCoversationModel:self.conversation];
+//    }
+//    return _imageVideoRecordVC;
+//}
 
 
 @end

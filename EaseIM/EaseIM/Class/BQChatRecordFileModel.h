@@ -17,11 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *from;
 
-@property (nonatomic, strong) NSAttributedString *detail;
+@property (nonatomic, strong) NSString *filename;
 
 @property (nonatomic, strong) NSString *timestamp;
 
-- (instancetype)initWithInfo:(NSString *)keyWord img:(UIImage *)img msg:(EMChatMessage *)msg time:(NSString *)timestamp;
+
+- (instancetype)initWithMessage:(EMChatMessage *)msg time:(NSString *)timestamp;
 
 
 @end

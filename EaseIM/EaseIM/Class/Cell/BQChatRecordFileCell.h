@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) BQChatRecordFileModel *model;
 
+//- (void)updateWithObj:(id)obj;
 
 @end
 

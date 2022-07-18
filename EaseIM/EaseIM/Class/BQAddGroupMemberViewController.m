@@ -10,6 +10,7 @@
 #import "BQGroupSearchAddView.h"
 #import "BQGroupSearchCell.h"
 
+
 @interface BQAddGroupMemberViewController ()<UITableViewDelegate,UITableViewDataSource,BQGroupSearchAddViewDelegate>
 
 @property (nonatomic, strong) BQGroupSearchAddView *groupSearchAddView;

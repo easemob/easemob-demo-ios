@@ -12,9 +12,10 @@
 #import "BQChatRecordFileModel.h"
 #import "BQChatRecordFileCell.h"
 #import "EMSearchBar.h"
+#import "EMRealtimeSearch.h"
+#import "BQNoDataPlaceHolderView.h"
 
-
-@interface BQChatRecordFileViewController ()<EMSearchBarDelegate>
+@interface BQChatRecordFileViewController ()<UITableViewDelegate,UITableViewDataSource,EMSearchBarDelegate,MISScrollPageControllerContentSubViewControllerDelegate>
 
 @property (nonatomic, strong) EMConversation *conversation;
 @property (nonatomic, strong) dispatch_queue_t msgQueue;
@@ -23,6 +24,13 @@
 //消息格式化
 @property (nonatomic) NSTimeInterval msgTimelTag;
 @property (nonatomic, strong) NSString *keyWord;
+@property (nonatomic, strong) EMSearchBar *searchBar;
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *searchResultArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+
+@property (nonatomic, strong) BQNoDataPlaceHolderView *noDataPromptView;
 
 @end
 
@@ -42,7 +50,7 @@
     
     self.msgTimelTag = -1;
     [self _setupChatSubviews];
-    self.isSearching = NO;
+
     [self loadDatas];
 }
 
@@ -56,7 +64,7 @@
             }];
          }];
     } else {
-        [self.conversation loadMessagesStartFromId:self.moreMsgId count:50 searchDirection:EMMessageSearchDirectionUp completion:^(NSArray<EMChatMessage *> * _Nullable aMessages, EMError * _Nullable aError) {
+        [self.conversation loadMessagesStartFromId:self.moreMsgId count:100 searchDirection:EMMessageSearchDirectionUp completion:^(NSArray<EMChatMessage *> * _Nullable aMessages, EMError * _Nullable aError) {
             [self loadMessages:aMessages withError:aError];
         }];
     }
@@ -74,11 +82,12 @@
             }
             
             NSLog(@"%s msgArray:%@",__func__,msgArray);
-            
+            NSArray *formated = [self _formatMessages:[msgArray copy]];
+
             BQ_WS
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.dataArray removeAllObjects];
-                [weakSelf.dataArray addObjectsFromArray:msgArray];
+                [weakSelf.dataArray addObjectsFromArray:formated];
                 [weakSelf.tableView reloadData];
             });
         });
@@ -94,24 +103,31 @@
     [self addPopBackLeftItem];
     self.title = NSLocalizedString(@"msgList", nil);
     self.view.backgroundColor = ViewBgBlackColor;
+    
+    [self.view addSubview:self.searchBar];
+    [self.view addSubview:self.tableView];
 
-    self.showRefreshHeader = NO;
-    self.searchBar.delegate = self;
-    
-    [self.searchBar mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
-        make.left.equalTo(self.view).offset(8);
-        make.right.equalTo(self.view).offset(-8);
-        make.height.equalTo(@36);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.height.equalTo(@(48.0));
     }];
-    [self.searchBar.textField becomeFirstResponder];
     
-    self.searchResultTableView.backgroundColor = ViewBgBlackColor;
-    self.searchResultTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.searchResultTableView.rowHeight = UITableViewAutomaticDimension;
-    self.searchResultTableView.estimatedRowHeight = 130;
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.searchBar.mas_bottom);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+    }];
     
+    [self.view addSubview:self.noDataPromptView];
+    [self.noDataPromptView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.searchBar.mas_bottom).offset(60.0);
+        make.centerX.left.right.equalTo(self.view);
+    }];
 }
+
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -120,7 +136,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.isSearching) {
-        return [self.searchResults count];
+        return [self.searchResultArray count];
     }
     return [self.dataArray count];
     
@@ -135,13 +151,12 @@
     
     id obj = nil;
     if (self.isSearching) {
-        obj = [self.searchResults objectAtIndex:indexPath.row];
+        obj = [self.searchResultArray objectAtIndex:indexPath.row];
     }else {
         obj = [self.dataArray objectAtIndex:indexPath.row];
     }
     
     BQChatRecordFileModel *model = (BQChatRecordFileModel *)obj;
-    
     cell.indexPath = indexPath;
     cell.model = model;
     return cell;
@@ -149,7 +164,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id obj = [self.searchResults objectAtIndex:indexPath.row];
+    id obj = nil;
+    if (self.isSearching) {
+        obj = [self.searchResultArray objectAtIndex:indexPath.row];
+    }else {
+        obj = [self.dataArray objectAtIndex:indexPath.row];
+    }
+    
     BQChatRecordFileModel *model = (BQChatRecordFileModel *)obj;
     
 }
@@ -205,40 +226,53 @@
 //    }];
 //}
 
-#pragma mark - EMSearchControllerDelegate
+#pragma mark - EMSearchBarDelegate
 
-- (void)searchBarWillBeginEditing:(UISearchBar *)searchBar
+- (void)searchBarShouldBeginEditing:(EMSearchBar *)searchBar
 {
-    [self.tableView reloadData];
+    if (!self.isSearching) {
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+        
+        self.isSearching = YES;
+    }
 }
 
-- (void)searchBarCancelButtonAction:(UISearchBar *)searchBar
+- (void)searchBarCancelButtonAction:(EMSearchBar *)searchBar
 {
     [[EMRealtimeSearch shared] realtimeSearchStop];
+    self.isSearching = NO;
     
-//    [self.resultController.dataArray removeAllObjects];
-//    [self.resultController.tableView reloadData];
+    self.noDataPromptView.hidden = YES;
+    [self.searchResultArray removeAllObjects];
+    [self.tableView reloadData];
+    
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+- (void)searchBarSearchButtonClicked:(EMSearchBar *)searchBar
 {
-    [self.view endEditing:YES];
+    
 }
 
-- (void)searchTextDidChangeWithString:(NSString *)aString
-{
-//    self.resultController.searchKeyword = aString;
-//
-//    __weak typeof(self) weakself = self;
-//    [[EMRealtimeSearch shared] realtimeSearchWithSource:self.contancts searchText:aString collationStringSelector:nil resultBlock:^(NSArray *results) {
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            if ([weakself.resultController.dataArray count] > 0)
-//                [weakself.resultController.dataArray removeAllObjects];
-//            [weakself.resultController.dataArray addObjectsFromArray:results];
-//            [weakself.resultController.tableView reloadData];
-//        });
-//    }];
+- (void)searchTextDidChangeWithString:(NSString *)aString {
+    
+    if (!self.isSearching) {
+        return;
+    }
+    
+    __weak typeof(self) weakself = self;
+    [[EMRealtimeSearch shared] realtimeSearchWithSource:self.dataArray searchText:aString collationStringSelector:@selector(filename) resultBlock:^(NSArray *results) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakself.noDataPromptView.hidden = results.count > 0? YES: NO;
+            [weakself.searchResultArray removeAllObjects];
+            [weakself.searchResultArray addObjectsFromArray:results];
+            [weakself.tableView reloadData];
+        });
+    }];
+        
 }
+
+
 
 #pragma mark - Data
 
@@ -259,11 +293,86 @@
             self.msgTimelTag = msg.timestamp;
         }
         
-        BQChatRecordFileModel *model = [[BQChatRecordFileModel alloc]initWithInfo:_keyWord img:[UIImage imageNamed:@"defaultAvatar"] msg:msg time:timeStr];
+        BQChatRecordFileModel *model = [[BQChatRecordFileModel alloc]initWithMessage:msg time:timeStr];
         [formated addObject:model];
     }
     
     return formated;
 }
+
+
+#pragma mark getter and setter
+- (UITableView *)tableView {
+    if (_tableView == nil) {
+        _tableView = [[UITableView alloc] init];
+        _tableView.tableFooterView = [[UIView alloc] init];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_tableView registerClass:[BQChatRecordFileCell class] forCellReuseIdentifier:NSStringFromClass([BQChatRecordFileCell class])];
+        _tableView.backgroundColor = ViewBgBlackColor;
+    }
+    return _tableView;
+}
+
+
+- (NSMutableArray *)searchResultArray {
+    if (_searchResultArray == nil) {
+        _searchResultArray = [[NSMutableArray alloc] init];
+    }
+    return _searchResultArray;
+}
+
+- (NSMutableArray *)dataArray {
+    if (_dataArray == nil) {
+        _dataArray = [[NSMutableArray alloc] init];
+    }
+    return _dataArray;
+}
+
+- (EMSearchBar *)searchBar {
+    if (_searchBar == nil) {
+        _searchBar = [[EMSearchBar alloc] init];
+        _searchBar.delegate = self;
+    }
+    return _searchBar;
+}
+
+- (BQNoDataPlaceHolderView *)noDataPromptView {
+    if (_noDataPromptView == nil) {
+        _noDataPromptView = BQNoDataPlaceHolderView.new;
+        [_noDataPromptView.noDataImageView setImage:ImageWithName(@"ji_search_nodata")];
+        _noDataPromptView.prompt.text = @"搜索无结果";
+        _noDataPromptView.hidden = YES;
+    }
+    return _noDataPromptView;
+}
+
+
+
+#pragma mark - MISScrollPageControllerContentSubViewControllerDelegate
+- (BOOL)hasAlreadyLoaded{
+    return NO;
+}
+
+- (void)viewDidLoadedForIndex:(NSUInteger)index{
+    
+}
+
+- (void)viewWillAppearForIndex:(NSUInteger)index{
+
+}
+
+- (void)viewDidAppearForIndex:(NSUInteger)index{
+}
+
+- (void)viewWillDisappearForIndex:(NSUInteger)index{
+    self.editing = NO;
+}
+
+- (void)viewDidDisappearForIndex:(NSUInteger)index{
+    
+}
+
 
 @end

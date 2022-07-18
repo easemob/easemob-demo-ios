@@ -9,6 +9,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BQChatRecordFileViewController : UIViewController
+@property (nonatomic) BOOL isSearching;
 
 - (instancetype)initWithCoversationModel:(EMConversation *)conversation;
 
