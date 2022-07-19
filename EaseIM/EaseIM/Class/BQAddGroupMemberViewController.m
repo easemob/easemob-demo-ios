@@ -24,7 +24,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+#if kJiHuApp
     self.view.backgroundColor = ViewBgBlackColor;
+#else
+    self.view.backgroundColor = ViewBgWhiteColor;
+#endif
+
     self.title = @"选择用户";
     [self addPopBackLeftItemWithTarget:self action:@selector(backItemAction)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(completionAction)];
@@ -226,19 +231,28 @@
 #pragma mark - Table view delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 24.0;
+    if (self.searchResultArray.count > 0) {
+        return 24.0;
+    }
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *hView = [[UIView alloc] init];
-    hView.backgroundColor = [UIColor colorWithHexString:@"#171717"];
 
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.font = NFont(14.0);
-    titleLabel.textColor = [UIColor colorWithHexString:@"#7E7E7E"];
     titleLabel.textAlignment = NSTextAlignmentLeft;
     titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     titleLabel.text = @"搜索结果";
+    
+#if kJiHuApp
+    hView.backgroundColor = [UIColor colorWithHexString:@"#171717"];
+    titleLabel.textColor = [UIColor colorWithHexString:@"#7E7E7E"];
+#else
+    hView.backgroundColor = ViewCellBgWhiteColor;
+    titleLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
+#endif
     
     [hView addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -278,8 +292,13 @@
         _searchResultTableView.dataSource = self;
         
         [_searchResultTableView registerClass:[BQGroupSearchCell class] forCellReuseIdentifier:NSStringFromClass([BQGroupSearchCell class])];
-        
+#if kJiHuApp
         _searchResultTableView.backgroundColor = ViewBgBlackColor;
+
+#else
+        _searchResultTableView.backgroundColor = ViewBgWhiteColor;
+#endif
+
     }
     return _searchResultTableView;
 }

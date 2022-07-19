@@ -35,10 +35,17 @@
     _page = 0;
     _showRefreshHeader = NO;
     _showRefreshFooter = NO;
-    
+
+#if kJiHuApp
     self.view.backgroundColor = ViewBgBlackColor;
     self.tableView.backgroundColor = ViewBgBlackColor;
+#else
+    self.view.backgroundColor = ViewBgWhiteColor;
+    self.tableView.backgroundColor = ViewBgWhiteColor;
+
+#endif
     
+        
 }
 
 - (void)didReceiveMemoryWarning {

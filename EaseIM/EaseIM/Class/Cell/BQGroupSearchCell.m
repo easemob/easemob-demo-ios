@@ -89,7 +89,7 @@
         if(userInfo.avatarUrl.length > 0) {
             NSURL* url = [NSURL URLWithString:userInfo.avatarUrl];
             if(url) {
-                [self.iconImageView sd_setImageWithURL:url completed:nil];
+                [self.iconImageView sd_setImageWithURL:url placeholderImage:ImageWithName(@"jh_user_icon")];
             }
         }else {
             [self.iconImageView setImage:ImageWithName(@"jh_user_icon")];

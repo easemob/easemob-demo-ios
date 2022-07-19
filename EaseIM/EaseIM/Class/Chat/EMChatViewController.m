@@ -164,7 +164,7 @@
     
     
 #if kJiHuApp
-    titleView.backgroundColor = ViewBgWhiteColor;
+    titleView.backgroundColor = ViewBgBlackColor;
     self.titleLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
 #else
     titleView.backgroundColor = ViewBgWhiteColor;
@@ -368,7 +368,7 @@
     //位置
     [menuArray addObject:[defaultInputBarItems objectAtIndex:2]];
     
-
+#if kJiHuApp
     if (conversationType == EMConversationTypeGroupChat) {
         //音视频
         EaseExtMenuModel *rtcMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"video_conf"] funcDesc:NSLocalizedString(@"Call", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
@@ -393,7 +393,20 @@
         [menuArray addObject:userCardExtModal];
 
     }
-   
+#else
+    //音视频
+    EaseExtMenuModel *rtcMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"yg_video_conf"] funcDesc:NSLocalizedString(@"Call", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+        if (isExecuted) {
+            [self chatSealRtcAction];
+        }
+    }];
+    [menuArray addObject:rtcMenu];
+    
+    //文件
+    [menuArray addObject:[defaultInputBarItems objectAtIndex:3]];
+#endif
+
+    
     return menuArray;
 }
 

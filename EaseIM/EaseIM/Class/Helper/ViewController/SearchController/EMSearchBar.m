@@ -39,13 +39,9 @@
 
 - (void)_setupSubviews
 {
-//    self.backgroundColor = [UIColor whiteColor];
-    self.backgroundColor = ViewBgBlackColor;
-    
+
     self.textField = [[UITextField alloc] init];
     self.textField.delegate = self;
-//    self.textField.backgroundColor = kColor_textViewGray;
-    self.textField.backgroundColor = [UIColor colorWithHexString:@"#252525"];
     
 //    self.textField.font = [UIFont systemFontOfSize:16];
     self.textField.font = [UIFont systemFontOfSize:14.0];
@@ -78,9 +74,19 @@
     rightView.image = [UIImage imageNamed:@"jh_invite_delete"];
     self.textField.rightView = rightView;
     
+#if kJiHuApp
+    self.textField.backgroundColor = [UIColor colorWithHexString:@"#252525"];
     [self.textField setTextColor:[UIColor colorWithHexString:@"#F5F5F5"]];
     self.textField.tintColor = [UIColor colorWithHexString:@"#04D0A4"];
+    self.backgroundColor = ViewBgBlackColor;
+#else
+    self.backgroundColor = [UIColor whiteColor];
+    self.textField.backgroundColor = ViewBgWhiteColor;
+    [self.textField setTextColor:UIColor.blackColor];
     
+#endif
+
+   
     
     self.cancelButton = [[UIButton alloc] init];
     self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:16];

@@ -28,9 +28,9 @@
 //appkey
 //#define DEF_APPKEY @"41351358#427351"
 //#define DEF_APPKEY @"easemob-demo#testmd1"
-#define DEF_APPKEY @"easemob-demo#easeim"
+//#define DEF_APPKEY @"easemob-demo#easeim"
 //#define DEF_APPKEY @"easemob-demo#chatdemoui"
-//#define DEF_APPKEY @"1100220704109048#arcfox-server"
+#define DEF_APPKEY @"1100220704109048#arcfox-server"
 
 // 翻译
 #define TRANSLATE_KEY @""

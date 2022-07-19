@@ -33,7 +33,7 @@
     
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.nameLabel);
-        make.right.equalTo(self.accessoryImageView.mas_left).offset(-16.0f);
+        make.right.equalTo(self.accessoryImageView.mas_left);
         make.size.mas_equalTo(kAvatarHeight);
     }];
     
@@ -68,7 +68,7 @@
 - (UIImageView *)accessoryImageView {
     if (_accessoryImageView == nil) {
         _accessoryImageView = [[UIImageView alloc] init];
-        [_accessoryImageView setImage:ImageWithName(@"gray_right_arrow")];
+        [_accessoryImageView setImage:ImageWithName(@"jh_right_access")];
         _accessoryImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _accessoryImageView;

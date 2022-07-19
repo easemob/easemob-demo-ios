@@ -12,11 +12,13 @@
 
 #define kAvatarImageHeight 38.0
 
-@interface BQGroupMemberAddCell : UICollectionViewCell
-@property (nonatomic, strong) UIImageView *addImageView;
+@interface BQGroupMemberOperationCell : UICollectionViewCell
+@property (nonatomic, strong) UIImageView *operationImageView;
+@property (nonatomic, strong) UILabel *titleLabel;
+
 @end
 
-@implementation BQGroupMemberAddCell
+@implementation BQGroupMemberOperationCell
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -26,16 +28,24 @@
     return self;
 }
 
-
 - (void)placeAndLayoutSubViews {
-    [self.contentView addSubview:self.addImageView];
-    
-    [self.addImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.contentView addSubview:self.operationImageView];
+    [self.contentView addSubview:self.titleLabel];
+
+    [self.operationImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView);
         make.centerX.equalTo(self.contentView);
         make.size.mas_equalTo(kAvatarImageHeight);
     }];
+    
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.operationImageView.mas_bottom).offset(3.0);
+        make.centerX.equalTo(self.contentView);
+        make.bottom.equalTo(self.contentView);
+    }];
+
 }
+
 
 + (NSString *)reuseIdentifier {
     return NSStringFromClass([self class]);
@@ -43,15 +53,25 @@
 
 
 #pragma mark getter and setter
-- (UIImageView *)addImageView {
-    if (_addImageView == nil) {
-        _addImageView = [[UIImageView alloc] init];
-        _addImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _addImageView.clipsToBounds = YES;
-        _addImageView.layer.masksToBounds = YES;
-        [_addImageView setImage:ImageWithName(@"jh_addMember")];
+- (UIImageView *)operationImageView {
+    if (_operationImageView == nil) {
+        _operationImageView = [[UIImageView alloc] init];
+        _operationImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _operationImageView.clipsToBounds = YES;
+        _operationImageView.layer.masksToBounds = YES;
+        [_operationImageView setImage:ImageWithName(@"jh_addMember")];
     }
-    return _addImageView;
+    return _operationImageView;
+}
+
+- (UILabel *)titleLabel {
+    if (_titleLabel == nil) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.font = NFont(12.0);
+        _titleLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _titleLabel;
 }
 
 @end
@@ -142,7 +162,6 @@
     return _nameLabel;
 }
 
-
 @end
 
 
@@ -227,7 +246,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    BQGroupMemberAddCell *addCell = [collectionView dequeueReusableCellWithReuseIdentifier:[BQGroupMemberAddCell reuseIdentifier] forIndexPath:indexPath];
+    BQGroupMemberOperationCell *addCell = [collectionView dequeueReusableCellWithReuseIdentifier:[BQGroupMemberOperationCell reuseIdentifier] forIndexPath:indexPath];
     if (indexPath.row == 0) {
         return addCell;
     }
@@ -260,7 +279,7 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, KScreenHeight) collectionViewLayout:self.collectionViewLayout];
         _collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         
-        [_collectionView registerClass:[BQGroupMemberAddCell class] forCellWithReuseIdentifier:[BQGroupMemberAddCell reuseIdentifier]];
+        [_collectionView registerClass:[BQGroupMemberOperationCell class] forCellWithReuseIdentifier:[BQGroupMemberOperationCell reuseIdentifier]];
         
         [_collectionView registerClass:[BQGroupAddedMemberCell class] forCellWithReuseIdentifier:[BQGroupAddedMemberCell reuseIdentifier]];
 
