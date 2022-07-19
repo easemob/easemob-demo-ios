@@ -13,11 +13,13 @@
 @end
 
 
+
 @implementation BQTitleAvatarAccessCell
 
 - (void)prepare {
     [self.contentView addSubview:self.iconImageView];
     [self.contentView addSubview:self.nameLabel];
+    [self.contentView addSubview:self.accessoryImageView];
     [self.contentView addSubview:self.bottomLine];
 }
 
@@ -31,11 +33,17 @@
     
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.nameLabel);
-        make.right.equalTo(self.contentView).offset(-16.0f);
+        make.right.equalTo(self.accessoryImageView.mas_left).offset(-16.0f);
         make.size.mas_equalTo(kAvatarHeight);
     }];
     
-    
+    [self.accessoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.contentView);
+        make.width.equalTo(@(28.0));
+        make.height.equalTo(@(28.0));
+        make.right.equalTo(self.contentView).offset(-16.0);
+    }];
+
     [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);
         make.height.equalTo(@(BQ_ONE_PX));

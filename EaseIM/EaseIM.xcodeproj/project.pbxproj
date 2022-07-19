@@ -373,6 +373,8 @@
 		C04BDB912886520100601A39 /* yg_drop-down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C04BDB8F2886520100601A39 /* yg_drop-down@2x.png */; };
 		C04BDB94288653D400601A39 /* yg_groupInfo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C04BDB92288653D400601A39 /* yg_groupInfo@3x.png */; };
 		C04BDB95288653D400601A39 /* yg_groupInfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C04BDB93288653D400601A39 /* yg_groupInfo@2x.png */; };
+		C04BDB9828865D2C00601A39 /* YGGroupBanSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C04BDB9728865D2C00601A39 /* YGGroupBanSettingViewController.m */; };
+		C04BDB9B28865E0D00601A39 /* YGGroupBanMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C04BDB9A28865E0D00601A39 /* YGGroupBanMemberCell.m */; };
 		C063486028757D9F008E55D3 /* BQGroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C063485F28757D9F008E55D3 /* BQGroupListViewController.m */; };
 		C063486328757F40008E55D3 /* BQNoDataPlaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C063486128757F40008E55D3 /* BQNoDataPlaceHolderView.m */; };
 		C06472CE287C2C3800320EAF /* jh_search_leftIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06472CC287C2C3800320EAF /* jh_search_leftIcon@2x.png */; };
@@ -977,6 +979,10 @@
 		C04BDB8F2886520100601A39 /* yg_drop-down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yg_drop-down@2x.png"; sourceTree = "<group>"; };
 		C04BDB92288653D400601A39 /* yg_groupInfo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yg_groupInfo@3x.png"; sourceTree = "<group>"; };
 		C04BDB93288653D400601A39 /* yg_groupInfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yg_groupInfo@2x.png"; sourceTree = "<group>"; };
+		C04BDB9628865D2C00601A39 /* YGGroupBanSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGGroupBanSettingViewController.h; sourceTree = "<group>"; };
+		C04BDB9728865D2C00601A39 /* YGGroupBanSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGGroupBanSettingViewController.m; sourceTree = "<group>"; };
+		C04BDB9928865E0D00601A39 /* YGGroupBanMemberCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGGroupBanMemberCell.h; sourceTree = "<group>"; };
+		C04BDB9A28865E0D00601A39 /* YGGroupBanMemberCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGGroupBanMemberCell.m; sourceTree = "<group>"; };
 		C063485E28757D9F008E55D3 /* BQGroupListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQGroupListViewController.h; sourceTree = "<group>"; };
 		C063485F28757D9F008E55D3 /* BQGroupListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQGroupListViewController.m; sourceTree = "<group>"; };
 		C063486128757F40008E55D3 /* BQNoDataPlaceHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQNoDataPlaceHolderView.m; sourceTree = "<group>"; };
@@ -2177,6 +2183,10 @@
 				C04BDB7E2885678A00601A39 /* YGGroupCreateViewController.m */,
 				C04BDB802886454000601A39 /* YGConvsationSearchViewController.h */,
 				C04BDB812886454000601A39 /* YGConvsationSearchViewController.m */,
+				C04BDB9628865D2C00601A39 /* YGGroupBanSettingViewController.h */,
+				C04BDB9728865D2C00601A39 /* YGGroupBanSettingViewController.m */,
+				C04BDB9928865E0D00601A39 /* YGGroupBanMemberCell.h */,
+				C04BDB9A28865E0D00601A39 /* YGGroupBanMemberCell.m */,
 			);
 			path = YunGuan;
 			sourceTree = "<group>";
@@ -2921,6 +2931,7 @@
 				3C729C76257144AE003DB315 /* ConfInviteUsersViewController.m in Sources */,
 				3C3BAE8123975F6D00344F63 /* EMGroupManageViewController.m in Sources */,
 				3A45E0222223A21B00505786 /* EMSDKOptionsViewController.m in Sources */,
+				C04BDB9828865D2C00601A39 /* YGGroupBanSettingViewController.m in Sources */,
 				3C3BAE8A23990DF600344F63 /* EMSecurityViewController.m in Sources */,
 				3A45DB4B22239DE200505786 /* EaseIMHelper.m in Sources */,
 				3C87A100248F8F5E0051E06E /* EMDeveloperServiceViewController.m in Sources */,
@@ -2951,6 +2962,7 @@
 				3A45E0212223A21B00505786 /* EMRegisterViewController.m in Sources */,
 				3A45E37E2223A47900505786 /* EMChatroomsViewController.m in Sources */,
 				3C8EBEF124AD967C00B6560A /* EMUserAgreementView.m in Sources */,
+				C04BDB9B28865E0D00601A39 /* YGGroupBanMemberCell.m in Sources */,
 				3C3BAE842397C42800344F63 /* EMConfirmViewController.m in Sources */,
 				C07F2BFB2876DEBA005D6F0D /* BQTitleValueCell.m in Sources */,
 				C063486328757F40008E55D3 /* BQNoDataPlaceHolderView.m in Sources */,

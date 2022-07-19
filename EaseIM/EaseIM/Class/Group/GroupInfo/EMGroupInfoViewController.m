@@ -33,6 +33,7 @@
 #import "BQAddGroupMemberViewController.h"
 #import "EMInviteGroupMemberViewController.h"
 #import "BQChatRecordContainerViewController.h"
+#import "BQTitleAvatarAccessCell.h"
 
 
 @interface EMGroupInfoViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
@@ -86,6 +87,8 @@
     [self.tableView registerClass:[BQTitleSwitchCell class] forCellReuseIdentifier:NSStringFromClass([BQTitleSwitchCell class])];
     [self.tableView registerClass:[BQTitleValueCell class] forCellReuseIdentifier:NSStringFromClass([BQTitleValueCell class])];
 
+    [self.tableView registerClass:[BQTitleAvatarAccessCell class] forCellReuseIdentifier:NSStringFromClass([BQTitleAvatarAccessCell class])];
+    
 }
 
 
@@ -167,8 +170,11 @@
 
     BQTitleSwitchCell *titleSwitchCell = [tableView dequeueReusableCellWithIdentifier:[BQTitleSwitchCell reuseIdentifier]];
 
-
+    BQTitleAvatarAccessCell *titleAvatarAccessCell = [tableView dequeueReusableCellWithIdentifier:[BQTitleAvatarAccessCell reuseIdentifier]];
+    
+    
     if (indexPath.section == 0) {
+#if kJiHuApp
         if (indexPath.row == 0) {
             titleAvatarCell.nameLabel.text = @"群头像";
             [titleAvatarCell.iconImageView setImage:ImageWithName(@"jh_group_icon")];
@@ -177,7 +183,24 @@
             [self.groupMemberCell updateWithObj:self.group];
             return self.groupMemberCell;
         }
-        
+#else
+        if (indexPath.row == 0) {
+            if (self.group.permissionType == EMGroupPermissionTypeOwner) {
+                titleAvatarAccessCell.nameLabel.text = @"群头像";
+                [titleAvatarAccessCell.iconImageView setImage:ImageWithName(@"jh_group_icon")];
+                return titleAvatarAccessCell;
+                
+            }else {
+                titleAvatarCell.nameLabel.text = @"群头像";
+                [titleAvatarCell.iconImageView setImage:ImageWithName(@"jh_group_icon")];
+                return titleAvatarCell;
+            }
+        }else {
+            [self.groupMemberCell updateWithObj:self.group];
+            return self.groupMemberCell;
+        }
+#endif
+       
     }else if (indexPath.section == 1){
 #if kJiHuApp
         if (indexPath.row == 0) {
