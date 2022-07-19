@@ -18,6 +18,9 @@
 #import "EMConversationUserDataModel.h"
 #import "UserInfoStore.h"
 
+#import "YGGroupSearchViewController.h"
+#import "YGGroupCreateViewController.h"
+
 @interface EMConversationsViewController() <EaseConversationsViewControllerDelegate, EMSearchControllerDelegate, EMGroupManagerDelegate>
 
 @property (nonatomic, strong) UIButton *backImageBtn;
@@ -26,6 +29,8 @@
 @property (nonatomic, strong) EaseConversationViewModel *viewModel;
 @property (nonatomic, strong) UINavigationController *resultNavigationController;
 @property (nonatomic, strong) EMSearchResultController *resultController;
+
+
 @end
 
 @implementation EMConversationsViewController
@@ -65,6 +70,7 @@
 }
 
 - (void)_setupSubviews {
+#if kJiHuApp
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.text = @"我的专属服务";
     titleLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
@@ -85,7 +91,31 @@
         make.centerY.equalTo(titleLabel);
         make.left.equalTo(self.view).offset(16);
     }];
+#else
     
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = @"会话列表";
+    titleLabel.textColor = [UIColor colorWithHexString:@"#171717"];
+    titleLabel.font = [UIFont systemFontOfSize:18];
+    [self.view addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(self.view).offset(EMVIEWTOPMARGIN + 35);
+        make.height.equalTo(@25);
+    }];
+    
+    self.backImageBtn = [[UIButton alloc]init];
+    [self.backImageBtn setImage:[UIImage imageNamed:@"icon-add"] forState:UIControlStateNormal];
+    [self.backImageBtn addTarget:self action:@selector(moreAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backImageBtn];
+    [self.backImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.height.equalTo(@35);
+        make.centerY.equalTo(titleLabel);
+        make.right.equalTo(self.view).offset(-16);
+    }];
+#endif
+    
+
     self.viewModel = [[EaseConversationViewModel alloc] init];
     self.viewModel.canRefresh = YES;
     self.viewModel.badgeLabelPosition = EMAvatarTopRight;
@@ -280,12 +310,21 @@
 
 - (void)moreAction
 {
-    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-200, self.backImageBtn.frame.origin.y, 185, 104) selectData:@[NSLocalizedString(@"createGroup", nil),NSLocalizedString(@"newContact", nil)] images:@[@"icon-创建群组",@"icon-添加好友"] locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index){
+    NSArray *titleArray = @[@"消息提醒",@"搜索群聊",@"创建群组",@"群组申请"];
+    NSArray *imageNameArray = @[@"yg_msg_alert_on",@"yg_group_search",@"yg_group_create",@"yg_group_apply"];
+    
+    
+    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-200, self.backImageBtn.frame.origin.y, 185, 180) selectData:titleArray images:imageNameArray locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index){
         if(index == 0) {
-            [self createGroup];
+            [self messageAlertAction];
         } else if (index == 1) {
-            [self addFriend];
+            [self searchGroupAction];
+        }else if (index == 2) {
+            [self createGroupAction];
+        }else if (index == 3) {
+            [self groupApplyAction];
         }
+        
     } animated:YES];
 }
 
@@ -315,6 +354,26 @@
     EMInviteFriendViewController *controller = [[EMInviteFriendViewController alloc] init];
     [self.navigationController pushViewController:controller animated:YES];
 }
+
+- (void)messageAlertAction {
+    
+}
+
+- (void)createGroupAction {
+    YGGroupCreateViewController *vc = [[YGGroupCreateViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)searchGroupAction {
+    YGGroupSearchViewController *vc = [[YGGroupSearchViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+- (void)groupApplyAction {
+    
+}
+
 
 #pragma mark - EMSearchControllerDelegate
 

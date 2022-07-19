@@ -1,15 +1,12 @@
 //
-//  EMGroupInfoViewController.m
-//  ChatDemo-UI3.0
+//  YGGroupCreateViewController.m
+//  EaseIM
 //
-//  Created by XieYajie on 2019/1/18.
-//  Copyright © 2019 XieYajie. All rights reserved.
+//  Created by liu001 on 2022/7/18.
+//  Copyright © 2022 liu001. All rights reserved.
 //
 
-#import "EMGroupInfoViewController.h"
-
-#import "EMAvatarNameCell.h"
-
+#import "YGGroupCreateViewController.h"
 #import "EMTextFieldViewController.h"
 #import "EMTextViewController.h"
 #import "EMGroupOwnerViewController.h"
@@ -35,14 +32,11 @@
 #import "BQChatRecordContainerViewController.h"
 
 
-@interface EMGroupInfoViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
+@interface YGGroupCreateViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
 
 @property (nonatomic, strong) NSString *groupId;
 @property (nonatomic, strong) EMGroup *group;
 
-@property (nonatomic, strong) EMAvatarNameCell *addMemberCell;
-@property (nonatomic, strong) UITableViewCell *leaveCell;
-@property (nonatomic, strong) UILabel *leaveCellContentLabel;
 @property (nonatomic, strong) EMConversation *conversation;
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
 
@@ -51,7 +45,7 @@
 
 @end
 
-@implementation EMGroupInfoViewController
+@implementation YGGroupCreateViewController
 
 - (instancetype)initWithConversation:(EMConversation *)aConversation
 {
@@ -72,11 +66,8 @@
     [self _setupSubviews];
 //    [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     self.showRefreshHeader = NO;
-    [self _fetchGroupWithId:self.groupId isShowHUD:YES];
     [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient] addMultiDevicesDelegate:self delegateQueue:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleGroupInfoUpdated:) name:GROUP_INFO_UPDATED object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadInfo) name:GROUP_INFO_REFRESH object:nil];
 }
 
 - (void)registeCell {
@@ -118,7 +109,7 @@
 - (void)_setupSubviews
 {
     [self addPopBackLeftItem];
-    self.title = @"群设置";
+    self.title = @"创建群组";
     
     self.tableView.rowHeight = 60;
     self.tableView.tableFooterView = [[UIView alloc] init];
@@ -129,36 +120,20 @@
         make.right.equalTo(self.view);
         make.bottom.equalTo(self.view);
     }];
+        
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    if (section == 0) {
-        return 2;
-    }else if (section == 1){
-#if kJiHuApp
-        return 4;
-#else
-        if (self.group.permissionType == EMGroupPermissionTypeOwner) {
-            return 6;
-        } else {
-            return 5;
-        }
-#endif
-        return 4;
-    }else {
-        return 2;
-    }
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     BQTitleAvatarCell *titleAvatarCell = [tableView dequeueReusableCellWithIdentifier:[BQTitleAvatarCell reuseIdentifier]];
     
     BQTitleValueAccessCell *titleValueAccessCell = [tableView dequeueReusableCellWithIdentifier:[BQTitleValueAccessCell reuseIdentifier]];
@@ -178,24 +153,11 @@
             return self.groupMemberCell;
         }
         
-    }else if (indexPath.section == 1){
-#if kJiHuApp
+    }else {
         if (indexPath.row == 0) {
             titleValueCell.nameLabel.text = @"群名称";
             titleValueCell.detailLabel.text = self.group.groupName;
             return titleValueCell;
-        }else if (indexPath.row == 1){
-            titleValueCell.nameLabel.text = @"群主";
-            titleValueCell.detailLabel.text = self.group.owner;
-            return titleValueCell;
-
-        }else if (indexPath.row == 2){
-            titleValueAccessCell.nameLabel.text = @"群公告";
-            titleValueAccessCell.detailLabel.text = @"";
-            titleValueAccessCell.tapCellBlock = ^{
-                [self groupAnnouncementAction];
-            };
-            return titleValueAccessCell;
         }else {
             titleValueAccessCell.nameLabel.text = @"群介绍";
             titleValueAccessCell.detailLabel.text = @"";
@@ -204,104 +166,8 @@
             };
             return titleValueAccessCell;
         }
-#else
-        if (self.group.permissionType == EMGroupPermissionTypeOwner) {
-            if (indexPath.row == 0) {
-                titleValueAccessCell.nameLabel.text = @"群名称";
-                titleValueAccessCell.detailLabel.text = self.group.groupName;
-                return titleValueAccessCell;
-            }else if (indexPath.row == 1){
-                titleValueCell.nameLabel.text = @"群主";
-                titleValueCell.detailLabel.text = self.group.owner;
-                return titleValueCell;
-
-            }else if (indexPath.row == 2){
-                titleValueAccessCell.nameLabel.text = @"群公告";
-                titleValueAccessCell.detailLabel.text = @"";
-                titleValueAccessCell.tapCellBlock = ^{
-                    [self groupAnnouncementAction];
-                };
-                return titleValueAccessCell;
-            }else  if (indexPath.row == 3){
-                titleValueAccessCell.nameLabel.text = @"群介绍";
-                titleValueAccessCell.detailLabel.text = @"";
-                titleValueAccessCell.tapCellBlock = ^{
-                    [self _updateGroupDetailAction];
-                };
-                return titleValueAccessCell;
-            }else if (indexPath.row == 4){
-                titleValueAccessCell.nameLabel.text = @"群禁言";
-                titleValueAccessCell.detailLabel.text = @"";
-                titleValueAccessCell.tapCellBlock = ^{
-                    [self _updateGroupDetailAction];
-                };
-                return titleValueAccessCell;
-            }else {
-                titleValueAccessCell.nameLabel.text = @"运营备注";
-                titleValueAccessCell.detailLabel.text = @"";
-                titleValueAccessCell.tapCellBlock = ^{
-                    [self _updateGroupDetailAction];
-                };
-                return titleValueAccessCell;
-            }
-
-        } else {
-            if (indexPath.row == 0) {
-                titleValueCell.nameLabel.text = @"群名称";
-                titleValueCell.detailLabel.text = self.group.groupName;
-                return titleValueCell;
-            }else if (indexPath.row == 1){
-                titleValueCell.nameLabel.text = @"群主";
-                titleValueCell.detailLabel.text = self.group.owner;
-                return titleValueCell;
-
-            }else if (indexPath.row == 2){
-                titleValueAccessCell.nameLabel.text = @"群公告";
-                titleValueAccessCell.detailLabel.text = @"";
-                titleValueAccessCell.tapCellBlock = ^{
-                    [self groupAnnouncementAction];
-                };
-                return titleValueAccessCell;
-            }else  if (indexPath.row == 3){
-                titleValueAccessCell.nameLabel.text = @"群介绍";
-                titleValueAccessCell.detailLabel.text = @"";
-                titleValueAccessCell.tapCellBlock = ^{
-                    [self _updateGroupDetailAction];
-                };
-                return titleValueAccessCell;
-            }else {
-                titleValueAccessCell.nameLabel.text = @"运营备注";
-                titleValueAccessCell.detailLabel.text = @"";
-                titleValueAccessCell.tapCellBlock = ^{
-                    [self _updateGroupDetailAction];
-                };
-                return titleValueAccessCell;
-            }
-        }
-
-
-#endif
-
-        
-    }else {
-        if (indexPath.row == 0) {
-            titleValueAccessCell.nameLabel.text = @"查找聊天内容";
-            titleValueAccessCell.detailLabel.text = @"";
-            titleValueAccessCell.tapCellBlock = ^{
-                [self goSearchChatRecord];
-            };
-            return titleValueAccessCell;
-        }else {
-            titleSwitchCell.nameLabel.text = @"消息免打扰";
-            [titleSwitchCell.aSwitch setOn:self.group.isPushNotificationEnabled];
-            BQ_WS
-            titleSwitchCell.switchActionBlock = ^(UISwitch * _Nonnull aSwitch) {
-                [weakSelf noDisturbEnableWithSwitch:aSwitch];
-            };
-            
-            return titleSwitchCell;
-        }
     }
+    
     return nil;
 }
  
@@ -334,12 +200,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *hView = [[UIView alloc] init];
-#if kJiHuApp
-    hView.backgroundColor = ViewBgBlackColor;
-#else
-    hView.backgroundColor = ViewBgWhiteColor;
-#endif
-
+    hView.backgroundColor = [UIColor colorWithHexString:@"#171717"];
     return hView;
 }
 
@@ -439,83 +300,15 @@
     }
     
     self.group = aGroup;
-    if (aGroup.permissionType == EMGroupPermissionTypeOwner) {
-        self.leaveCellContentLabel.text = NSLocalizedString(@"destoryGroup", nil);
-    } else {
-        self.leaveCellContentLabel.text = NSLocalizedString(@"exitGroup", nil);
-    }
     [self.tableView reloadData];
 }
 
-- (void)_fetchGroupWithId:(NSString *)aGroupId
-                isShowHUD:(BOOL)aIsShowHUD
-{
-    __weak typeof(self) weakself = self;
-    
-    if (aIsShowHUD) {
-        [self showHudInView:self.view hint:NSLocalizedString(@"fetchGroupSubject...", nil)];
-    }
-    [[EMClient sharedClient].groupManager getGroupSpecificationFromServerWithId:aGroupId completion:^(EMGroup *aGroup, EMError *aError) {
-        [weakself hideHud];
-        if (!aError) {
-            [weakself _resetGroup:aGroup];
-        } else {
-            [EMAlertController showErrorAlert:NSLocalizedString(@"fetchGroupSubjectFail", nil)];
-        }
-        [weakself tableViewDidFinishTriggerHeader:YES reload:NO];
-    }];
-}
 
 - (void)tableViewDidTriggerHeaderRefresh
 {
     self.page = 1;
-    [self _fetchGroupWithId:self.groupId isShowHUD:NO];
 }
 
-#pragma mark - EMGroupManagerDelegate
-
-- (void)didLeaveGroup:(EMGroup *)aGroup reason:(EMGroupLeaveReason)aReason
-{
-    [self.navigationController popViewControllerAnimated:YES];
-    if (self.leaveOrDestroyCompletion) {
-        self.leaveOrDestroyCompletion();
-    }
-}
-
-- (void)groupAdminListDidUpdate:(EMGroup *)aGroup
-                     addedAdmin:(NSString *)aAdmin
-{
-    if ([aAdmin isEqualToString:EMClient.sharedClient.currentUsername]) {
-        [self tableViewDidTriggerHeaderRefresh];
-    }
-}
-- (void)groupAdminListDidUpdate:(EMGroup *)aGroup
-                   removedAdmin:(NSString *)aAdmin
-{
-    if ([aAdmin isEqualToString:EMClient.sharedClient.currentUsername]) {
-        [self tableViewDidTriggerHeaderRefresh];
-    }
-}
-- (void)groupOwnerDidUpdate:(EMGroup *)aGroup
-                   newOwner:(NSString *)aNewOwner
-                   oldOwner:(NSString *)aOldOwner
-{
-    if ([aOldOwner isEqualToString:EMClient.sharedClient.currentUsername]) {
-        [self tableViewDidTriggerHeaderRefresh];
-    }
-}
-
-#pragma mark - NSNotification
-
-- (void)handleGroupInfoUpdated:(NSNotification *)aNotif
-{
-    EMGroup *group = aNotif.object;
-    if (!group || ![group.groupId isEqualToString:self.groupId]) {
-        return;
-    }
-    
-    [self _fetchGroupWithId:self.groupId isShowHUD:NO];
-}
 
 #pragma mark - Action
 - (void)noDisturbEnableWithSwitch:(UISwitch *)aSwitch {
@@ -535,71 +328,8 @@
 }
 
 
-//cell开关
-- (void)cellSwitchValueChanged:(UISwitch *)aSwitch
-{
-    NSIndexPath *indexPath = [self _indexPathWithTag:aSwitch.tag];
-    NSInteger section = indexPath.section;
-    NSInteger row = indexPath.row;
-    if (section == 3) {
-        if (row == 0) {
-            //免打扰
-            __weak typeof(self) weakself = self;
-            
-            [[EaseIMKitManager shared] updateUndisturbMapsKey:self.conversation.conversationId value:aSwitch.isOn];
-            [EMClient.sharedClient.groupManager updatePushServiceForGroup:self.group.groupId isPushEnabled:!aSwitch.isOn completion:^(EMGroup *aGroup, EMError *aError) {
-                if (!aError) {
-                    weakself.group = aGroup;
-                } else {
-                    if (aError) {
-                        [weakself showHint:[NSString stringWithFormat:NSLocalizedString(@"setDistrbute", nil),aError.errorDescription]];
-                        [aSwitch setOn:NO];
-                    }
-                }
-            }];
-        } else if (row == 1) {
-            //置顶
-            if (aSwitch.isOn) {
-                [self.conversationModel setIsTop:YES];
-            } else {
-                [self.conversationModel setIsTop:NO];
-            }
-        }
-    }
-}
 
-//清空聊天记录
-- (void)deleteGroupRecord
-{
-    __weak typeof(self) weakself = self;
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"removeGroupMsgs", nil) preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *clearAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"clear", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:self.group.groupId type:EMConversationTypeGroupChat createIfNotExist:NO];
-        EMError *error = nil;
-        [conversation deleteAllMessages:&error];
-        if (weakself.clearRecordCompletion) {
-            if (!error) {
-                [EMAlertController showSuccessAlert:NSLocalizedString(@"cleared", nil)];
-                weakself.clearRecordCompletion(YES);
-            } else {
-                [EMAlertController showErrorAlert:NSLocalizedString(@"clearFail", nil)];
-                weakself.clearRecordCompletion(NO);
-            }
-        }
-    }];
-    [clearAction setValue:[UIColor colorWithRed:245/255.0 green:52/255.0 blue:41/255.0 alpha:1.0] forKey:@"_titleTextColor"];
-    [alertController addAction:clearAction];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-    }];
-    [cancelAction  setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
-    [alertController addAction:cancelAction];
-    alertController.modalPresentationStyle = 0;
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
-- (void)groupAnnouncementAction
-{
+- (void)groupAnnouncementAction {
     __weak typeof(self) weakself = self;
     [self showHudInView:self.view hint:NSLocalizedString(@"fetchingGroupAnn...", nil)];
     [[EMClient sharedClient].groupManager getGroupAnnouncementWithId:self.groupId completion:^(NSString *aAnnouncement, EMError *aError) {
@@ -761,36 +491,6 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)_leaveOrDestroyGroupAction
-{
-    __weak typeof(self) weakself = self;
-    void (^block)(EMError *aError) = ^(EMError *aError) {
-        if (!aError && [EMClient sharedClient].options.isDeleteMessagesWhenExitGroup) {
-            [[EMClient sharedClient].chatManager deleteServerConversation:weakself.groupId conversationType:EMConversationTypeGroupChat isDeleteServerMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
-                if (aError) {
-                    [weakself showHint:aError.errorDescription];
-                }
-                
-                [[EMClient sharedClient].chatManager deleteConversation:weakself.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
-                    [[EMTranslationManager sharedManager] removeTranslationByConversationId:weakself.groupId];
-                }];
-            }];
-        }
-        [weakself hideHud];
-        [weakself.navigationController popViewControllerAnimated:YES];
-        if (weakself.leaveOrDestroyCompletion) {
-            weakself.leaveOrDestroyCompletion();
-        }
-    };
-    
-    if (self.group.permissionType == EMGroupPermissionTypeOwner) {
-        [self showHudInView:self.view hint:NSLocalizedString(@"destroyGroup...", nil)];
-        [[EMClient sharedClient].groupManager destroyGroup:self.groupId finishCompletion:block];
-    } else {
-        [self showHudInView:self.view hint:NSLocalizedString(@"leaveGroup...", nil)];
-        [[EMClient sharedClient].groupManager leaveGroup:self.groupId completion:block];
-    }
-}
 
 - (void)addMemberAction
 {
@@ -816,7 +516,7 @@
                     if (aError) {
                         [EMAlertController showErrorAlert:aError.errorDescription];
                     } else {
-                        [weakself _fetchGroupWithId:weakself.groupId isShowHUD:NO];
+
                     }
                 }];
             }];
@@ -826,22 +526,6 @@
     }];
 }
     
-#pragma mark - Private
-
-- (NSInteger)_tagWithIndexPath:(NSIndexPath *)aIndexPath
-{
-    NSInteger tag = aIndexPath.section * 10 + aIndexPath.row;
-    return tag;
-}
-
-- (NSIndexPath *)_indexPathWithTag:(NSInteger)aTag
-{
-    NSInteger section = aTag / 10;
-    NSInteger row = aTag % 10;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-    return indexPath;
-}
-
 //string TO dictonary
 - (NSMutableDictionary *)changeStringToDictionary:(NSString *)string{
 

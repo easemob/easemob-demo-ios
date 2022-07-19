@@ -1,19 +1,19 @@
 //
-//  ACDGroupInfoMembersCell.m
-//  ChatDemo-UI3.0
+//  BQTitleAvatarAccessCell.m
+//  EaseIM
 //
-//  Created by liang on 2021/10/28.
-//  Copyright © 2021 easemob. All rights reserved.
+//  Created by liu001 on 2022/7/19.
+//  Copyright © 2022 liu001. All rights reserved.
 //
 
-#import "BQTitleAvatarCell.h"
+#import "BQTitleAvatarAccessCell.h"
 
-@interface BQTitleAvatarCell ()
+@interface BQTitleAvatarAccessCell ()
 @property (nonatomic, strong) UIImageView* accessoryImageView;
 @end
 
 
-@implementation BQTitleAvatarCell
+@implementation BQTitleAvatarAccessCell
 
 - (void)prepare {
     [self.contentView addSubview:self.iconImageView];

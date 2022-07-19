@@ -64,7 +64,7 @@ UITableView * tableView;
     tableView.layer.anchorPoint = CGPointMake(1.0, 0);
     tableView.transform =CGAffineTransformMakeScale(0.0001, 0.0001);
     
-    tableView.rowHeight = 52;
+    tableView.rowHeight = 44.0;
     
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [win addSubview:tableView];

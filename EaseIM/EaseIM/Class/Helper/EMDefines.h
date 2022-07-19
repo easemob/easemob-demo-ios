@@ -152,4 +152,13 @@
 //确认发送名片消息
 #define CONFIRM_USERCARD @"EMUserCardConfirm"
 
+
+//是否是极狐app
+#define kJiHuApp  0
+
+typedef NS_ENUM(NSUInteger, EMEnterType) {
+    EMEnterTypeJiHu,
+    EMEnterTypeYunGuan,
+};
+
 #endif /* EMDefines_h */

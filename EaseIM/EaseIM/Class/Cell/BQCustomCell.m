@@ -20,7 +20,12 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.contentView.backgroundColor = ViewCellBgBlackColor;
+    #if kJiHuApp
+            self.contentView.backgroundColor = ViewCellBgBlackColor;
+    #else
+            self.contentView.backgroundColor = ViewCellBgWhiteColor;
+    #endif
+
         [self prepare];
         [self placeSubViews];
     }
@@ -73,7 +78,13 @@
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = NFont(14.0);
-        _nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
+        
+        #if kJiHuApp
+            _nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
+        #else
+            _nameLabel.textColor = [UIColor colorWithHexString:@"#171717"];
+        #endif
+
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
 
@@ -84,7 +95,11 @@
 - (UIView *)bottomLine {
     if (!_bottomLine) {
         _bottomLine = UIView.new;
+#if kJiHuApp
         _bottomLine.backgroundColor = [UIColor colorWithHexString:@"#1C1C1C"];
+#else
+        _bottomLine.backgroundColor = [UIColor colorWithHexString:@"#DADADA"];
+#endif
     }
     return _bottomLine;
 }
@@ -96,6 +111,35 @@
     }
     return _tapGestureRecognizer;
 }
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    if (highlighted) {
+        self.contentView.backgroundColor = COLOR_HEX(0x333333);
+    }else {
+#if kJiHuApp
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
+#else
+        self.contentView.backgroundColor = ViewCellBgWhiteColor;
+#endif
+
+    }
+}
+
+- (void)setSelected:(BOOL)selected {
+    if (selected) {
+        self.contentView.backgroundColor = COLOR_HEX(0x333333);
+    }else {
+#if kJiHuApp
+        self.contentView.backgroundColor = ViewCellBgBlackColor;
+#else
+        self.contentView.backgroundColor = ViewCellBgWhiteColor;
+
+#endif
+
+    }
+
+}
+
 
 @end
 

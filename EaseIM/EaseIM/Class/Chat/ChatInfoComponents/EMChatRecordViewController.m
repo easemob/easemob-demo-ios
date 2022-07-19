@@ -46,8 +46,8 @@
 {
     [self addPopBackLeftItem];
     self.title = NSLocalizedString(@"msgList", nil);
-//    self.view.backgroundColor = [UIColor whiteColor];
-    self.view.backgroundColor = ViewBgBlackColor;
+
+//    self.view.backgroundColor = ViewBgBlackColor;
 
     self.showRefreshHeader = NO;
     self.searchBar.delegate = self;

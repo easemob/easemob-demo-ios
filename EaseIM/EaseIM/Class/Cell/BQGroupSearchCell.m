@@ -172,24 +172,6 @@
     return _customerButton;
 }
 
-
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-    if (highlighted) {
-        self.contentView.backgroundColor = COLOR_HEX(0x333333);
-    }else {
-        self.contentView.backgroundColor = ViewCellBgBlackColor;
-    }
-}
-
-- (void)setSelected:(BOOL)selected {
-    if (selected) {
-        self.contentView.backgroundColor = COLOR_HEX(0x333333);
-    }else {
-        self.contentView.backgroundColor = ViewCellBgBlackColor;
-    }
-
-}
-
 - (void)setGroupUserType:(BQGroupUserType)groupUserType {
     
     if(groupUserType == BQGroupUserTypeServicer) {

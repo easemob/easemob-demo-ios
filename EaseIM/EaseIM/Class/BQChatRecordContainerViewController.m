@@ -53,7 +53,12 @@ MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+#if kJiHuApp
     self.view.backgroundColor = ViewBgBlackColor;
+#else
+    self.view.backgroundColor = ViewBgWhiteColor;
+#endif
+
     self.title = @"查找聊天记录";
     
     [self addPopBackLeftItemWithTarget:self action:@selector(backItemAction)];
@@ -142,20 +147,23 @@ MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate>
 - (MISScrollPageController*)pageController {
     if(!_pageController){
         MISScrollPageStyle* style = [[MISScrollPageStyle alloc] init];
-//        style.showCover = YES;
-//        style.coverBackgroundColor = COLOR_HEX(0xD8D8D8);
-//        style.gradualChangeTitleColor = YES;
-//        style.normalTitleColor = COLOR_HEX(0x999999);
-//        style.selectedTitleColor = COLOR_HEX(0x000000);
-//        style.scrollLineColor = COLOR_HEXA(0x000000, 0.5);
 
+#if kJiHuApp
         style.coverBackgroundColor = COLOR_HEX(0xD8D8D8);
         style.gradualChangeTitleColor = YES;
         style.normalTitleColor = COLOR_HEX(0x7E7E7E);
         style.selectedTitleColor = COLOR_HEX(0xB9B9B9);
         style.scrollLineColor = COLOR_HEXA(0x000000, 0.5);
         style.segmentViewBackgroundColor = ViewBgBlackColor;
-        
+#else
+        style.showCover = YES;
+        style.coverBackgroundColor = COLOR_HEX(0xD8D8D8);
+        style.gradualChangeTitleColor = YES;
+        style.normalTitleColor = COLOR_HEX(0x999999);
+        style.selectedTitleColor = COLOR_HEX(0x000000);
+        style.scrollLineColor = COLOR_HEXA(0x000000, 0.5);
+#endif
+
         style.scaleTitle = YES;
         style.autoAdjustTitlesWidth = YES;
         style.titleBigScale = 1.05;
@@ -179,7 +187,6 @@ MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate>
 - (MISScrollPageContentView*)contentView {
     if(!_contentView){
         _contentView = [self.pageController contentViewWithFrame:CGRectMake(0, 50, KScreenWidth, KScreenHeight-kNavBarAndStatusBarHeight - 50.0)];
-        _contentView.backgroundColor = UIColor.yellowColor;
     }
     return _contentView;
 }

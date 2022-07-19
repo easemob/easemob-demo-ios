@@ -77,9 +77,13 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-//    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.backgroundColor = ViewBgBlackColor;
 
+#if kJiHuApp
+    self.navigationController.navigationBar.backgroundColor = ViewBgBlackColor;
+#else
+    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
+#endif
+    
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     self.navigationController.navigationBarHidden = NO;
 }
@@ -93,16 +97,25 @@
 
 - (void)_setupChatSubviews
 {
+#if kJiHuApp
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"jh_backleft"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+    //    self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
+        
+        self.view.backgroundColor = ViewBgBlackColor;
+#else
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"backleft"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+        self.view.backgroundColor = ViewBgWhiteColor;
+#endif
+
     [self _setupNavigationBarTitle];
     [self _setupNavigationBarRightItem];
+
+    
     [self addChildViewController:_chatController];
     [self.view addSubview:_chatController.view];
     _chatController.view.frame = self.view.bounds;
     [self loadData:YES];
-//    self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
-    
-    self.view.backgroundColor = ViewBgBlackColor;
+
 
 }
 
@@ -110,13 +123,23 @@
 {
     if (self.conversation.type == EMConversationTypeChat) {
 //        UIImage *image = [[UIImage imageNamed:@"userData"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+#if kJiHuApp
         UIImage *image = [[UIImage imageNamed:@"jh_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 
+#else
+        UIImage *image = [[UIImage imageNamed:@"yg_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+#endif
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(chatInfoAction)];
     }
     if (self.conversation.type == EMConversationTypeGroupChat) {
         
+#if kJiHuApp
         UIImage *image = [[UIImage imageNamed:@"jh_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
+#else
+        UIImage *image = [[UIImage imageNamed:@"yg_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+#endif
+
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(groupInfoAction)];
     }
     if (self.conversation.type == EMConversationTypeChatRoom) {
@@ -128,12 +151,9 @@
 - (void)_setupNavigationBarTitle
 {
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width * 06, 40)];
-    titleView.backgroundColor = ViewBgBlackColor;
     
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.font = [UIFont systemFontOfSize:18];
-//    self.titleLabel.textColor = [UIColor blackColor];
-    self.titleLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     [titleView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -141,6 +161,16 @@
         make.left.equalTo(titleView).offset(5);
         make.right.equalTo(titleView).offset(-5);
     }];
+    
+    
+#if kJiHuApp
+    titleView.backgroundColor = ViewBgWhiteColor;
+    self.titleLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
+#else
+    titleView.backgroundColor = ViewBgWhiteColor;
+    self.titleLabel.textColor = [UIColor blackColor];
+#endif
+
     
     self.titleDetailLabel = [[UILabel alloc] init];
     self.titleDetailLabel.font = [UIFont systemFontOfSize:15];

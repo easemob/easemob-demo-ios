@@ -25,6 +25,7 @@
     //hidden navigation bottom line
 //    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarStyleBlack];
 
+#if kJiHuApp
     [UINavigationBar appearance].barStyle = UIBarStyleBlack;
     [UINavigationBar appearance].translucent = NO;
     [UINavigationBar appearance].tintColor = ViewBgBlackColor;
@@ -32,8 +33,23 @@
     
     [[UINavigationBar appearance] setTitleTextAttributes:
          [NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithHexString:@"#F5F5F5"], NSForegroundColorAttributeName, [UIFont systemFontOfSize:16.0], NSFontAttributeName, nil]];
-
+#else
+//    [UINavigationBar appearance].barStyle = UIBarStyleDefault;
+//    [UINavigationBar appearance].translucent = NO;
+//    [UINavigationBar appearance].tintColor = ViewBgWhiteColor;
+//    [[UINavigationBar appearance] setBarTintColor:ViewBgWhiteColor];
+//
+//    [[UINavigationBar appearance] setTitleTextAttributes:
+//         [NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithHexString:@"#171717"], NSForegroundColorAttributeName, [UIFont systemFontOfSize:16.0], NSFontAttributeName, nil]];
     
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont systemFontOfSize:16.0], NSFontAttributeName, nil]];
+
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbar_white"] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance].layer setMasksToBounds:YES];
+    [UINavigationBar appearance].backgroundColor = [UIColor whiteColor];
+#endif
+
     //UITabBarItem
     [UITabBarItem.appearance setTitleTextAttributes:@{
                                                       NSFontAttributeName : NFont(12.0f),
