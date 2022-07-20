@@ -16,12 +16,18 @@ target 'EaseIM' do
     pod 'HyphenateChat'
     pod 'EaseIMKit'
     pod 'EaseCallKit'
-
-    #pod 'EaseCallKit',  :path => "../../EaseCallKit/easecallkitui-ios"
-    #pod 'EaseIMKit',  :path => "../../EaseIMKit_Release"
-
     pod 'Bugly'
     pod 'EMTranslate'
+#    xcode 14打开这个
+#    post_install do |installer|
+#      installer.generated_projects.each do |project|
+#        project.targets.each do |target|
+#            target.build_configurations.each do |config|
+#                config.build_settings["DEVELOPMENT_TEAM"] = "499WYUV8Q2"
+#             end
+#        end
+#      end
+#    end
     
 end
 

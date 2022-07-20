@@ -139,7 +139,7 @@
     } else if (section == 1) {
         if (row == 0) {
             cell.textLabel.text = NSLocalizedString(@"chatroomMembers", nil);
-            cell.detailTextLabel.text = nil;
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld",(long)self.chatroom.occupantsCount];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     } else if (section == 2) {
