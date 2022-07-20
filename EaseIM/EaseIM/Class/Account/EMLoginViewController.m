@@ -237,8 +237,6 @@
         make.bottom.equalTo(self.backView.mas_bottom).offset(-60);
     }];*/
     
-    self.nameField.text = TEST_USERNAME;
-    self.pswdField.text = TEST_PASSWORD;
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
