@@ -9,6 +9,7 @@
 #import "ConfInviteUserCell.h"
 #import "UserInfoStore.h"
 
+
 @interface ConfInviteUserCell()
 
 @property (nonatomic, weak) IBOutlet UIImageView *checkView;
@@ -24,10 +25,19 @@
     
 //    self.selectionStyle = UITableViewCellSelectionStyleNone;
 //    self.checkView.contentMode = UIViewContentModeScaleAspectFit;
-    self.contentView.backgroundColor = ViewBgBlackColor;
-    self.checkView.image = [UIImage imageNamed:@"unSlected"];
-    self.nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
     
+
+#if kJiHuApp
+    self.contentView.backgroundColor = ViewBgBlackColor;
+    self.nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
+    self.checkView.image = ImageWithName(@"unSlected");
+#else
+    self.contentView.backgroundColor = ViewBgWhiteColor;
+    self.nameLabel.textColor = [UIColor colorWithHexString:@"#171717"];
+    self.checkView.image = ImageWithName(@"yg_unSlected");
+
+#endif
+
 }
 
 
@@ -68,7 +78,13 @@
         if (isChecked) {
             self.checkView.image = [UIImage imageNamed:@"check"];
         } else {
+#if kJiHuApp
             self.checkView.image = [UIImage imageNamed:@"unSlected"];
+#else
+            self.checkView.image = ImageWithName(@"yg_unSlected");
+#endif
+
+
         }
     }
 }

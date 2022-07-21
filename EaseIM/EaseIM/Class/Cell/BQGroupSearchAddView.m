@@ -98,7 +98,13 @@
         _bgView.layer.cornerRadius = 24.0 * 0.5;
         _bgView.clipsToBounds = YES;
         _bgView.layer.masksToBounds = YES;
+#if kJiHuApp
         _bgView.backgroundColor = [UIColor colorWithHexString:@"#252525"];
+#else
+        _bgView.backgroundColor = [UIColor colorWithHexString:@"#F5F5F5"];
+#endif
+        
+        
     }
     return _bgView;
 }
@@ -121,8 +127,14 @@
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = NFont(12.0);
-        _nameLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
         _nameLabel.textAlignment = NSTextAlignmentCenter;
+        
+#if kJiHuApp
+        _nameLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
+#else
+        _nameLabel.textColor = [UIColor colorWithHexString:@"#171717"];
+#endif
+        
     }
     return _nameLabel;
 }
@@ -154,7 +166,12 @@
 
 
 - (void)placeAndLayoutSubViews {
+#if kJiHuApp
     self.backgroundColor = ViewCellBgBlackColor;
+#else
+    self.backgroundColor = ViewCellBgWhiteColor;
+#endif
+
     
     [self addSubview:self.titleLabel];
     [self addSubview:self.collectionView];

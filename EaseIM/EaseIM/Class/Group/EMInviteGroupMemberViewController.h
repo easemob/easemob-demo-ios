@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EMInviteGroupMemberViewController : EMSearchViewController
 
+
 @property (nonatomic, copy) void (^doneCompletion)(NSArray *aSelectedArray);
 
 - (instancetype)initWithBlocks:(NSArray *)aBlocks;

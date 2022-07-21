@@ -19,20 +19,21 @@
 @property (nonatomic, strong) UIButton *customerButton;
 @property (nonatomic, strong) NSString *currentUserId;
 
+@property (nonatomic, strong) UIImage *normalImage;
+@property (nonatomic, strong) UIImage *selectedImage;
+
 @end
 
 
 @implementation BQGroupSearchCell
 
 - (void)prepare {
-    
     [self.contentView addSubview:self.iconImageView];
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.servicerButton];
     [self.contentView addSubview:self.servicerLabel];
     [self.contentView addSubview:self.customerButton];
     [self.contentView addSubview:self.customerLabel];
-    
 }
 
 
@@ -141,7 +142,7 @@
 - (UIButton *)servicerButton {
     if (_servicerButton == nil) {
         _servicerButton = [[UIButton alloc] init];
-        [_servicerButton setImage:ImageWithName(@"jh_user_normal") forState:UIControlStateNormal];
+        [_servicerButton setImage:self.normalImage forState:UIControlStateNormal];
         [_servicerButton addTarget:self action:@selector(servicerButtonAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _servicerButton;
@@ -164,7 +165,7 @@
 - (UIButton *)customerButton {
     if (_customerButton == nil) {
         _customerButton = [[UIButton alloc] init];
-        [_customerButton setImage:ImageWithName(@"jh_user_normal") forState:UIControlStateNormal];
+        [_customerButton setImage:self.normalImage forState:UIControlStateNormal];
 
         [_customerButton addTarget:self action:@selector(customerButtonAction) forControlEvents:UIControlEventTouchUpInside];
         
@@ -176,16 +177,32 @@
     
     if(groupUserType == BQGroupUserTypeServicer) {
         [self.servicerButton setImage:ImageWithName(@"jh_user_check") forState:UIControlStateNormal];
-        [self.customerButton setImage:ImageWithName(@"jh_user_normal") forState:UIControlStateNormal];
+        [self.customerButton setImage:self.normalImage forState:UIControlStateNormal];
     }else if(groupUserType == BQGroupUserTypeCustomer) {
-        [self.servicerButton setImage:ImageWithName(@"jh_user_normal") forState:UIControlStateNormal];
+        [self.servicerButton setImage:self.normalImage forState:UIControlStateNormal];
         [self.customerButton setImage:ImageWithName(@"jh_user_check") forState:UIControlStateNormal];
     }else {
-        [self.servicerButton setImage:ImageWithName(@"jh_user_normal") forState:UIControlStateNormal];
-        [self.customerButton setImage:ImageWithName(@"jh_user_normal") forState:UIControlStateNormal];
+        [self.servicerButton setImage:self.normalImage forState:UIControlStateNormal];
+        [self.customerButton setImage:self.normalImage forState:UIControlStateNormal];
 
     }
     
+}
+
+
+- (UIImage *)normalImage {
+#if kJiHuApp
+    _normalImage = ImageWithName(@"jh_user_normal");
+#else
+    _normalImage = ImageWithName(@"yg_user_normal");
+#endif
+
+    return _normalImage;
+}
+
+- (UIImage *)selectedImage {
+    _selectedImage = ImageWithName(@"jh_user_check");
+    return _selectedImage;
 }
 
 @end

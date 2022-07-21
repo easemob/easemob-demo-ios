@@ -172,6 +172,7 @@
 }
  
 
+
 #pragma mark - Table view delegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -204,85 +205,6 @@
     return hView;
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    NSInteger section = indexPath.section;
-//    NSInteger row = indexPath.row;
-//    if (section == 0) {
-//        if (row == 1) {
-//            //群成员
-//            EMGroupAllMembersViewController *controller = [[EMGroupAllMembersViewController alloc]initWithGroup:self.group];
-//            [self.navigationController pushViewController:controller animated:YES];
-//        } else if (row == 2) {
-//            //邀请成员
-//            [self addMemberAction];
-//        }
-//    } else if (section == 1) {
-//        if (row == 0) {
-//             //修改群名称
-//            [self _updateGroupNameAction];
-//        } else if (row == 1) {
-//            //群共享文件
-//            EMGroupSharedFilesViewController *controller = [[EMGroupSharedFilesViewController alloc] initWithGroup:self.group];
-//            [self.navigationController pushViewController:controller animated:YES];
-//        } else if (row == 2) {
-//            [self groupAnnouncementAction];
-//        } else if (row == 3) {
-//            //群介绍
-//            [self _updateGroupDetailAction];
-//        } else if (row == 4) {
-//            //群管理
-//            EMGroupManageViewController *controller = [[EMGroupManageViewController alloc]initWithGroup:self.groupId];
-//            [self.navigationController pushViewController:controller animated:YES];
-//        }
-//    } else if (section == 2) {
-//        if (row == 0) {
-//            //查找聊天记录
-//            [self goSearchChatRecord];
-//        }
-//    } else if (section == 4) {
-//        //删除聊天记录
-//        [self deleteGroupRecord];
-//    } else if (section == 5) {
-//        if (row == 0) {
-//            [self _leaveOrDestroyGroupAction];
-//        }
-//    }
-//}
-
-- (void)goSearchChatRecord {
-    //查找聊天记录
-    EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:self.groupId type:EMConversationTypeGroupChat createIfNotExist:NO];
-    BQChatRecordContainerViewController *chatRrcordController = [[BQChatRecordContainerViewController alloc]initWithCoversationModel:conversation];
-  
-    [self.navigationController pushViewController:chatRrcordController animated:YES];
-}
-
-#pragma mark - EMMultiDevicesDelegate
-
-- (void)multiDevicesGroupEventDidReceive:(EMMultiDevicesEvent)aEvent
-                                 groupId:(NSString *)aGroupId
-                                     ext:(id)aExt
-{
-    switch (aEvent) {
-        case EMMultiDevicesEventGroupKick:
-        case EMMultiDevicesEventGroupBan:
-        case EMMultiDevicesEventGroupAllow:
-        case EMMultiDevicesEventGroupAssignOwner:
-        case EMMultiDevicesEventGroupAddAdmin:
-        case EMMultiDevicesEventGroupRemoveAdmin:
-        case EMMultiDevicesEventGroupAddMute:
-        case EMMultiDevicesEventGroupRemoveMute:
-        {
-            if ([aGroupId isEqualToString:self.group.groupId]) {
-                [self.tableView reloadData];
-            }
-        }
-            
-        default:
-            break;
-    }
-}
 
 #pragma mark - Data
 
@@ -415,6 +337,8 @@
     }];
 }
 */
+
+
 - (void)_updateGroupNameAction
 {
     BOOL isEditable = self.group.permissionType == EMGroupPermissionTypeOwner ? YES : NO;
@@ -547,9 +471,6 @@
             [weakSelf addGroupMember];
         };
         
-        _groupMemberCell.moreMemberBlock = ^{
-            [weakSelf checkGroupMember];
-        };
         
     }
     return _groupMemberCell;
@@ -561,11 +482,6 @@
     
 }
 
-
-- (void)checkGroupMember {
-    EMGroupMembersViewController *controller = [[EMGroupMembersViewController alloc]initWithGroup:self.group];
-    [self.navigationController pushViewController:controller animated:YES];
-}
 
 
 @end

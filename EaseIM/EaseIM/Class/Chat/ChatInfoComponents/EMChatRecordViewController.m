@@ -47,8 +47,6 @@
     [self addPopBackLeftItem];
     self.title = NSLocalizedString(@"msgList", nil);
 
-//    self.view.backgroundColor = ViewBgBlackColor;
-
     self.showRefreshHeader = NO;
     self.searchBar.delegate = self;
     
@@ -60,8 +58,13 @@
     }];
     [self.searchBar.textField becomeFirstResponder];
     
-//    self.searchResultTableView.backgroundColor = kColor_LightGray;
+#if kJiHuApp
     self.searchResultTableView.backgroundColor = ViewBgBlackColor;
+#else
+    self.searchResultTableView.backgroundColor = ViewBgWhiteColor;
+#endif
+
+    
     self.searchResultTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.searchResultTableView.rowHeight = UITableViewAutomaticDimension;
     self.searchResultTableView.estimatedRowHeight = 130;

@@ -39,8 +39,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+#if kJiHuApp
     self.view.backgroundColor = ViewBgBlackColor;
-    
+    self.collectionView.backgroundColor = ViewBgBlackColor;
+#else
+    self.view.backgroundColor = ViewBgWhiteColor;
+    self.collectionView.backgroundColor = ViewBgWhiteColor;
+#endif
+
     [self.view addSubview:self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -129,7 +135,6 @@
         
         [_collectionView registerClass:[BQRecordImageVideoCell class] forCellWithReuseIdentifier:[BQRecordImageVideoCell reuseIdentifier]];
         
-        _collectionView.backgroundColor = ViewBgBlackColor;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsVerticalScrollIndicator = NO;
@@ -137,7 +142,7 @@
         _collectionView.alwaysBounceVertical = YES;
         _collectionView.pagingEnabled = NO;
         _collectionView.userInteractionEnabled = YES;
-        
+    
     }
     return _collectionView;
 }

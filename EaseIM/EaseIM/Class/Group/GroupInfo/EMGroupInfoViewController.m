@@ -34,6 +34,7 @@
 #import "EMInviteGroupMemberViewController.h"
 #import "BQChatRecordContainerViewController.h"
 #import "BQTitleAvatarAccessCell.h"
+#import "YGGroupMuteSettingViewController.h"
 
 
 @interface EMGroupInfoViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
@@ -232,6 +233,9 @@
             if (indexPath.row == 0) {
                 titleValueAccessCell.nameLabel.text = @"群名称";
                 titleValueAccessCell.detailLabel.text = self.group.groupName;
+                titleValueAccessCell.tapCellBlock = ^{
+                    [self _updateGroupNameAction];
+                };
                 return titleValueAccessCell;
             }else if (indexPath.row == 1){
                 titleValueCell.nameLabel.text = @"群主";
@@ -256,7 +260,7 @@
                 titleValueAccessCell.nameLabel.text = @"群禁言";
                 titleValueAccessCell.detailLabel.text = @"";
                 titleValueAccessCell.tapCellBlock = ^{
-                    [self _updateGroupDetailAction];
+                    [self goSettingMutePage];
                 };
                 return titleValueAccessCell;
             }else {
@@ -639,7 +643,7 @@
                 hint = NSLocalizedString(@"noGroupAnn", nil);
             }
             EMTextViewController *controller = [[EMTextViewController alloc] initWithString:aAnnouncement placeholder:hint isEditable:isEditable];
-            controller.title = NSLocalizedString(@"groupAnn", nil);
+            controller.title = @"群公告";
             
             __weak typeof(controller) weakController = controller;
             [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
@@ -883,26 +887,30 @@
         
         BQ_WS
         _groupMemberCell.addMemberBlock = ^{
-            [weakSelf addGroupMember];
+            [weakSelf goAddGroupMemberPage];
         };
         
         _groupMemberCell.moreMemberBlock = ^{
-            [weakSelf checkGroupMember];
+            [weakSelf goCheckGroupMemberPage];
         };
         
     }
     return _groupMemberCell;
 }
 
-- (void)addGroupMember {
+- (void)goAddGroupMemberPage {
     BQAddGroupMemberViewController *controller = [[BQAddGroupMemberViewController alloc] init];
     [self.navigationController pushViewController:controller animated:YES];
     
 }
 
-
-- (void)checkGroupMember {
+- (void)goCheckGroupMemberPage {
     EMGroupMembersViewController *controller = [[EMGroupMembersViewController alloc]initWithGroup:self.group];
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (void)goSettingMutePage {
+    YGGroupMuteSettingViewController *controller = [[YGGroupMuteSettingViewController alloc] initWithGroup:self.group];
     [self.navigationController pushViewController:controller animated:YES];
 }
 

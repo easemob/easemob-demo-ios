@@ -80,9 +80,10 @@
     self.textField.tintColor = [UIColor colorWithHexString:@"#04D0A4"];
     self.backgroundColor = ViewBgBlackColor;
 #else
-    self.backgroundColor = [UIColor whiteColor];
-    self.textField.backgroundColor = ViewBgWhiteColor;
+    self.backgroundColor = ViewBgWhiteColor;
+    self.textField.backgroundColor = [UIColor whiteColor];
     [self.textField setTextColor:UIColor.blackColor];
+    
     
 #endif
 

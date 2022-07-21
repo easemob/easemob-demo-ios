@@ -102,7 +102,15 @@
 {
     [self addPopBackLeftItem];
     self.title = NSLocalizedString(@"msgList", nil);
+    
+#if kJiHuApp
     self.view.backgroundColor = ViewBgBlackColor;
+    self.tableView.backgroundColor = ViewBgBlackColor;
+#else
+    self.view.backgroundColor = ViewBgWhiteColor;
+    self.tableView.backgroundColor = ViewBgWhiteColor;
+#endif
+
     
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
@@ -310,7 +318,6 @@
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[BQChatRecordFileCell class] forCellReuseIdentifier:NSStringFromClass([BQChatRecordFileCell class])];
-        _tableView.backgroundColor = ViewBgBlackColor;
     }
     return _tableView;
 }

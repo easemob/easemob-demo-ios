@@ -1,5 +1,5 @@
 //
-//  YGGroupBanMemberCell.h
+//  YGGroupBanSettingViewController.h
 //  EaseIM
 //
 //  Created by liu001 on 2022/7/19.
@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BQCustomCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YGGroupBanMemberCell : BQCustomCell
-@property (nonatomic, copy) void (^unBanBlock)(NSString *userId);
+@interface YGGroupMuteSettingViewController : UIViewController
+- (instancetype)initWithGroup:(EMGroup *)aGroup;
 
 @end
 
