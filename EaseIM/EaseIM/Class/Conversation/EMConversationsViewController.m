@@ -205,7 +205,6 @@
             
             [[EMClient sharedClient].chatManager deleteConversation:model.easeId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
                 if (!aError) {
-                    [[EMTranslationManager sharedManager] removeTranslationByConversationId:model.easeId];
                     [weakself.resultController.dataArray removeObjectAtIndex:indexPath.row];
                     [weakself.resultController.tableView reloadData];
                     if (unreadCount > 0 && weakself.deleteConversationCompletion) {
@@ -258,7 +257,7 @@
     [[EMClient sharedClient].chatManager getConversationsFromServer:^(NSArray *aConversations, EMError *aError) {
         if (!aError && [aConversations count] > 0) {
             [weakself.easeConvsVC.dataAry removeAllObjects];
-            NSArray<EaseConversationModel *> *modelAry = [self formateConversations:aCoversations];
+            NSArray<EaseConversationModel *> *modelAry = [self formateConversations:aConversations];
             if (modelAry.count > 0) {
                 [weakself.easeConvsVC.dataAry addObjectsFromArray:modelAry];
                 [weakself.easeConvsVC refreshTable];

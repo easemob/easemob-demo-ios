@@ -690,7 +690,7 @@
                 }
                 
                 [[EMClient sharedClient].chatManager deleteConversation:weakself.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
-                    [[EMTranslationManager sharedManager] removeTranslationByConversationId:weakself.groupId];
+                    
                 }];
             }];
         }

@@ -23,7 +23,6 @@
 #import "UserInfoStore.h"
 #import "ConfirmUserCardView.h"
 #import "EMAccountViewController.h"
-#import "EMChatViewController+Translate.h"
 
 @interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
@@ -181,18 +180,6 @@
             userCardCell.delegate = self;
             return userCardCell;
         }
-    }
-    if(messageModel.type == EMMessageTypeText)
-    {
-        NSString* msgId = messageModel.message.messageId;
-        EMTranslationResult* translateResult = [[EMTranslationManager sharedManager] getTranslationByMsgId:msgId];
-        TranslateTextBubbleView * bubbleView = [[TranslateTextBubbleView alloc] initWithDirection:messageModel.direction type:messageModel.type];
-        [bubbleView setModel:messageModel];
-        EMMessageCell* texMsgtCell = [[EMMessageCell alloc] initWithDirection:messageModel.direction type:messageModel.type msgView:bubbleView translate:translateResult isTranslating:[self.translatingMsgIds containsObject:messageModel.message.messageId]];
-        texMsgtCell.translateResult = translateResult;
-        texMsgtCell.model = messageModel;
-        texMsgtCell.delegate = self;
-        return texMsgtCell;
     }
     return nil;
 }
