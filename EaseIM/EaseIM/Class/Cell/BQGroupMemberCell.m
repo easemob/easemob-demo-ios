@@ -7,10 +7,10 @@
 //
 
 #import "BQGroupMemberCell.h"
-#import "BQGroupMemberView.h"
+#import "BQGroupMemberCollectionView.h"
 
 @interface BQGroupMemberCell ()
-@property (nonatomic, strong) BQGroupMemberView* groupMemberView;
+@property (nonatomic, strong) BQGroupMemberCollectionView* groupMemberView;
 @property (nonatomic, strong) UIButton* moreButton;
 @property (nonatomic, strong) EMGroup *group;
 
@@ -21,7 +21,6 @@
 
 - (void)prepare {
     [self.contentView addSubview:self.groupMemberView];
-    [self.contentView addSubview:self.moreButton];
 }
 
 - (void)placeSubViews {
@@ -31,12 +30,18 @@
         make.height.equalTo(@(128.0));
     }];
     
+#if kJiHuApp
+    [self.contentView addSubview:self.moreButton];
     [self.moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.groupMemberView.mas_bottom);
         make.left.right.equalTo(self.contentView);
         make.bottom.equalTo(self.contentView);
     }];
-}
+#else
+    
+#endif
+    
+    }
 
 - (void)updateWithObj:(id)obj {
     if (obj == nil) {
@@ -86,9 +91,9 @@
 }
 
 #pragma mark getter and setter
-- (BQGroupMemberView *)groupMemberView {
+- (BQGroupMemberCollectionView *)groupMemberView {
     if (_groupMemberView == nil) {
-        _groupMemberView = [[BQGroupMemberView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 100)];
+        _groupMemberView = [[BQGroupMemberCollectionView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 100)];
         BQ_WS
         _groupMemberView.addMemberBlock = ^{
             if (weakSelf.addMemberBlock) {

@@ -131,6 +131,7 @@
 #endif
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(chatInfoAction)];
     }
+    
     if (self.conversation.type == EMConversationTypeGroupChat) {
         
 #if kJiHuApp
@@ -163,15 +164,6 @@
     }];
     
     
-#if kJiHuApp
-    titleView.backgroundColor = ViewBgBlackColor;
-    self.titleLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
-#else
-    titleView.backgroundColor = ViewBgWhiteColor;
-    self.titleLabel.textColor = [UIColor blackColor];
-#endif
-
-    
     self.titleDetailLabel = [[UILabel alloc] init];
     self.titleDetailLabel.font = [UIFont systemFontOfSize:15];
     self.titleDetailLabel.textColor = [UIColor grayColor];
@@ -183,6 +175,17 @@
         make.right.equalTo(self.titleLabel);
         make.bottom.equalTo(titleView);
     }];
+    
+#if kJiHuApp
+    titleView.backgroundColor = ViewBgBlackColor;
+    self.titleLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
+#else
+    titleView.backgroundColor = ViewBgWhiteColor;
+    self.titleLabel.textColor = [UIColor blackColor];
+
+    self.titleDetailLabel.textColor = [UIColor colorWithHexString:@"#A5A5A5"];
+#endif
+
     
     self.navigationItem.titleView = titleView;
     [self updateNavigationTitle];

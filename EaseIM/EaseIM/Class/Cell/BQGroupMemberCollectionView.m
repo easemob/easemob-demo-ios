@@ -6,7 +6,7 @@
 //  Copyright © 2022 liu001. All rights reserved.
 //
 
-#import "BQGroupMemberView.h"
+#import "BQGroupMemberCollectionView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UserInfoStore.h"
 
@@ -59,7 +59,13 @@
         _operationImageView.contentMode = UIViewContentModeScaleAspectFit;
         _operationImageView.clipsToBounds = YES;
         _operationImageView.layer.masksToBounds = YES;
+        
+#if kJiHuApp
         [_operationImageView setImage:ImageWithName(@"jh_addMember")];
+#else
+        [_operationImageView setImage:ImageWithName(@"yg_operate_member")];
+#endif
+
     }
     return _operationImageView;
 }
@@ -70,6 +76,11 @@
         _titleLabel.font = NFont(12.0);
         _titleLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
+#if kJiHuApp
+
+#else
+        _titleLabel.text = @"编辑";
+#endif
     }
     return _titleLabel;
 }
@@ -107,7 +118,7 @@
 
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.iconImageView.mas_bottom).offset(3.0);
-        make.centerX.equalTo(self.contentView);
+        make.left.right.equalTo(self.contentView);
         make.bottom.equalTo(self.contentView);
     }];
 }
@@ -170,8 +181,9 @@
 
 
 
-@interface BQGroupMemberView ()<UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
+@interface BQGroupMemberCollectionView ()<UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 
+@property (nonatomic, strong) UIView* titleView;
 @property (nonatomic, strong) UILabel* nameLabel;
 @property (nonatomic, strong) UILabel* memberCountLabel;
 @property (nonatomic, strong) UIImageView* accessoryImageView;
@@ -181,7 +193,7 @@
 
 
 
-@implementation BQGroupMemberView
+@implementation BQGroupMemberCollectionView
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -192,34 +204,18 @@
 
 
 - (void)placeAndLayoutSubViews {
-    [self addSubview:self.nameLabel];
-    [self addSubview:self.memberCountLabel];
-    [self addSubview:self.accessoryImageView];
+    [self addSubview:self.titleView];
     [self addSubview:self.collectionView];
 
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(16.0);
-        make.left.equalTo(self).offset(kBQPadding * 1.6);
-        make.width.equalTo(@(150.0));
-    }];
     
-    [self.memberCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.nameLabel.mas_right).offset(5.0);
-        make.centerY.equalTo(self.nameLabel);
-        make.right.equalTo(self.accessoryImageView.mas_left);
-    }];
-    
-    
-    [self.accessoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.nameLabel);
-        make.width.equalTo(@(28.0));
-        make.height.equalTo(@(28.0));
-        make.right.equalTo(self).offset(-16.0);
+    [self.titleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self);
+        make.left.right.equalTo(self);
+        make.height.equalTo(@(56.0));
     }];
 
-    
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.nameLabel.mas_bottom).offset(10.0);
+        make.top.equalTo(self.titleView.mas_bottom);
         make.left.right.equalTo(self);
         make.bottom.equalTo(self);
     }];
@@ -299,15 +295,29 @@
 - (UICollectionViewFlowLayout *)collectionViewLayout {
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    CGFloat itemWidth = 38.0;
-    CGFloat itemHeight = 58.0;
-    flowLayout.itemSize = CGSizeMake(itemWidth, itemHeight);
-    flowLayout.minimumLineSpacing = 14.0;
+
+    flowLayout.itemSize = [BQGroupMemberCollectionView collectionViewItemSize];
+    flowLayout.minimumLineSpacing = [BQGroupMemberCollectionView collectionViewMinimumLineSpacing];
     flowLayout.minimumInteritemSpacing = 12.0;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 16.0, 0, 16.0);
     
     return flowLayout;
 }
+
++ (CGSize)collectionViewItemSize {
+//    CGFloat itemWidth = 38.0;
+//    CGFloat itemHeight = 58.0;
+
+    CGFloat itemWidth = (KScreenWidth - 16.0 * 2 - 5 * 12.0)/6.0;
+    CGFloat itemHeight = 58.0;
+    return CGSizeMake(itemWidth, itemHeight);
+}
+
+
++ (CGFloat)collectionViewMinimumLineSpacing {
+    return 14.0;
+}
+
 
 - (NSMutableArray*)dataArray
 {
@@ -351,6 +361,37 @@
     return _accessoryImageView;
 }
 
+- (UIView *)titleView {
+    if (_titleView == nil) {
+        _titleView = [[UIView alloc] init];
+        [_titleView addSubview:self.nameLabel];
+        [_titleView addSubview:self.memberCountLabel];
+        [_titleView addSubview:self.accessoryImageView];
+
+        [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_titleView).offset(16.0);
+            make.left.equalTo(_titleView).offset(kBQPadding * 1.6);
+            make.width.equalTo(@(150.0));
+        }];
+        
+        [self.memberCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nameLabel.mas_right).offset(5.0);
+            make.centerY.equalTo(self.nameLabel);
+            make.right.equalTo(self.accessoryImageView.mas_left);
+        }];
+        
+        
+        [self.accessoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.nameLabel);
+            make.width.equalTo(@(28.0));
+            make.height.equalTo(@(28.0));
+            make.right.equalTo(_titleView).offset(-16.0);
+        }];
+
+
+    }
+    return _titleView;
+}
 
 @end
 

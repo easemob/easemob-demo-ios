@@ -18,9 +18,18 @@
 @property (nonatomic, strong) UITableView *searchResultTableView;
 @property (nonatomic, strong) NSMutableArray *groupAddedArray;
 
+
 @end
 
 @implementation BQAddGroupMemberViewController
+- (instancetype)initWithMemberArray:(NSMutableArray *)memberArray {
+    self = [super init];
+    if (self) {
+        self.groupAddedArray = memberArray;
+    }
+    return self;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,7 +45,7 @@
 
     
     [self placeAndLayoutSubviews];
-    
+    [self.groupSearchAddView updateUIWithMemberArray:self.groupAddedArray];
 }
 
 - (void)backItemAction {
@@ -46,6 +55,9 @@
 
 - (void)completionAction {
     if (self.searchResultArray.count > 0) {
+        if (self.addedMemberBlock) {
+            self.addedMemberBlock(self.groupAddedArray);
+        }
         [self showHint:@"群主同意后，您邀请的成员将会自动加入本群聊"];
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -71,7 +83,6 @@
         make.right.equalTo(self.view);
         make.height.equalTo(@(0));
     }];
-    
     
     [self.searchResultTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.groupSearchAddView.mas_bottom);

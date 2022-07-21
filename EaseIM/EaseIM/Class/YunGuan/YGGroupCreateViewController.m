@@ -26,48 +26,31 @@
 #import "BQTitleValueAccessCell.h"
 #import "BQTitleValueCell.h"
 #import "BQTitleSwitchCell.h"
-#import "BQGroupMemberCell.h"
 #import "BQAddGroupMemberViewController.h"
 #import "EMInviteGroupMemberViewController.h"
 #import "BQChatRecordContainerViewController.h"
+#import "YGCreateGroupOperationMemberCell.h"
 
 
 @interface YGGroupCreateViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
 
-@property (nonatomic, strong) NSString *groupId;
-@property (nonatomic, strong) EMGroup *group;
-
-@property (nonatomic, strong) EMConversation *conversation;
-@property (nonatomic, strong) EaseConversationModel *conversationModel;
-
-
-@property (nonatomic, strong) BQGroupMemberCell *groupMemberCell;
+@property (nonatomic, strong) YGCreateGroupOperationMemberCell *operationMemberCell;
+@property (nonatomic, strong) UIButton *confirmButton;
+@property (nonatomic, strong) NSMutableArray *memberArray;
+@property (nonatomic, strong) NSString *groupName;
+@property (nonatomic, strong) NSString *groupInterduce;
+@property (nonatomic, strong) UIView *footerView;
 
 @end
 
 @implementation YGGroupCreateViewController
 
-- (instancetype)initWithConversation:(EMConversation *)aConversation
-{
-    self = [super init];
-    if (self) {
-        _groupId = aConversation.conversationId;
-        _conversation = aConversation;
-        _conversationModel = [[EaseConversationModel alloc]initWithConversation:aConversation];
-    }
-    
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self registeCell];
-    [self _setupSubviews];
-//    [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
-    self.showRefreshHeader = NO;
-    [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
-    [[EMClient sharedClient] addMultiDevicesDelegate:self delegateQueue:nil];
+    [self placeAndLayoutSubviews];
+//    [self buildTestData];
 }
 
 - (void)registeCell {
@@ -80,40 +63,16 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    __weak typeof(self) weakself = self;
-    [EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:self.groupId completion:^(EMGroup *aGroup, EMError *aError) {
-        if (!aError) {
-            weakself.group = aGroup;
-            [weakself _resetGroup:aGroup];
-        } else {
-            [EMAlertController showErrorAlert:[NSString stringWithFormat:NSLocalizedString(@"fetchGroupSubjectFail", nil),aError.description]];
-        }
-    }];
-}
-
-- (void)reloadInfo
-{
-    [self.tableView reloadData];
-}
-
-- (void)dealloc
-{
-    [[EMClient sharedClient].groupManager removeDelegate:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 #pragma mark - Subviews
-
-- (void)_setupSubviews
+- (void)placeAndLayoutSubviews
 {
     [self addPopBackLeftItem];
     self.title = @"创建群组";
     
     self.tableView.rowHeight = 60;
-    self.tableView.tableFooterView = [[UIView alloc] init];
+    self.tableView.tableFooterView = [self footerView];
 
+    
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
         make.left.equalTo(self.view);
@@ -122,6 +81,18 @@
     }];
         
 }
+
+
+- (void)buildTestData {
+    NSMutableArray *tArray = NSMutableArray.array;
+    for (int i = 0; i < 20; ++i) {
+        NSString *member = [NSString stringWithFormat:@"gMember_%@",@(i)];
+        [tArray addObject:member];
+    }
+    self.memberArray = [tArray mutableCopy];
+    [self.tableView reloadData];
+}
+
 
 #pragma mark - Table view data source
 
@@ -140,8 +111,6 @@
 
     BQTitleValueCell *titleValueCell = [tableView dequeueReusableCellWithIdentifier:[BQTitleValueCell reuseIdentifier]];
 
-    BQTitleSwitchCell *titleSwitchCell = [tableView dequeueReusableCellWithIdentifier:[BQTitleSwitchCell reuseIdentifier]];
-
 
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
@@ -149,20 +118,20 @@
             [titleAvatarCell.iconImageView setImage:ImageWithName(@"jh_group_icon")];
             return titleAvatarCell;
         }else {
-            [self.groupMemberCell updateWithObj:self.group];
-            return self.groupMemberCell;
+            [self.operationMemberCell updateWithObj:self.memberArray];
+            return self.operationMemberCell;
         }
         
     }else {
         if (indexPath.row == 0) {
             titleValueCell.nameLabel.text = @"群名称";
-            titleValueCell.detailLabel.text = self.group.groupName;
+            titleValueCell.detailLabel.text = self.groupName;
             return titleValueCell;
         }else {
             titleValueAccessCell.nameLabel.text = @"群介绍";
             titleValueAccessCell.detailLabel.text = @"";
             titleValueAccessCell.tapCellBlock = ^{
-                [self _updateGroupDetailAction];
+                [self editGroupInterduce];
             };
             return titleValueAccessCell;
         }
@@ -178,19 +147,18 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 && indexPath.row == 1){
-        return [BQGroupMemberCell cellHeightWithObj:self.group];
+        return [YGCreateGroupOperationMemberCell cellHeightWithObj:self.memberArray];
     }
     
     return 64.0;
 }
 
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
+    if (section == 0){
         return 0.001;
-    
+    }
     return 24.0;
 }
 
@@ -201,155 +169,23 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *hView = [[UIView alloc] init];
+#if kJiHuApp
     hView.backgroundColor = [UIColor colorWithHexString:@"#171717"];
+#else
+    hView.backgroundColor = ViewBgWhiteColor;
+
+#endif
+
     return hView;
 }
 
 
-#pragma mark - Data
-
-- (void)_resetGroup:(EMGroup *)aGroup
-{
-    if (![self.group.groupName isEqualToString:aGroup.groupName]) {
-        if (_conversation) {
-            NSMutableDictionary *ext = [NSMutableDictionary dictionaryWithDictionary:_conversation.ext];
-            [ext setObject:aGroup.groupName forKey:@"subject"];
-            [ext setObject:[NSNumber numberWithBool:aGroup.isPublic] forKey:@"isPublic"];
-            _conversation.ext = ext;
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_SUBJECT_UPDATED object:aGroup];
-        }
-    }
-    
-    self.group = aGroup;
-    [self.tableView reloadData];
-}
-
-
-- (void)tableViewDidTriggerHeaderRefresh
-{
-    self.page = 1;
-}
-
-
-#pragma mark - Action
-- (void)noDisturbEnableWithSwitch:(UISwitch *)aSwitch {
+- (void)editGroupNameAction {
+    EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:self.groupName  placeholder:NSLocalizedString(@"inputGroupSubject", nil) isEditable:YES];
+    controller.title = NSLocalizedString(@"editGroupSubject", nil);
+    [self.navigationController pushViewController:controller animated:YES];
     
     BQ_WS
-    [[EaseIMKitManager shared] updateUndisturbMapsKey:self.conversation.conversationId value:aSwitch.isOn];
-    [EMClient.sharedClient.groupManager updatePushServiceForGroup:self.group.groupId isPushEnabled:!aSwitch.isOn completion:^(EMGroup *aGroup, EMError *aError) {
-        if (!aError) {
-            weakSelf.group = aGroup;
-        } else {
-            if (aError) {
-                [weakSelf showHint:[NSString stringWithFormat:NSLocalizedString(@"setDistrbute", nil),aError.errorDescription]];
-                [aSwitch setOn:NO];
-            }
-        }
-    }];
-}
-
-
-
-- (void)groupAnnouncementAction {
-    __weak typeof(self) weakself = self;
-    [self showHudInView:self.view hint:NSLocalizedString(@"fetchingGroupAnn...", nil)];
-    [[EMClient sharedClient].groupManager getGroupAnnouncementWithId:self.groupId completion:^(NSString *aAnnouncement, EMError *aError) {
-        [weakself hideHud];
-        if (!aError) {
-            BOOL isEditable = NO;
-            if (weakself.group.permissionType == EMGroupPermissionTypeOwner || weakself.group.permissionType == EMGroupPermissionTypeAdmin) {
-                isEditable = YES;
-            }
-            NSString *hint;
-            if (isEditable) {
-                hint = NSLocalizedString(@"inputGroupAnn", nil);
-            } else {
-                hint = NSLocalizedString(@"noGroupAnn", nil);
-            }
-            EMTextViewController *controller = [[EMTextViewController alloc] initWithString:aAnnouncement placeholder:hint isEditable:isEditable];
-            controller.title = NSLocalizedString(@"groupAnn", nil);
-            
-            __weak typeof(controller) weakController = controller;
-            [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
-                [weakController showHudInView:weakController.view hint:NSLocalizedString(@"updateGroupAnn...", nil)];
-                [[EMClient sharedClient].groupManager updateGroupAnnouncementWithId:weakself.groupId announcement:aString completion:^(EMGroup *aGroup, EMError *aError) {
-                    [weakController hideHud];
-                    if (aError) {
-                        [EMAlertController showErrorAlert:NSLocalizedString(@"updateGroupAnnFail", nil)];
-                    } else {
-                        [weakController.navigationController popViewControllerAnimated:YES];
-                    }
-                }];
-                
-                return NO;
-            }];
-            
-            [weakself.navigationController pushViewController:controller animated:YES];
-        } else {
-            [EMAlertController showErrorAlert:NSLocalizedString(@"fetchGroupAnnFail", nil)];
-        }
-    }];
-}
-/*
-//获取我的群昵称
-- (NSString *)acquireGroupNickNamkeOfMine
-{
-    NSMutableDictionary *nickNameDict = [self changeStringToDictionary:self.group.setting.ext];
-    if (nickNameDict) {
-        return [nickNameDict objectForKey:EMClient.sharedClient.currentUsername];
-    }
-    return EMClient.sharedClient.currentUsername;
-}
-
-//修改我的群昵称
-- (void)_updateGroupNickNameOfMine
-{
-    EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:[self acquireGroupNickNamkeOfMine] placeholder:NSLocalizedString(@"inputGroupNickname", nil) isEditable:YES];
-    controller.title = NSLocalizedString(@"editGroupSubject", nil);
-    [self.navigationController pushViewController:controller animated:YES];
-    
-    __weak typeof(self) weakself = self;
-    __weak typeof(controller) weakController = controller;
-    [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
-        NSMutableDictionary *nickNameDic = [weakself changeStringToDictionary:weakself.group.setting.ext];
-        if (!nickNameDic) {
-            nickNameDic = [[NSMutableDictionary alloc]init];
-        }
-        if ([aString length] == 0) {
-            [nickNameDic setObject:EMClient.sharedClient.currentUsername forKey:EMClient.sharedClient.currentUsername];
-        } else {
-            [nickNameDic setObject:aString forKey:EMClient.sharedClient.currentUsername];
-        }
-        [weakController showHudInView:weakController.view hint:NSLocalizedString(@"updateNickname...", nil)];
-        [weakController hideHud];
-        //修改我的群昵称
-        NSData *data=[NSJSONSerialization dataWithJSONObject:nickNameDic options:NSJSONWritingPrettyPrinted error:nil];
-        NSString *str=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        //[weakself.group.setting setExt:str];
-        [EMClient.sharedClient.groupManager updateGroupExtWithId:weakself.group.groupId ext:str completion:^(EMGroup *aGroup, EMError *aError) {
-            NSLog(@"%@", [NSString stringWithFormat:@"ext :    %@",weakself.group.setting.ext]);
-            [weakself.tableView reloadData];
-            [weakController.navigationController popViewControllerAnimated:YES];
-
-        }];
-        return NO;
-    }];
-}
-*/
-
-
-- (void)_updateGroupNameAction
-{
-    BOOL isEditable = self.group.permissionType == EMGroupPermissionTypeOwner ? YES : NO;
-    if (!isEditable) {
-        return;
-    }
-    EMTextFieldViewController *controller = [[EMTextFieldViewController alloc] initWithString:self.group.groupName placeholder:NSLocalizedString(@"inputGroupSubject", nil) isEditable:isEditable];
-    controller.title = NSLocalizedString(@"editGroupSubject", nil);
-    [self.navigationController pushViewController:controller animated:YES];
-    
-    __weak typeof(self) weakself = self;
     __weak typeof(controller) weakController = controller;
     [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
         if ([aString length] == 0) {
@@ -357,131 +193,93 @@
             return NO;
         }
         
+        weakSelf.groupName = aString;
         [weakController showHudInView:weakController.view hint:NSLocalizedString(@"updateGroupName...", nil)];
-        [[EMClient sharedClient].groupManager updateGroupSubject:aString forGroup:weakself.groupId completion:^(EMGroup *aGroup, EMError *aError) {
-            [weakController hideHud];
-            if (!aError) {
-                [weakself _resetGroup:aGroup];
-                [weakController.navigationController popViewControllerAnimated:YES];
-            } else {
-                [EMAlertController showErrorAlert:NSLocalizedString(@"updateGroupSubjectFail", nil)];
-            }
-        }];
         
         return NO;
     }];
 }
 
-- (void)_updateGroupDetailAction
+- (void)editGroupInterduce
 {
-    BOOL isEditable = self.group.permissionType == EMGroupPermissionTypeOwner ? YES : NO;
-    EMTextViewController *controller = [[EMTextViewController alloc] initWithString:self.group.description placeholder:NSLocalizedString(@"inputGroupDescription", nil) isEditable:isEditable];
-    if (isEditable) {
-         controller.title = NSLocalizedString(@"editGroupDescription", nil);
-    } else {
-        controller.title = NSLocalizedString(@"groupDescription", nil);
-    }
-    [self.navigationController pushViewController:controller animated:YES];
-    
     __weak typeof(self) weakself = self;
-    __weak typeof(controller) weakController = controller;
+    EMTextViewController *controller = [[EMTextViewController alloc] initWithString:self.groupInterduce placeholder:NSLocalizedString(@"inputGroupDescription", nil) isEditable:YES];
+    controller.title = NSLocalizedString(@"groupDescritption", nil);
     [controller setDoneCompletion:^BOOL(NSString * _Nonnull aString) {
-        [weakController showHudInView:weakController.view hint:NSLocalizedString(@"updateGroupDescription...", nil)];
-        [[EMClient sharedClient].groupManager updateDescription:aString forGroup:weakself.groupId completion:^(EMGroup *aGroup, EMError *aError) {
-            [weakController hideHud];
-            if (!aError) {
-                [weakself _resetGroup:aGroup];
-                [weakController.navigationController popViewControllerAnimated:YES];
-            } else {
-                [EMAlertController showErrorAlert:NSLocalizedString(@"updateGroupDescriptionFail", nil)];
-            }
-        }];
-        
-        return NO;
-    }];
-}
-
-- (void)_updateGroupOnwerAction
-{
-    if (self.group.permissionType != EMGroupPermissionTypeOwner) {
-        return;
-    }
-    
-    EMGroupOwnerViewController *controller = [[EMGroupOwnerViewController alloc] initWithGroup:self.group];
-    __weak typeof(self) weakself = self;
-    [controller setSuccessCompletion:^(EMGroup * _Nonnull aGroup) {
-        [weakself _resetGroup:aGroup];
+        weakself.groupInterduce = aString;
+        return YES;
     }];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
 
-- (void)addMemberAction
+
+
+- (void)confirmButtonAction
 {
-    __weak typeof(self) weakself = self;
-    [EMClient.sharedClient.groupManager getGroupSpecificationFromServerWithId:self.groupId completion:^(EMGroup *aGroup, EMError *aError) {
-        if (!aError) {
-            weakself.group = aGroup;
-            [weakself _resetGroup:aGroup];
-            NSMutableArray *occupants = [[NSMutableArray alloc] init];
-            [occupants addObject:weakself.group.owner];
-            [occupants addObjectsFromArray:weakself.group.adminList];
-            [occupants addObjectsFromArray:weakself.group.memberList];
-            EMInviteGroupMemberViewController *controller = [[EMInviteGroupMemberViewController alloc] initWithBlocks:occupants];
-            
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-            navController.modalPresentationStyle = 0;
-            [self presentViewController:navController animated:YES completion:nil];
-                    
-            [controller setDoneCompletion:^(NSArray * _Nonnull aSelectedArray) {
-                [weakself showHudInView:weakself.view hint:NSLocalizedString(@"addMember", nil)];
-                [[EMClient sharedClient].groupManager addMembers:aSelectedArray toGroup:weakself.groupId message:@"" completion:^(EMGroup *aGroup, EMError *aError) {
-                    [weakself hideHud];
-                    if (aError) {
-                        [EMAlertController showErrorAlert:aError.errorDescription];
-                    } else {
-
-                    }
-                }];
-            }];
-        } else {
-            [EMAlertController showErrorAlert:[NSString stringWithFormat:NSLocalizedString(@"fetchGroupSubjectFail", nil),aError.description]];
-        }
-    }];
-}
-    
-//string TO dictonary
-- (NSMutableDictionary *)changeStringToDictionary:(NSString *)string{
-
-    if (string) {
-        NSMutableDictionary *returnDic = [[NSMutableDictionary  alloc]  init];
-        returnDic = [NSJSONSerialization JSONObjectWithData:[string dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-        return returnDic;
+    if (self.memberArray.count <= 2) {
+        NSString *alertTitle = @"群成员不得少于2人";
+        [self.confirmButton setTitle:alertTitle forState:UIControlStateNormal];
+        self.confirmButton.backgroundColor = [UIColor colorWithHexString:@"##C2C2C2"];
     }
-    return nil;
 }
+
 
 #pragma mark getter and setter
-- (BQGroupMemberCell *)groupMemberCell {
-    if (_groupMemberCell == nil) {
-        _groupMemberCell =  [[BQGroupMemberCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[BQGroupMemberCell reuseIdentifier]];
+- (YGCreateGroupOperationMemberCell *)operationMemberCell {
+    if (_operationMemberCell == nil) {
+        _operationMemberCell =  [[YGCreateGroupOperationMemberCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[YGCreateGroupOperationMemberCell reuseIdentifier]];
         
         BQ_WS
-        _groupMemberCell.addMemberBlock = ^{
-            [weakSelf addGroupMember];
+        _operationMemberCell.addMemberBlock = ^{
+            [weakSelf addGroupMemberPage];
         };
-        
-        
+    
     }
-    return _groupMemberCell;
+    return _operationMemberCell;
+
 }
 
-- (void)addGroupMember {
-    BQAddGroupMemberViewController *controller = [[BQAddGroupMemberViewController alloc] init];
+- (void)addGroupMemberPage {
+    BQAddGroupMemberViewController *controller = [[BQAddGroupMemberViewController alloc] initWithMemberArray:self.memberArray];
+    BQ_WS
+    controller.addedMemberBlock = ^(NSMutableArray * _Nonnull memberArray) {
+        weakSelf.memberArray = [memberArray copy];
+    };
     [self.navigationController pushViewController:controller animated:YES];
     
 }
 
+- (UIButton *)confirmButton {
+    if (_confirmButton == nil) {
+        _confirmButton = [[UIButton alloc] init];
+        [_confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_confirmButton setTitle:@"确定" forState:UIControlStateNormal];
+        _confirmButton.titleLabel.font = NFont(14.0);
+        
+        [_confirmButton addTarget:self action:@selector(confirmButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        _confirmButton.backgroundColor = [UIColor colorWithHexString:@"#4798CB"];
+        _confirmButton.layer.cornerRadius = 2.0;
+    }
+    return _confirmButton;
 
+}
+
+
+- (UIView *)footerView {
+    if (_footerView == nil) {
+        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 72.0 + 44.0)];
+                
+    [_footerView addSubview:self.confirmButton];
+    [self.confirmButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_footerView).offset(72.0);
+        make.left.equalTo(_footerView).offset(16.0);
+        make.right.equalTo(_footerView).offset(-16.0);
+        make.height.equalTo(@(44.0));
+    }];
+
+    }
+    return _footerView;
+}
 
 @end

@@ -11,6 +11,7 @@
 
 
 #define kMaxNameLabelWidth 80.0
+#define kCollectionItemHeight 24.0
 
 @interface BQGroupAddItemCell : UICollectionViewCell
 @property (nonatomic, strong) UIView *bgView;
@@ -50,7 +51,7 @@
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView);
         make.left.equalTo(self.contentView).offset(12.0);
-        make.width.lessThanOrEqualTo(@(80.0));
+        make.width.lessThanOrEqualTo(@(kMaxNameLabelWidth));
     }];
     
     [self.deleteButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -88,7 +89,7 @@
 }
 
 + (CGSize)sizeForItemUserId:(NSString *)userId {
-    return CGSizeMake(50.0, 24.0);
+    return CGSizeMake(kMaxNameLabelWidth, 24.0);
 }
 
 #pragma mark getter and setter
@@ -172,7 +173,6 @@
     self.backgroundColor = ViewCellBgWhiteColor;
 #endif
 
-    
     [self addSubview:self.titleLabel];
     [self addSubview:self.collectionView];
 
@@ -180,6 +180,7 @@
         make.top.equalTo(self).offset(16.0);
         make.left.equalTo(self).offset(kBQPadding * 1.6);
         make.width.equalTo(@(150.0));
+        make.height.equalTo(@(20.0));
     }];
     
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -235,9 +236,34 @@
 
 
 - (void)updateViewHeight {
-    CGFloat height = 100.0;
+//    CGFloat height = 100.0;
+//    if (self.dataArray.count > 0) {
+//        height = 100.0;
+//    }else {
+//        height = 0;
+//    }
+    
+    CGFloat height = 0;
+    
     if (self.dataArray.count > 0) {
-        height = 100.0;
+        height += 16.0 + 20.0 + 10.0;
+       
+        CGFloat aWidth = 0;
+        CGFloat rowHeight = 0;
+        CGFloat aMaxWidth = KScreenWidth - 16.0 *2;
+        
+        for (int i = 0; i< self.dataArray.count; ++i) {
+            NSString *userId = self.dataArray[i];
+            CGFloat iWidth = [BQGroupAddItemCell sizeForItemUserId:userId].width;
+            aWidth += iWidth;
+            if (aWidth >= aMaxWidth) {
+                rowHeight += 1;
+                aWidth = iWidth;
+            }
+        }
+
+        height += rowHeight * 24.0 + (rowHeight -1) *10.0;
+        
     }else {
         height = 0;
     }
@@ -304,3 +330,4 @@
 @end
 
 #undef kMaxNameLabelWidth
+#undef kCollectionItemHeight
