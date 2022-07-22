@@ -50,9 +50,13 @@
 + (CGFloat)cellHeightWithObj:(id)obj {
     NSMutableArray *tArray = (NSMutableArray *)obj;
     
-    NSInteger rowCount = (tArray.count + 1)/6;
+    NSInteger rowCount = (tArray.count + 1)/6 + 1;
     if (rowCount == 0) {
         rowCount = 1;
+    }
+    
+    if (rowCount >=3) {
+        rowCount = 3;
     }
     
     CGFloat height = 56.0 + rowCount  * [BQGroupMemberCollectionView collectionViewItemSize].height + (rowCount - 1) *[BQGroupMemberCollectionView collectionViewMinimumLineSpacing];

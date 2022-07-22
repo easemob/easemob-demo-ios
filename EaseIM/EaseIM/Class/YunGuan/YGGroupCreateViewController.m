@@ -26,7 +26,7 @@
 #import "BQTitleValueAccessCell.h"
 #import "BQTitleValueCell.h"
 #import "BQTitleSwitchCell.h"
-#import "BQAddGroupMemberViewController.h"
+#import "BQGroupEditMemberViewController.h"
 #import "EMInviteGroupMemberViewController.h"
 #import "BQChatRecordContainerViewController.h"
 #import "YGCreateGroupOperationMemberCell.h"
@@ -224,11 +224,8 @@
 
 - (void)confirmButtonAction
 {
-    if (self.memberArray.count <= 2) {
-        NSString *alertTitle = @"群成员不得少于2人";
-        [self.confirmButton setTitle:alertTitle forState:UIControlStateNormal];
-        self.confirmButton.backgroundColor = [UIColor colorWithHexString:@"##C2C2C2"];
-    }
+    NSLog(@"%s",__func__);
+    
 }
 
 
@@ -248,13 +245,29 @@
 }
 
 - (void)addGroupMemberPage {
-    BQAddGroupMemberViewController *controller = [[BQAddGroupMemberViewController alloc] initWithMemberArray:self.memberArray];
+    BQGroupEditMemberViewController *controller = [[BQGroupEditMemberViewController alloc] initWithMemberArray:self.memberArray];
     BQ_WS
     controller.addedMemberBlock = ^(NSMutableArray * _Nonnull memberArray) {
-        weakSelf.memberArray = [memberArray copy];
+        weakSelf.memberArray = memberArray;
+        [weakSelf updateConfirmState];
+        [weakSelf.tableView reloadData];
     };
+    
     [self.navigationController pushViewController:controller animated:YES];
     
+}
+
+- (void)updateConfirmState {
+    if (self.memberArray.count <= 2) {
+        NSString *alertTitle = @"群成员不得少于2人";
+        [self.confirmButton setTitle:alertTitle forState:UIControlStateNormal];
+        self.confirmButton.backgroundColor = [UIColor colorWithHexString:@"#C2C2C2"];
+        self.confirmButton.enabled = NO;
+    }else {
+        [_confirmButton setTitle:@"确定" forState:UIControlStateNormal];
+        _confirmButton.backgroundColor = [UIColor colorWithHexString:@"#4798CB"];
+        self.confirmButton.enabled = YES;
+    }
 }
 
 - (UIButton *)confirmButton {

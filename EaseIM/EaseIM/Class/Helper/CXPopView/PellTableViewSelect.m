@@ -74,7 +74,7 @@ UITableView * tableView;
         make.width.equalTo(@(frame.size.width));
         make.height.equalTo(@(frame.size.height));
     }];
-    
+        
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackgroundClick)];
     [backgroundView addGestureRecognizer:tap];
     backgroundView.action = action;
@@ -123,10 +123,12 @@ UITableView * tableView;
     UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:Identifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:Identifier];
+        cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+        cell.textLabel.textColor = [UIColor colorWithHexString:@"#171717"];
     }
     cell.imageView.image = [UIImage imageNamed:self.imagesData[indexPath.row]];
     cell.textLabel.text = _selectData[indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

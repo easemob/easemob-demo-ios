@@ -11,7 +11,7 @@
 #import "UserInfoStore.h"
 #import "EMAccountViewController.h"
 #import "BQAvatarTitleRoleCell.h"
-#import "BQAddGroupMemberViewController.h"
+#import "BQGroupEditMemberViewController.h"
 
 
 @interface EMGroupMembersViewController ()
@@ -72,7 +72,7 @@
 }
 
 - (void)inviteMemberAction {
-    BQAddGroupMemberViewController *controller = [[BQAddGroupMemberViewController alloc] init];
+    BQGroupEditMemberViewController *controller = [[BQGroupEditMemberViewController alloc] init];
     [self.navigationController pushViewController:controller animated:YES];
 }
 

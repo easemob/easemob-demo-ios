@@ -6,22 +6,23 @@
 //  Copyright © 2022 liu001. All rights reserved.
 //
 
-#import "BQAddGroupMemberViewController.h"
+#import "BQGroupEditMemberViewController.h"
 #import "BQGroupSearchAddView.h"
 #import "BQGroupSearchCell.h"
 
 
-@interface BQAddGroupMemberViewController ()<UITableViewDelegate,UITableViewDataSource,BQGroupSearchAddViewDelegate>
+@interface BQGroupEditMemberViewController ()<UITableViewDelegate,UITableViewDataSource,BQGroupSearchAddViewDelegate>
 
 @property (nonatomic, strong) BQGroupSearchAddView *groupSearchAddView;
 @property (nonatomic, strong) NSMutableArray *searchResultArray;
 @property (nonatomic, strong) UITableView *searchResultTableView;
 @property (nonatomic, strong) NSMutableArray *groupAddedArray;
 
+@property (nonatomic, strong) BQGroupSearchCell *groupSearchCell;
 
 @end
 
-@implementation BQAddGroupMemberViewController
+@implementation BQGroupEditMemberViewController
 - (instancetype)initWithMemberArray:(NSMutableArray *)memberArray {
     self = [super init];
     if (self) {
@@ -54,13 +55,12 @@
 
 
 - (void)completionAction {
-    if (self.searchResultArray.count > 0) {
         if (self.addedMemberBlock) {
             self.addedMemberBlock(self.groupAddedArray);
         }
         [self showHint:@"群主同意后，您邀请的成员将会自动加入本群聊"];
         [self.navigationController popViewControllerAnimated:YES];
-    }
+    
 }
 
 
@@ -127,7 +127,7 @@
     
     [self.searchResultArray removeAllObjects];
     [_searchResultTableView reloadData];
-    [_searchResultTableView removeFromSuperview];
+//    [_searchResultTableView removeFromSuperview];
 }
 
 - (void)searchBarSearchButtonClicked:(EMSearchBar *)searchBar
@@ -137,7 +137,9 @@
 
 - (void)searchTextDidChangeWithString:(NSString *)aString {
     [self.searchResultArray removeAllObjects];
-    [self.searchResultArray addObject:aString];
+    if (aString.length > 0) {
+        [self.searchResultArray addObject:aString];
+    }
     [self.searchResultTableView reloadData];
 }
 
@@ -212,20 +214,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    BQGroupSearchCell *groupSearchCell = [tableView dequeueReusableCellWithIdentifier:[BQGroupSearchCell reuseIdentifier]];
-    
     id obj = self.searchResultArray[indexPath.row];
-    [groupSearchCell updateWithObj:obj];
+    [self.groupSearchCell updateWithObj:obj];
     
-    BQ_WS
-    groupSearchCell.customerBlock = ^(NSString * _Nonnull userId) {
-        [weakSelf updateUIWithAddUserId:userId isServicer:NO];
-    };
-    
-    groupSearchCell.servicerBlock = ^(NSString * _Nonnull userId) {
-        [weakSelf updateUIWithAddUserId:userId isServicer:YES];
-    };
-    return groupSearchCell;
+    return self.groupSearchCell;
 }
  
 - (void)updateUIWithAddUserId:(NSString *)userId
@@ -233,9 +225,10 @@
     
     if (![self.groupAddedArray containsObject:userId]) {
         [self.groupAddedArray addObject:userId];
+        [self.groupSearchAddView updateUIWithMemberArray:self.groupAddedArray];
     }
     
-    [self.groupSearchAddView updateUIWithMemberArray:self.groupAddedArray];
+   
 }
 
 
@@ -288,8 +281,12 @@
         
         BQ_WS
         _groupSearchAddView.deleteMemberBlock = ^(NSString * _Nonnull userId) {
-            [weakSelf.groupAddedArray removeObject:userId];
+            if ([weakSelf.groupAddedArray containsObject:userId]) {
+                [weakSelf.groupAddedArray removeObject:userId];
+            }
         };
+        
+        _groupSearchAddView.backgroundColor = UIColor.yellowColor;
     }
     return _groupSearchAddView;
 }
@@ -337,6 +334,22 @@
         _groupAddedArray = [[NSMutableArray alloc] init];
     }
     return _groupAddedArray;
+}
+
+- (BQGroupSearchCell *)groupSearchCell {
+    if (_groupSearchCell == nil) {
+        _groupSearchCell = [self.searchResultTableView dequeueReusableCellWithIdentifier:[BQGroupSearchCell reuseIdentifier]];
+                
+        BQ_WS
+        _groupSearchCell.customerBlock = ^(NSString * _Nonnull userId) {
+            [weakSelf updateUIWithAddUserId:userId isServicer:NO];
+        };
+        
+        _groupSearchCell.servicerBlock = ^(NSString * _Nonnull userId) {
+            [weakSelf updateUIWithAddUserId:userId isServicer:YES];
+        };
+    }
+    return _groupSearchCell;
 }
 
 @end

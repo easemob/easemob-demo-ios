@@ -27,6 +27,7 @@
 
 @implementation BQGroupSearchCell
 
+
 - (void)prepare {
     [self.contentView addSubview:self.iconImageView];
     [self.contentView addSubview:self.nameLabel];
@@ -80,27 +81,34 @@
 
 }
 
+
 - (void)updateWithObj:(id)obj {
     NSString *aUid = (NSString *)obj;
     self.currentUserId = aUid;
     
-    
-    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:aUid];
-    if(userInfo) {
-        if(userInfo.avatarUrl.length > 0) {
-            NSURL* url = [NSURL URLWithString:userInfo.avatarUrl];
-            if(url) {
-                [self.iconImageView sd_setImageWithURL:url placeholderImage:ImageWithName(@"jh_user_icon")];
-            }
-        }else {
-            [self.iconImageView setImage:ImageWithName(@"jh_user_icon")];
-        }
-                
-        self.nameLabel.text = userInfo.nickName.length > 0 ? userInfo.nickName: userInfo.userId;
+    //reset original state
+    self.nameLabel.text = @"";
+    self.groupUserType = BQGroupUserTypeNone;
+    [self.iconImageView setImage:ImageWithName(@"jh_user_icon")];
+    self.nameLabel.text = aUid;
 
-    }else{
-        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[aUid]];
-    }
+    
+//    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:aUid];
+//    if(userInfo) {
+//        if(userInfo.avatarUrl.length > 0) {
+//            NSURL* url = [NSURL URLWithString:userInfo.avatarUrl];
+//            if(url) {
+//                [self.iconImageView sd_setImageWithURL:url placeholderImage:ImageWithName(@"jh_user_icon")];
+//            }
+//        }else {
+//            [self.iconImageView setImage:ImageWithName(@"jh_user_icon")];
+//        }
+//
+//        self.nameLabel.text = userInfo.nickName.length > 0 ? userInfo.nickName: userInfo.userId;
+//
+//    }else{
+//        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[aUid]];
+//    }
     
 }
 

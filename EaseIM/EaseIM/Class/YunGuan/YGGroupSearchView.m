@@ -70,7 +70,7 @@
         make.width.equalTo(@(40.0));
         make.height.equalTo(@(16.0));
     }];
-    
+   
 }
 
 #pragma mark - UITextFieldDelegate

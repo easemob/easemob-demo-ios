@@ -10,7 +10,7 @@
 #import "UserInfoStore.h"
 
 
-#define kMaxNameLabelWidth 80.0
+#define kMaxNameLabelWidth 70.0
 #define kCollectionItemHeight 24.0
 
 @interface BQGroupAddItemCell : UICollectionViewCell
@@ -74,11 +74,12 @@
     NSString *aUid = (NSString *)obj;
     self.userId = aUid;
     
-    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:aUid];
+    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.userId];
     if(userInfo) {
         self.nameLabel.text = userInfo.nickName.length > 0 ? userInfo.nickName: userInfo.userId;
     }else{
         [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[aUid]];
+        self.nameLabel.text = self.userId;
     }
 }
 
@@ -89,6 +90,8 @@
 }
 
 + (CGSize)sizeForItemUserId:(NSString *)userId {
+//    CGFloat contentWidth = [userId sizeWithFont:[BQGroupAddItemCell labelFont] constrainedToSize:CGSizeMake(kMaxNameLabelWidth, 24.0)].width;
+
     return CGSizeMake(kMaxNameLabelWidth, 24.0);
 }
 
@@ -123,11 +126,14 @@
     
 }
 
++ (UIFont *)labelFont {
+    return NFont(12.0);
+}
 
 - (UILabel *)nameLabel {
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = NFont(12.0);
+        _nameLabel.font = [BQGroupAddItemCell labelFont];
         _nameLabel.textAlignment = NSTextAlignmentCenter;
         
 #if kJiHuApp
@@ -183,6 +189,7 @@
         make.height.equalTo(@(20.0));
     }];
     
+    
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_bottom).offset(10.0);
         make.left.right.equalTo(self);
@@ -226,22 +233,18 @@
 
 
 - (void)updateUIWithDeleteUserId:(NSString *)userId {
-    [self.dataArray removeObject:userId];
-    [self.collectionView reloadData];
-    [self updateViewHeight];
-    if (self.deleteMemberBlock) {
-        self.deleteMemberBlock(userId);
+    if ([self.dataArray containsObject:userId]) {
+        [self.dataArray removeObject:userId];
+        [self.collectionView reloadData];
+        [self updateViewHeight];
+        if (self.deleteMemberBlock) {
+            self.deleteMemberBlock(userId);
+        }
     }
 }
 
 
 - (void)updateViewHeight {
-//    CGFloat height = 100.0;
-//    if (self.dataArray.count > 0) {
-//        height = 100.0;
-//    }else {
-//        height = 0;
-//    }
     
     CGFloat height = 0;
     
@@ -249,8 +252,8 @@
         height += 16.0 + 20.0 + 10.0;
        
         CGFloat aWidth = 0;
-        CGFloat rowHeight = 0;
-        CGFloat aMaxWidth = KScreenWidth - 16.0 *2;
+        CGFloat rowHeight = 1;
+        CGFloat aMaxWidth = KScreenWidth - 16.0 *2 - 10.0 * 5;
         
         for (int i = 0; i< self.dataArray.count; ++i) {
             NSString *userId = self.dataArray[i];

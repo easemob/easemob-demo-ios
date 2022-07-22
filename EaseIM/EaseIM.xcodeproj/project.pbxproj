@@ -431,7 +431,7 @@
 		C07F2C022877CC2B005D6F0D /* BQGroupMemberCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C012877CC2B005D6F0D /* BQGroupMemberCollectionView.m */; };
 		C07F2C052877DBFF005D6F0D /* jh_addMember@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C032877DBFF005D6F0D /* jh_addMember@3x.png */; };
 		C07F2C062877DBFF005D6F0D /* jh_addMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C042877DBFF005D6F0D /* jh_addMember@2x.png */; };
-		C07F2C092877FF02005D6F0D /* BQAddGroupMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C082877FF02005D6F0D /* BQAddGroupMemberViewController.m */; };
+		C07F2C092877FF02005D6F0D /* BQGroupEditMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F2C082877FF02005D6F0D /* BQGroupEditMemberViewController.m */; };
 		C07F2C0C28782E63005D6F0D /* jh_group_owner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C0A28782E63005D6F0D /* jh_group_owner@2x.png */; };
 		C07F2C0D28782E63005D6F0D /* jh_group_owner@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C0B28782E63005D6F0D /* jh_group_owner@3x.png */; };
 		C07F2C1028782E78005D6F0D /* icon-close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C07F2C0E28782E78005D6F0D /* icon-close@3x.png */; };
@@ -1113,8 +1113,8 @@
 		C07F2C012877CC2B005D6F0D /* BQGroupMemberCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQGroupMemberCollectionView.m; sourceTree = "<group>"; };
 		C07F2C032877DBFF005D6F0D /* jh_addMember@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_addMember@3x.png"; sourceTree = "<group>"; };
 		C07F2C042877DBFF005D6F0D /* jh_addMember@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_addMember@2x.png"; sourceTree = "<group>"; };
-		C07F2C072877FF02005D6F0D /* BQAddGroupMemberViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQAddGroupMemberViewController.h; sourceTree = "<group>"; };
-		C07F2C082877FF02005D6F0D /* BQAddGroupMemberViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQAddGroupMemberViewController.m; sourceTree = "<group>"; };
+		C07F2C072877FF02005D6F0D /* BQGroupEditMemberViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQGroupEditMemberViewController.h; sourceTree = "<group>"; };
+		C07F2C082877FF02005D6F0D /* BQGroupEditMemberViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQGroupEditMemberViewController.m; sourceTree = "<group>"; };
 		C07F2C0A28782E63005D6F0D /* jh_group_owner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_group_owner@2x.png"; sourceTree = "<group>"; };
 		C07F2C0B28782E63005D6F0D /* jh_group_owner@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_group_owner@3x.png"; sourceTree = "<group>"; };
 		C07F2C0E28782E78005D6F0D /* icon-close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-close@3x.png"; sourceTree = "<group>"; };
@@ -1305,8 +1305,8 @@
 				C063485F28757D9F008E55D3 /* BQGroupListViewController.m */,
 				C063486228757F40008E55D3 /* BQNoDataPlaceHolderView.h */,
 				C063486128757F40008E55D3 /* BQNoDataPlaceHolderView.m */,
-				C07F2C072877FF02005D6F0D /* BQAddGroupMemberViewController.h */,
-				C07F2C082877FF02005D6F0D /* BQAddGroupMemberViewController.m */,
+				C07F2C072877FF02005D6F0D /* BQGroupEditMemberViewController.h */,
+				C07F2C082877FF02005D6F0D /* BQGroupEditMemberViewController.m */,
 				C07F2C27287BD1E3005D6F0D /* BQChatRecordContainerViewController.h */,
 				C07F2C28287BD1E3005D6F0D /* BQChatRecordContainerViewController.m */,
 				C06472D0287C422000320EAF /* EMSearchContainerViewController.h */,
@@ -3079,7 +3079,7 @@
 				3A45E3CA2223A4DC00505786 /* EMJoinGroupViewController.m in Sources */,
 				3A45E1062223A30C00505786 /* EMSearchViewController.m in Sources */,
 				3C843EE2249363F0005D9891 /* EMPersonalAPPKeyViewController.m in Sources */,
-				C07F2C092877FF02005D6F0D /* BQAddGroupMemberViewController.m in Sources */,
+				C07F2C092877FF02005D6F0D /* BQGroupEditMemberViewController.m in Sources */,
 				C04BDB7F2885678A00601A39 /* YGGroupCreateViewController.m in Sources */,
 				C08F58532889B0C200274A88 /* Util.m in Sources */,
 				3A45E0232223A21B00505786 /* EMLoginViewController.m in Sources */,

@@ -109,13 +109,11 @@
 
     [self _setupNavigationBarTitle];
     [self _setupNavigationBarRightItem];
-
     
     [self addChildViewController:_chatController];
     [self.view addSubview:_chatController.view];
     _chatController.view.frame = self.view.bounds;
     [self loadData:YES];
-
 
 }
 
@@ -180,7 +178,7 @@
     titleView.backgroundColor = ViewBgBlackColor;
     self.titleLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
 #else
-    titleView.backgroundColor = ViewBgWhiteColor;
+    titleView.backgroundColor = UIColor.clearColor;
     self.titleLabel.textColor = [UIColor blackColor];
 
     self.titleDetailLabel.textColor = [UIColor colorWithHexString:@"#A5A5A5"];
@@ -198,6 +196,15 @@
         if(userInfo && userInfo.nickName.length > 0)
             self.titleLabel.text = userInfo.nickName;
     }
+    
+#if kJiHuApp
+
+#else
+    self.titleDetailLabel.text = [NSString stringWithFormat:@"群组ID: %@",self.conversation.conversationId];
+#endif
+
+    
+    
 }
 
 #pragma mark - EaseChatViewControllerDelegate

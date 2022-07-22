@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BQAddGroupMemberViewController : UIViewController<EMSearchBarDelegate>
+@interface BQGroupEditMemberViewController : UIViewController<EMSearchBarDelegate>
 @property (nonatomic, copy) void (^addedMemberBlock)(NSMutableArray *memberArray);
 
 @property (nonatomic) BOOL isSearching;

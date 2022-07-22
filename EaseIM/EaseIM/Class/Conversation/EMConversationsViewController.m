@@ -330,7 +330,7 @@
     NSArray *imageNameArray = @[@"yg_msg_alert_on",@"yg_group_search",@"yg_group_create",@"yg_group_apply"];
     
     
-    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-200, self.backImageBtn.frame.origin.y, 185, 180) selectData:titleArray images:imageNameArray locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index){
+    [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-220.0, self.backImageBtn.frame.origin.y, 138.0, 180) selectData:titleArray images:imageNameArray locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index){
         if(index == 0) {
             [self messageAlertAction];
         } else if (index == 1) {

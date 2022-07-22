@@ -30,7 +30,7 @@
 #import "BQTitleValueCell.h"
 #import "BQTitleSwitchCell.h"
 #import "BQGroupMemberCell.h"
-#import "BQAddGroupMemberViewController.h"
+#import "BQGroupEditMemberViewController.h"
 #import "EMInviteGroupMemberViewController.h"
 #import "BQChatRecordContainerViewController.h"
 #import "BQTitleAvatarAccessCell.h"
@@ -48,9 +48,9 @@
 @property (nonatomic, strong) UILabel *leaveCellContentLabel;
 @property (nonatomic, strong) EMConversation *conversation;
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
-
-
 @property (nonatomic, strong) BQGroupMemberCell *groupMemberCell;
+//群组成员
+@property (nonatomic, strong) NSMutableArray *memberArray;
 
 @end
 
@@ -73,7 +73,7 @@
     
     [self registeCell];
     [self _setupSubviews];
-//    [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
+
     self.showRefreshHeader = NO;
     [self _fetchGroupWithId:self.groupId isShowHUD:YES];
     [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
@@ -198,7 +198,7 @@
                 return titleAvatarCell;
             }
         }else {
-            [self.groupMemberCell updateWithObj:self.group];
+            [self.groupMemberCell updateWithObj:self.memberArray];
             return self.groupMemberCell;
         }
 #endif
@@ -339,7 +339,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 && indexPath.row == 1){
-        return [BQGroupMemberCell cellHeightWithObj:self.group];
+        return [BQGroupMemberCell cellHeightWithObj: self.memberArray];
     }
     
     return 64.0;
@@ -472,6 +472,7 @@
     } else {
         self.leaveCellContentLabel.text = NSLocalizedString(@"exitGroup", nil);
     }
+    [self getGroupMembers];
     [self.tableView reloadData];
 }
 
@@ -913,10 +914,34 @@
     return _groupMemberCell;
 }
 
+- (NSMutableArray *)memberArray {
+    if (_memberArray == nil) {
+        _memberArray = NSMutableArray.array;
+    }
+    return _memberArray;
+}
+
+- (void)getGroupMembers {
+    NSMutableArray *tArray = [NSMutableArray array];
+    [tArray addObject:self.group.owner];
+    if (self.group.adminList.count > 0) {
+        [tArray addObjectsFromArray:self.group.adminList];
+    }
+    if (self.group.memberList.count > 0) {
+        [tArray addObjectsFromArray:self.group.memberList];
+    }
+    self.memberArray = [tArray mutableCopy];
+}
+
 - (void)goAddGroupMemberPage {
-    BQAddGroupMemberViewController *controller = [[BQAddGroupMemberViewController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
+    BQGroupEditMemberViewController *controller = [[BQGroupEditMemberViewController alloc] initWithMemberArray:self.memberArray];
+    BQ_WS
+    controller.addedMemberBlock = ^(NSMutableArray * _Nonnull memberArray) {
+        weakSelf.memberArray = memberArray;
+        [self.tableView reloadData];
+    };
     
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)goCheckGroupMemberPage {

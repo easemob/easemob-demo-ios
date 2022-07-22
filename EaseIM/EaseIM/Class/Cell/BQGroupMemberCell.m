@@ -44,38 +44,41 @@
     }
 
 - (void)updateWithObj:(id)obj {
-    if (obj == nil) {
-        return;
-    }
+//    if (obj == nil) {
+//        return;
+//    }
+//
+//    self.group = (EMGroup *)obj;
+//    NSMutableArray *tArray = [NSMutableArray array];
+//    [tArray addObject:self.group.owner];
+//    if (self.group.adminList.count > 0) {
+//        [tArray addObjectsFromArray:self.group.adminList];
+//    }
+//    if (self.group.memberList.count > 0) {
+//        [tArray addObjectsFromArray:self.group.memberList];
+//    }
     
-    self.group = (EMGroup *)obj;
-    NSMutableArray *tArray = [NSMutableArray array];
-    [tArray addObject:self.group.owner];
-    if (self.group.adminList.count > 0) {
-        [tArray addObjectsFromArray:self.group.adminList];
-    }
-    if (self.group.memberList.count > 0) {
-        [tArray addObjectsFromArray:self.group.memberList];
-    }
-    
+    NSMutableArray *tArray = (NSMutableArray *)obj;
     [self.groupMemberView updateUIWithMemberArray:[tArray copy]];
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj {
-    EMGroup *tGroup = (EMGroup *)obj;
-    if (tGroup == nil) {
-        return 0;
-    }
-    
-    NSMutableArray *tArray = [NSMutableArray array];
-    [tArray addObject:tGroup.owner];
-    if (tGroup.adminList.count > 0) {
-        [tArray addObjectsFromArray:tGroup.adminList];
-    }
-    if (tGroup.memberList.count > 0) {
-        [tArray addObjectsFromArray:tGroup.memberList];
-    }
+//    EMGroup *tGroup = (EMGroup *)obj;
+//    if (tGroup == nil) {
+//        return 0;
+//    }
+//
+//    NSMutableArray *tArray = [NSMutableArray array];
+//    [tArray addObject:tGroup.owner];
+//    if (tGroup.adminList.count > 0) {
+//        [tArray addObjectsFromArray:tGroup.adminList];
+//    }
+//    if (tGroup.memberList.count > 0) {
+//        [tArray addObjectsFromArray:tGroup.memberList];
+//    }
 
+    NSMutableArray *tArray = (NSMutableArray *)obj;
+    
     if (tArray.count + 1 > 6) {
         return 244.0;
     }

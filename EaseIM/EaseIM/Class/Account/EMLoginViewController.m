@@ -41,6 +41,7 @@
 @property (nonatomic, strong) UIImageView* sdkVersionBackView;
 @property (nonatomic, strong) UILabel* sdkVersionLable;
 @property (nonatomic, strong) UILabel* wellcomeLabel;
+@property (nonatomic, strong) UILabel* bottomMsgLabel;
 
 @end
 
@@ -99,7 +100,7 @@
     self.titleTextImageView.image = [UIImage imageNamed:@"yg_titleTextImage"];
     [self.backView addSubview:self.titleTextImageView];
     [self.titleTextImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleImageView.mas_bottom).offset(22);
+        make.top.equalTo(self.titleImageView.mas_bottom).offset(12);
         make.centerX.equalTo(self.backView);
         make.width.equalTo(@(184.0));
         make.height.equalTo(@(34.0));
@@ -145,6 +146,13 @@
         make.height.equalTo(@(48.0));
     }];
 
+    [self.backView addSubview:self.bottomMsgLabel];
+    [self.bottomMsgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.backView).offset(30);
+        make.right.equalTo(self.backView).offset(-30);
+        make.bottom.equalTo(self.backView.mas_bottom).offset(-74.0);
+    }];
+    
 }
 
 
@@ -515,5 +523,18 @@
     }
 
 }
+
+
+- (UILabel *)bottomMsgLabel {
+    if (_bottomMsgLabel == nil) {
+        _bottomMsgLabel = [[UILabel alloc] init];
+        _bottomMsgLabel.textAlignment = NSTextAlignmentCenter;
+        _bottomMsgLabel.textColor = [UIColor colorWithHexString:@"#FFFFFF"];
+        _bottomMsgLabel.font = [UIFont systemFontOfSize:12.0];
+        _bottomMsgLabel.text = @"© 2022 极狐ARCFOX 运管端";
+    }
+    return _bottomMsgLabel;
+}
+
 
 @end
