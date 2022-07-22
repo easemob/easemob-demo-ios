@@ -27,6 +27,7 @@
     #import "UIColor+BQ.h"
     #import <SDWebImage/UIImageView+WebCache.h>
     #import "MISScrollPage.h"
+    #import "Util.h"
 
 
 #endif

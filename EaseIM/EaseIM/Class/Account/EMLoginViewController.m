@@ -31,7 +31,8 @@
 @property (nonatomic, strong) UITextField *pswdField;
 @property (nonatomic, strong) EMRightViewToolView *pswdRightView;
 @property (nonatomic, strong) EMRightViewToolView *userIdRightView;
-@property (nonatomic, strong) EMAuthorizationView *authorizationView;//授权操作视图
+@property (nonatomic, strong) UIButton *loginButton;//授权操作视图
+
 
 @property (nonatomic, strong) UIButton *loginTypeButton;
 @property (nonatomic) BOOL isLogin;
@@ -39,6 +40,7 @@
 @property (nonatomic, strong) UIImageView* titleTextImageView;
 @property (nonatomic, strong) UIImageView* sdkVersionBackView;
 @property (nonatomic, strong) UILabel* sdkVersionLable;
+@property (nonatomic, strong) UILabel* wellcomeLabel;
 
 @end
 
@@ -55,7 +57,6 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    [self.authorizationView originalView];//恢复原始视图
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -73,7 +74,7 @@
 {
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
-    imageView.image = [UIImage imageNamed:@"BootPage"];
+    imageView.image = [UIImage imageNamed:@"yg_BootPage"];
     [self.view insertSubview:imageView atIndex:0];
     
     self.backView = [[UIView alloc]init];
@@ -85,158 +86,67 @@
 
     self.titleImageView = [[UIImageView alloc]init];
     self.titleImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.titleImageView.image = [UIImage imageNamed:@"titleImage"];
+    self.titleImageView.image = [UIImage imageNamed:@"yg_titleImage"];
     [self.backView addSubview:self.titleImageView];
     [self.titleImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.backView);
-        make.width.equalTo(@73.32);
-        make.height.equalTo(@79.94);
         make.top.equalTo(self.backView.mas_top).offset(96);
+        make.centerX.equalTo(self.backView);
+        make.width.equalTo(@(48.0));
+        make.height.equalTo(@(42.0));
     }];
     
     self.titleTextImageView = [[UIImageView alloc]init];
-    self.titleTextImageView.image = [UIImage imageNamed:@"titleTextImage"];
+    self.titleTextImageView.image = [UIImage imageNamed:@"yg_titleTextImage"];
     [self.backView addSubview:self.titleTextImageView];
     [self.titleTextImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.backView);
-        make.width.equalTo(@108);
-        make.height.equalTo(@24);
         make.top.equalTo(self.titleImageView.mas_bottom).offset(22);
+        make.centerX.equalTo(self.backView);
+        make.width.equalTo(@(184.0));
+        make.height.equalTo(@(34.0));
     }];
     
-    self.sdkVersionBackView = [[UIImageView alloc] init];
-    self.sdkVersionBackView.image = [UIImage imageNamed:@"titleBackImage"];
-    [self.backView addSubview:self.sdkVersionBackView];
-    [self.sdkVersionBackView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.titleTextImageView.mas_right).offset(5);
-        make.width.equalTo(@50);
-        make.height.equalTo(@17);
-        make.top.equalTo(self.titleTextImageView.mas_top);
+    [self.backView addSubview:self.wellcomeLabel];
+    [self.wellcomeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.backView).offset(30);
+        make.right.equalTo(self.backView).offset(-30);
+        make.top.equalTo(self.titleTextImageView.mas_bottom).offset(40);
     }];
     
-    
-    self.sdkVersionLable = [[UILabel alloc] init];
-    [self.backView addSubview:self.sdkVersionLable];
-    self.sdkVersionLable.textColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:246/255.0 alpha:1.0];
-    self.sdkVersionLable.font = [UIFont systemFontOfSize:10];
-    NSString* version = [NSString stringWithFormat:@"V%@",[[EMClient sharedClient] version] ];
-    self.sdkVersionLable.text = version;
-    self.sdkVersionLable.textAlignment = NSTextAlignmentCenter;
-    self.sdkVersionLable.alpha = 0.6;
-    
-    [self.sdkVersionLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.sdkVersionBackView);
-    }];
-    
-    self.nameField = [[UITextField alloc] init];
-    self.nameField.backgroundColor = [UIColor whiteColor];
-    self.nameField.delegate = self;
-    self.nameField.borderStyle = UITextBorderStyleNone;
-    self.nameField.placeholder = NSLocalizedString(@"userId", nil);
-    self.nameField.returnKeyType = UIReturnKeyGo;
-    self.nameField.font = [UIFont systemFontOfSize:17];
-    self.nameField.rightViewMode = UITextFieldViewModeWhileEditing;
-    self.nameField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    self.nameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 18, 10)];
-    self.nameField.leftViewMode = UITextFieldViewModeAlways;
-    self.nameField.layer.cornerRadius = 25;
-    self.nameField.layer.borderWidth = 1;
-    self.nameField.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.userIdRightView = [[EMRightViewToolView alloc]initRightViewWithViewType:EMUsernameRightView];
     [self.userIdRightView.rightViewBtn addTarget:self action:@selector(clearUserIdAction) forControlEvents:UIControlEventTouchUpInside];
     self.nameField.rightView = self.userIdRightView;
     self.userIdRightView.hidden = YES;
+    
     [self.backView addSubview:self.nameField];
     [self.nameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.backView).offset(30);
         make.right.equalTo(self.backView).offset(-30);
-        make.top.equalTo(self.titleTextImageView.mas_bottom).offset(40);
+        make.top.equalTo(self.wellcomeLabel.mas_bottom).offset(24.0);
         make.height.equalTo(@55);
     }];
-    self.pswdField = [[UITextField alloc] init];
-    self.pswdField.backgroundColor = [UIColor whiteColor];
-    self.pswdField.delegate = self;
-    self.pswdField.borderStyle = UITextBorderStyleNone;
-    self.pswdField.placeholder = NSLocalizedString(@"password", nil);
-    self.pswdField.font = [UIFont systemFontOfSize:17];
-    self.pswdField.returnKeyType = UIReturnKeyGo;
-    self.pswdField.secureTextEntry = YES;
-    self.pswdField.clearsOnBeginEditing = NO;
+    
+
     self.pswdRightView = [[EMRightViewToolView alloc]initRightViewWithViewType:EMPswdRightView];
     [self.pswdRightView.rightViewBtn addTarget:self action:@selector(pswdSecureAction:) forControlEvents:UIControlEventTouchUpInside];
-    self.pswdField.rightView = self.pswdRightView;
-    self.pswdRightView.hidden = YES;
-    self.pswdField.rightViewMode = UITextFieldViewModeAlways;
-    self.pswdField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 18, 10)];
-    self.pswdField.leftViewMode = UITextFieldViewModeAlways;
-    self.pswdField.layer.cornerRadius = 25;
-    self.pswdField.layer.borderWidth = 1;
-    self.pswdField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    
     [self.backView addSubview:self.pswdField];
     [self.pswdField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.backView).offset(30);
         make.right.equalTo(self.backView).offset(-30);
-        make.top.equalTo(self.nameField.mas_bottom).offset(20);
+        make.top.equalTo(self.nameField.mas_bottom).offset(32.0);
         make.height.equalTo(@55);
     }];
     
-    [self _setupLoginButton];
-}
-
-//授权登录按钮
-- (void)_setupLoginButton
-{
-    self.authorizationView = [[EMAuthorizationView alloc]initWithAuthType:EMAuthLogin];
-    self.authorizationView.userInteractionEnabled = YES;
-    [self.authorizationView.authorizationBtn addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.backView addSubview:self.authorizationView];
-    [self.authorizationView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.backView addSubview:self.loginButton];
+    [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.backView).offset(30);
         make.right.equalTo(self.backView).offset(-30);
-        make.top.equalTo(self.pswdField.mas_bottom).offset(40);
-        make.height.equalTo(@55);
+        make.top.equalTo(self.pswdField.mas_bottom).offset(56.0);
+        make.height.equalTo(@(48.0));
     }];
-    
-    UIButton *registerButton = [[UIButton alloc] init];
-    registerButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    [registerButton setTitle:NSLocalizedString(@"regist", nil) forState:UIControlStateNormal];
-    [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [registerButton addTarget:self action:@selector(registerAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.backView addSubview:registerButton];
-    [registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@70);
-        make.height.equalTo(@17);
-        make.left.equalTo(self.authorizationView);
-        make.bottom.equalTo(self.backView.mas_bottom).offset(-60);
-    }];
-    
-    UIButton *serverConfigurationBtn = [[UIButton alloc] init];
-    serverConfigurationBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [serverConfigurationBtn setTitle:NSLocalizedString(@"serverConfig", nil) forState:UIControlStateNormal];
-    [serverConfigurationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [serverConfigurationBtn addTarget:self action:@selector(changeAppkeyAction) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.backView addSubview:serverConfigurationBtn];
-    [serverConfigurationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@100);
-        make.height.equalTo(@17);
-        make.right.equalTo(self.authorizationView);
-        make.bottom.equalTo(self.backView.mas_bottom).offset(-60);
-    }];
-    /*
-    self.loginTypeButton = [[UIButton alloc] init];
-    self.loginTypeButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    [self.loginTypeButton setTitle:NSLocalizedString(@"loginWithToken", nil) forState:UIControlStateNormal];
-    [self.loginTypeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.loginTypeButton addTarget:self action:@selector(loginTypeChangeAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.backView addSubview:self.loginTypeButton];
-    [self.loginTypeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@80);
-        make.height.equalTo(@17);
-        make.right.equalTo(self.authorizationView);
-        make.bottom.equalTo(self.backView.mas_bottom).offset(-60);
-    }];*/
+
 }
+
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
@@ -248,7 +158,8 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if(self.nameField.text.length > 0 && self.pswdField.text.length > 0){
-        [self.authorizationView setupAuthBtnBgcolor:YES];
+//        [self.authorizationView setupAuthBtnBgcolor:YES];
+        [self updateLoginState:YES];
         self.isLogin = true;
         [self loginAction];
     }
@@ -269,11 +180,13 @@
     if (textField == self.pswdField && [self.pswdField.text length] == 0)
         self.pswdRightView.hidden = YES;
     if(self.nameField.text.length > 0 && self.pswdField.text.length > 0){
-        [self.authorizationView setupAuthBtnBgcolor:YES];
+        
+        [self updateLoginState:YES];
+
         self.isLogin = true;
         return;
     }
-    [self.authorizationView setupAuthBtnBgcolor:NO];
+    [self updateLoginState:NO];
     self.isLogin = false;
 }
 
@@ -308,11 +221,12 @@
     UITextRange *rang = textField.markedTextRange;
     if (rang == nil) {
         if(![self.nameField.text isEqualToString:@""] && ![self.pswdField.text isEqualToString:@""]){
-            [self.authorizationView setupAuthBtnBgcolor:YES];
+//            [self.authorizationView setupAuthBtnBgcolor:YES];
+            [self updateLoginState:YES];
             self.isLogin = true;
             return;
         }
-        [self.authorizationView setupAuthBtnBgcolor:NO];
+        [self updateLoginState:NO];
         self.isLogin = false;
     }
 }
@@ -412,7 +326,7 @@
             options.loggedInUsername = aName;
             options.loggedInPassword = pswd;
             [options archive];
-            [weakself.authorizationView originalView];
+
             //发送自动登录状态通知
             [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:[NSNumber numberWithBool:YES]];
             
@@ -446,14 +360,8 @@
                 break;
         }
         [EMAlertController showErrorAlert:errorDes];
-        [self.authorizationView originalView];//恢复原始视图
-        /*EMErrorAlertViewController *errorAlerController = [[EMErrorAlertViewController alloc]initWithErrorReason:errorDes];
-        errorAlerController.modalPresentationStyle = 0;
-        [self presentViewController:errorAlerController animated:YES completion:nil];
-        [weakself.authorizationView setupAuthBtnBgcolor:YES];*/
     };
     
-    [weakself.authorizationView beingLoadedView];//正在加载视图
     if (isTokenLogin) {
         [[EMClient sharedClient] loginWithUsername:[name lowercaseString] token:pswd completion:finishBlock];
         return;
@@ -500,6 +408,112 @@
     self.pswdField.rightViewMode = UITextFieldViewModeAlways;
     self.pswdField.clearButtonMode = UITextFieldViewModeNever;
     [self.loginTypeButton setTitle:NSLocalizedString(@"loginWithToken", nil) forState:UIControlStateNormal];
+}
+
+- (UILabel *)wellcomeLabel {
+    if (_wellcomeLabel == nil) {
+        _wellcomeLabel = [[UILabel alloc] init];
+        _wellcomeLabel.textAlignment = NSTextAlignmentLeft;
+        _wellcomeLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
+        _wellcomeLabel.font = [UIFont systemFontOfSize:24.0];
+        _wellcomeLabel.text = @"欢迎登录";
+    }
+    return _wellcomeLabel;
+}
+
+- (UITextField *)nameField {
+    if (_nameField == nil) {
+        _nameField = [[UITextField alloc] init];
+        _nameField.backgroundColor = [UIColor whiteColor];
+        _nameField.delegate = self;
+        _nameField.borderStyle = UITextBorderStyleNone;
+        _nameField.placeholder = NSLocalizedString(@"userId", nil);
+        _nameField.returnKeyType = UIReturnKeyGo;
+        _nameField.font = [UIFont systemFontOfSize:17];
+        _nameField.rightViewMode = UITextFieldViewModeWhileEditing;
+        _nameField.clearButtonMode = UITextFieldViewModeWhileEditing;
+                
+        UIView *iconBgView = [[UIView alloc] init];
+        UIImageView *iconImageView = [[UIImageView alloc] init];
+        [iconImageView setImage:ImageWithName(@"yg_usr_input_icon")];
+        [iconBgView addSubview:iconImageView];
+        [iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(iconBgView).insets(UIEdgeInsetsMake(0, 8.0, 0, 0));
+        }];
+        _nameField.leftView = iconBgView;
+        _nameField.leftViewMode = UITextFieldViewModeAlways;
+        
+        _nameField.layer.cornerRadius = 4.0;
+        _nameField.layer.borderWidth = 1;
+        _nameField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        
+    }
+    return _nameField;
+}
+
+- (UITextField *)pswdField {
+    if (_pswdField == nil) {
+
+        _pswdField = [[UITextField alloc] init];
+        _pswdField.backgroundColor = [UIColor whiteColor];
+        _pswdField.delegate = self;
+        _pswdField.borderStyle = UITextBorderStyleNone;
+        _pswdField.placeholder = NSLocalizedString(@"password", nil);
+        _pswdField.font = [UIFont systemFontOfSize:17];
+        _pswdField.returnKeyType = UIReturnKeyGo;
+        _pswdField.secureTextEntry = YES;
+        _pswdField.clearsOnBeginEditing = NO;
+        
+        _pswdField.layer.cornerRadius = 4.0;
+        _pswdField.layer.borderWidth = 1;
+        _pswdField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        
+        UIView *iconBgView = [[UIView alloc] init];
+        UIImageView *iconImageView = [[UIImageView alloc] init];
+        [iconImageView setImage:ImageWithName(@"yg_pwd_input_icon")];
+        [iconBgView addSubview:iconImageView];
+        [iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(iconBgView).insets(UIEdgeInsetsMake(0, 8.0, 0, 0));
+        }];
+        
+        _pswdField.leftView = iconBgView;
+        _pswdField.leftViewMode = UITextFieldViewModeAlways;
+
+        _pswdField.rightView = self.pswdRightView;
+        _pswdField.rightViewMode = UITextFieldViewModeWhileEditing;
+
+    }
+    return _pswdField;
+}
+
+
+- (UIButton *)loginButton {
+    if (_loginButton == nil) {
+        _loginButton = [[UIButton alloc] init];
+        [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_loginButton setTitle:@"登 录" forState:UIControlStateNormal];
+        _loginButton.titleLabel.font = NFont(16.0);
+        
+        [_loginButton addTarget:self action:@selector(agreeButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        _loginButton.backgroundColor = [UIColor colorWithHexString:@"#4390C0"];
+        _loginButton.layer.cornerRadius = 4.0;
+        
+    }
+    return _loginButton;
+
+}
+
+- (void)agreeButtonAction {
+    [self loginAction];
+}
+
+- (void)updateLoginState:(BOOL)isEdit {
+    if (isEdit) {
+        [self.loginButton setBackgroundColor:[UIColor colorWithHexString:@"#4798CB"]];
+    }else {
+        [self.loginButton setBackgroundColor:[UIColor colorWithHexString:@"#4390C0"]];
+    }
+
 }
 
 @end

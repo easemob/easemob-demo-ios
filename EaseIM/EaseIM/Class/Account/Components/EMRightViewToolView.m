@@ -24,12 +24,12 @@
         self.rightViewBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, RightViewRange, RightViewRange)];
         if (rightViewType == EMPswdRightView) {
             //密码
-            [self.rightViewBtn setImage:[UIImage imageNamed:@"hiddenPwd"] forState:UIControlStateNormal];
-            [self.rightViewBtn setImage:[UIImage imageNamed:@"showPwd"] forState:UIControlStateSelected];
+            [self.rightViewBtn setImage:[UIImage imageNamed:@"yg_hiddenPwd"] forState:UIControlStateNormal];
+            [self.rightViewBtn setImage:[UIImage imageNamed:@"yg_showPwd"] forState:UIControlStateSelected];
         }
         if (rightViewType == EMUsernameRightView)
             //清除用户名
-            [self.rightViewBtn setImage:[UIImage imageNamed:@"clearContent"] forState:UIControlStateNormal];
+            [self.rightViewBtn setImage:[UIImage imageNamed:@"yg_clearContent"] forState:UIControlStateNormal];
         [self addSubview:self.rightViewBtn];
     }
     return self;

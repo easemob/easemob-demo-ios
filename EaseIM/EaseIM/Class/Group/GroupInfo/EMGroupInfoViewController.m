@@ -35,6 +35,7 @@
 #import "BQChatRecordContainerViewController.h"
 #import "BQTitleAvatarAccessCell.h"
 #import "YGGroupMuteSettingViewController.h"
+#import "YGGroupYunGuanRemarkViewController.h"
 
 
 @interface EMGroupInfoViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
@@ -267,7 +268,7 @@
                 titleValueAccessCell.nameLabel.text = @"运营备注";
                 titleValueAccessCell.detailLabel.text = @"";
                 titleValueAccessCell.tapCellBlock = ^{
-                    [self _updateGroupDetailAction];
+                    [self _updateGroupYunGuanRemark];
                 };
                 return titleValueAccessCell;
             }
@@ -744,6 +745,20 @@
         return NO;
     }];
 }
+
+
+- (void)_updateGroupYunGuanRemark
+{
+    YGGroupYunGuanRemarkViewController *controller = [[YGGroupYunGuanRemarkViewController alloc] initWithSystemmark:self.group.description yGString:self.group.description placeholder:@"" isEditable:YES];
+    
+    controller.doneCompletion = ^(NSString * _Nonnull aString) {
+        NSLog(@"%s aString:%@",__func__,aString);
+    };
+    
+    [self.navigationController pushViewController:controller animated:YES];
+    
+}
+
 
 - (void)_updateGroupDetailAction
 {

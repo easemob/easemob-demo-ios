@@ -20,10 +20,13 @@
 
 #import "YGGroupSearchViewController.h"
 #import "YGGroupCreateViewController.h"
+#import "YGGroupApplyApprovalController.h"
 
 @interface EMConversationsViewController() <EaseConversationsViewControllerDelegate, EMSearchControllerDelegate, EMGroupManagerDelegate>
 
 @property (nonatomic, strong) UIButton *backImageBtn;
+@property (nonatomic, strong) UIButton *rightNavBarBtn;
+
 @property (nonatomic, strong) EMInviteGroupMemberViewController *inviteController;
 @property (nonatomic, strong) EaseConversationsViewController *easeConvsVC;
 @property (nonatomic, strong) EaseConversationViewModel *viewModel;
@@ -106,14 +109,26 @@
     }];
     
     self.backImageBtn = [[UIButton alloc]init];
-    [self.backImageBtn setImage:[UIImage imageNamed:@"icon-add"] forState:UIControlStateNormal];
-    [self.backImageBtn addTarget:self action:@selector(moreAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.backImageBtn setImage:ImageWithName(@"jh_backleft") forState:UIControlStateNormal];
+    [self.backImageBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.backImageBtn];
     [self.backImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.equalTo(@35);
         make.centerY.equalTo(titleLabel);
+        make.left.equalTo(self.view).offset(16);
+    }];
+    
+    
+    self.rightNavBarBtn = [[UIButton alloc]init];
+    [self.rightNavBarBtn setImage:ImageWithName(@"icon-add") forState:UIControlStateNormal];
+    [self.rightNavBarBtn addTarget:self action:@selector(moreAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.rightNavBarBtn];
+    [self.rightNavBarBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.height.equalTo(@35);
+        make.centerY.equalTo(titleLabel);
         make.right.equalTo(self.view).offset(-16);
     }];
+
 #endif
     
 
@@ -373,6 +388,9 @@
 
 - (void)groupApplyAction {
     
+    YGGroupApplyApprovalController *vc = [[YGGroupApplyApprovalController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 

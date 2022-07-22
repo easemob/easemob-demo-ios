@@ -30,6 +30,7 @@
 #import "EMInviteGroupMemberViewController.h"
 #import "BQChatRecordContainerViewController.h"
 #import "YGCreateGroupOperationMemberCell.h"
+#import "BQTitleValueTapCell.h"
 
 
 @interface YGGroupCreateViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
@@ -59,7 +60,8 @@
     [self.tableView registerClass:[BQTitleValueAccessCell class] forCellReuseIdentifier:NSStringFromClass([BQTitleValueAccessCell class])];
     [self.tableView registerClass:[BQTitleSwitchCell class] forCellReuseIdentifier:NSStringFromClass([BQTitleSwitchCell class])];
     [self.tableView registerClass:[BQTitleValueCell class] forCellReuseIdentifier:NSStringFromClass([BQTitleValueCell class])];
-
+    [self.tableView registerClass:[BQTitleValueTapCell class] forCellReuseIdentifier:NSStringFromClass([BQTitleValueTapCell class])];
+    
 }
 
 
@@ -111,7 +113,9 @@
 
     BQTitleValueCell *titleValueCell = [tableView dequeueReusableCellWithIdentifier:[BQTitleValueCell reuseIdentifier]];
 
+    BQTitleValueTapCell *titleValueTapCell = [tableView dequeueReusableCellWithIdentifier:[BQTitleValueTapCell reuseIdentifier]];
 
+    
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             titleAvatarCell.nameLabel.text = @"群头像";
@@ -124,9 +128,12 @@
         
     }else {
         if (indexPath.row == 0) {
-            titleValueCell.nameLabel.text = @"群名称";
-            titleValueCell.detailLabel.text = self.groupName;
-            return titleValueCell;
+            titleValueTapCell.nameLabel.text = @"群名称";
+            titleValueTapCell.detailLabel.text = self.groupName;
+            titleValueTapCell.tapCellBlock = ^{
+                [self editGroupNameAction];
+            };
+            return titleValueTapCell;
         }else {
             titleValueAccessCell.nameLabel.text = @"群介绍";
             titleValueAccessCell.detailLabel.text = @"";
@@ -194,9 +201,9 @@
         }
         
         weakSelf.groupName = aString;
-        [weakController showHudInView:weakController.view hint:NSLocalizedString(@"updateGroupName...", nil)];
+        [weakSelf.tableView reloadData];
         
-        return NO;
+        return YES;
     }];
 }
 

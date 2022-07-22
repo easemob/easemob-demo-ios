@@ -36,49 +36,59 @@
 
 - (void)placeSubViews {
     [self.applyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView);
+        make.bottom.equalTo(self.groupNameLabel.mas_top).offset(-4.0);
         make.left.equalTo(self.contentView).offset(16.0f);
-        make.size.mas_equalTo(kAvatarHeight);
+        make.right.equalTo(self.contentView).offset(-16.0);
     }];
     
     [self.groupNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView);
-        make.left.equalTo(self.iconImageView.mas_right).offset(8.0);
-        make.width.lessThanOrEqualTo(@(200.0));
-        make.height.equalTo(@(10));
+        make.centerY.equalTo(self.declineButton);
+        make.left.equalTo(self.contentView).offset(16.0f);
+        make.right.equalTo(self.declineButton.mas_left);
     }];
 
     [self.inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView);
-        make.left.equalTo(self.iconImageView.mas_right).offset(8.0);
-        make.width.lessThanOrEqualTo(@(200.0));
-        make.height.equalTo(@(10));
+        make.top.equalTo(self.groupNameLabel.mas_bottom).offset(4.0);
+        make.left.equalTo(self.contentView).offset(16.0f);
+        make.right.equalTo(self.declineButton.mas_left);
     }];
 
     
     [self.declineButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView);
-        make.left.equalTo(self.iconImageView.mas_right).offset(8.0);
-        make.width.equalTo(@(60.0));
-        make.height.equalTo(@(28.0));
+        make.centerY.equalTo(self.agreeButton);
+        make.right.equalTo(self.agreeButton.mas_left).offset(-16.0);
+        make.size.equalTo(self.agreeButton);
     }];
 
     
     [self.agreeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView);
-        make.left.equalTo(self.iconImageView.mas_right).offset(8.0);
-        make.size.equalTo(self.declineButton);
-        
+        make.top.equalTo(self.contentView).offset(36.0);
+        make.right.equalTo(self.contentView).offset(-16.0);
+        make.width.equalTo(@(60.0));
+        make.height.equalTo(@(28.0));
     }];
 
 }
 
 - (void)updateWithObj:(id)obj {
-    self.applyLabel.text = @"";
-    self.groupNameLabel.text = @"";
-    self.inviteLabel.text = @"";
+    self.applyLabel.text = @"111";
+    self.groupNameLabel.text = @"123";
+    self.inviteLabel.text = @"1234";
     
+    
+    NSMutableAttributedString *mutableAttString = [[NSMutableAttributedString alloc] init];
+    
+    NSAttributedString *tString = [Util attributeContent:@"申请加入" color:[UIColor colorWithHexString:@"#7F7F7F"] font:self.groupNameLabel.font];
+    
+    NSAttributedString *gString = [Util attributeContent:@"s" color:[UIColor colorWithHexString:@"#171717"] font:self.groupNameLabel.font];
+    
+    [mutableAttString appendAttributedString:tString];
+    [mutableAttString appendAttributedString:gString];
+
+
+    self.groupNameLabel.attributedText = mutableAttString;
 }
+
 
 - (void)declineButtonAction {
     if (self.approvalBlock) {
@@ -98,7 +108,7 @@
     if (_applyLabel == nil) {
         _applyLabel = [[UILabel alloc] init];
         _applyLabel.font = NFont(14.0);
-        _applyLabel.textColor = [UIColor colorWithHexString:@"#171717"];
+        _applyLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
         _applyLabel.textAlignment = NSTextAlignmentLeft;
         _applyLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
@@ -109,7 +119,7 @@
     if (_groupNameLabel == nil) {
         _groupNameLabel = [[UILabel alloc] init];
         _groupNameLabel.font = NFont(12.0);
-        _groupNameLabel.textColor = [UIColor colorWithHexString:@"#171717"];
+        _groupNameLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
         _groupNameLabel.textAlignment = NSTextAlignmentLeft;
         _groupNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
@@ -121,7 +131,7 @@
     if (_inviteLabel == nil) {
         _inviteLabel = [[UILabel alloc] init];
         _inviteLabel.font = NFont(12.0);
-        _inviteLabel.textColor = [UIColor colorWithHexString:@"#171717"];
+        _inviteLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
         _inviteLabel.textAlignment = NSTextAlignmentLeft;
         _inviteLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
@@ -131,7 +141,7 @@
 - (UIButton *)declineButton {
     if (_declineButton == nil) {
         _declineButton = [[UIButton alloc] init];
-        [_declineButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_declineButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_declineButton setTitle:@"拒绝" forState:UIControlStateNormal];
         _declineButton.titleLabel.font = NFont(14.0);
         

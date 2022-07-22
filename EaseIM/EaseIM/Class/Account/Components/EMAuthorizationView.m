@@ -39,12 +39,12 @@
 {
     self.authorizationBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     _authorizationBtn.backgroundColor = [UIColor blackColor];
-    _authorizationBtn.layer.cornerRadius = 25;
+    _authorizationBtn.layer.cornerRadius = 4.0;
     _authorizationBtn.alpha = 0.3;
     [self addSubview:_authorizationBtn];
     [_authorizationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.equalTo(self);
-        make.height.equalTo(@55);
+        make.height.equalTo(@(48.0));
     }];
     
     self.authorizationLabel = [[UILabel alloc] init];
@@ -109,7 +109,6 @@
         _authorizationBtn.alpha = 1;
         _authorizationLabel.alpha = 1;
         [_authorizationLabel setTextColor:[UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1.0]];
-        //_arrowView.image = [UIImage imageNamed:@"enableClick"];
         return;
     }
     [self.gl removeFromSuperlayer];
@@ -117,7 +116,7 @@
     _authorizationBtn.alpha = 0.3;
     _authorizationLabel.alpha = 0.3;
     [_authorizationLabel setTextColor:[UIColor whiteColor]];
-    //_arrowView.image = [UIImage imageNamed:@"unableClick"];
+    
 }
 
 #pragma mark - Getter
