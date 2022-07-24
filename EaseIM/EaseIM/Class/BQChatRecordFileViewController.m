@@ -181,6 +181,10 @@
     
     BQChatRecordFileModel *model = (BQChatRecordFileModel *)obj;
     
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapSearchFileMessage:)]) {
+        [self.delegate didTapSearchFileMessage:model.message];
+    }
+    
 }
 
 #pragma mark - BQChatRecordFileCellDelegate

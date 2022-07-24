@@ -361,6 +361,23 @@
 		C00BB68028891FFB00E047AC /* yg_operate_member@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00BB67E28891FFB00E047AC /* yg_operate_member@2x.png */; };
 		C00BB686288923EE00E047AC /* YGCreateGroupOperationMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C00BB685288923EE00E047AC /* YGCreateGroupOperationMemberCell.m */; };
 		C00D4C6B2883C3BE00720467 /* BQChatRecordImageVideoDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00D4C6A2883C3BE00720467 /* BQChatRecordImageVideoDemoViewController.m */; };
+		C00EFD9A288B77C5000F4A53 /* BQChatRecordFilePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00EFD99288B77C5000F4A53 /* BQChatRecordFilePreviewViewController.m */; };
+		C00EFDAC288C31B0000F4A53 /* msg_file_other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFD9C288C31AF000F4A53 /* msg_file_other@2x.png */; };
+		C00EFDAD288C31B0000F4A53 /* msg_file_doc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFD9D288C31AF000F4A53 /* msg_file_doc@2x.png */; };
+		C00EFDAE288C31B0000F4A53 /* msg_file_docx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFD9E288C31AF000F4A53 /* msg_file_docx@2x.png */; };
+		C00EFDAF288C31B0000F4A53 /* msg_file_docx@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFD9F288C31AF000F4A53 /* msg_file_docx@3x.png */; };
+		C00EFDB0288C31B0000F4A53 /* msg_file_pdf@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA0288C31AF000F4A53 /* msg_file_pdf@3x.png */; };
+		C00EFDB1288C31B0000F4A53 /* msg_file_pdf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA1288C31AF000F4A53 /* msg_file_pdf@2x.png */; };
+		C00EFDB2288C31B0000F4A53 /* msg_file_text@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA2288C31AF000F4A53 /* msg_file_text@2x.png */; };
+		C00EFDB3288C31B0000F4A53 /* msg_file_ppt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA3288C31AF000F4A53 /* msg_file_ppt@3x.png */; };
+		C00EFDB4288C31B0000F4A53 /* msg_file_exel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA4288C31AF000F4A53 /* msg_file_exel@2x.png */; };
+		C00EFDB5288C31B0000F4A53 /* msg_file_img@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA5288C31B0000F4A53 /* msg_file_img@3x.png */; };
+		C00EFDB6288C31B0000F4A53 /* msg_file_ppt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA6288C31B0000F4A53 /* msg_file_ppt@2x.png */; };
+		C00EFDB7288C31B0000F4A53 /* msg_file_text@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA7288C31B0000F4A53 /* msg_file_text@3x.png */; };
+		C00EFDB8288C31B0000F4A53 /* msg_file_other@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA8288C31B0000F4A53 /* msg_file_other@3x.png */; };
+		C00EFDB9288C31B0000F4A53 /* msg_file_doc@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA9288C31B0000F4A53 /* msg_file_doc@3x.png */; };
+		C00EFDBA288C31B0000F4A53 /* msg_file_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDAA288C31B0000F4A53 /* msg_file_img@2x.png */; };
+		C00EFDBB288C31B0000F4A53 /* msg_file_exel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDAB288C31B0000F4A53 /* msg_file_exel@3x.png */; };
 		C0359250287FB52E0053CE49 /* jh_groupInfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924C287FB52E0053CE49 /* jh_groupInfo@2x.png */; };
 		C0359251287FB52E0053CE49 /* jh_backleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924D287FB52E0053CE49 /* jh_backleft@2x.png */; };
 		C0359252287FB52E0053CE49 /* jh_groupInfo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924E287FB52E0053CE49 /* jh_groupInfo@3x.png */; };
@@ -1016,6 +1033,24 @@
 		C00BB685288923EE00E047AC /* YGCreateGroupOperationMemberCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGCreateGroupOperationMemberCell.m; sourceTree = "<group>"; };
 		C00D4C692883C3BE00720467 /* BQChatRecordImageVideoDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQChatRecordImageVideoDemoViewController.h; sourceTree = "<group>"; };
 		C00D4C6A2883C3BE00720467 /* BQChatRecordImageVideoDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQChatRecordImageVideoDemoViewController.m; sourceTree = "<group>"; };
+		C00EFD98288B77C5000F4A53 /* BQChatRecordFilePreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQChatRecordFilePreviewViewController.h; sourceTree = "<group>"; };
+		C00EFD99288B77C5000F4A53 /* BQChatRecordFilePreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQChatRecordFilePreviewViewController.m; sourceTree = "<group>"; };
+		C00EFD9C288C31AF000F4A53 /* msg_file_other@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_other@2x.png"; sourceTree = "<group>"; };
+		C00EFD9D288C31AF000F4A53 /* msg_file_doc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_doc@2x.png"; sourceTree = "<group>"; };
+		C00EFD9E288C31AF000F4A53 /* msg_file_docx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_docx@2x.png"; sourceTree = "<group>"; };
+		C00EFD9F288C31AF000F4A53 /* msg_file_docx@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_docx@3x.png"; sourceTree = "<group>"; };
+		C00EFDA0288C31AF000F4A53 /* msg_file_pdf@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_pdf@3x.png"; sourceTree = "<group>"; };
+		C00EFDA1288C31AF000F4A53 /* msg_file_pdf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_pdf@2x.png"; sourceTree = "<group>"; };
+		C00EFDA2288C31AF000F4A53 /* msg_file_text@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_text@2x.png"; sourceTree = "<group>"; };
+		C00EFDA3288C31AF000F4A53 /* msg_file_ppt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_ppt@3x.png"; sourceTree = "<group>"; };
+		C00EFDA4288C31AF000F4A53 /* msg_file_exel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_exel@2x.png"; sourceTree = "<group>"; };
+		C00EFDA5288C31B0000F4A53 /* msg_file_img@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_img@3x.png"; sourceTree = "<group>"; };
+		C00EFDA6288C31B0000F4A53 /* msg_file_ppt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_ppt@2x.png"; sourceTree = "<group>"; };
+		C00EFDA7288C31B0000F4A53 /* msg_file_text@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_text@3x.png"; sourceTree = "<group>"; };
+		C00EFDA8288C31B0000F4A53 /* msg_file_other@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_other@3x.png"; sourceTree = "<group>"; };
+		C00EFDA9288C31B0000F4A53 /* msg_file_doc@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_doc@3x.png"; sourceTree = "<group>"; };
+		C00EFDAA288C31B0000F4A53 /* msg_file_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_img@2x.png"; sourceTree = "<group>"; };
+		C00EFDAB288C31B0000F4A53 /* msg_file_exel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_exel@3x.png"; sourceTree = "<group>"; };
 		C035924C287FB52E0053CE49 /* jh_groupInfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_groupInfo@2x.png"; sourceTree = "<group>"; };
 		C035924D287FB52E0053CE49 /* jh_backleft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_backleft@2x.png"; sourceTree = "<group>"; };
 		C035924E287FB52E0053CE49 /* jh_groupInfo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_groupInfo@3x.png"; sourceTree = "<group>"; };
@@ -1319,6 +1354,8 @@
 				C06472DA287D632C00320EAF /* BQChatRecordFileViewController.m */,
 				C06472DC287D6B5D00320EAF /* BQChatRecordFileModel.h */,
 				C06472DD287D6B5D00320EAF /* BQChatRecordFileModel.m */,
+				C00EFD98288B77C5000F4A53 /* BQChatRecordFilePreviewViewController.h */,
+				C00EFD99288B77C5000F4A53 /* BQChatRecordFilePreviewViewController.m */,
 				C0359254287FE7D10053CE49 /* BQPersonalGroupEnterViewController.h */,
 				C0359255287FE7D10053CE49 /* BQPersonalGroupEnterViewController.m */,
 				C07F2BD228758DA9005D6F0D /* BQAppStyle.h */,
@@ -2281,6 +2318,29 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C00EFD9B288C3184000F4A53 /* FileType */ = {
+			isa = PBXGroup;
+			children = (
+				C00EFD9D288C31AF000F4A53 /* msg_file_doc@2x.png */,
+				C00EFDA9288C31B0000F4A53 /* msg_file_doc@3x.png */,
+				C00EFD9E288C31AF000F4A53 /* msg_file_docx@2x.png */,
+				C00EFD9F288C31AF000F4A53 /* msg_file_docx@3x.png */,
+				C00EFDA4288C31AF000F4A53 /* msg_file_exel@2x.png */,
+				C00EFDAB288C31B0000F4A53 /* msg_file_exel@3x.png */,
+				C00EFDAA288C31B0000F4A53 /* msg_file_img@2x.png */,
+				C00EFDA5288C31B0000F4A53 /* msg_file_img@3x.png */,
+				C00EFD9C288C31AF000F4A53 /* msg_file_other@2x.png */,
+				C00EFDA8288C31B0000F4A53 /* msg_file_other@3x.png */,
+				C00EFDA1288C31AF000F4A53 /* msg_file_pdf@2x.png */,
+				C00EFDA0288C31AF000F4A53 /* msg_file_pdf@3x.png */,
+				C00EFDA6288C31B0000F4A53 /* msg_file_ppt@2x.png */,
+				C00EFDA3288C31AF000F4A53 /* msg_file_ppt@3x.png */,
+				C00EFDA2288C31AF000F4A53 /* msg_file_text@2x.png */,
+				C00EFDA7288C31B0000F4A53 /* msg_file_text@3x.png */,
+			);
+			path = FileType;
+			sourceTree = "<group>";
+		};
 		C04BDB792885668000601A39 /* YunGuan */ = {
 			isa = PBXGroup;
 			children = (
@@ -2323,6 +2383,7 @@
 		C0634865287588F2008E55D3 /* BQResource */ = {
 			isa = PBXGroup;
 			children = (
+				C00EFD9B288C3184000F4A53 /* FileType */,
 				C035925B287FF11E0053CE49 /* jh_undisturbRing@2x.png */,
 				C035925C287FF11E0053CE49 /* jh_undisturbRing@3x.png */,
 				C0359257287FF0700053CE49 /* jh_undisturbDot@2x.png */,
@@ -2664,6 +2725,7 @@
 				3C4AED0E2499FE5F001F7C50 /* unableClick.png in Resources */,
 				3C729D9D25727A09003DB315 /* forward@3x.png in Resources */,
 				3A45E3962223A49E00505786 /* chatroom_avatar@2x.png in Resources */,
+				C00EFDB7288C31B0000F4A53 /* msg_file_text@3x.png in Resources */,
 				C035925A287FF0700053CE49 /* jh_undisturbDot@3x.png in Resources */,
 				3C37DF112382508500399AE8 /* back_left.png in Resources */,
 				C0DB11A627707D2D00E4B8A9 /* sendFail@3x.png in Resources */,
@@ -2685,12 +2747,14 @@
 				3C4AED49249A2F95001F7C50 /* icon-tab通讯录@3x.png in Resources */,
 				3C729DD62572937B003DB315 /* search@3x.png in Resources */,
 				C07F2BE62876D8D4005D6F0D /* jh_right_access@2x.png in Resources */,
+				C00EFDB2288C31B0000F4A53 /* msg_file_text@2x.png in Resources */,
 				C04BDB75288563DB00601A39 /* yg_msg_alert_off@2x.png in Resources */,
 				3C7A14ED238FD0B600F4AC48 /* android@2x.png in Resources */,
 				3A45E5402223D69800505786 /* uncheck@3x.png in Resources */,
 				3C9A97B8257CDFD300752F28 /* chatroom@3x.png in Resources */,
 				C08F586F288A435900274A88 /* yg_showPwd@2x.png in Resources */,
 				C07F2BD728759AFD005D6F0D /* jh_group_icon@2x.png in Resources */,
+				C00EFDAC288C31B0000F4A53 /* msg_file_other@2x.png in Resources */,
 				C0E9E529261339FE0080AB28 /* userinfo@2x.png in Resources */,
 				3A45E3EC2223A4F300505786 /* group_join@2x.png in Resources */,
 				3C4AED4B249A2F95001F7C50 /* icon-tab通讯录@2x.png in Resources */,
@@ -2701,8 +2765,10 @@
 				C00BB6682887DD4700E047AC /* yg_user_normal@2x.png in Resources */,
 				3C4AED27249A1415001F7C50 /* unAgreeProtocol.png in Resources */,
 				3C9A97B5257CDFD300752F28 /* newFriend@3x.png in Resources */,
+				C00EFDB1288C31B0000F4A53 /* msg_file_pdf@2x.png in Resources */,
 				3C4AED142499FE7B001F7C50 /* enableClick@2x.png in Resources */,
 				3A45D9B322239DE200505786 /* Localizable.strings in Resources */,
+				C00EFDB4288C31B0000F4A53 /* msg_file_exel@2x.png in Resources */,
 				6654496327796B1D008AA2AE /* undisturbDot.png in Resources */,
 				3C37DF4F238251ED00399AE8 /* icon-加群@3x.png in Resources */,
 				3C4AECF62499CF83001F7C50 /* hiddenPwd@3x.png in Resources */,
@@ -2741,11 +2807,13 @@
 				3C7A1516239118C100F4AC48 /* iMac@2x.png in Resources */,
 				3A45E0FD2223A30000505786 /* alert_info@3x.png in Resources */,
 				3C9A96252579E18500752F28 /* video-opposite@3x.png in Resources */,
+				C00EFDAE288C31B0000F4A53 /* msg_file_docx@2x.png in Resources */,
 				3C8DFAA524EA282F0047C277 /* optionalAppkey@2x.png in Resources */,
 				C08F584A2889992500274A88 /* yg_edit_icon@3x.png in Resources */,
 				3C68ED222574D156004E167F /* groupInfo@2x.png in Resources */,
 				3C37DF172382508500399AE8 /* icon_failure@3x.png in Resources */,
 				C08F5872288A435900274A88 /* yg_hiddenPwd@2x.png in Resources */,
+				C00EFDAD288C31B0000F4A53 /* msg_file_doc@2x.png in Resources */,
 				3C4AEDB7249B5A87001F7C50 /* settings@2x.png in Resources */,
 				3A45E0F82223A30000505786 /* alert_error@2x.png in Resources */,
 				3C87A0F9248F81AB0051E06E /* icon-enter@2x.png in Resources */,
@@ -2765,11 +2833,13 @@
 				3C3703BD238D06D500A8976B /* 黑名单@2x.png in Resources */,
 				3C662628250B2BD900B88AD5 /* chatroomConversation@2x.png in Resources */,
 				3C4AED55249A2FAB001F7C50 /* icon-tab会话@3x.png in Resources */,
+				C00EFDB6288C31B0000F4A53 /* msg_file_ppt@2x.png in Resources */,
 				3C9A96272579E18500752F28 /* video-me@3x.png in Resources */,
 				3A45E0912223A28F00505786 /* user_avatar_blue@3x.png in Resources */,
 				3C9A9700257A45E600752F28 /* defaultAvatar@3x.png in Resources */,
 				C04BDB76288563DB00601A39 /* yg_group_apply@2x.png in Resources */,
 				3C9A96FF257A45E600752F28 /* defaultAvatar@2x.png in Resources */,
+				C00EFDB3288C31B0000F4A53 /* msg_file_ppt@3x.png in Resources */,
 				C04BDB8C2886513D00601A39 /* yg_addMember@3x.png in Resources */,
 				6654495F27796B1D008AA2AE /* undisturbDot@2x.png in Resources */,
 				3C4AED032499D04B001F7C50 /* clearContent.png in Resources */,
@@ -2787,6 +2857,7 @@
 				3C9A96242579E18500752F28 /* video-me@2x.png in Resources */,
 				3A45DA2722239DE200505786 /* Images.xcassets in Resources */,
 				C00BB65C2887D88A00E047AC /* yg_unSlected@3x.png in Resources */,
+				C00EFDB8288C31B0000F4A53 /* msg_file_other@3x.png in Resources */,
 				3A45E0862223A28F00505786 /* close_white@2x.png in Resources */,
 				3C4AED2C249A2040001F7C50 /* icon@2x.png in Resources */,
 				3C68ED182574D134004E167F /* backleft@2x.png in Resources */,
@@ -2810,6 +2881,7 @@
 				3A45E08E2223A28F00505786 /* back_gary@3x.png in Resources */,
 				3C8DFAB124EBDA0F0047C277 /* check@3x.png in Resources */,
 				3C37DF4E238251ED00399AE8 /* icon-创建群组@2x.png in Resources */,
+				C00EFDBA288C31B0000F4A53 /* msg_file_img@2x.png in Resources */,
 				3A45E3992223A49E00505786 /* chatroom_create@3x.png in Resources */,
 				3C8437652510B2CF003CFA53 /* webRefreshButton@2x.png in Resources */,
 				C0E75AE42744F0AC00E7B0E8 /* languagechecked@3x.png in Resources */,
@@ -2818,13 +2890,16 @@
 				3C4AECF72499CF83001F7C50 /* hiddenPwd.png in Resources */,
 				C0DB11A727707D2D00E4B8A9 /* sendFail@2x.png in Resources */,
 				3C4AED5C249A2FB8001F7C50 /* icon-tab会话unselected@2x.png in Resources */,
+				C00EFDB9288C31B0000F4A53 /* msg_file_doc@3x.png in Resources */,
 				3A45E3972223A49E00505786 /* chatroom_avatar@3x.png in Resources */,
 				C075E49F26243C0B0080A126 /* titleBackImage@2x.png in Resources */,
 				3C9A97B9257CDFD300752F28 /* chatroom@2x.png in Resources */,
+				C00EFDAF288C31B0000F4A53 /* msg_file_docx@3x.png in Resources */,
 				C04BDB71288563DB00601A39 /* yg_group_search@2x.png in Resources */,
 				3A45E03A2223A22600505786 /* device@2x.png in Resources */,
 				3C87A0FD248F81C60051E06E /* icon-enter@3x.png in Resources */,
 				3C37DF1A2382508500399AE8 /* back_left@3x.png in Resources */,
+				C00EFDB5288C31B0000F4A53 /* msg_file_img@3x.png in Resources */,
 				C04BDB8B2886513D00601A39 /* yg_deleteMember@2x.png in Resources */,
 				3C37DF47238251ED00399AE8 /* icon-add@2x.png in Resources */,
 				3A45E0882223A28F00505786 /* close_gray@3x.png in Resources */,
@@ -2841,6 +2916,7 @@
 				C00BB66F2887EC1E00E047AC /* yg_backleft@2x.png in Resources */,
 				668D54E9277EF37E007E5097 /* undisturbRing.png in Resources */,
 				C00BB65D2887D88A00E047AC /* yg_unSlected@2x.png in Resources */,
+				C00EFDBB288C31B0000F4A53 /* msg_file_exel@3x.png in Resources */,
 				3C7A1515239118C100F4AC48 /* web@3x.png in Resources */,
 				3C91A0B125C4002500103C2E /* BootPage@3x.png in Resources */,
 				3C729DEE25729875003DB315 /* icon-setting@3x.png in Resources */,
@@ -2884,6 +2960,7 @@
 				3C3703BC238D06D500A8976B /* 多端多设备管理.png in Resources */,
 				3A45E08B2223A28F00505786 /* user_avatar_gray@2x.png in Resources */,
 				3A45E5412223D69800505786 /* uncheck@2x.png in Resources */,
+				C00EFDB0288C31B0000F4A53 /* msg_file_pdf@3x.png in Resources */,
 				3C4AED082499F8B7001F7C50 /* agreeProtocol@2x.png in Resources */,
 				3C4AED50249A2F9D001F7C50 /* icon-tab通讯录unselected@3x.png in Resources */,
 				3C7A1514239118C100F4AC48 /* web@2x.png in Resources */,
@@ -3099,6 +3176,7 @@
 				3A45E3902223A48700505786 /* EMChatroomBlacklistViewController.m in Sources */,
 				3A45E3E42223A4E900505786 /* EMGroupAdminsViewController.m in Sources */,
 				C00BB67C2888F45A00E047AC /* YGSearchGroup.m in Sources */,
+				C00EFD9A288B77C5000F4A53 /* BQChatRecordFilePreviewViewController.m in Sources */,
 				C0E9E4BA260C74AC0080AB28 /* ConfirmUserCardView.m in Sources */,
 				3C87A103249080900051E06E /* EMSettingsViewController.m in Sources */,
 				C0E75AE62744F0AC00E7B0E8 /* LanguageViewController.m in Sources */,

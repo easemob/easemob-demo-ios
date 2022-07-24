@@ -66,6 +66,16 @@
     if (_conversation.unreadMessagesCount > 0) {
         [[EMClient sharedClient].chatManager ackConversationRead:_conversation.conversationId completion:nil];
     }
+    
+    [self updateUIWithSearchedMessage];
+}
+
+- (void)updateUIWithSearchedMessage {
+    if (self.chatRecordKeyMessage) {
+        self.navigationItem.rightBarButtonItem = nil;
+        [self.chatController scrollToAssignMessage:self.chatRecordKeyMessage];
+    }
+    
 }
 
 - (void)dealloc
@@ -119,6 +129,7 @@
 
 - (void)_setupNavigationBarRightItem
 {
+    
     if (self.conversation.type == EMConversationTypeChat) {
 //        UIImage *image = [[UIImage imageNamed:@"userData"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 #if kJiHuApp
@@ -203,8 +214,7 @@
     self.titleDetailLabel.text = [NSString stringWithFormat:@"群组ID: %@",self.conversation.conversationId];
 #endif
 
-    
-    
+
 }
 
 #pragma mark - EaseChatViewControllerDelegate
@@ -692,6 +702,9 @@
             NSString *newStr = [NSString stringWithFormat:@"%@%@ ", text, aName];
             [aInputView setText:newStr];
             aInputView.selectedRange = NSMakeRange(newStr.length, 0);
+            if (text.length == 0) {
+                [self.chatController clearTextViewPlaceHolder];
+            }
             [aInputView becomeFirstResponder];
         }];
         
@@ -860,8 +873,5 @@
     [self showHint:NSLocalizedString(@"annupdated", nil)];
 }
 
-- (void)scrollToAssignMessage:(EMChatMessage *)message {
-    self.chatRecordKeyMessage = message;
-}
 
 @end

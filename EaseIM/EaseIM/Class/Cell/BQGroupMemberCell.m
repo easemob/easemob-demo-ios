@@ -30,36 +30,26 @@
         make.height.equalTo(@(128.0));
     }];
     
-#if kJiHuApp
     [self.contentView addSubview:self.moreButton];
     [self.moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.groupMemberView.mas_bottom);
         make.left.right.equalTo(self.contentView);
         make.bottom.equalTo(self.contentView);
     }];
-#else
-    
-#endif
-    
-    }
+}
 
 - (void)updateWithObj:(id)obj {
-//    if (obj == nil) {
-//        return;
-//    }
-//
-//    self.group = (EMGroup *)obj;
-//    NSMutableArray *tArray = [NSMutableArray array];
-//    [tArray addObject:self.group.owner];
-//    if (self.group.adminList.count > 0) {
-//        [tArray addObjectsFromArray:self.group.adminList];
-//    }
-//    if (self.group.memberList.count > 0) {
-//        [tArray addObjectsFromArray:self.group.memberList];
-//    }
-    
     NSMutableArray *tArray = (NSMutableArray *)obj;
+
     [self.groupMemberView updateUIWithMemberArray:[tArray copy]];
+    if (tArray.count + 1 > 6) {
+        CGFloat tHeight = 244.0 - 48.0;
+        [self.groupMemberView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@(tHeight));
+        }];
+    }
+   
+    
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj {
@@ -78,11 +68,10 @@
 //    }
 
     NSMutableArray *tArray = (NSMutableArray *)obj;
-    
     if (tArray.count + 1 > 6) {
         return 244.0;
     }
-    
+
     return 175.0;
 }
 

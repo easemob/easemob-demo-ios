@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *timestamp;
 
+@property (nonatomic, strong) EMChatMessage *message;
 
 - (instancetype)initWithMessage:(EMChatMessage *)msg time:(NSString *)timestamp;
 

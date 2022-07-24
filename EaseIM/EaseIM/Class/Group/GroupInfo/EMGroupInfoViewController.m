@@ -339,12 +339,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 && indexPath.row == 1){
-        return [BQGroupMemberCell cellHeightWithObj: self.memberArray];
+        return [BQGroupMemberCell cellHeightWithObj:self.memberArray];
     }
     
     return 64.0;
 }
-
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

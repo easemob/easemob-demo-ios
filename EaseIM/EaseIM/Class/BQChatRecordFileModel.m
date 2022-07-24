@@ -15,7 +15,7 @@
     self = [super init];
     if (self) {
         _avatarImg = ImageWithName(@"jh_user_icon");
-        
+        _message = msg;
         _from = msg.from;
         NSString *fileName = [NSString stringWithFormat:@"[%@]",((EMFileMessageBody *)msg.body).displayName];
         _filename = fileName;

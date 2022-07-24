@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) EMConversation *conversation;
 @property (nonatomic, strong) EaseChatViewController *chatController;
 //查找消息记录搜索到的消息
-@property (nonatomic, strong) EMChatMessage* chatRecordKeyMessage;
+@property (nonatomic, strong) EMChatMessage *chatRecordKeyMessage;
 
 - (instancetype)initWithConversationId:(NSString *)conversationId conversationType:(EMConversationType)conType;
 //本地通话记录
@@ -22,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray *)formatMessages:(NSArray<EMChatMessage *> *)aMessages;
 
-- (void)scrollToAssignMessage:(EMChatMessage *)message;
+//- (void)scrollToAssignMessage:(EMChatMessage *)message;
+
 
 @end
 

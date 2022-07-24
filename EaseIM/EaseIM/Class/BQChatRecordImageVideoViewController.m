@@ -19,6 +19,7 @@
 @property (nonatomic, strong) EMConversation *conversation;
 @property (nonatomic, strong) dispatch_queue_t msgQueue;
 @property (nonatomic, strong) NSString *moreMsgId;
+@property (nonatomic, strong) EMChatMessage *selectedMessage;
 
 
 @end
@@ -122,6 +123,18 @@
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    
+    EMChatMessage *msg = self.dataArray[indexPath.row];
+    self.selectedMessage = msg;
+    [self openImageOrVideo];
+}
+
+- (void)openImageOrVideo {
+    NSString *localPath = [(EMImageMessageBody *)self.selectedMessage.body localPath];
+    UIImage *image = [UIImage imageWithContentsOfFile:localPath];
+    
+//    [[EMImageBrowser sharedBrowser] showImages:@[image] fromController:weakself];
 
 }
 

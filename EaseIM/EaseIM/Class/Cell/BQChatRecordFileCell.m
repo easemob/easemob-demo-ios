@@ -75,10 +75,17 @@
     }];
     
     
+#if kJiHuApp
     self.contentView.backgroundColor = ViewBgBlackColor;
     _nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
     _timestampLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
     _detailLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
+#else
+    self.contentView.backgroundColor = ViewBgWhiteColor;
+    _nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
+    _timestampLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
+    _detailLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
+#endif
     
 }
 
@@ -116,23 +123,6 @@
 //    }
 //}
 
-#pragma mark - Public
-
-- (void)setAccessoryButton:(UIButton *)accessoryButton
-{
-    _accessoryButton = accessoryButton;
-    if (_accessoryButton) {
-        [_accessoryButton addTarget:self action:@selector(accessoryButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    }
-    self.accessoryView = accessoryButton;
-}
-
-#pragma mark - Action
-
-- (void)accessoryButtonAction
-{
-
-}
 
 @end
 

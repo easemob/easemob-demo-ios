@@ -8,8 +8,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol BQChatRecordFileViewControllerDelegate <NSObject>
+@optional
+- (void)didTapSearchFileMessage:(EMChatMessage *)message;
+
+@end
+
 @interface BQChatRecordFileViewController : UIViewController
 @property (nonatomic) BOOL isSearching;
+@property (nonatomic, assign) id<BQChatRecordFileViewControllerDelegate> delegate;
 
 - (instancetype)initWithCoversationModel:(EMConversation *)conversation;
 

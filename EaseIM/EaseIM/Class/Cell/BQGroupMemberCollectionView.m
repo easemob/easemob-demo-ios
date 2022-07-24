@@ -305,9 +305,6 @@
 }
 
 + (CGSize)collectionViewItemSize {
-//    CGFloat itemWidth = 38.0;
-//    CGFloat itemHeight = 58.0;
-
     CGFloat itemWidth = (KScreenWidth - 16.0 * 2 - 5 * 12.0)/6.0;
     CGFloat itemHeight = 58.0;
     return CGSizeMake(itemWidth, itemHeight);

@@ -14,12 +14,14 @@
 #import "BQChatRecordImageVideoViewController.h"
 //#import "BQChatRecordImageVideoDemoViewController.h"
 #import "EMChatViewController.h"
+#import "BQChatRecordFilePreviewViewController.h"
 
 
 #define kViewTopPadding  200.0f
 
 @interface BQChatRecordContainerViewController ()<MISScrollPageControllerDataSource,
-MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate>
+MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate,BQChatRecordFileViewControllerDelegate>
+
 @property (nonatomic, strong) MISScrollPageController *pageController;
 @property (nonatomic, strong) MISScrollPageSegmentView *segView;
 @property (nonatomic, strong) MISScrollPageContentView *contentView;
@@ -117,11 +119,20 @@ MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate>
 #pragma mark EMChatRecordViewControllerDelegate
 - (void)didTapSearchMessage:(EMChatMessage *)message {
     EMChatViewController *chatController = [[EMChatViewController alloc]initWithConversationId:self.conversation.conversationId conversationType:self.conversation.type];
-    [chatController scrollToAssignMessage:message];
+    chatController.chatRecordKeyMessage = message;
+//    [chatController scrollToAssignMessage:message];
     chatController.modalPresentationStyle = 0;
     [self.navigationController pushViewController:chatController animated:YES];
 
 }
+
+#pragma mark BQChatRecordFileViewControllerDelegate
+- (void)didTapSearchFileMessage:(EMChatMessage *)message {
+    BQChatRecordFilePreviewViewController *vc = [[BQChatRecordFilePreviewViewController alloc] initWithMessage:message];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
 
 #pragma mark - scrool pager data source and delegate
 - (NSUInteger)numberOfChildViewControllers {
@@ -218,6 +229,7 @@ MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate>
 - (BQChatRecordFileViewController *)fileRecordVC {
     if (_fileRecordVC == nil) {
         _fileRecordVC = [[BQChatRecordFileViewController alloc] initWithCoversationModel:self.conversation];
+        _fileRecordVC.delegate = self;
     }
     return _fileRecordVC;
 }
