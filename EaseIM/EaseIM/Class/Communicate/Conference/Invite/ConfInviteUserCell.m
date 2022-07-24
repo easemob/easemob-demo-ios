@@ -26,17 +26,16 @@
 //    self.selectionStyle = UITableViewCellSelectionStyleNone;
 //    self.checkView.contentMode = UIViewContentModeScaleAspectFit;
     
-
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.contentView.backgroundColor = ViewBgBlackColor;
     self.nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
     self.checkView.image = ImageWithName(@"unSlected");
-#else
+}else {
     self.contentView.backgroundColor = ViewBgWhiteColor;
     self.nameLabel.textColor = [UIColor colorWithHexString:@"#171717"];
     self.checkView.image = ImageWithName(@"yg_unSlected");
 
-#endif
+}
 
 }
 
@@ -78,11 +77,11 @@
         if (isChecked) {
             self.checkView.image = [UIImage imageNamed:@"check"];
         } else {
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
             self.checkView.image = [UIImage imageNamed:@"unSlected"];
-#else
+}else {
             self.checkView.image = ImageWithName(@"yg_unSlected");
-#endif
+}
 
 
         }

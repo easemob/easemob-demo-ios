@@ -88,11 +88,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.navigationController.navigationBar.backgroundColor = ViewBgBlackColor;
-#else
+}else {
     self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
-#endif
+}
     
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     self.navigationController.navigationBarHidden = NO;
@@ -107,15 +107,15 @@
 
 - (void)_setupChatSubviews
 {
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"jh_backleft"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     //    self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
         
         self.view.backgroundColor = ViewBgBlackColor;
-#else
+}else {
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"backleft"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
         self.view.backgroundColor = ViewBgWhiteColor;
-#endif
+}
 
     [self _setupNavigationBarTitle];
     [self _setupNavigationBarRightItem];
@@ -132,23 +132,25 @@
     
     if (self.conversation.type == EMConversationTypeChat) {
 //        UIImage *image = [[UIImage imageNamed:@"userData"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-#if kJiHuApp
-        UIImage *image = [[UIImage imageNamed:@"jh_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage *image = nil;
+    if ([EMDemoOptions sharedOptions].isJiHuApp) {
+         image = [[UIImage imageNamed:@"jh_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 
-#else
-        UIImage *image = [[UIImage imageNamed:@"yg_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-#endif
+    }else {
+        image = [[UIImage imageNamed:@"yg_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(chatInfoAction)];
     }
     
     if (self.conversation.type == EMConversationTypeGroupChat) {
-        
-#if kJiHuApp
-        UIImage *image = [[UIImage imageNamed:@"jh_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage *image = nil;
 
-#else
-        UIImage *image = [[UIImage imageNamed:@"yg_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-#endif
+        if ([EMDemoOptions sharedOptions].isJiHuApp) {
+                image = [[UIImage imageNamed:@"jh_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
+        }else {
+               image = [[UIImage imageNamed:@"yg_groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        }
 
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(groupInfoAction)];
     }
@@ -185,15 +187,15 @@
         make.bottom.equalTo(titleView);
     }];
     
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     titleView.backgroundColor = ViewBgBlackColor;
     self.titleLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
-#else
+}else {
     titleView.backgroundColor = UIColor.clearColor;
     self.titleLabel.textColor = [UIColor blackColor];
 
     self.titleDetailLabel.textColor = [UIColor colorWithHexString:@"#A5A5A5"];
-#endif
+}
 
     
     self.navigationItem.titleView = titleView;
@@ -208,12 +210,14 @@
             self.titleLabel.text = userInfo.nickName;
     }
     
-#if kJiHuApp
+    if ([EMDemoOptions sharedOptions].isJiHuApp) {
 
-#else
-    self.titleDetailLabel.text = [NSString stringWithFormat:@"群组ID: %@",self.conversation.conversationId];
-#endif
-
+    }else {
+        if (self.conversation.type == EMConversationTypeGroupChat) {
+            self.titleDetailLabel.text = [NSString stringWithFormat:@"群组ID: %@",self.conversation.conversationId];
+        }
+        
+    }
 
 }
 
@@ -388,7 +392,7 @@
     //位置
     [menuArray addObject:[defaultInputBarItems objectAtIndex:2]];
     
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     if (conversationType == EMConversationTypeGroupChat) {
         //音视频
         EaseExtMenuModel *rtcMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"video_conf"] funcDesc:NSLocalizedString(@"Call", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
@@ -413,7 +417,7 @@
         [menuArray addObject:userCardExtModal];
 
     }
-#else
+}else {
     //音视频
     EaseExtMenuModel *rtcMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"yg_video_conf"] funcDesc:NSLocalizedString(@"Call", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
         if (isExecuted) {
@@ -424,7 +428,7 @@
     
     //文件
     [menuArray addObject:[defaultInputBarItems objectAtIndex:3]];
-#endif
+}
 
     
     return menuArray;

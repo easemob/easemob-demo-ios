@@ -378,6 +378,7 @@
 		C00EFDB9288C31B0000F4A53 /* msg_file_doc@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDA9288C31B0000F4A53 /* msg_file_doc@3x.png */; };
 		C00EFDBA288C31B0000F4A53 /* msg_file_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDAA288C31B0000F4A53 /* msg_file_img@2x.png */; };
 		C00EFDBB288C31B0000F4A53 /* msg_file_exel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDAB288C31B0000F4A53 /* msg_file_exel@3x.png */; };
+		C00EFDBE288CF8F5000F4A53 /* BQEnterSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00EFDBD288CF8F5000F4A53 /* BQEnterSwitchViewController.m */; };
 		C0359250287FB52E0053CE49 /* jh_groupInfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924C287FB52E0053CE49 /* jh_groupInfo@2x.png */; };
 		C0359251287FB52E0053CE49 /* jh_backleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924D287FB52E0053CE49 /* jh_backleft@2x.png */; };
 		C0359252287FB52E0053CE49 /* jh_groupInfo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924E287FB52E0053CE49 /* jh_groupInfo@3x.png */; };
@@ -1051,6 +1052,8 @@
 		C00EFDA9288C31B0000F4A53 /* msg_file_doc@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_doc@3x.png"; sourceTree = "<group>"; };
 		C00EFDAA288C31B0000F4A53 /* msg_file_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_img@2x.png"; sourceTree = "<group>"; };
 		C00EFDAB288C31B0000F4A53 /* msg_file_exel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_exel@3x.png"; sourceTree = "<group>"; };
+		C00EFDBC288CF8F5000F4A53 /* BQEnterSwitchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQEnterSwitchViewController.h; sourceTree = "<group>"; };
+		C00EFDBD288CF8F5000F4A53 /* BQEnterSwitchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQEnterSwitchViewController.m; sourceTree = "<group>"; };
 		C035924C287FB52E0053CE49 /* jh_groupInfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_groupInfo@2x.png"; sourceTree = "<group>"; };
 		C035924D287FB52E0053CE49 /* jh_backleft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_backleft@2x.png"; sourceTree = "<group>"; };
 		C035924E287FB52E0053CE49 /* jh_groupInfo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_groupInfo@3x.png"; sourceTree = "<group>"; };
@@ -1360,6 +1363,8 @@
 				C0359255287FE7D10053CE49 /* BQPersonalGroupEnterViewController.m */,
 				C07F2BD228758DA9005D6F0D /* BQAppStyle.h */,
 				C07F2BD328758DA9005D6F0D /* BQAppStyle.m */,
+				C00EFDBC288CF8F5000F4A53 /* BQEnterSwitchViewController.h */,
+				C00EFDBD288CF8F5000F4A53 /* BQEnterSwitchViewController.m */,
 				C0634864287585C2008E55D3 /* BQDemoUIDefine.h */,
 				C07F2BE028768156005D6F0D /* UIColor+BQ.h */,
 				C07F2BE128768156005D6F0D /* UIColor+BQ.m */,
@@ -3220,6 +3225,7 @@
 				C04BDB9828865D2C00601A39 /* YGGroupMuteSettingViewController.m in Sources */,
 				3C3BAE8A23990DF600344F63 /* EMSecurityViewController.m in Sources */,
 				3A45DB4B22239DE200505786 /* EaseIMHelper.m in Sources */,
+				C00EFDBE288CF8F5000F4A53 /* BQEnterSwitchViewController.m in Sources */,
 				C08F584D2889A26000274A88 /* YGOnLineNotificationView.m in Sources */,
 				3C87A100248F8F5E0051E06E /* EMDeveloperServiceViewController.m in Sources */,
 				3A45EAFA2224186400505786 /* EMDemoOptions.m in Sources */,

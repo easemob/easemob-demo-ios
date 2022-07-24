@@ -36,12 +36,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.view.backgroundColor = ViewBgBlackColor;
-#else
+}else {
     self.view.backgroundColor = ViewBgWhiteColor;
-#endif
-
+}
     self.title = @"群禁言设置";
     [self addPopBackLeftItemWithTarget:self action:@selector(backItemAction)];
     
@@ -182,12 +181,12 @@
         
         [_tableView registerClass:[YGGroupMuteMemberCell class] forCellReuseIdentifier:NSStringFromClass([YGGroupMuteMemberCell class])];
 
-#if kJiHuApp
-        _searchResultTableView.backgroundColor = ViewBgBlackColor;
+        if ([EMDemoOptions sharedOptions].isJiHuApp) {
+              _tableView.backgroundColor = ViewBgBlackColor;
 
-#else
-        _tableView.backgroundColor = ViewBgWhiteColor;
-#endif
+        }else {
+                _tableView.backgroundColor = ViewBgWhiteColor;
+        }
 
     }
     return _tableView;

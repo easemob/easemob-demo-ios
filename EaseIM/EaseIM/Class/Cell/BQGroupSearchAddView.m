@@ -102,11 +102,11 @@
         _bgView.layer.cornerRadius = 24.0 * 0.5;
         _bgView.clipsToBounds = YES;
         _bgView.layer.masksToBounds = YES;
-#if kJiHuApp
-        _bgView.backgroundColor = [UIColor colorWithHexString:@"#252525"];
-#else
-        _bgView.backgroundColor = [UIColor colorWithHexString:@"#F5F5F5"];
-#endif
+        if ([EMDemoOptions sharedOptions].isJiHuApp) {
+                _bgView.backgroundColor = [UIColor colorWithHexString:@"#252525"];
+        }else {
+                _bgView.backgroundColor = [UIColor colorWithHexString:@"#F5F5F5"];
+        }
         
         
     }
@@ -136,11 +136,11 @@
         _nameLabel.font = [BQGroupAddItemCell labelFont];
         _nameLabel.textAlignment = NSTextAlignmentCenter;
         
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         _nameLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
-#else
+}else {
         _nameLabel.textColor = [UIColor colorWithHexString:@"#171717"];
-#endif
+}
         
     }
     return _nameLabel;
@@ -173,11 +173,11 @@
 
 
 - (void)placeAndLayoutSubViews {
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.backgroundColor = ViewCellBgBlackColor;
-#else
+}else {
     self.backgroundColor = ViewCellBgWhiteColor;
-#endif
+}
 
     [self addSubview:self.titleLabel];
     [self addSubview:self.collectionView];

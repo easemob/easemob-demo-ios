@@ -38,11 +38,11 @@
 
 
 - (void)placeAndLayoutSubViews {
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.view.backgroundColor = ViewBgBlackColor;
-#else
+}else {
     self.view.backgroundColor = ViewBgWhiteColor;
-#endif
+}
 
     
     [self.view addSubview:self.iconImageView];
@@ -217,11 +217,11 @@
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.numberOfLines = 0;
         
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         _nameLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
-#else
+}else {
         _nameLabel.textColor = [UIColor colorWithHexString:@"#171717"];
-#endif
+}
         
     }
     return _nameLabel;
@@ -233,11 +233,11 @@
         _sizeLabel.font = NFont(10.0);
         _sizeLabel.textAlignment = NSTextAlignmentLeft;
         
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         _sizeLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
-#else
+}else {
         _sizeLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
-#endif
+}
         
     }
     return _sizeLabel;

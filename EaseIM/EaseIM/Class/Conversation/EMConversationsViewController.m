@@ -74,8 +74,9 @@
 }
 
 - (void)_setupSubviews {
-#if kJiHuApp
     UILabel *titleLabel = [[UILabel alloc] init];
+
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     titleLabel.text = @"我的专属服务";
     titleLabel.textColor = [UIColor colorWithHexString:@"#F5F5F5"];
     titleLabel.font = [UIFont systemFontOfSize:18];
@@ -95,9 +96,8 @@
         make.centerY.equalTo(titleLabel);
         make.left.equalTo(self.view).offset(16);
     }];
-#else
+}else {
     
-    UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.text = @"会话列表";
     titleLabel.textColor = [UIColor colorWithHexString:@"#171717"];
     titleLabel.font = [UIFont systemFontOfSize:18];
@@ -129,7 +129,7 @@
         make.right.equalTo(self.view).offset(-16);
     }];
 
-#endif
+}
     
 
     self.viewModel = [[EaseConversationViewModel alloc] init];

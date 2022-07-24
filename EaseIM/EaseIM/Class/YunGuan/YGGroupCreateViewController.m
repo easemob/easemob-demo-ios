@@ -176,12 +176,12 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *hView = [[UIView alloc] init];
-#if kJiHuApp
-    hView.backgroundColor = [UIColor colorWithHexString:@"#171717"];
-#else
-    hView.backgroundColor = ViewBgWhiteColor;
+    if ([EMDemoOptions sharedOptions].isJiHuApp) {
+        hView.backgroundColor = [UIColor colorWithHexString:@"#171717"];
+    }else {
+        hView.backgroundColor = ViewBgWhiteColor;
 
-#endif
+    }
 
     return hView;
 }

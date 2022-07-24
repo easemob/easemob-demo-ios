@@ -25,6 +25,8 @@
 @interface EMLoginViewController ()<UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *backView;
+@property (nonatomic, strong) UIButton *backImageBtn;
+
 
 @property (nonatomic, strong) UIImageView *titleImageView;
 @property (nonatomic, strong) UITextField *nameField;
@@ -49,7 +51,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+        
     self.isLogin = false;
     [self _setupSubviews];
 }
@@ -75,7 +77,6 @@
 {
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
-    imageView.image = [UIImage imageNamed:@"yg_BootPage"];
     [self.view insertSubview:imageView atIndex:0];
     
     self.backView = [[UIView alloc]init];
@@ -85,9 +86,21 @@
         make.edges.equalTo(self.view);
     }];
 
+    
+    self.backImageBtn = [[UIButton alloc]init];
+    [self.backImageBtn setImage:ImageWithName(@"jh_backleft") forState:UIControlStateNormal];
+    [self.backImageBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.backView addSubview:self.backImageBtn];
+    [self.backImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backView.mas_top).offset(kStatusBarHeight);
+        make.width.height.equalTo(@35);
+        make.left.equalTo(self.view).offset(16);
+    }];
+    
+    
     self.titleImageView = [[UIImageView alloc]init];
     self.titleImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.titleImageView.image = [UIImage imageNamed:@"yg_titleImage"];
     [self.backView addSubview:self.titleImageView];
     [self.titleImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backView.mas_top).offset(96);
@@ -97,7 +110,6 @@
     }];
     
     self.titleTextImageView = [[UIImageView alloc]init];
-    self.titleTextImageView.image = [UIImage imageNamed:@"yg_titleTextImage"];
     [self.backView addSubview:self.titleTextImageView];
     [self.titleTextImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleImageView.mas_bottom).offset(12);
@@ -126,7 +138,7 @@
         make.height.equalTo(@55);
     }];
     
-
+    
     self.pswdRightView = [[EMRightViewToolView alloc]initRightViewWithViewType:EMPswdRightView];
     [self.pswdRightView.rightViewBtn addTarget:self action:@selector(pswdSecureAction:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -146,15 +158,29 @@
         make.height.equalTo(@(48.0));
     }];
 
-    [self.backView addSubview:self.bottomMsgLabel];
-    [self.bottomMsgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.backView).offset(30);
-        make.right.equalTo(self.backView).offset(-30);
-        make.bottom.equalTo(self.backView.mas_bottom).offset(-74.0);
-    }];
+    if ([EMDemoOptions sharedOptions].isJiHuApp) {
+        imageView.image = [UIImage imageNamed:@"BootPage"];
+        self.titleTextImageView.image = [UIImage imageNamed:@"titleTextImage"];
+        self.titleImageView.image = [UIImage imageNamed:@"titleImage"];
+
+    }else {
+        imageView.image = [UIImage imageNamed:@"yg_BootPage"];
+        self.titleTextImageView.image = [UIImage imageNamed:@"yg_titleTextImage"];
+        self.titleImageView.image = [UIImage imageNamed:@"yg_titleImage"];
+
+        [self.backView addSubview:self.bottomMsgLabel];
+        [self.bottomMsgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.backView).offset(30);
+            make.right.equalTo(self.backView).offset(-30);
+            make.bottom.equalTo(self.backView.mas_bottom).offset(-74.0);
+        }];
+    }
     
 }
 
+- (void)backAction {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {

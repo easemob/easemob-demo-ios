@@ -47,6 +47,7 @@ static EMDemoOptions *sharedOptions = nil;
         self.isSupportWechatMiniProgram = NO;
         self.isCustomServer = NO;
         self.isFirstLaunch = NO;
+        self.isJiHuApp = YES;
         self.locationAppkeyArray = [[NSMutableArray alloc]init];
     }
     
@@ -103,6 +104,7 @@ static EMDemoOptions *sharedOptions = nil;
         self.isSupportWechatMiniProgram = [aDecoder decodeBoolForKey:kOptions_IsSupportWechatMiniProgram];
         self.isCustomServer = [aDecoder decodeBoolForKey:kOptions_IsCustomServer];
         self.isFirstLaunch = [aDecoder decodeBoolForKey:kOptions_IsFirstLaunch];
+        self.isJiHuApp = [aDecoder decodeBoolForKey:kOptions_IsJiHuApp];
         self.language = [aDecoder decodeObjectForKey:kOptions_TranslateLanguage];
     }
     return self;
@@ -150,6 +152,8 @@ static EMDemoOptions *sharedOptions = nil;
     [aCoder encodeObject:self.locationAppkeyArray forKey:kOptions_LocationAppkeyArray];
     [aCoder encodeBool:self.isCustomServer forKey:kOptions_IsCustomServer];
     [aCoder encodeBool:self.isFirstLaunch forKey:kOptions_IsFirstLaunch];
+    [aCoder encodeBool:self.isJiHuApp forKey:kOptions_IsJiHuApp];
+
     [aCoder encodeObject:self.language forKey:kOptions_TranslateLanguage];
 }
 
@@ -186,6 +190,7 @@ static EMDemoOptions *sharedOptions = nil;
     retModel.isCustomServer = self.isCustomServer;
     retModel.locationAppkeyArray = self.locationAppkeyArray;
     retModel.isFirstLaunch = self.isFirstLaunch;
+    retModel.isJiHuApp = self.isJiHuApp;
     retModel.language = self.language;
     return retModel;
 }

@@ -147,15 +147,15 @@
     if (section == 0) {
         return 2;
     }else if (section == 1){
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         return 4;
-#else
-        if (self.group.permissionType == EMGroupPermissionTypeOwner) {
+}else {
+    if (self.group.permissionType == EMGroupPermissionTypeOwner) {
             return 6;
         } else {
             return 5;
         }
-#endif
+}
         return 4;
     }else {
         return 2;
@@ -176,16 +176,16 @@
     
     
     if (indexPath.section == 0) {
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         if (indexPath.row == 0) {
             titleAvatarCell.nameLabel.text = @"群头像";
             [titleAvatarCell.iconImageView setImage:ImageWithName(@"jh_group_icon")];
             return titleAvatarCell;
         }else {
-            [self.groupMemberCell updateWithObj:self.group];
+            [self.groupMemberCell updateWithObj:self.memberArray];
             return self.groupMemberCell;
         }
-#else
+}else {
         if (indexPath.row == 0) {
             if (self.group.permissionType == EMGroupPermissionTypeOwner) {
                 titleAvatarAccessCell.nameLabel.text = @"群头像";
@@ -201,10 +201,10 @@
             [self.groupMemberCell updateWithObj:self.memberArray];
             return self.groupMemberCell;
         }
-#endif
+}
        
     }else if (indexPath.section == 1){
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         if (indexPath.row == 0) {
             titleValueCell.nameLabel.text = @"群名称";
             titleValueCell.detailLabel.text = self.group.groupName;
@@ -229,8 +229,8 @@
             };
             return titleValueAccessCell;
         }
-#else
-        if (self.group.permissionType == EMGroupPermissionTypeOwner) {
+}else {
+    if (self.group.permissionType == EMGroupPermissionTypeOwner) {
             if (indexPath.row == 0) {
                 titleValueAccessCell.nameLabel.text = @"群名称";
                 titleValueAccessCell.detailLabel.text = self.group.groupName;
@@ -308,8 +308,7 @@
         }
 
 
-#endif
-
+}
         
     }else {
         if (indexPath.row == 0) {
@@ -361,11 +360,11 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *hView = [[UIView alloc] init];
-#if kJiHuApp
-    hView.backgroundColor = ViewBgBlackColor;
-#else
-    hView.backgroundColor = ViewBgWhiteColor;
-#endif
+    if ([EMDemoOptions sharedOptions].isJiHuApp) {
+        hView.backgroundColor = ViewBgBlackColor;
+    }else {
+        hView.backgroundColor = ViewBgWhiteColor;
+    }
 
     return hView;
 }

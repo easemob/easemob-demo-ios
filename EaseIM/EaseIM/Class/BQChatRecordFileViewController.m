@@ -103,13 +103,13 @@
     [self addPopBackLeftItem];
     self.title = NSLocalizedString(@"msgList", nil);
     
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.view.backgroundColor = ViewBgBlackColor;
     self.tableView.backgroundColor = ViewBgBlackColor;
-#else
+}else {
     self.view.backgroundColor = ViewBgWhiteColor;
     self.tableView.backgroundColor = ViewBgWhiteColor;
-#endif
+}
 
     
     [self.view addSubview:self.searchBar];

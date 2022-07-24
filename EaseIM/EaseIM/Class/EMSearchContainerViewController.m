@@ -17,12 +17,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-#if kJiHuApp
-    self.view.backgroundColor = ViewBgBlackColor;
-#else
-    self.view.backgroundColor = ViewBgWhiteColor;
-#endif
-
+    
+    if ([EMDemoOptions sharedOptions].isJiHuApp) {
+        self.view.backgroundColor = ViewBgBlackColor;
+    }else {
+        self.view.backgroundColor = ViewBgWhiteColor;
+    }
+    
 }
 
 

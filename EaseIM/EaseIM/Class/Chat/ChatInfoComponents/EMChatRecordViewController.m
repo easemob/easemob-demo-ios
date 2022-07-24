@@ -58,13 +58,12 @@
     }];
     [self.searchBar.textField becomeFirstResponder];
     
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.searchResultTableView.backgroundColor = ViewBgBlackColor;
-#else
+}else {
     self.searchResultTableView.backgroundColor = ViewBgWhiteColor;
-#endif
+}
 
-    
     self.searchResultTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.searchResultTableView.rowHeight = UITableViewAutomaticDimension;
     self.searchResultTableView.estimatedRowHeight = 130;

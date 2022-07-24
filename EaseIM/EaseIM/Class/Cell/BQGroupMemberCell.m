@@ -10,7 +10,7 @@
 #import "BQGroupMemberCollectionView.h"
 
 @interface BQGroupMemberCell ()
-@property (nonatomic, strong) BQGroupMemberCollectionView* groupMemberView;
+@property (nonatomic, strong) BQGroupMemberCollectionView* memberCollectionView;
 @property (nonatomic, strong) UIButton* moreButton;
 @property (nonatomic, strong) EMGroup *group;
 
@@ -20,11 +20,11 @@
 @implementation BQGroupMemberCell
 
 - (void)prepare {
-    [self.contentView addSubview:self.groupMemberView];
+    [self.contentView addSubview:self.memberCollectionView];
 }
 
 - (void)placeSubViews {
-    [self.groupMemberView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.memberCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView);
         make.left.right.equalTo(self.contentView);
         make.height.equalTo(@(128.0));
@@ -32,7 +32,7 @@
     
     [self.contentView addSubview:self.moreButton];
     [self.moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.groupMemberView.mas_bottom);
+        make.top.equalTo(self.memberCollectionView.mas_bottom);
         make.left.right.equalTo(self.contentView);
         make.bottom.equalTo(self.contentView);
     }];
@@ -41,10 +41,10 @@
 - (void)updateWithObj:(id)obj {
     NSMutableArray *tArray = (NSMutableArray *)obj;
 
-    [self.groupMemberView updateUIWithMemberArray:[tArray copy]];
+    [self.memberCollectionView updateUIWithMemberArray:tArray];
     if (tArray.count + 1 > 6) {
         CGFloat tHeight = 244.0 - 48.0;
-        [self.groupMemberView mas_updateConstraints:^(MASConstraintMaker *make) {
+        [self.memberCollectionView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(@(tHeight));
         }];
     }
@@ -83,17 +83,17 @@
 }
 
 #pragma mark getter and setter
-- (BQGroupMemberCollectionView *)groupMemberView {
-    if (_groupMemberView == nil) {
-        _groupMemberView = [[BQGroupMemberCollectionView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 100)];
+- (BQGroupMemberCollectionView *)memberCollectionView {
+    if (_memberCollectionView == nil) {
+        _memberCollectionView = [[BQGroupMemberCollectionView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 100)];
         BQ_WS
-        _groupMemberView.addMemberBlock = ^{
+        _memberCollectionView.addMemberBlock = ^{
             if (weakSelf.addMemberBlock) {
                 weakSelf.addMemberBlock();
             }
         };
     }
-    return _groupMemberView;
+    return _memberCollectionView;
 }
 
 

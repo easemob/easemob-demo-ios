@@ -56,14 +56,14 @@
         make.right.equalTo(self.view).offset(-16);
     }];
     
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     titleLabel.text = @"极狐app Demo";
     [self searchGroupAndUser];
 
-#else
+}else {
     titleLabel.text = @"运管端app Demo";
 
-#endif
+}
 
    
 }
@@ -71,12 +71,13 @@
 - (void)searchGroupAndUser {
     
     self.searchTextField = [[UITextField alloc] init];
-    self.searchTextField.backgroundColor = [UIColor grayColor];
+    self.searchTextField.backgroundColor = [UIColor lightGrayColor];
     self.searchTextField.delegate = self;
     self.searchTextField.borderStyle = UITextBorderStyleNone;
     self.searchTextField.placeholder = @"搜索id";
     self.searchTextField.returnKeyType = UIReturnKeyGo;
     self.searchTextField.font = [UIFont systemFontOfSize:17];
+    self.searchTextField.textColor = UIColor.whiteColor;
     self.searchTextField.rightViewMode = UITextFieldViewModeWhileEditing;
     self.searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     
@@ -85,14 +86,14 @@
     UIButton *groupChatButton = [[UIButton alloc] init];
     groupChatButton.titleLabel.font = [UIFont systemFontOfSize:16.0];
     [groupChatButton setTitle:@"创建群聊" forState:UIControlStateNormal];
-    [groupChatButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [groupChatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [groupChatButton addTarget:self action:@selector(groupChatButtonAction) forControlEvents:UIControlEventTouchUpInside];
     groupChatButton.backgroundColor = UIColor.blueColor;
     
     UIButton *singleChatButton = [[UIButton alloc] init];
     singleChatButton.titleLabel.font = [UIFont systemFontOfSize:16.0];
     [singleChatButton setTitle:@"创建单聊" forState:UIControlStateNormal];
-    [singleChatButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [singleChatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [singleChatButton addTarget:self action:@selector(singleChatButtonAction) forControlEvents:UIControlEventTouchUpInside];
     singleChatButton.backgroundColor = UIColor.blueColor;
 

@@ -65,16 +65,15 @@
     self.textView.font = [UIFont systemFontOfSize:14.0];
     self.textView.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
     
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.view.backgroundColor = ViewBgBlackColor;
     bgView.backgroundColor = ViewBgBlackColor;
     self.textView.backgroundColor = ViewBgBlackColor;
-#else
+}else {
     self.view.backgroundColor = ViewBgWhiteColor;
     bgView.backgroundColor = ViewBgWhiteColor;
     self.textView.backgroundColor = ViewBgWhiteColor;
-#endif
-
+}
     
     if (!self.isEditable){
         self.textView.placeholder = NSLocalizedString(@"editRight", nil);

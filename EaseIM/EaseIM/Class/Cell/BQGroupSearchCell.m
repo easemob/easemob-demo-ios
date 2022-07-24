@@ -199,11 +199,11 @@
 
 
 - (UIImage *)normalImage {
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     _normalImage = ImageWithName(@"jh_user_normal");
-#else
+}else {
     _normalImage = ImageWithName(@"yg_user_normal");
-#endif
+}
 
     return _normalImage;
 }

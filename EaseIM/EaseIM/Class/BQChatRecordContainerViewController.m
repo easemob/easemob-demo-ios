@@ -55,14 +55,14 @@ MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate,BQChatRecordF
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-#if kJiHuApp
-    self.view.backgroundColor = ViewBgBlackColor;
-#else
-    self.view.backgroundColor = ViewBgWhiteColor;
-#endif
-
     self.title = @"查找聊天记录";
-    
+
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
+    self.view.backgroundColor = ViewBgBlackColor;
+}else {
+    self.view.backgroundColor = ViewBgWhiteColor;
+}
+
     [self addPopBackLeftItemWithTarget:self action:@selector(backItemAction)];
     
     [self setTitleAndContentVC];
@@ -159,21 +159,22 @@ MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate,BQChatRecordF
     if(!_pageController){
         MISScrollPageStyle* style = [[MISScrollPageStyle alloc] init];
 
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         style.coverBackgroundColor = COLOR_HEX(0xD8D8D8);
         style.gradualChangeTitleColor = YES;
         style.normalTitleColor = COLOR_HEX(0x7E7E7E);
         style.selectedTitleColor = COLOR_HEX(0xB9B9B9);
         style.scrollLineColor = COLOR_HEXA(0x000000, 0.5);
         style.segmentViewBackgroundColor = ViewBgBlackColor;
-#else
+}else {
+
         style.showCover = YES;
         style.coverBackgroundColor = COLOR_HEX(0xD8D8D8);
         style.gradualChangeTitleColor = YES;
         style.normalTitleColor = COLOR_HEX(0x999999);
         style.selectedTitleColor = COLOR_HEX(0x000000);
         style.scrollLineColor = COLOR_HEXA(0x000000, 0.5);
-#endif
+}
 
         style.scaleTitle = YES;
         style.autoAdjustTitlesWidth = YES;

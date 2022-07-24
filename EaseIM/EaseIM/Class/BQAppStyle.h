@@ -11,10 +11,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, EMAppLoginType) {
+    EMAppLoginTypeNone,
+    EMAppLoginTypeJiHu,
+    EMAppLoginTypeYunGuan,
+};
+
 @interface BQAppStyle : NSObject
+//@property (nonatomic, assign) BOOL isJiHuApp;
 
 + (instancetype)shareAppStyle;
 - (void)defaultStyle;
+//- (void)saveLoginType;
+
+- (void)updateNavAndTabbarWithIsJihuApp:(BOOL)isJihuApp;
 
 @end
 

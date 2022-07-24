@@ -25,7 +25,8 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Bugly/Bugly.h>
 
-#define FIRSTLAUNCH @"firstLaunch"
+#import "BQEnterSwitchViewController.h"
+
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate,EMLocalNotificationDelegate>
 
@@ -204,6 +205,10 @@
     [EaseIMKitManager initWithEMOptions:[demoOptions toOptions]];
     gIsInitializedSDK = YES;
     
+    [[BQAppStyle shareAppStyle] updateNavAndTabbarWithIsJihuApp:demoOptions.isJiHuApp];
+    
+    [EaseIMKitManager.shared configuationIMKitIsJiHuApp:demoOptions.isJiHuApp];
+    
     //初始化EaseIMHelper，注册 EMClient 监听
     [EaseIMHelper shareHelper];
     
@@ -306,23 +311,18 @@
         [[EMTranslationManager sharedManager] initialize];
         [[EMTranslationManager sharedManager] setTranslateParam:params];
     } else {//登录失败加载登录页面控制器
-        EMLoginViewController *controller = [[EMLoginViewController alloc] init];
+        
+        BQEnterSwitchViewController *controller = [[BQEnterSwitchViewController alloc] init];
         navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+
+        
+//        EMLoginViewController *controller = [[EMLoginViewController alloc] init];
+//        navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     }
     
-//    navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    
-//    [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navbar_white"] forBarMetrics:UIBarMetricsDefault];
-//    [navigationController.navigationBar.layer setMasksToBounds:YES];
-//    navigationController.view.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = navigationController;
     navigationController.view.backgroundColor = ViewBgBlackColor;
 
-//    [[UINavigationBar appearance] setTitleTextAttributes:
-//     [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont systemFontOfSize:18], NSFontAttributeName, nil]];
-//    [[UITableViewHeaderFooterView appearance] setTintColor:kColor_LightGray];
-//    
-    
 }
 
 - (void)callDidEnd:(NSString*)aChannelName reason:(EaseCallEndReason)aReason time:(int)aTm type:(EaseCallType)aCallType

@@ -28,15 +28,14 @@
     _showRefreshHeader = NO;
     _showRefreshFooter = NO;
     
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.view.backgroundColor = [UIColor colorWithHexString:@"#171717"];
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"#171717"];
 
-#else
+}else {
     self.view.backgroundColor = [UIColor colorWithHexString:@"#F5F5F5"];
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"#F5F5F5"];
-
-#endif
+}
     
     [self.view addSubview:self.tableView];
     

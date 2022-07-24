@@ -34,11 +34,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.view.backgroundColor = ViewBgBlackColor;
-#else
+}else {
     self.view.backgroundColor = ViewBgWhiteColor;
-#endif
+}
 
     self.title = @"选择用户";
     [self addPopBackLeftItemWithTarget:self action:@selector(backItemAction)];
@@ -250,13 +250,13 @@
     titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     titleLabel.text = @"搜索结果";
     
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     hView.backgroundColor = [UIColor colorWithHexString:@"#171717"];
     titleLabel.textColor = [UIColor colorWithHexString:@"#7E7E7E"];
-#else
+}else {
     hView.backgroundColor = ViewCellBgWhiteColor;
     titleLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
-#endif
+}
     
     [hView addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -286,7 +286,6 @@
             }
         };
         
-        _groupSearchAddView.backgroundColor = UIColor.yellowColor;
     }
     return _groupSearchAddView;
 }
@@ -300,12 +299,13 @@
         _searchResultTableView.dataSource = self;
         
         [_searchResultTableView registerClass:[BQGroupSearchCell class] forCellReuseIdentifier:NSStringFromClass([BQGroupSearchCell class])];
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         _searchResultTableView.backgroundColor = ViewBgBlackColor;
 
-#else
+}else {
+
         _searchResultTableView.backgroundColor = ViewBgWhiteColor;
-#endif
+}
 
     }
     return _searchResultTableView;

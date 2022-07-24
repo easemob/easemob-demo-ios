@@ -40,13 +40,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.view.backgroundColor = ViewBgBlackColor;
     self.collectionView.backgroundColor = ViewBgBlackColor;
-#else
+}else {
+
     self.view.backgroundColor = ViewBgWhiteColor;
     self.collectionView.backgroundColor = ViewBgWhiteColor;
-#endif
+}
 
     [self.view addSubview:self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {

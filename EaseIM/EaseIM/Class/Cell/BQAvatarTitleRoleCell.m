@@ -75,12 +75,12 @@
 - (UIImageView *)roleImageView {
     if (_roleImageView == nil) {
         _roleImageView = [[UIImageView alloc] init];
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         [_roleImageView setImage:ImageWithName(@"jh_group_owner")];
 
-#else
+}else {
         [_roleImageView setImage:ImageWithName(@"yg_group_owner")];
-#endif
+}
 
         _roleImageView.contentMode = UIViewContentModeScaleAspectFit;
     }

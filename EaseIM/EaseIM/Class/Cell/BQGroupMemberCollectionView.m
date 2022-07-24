@@ -60,11 +60,11 @@
         _operationImageView.clipsToBounds = YES;
         _operationImageView.layer.masksToBounds = YES;
         
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         [_operationImageView setImage:ImageWithName(@"jh_addMember")];
-#else
+}else {
         [_operationImageView setImage:ImageWithName(@"yg_operate_member")];
-#endif
+}
 
     }
     return _operationImageView;
@@ -76,11 +76,12 @@
         _titleLabel.font = NFont(12.0);
         _titleLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
 
-#else
+}else {
         _titleLabel.text = @"编辑";
-#endif
+}
+        
     }
     return _titleLabel;
 }
@@ -220,6 +221,7 @@
         make.bottom.equalTo(self);
     }];
 }
+
 
 - (void)updateUIWithMemberArray:(NSMutableArray *)memberArray {
     self.dataArray = memberArray;

@@ -75,17 +75,18 @@
     }];
     
     
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.contentView.backgroundColor = ViewBgBlackColor;
     _nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
     _timestampLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
     _detailLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
-#else
+}else {
+
     self.contentView.backgroundColor = ViewBgWhiteColor;
     _nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
     _timestampLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
     _detailLabel.textColor = [UIColor colorWithHexString:@"#7F7F7F"];
-#endif
+}
     
 }
 

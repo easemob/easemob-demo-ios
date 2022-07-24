@@ -74,18 +74,17 @@
     rightView.image = [UIImage imageNamed:@"jh_invite_delete"];
     self.textField.rightView = rightView;
     
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
     self.textField.backgroundColor = [UIColor colorWithHexString:@"#252525"];
     [self.textField setTextColor:[UIColor colorWithHexString:@"#F5F5F5"]];
     self.textField.tintColor = [UIColor colorWithHexString:@"#04D0A4"];
     self.backgroundColor = ViewBgBlackColor;
-#else
+}else {
     self.backgroundColor = ViewBgWhiteColor;
     self.textField.backgroundColor = [UIColor whiteColor];
     [self.textField setTextColor:UIColor.blackColor];
     
-    
-#endif
+}
 
    
     

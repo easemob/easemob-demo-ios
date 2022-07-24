@@ -20,11 +20,11 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-    #if kJiHuApp
+    if ([EMDemoOptions sharedOptions].isJiHuApp) {
             self.contentView.backgroundColor = ViewCellBgBlackColor;
-    #else
+    }else {
             self.contentView.backgroundColor = ViewCellBgWhiteColor;
-    #endif
+    }
 
         [self prepare];
         [self placeSubViews];
@@ -79,11 +79,11 @@
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = NFont(14.0);
         
-        #if kJiHuApp
+        if ([EMDemoOptions sharedOptions].isJiHuApp) {
             _nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
-        #else
+        }else {
             _nameLabel.textColor = [UIColor colorWithHexString:@"#171717"];
-        #endif
+        }
 
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -95,11 +95,11 @@
 - (UIView *)bottomLine {
     if (!_bottomLine) {
         _bottomLine = UIView.new;
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         _bottomLine.backgroundColor = [UIColor colorWithHexString:@"#1C1C1C"];
-#else
+}else {
         _bottomLine.backgroundColor = [UIColor colorWithHexString:@"#DADADA"];
-#endif
+}
     }
     return _bottomLine;
 }
@@ -116,11 +116,11 @@
     if (highlighted) {
         self.contentView.backgroundColor = COLOR_HEX(0x333333);
     }else {
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         self.contentView.backgroundColor = ViewCellBgBlackColor;
-#else
+}else {
         self.contentView.backgroundColor = ViewCellBgWhiteColor;
-#endif
+}
 
     }
 }
@@ -129,12 +129,12 @@
     if (selected) {
         self.contentView.backgroundColor = COLOR_HEX(0x333333);
     }else {
-#if kJiHuApp
+if ([EMDemoOptions sharedOptions].isJiHuApp) {
         self.contentView.backgroundColor = ViewCellBgBlackColor;
-#else
+}else {
         self.contentView.backgroundColor = ViewCellBgWhiteColor;
 
-#endif
+}
 
     }
 
