@@ -1,8 +1,8 @@
 //
-//  YGGroupApplyController.h
+//  YGGroupMsgReadController.h
 //  EaseIM
 //
-//  Created by liu001 on 2022/7/21.
+//  Created by liu001 on 2022/7/25.
 //  Copyright © 2022 liu001. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YGGroupApplyApprovalController : UIViewController
+@interface YGGroupMsgReadController : UITableViewController
 
 @end
 

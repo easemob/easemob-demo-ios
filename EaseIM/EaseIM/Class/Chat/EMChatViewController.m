@@ -25,6 +25,8 @@
 #import "EMAccountViewController.h"
 #import "EMChatViewController+Translate.h"
 
+#import "YGGroupReadReciptMSgViewController.h"
+
 @interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -301,9 +303,13 @@ if ([EMDemoOptions sharedOptions].isJiHuApp) {
 //群组阅读回执
 - (void)groupMessageReadReceiptDetail:(EMChatMessage *)message groupId:(NSString *)groupId
 {
-    EMReadReceiptMsgViewController *readReceiptControl = [[EMReadReceiptMsgViewController alloc] initWithMessage:message groupId:groupId];
-    readReceiptControl.modalPresentationStyle = 0;
-    [self presentViewController:readReceiptControl animated:YES completion:nil];
+    YGGroupReadReciptMSgViewController *vc = [[YGGroupReadReciptMSgViewController alloc] initWithMessage:message groupId:groupId];
+    [self.navigationController pushViewController:vc animated:YES];
+
+    
+//    EMReadReceiptMsgViewController *readReceiptControl = [[EMReadReceiptMsgViewController alloc] initWithMessage:message groupId:groupId];
+//    readReceiptControl.modalPresentationStyle = 0;
+//    [self presentViewController:readReceiptControl animated:YES completion:nil];
 }
 //@群成员
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text

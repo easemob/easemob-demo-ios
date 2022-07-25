@@ -21,6 +21,8 @@
 #import "YGGroupSearchViewController.h"
 #import "YGGroupCreateViewController.h"
 #import "YGGroupApplyApprovalController.h"
+#import "UIView+MISRedPoint.h"
+
 
 @interface EMConversationsViewController() <EaseConversationsViewControllerDelegate, EMSearchControllerDelegate, EMGroupManagerDelegate>
 
@@ -129,6 +131,15 @@ if ([EMDemoOptions sharedOptions].isJiHuApp) {
         make.right.equalTo(self.view).offset(-16);
     }];
 
+    self.rightNavBarBtn.MIS_redDot = [MISRedDot redDotWithConfig:({
+        MISRedDotConfig *config = [[MISRedDotConfig alloc] init];
+        config.offsetY = 2;
+        config.offsetX = -2;
+        config;
+    })];
+    self.rightNavBarBtn.MIS_redDot.hidden = NO;
+
+    
 }
     
 
@@ -327,8 +338,10 @@ if ([EMDemoOptions sharedOptions].isJiHuApp) {
 - (void)moreAction
 {
     NSArray *titleArray = @[@"消息提醒",@"搜索群聊",@"创建群组",@"群组申请"];
-    NSArray *imageNameArray = @[@"yg_msg_alert_on",@"yg_group_search",@"yg_group_create",@"yg_group_apply"];
+    EMDemoOptions *options = [EMDemoOptions sharedOptions];
+    NSString *msgAlertName = options.isReceiveNewMsgNotice ? @"yg_msg_alert_on": @"yg_msg_alert_off";
     
+    NSArray *imageNameArray = @[msgAlertName,@"yg_group_search",@"yg_group_create",@"yg_group_apply"];
     
     [PellTableViewSelect addPellTableViewSelectWithWindowFrame:CGRectMake(self.view.bounds.size.width-220.0, self.backImageBtn.frame.origin.y, 138.0, 180) selectData:titleArray images:imageNameArray locationY:30 - (22 - EMVIEWTOPMARGIN) action:^(NSInteger index){
         if(index == 0) {
@@ -372,7 +385,8 @@ if ([EMDemoOptions sharedOptions].isJiHuApp) {
 }
 
 - (void)messageAlertAction {
-    
+    EMDemoOptions *options = [EMDemoOptions sharedOptions];
+    options.isReceiveNewMsgNotice = !options.isReceiveNewMsgNotice;
 }
 
 - (void)createGroupAction {

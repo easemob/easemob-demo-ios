@@ -92,7 +92,7 @@
     if (self) {
         _size = CGSizeMake(kRedPointSize, kRedPointSize);
         _radius = kRedPointSize * 0.5;
-        _color = COLOR_HEX(0xFF14CC);
+        _color = COLOR_HEX(0xFF4D4F);
     }
     return self;
 }

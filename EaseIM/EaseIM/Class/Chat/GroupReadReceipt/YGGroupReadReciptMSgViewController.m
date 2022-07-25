@@ -1,67 +1,69 @@
 //
-//  BQChatRecordContainerViewController.m
+//  YGGroupReadReciptMSgViewController.m
 //  EaseIM
 //
-//  Created by liu001 on 2022/7/11.
+//  Created by liu001 on 2022/7/25.
 //  Copyright © 2022 liu001. All rights reserved.
 //
 
-#import "BQChatRecordContainerViewController.h"
+#import "YGGroupReadReciptMSgViewController.h"
 #import "MISScrollPage.h"
 
 #import "EMChatRecordViewController.h"
 #import "BQChatRecordFileViewController.h"
 #import "BQChatRecordImageVideoViewController.h"
-//#import "BQChatRecordImageVideoDemoViewController.h"
 #import "EMChatViewController.h"
 #import "BQChatRecordFilePreviewViewController.h"
+#import "YGGroupMsgReadController.h"
 
 
 #define kViewTopPadding  200.0f
 
-@interface BQChatRecordContainerViewController ()<MISScrollPageControllerDataSource,
-MISScrollPageControllerDelegate,EMChatRecordViewControllerDelegate,BQChatRecordFileViewControllerDelegate>
+@interface YGGroupReadReciptMSgViewController ()<MISScrollPageControllerDataSource,
+MISScrollPageControllerDelegate>
 
 @property (nonatomic, strong) MISScrollPageController *pageController;
 @property (nonatomic, strong) MISScrollPageSegmentView *segView;
 @property (nonatomic, strong) MISScrollPageContentView *contentView;
 @property (nonatomic, assign) NSInteger currentPageIndex;
 
-@property (nonatomic,strong) EMChatRecordViewController *textRecordVC;
-@property (nonatomic,strong) BQChatRecordFileViewController *fileRecordVC;
+@property (nonatomic,strong) YGGroupMsgReadController *msgReadVC;
 
-@property (nonatomic,strong) BQChatRecordImageVideoViewController *imageVideoRecordVC;
-//@property (nonatomic,strong) BQChatRecordImageVideoDemoViewController *imageVideoRecordVC;
+@property (nonatomic,strong) YGGroupMsgReadController *msgUnReadVC;
 
 
 @property (nonatomic, strong) NSMutableArray *navTitleArray;
 @property (nonatomic, strong) NSMutableArray *contentVCArray;
+@property (nonatomic, strong) EMChatMessage *message;
+@property (nonatomic, strong) NSString *groupId;
+@property (nonatomic, strong) EMGroup *group;
 
-@property (nonatomic, strong) EMConversation *conversation;
+@property (nonatomic, strong) NSMutableArray *readMsgArray;
+@property (nonatomic, strong) NSMutableArray *unReadMsgArray;
+
 
 @end
 
-@implementation BQChatRecordContainerViewController
-- (instancetype)initWithCoversationModel:(EMConversation *)conversation
-{
-    if (self = [super init]) {
-        _conversation = conversation;
-        [self setTitleAndContentVC];
+@implementation YGGroupReadReciptMSgViewController
+- (instancetype)initWithMessage:(EMChatMessage *)message
+                        groupId:(NSString *)groupId {
+    self = [super init];
+    if(self){
+        self.message = message;
+        self.groupId = groupId;
     }
-    
     return self;
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"查找聊天记录";
+    self.title = @"消息详情";
 
-if ([EMDemoOptions sharedOptions].isJiHuApp) {
-    self.view.backgroundColor = ViewBgBlackColor;
-}else {
-    self.view.backgroundColor = ViewBgWhiteColor;
-}
+    if ([EMDemoOptions sharedOptions].isJiHuApp) {
+        self.view.backgroundColor = ViewBgBlackColor;
+    }else {
+        self.view.backgroundColor = ViewBgWhiteColor;
+    }
 
     [self addPopBackLeftItemWithTarget:self action:@selector(backItemAction)];
     
@@ -96,42 +98,33 @@ if ([EMDemoOptions sharedOptions].isJiHuApp) {
 }
 
 
-#pragma mark private method
-- (BOOL)isGroupChat {
-    BOOL _groupChat = self.conversation.type == EMConversationTypeGroupChat ? YES : NO;
-    return _groupChat;
-}
-
-
-- (void)setTitleAndContentVC {
+- (void)fetchGroupMembers {
+    [[EMClient sharedClient].groupManager getGroupSpecificationFromServerWithId:self.groupId fetchMembers:YES completion:^(EMGroup * _Nullable aGroup, EMError * _Nullable aError) {
+        if (aError == nil) {
+            self.group = aGroup;
+            NSMutableArray *tArray = [NSMutableArray array];
+            [tArray addObject:self.group.owner];
+            if (self.group.adminList.count > 0) {
+                [tArray addObjectsFromArray:self.group.adminList];
+            }
+            if (self.group.memberList.count > 0) {
+                [tArray addObjectsFromArray:self.group.memberList];
+            }            
+        }else {
+            [EMAlertController showErrorAlert:aError.debugDescription];
+        }
+    }];
     
-    if ([self isGroupChat]) {
-        self.navTitleArray = [
-            @[@"消息",@"文件",@"图片及视频"] mutableCopy];
-        self.contentVCArray = [@[self.textRecordVC,self.fileRecordVC,self.imageVideoRecordVC] mutableCopy];
-    }else {
-        self.navTitleArray = [
-            @[@"全部",@"图片及视频"] mutableCopy];
-        self.contentVCArray = [@[self.textRecordVC,self.imageVideoRecordVC] mutableCopy];
-    }
 }
 
-#pragma mark EMChatRecordViewControllerDelegate
-- (void)didTapSearchMessage:(EMChatMessage *)message {
-    EMChatViewController *chatController = [[EMChatViewController alloc]initWithConversationId:self.conversation.conversationId conversationType:self.conversation.type];
-    chatController.chatRecordKeyMessage = message;
-//    [chatController scrollToAssignMessage:message];
-    chatController.modalPresentationStyle = 0;
-    [self.navigationController pushViewController:chatController animated:YES];
 
+
+#pragma mark private method
+- (void)setTitleAndContentVC {
+    self.navTitleArray = [
+        @[@"2人已读",@"2人未读"] mutableCopy];
+    self.contentVCArray = [@[self.msgReadVC,self.msgUnReadVC] mutableCopy];
 }
-
-#pragma mark BQChatRecordFileViewControllerDelegate
-- (void)didTapSearchFileMessage:(EMChatMessage *)message {
-    BQChatRecordFilePreviewViewController *vc = [[BQChatRecordFilePreviewViewController alloc] initWithMessage:message];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 
 
 #pragma mark - scrool pager data source and delegate
@@ -219,36 +212,22 @@ if ([EMDemoOptions sharedOptions].isJiHuApp) {
     return _contentVCArray;
 }
 
-- (EMChatRecordViewController *)textRecordVC {
-    if (_textRecordVC == nil) {
-        _textRecordVC = [[EMChatRecordViewController alloc] initWithCoversationModel:self.conversation];
-        _textRecordVC.delegate = self;
+
+- (YGGroupMsgReadController *)msgReadVC {
+    if (_msgReadVC == nil) {
+        _msgReadVC = [[YGGroupMsgReadController alloc] init];
+        
     }
-    return _textRecordVC;
+    return _msgReadVC;
 }
 
-
-- (BQChatRecordFileViewController *)fileRecordVC {
-    if (_fileRecordVC == nil) {
-        _fileRecordVC = [[BQChatRecordFileViewController alloc] initWithCoversationModel:self.conversation];
-        _fileRecordVC.delegate = self;
+- (YGGroupMsgReadController *)msgUnReadVC {
+    if (_msgUnReadVC == nil) {
+        _msgUnReadVC = [[YGGroupMsgReadController alloc] init];
     }
-    return _fileRecordVC;
+    return _msgUnReadVC;
 }
 
-- (BQChatRecordImageVideoViewController *)imageVideoRecordVC {
-    if (_imageVideoRecordVC == nil) {
-        _imageVideoRecordVC = [[BQChatRecordImageVideoViewController alloc] initWithCoversationModel:self.conversation];
-    }
-    return _imageVideoRecordVC;
-}
-
-//- (BQChatRecordImageVideoDemoViewController *)imageVideoRecordVC {
-//    if (_imageVideoRecordVC == nil) {
-//        _imageVideoRecordVC = [[BQChatRecordImageVideoDemoViewController alloc] initWithCoversationModel:self.conversation];
-//    }
-//    return _imageVideoRecordVC;
-//}
 
 
 @end

@@ -1,5 +1,7 @@
 
 #import "PellTableViewSelect.h"
+#import "UIView+MISRedPoint.h"
+
 #define  LeftView 10.0f
 #define  TopToView 10.0f
 @interface  PellTableViewSelect()<UITableViewDataSource,UITableViewDelegate>
@@ -128,6 +130,15 @@ UITableView * tableView;
     }
     cell.imageView.image = [UIImage imageNamed:self.imagesData[indexPath.row]];
     cell.textLabel.text = _selectData[indexPath.row];
+    if (indexPath.row == self.imagesData.count - 1) {
+        cell.contentView.MIS_redDot = [MISRedDot redDotWithConfig:({
+            MISRedDotConfig *config = [[MISRedDotConfig alloc] init];
+            config.offsetY = tableView.rowHeight* 0.4;
+            config.offsetX = 5.0;
+            config;
+        })];
+        cell.contentView.MIS_redDot.hidden = NO;
+    }
     
     return cell;
 }

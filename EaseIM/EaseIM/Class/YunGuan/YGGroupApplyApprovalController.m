@@ -9,8 +9,10 @@
 #import "YGGroupApplyApprovalController.h"
 #import "YGGroupApplyApprovalCell.h"
 
-@interface YGGroupApplyApprovalController ()
+@interface YGGroupApplyApprovalController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) UITableView *tableView;
+
 
 @end
 
@@ -21,14 +23,23 @@
     
     [self addPopBackLeftItem];
     self.title = @"群组申请";
-    
-    self.dataArray = [@[@(1),@(2)] mutableCopy];
+    self.view.backgroundColor = ViewBgWhiteColor;
     
     [self.tableView registerClass:[YGGroupApplyApprovalCell class] forCellReuseIdentifier:NSStringFromClass([YGGroupApplyApprovalCell class])];
 
+    [self placeAndLayoutSubviews];
+    
+    self.dataArray = [@[@(1),@(2)] mutableCopy];
     [self.tableView reloadData];
 }
 
+- (void)placeAndLayoutSubviews {
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+
+}
 
 #pragma mark - Table view data source
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,18 +64,27 @@
 
 
 #pragma mark getter and setter
-//- (UITableView *)tableView
-//{
-//    if (_tableView == nil) {
-//        _tableView = [[UITableView alloc] init];
-//        _tableView.delegate = self;
-//        _tableView.dataSource = self;
-//        _tableView.tableFooterView = self.defaultFooterView;
-//        _tableView.estimatedSectionHeaderHeight = 0;
-//        _tableView.estimatedSectionFooterHeight = 0;
-//    }
-//
-//    return _tableView;
-//}
+- (UITableView *)tableView
+{
+    if (_tableView == nil) {
+        _tableView = [[UITableView alloc] init];
+        _tableView.tableFooterView = [UIView new];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;        
+        _tableView.backgroundColor = ViewBgWhiteColor;
+    }
+
+    return _tableView;
+}
+
+
+- (NSMutableArray *)dataArray {
+    if (_dataArray == nil) {
+        _dataArray = NSMutableArray.array;
+    }
+    return _dataArray;
+}
 
 @end

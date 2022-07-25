@@ -379,6 +379,8 @@
 		C00EFDBA288C31B0000F4A53 /* msg_file_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDAA288C31B0000F4A53 /* msg_file_img@2x.png */; };
 		C00EFDBB288C31B0000F4A53 /* msg_file_exel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C00EFDAB288C31B0000F4A53 /* msg_file_exel@3x.png */; };
 		C00EFDBE288CF8F5000F4A53 /* BQEnterSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00EFDBD288CF8F5000F4A53 /* BQEnterSwitchViewController.m */; };
+		C00EFDC5288E411B000F4A53 /* YGGroupReadReciptMSgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00EFDC4288E411B000F4A53 /* YGGroupReadReciptMSgViewController.m */; };
+		C00EFDC8288E4463000F4A53 /* YGGroupMsgReadController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00EFDC7288E4463000F4A53 /* YGGroupMsgReadController.m */; };
 		C0359250287FB52E0053CE49 /* jh_groupInfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924C287FB52E0053CE49 /* jh_groupInfo@2x.png */; };
 		C0359251287FB52E0053CE49 /* jh_backleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924D287FB52E0053CE49 /* jh_backleft@2x.png */; };
 		C0359252287FB52E0053CE49 /* jh_groupInfo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C035924E287FB52E0053CE49 /* jh_groupInfo@3x.png */; };
@@ -1054,6 +1056,10 @@
 		C00EFDAB288C31B0000F4A53 /* msg_file_exel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_file_exel@3x.png"; sourceTree = "<group>"; };
 		C00EFDBC288CF8F5000F4A53 /* BQEnterSwitchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQEnterSwitchViewController.h; sourceTree = "<group>"; };
 		C00EFDBD288CF8F5000F4A53 /* BQEnterSwitchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQEnterSwitchViewController.m; sourceTree = "<group>"; };
+		C00EFDC3288E411B000F4A53 /* YGGroupReadReciptMSgViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGGroupReadReciptMSgViewController.h; sourceTree = "<group>"; };
+		C00EFDC4288E411B000F4A53 /* YGGroupReadReciptMSgViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGGroupReadReciptMSgViewController.m; sourceTree = "<group>"; };
+		C00EFDC6288E4463000F4A53 /* YGGroupMsgReadController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGGroupMsgReadController.h; sourceTree = "<group>"; };
+		C00EFDC7288E4463000F4A53 /* YGGroupMsgReadController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGGroupMsgReadController.m; sourceTree = "<group>"; };
 		C035924C287FB52E0053CE49 /* jh_groupInfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_groupInfo@2x.png"; sourceTree = "<group>"; };
 		C035924D287FB52E0053CE49 /* jh_backleft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_backleft@2x.png"; sourceTree = "<group>"; };
 		C035924E287FB52E0053CE49 /* jh_groupInfo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jh_groupInfo@3x.png"; sourceTree = "<group>"; };
@@ -2036,6 +2042,10 @@
 				3C9A95DC2578E38700752F28 /* EMReadReceiptMemberModel.m */,
 				3C9A95DA2578E38600752F28 /* EMReadReceiptMsgViewController.h */,
 				3C9A95D82578E38500752F28 /* EMReadReceiptMsgViewController.m */,
+				C00EFDC3288E411B000F4A53 /* YGGroupReadReciptMSgViewController.h */,
+				C00EFDC4288E411B000F4A53 /* YGGroupReadReciptMSgViewController.m */,
+				C00EFDC6288E4463000F4A53 /* YGGroupMsgReadController.h */,
+				C00EFDC7288E4463000F4A53 /* YGGroupMsgReadController.m */,
 				3C9A95D72578E38400752F28 /* EMReadReceiptTableViewCell.h */,
 				3C9A95D92578E38500752F28 /* EMReadReceiptTableViewCell.m */,
 			);
@@ -2528,25 +2538,25 @@
 		C07F2C2B287BD3CD005D6F0D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				C07F2C2C287BD3CD005D6F0D /* MISScrollPageCollectionView.m */,
-				C07F2C2D287BD3CD005D6F0D /* UIView+MISHelper.h */,
-				C07F2C2E287BD3CD005D6F0D /* MISScrollPageController.m */,
 				C07F2C2F287BD3CD005D6F0D /* MISScrollPage.h */,
-				C07F2C30287BD3CE005D6F0D /* MISScrollPageContentView.h */,
-				C07F2C31287BD3CE005D6F0D /* MISScrollPageControllerDelegate.h */,
-				C07F2C32287BD3CE005D6F0D /* MISScrollPageStyle.m */,
-				C07F2C33287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.h */,
-				C07F2C34287BD3CE005D6F0D /* MISScrollPageSegmentView.m */,
-				C07F2C35287BD3CE005D6F0D /* UIView+MISRedPoint.h */,
-				C07F2C36287BD3CE005D6F0D /* MISScrollPageController.h */,
-				C07F2C37287BD3CE005D6F0D /* UIView+MISHelper.m */,
 				C07F2C38287BD3CE005D6F0D /* MISScrollPageCollectionView.h */,
+				C07F2C2C287BD3CD005D6F0D /* MISScrollPageCollectionView.m */,
+				C07F2C30287BD3CE005D6F0D /* MISScrollPageContentView.h */,
 				C07F2C39287BD3CE005D6F0D /* MISScrollPageContentView.m */,
-				C07F2C3A287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.m */,
-				C07F2C3B287BD3CE005D6F0D /* MISScrollPageStyle.h */,
+				C07F2C36287BD3CE005D6F0D /* MISScrollPageController.h */,
+				C07F2C2E287BD3CD005D6F0D /* MISScrollPageController.m */,
+				C07F2C31287BD3CE005D6F0D /* MISScrollPageControllerDelegate.h */,
 				C07F2C3C287BD3CE005D6F0D /* MISScrollPageControllerDelegate.m */,
-				C07F2C3D287BD3CE005D6F0D /* UIView+MISRedPoint.m */,
+				C07F2C33287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.h */,
+				C07F2C3A287BD3CE005D6F0D /* MISScrollPageSegmentTitleView.m */,
 				C07F2C3E287BD3CE005D6F0D /* MISScrollPageSegmentView.h */,
+				C07F2C34287BD3CE005D6F0D /* MISScrollPageSegmentView.m */,
+				C07F2C3B287BD3CE005D6F0D /* MISScrollPageStyle.h */,
+				C07F2C32287BD3CE005D6F0D /* MISScrollPageStyle.m */,
+				C07F2C2D287BD3CD005D6F0D /* UIView+MISHelper.h */,
+				C07F2C37287BD3CE005D6F0D /* UIView+MISHelper.m */,
+				C07F2C35287BD3CE005D6F0D /* UIView+MISRedPoint.h */,
+				C07F2C3D287BD3CE005D6F0D /* UIView+MISRedPoint.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -3168,6 +3178,7 @@
 				90AE9446230D2CDC00A905E5 /* EMRemindManager.m in Sources */,
 				3A45E0EA2223A2EB00505786 /* EMTextView.m in Sources */,
 				3C87A10C2490ECF00051E06E /* EMOpinionFeedbackViewController.m in Sources */,
+				C00EFDC8288E4463000F4A53 /* YGGroupMsgReadController.m in Sources */,
 				3C87A0F5248F7C680051E06E /* EMAboutHuanXinViewController.m in Sources */,
 				3C87A1062490BF560051E06E /* EMMsgRemindViewController.m in Sources */,
 				3A45E0E92223A2EB00505786 /* EMTextFieldViewController.m in Sources */,
@@ -3229,6 +3240,7 @@
 				C08F584D2889A26000274A88 /* YGOnLineNotificationView.m in Sources */,
 				3C87A100248F8F5E0051E06E /* EMDeveloperServiceViewController.m in Sources */,
 				3A45EAFA2224186400505786 /* EMDemoOptions.m in Sources */,
+				C00EFDC5288E411B000F4A53 /* YGGroupReadReciptMSgViewController.m in Sources */,
 				3C76D3F9257758A000E7AF7A /* OneLoadingAnimationView.m in Sources */,
 				3A45E0442223A23000505786 /* EMQRCodeViewController.m in Sources */,
 				C0899C192779BCB90039B885 /* EMEmojiHelper.m in Sources */,
