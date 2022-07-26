@@ -22,10 +22,10 @@
 #define AgoraChatVIEWTOPMARGIN (kIsBangsScreen ? 34.f : 0.f)
 
 #define KScreenHeight [[UIScreen mainScreen] bounds].size.height
-#define KScreenWidth  [[UIScreen mainScreen] bounds].size.width
+#define EaseIMKit_ScreenWidth  [[UIScreen mainScreen] bounds].size.width
 
 #define kIs_iphone (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#define kIs_iPhoneX KScreenWidth >=375.0f && KScreenHeight >=812.0f&& kIs_iphone
+#define kIs_iPhoneX EaseIMKit_ScreenWidth >=375.0f && KScreenHeight >=812.0f&& kIs_iphone
  
 #define kStatusBarHeight (CGFloat)(kIs_iPhoneX?(44.0):(20.0))
 #define kNavBarHeight (44)
@@ -51,7 +51,7 @@
 #define COLOR_HEX(__RGB) COLOR_HEXA(__RGB,1.0f)
 
 //weak & strong self
-#define BQ_WS                  __weak __typeof(&*self)weakSelf = self;
+#define EaseIMKit_WS                  __weak __typeof(&*self)weakSelf = self;
 #define BQ_SS(WKSELF)          __strong __typeof(&*self)strongSelf = WKSELF;
 
 #define BQ_ONE_PX  (1.0f / [UIScreen mainScreen].scale)
@@ -69,11 +69,8 @@
 #define ImageWithName(imageName) [UIImage imageNamed:imageName]
 
 #define kAgroaPadding 10.0f
-#define kAvatarHeight 38.0f
 #define kContactAvatarHeight 40.0f
 #define kSearchBarHeight 32.0
-#define kBQPadding 10.0
-
 
 
 //user

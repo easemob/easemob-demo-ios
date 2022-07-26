@@ -8,6 +8,7 @@
 
 #import "ConfInviteUserCell.h"
 #import "UserInfoStore.h"
+#import "EaseHeaders.h"
 
 
 @interface ConfInviteUserCell()
@@ -21,19 +22,15 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    // Initialization code
     
-//    self.selectionStyle = UITableViewCellSelectionStyleNone;
-//    self.checkView.contentMode = UIViewContentModeScaleAspectFit;
-    
-if ([EMDemoOptions sharedOptions].isJiHuApp) {
-    self.contentView.backgroundColor = ViewBgBlackColor;
+if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
+    self.contentView.backgroundColor = EaseIMKit_ViewBgBlackColor;
     self.nameLabel.textColor = [UIColor colorWithHexString:@"#B9B9B9"];
-    self.checkView.image = ImageWithName(@"unSlected");
+    self.checkView.image = EaseIMKit_ImageWithName(@"unSlected");
 }else {
-    self.contentView.backgroundColor = ViewBgWhiteColor;
+    self.contentView.backgroundColor = EaseIMKit_ViewBgWhiteColor;
     self.nameLabel.textColor = [UIColor colorWithHexString:@"#171717"];
-    self.checkView.image = ImageWithName(@"yg_unSlected");
+    self.checkView.image = EaseIMKit_ImageWithName(@"yg_unSlected");
 
 }
 
@@ -44,7 +41,7 @@ if ([EMDemoOptions sharedOptions].isJiHuApp) {
     NSString *username = (NSString *)obj;
     
     self.nameLabel.text = username;
-    self.imageView.image = ImageWithName(@"jh_user_icon");
+    self.imageView.image = EaseIMKit_ImageWithName(@"jh_user_icon");
     EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:username];
     if(userInfo) {
         if(userInfo.nickName.length > 0) {
@@ -77,10 +74,10 @@ if ([EMDemoOptions sharedOptions].isJiHuApp) {
         if (isChecked) {
             self.checkView.image = [UIImage imageNamed:@"check"];
         } else {
-if ([EMDemoOptions sharedOptions].isJiHuApp) {
+if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
             self.checkView.image = [UIImage imageNamed:@"unSlected"];
 }else {
-            self.checkView.image = ImageWithName(@"yg_unSlected");
+            self.checkView.image = EaseIMKit_ImageWithName(@"yg_unSlected");
 }
 
 

@@ -106,7 +106,7 @@
 //    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.left.equalTo(self.view).offset(45);
 //        make.right.equalTo(self.view).offset(-45);
-//        make.top.equalTo(self.view).offset(20 + EMVIEWTOPMARGIN);
+//        make.top.equalTo(self.view).offset(20 + EMVIEWBOTTOMMARGIN);
 //        make.height.equalTo(@45);
 //    }];
 //
@@ -501,7 +501,7 @@
 }
 
 - (void)confirmButtonAction {
-    BQ_WS
+    EaseIMKit_WS
     [self dismissViewControllerAnimated:YES completion:^{
         if (weakSelf.doneCompletion) {
             weakSelf.doneCompletion(self.inviteUsers);
@@ -514,7 +514,7 @@
 #pragma mark getter and setter
 - (BQConfInviteSelectedUsersView *)confInviteSelectedUsersView {
     if (_confInviteSelectedUsersView == nil) {
-        _confInviteSelectedUsersView = [[BQConfInviteSelectedUsersView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 70.0)];
+        _confInviteSelectedUsersView = [[BQConfInviteSelectedUsersView alloc] initWithFrame:CGRectMake(0, 0, EaseIMKit_ScreenWidth, 70.0)];
     }
     return _confInviteSelectedUsersView;
 }
@@ -526,7 +526,7 @@
         _customNavBarView.backgroundColor = UIColor.clearColor;
         
         UIButton *cancelButton = [[UIButton alloc] init];
-        cancelButton.titleLabel.font = NFont(14.0);
+        cancelButton.titleLabel.font = EaseIMKit_NFont(14.0);
         [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
         [cancelButton setTitleColor:[UIColor colorWithHexString:@"#B9B9B9"] forState:UIControlStateNormal];
         [cancelButton setTitleColor:[UIColor colorWithHexString:@"#B9B9B9"] forState:UIControlStateHighlighted];

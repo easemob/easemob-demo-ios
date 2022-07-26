@@ -12,6 +12,7 @@
 #import "EMChatViewController.h"
 #import "UserInfoStore.h"
 
+
 static SingleCallController *callManager = nil;
 
 @interface SingleCallController()
@@ -66,13 +67,14 @@ static SingleCallController *callManager = nil;
     EaseCallType aType = (EaseCallType)[[notify.object objectForKey:CALL_TYPE] integerValue];
     AVAudioSessionRecordPermission permissionStatus = [[AVAudioSession sharedInstance] recordPermission];
     if (permissionStatus == AVAudioSessionRecordPermissionDenied) {
-        [EMAlertController showErrorAlert:NSLocalizedString(@"needMicRight", nil)];
+        [EaseAlertController showErrorAlert:NSLocalizedString(@"needMicRight", nil)];
         return;
     }
+    
     if (aType == EaseCallType1v1Video) {
         AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if (authStatus == AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied) {
-            [EMAlertController showErrorAlert:NSLocalizedString(@"needCameraRight", nil)];
+            [EaseAlertController showErrorAlert:NSLocalizedString(@"needCameraRight", nil)];
             return;
         }
     }

@@ -10,22 +10,19 @@
  * from Hyphenate Inc.
  */
 
-#import <UserNotifications/UserNotifications.h>
 #import "AppDelegate.h"
 
-#import "EaseIMHelper.h"
 #import "SingleCallController.h"
 #import "ConferenceController.h"
-#import "EMGlobalVariables.h"
-#import "EMDemoOptions.h"
-#import "EMNotificationHelper.h"
+
 #import "EMHomeViewController.h"
-#import "EMLoginViewController.h"
 #import "UserInfoStore.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <UserNotifications/UserNotifications.h>
 #import <Bugly/Bugly.h>
 
 #import "BQEnterSwitchViewController.h"
+#import "EMAlertView.h"
 
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate,EMLocalNotificationDelegate>
@@ -38,8 +35,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    [[BQAppStyle shareAppStyle] defaultStyle];
-
     _connectionState = EMConnectionConnected;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -87,6 +82,8 @@
 {
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"registefail", nil) message:error.description];
     [alertView show];
+    
+    
 }
 
 
@@ -176,6 +173,7 @@
     [self pushDataToTestLog:@"notificationlog:透传消息===" userInfo:messageDic];
 }
 
+
 -(void)pushDataToTestLog:(NSString*)keyStr userInfo:(NSDictionary*)userInfo
 {
     NSError *parseError = nil;
@@ -201,22 +199,22 @@
 
 - (void)_initHyphenate
 {
-    EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
-    [EaseIMKitManager initWithEMOptions:[demoOptions toOptions]];
-    gIsInitializedSDK = YES;
+    EaseIMKitOptions *demoOptions = [EaseIMKitOptions sharedOptions];
+    [EaseIMKitManager initWithEaseIMKitOptions:demoOptions];
     
-    [[BQAppStyle shareAppStyle] updateNavAndTabbarWithIsJihuApp:demoOptions.isJiHuApp];
+//    [[BQAppStyle shareAppStyle] updateNavAndTabbarWithIsJihuApp:demoOptions.isJiHuApp];
+//
+//    [EaseIMKitManager.shared configuationIMKitIsJiHuApp:demoOptions.isJiHuApp];
+//
+//    //初始化EaseIMHelper，注册 EMClient 监听
+//    [EaseIMHelper shareHelper];
+//
+//    if (demoOptions.isAutoLogin){
+//        [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(YES)];
+//    } else {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(NO)];
+//    }
     
-    [EaseIMKitManager.shared configuationIMKitIsJiHuApp:demoOptions.isJiHuApp];
-    
-    //初始化EaseIMHelper，注册 EMClient 监听
-    [EaseIMHelper shareHelper];
-    
-    if (demoOptions.isAutoLogin){
-        [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(YES)];
-    } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(NO)];
-    }
 }
 
 #pragma mark - Demo
@@ -280,44 +278,34 @@
             navigationController = [[UINavigationController alloc] initWithRootViewController:homeController];
         }
         
-        [[EMClient sharedClient].pushManager getPushNotificationOptionsFromServerWithCompletion:^(EMPushOptions * _Nonnull aOptions, EMError * _Nonnull aError) {
-            if (!aError) {
-                [[EaseIMKitManager shared] cleanMemoryUndisturbMaps];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"EMUserPushConfigsUpdateSuccess" object:nil];//更新用户重启App时，会话免打扰状态UI同步
-            }
-        }];
-        [[EMClient sharedClient].groupManager getJoinedGroupsFromServerWithPage:0 pageSize:-1 completion:^(NSArray *aList, EMError *aError) {
-            if (!aError) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_LIST_FETCHFINISHED object:nil];
-            }
-        }];
+//        [[EMClient sharedClient].pushManager getPushNotificationOptionsFromServerWithCompletion:^(EMPushOptions * _Nonnull aOptions, EMError * _Nonnull aError) {
+//            if (!aError) {
+//                [[EaseIMKitManager shared] cleanMemoryUndisturbMaps];
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"EMUserPushConfigsUpdateSuccess" object:nil];//更新用户重启App时，会话免打扰状态UI同步
+//            }
+//        }];
+//        [[EMClient sharedClient].groupManager getJoinedGroupsFromServerWithPage:0 pageSize:-1 completion:^(NSArray *aList, EMError *aError) {
+//            if (!aError) {
+//                [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_LIST_FETCHFINISHED object:nil];
+//            }
+//        }];
+//
+//        
+//        [EMNotificationHelper shared];
+//        [SingleCallController sharedManager];
+//        [ConferenceController sharedManager];
+//        [[UserInfoStore sharedInstance] loadInfosFromLocal];
         
-        
-        [EMNotificationHelper shared];
-        [SingleCallController sharedManager];
-        [ConferenceController sharedManager];
-        [[UserInfoStore sharedInstance] loadInfosFromLocal];
         EaseCallConfig* config = [[EaseCallConfig alloc] init];
         config.agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
         config.enableRTCTokenValidate = YES;
 
         [[EaseCallManager sharedManager] initWithConfig:config delegate:self];
-//        NSString* path = [[NSBundle mainBundle] pathForResource:@"huahai128" ofType:@"mp3"];
-//        config.ringFileUrl = [NSURL fileURLWithPath:path];
-        EMMicrosoftTranslateParams* params = [[EMMicrosoftTranslateParams alloc] init];
-        params.subscriptionKey = TRANSLATE_KEY;
-        params.endpoint = TRANSLATE_ENDPOINT;
-        params.location = TRANSLATE_LOCATION;
-        [[EMTranslationManager sharedManager] initialize];
-        [[EMTranslationManager sharedManager] setTranslateParam:params];
+
     } else {//登录失败加载登录页面控制器
         
         BQEnterSwitchViewController *controller = [[BQEnterSwitchViewController alloc] init];
         navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-
-        
-//        EMLoginViewController *controller = [[EMLoginViewController alloc] init];
-//        navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     }
     
     self.window.rootViewController = navigationController;

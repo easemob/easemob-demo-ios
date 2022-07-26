@@ -19,15 +19,9 @@
     #import <EaseCallKit/EaseCallUIKit.h>
     #import <EMTranslate/EMTranslationManager.h>
     #import <Masonry/Masonry.h>
-    #import "EMHeaders.h"
-    #import "EMDefines.h"
     
     #import "BQDemoUIDefine.h"
-    #import "BQAppStyle.h"
-    #import "UIColor+BQ.h"
     #import <SDWebImage/UIImageView+WebCache.h>
-    #import "MISScrollPage.h"
-    #import "Util.h"
 
 
 #endif
