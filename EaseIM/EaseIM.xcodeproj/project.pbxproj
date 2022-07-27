@@ -50,11 +50,9 @@
 		90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECE1930492B00121AEC /* AddressBook.framework */; };
 		921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C6A9D1D2A841600D8257F /* CoreMotion.framework */; };
 		9EA3D50327BA3FD000FD621D /* ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9EA3D50227BA3FD000FD621D /* ring.caf */; };
-		C0940684288F87C6005AE489 /* SingleCallController.m in Sources */ = {isa = PBXBuildFile; fileRef = C094067A288F87C6005AE489 /* SingleCallController.m */; };
-		C0940685288F87C6005AE489 /* ConfInviteUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C094067E288F87C6005AE489 /* ConfInviteUsersViewController.m */; };
-		C0940686288F87C6005AE489 /* ConfInviteUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C094067F288F87C6005AE489 /* ConfInviteUserCell.xib */; };
-		C0940687288F87C6005AE489 /* ConfInviteUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0940680288F87C6005AE489 /* ConfInviteUserCell.m */; };
-		C0940688288F87C6005AE489 /* ConferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0940683288F87C6005AE489 /* ConferenceController.m */; };
+		C05E3E4B2890D014008490D7 /* EMSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C05E3E4A2890D014008490D7 /* EMSettingViewController.m */; };
+		C05E3E562890E56A008490D7 /* icon-add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C05E3E542890E56A008490D7 /* icon-add@2x.png */; };
+		C05E3E572890E56A008490D7 /* icon-add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C05E3E552890E56A008490D7 /* icon-add@3x.png */; };
 		C0B69FF9288E8C9C0035B551 /* BQPersonalGroupEnterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B69FF7288E8C9C0035B551 /* BQPersonalGroupEnterViewController.m */; };
 		C0B69FFC288E8E280035B551 /* BQEnterSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B69FFB288E8E280035B551 /* BQEnterSwitchViewController.m */; };
 		C0DE50A4288FBC0400980C65 /* EMAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0DE50A2288FBC0400980C65 /* EMAlertView.m */; };
@@ -136,15 +134,10 @@
 		921C6A9D1D2A841600D8257F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		99F7D965763E386F7CDED5BD /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		9EA3D50227BA3FD000FD621D /* ring.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ring.caf; sourceTree = "<group>"; };
-		C0940679288F87C6005AE489 /* SingleCallController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleCallController.h; sourceTree = "<group>"; };
-		C094067A288F87C6005AE489 /* SingleCallController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleCallController.m; sourceTree = "<group>"; };
-		C094067C288F87C6005AE489 /* ConferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConferenceController.h; sourceTree = "<group>"; };
-		C094067E288F87C6005AE489 /* ConfInviteUsersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfInviteUsersViewController.m; sourceTree = "<group>"; };
-		C094067F288F87C6005AE489 /* ConfInviteUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfInviteUserCell.xib; sourceTree = "<group>"; };
-		C0940680288F87C6005AE489 /* ConfInviteUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfInviteUserCell.m; sourceTree = "<group>"; };
-		C0940681288F87C6005AE489 /* ConfInviteUsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfInviteUsersViewController.h; sourceTree = "<group>"; };
-		C0940682288F87C6005AE489 /* ConfInviteUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfInviteUserCell.h; sourceTree = "<group>"; };
-		C0940683288F87C6005AE489 /* ConferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConferenceController.m; sourceTree = "<group>"; };
+		C05E3E492890D014008490D7 /* EMSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMSettingViewController.h; sourceTree = "<group>"; };
+		C05E3E4A2890D014008490D7 /* EMSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMSettingViewController.m; sourceTree = "<group>"; };
+		C05E3E542890E56A008490D7 /* icon-add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-add@2x.png"; sourceTree = "<group>"; };
+		C05E3E552890E56A008490D7 /* icon-add@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-add@3x.png"; sourceTree = "<group>"; };
 		C0B69FF7288E8C9C0035B551 /* BQPersonalGroupEnterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQPersonalGroupEnterViewController.m; sourceTree = "<group>"; };
 		C0B69FF8288E8C9C0035B551 /* BQPersonalGroupEnterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQPersonalGroupEnterViewController.h; sourceTree = "<group>"; };
 		C0B69FFA288E8E280035B551 /* BQEnterSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQEnterSwitchViewController.h; sourceTree = "<group>"; };
@@ -219,9 +212,9 @@
 				C0DE50A2288FBC0400980C65 /* EMAlertView.m */,
 				C0E6D27C288FFECB005FC97C /* UIColor+BQ.h */,
 				C0E6D27D288FFECB005FC97C /* UIColor+BQ.m */,
-				C0940677288F87C6005AE489 /* Communicate */,
 				3A45D8FE22239DE200505786 /* AppDelegate.h */,
 				3A45D9B022239DE200505786 /* AppDelegate.m */,
+				3A45DE562223A1FD00505786 /* Resource */,
 				3A45DE552223A1FD00505786 /* Home */,
 			);
 			path = Class;
@@ -234,14 +227,15 @@
 				C0B69FFB288E8E280035B551 /* BQEnterSwitchViewController.m */,
 				C0B69FF8288E8C9C0035B551 /* BQPersonalGroupEnterViewController.h */,
 				C0B69FF7288E8C9C0035B551 /* BQPersonalGroupEnterViewController.m */,
+				C05E3E492890D014008490D7 /* EMSettingViewController.h */,
+				C05E3E4A2890D014008490D7 /* EMSettingViewController.m */,
 				3A45DE632223A1FD00505786 /* EMHomeViewController.h */,
 				3A45DE642223A1FD00505786 /* EMHomeViewController.m */,
-				3A45DE562223A1FD00505786 /* HomeImgs */,
 			);
 			path = Home;
 			sourceTree = "<group>";
 		};
-		3A45DE562223A1FD00505786 /* HomeImgs */ = {
+		3A45DE562223A1FD00505786 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
 				3C4AED58249A2FB2001F7C50 /* icon-tab会话unselected.png */,
@@ -258,12 +252,14 @@
 				3C4AED46249A2F92001F7C50 /* icon-tab通讯录@3x.png */,
 				3C4AED41249A2F88001F7C50 /* icon-tab我unselected.png */,
 				3C4AED40249A2F86001F7C50 /* icon-tab我unselected@2x.png */,
+				C05E3E542890E56A008490D7 /* icon-add@2x.png */,
+				C05E3E552890E56A008490D7 /* icon-add@3x.png */,
 				3C4AED42249A2F89001F7C50 /* icon-tab我unselected@3x.png */,
 				3C4AED3B249A2F7A001F7C50 /* icon-tab我.png */,
 				3C4AED3A249A2F79001F7C50 /* icon-tab我@2x.png */,
 				3C4AED3C249A2F7B001F7C50 /* icon-tab我@3x.png */,
 			);
-			path = HomeImgs;
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		666D1711277BF9AE00B4FA69 /* Recovered References */ = {
@@ -337,46 +333,6 @@
 				99F7D965763E386F7CDED5BD /* Pods-EaseIM.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		C0940677288F87C6005AE489 /* Communicate */ = {
-			isa = PBXGroup;
-			children = (
-				C0940678288F87C6005AE489 /* SingleCall */,
-				C094067B288F87C6005AE489 /* Conference */,
-			);
-			path = Communicate;
-			sourceTree = "<group>";
-		};
-		C0940678288F87C6005AE489 /* SingleCall */ = {
-			isa = PBXGroup;
-			children = (
-				C0940679288F87C6005AE489 /* SingleCallController.h */,
-				C094067A288F87C6005AE489 /* SingleCallController.m */,
-			);
-			path = SingleCall;
-			sourceTree = "<group>";
-		};
-		C094067B288F87C6005AE489 /* Conference */ = {
-			isa = PBXGroup;
-			children = (
-				C094067C288F87C6005AE489 /* ConferenceController.h */,
-				C0940683288F87C6005AE489 /* ConferenceController.m */,
-				C094067D288F87C6005AE489 /* Invite */,
-			);
-			path = Conference;
-			sourceTree = "<group>";
-		};
-		C094067D288F87C6005AE489 /* Invite */ = {
-			isa = PBXGroup;
-			children = (
-				C0940682288F87C6005AE489 /* ConfInviteUserCell.h */,
-				C0940680288F87C6005AE489 /* ConfInviteUserCell.m */,
-				C094067F288F87C6005AE489 /* ConfInviteUserCell.xib */,
-				C0940681288F87C6005AE489 /* ConfInviteUsersViewController.h */,
-				C094067E288F87C6005AE489 /* ConfInviteUsersViewController.m */,
-			);
-			path = Invite;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -466,13 +422,14 @@
 				3C4AED4F249A2F9D001F7C50 /* icon-tab通讯录unselected@2x.png in Resources */,
 				3C4AED57249A2FAB001F7C50 /* icon-tab会话@2x.png in Resources */,
 				3A45DA2722239DE200505786 /* Images.xcassets in Resources */,
+				C05E3E572890E56A008490D7 /* icon-add@3x.png in Resources */,
 				3C4AED3E249A2F7B001F7C50 /* icon-tab我.png in Resources */,
 				3C4AED5C249A2FB8001F7C50 /* icon-tab会话unselected@2x.png in Resources */,
 				3C4AED5D249A2FB8001F7C50 /* icon-tab会话unselected@3x.png in Resources */,
 				9EA3D50327BA3FD000FD621D /* ring.caf in Resources */,
+				C05E3E562890E56A008490D7 /* icon-add@2x.png in Resources */,
 				3C4AED5B249A2FB8001F7C50 /* icon-tab会话unselected.png in Resources */,
 				3C4AED56249A2FAB001F7C50 /* icon-tab会话.png in Resources */,
-				C0940686288F87C6005AE489 /* ConfInviteUserCell.xib in Resources */,
 				3C4AED50249A2F9D001F7C50 /* icon-tab通讯录unselected@3x.png in Resources */,
 				3C4AED43249A2F89001F7C50 /* icon-tab我unselected@2x.png in Resources */,
 			);
@@ -511,7 +468,6 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh",
 				"${PODS_ROOT}/EMTranslate/EMTranslate.framework",
-				"${BUILT_PRODUCTS_DIR}/EaseCallKit/EaseCallKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${PODS_ROOT}/HyphenateChat/HyphenateChat.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
@@ -537,7 +493,6 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EMTranslate.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseCallKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyphenateChat.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
@@ -573,10 +528,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-resources.sh",
 				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/EaseCall/EaseCall.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EaseIMKit.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EaseCall.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -590,15 +547,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0940684288F87C6005AE489 /* SingleCallController.m in Sources */,
-				C0940685288F87C6005AE489 /* ConfInviteUsersViewController.m in Sources */,
 				C0B69FFC288E8E280035B551 /* BQEnterSwitchViewController.m in Sources */,
 				C0B69FF9288E8C9C0035B551 /* BQPersonalGroupEnterViewController.m in Sources */,
 				C0E6D27E288FFECB005FC97C /* UIColor+BQ.m in Sources */,
+				C05E3E4B2890D014008490D7 /* EMSettingViewController.m in Sources */,
 				C0DE50A4288FBC0400980C65 /* EMAlertView.m in Sources */,
-				C0940688288F87C6005AE489 /* ConferenceController.m in Sources */,
 				3A45DA2622239DE200505786 /* main.m in Sources */,
-				C0940687288F87C6005AE489 /* ConfInviteUserCell.m in Sources */,
 				3A45E0172223A1FD00505786 /* EMHomeViewController.m in Sources */,
 				3A45DBDF22239DE300505786 /* AppDelegate.m in Sources */,
 			);

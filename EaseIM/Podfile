@@ -13,7 +13,6 @@ target 'EaseIM' do
     pod 'Masonry'
     pod 'MJRefresh'
     pod 'SDWebImage'
-    # pod 'AgoraRtcEngine_iOS','3.6.1.2'
     pod 'AgoraRtcEngine_iOS','3.6.2'
     pod 'FMDB'
     
@@ -21,11 +20,11 @@ target 'EaseIM' do
   #  pod 'EaseIMKit'
   #  pod 'EaseCallKit'
 
-    pod 'EaseCallKit',  :path => "../../easecallkitui-ios"
+#    pod 'EaseCallKit',  :path => "../../easecallkitui-ios"
     pod 'EaseIMKit',  :path => "../../easeui_ios"
 
     pod 'Bugly'
-    pod 'EMTranslate'
+#    pod 'EMTranslate'
     
 end
 

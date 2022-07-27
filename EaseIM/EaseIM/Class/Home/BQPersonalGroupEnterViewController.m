@@ -11,7 +11,6 @@
 @interface BQPersonalGroupEnterViewController ()
 @property (nonatomic, strong) UIButton *groupChatButton;
 @property (nonatomic, strong) UITextField *searchTextField;
-@property (nonatomic, strong) UIButton *logoutButton;
 
 @end
 
@@ -47,6 +46,7 @@
     
     UIButton *addImageBtn = [[UIButton alloc]init];
     [addImageBtn setImage:[UIImage imageNamed:@"icon-add"] forState:UIControlStateNormal];
+    
     [addImageBtn addTarget:self action:@selector(moreAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:addImageBtn];
     [addImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -130,7 +130,6 @@ if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
     [logoutButton addTarget:self action:@selector(groupChatButtonAction) forControlEvents:UIControlEventTouchUpInside];
     logoutButton.backgroundColor = UIColor.blueColor;
 
-
 }
 
 
@@ -150,8 +149,6 @@ if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
 
     [self.navigationController pushViewController:conversationsVC animated:YES];
 }
-
-
 
 
 

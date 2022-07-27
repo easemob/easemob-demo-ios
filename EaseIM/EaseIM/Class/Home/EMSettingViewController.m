@@ -1,0 +1,49 @@
+//
+//  EMSettingViewController.m
+//  EaseIM
+//
+//  Created by liu001 on 2022/7/27.
+//  Copyright © 2022 liu001. All rights reserved.
+//
+
+#import "EMSettingViewController.h"
+
+@interface EMSettingViewController ()
+@property (nonatomic, strong) UIButton *logoutButton;
+
+@end
+
+@implementation EMSettingViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self.view addSubview:self.logoutButton];
+    [self.logoutButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.view);
+        make.left.equalTo(self.view).offset(30.0);
+        make.right.equalTo(self.view).offset(-30.0);
+        make.height.equalTo(@(44.0));
+    }];
+}
+
+
+- (UIButton *)logoutButton {
+    if (_logoutButton == nil) {
+        _logoutButton = [[UIButton alloc] init];
+        _logoutButton.titleLabel.font = [UIFont systemFontOfSize:16.0];
+        [_logoutButton setTitle:@"退出登录" forState:UIControlStateNormal];
+        [_logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_logoutButton addTarget:self action:@selector(logoutButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        _logoutButton.backgroundColor = UIColor.blueColor;
+    }
+    return _logoutButton;
+}
+
+
+- (void)logoutButtonAction {
+    
+    
+}
+
+@end

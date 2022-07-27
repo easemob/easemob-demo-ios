@@ -7,12 +7,8 @@
 //
 
 #import "EMHomeViewController.h"
-#import "EMMineViewController.h"
-#import "EMRemindManager.h"
-//#import "EMConversationsViewController.h"
-#import "EMContactsViewController.h"
-#import "EaseIMHelper.h"
 #import "BQPersonalGroupEnterViewController.h"
+#import "EMSettingViewController.h"
 
 #define kTabbarItemTag_Conversation 0
 #define kTabbarItemTag_Contact 1
@@ -26,8 +22,8 @@
 @property (strong, nonatomic) NSArray *viewControllers;
 
 @property (nonatomic, strong) BQPersonalGroupEnterViewController *conversationsController;
-@property (nonatomic, strong) EMContactsViewController *contactsController;
-@property (nonatomic, strong) EMMineViewController *mineController;
+@property (nonatomic, strong) EMSettingViewController *settingController;
+
 @property (nonatomic, strong) UIView *addView;
 
 @end
@@ -36,7 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
     [self _setupSubviews];
     
     //监听消息接收，主要更新会话tabbaritem的badge
@@ -118,41 +114,32 @@
     UITabBarItem *retItem = [[UITabBarItem alloc] initWithTitle:aTitle image:[UIImage imageNamed:aImgName] selectedImage:[UIImage imageNamed:aSelectedImgName]];
     retItem.tag = aTag;
     [retItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIFont systemFontOfSize:14], NSFontAttributeName, [UIColor lightGrayColor],NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
-    [retItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:13], NSFontAttributeName, kColor_Blue, NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+    [retItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:13], NSFontAttributeName, UIColor.blueColor, NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
     return retItem;
 }
 
 - (void)_setupChildController
 {
-    __weak typeof(self) weakself = self;
     self.conversationsController = [[BQPersonalGroupEnterViewController alloc]init];
-//    [self.conversationsController setDeleteConversationCompletion:^(BOOL isDelete) {
-//        if (isDelete) {
-//            [weakself _loadConversationTabBarItemBadge];
-//        }
-//    }];
+
     UITabBarItem *consItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"conversation", nil) imgName:@"icon-tab会话unselected" selectedImgName:@"icon-tab会话" tag:kTabbarItemTag_Conversation];
     self.conversationsController.tabBarItem = consItem;
     [self addChildViewController:self.conversationsController];
     
-    self.contactsController = [[EMContactsViewController alloc]init];
-    UITabBarItem *contItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"contactList", nil) imgName:@"icon-tab通讯录unselected" selectedImgName:@"icon-tab通讯录" tag:kTabbarItemTag_Contact];
-    self.contactsController.tabBarItem = contItem;
-    [self addChildViewController:self.contactsController];
+    self.settingController = [[EMSettingViewController alloc]init];
+    UITabBarItem *contItem = [self _setupTabBarItemWithTitle:@"设置" imgName:@"icon-tab通讯录unselected" selectedImgName:@"icon-tab通讯录" tag:kTabbarItemTag_Contact];
+    self.settingController.tabBarItem = contItem;
+    [self addChildViewController:self.settingController];
     
-    //UITabBarItem *discoverItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"discover", nil) imgName:@"icon-tab发现unselected" selectedImgName:@"icon-tab发现" tag:kTabbarItemTag_Settings];
+
     
-    self.mineController = [[EMMineViewController alloc] init];
-    UITabBarItem *mineItem = [self _setupTabBarItemWithTitle:NSLocalizedString(@"mine", nil) imgName:@"icon-tab我unselected" selectedImgName:@"icon-tab我" tag:kTabbarItemTag_Settings];
-    self.mineController.tabBarItem = mineItem;
-    [self addChildViewController:self.mineController];
+    self.viewControllers = @[self.conversationsController, self.settingController];
     
-    self.viewControllers = @[self.conversationsController, self.contactsController, self.mineController];
-    
-    [self.tabBar setItems:@[consItem, contItem, mineItem]];
+    [self.tabBar setItems:@[consItem, contItem]];
     
     self.tabBar.selectedItem = consItem;
     [self tabBar:self.tabBar didSelectItem:consItem];
+    
 }
 
 #pragma mark - UITabBarDelegate
@@ -164,17 +151,15 @@
     if (tag == kTabbarItemTag_Conversation)
         tmpView = self.conversationsController.view;
     if (tag == kTabbarItemTag_Contact)
-        tmpView = self.contactsController.view;
-    if (tag == kTabbarItemTag_Settings)
-        tmpView = self.mineController.view;
-    
+        tmpView = self.settingController.view;
+
     if (self.addView == tmpView) {
         return;
     } else {
         [self.addView removeFromSuperview];
         self.addView = nil;
     }
-    
+
     self.addView = tmpView;
     if (self.addView) {
         [self.view addSubview:self.addView];
@@ -185,29 +170,30 @@
             make.bottom.equalTo(self.tabBar.mas_top);
         }];
     }
+    
 }
 
 #pragma mark - EMChatManagerDelegate
 
 - (void)messagesDidReceive:(NSArray *)aMessages
 {
-    for (EMChatMessage *msg in aMessages) {
-        [EMRemindManager remindMessage:msg];
-        if (msg.body.type == EMMessageBodyTypeText && [((EMTextMessageBody *)msg.body).text isEqualToString:EMCOMMUNICATE_CALLINVITE]) {
-            //通话邀请
-            EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:msg.conversationId type:EMConversationTypeGroupChat createIfNotExist:YES];
-            if ([((EMTextMessageBody *)msg.body).text isEqualToString:EMCOMMUNICATE_CALLINVITE]) {
-                [conversation deleteMessageWithId:msg.messageId error:nil];
-                continue;
-            }
-        }
-        
-        [EMRemindManager remindMessage:msg];
-    }
-    
-    if (self.isViewAppear) {
-        [self _loadConversationTabBarItemBadge];
-    }
+//    for (EMChatMessage *msg in aMessages) {
+//        [EMRemindManager remindMessage:msg];
+//        if (msg.body.type == EMMessageBodyTypeText && [((EMTextMessageBody *)msg.body).text isEqualToString:EMCOMMUNICATE_CALLINVITE]) {
+//            //通话邀请
+//            EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:msg.conversationId type:EMConversationTypeGroupChat createIfNotExist:YES];
+//            if ([((EMTextMessageBody *)msg.body).text isEqualToString:EMCOMMUNICATE_CALLINVITE]) {
+//                [conversation deleteMessageWithId:msg.messageId error:nil];
+//                continue;
+//            }
+//        }
+//
+//        [EMRemindManager remindMessage:msg];
+//    }
+//
+//    if (self.isViewAppear) {
+//        [self _loadConversationTabBarItemBadge];
+//    }
     
 }
 
@@ -231,30 +217,31 @@
 
 - (void)conversationsUnreadCountUpdate:(NSInteger)unreadCount
 {
-    __weak typeof(self) weakself = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        weakself.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;
-    });
-    [EMRemindManager updateApplicationIconBadgeNumber:unreadCount];
+//    __weak typeof(self) weakself = self;
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        weakself.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;
+//    });
+//    [EMRemindManager updateApplicationIconBadgeNumber:unreadCount];
 }
 
 #pragma mark - Private
 
 - (void)_loadConversationTabBarItemBadge
 {
-    NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
-    NSInteger unreadCount = 0;
-    for (EMConversation *conversation in conversations) {
-        if ([[[EMClient sharedClient].pushManager noPushUIds] containsObject:conversation.conversationId]) {//单聊免打扰会话
-            continue;
-        }
-        if ([[[EMClient sharedClient].pushManager noPushGroups] containsObject:conversation.conversationId]) {//群聊免打扰会话
-            continue;
-        }
-        unreadCount += conversation.unreadMessagesCount;
-    }
-    self.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;
-    [EMRemindManager updateApplicationIconBadgeNumber:unreadCount];
+//    NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
+//    NSInteger unreadCount = 0;
+//    for (EMConversation *conversation in conversations) {
+//        if ([[[EMClient sharedClient].pushManager noPushUIds] containsObject:conversation.conversationId]) {//单聊免打扰会话
+//            continue;
+//        }
+//        if ([[[EMClient sharedClient].pushManager noPushGroups] containsObject:conversation.conversationId]) {//群聊免打扰会话
+//            continue;
+//        }
+//        unreadCount += conversation.unreadMessagesCount;
+//    }
+//    self.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;
+//    [EMRemindManager updateApplicationIconBadgeNumber:unreadCount];
 }
+
 
 @end
