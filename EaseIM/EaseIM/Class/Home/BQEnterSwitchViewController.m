@@ -82,9 +82,7 @@
 
 - (void)loginButtonAction {
     
-//    [[BQAppStyle shareAppStyle] updateNavAndTabbarWithIsJihuApp:[EaseIMKitOptions sharedOptions].isJiHuApp];
-//
-//    [EaseIMKitManager.shared configuationIMKitIsJiHuApp:[EaseIMKitOptions sharedOptions].isJiHuApp];
+    [EaseIMKitManager.shared configuationIMKitIsJiHuApp:[EaseIMKitOptions sharedOptions].isJiHuApp];
     
     
     EaseLoginViewController *controller = [[EaseLoginViewController alloc] init];

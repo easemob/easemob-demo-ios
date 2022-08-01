@@ -7,6 +7,7 @@
 //
 
 #import "EMSettingViewController.h"
+#import "EMAlertView.h"
 
 @interface EMSettingViewController ()
 @property (nonatomic, strong) UIButton *logoutButton;
@@ -42,7 +43,18 @@
 
 
 - (void)logoutButtonAction {
-    
+    [EaseIMKitManager.shared logoutWithCompletion:^(BOOL success, NSString * _Nonnull errorMsg) {
+        if (success) {
+            EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:@"退出登录成功"];
+            [alertView show];
+        }else {
+            EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:errorMsg];
+            [alertView show];
+            
+            NSLog(@"err:%@",errorMsg);
+        }
+        
+    }];
     
 }
 
