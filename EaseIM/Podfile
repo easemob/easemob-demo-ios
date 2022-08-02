@@ -12,9 +12,9 @@ target 'EaseIM' do
     pod 'MJRefresh'
     pod 'SDWebImage'
     pod 'FMDB'
-    pod 'HyphenateChat'
-    pod 'EaseIMKit'
-    pod 'EaseCallKit'
+    pod 'HyphenateChat', '3.9.5'
+    pod 'EaseIMKit','3.9.5'
+    pod 'EaseCallKit','3.9.5'
     pod 'Bugly'
 #    xcode 14打开这个
 #    post_install do |installer|
