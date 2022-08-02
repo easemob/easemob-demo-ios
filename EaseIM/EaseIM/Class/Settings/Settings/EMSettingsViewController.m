@@ -144,7 +144,6 @@
      __weak typeof(self) weakself = self;
      [self showHudInView:self.view hint:NSLocalizedString(@"exit...", nil)];
      [[EMClient sharedClient] logout:YES completion:^(EMError *aError) {
-         [[EMTranslationManager sharedManager] logout];
          [weakself hideHud];
          if (aError) {
              [EMAlertController showErrorAlert:aError.errorDescription];
