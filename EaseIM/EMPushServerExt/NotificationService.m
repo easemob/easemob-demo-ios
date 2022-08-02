@@ -23,7 +23,7 @@
     self.bestAttemptContent = [request.content mutableCopy];
     
     // Modify the notification content here...
-    [EMPushServiceExt setAppkey:@"easemob-demo#testy"];//填自己应用对应的appkey,必须和主应用中的appkey一致
+    [EMPushServiceExt setAppkey:@"easemob-demo#easeim"];//填自己应用对应的appkey,必须和主应用中的appkey一致
     [EMPushServiceExt receiveRemoteNotificationRequest:request completion:^(NSError * _Nonnull error) {
         if (!error) {
             NSLog(@"EMPushServiceExt complete apns delivery");
