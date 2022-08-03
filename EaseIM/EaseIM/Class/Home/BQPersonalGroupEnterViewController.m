@@ -84,31 +84,31 @@ if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
     
     UIButton *groupChatButton = [[UIButton alloc] init];
     groupChatButton.titleLabel.font = [UIFont systemFontOfSize:16.0];
-    [groupChatButton setTitle:@"创建群聊" forState:UIControlStateNormal];
+    [groupChatButton setTitle:@"专属群列表" forState:UIControlStateNormal];
     [groupChatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [groupChatButton addTarget:self action:@selector(groupChatButtonAction) forControlEvents:UIControlEventTouchUpInside];
     groupChatButton.backgroundColor = UIColor.blueColor;
     
     UIButton *singleChatButton = [[UIButton alloc] init];
     singleChatButton.titleLabel.font = [UIFont systemFontOfSize:16.0];
-    [singleChatButton setTitle:@"创建单聊" forState:UIControlStateNormal];
+    [singleChatButton setTitle:@"我的会话" forState:UIControlStateNormal];
     [singleChatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [singleChatButton addTarget:self action:@selector(singleChatButtonAction) forControlEvents:UIControlEventTouchUpInside];
     singleChatButton.backgroundColor = UIColor.blueColor;
 
-    [self.view addSubview:self.searchTextField];
+//    [self.view addSubview:self.searchTextField];
     [self.view addSubview:groupChatButton];
     [self.view addSubview:singleChatButton];
     
-    [self.searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(100.0);
-        make.left.equalTo(self.view).offset(30.0);
-        make.right.equalTo(self.view).offset(-30.0);
-        make.height.equalTo(@(44.0));
-    }];
+//    [self.searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.view).offset(100.0);
+//        make.left.equalTo(self.view).offset(30.0);
+//        make.right.equalTo(self.view).offset(-30.0);
+//        make.height.equalTo(@(44.0));
+//    }];
     
     [groupChatButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.searchTextField.mas_bottom).offset(10.0);
+        make.top.equalTo(self.view).offset(150.0);
         make.centerX.equalTo(self.view);
         make.width.equalTo(@(100.0));
         make.height.equalTo(@(44.0));
@@ -116,7 +116,7 @@ if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
 
     
     [singleChatButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(groupChatButton.mas_bottom).offset(10.0);
+        make.top.equalTo(groupChatButton.mas_bottom).offset(30.0);
         make.centerX.equalTo(self.view);
         make.size.equalTo(groupChatButton);
     }];
@@ -134,13 +134,21 @@ if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
 
 
 - (void)groupChatButtonAction {
-    EMConversation *groupChat =  [[EMClient sharedClient].chatManager getConversation:self.searchTextField.text type:EMConversationTypeGroupChat createIfNotExist:YES];
+//    EMConversation *groupChat =  [[EMClient sharedClient].chatManager getConversation:self.searchTextField.text type:EMConversationTypeGroupChat createIfNotExist:YES];
+    
+    EMConversationsViewController * conversationsVC= [[EMConversationsViewController alloc] initWithEnterType:EMConversationEnterTypeExclusiveGroup];
+
+    [self.navigationController pushViewController:conversationsVC animated:YES];
 }
 
 
 - (void)singleChatButtonAction {
  
-    EMConversation *singleChat =  [[EMClient sharedClient].chatManager getConversation:self.searchTextField.text type:EMConversationTypeChat createIfNotExist:YES];
+//    EMConversation *singleChat =  [[EMClient sharedClient].chatManager getConversation:self.searchTextField.text type:EMConversationTypeChat createIfNotExist:YES];
+    EMConversationsViewController * conversationsVC= [[EMConversationsViewController alloc] initWithEnterType:EMConversationEnterTypeMyChat];
+
+    [self.navigationController pushViewController:conversationsVC animated:YES];
+    
 }
 
 
@@ -150,6 +158,10 @@ if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
     [self.navigationController pushViewController:conversationsVC animated:YES];
 }
 
+- (void)fetchUnreadCount {
+    
+    NSInteger exclusivegroupUnReadCount = EaseIMKitManager.shared.exclusivegroupUnReadCount;
 
+}
 
 @end

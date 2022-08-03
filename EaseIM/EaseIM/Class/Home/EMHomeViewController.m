@@ -222,7 +222,9 @@
 //        weakself.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;
 //    });
 //    [EMRemindManager updateApplicationIconBadgeNumber:unreadCount];
+    
 }
+
 
 #pragma mark - Private
 

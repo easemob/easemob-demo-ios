@@ -268,30 +268,6 @@
             navigationController = [[UINavigationController alloc] initWithRootViewController:homeController];
         }
         
-//        [[EMClient sharedClient].pushManager getPushNotificationOptionsFromServerWithCompletion:^(EMPushOptions * _Nonnull aOptions, EMError * _Nonnull aError) {
-//            if (!aError) {
-//                [[EaseIMKitManager shared] cleanMemoryUndisturbMaps];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"EMUserPushConfigsUpdateSuccess" object:nil];//更新用户重启App时，会话免打扰状态UI同步
-//            }
-//        }];
-//        [[EMClient sharedClient].groupManager getJoinedGroupsFromServerWithPage:0 pageSize:-1 completion:^(NSArray *aList, EMError *aError) {
-//            if (!aError) {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_LIST_FETCHFINISHED object:nil];
-//            }
-//        }];
-//
-//        
-//        [EMNotificationHelper shared];
-//        [SingleCallController sharedManager];
-//        [ConferenceController sharedManager];
-//        [[UserInfoStore sharedInstance] loadInfosFromLocal];
-        
-//        EaseCallConfig* config = [[EaseCallConfig alloc] init];
-//        config.agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
-//        config.enableRTCTokenValidate = YES;
-//
-//        [[EaseCallManager sharedManager] initWithConfig:config delegate:self];
-
     } else {//登录失败加载登录页面控制器
         
         BQEnterSwitchViewController *controller = [[BQEnterSwitchViewController alloc] init];
