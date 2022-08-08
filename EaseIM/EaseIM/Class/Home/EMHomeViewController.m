@@ -14,7 +14,7 @@
 #define kTabbarItemTag_Contact 1
 #define kTabbarItemTag_Settings 2
 
-@interface EMHomeViewController ()<UITabBarDelegate, EMChatManagerDelegate, EaseIMKitManagerDelegate>
+@interface EMHomeViewController ()<UITabBarDelegate, EaseIMKitManagerDelegate>
 
 @property (nonatomic) BOOL isViewAppear;
 

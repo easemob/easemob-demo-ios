@@ -192,19 +192,6 @@
     EaseIMKitOptions *demoOptions = [EaseIMKitOptions sharedOptions];
     [EaseIMKitManager initWithEaseIMKitOptions:demoOptions];
     
-//    [[BQAppStyle shareAppStyle] updateNavAndTabbarWithIsJihuApp:demoOptions.isJiHuApp];
-//
-//    [EaseIMKitManager.shared configuationIMKitIsJiHuApp:demoOptions.isJiHuApp];
-//
-//    //初始化EaseIMHelper，注册 EMClient 监听
-//    [EaseIMHelper shareHelper];
-//
-//    if (demoOptions.isAutoLogin){
-//        [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(YES)];
-//    } else {
-//        [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(NO)];
-//    }
-    
 }
 
 #pragma mark - Demo
