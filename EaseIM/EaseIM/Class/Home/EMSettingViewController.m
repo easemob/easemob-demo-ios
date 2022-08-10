@@ -43,19 +43,37 @@
 
 
 - (void)logoutButtonAction {
-    [EaseIMKitManager.shared logoutWithCompletion:^(BOOL success, NSString * _Nonnull errorMsg) {
-        if (success) {
-            EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:@"退出登录成功"];
-            [alertView show];
-        }else {
-            EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:errorMsg];
-            [alertView show];
+    if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
+        [[EMClient sharedClient] logout:YES completion:^(EMError * _Nullable aError) {
+            if (aError == nil) {
+                EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:@"退出登录成功"];
+                [alertView show];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
+
+            }else {
+                EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:aError.errorDescription];
+                [alertView show];
+                
+                NSLog(@"err:%@",aError.errorDescription);
+            }
             
-            NSLog(@"err:%@",errorMsg);
-        }
+        }];
         
-    }];
-    
+    }else {
+        [EaseIMKitManager.shared logoutWithCompletion:^(BOOL success, NSString * _Nonnull errorMsg) {
+            if (success) {
+                EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:@"退出登录成功"];
+                [alertView show];
+            }else {
+                EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:nil message:errorMsg];
+                [alertView show];
+                
+                NSLog(@"err:%@",errorMsg);
+            }
+            
+        }];
+    }
 }
 
 @end

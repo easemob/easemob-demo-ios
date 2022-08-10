@@ -81,6 +81,12 @@ if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
     self.searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     
     
+    UILabel *userLabel = [[UILabel alloc] init];
+    userLabel.font = [UIFont systemFontOfSize:14.0];
+    userLabel.textColor = [UIColor blackColor];
+    userLabel.textAlignment = NSTextAlignmentCenter;
+    userLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    userLabel.text = [EMClient sharedClient].currentUsername;
     
     UIButton *groupChatButton = [[UIButton alloc] init];
     groupChatButton.titleLabel.font = [UIFont systemFontOfSize:16.0];
@@ -96,19 +102,18 @@ if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
     [singleChatButton addTarget:self action:@selector(singleChatButtonAction) forControlEvents:UIControlEventTouchUpInside];
     singleChatButton.backgroundColor = UIColor.blueColor;
 
-//    [self.view addSubview:self.searchTextField];
+    [self.view addSubview:userLabel];
     [self.view addSubview:groupChatButton];
     [self.view addSubview:singleChatButton];
     
-//    [self.searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view).offset(100.0);
-//        make.left.equalTo(self.view).offset(30.0);
-//        make.right.equalTo(self.view).offset(-30.0);
-//        make.height.equalTo(@(44.0));
-//    }];
+    [userLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(150.0);
+        make.left.equalTo(self.view).offset(30.0);
+        make.right.equalTo(self.view).offset(-30.0);
+    }];
     
     [groupChatButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(150.0);
+        make.top.equalTo(userLabel.mas_bottom).offset(30.0);
         make.centerX.equalTo(self.view);
         make.width.equalTo(@(100.0));
         make.height.equalTo(@(44.0));
@@ -120,6 +125,7 @@ if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
         make.centerX.equalTo(self.view);
         make.size.equalTo(groupChatButton);
     }];
+    
 }
 
 - (void)setLogoutButton {

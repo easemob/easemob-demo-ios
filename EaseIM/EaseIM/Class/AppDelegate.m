@@ -190,7 +190,9 @@
 - (void)_initHyphenate
 {
     EaseIMKitOptions *demoOptions = [EaseIMKitOptions sharedOptions];
-    [EaseIMKitManager initWithEaseIMKitOptions:demoOptions];
+//    demoOptions.appkey = @"您的appkey";
+//    demoOptions.appkey = @"1100220606108201#demo";
+    [EaseIMKitManager managerWithEaseIMKitOptions:demoOptions];
     
 }
 

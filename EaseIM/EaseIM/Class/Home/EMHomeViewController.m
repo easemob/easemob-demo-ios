@@ -177,24 +177,7 @@
 
 - (void)messagesDidReceive:(NSArray *)aMessages
 {
-//    for (EMChatMessage *msg in aMessages) {
-//        [EMRemindManager remindMessage:msg];
-//        if (msg.body.type == EMMessageBodyTypeText && [((EMTextMessageBody *)msg.body).text isEqualToString:EMCOMMUNICATE_CALLINVITE]) {
-//            //通话邀请
-//            EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:msg.conversationId type:EMConversationTypeGroupChat createIfNotExist:YES];
-//            if ([((EMTextMessageBody *)msg.body).text isEqualToString:EMCOMMUNICATE_CALLINVITE]) {
-//                [conversation deleteMessageWithId:msg.messageId error:nil];
-//                continue;
-//            }
-//        }
-//
-//        [EMRemindManager remindMessage:msg];
-//    }
-//
-//    if (self.isViewAppear) {
-//        [self _loadConversationTabBarItemBadge];
-//    }
-    
+
 }
 
 //　收到已读回执
