@@ -192,8 +192,9 @@
     EaseIMKitOptions *demoOptions = [EaseIMKitOptions sharedOptions];
 //    demoOptions.appkey = @"您的appkey";
 //    demoOptions.appkey = @"1100220606108201#demo";
-    [EaseIMKitManager managerWithEaseIMKitOptions:demoOptions];
     
+//    demoOptions.appkey = @"1100220704109048#arcfox-server";
+    [EaseIMKitManager managerWithEaseIMKitOptions:demoOptions];
 }
 
 #pragma mark - Demo

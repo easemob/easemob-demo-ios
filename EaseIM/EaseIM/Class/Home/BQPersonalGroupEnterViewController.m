@@ -22,6 +22,16 @@
     [self.view addGestureRecognizer:tap];
     
     [self _setupSubviews];
+    
+    [self loadAllUnread];
+}
+
+- (void)loadAllUnread {
+    NSInteger allUnread = EaseIMKitManager.shared.currentUnreadCount;
+    NSInteger jhGroupUnread = EaseIMKitManager.shared.exclusivegroupUnReadCount;
+    
+    NSLog(@"%s all:%ld\n jhGroupUnread:%ld\n",__func__,allUnread,jhGroupUnread);
+    
 }
 
 - (void)tapGes {

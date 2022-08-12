@@ -200,11 +200,13 @@
 
 - (void)conversationsUnreadCountUpdate:(NSInteger)unreadCount
 {
-//    __weak typeof(self) weakself = self;
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        weakself.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;
-//    });
-//    [EMRemindManager updateApplicationIconBadgeNumber:unreadCount];
+
+    NSLog(@"%s unread:%ld",__func__,unreadCount);
+    
+    NSInteger allUnread = EaseIMKitManager.shared.currentUnreadCount;
+    NSInteger jhGroupUnread = EaseIMKitManager.shared.exclusivegroupUnReadCount;
+    
+    NSLog(@"%s all:%ld\n jhGroupUnread:%ld\n",__func__,allUnread,jhGroupUnread);
     
 }
 
