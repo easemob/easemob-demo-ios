@@ -65,14 +65,14 @@
         make.right.equalTo(self.view).offset(-16);
     }];
     
-if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
-    titleLabel.text = @"极狐app Demo";
-    [self searchGroupAndUser];
+    if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
+        titleLabel.text = @"极狐app Demo";
+        [self searchGroupAndUser];
 
-}else {
-    titleLabel.text = @"运管端app Demo";
+    }else {
+        titleLabel.text = @"运管端app Demo";
 
-}
+    }
 
    
 }

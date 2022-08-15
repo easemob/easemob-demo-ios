@@ -36,8 +36,8 @@
     [self _setupSubviews];
     
     //监听消息接收，主要更新会话tabbaritem的badge
-    [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     [EaseIMKitManager.shared addDelegate:self];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -173,40 +173,15 @@
     
 }
 
-#pragma mark - EMChatManagerDelegate
-
-- (void)messagesDidReceive:(NSArray *)aMessages
-{
-
-}
-
-//　收到已读回执
-- (void)messagesDidRead:(NSArray *)aMessages
-{
-    [self _loadConversationTabBarItemBadge];
-}
-
-- (void)conversationListDidUpdate:(NSArray *)aConversationList
-{
-    [self _loadConversationTabBarItemBadge];
-}
-
-- (void)onConversationRead:(NSString *)from to:(NSString *)to
-{
-    [self _loadConversationTabBarItemBadge];
-}
-
 #pragma mark - EaseIMKitManagerDelegate
 
 - (void)conversationsUnreadCountUpdate:(NSInteger)unreadCount
 {
-
-    NSLog(@"%s unread:%ld",__func__,unreadCount);
     
     NSInteger allUnread = EaseIMKitManager.shared.currentUnreadCount;
     NSInteger jhGroupUnread = EaseIMKitManager.shared.exclusivegroupUnReadCount;
     
-    NSLog(@"%s all:%ld\n jhGroupUnread:%ld\n",__func__,allUnread,jhGroupUnread);
+    NSLog(@"%s allUnread:%ld\n jhGroupUnread:%ld\n",__func__,allUnread,jhGroupUnread);
     
 }
 
