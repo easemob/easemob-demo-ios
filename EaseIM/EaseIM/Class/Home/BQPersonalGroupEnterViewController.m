@@ -71,7 +71,7 @@
 
     }else {
         titleLabel.text = @"运管端app Demo";
-
+        [self showYunguanInfo];
     }
 
    
@@ -79,16 +79,16 @@
 
 - (void)searchGroupAndUser {
     
-    self.searchTextField = [[UITextField alloc] init];
-    self.searchTextField.backgroundColor = [UIColor lightGrayColor];
-    self.searchTextField.delegate = self;
-    self.searchTextField.borderStyle = UITextBorderStyleNone;
-    self.searchTextField.placeholder = @"搜索id";
-    self.searchTextField.returnKeyType = UIReturnKeyGo;
-    self.searchTextField.font = [UIFont systemFontOfSize:17];
-    self.searchTextField.textColor = UIColor.whiteColor;
-    self.searchTextField.rightViewMode = UITextFieldViewModeWhileEditing;
-    self.searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    self.searchTextField = [[UITextField alloc] init];
+//    self.searchTextField.backgroundColor = [UIColor lightGrayColor];
+//    self.searchTextField.delegate = self;
+//    self.searchTextField.borderStyle = UITextBorderStyleNone;
+//    self.searchTextField.placeholder = @"搜索id";
+//    self.searchTextField.returnKeyType = UIReturnKeyGo;
+//    self.searchTextField.font = [UIFont systemFontOfSize:17];
+//    self.searchTextField.textColor = UIColor.whiteColor;
+//    self.searchTextField.rightViewMode = UITextFieldViewModeWhileEditing;
+//    self.searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     
     
     UILabel *userLabel = [[UILabel alloc] init];
@@ -136,6 +136,25 @@
         make.size.equalTo(groupChatButton);
     }];
     
+}
+
+- (void)showYunguanInfo {
+    
+    UILabel *userLabel = [[UILabel alloc] init];
+    userLabel.font = [UIFont systemFontOfSize:14.0];
+    userLabel.textColor = [UIColor blackColor];
+    userLabel.textAlignment = NSTextAlignmentCenter;
+    userLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    userLabel.text = [EMClient sharedClient].currentUsername;
+
+    [self.view addSubview:userLabel];
+    
+    [userLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(150.0);
+        make.left.equalTo(self.view).offset(30.0);
+        make.right.equalTo(self.view).offset(-30.0);
+    }];
+
 }
 
 - (void)setLogoutButton {
