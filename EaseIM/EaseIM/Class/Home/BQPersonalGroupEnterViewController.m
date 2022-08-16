@@ -169,17 +169,14 @@
 
 
 - (void)groupChatButtonAction {
-//    EMConversation *groupChat =  [[EMClient sharedClient].chatManager getConversation:self.searchTextField.text type:EMConversationTypeGroupChat createIfNotExist:YES];
     
-    EMConversationsViewController * conversationsVC= [[EMConversationsViewController alloc] initWithEnterType:EMConversationEnterTypeExclusiveGroup];
+    [EaseIMKitManager.shared enterJihuExGroup];
 
-    [self.navigationController pushViewController:conversationsVC animated:YES];
 }
 
 
 - (void)singleChatButtonAction {
  
-//    EMConversation *singleChat =  [[EMClient sharedClient].chatManager getConversation:self.searchTextField.text type:EMConversationTypeChat createIfNotExist:YES];
     EMConversationsViewController * conversationsVC= [[EMConversationsViewController alloc] initWithEnterType:EMConversationEnterTypeMyChat];
 
     [self.navigationController pushViewController:conversationsVC animated:YES];
