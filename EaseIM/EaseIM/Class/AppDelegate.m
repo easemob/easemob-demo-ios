@@ -194,6 +194,10 @@
 //    demoOptions.appkey = @"1100220606108201#demo";
     
 //    demoOptions.appkey = @"1100220704109048#arcfox-server";
+//        demoOptions.apnsCertName = @"推送证书名称";
+
+    
+    
     [EaseIMKitManager managerWithEaseIMKitOptions:demoOptions];
 }
 
