@@ -63,6 +63,8 @@
 // 将得到的deviceToken传给SDK
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+    NSLog(@"%s deviceToken:%@",__func__,deviceToken);
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[EMClient sharedClient] bindDeviceToken:deviceToken];
     });
@@ -190,14 +192,9 @@
 - (void)_initHyphenate
 {
     EaseIMKitOptions *demoOptions = [EaseIMKitOptions sharedOptions];
-//    demoOptions.appkey = @"您的appkey";
-//    demoOptions.appkey = @"1100220606108201#demo";
-    
 //    demoOptions.appkey = @"1100220704109048#arcfox-server";
-//        demoOptions.apnsCertName = @"推送证书名称";
-
-    
-    
+//    demoOptions.apnsCertName = @"jihu_product";
+//    demoOptions.restServer = @"http://baidu.com";
     [EaseIMKitManager managerWithEaseIMKitOptions:demoOptions];
 }
 
