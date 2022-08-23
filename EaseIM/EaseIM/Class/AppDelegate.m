@@ -66,7 +66,9 @@
     NSLog(@"%s deviceToken:%@",__func__,deviceToken);
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[EMClient sharedClient] bindDeviceToken:deviceToken];
+        EMError *error = [[EMClient sharedClient] bindDeviceToken:deviceToken];
+        NSLog(@"%s error:%@",__func__,error);
+        
     });
 }
 
@@ -84,6 +86,7 @@
 //    if (gMainController) {
 //        [gMainController jumpToChatList];
 //    }
+    
     [[EMClient sharedClient] application:application didReceiveRemoteNotification:userInfo];
 }
 
@@ -194,6 +197,8 @@
     EaseIMKitOptions *demoOptions = [EaseIMKitOptions sharedOptions];
 //    demoOptions.appkey = @"1100220704109048#arcfox-server";
 //    demoOptions.apnsCertName = @"jihu_product";
+//    demoOptions.apnsCertName = @"jihu_developer";
+
 //    demoOptions.restServer = @"http://baidu.com";
     [EaseIMKitManager managerWithEaseIMKitOptions:demoOptions];
 }

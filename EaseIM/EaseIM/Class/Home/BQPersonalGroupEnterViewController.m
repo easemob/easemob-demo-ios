@@ -24,6 +24,8 @@
     [self _setupSubviews];
     
     [self loadAllUnread];
+    
+//    [self updateUserInfo];
 }
 
 - (void)loadAllUnread {
@@ -34,9 +36,21 @@
     
 }
 
+
+- (void)updateUserInfo {
+    EMUserInfo *user = [[EMUserInfo alloc] init];
+    user.userId = EMClient.sharedClient.currentUsername;
+    user.nickname = @"我是1232";
+    user.avatarUrl = @"https://download-sdk.oss-cn-beijing.aliyuncs.com/downloads/BeiQi_SDK/iOS_SDK/weini.png";
+    
+    [[EMClient sharedClient].userInfoManager updateOwnUserInfo:user completion:^(EMUserInfo * _Nullable aUserInfo, EMError * _Nullable aError) {
+            
+    }];
+    
+}
+
 - (void)tapGes {
     [self.view endEditing:NO];
-    
 }
 
 - (void)_setupSubviews

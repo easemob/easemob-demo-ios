@@ -191,19 +191,7 @@
 
 - (void)_loadConversationTabBarItemBadge
 {
-//    NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
-//    NSInteger unreadCount = 0;
-//    for (EMConversation *conversation in conversations) {
-//        if ([[[EMClient sharedClient].pushManager noPushUIds] containsObject:conversation.conversationId]) {//单聊免打扰会话
-//            continue;
-//        }
-//        if ([[[EMClient sharedClient].pushManager noPushGroups] containsObject:conversation.conversationId]) {//群聊免打扰会话
-//            continue;
-//        }
-//        unreadCount += conversation.unreadMessagesCount;
-//    }
-//    self.conversationsController.tabBarItem.badgeValue = unreadCount > 0 ? @(unreadCount).stringValue : nil;
-//    [EMRemindManager updateApplicationIconBadgeNumber:unreadCount];
+
 }
 
 
