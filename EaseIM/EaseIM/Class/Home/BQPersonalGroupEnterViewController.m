@@ -24,7 +24,6 @@
     
     [self _setupSubviews];
     
-    [self loadAllUnread];
     
 //    [self updateUserInfo];
 }
@@ -37,6 +36,10 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self loadAllUnread];
+}
 
 - (void)updateUserInfo {
     EMUserInfo *user = [[EMUserInfo alloc] init];
@@ -128,7 +131,7 @@
     [self.view addSubview:singleChatButton];
     
     [self.searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.view);
+        make.centerY.equalTo(self.view).offset(50.0);
         make.centerX.equalTo(self.view);
         make.left.equalTo(self.view).offset(40.0);
         make.right.equalTo(self.view).offset(-40.0);
@@ -244,11 +247,7 @@
 
 - (void)groupChatButtonAction {
 
-    NSInteger allUnread = EaseIMKitManager.shared.currentUnreadCount;
-    NSInteger jhGroupUnread = EaseIMKitManager.shared.exclusivegroupUnReadCount;
-    
-    NSLog(@"%s allUnread:%ld\n jhGroupUnread:%ld\n",__func__,allUnread,jhGroupUnread);
-    
+
     [EaseIMKitManager.shared enterJihuExGroup];
     
 }
