@@ -11,6 +11,7 @@
 @interface BQPersonalGroupEnterViewController ()
 @property (nonatomic, strong) UIButton *groupChatButton;
 @property (nonatomic, strong) UITextField *searchTextField;
+@property (nonatomic, strong) UITextField *contentTextField;
 
 @end
 
@@ -87,23 +88,82 @@
         titleLabel.text = @"运管端app Demo";
         [self showYunguanInfo];
     }
+    
+    [self placeAndLayoutSingleChat];
+}
 
-   
+- (void)placeAndLayoutSingleChat {
+
+    self.searchTextField = [[UITextField alloc] init];
+    self.searchTextField.backgroundColor = [UIColor lightGrayColor];
+//    self.searchTextField.delegate = self;
+    self.searchTextField.borderStyle = UITextBorderStyleNone;
+    self.searchTextField.placeholder = @"输入对方ID";
+    self.searchTextField.returnKeyType = UIReturnKeyGo;
+    self.searchTextField.font = [UIFont systemFontOfSize:17];
+    self.searchTextField.textColor = UIColor.whiteColor;
+    self.searchTextField.rightViewMode = UITextFieldViewModeWhileEditing;
+    self.searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    
+    self.contentTextField = [[UITextField alloc] init];
+    self.contentTextField.backgroundColor = [UIColor lightGrayColor];
+    self.contentTextField.borderStyle = UITextBorderStyleNone;
+    self.contentTextField.placeholder = @"输入消息内容";
+    self.contentTextField.returnKeyType = UIReturnKeyGo;
+    self.contentTextField.font = [UIFont systemFontOfSize:17];
+    self.contentTextField.textColor = UIColor.whiteColor;
+    self.contentTextField.rightViewMode = UITextFieldViewModeWhileEditing;
+    self.contentTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    
+    UIButton *singleChatButton = [[UIButton alloc] init];
+    singleChatButton.titleLabel.font = [UIFont systemFontOfSize:16.0];
+    [singleChatButton setTitle:@"发送单聊消息" forState:UIControlStateNormal];
+    [singleChatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [singleChatButton addTarget:self action:@selector(sendSingleChatMessage) forControlEvents:UIControlEventTouchUpInside];
+    singleChatButton.backgroundColor = UIColor.blueColor;
+
+    
+    [self.view addSubview:self.searchTextField];
+    [self.view addSubview:self.contentTextField];
+    [self.view addSubview:singleChatButton];
+    
+    [self.searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.view);
+        make.centerX.equalTo(self.view);
+        make.left.equalTo(self.view).offset(40.0);
+        make.right.equalTo(self.view).offset(-40.0);
+        make.height.equalTo(@(30.0));
+    }];
+
+    [self.contentTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.searchTextField.mas_bottom).offset(10.0);
+        make.centerX.equalTo(self.view);
+        make.left.equalTo(self.view).offset(40.0);
+        make.right.equalTo(self.view).offset(-40.0);
+        make.height.equalTo(@(30.0));
+    }];
+
+    [singleChatButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentTextField.mas_bottom).offset(10.0);
+        make.centerX.equalTo(self.view);
+        make.width.equalTo(@(100.0));
+        make.height.equalTo(@(30.0));
+    }];
+
+}
+
+
+- (void)sendSingleChatMessage {
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:self.contentTextField.text];
+
+    EMChatMessage *textMsg = [[EMChatMessage alloc] initWithConversationID:self.searchTextField.text from:EMClient.sharedClient.currentUsername to:self.searchTextField.text body:body ext:nil];
+    
+    [[EMClient sharedClient].chatManager sendMessage:textMsg progress:nil completion:^(EMChatMessage * _Nullable message, EMError * _Nullable error) {
+       
+    }];
 }
 
 - (void)searchGroupAndUser {
-    
-//    self.searchTextField = [[UITextField alloc] init];
-//    self.searchTextField.backgroundColor = [UIColor lightGrayColor];
-//    self.searchTextField.delegate = self;
-//    self.searchTextField.borderStyle = UITextBorderStyleNone;
-//    self.searchTextField.placeholder = @"搜索id";
-//    self.searchTextField.returnKeyType = UIReturnKeyGo;
-//    self.searchTextField.font = [UIFont systemFontOfSize:17];
-//    self.searchTextField.textColor = UIColor.whiteColor;
-//    self.searchTextField.rightViewMode = UITextFieldViewModeWhileEditing;
-//    self.searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    
     
     UILabel *userLabel = [[UILabel alloc] init];
     userLabel.font = [UIFont systemFontOfSize:14.0];
@@ -183,9 +243,14 @@
 
 
 - (void)groupChatButtonAction {
+
+    NSInteger allUnread = EaseIMKitManager.shared.currentUnreadCount;
+    NSInteger jhGroupUnread = EaseIMKitManager.shared.exclusivegroupUnReadCount;
+    
+    NSLog(@"%s allUnread:%ld\n jhGroupUnread:%ld\n",__func__,allUnread,jhGroupUnread);
     
     [EaseIMKitManager.shared enterJihuExGroup];
-
+    
 }
 
 

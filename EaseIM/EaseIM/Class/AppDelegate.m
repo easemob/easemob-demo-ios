@@ -199,9 +199,11 @@
 //    demoOptions.apnsCertName = @"jihu_product";
 //    demoOptions.apnsCertName = @"jihu_developer";
 
-//    demoOptions.restServer = @"http://baidu.com";
+//    NSString *tHost = @"https://huanxin-uat.arcfox.cn";
+//    demoOptions.restServer = tHost;
     [EaseIMKitManager managerWithEaseIMKitOptions:demoOptions];
 }
+
 
 #pragma mark - Demo
 
