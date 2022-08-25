@@ -6,15 +6,15 @@
 //  Copyright © 2022 liu001. All rights reserved.
 //
 
-#import "EMSettingViewController.h"
+#import "BQTSettingViewController.h"
 #import "EMAlertView.h"
 
-@interface EMSettingViewController ()
+@interface BQTSettingViewController ()
 @property (nonatomic, strong) UIButton *logoutButton;
 
 @end
 
-@implementation EMSettingViewController
+@implementation BQTSettingViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

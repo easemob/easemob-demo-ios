@@ -14,7 +14,7 @@
 		3A45DA2622239DE200505786 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A45D72022239DE200505786 /* main.m */; };
 		3A45DA2722239DE200505786 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A45D72122239DE200505786 /* Images.xcassets */; };
 		3A45DBDF22239DE300505786 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A45D9B022239DE200505786 /* AppDelegate.m */; };
-		3A45E0172223A1FD00505786 /* EMHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A45DE642223A1FD00505786 /* EMHomeViewController.m */; };
+		3A45E0172223A1FD00505786 /* BQTHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A45DE642223A1FD00505786 /* BQTHomeViewController.m */; };
 		3A595FAC1D6DBBD100504DB3 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A595FAB1D6DBBD100504DB3 /* CoreTelephony.framework */; };
 		3AB62A131D926375000776F0 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB62A121D926375000776F0 /* libbz2.tbd */; };
 		3AFDAE65201AE58F0088D44E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3527401931D32C00385240 /* Security.framework */; };
@@ -50,7 +50,7 @@
 		90F1BECF1930492B00121AEC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BECE1930492B00121AEC /* AddressBook.framework */; };
 		921C6A9E1D2A841600D8257F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C6A9D1D2A841600D8257F /* CoreMotion.framework */; };
 		9EA3D50327BA3FD000FD621D /* ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9EA3D50227BA3FD000FD621D /* ring.caf */; };
-		C05E3E4B2890D014008490D7 /* EMSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C05E3E4A2890D014008490D7 /* EMSettingViewController.m */; };
+		C05E3E4B2890D014008490D7 /* BQTSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C05E3E4A2890D014008490D7 /* BQTSettingViewController.m */; };
 		C05E3E562890E56A008490D7 /* icon-add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C05E3E542890E56A008490D7 /* icon-add@2x.png */; };
 		C05E3E572890E56A008490D7 /* icon-add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C05E3E552890E56A008490D7 /* icon-add@3x.png */; };
 		C0B69FF9288E8C9C0035B551 /* BQPersonalGroupEnterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B69FF7288E8C9C0035B551 /* BQPersonalGroupEnterViewController.m */; };
@@ -87,8 +87,8 @@
 		3A45D8FE22239DE200505786 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3A45D9B022239DE200505786 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3A45D9B222239DE200505786 /* EaseIM-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "EaseIM-Info.plist"; sourceTree = "<group>"; };
-		3A45DE632223A1FD00505786 /* EMHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHomeViewController.h; sourceTree = "<group>"; };
-		3A45DE642223A1FD00505786 /* EMHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHomeViewController.m; sourceTree = "<group>"; };
+		3A45DE632223A1FD00505786 /* BQTHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQTHomeViewController.h; sourceTree = "<group>"; };
+		3A45DE642223A1FD00505786 /* BQTHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQTHomeViewController.m; sourceTree = "<group>"; };
 		3A595FAB1D6DBBD100504DB3 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		3AB62A0E1D926341000776F0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		3AB62A101D92636E000776F0 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
@@ -134,8 +134,8 @@
 		921C6A9D1D2A841600D8257F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		99F7D965763E386F7CDED5BD /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		9EA3D50227BA3FD000FD621D /* ring.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ring.caf; sourceTree = "<group>"; };
-		C05E3E492890D014008490D7 /* EMSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMSettingViewController.h; sourceTree = "<group>"; };
-		C05E3E4A2890D014008490D7 /* EMSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMSettingViewController.m; sourceTree = "<group>"; };
+		C05E3E492890D014008490D7 /* BQTSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BQTSettingViewController.h; sourceTree = "<group>"; };
+		C05E3E4A2890D014008490D7 /* BQTSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BQTSettingViewController.m; sourceTree = "<group>"; };
 		C05E3E542890E56A008490D7 /* icon-add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-add@2x.png"; sourceTree = "<group>"; };
 		C05E3E552890E56A008490D7 /* icon-add@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-add@3x.png"; sourceTree = "<group>"; };
 		C0B69FF7288E8C9C0035B551 /* BQPersonalGroupEnterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQPersonalGroupEnterViewController.m; sourceTree = "<group>"; };
@@ -229,10 +229,10 @@
 				C0B69FFB288E8E280035B551 /* BQEnterSwitchViewController.m */,
 				C0B69FF8288E8C9C0035B551 /* BQPersonalGroupEnterViewController.h */,
 				C0B69FF7288E8C9C0035B551 /* BQPersonalGroupEnterViewController.m */,
-				C05E3E492890D014008490D7 /* EMSettingViewController.h */,
-				C05E3E4A2890D014008490D7 /* EMSettingViewController.m */,
-				3A45DE632223A1FD00505786 /* EMHomeViewController.h */,
-				3A45DE642223A1FD00505786 /* EMHomeViewController.m */,
+				C05E3E492890D014008490D7 /* BQTSettingViewController.h */,
+				C05E3E4A2890D014008490D7 /* BQTSettingViewController.m */,
+				3A45DE632223A1FD00505786 /* BQTHomeViewController.h */,
+				3A45DE642223A1FD00505786 /* BQTHomeViewController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -562,10 +562,10 @@
 				C0B69FFC288E8E280035B551 /* BQEnterSwitchViewController.m in Sources */,
 				C0B69FF9288E8C9C0035B551 /* BQPersonalGroupEnterViewController.m in Sources */,
 				C0E6D27E288FFECB005FC97C /* UIColor+BQ.m in Sources */,
-				C05E3E4B2890D014008490D7 /* EMSettingViewController.m in Sources */,
+				C05E3E4B2890D014008490D7 /* BQTSettingViewController.m in Sources */,
 				C0DE50A4288FBC0400980C65 /* EMAlertView.m in Sources */,
 				3A45DA2622239DE200505786 /* main.m in Sources */,
-				3A45E0172223A1FD00505786 /* EMHomeViewController.m in Sources */,
+				3A45E0172223A1FD00505786 /* BQTHomeViewController.m in Sources */,
 				3A45DBDF22239DE300505786 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

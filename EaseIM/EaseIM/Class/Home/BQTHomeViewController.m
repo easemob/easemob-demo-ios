@@ -6,15 +6,15 @@
 //  Copyright © 2018 XieYajie. All rights reserved.
 //
 
-#import "EMHomeViewController.h"
+#import "BQTHomeViewController.h"
 #import "BQPersonalGroupEnterViewController.h"
-#import "EMSettingViewController.h"
+#import "BQTSettingViewController.h"
 
 #define kTabbarItemTag_Conversation 0
 #define kTabbarItemTag_Contact 1
 #define kTabbarItemTag_Settings 2
 
-@interface EMHomeViewController ()<UITabBarDelegate, EaseIMKitManagerDelegate>
+@interface BQTHomeViewController ()<UITabBarDelegate, EaseIMKitManagerDelegate>
 
 @property (nonatomic) BOOL isViewAppear;
 
@@ -22,13 +22,13 @@
 @property (strong, nonatomic) NSArray *viewControllers;
 
 @property (nonatomic, strong) BQPersonalGroupEnterViewController *conversationsController;
-@property (nonatomic, strong) EMSettingViewController *settingController;
+@property (nonatomic, strong) BQTSettingViewController *settingController;
 
 @property (nonatomic, strong) UIView *addView;
 
 @end
 
-@implementation EMHomeViewController
+@implementation BQTHomeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -126,7 +126,7 @@
     self.conversationsController.tabBarItem = consItem;
     [self addChildViewController:self.conversationsController];
     
-    self.settingController = [[EMSettingViewController alloc]init];
+    self.settingController = [[BQTSettingViewController alloc]init];
     UITabBarItem *contItem = [self _setupTabBarItemWithTitle:@"设置" imgName:@"icon-tab通讯录unselected" selectedImgName:@"icon-tab通讯录" tag:kTabbarItemTag_Contact];
     self.settingController.tabBarItem = contItem;
     [self addChildViewController:self.settingController];

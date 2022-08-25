@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface EMSettingViewController : UIViewController
+@interface BQTSettingViewController : UIViewController
 
 @end
 
