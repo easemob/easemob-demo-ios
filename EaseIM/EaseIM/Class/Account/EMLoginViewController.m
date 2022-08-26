@@ -21,6 +21,8 @@
 #import "EMErrorAlertViewController.h"
 #import "EMRightViewToolView.h"
 #import "EMAuthorizationView.h"
+#import "EMResetPasswordViewController.h"
+#import "EMHttpRequest.h"
 
 @interface EMLoginViewController ()<UITextFieldDelegate>
 
@@ -34,6 +36,9 @@
 @property (nonatomic, strong) EMAuthorizationView *authorizationView;//授权操作视图
 
 @property (nonatomic, strong) UIButton *loginTypeButton;
+@property (nonatomic, strong) UIButton *registerButton;
+@property (nonatomic, strong) UIButton *serverConfigButton;
+@property (nonatomic, strong) UIButton *resetPasswordButton;
 @property (nonatomic) BOOL isLogin;
 
 @property (nonatomic, strong) UIImageView* titleTextImageView;
@@ -114,7 +119,6 @@
         make.top.equalTo(self.titleTextImageView.mas_top);
     }];
     
-    
     self.sdkVersionLable = [[UILabel alloc] init];
     [self.backView addSubview:self.sdkVersionLable];
     self.sdkVersionLable.textColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:246/255.0 alpha:1.0];
@@ -127,6 +131,12 @@
     [self.sdkVersionLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.sdkVersionBackView);
     }];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeDevelopMode)];
+    tap.numberOfTapsRequired = 5;
+    tap.numberOfTouchesRequired = 1;
+    self.sdkVersionLable.userInteractionEnabled = YES;
+    [self.sdkVersionLable addGestureRecognizer:tap];
     
     self.nameField = [[UITextField alloc] init];
     self.nameField.backgroundColor = [UIColor whiteColor];
@@ -181,6 +191,7 @@
     }];
     
     [self _setupLoginButton];
+    [self updateMode];
 }
 
 //授权登录按钮
@@ -202,6 +213,7 @@
     [registerButton setTitle:NSLocalizedString(@"regist", nil) forState:UIControlStateNormal];
     [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [registerButton addTarget:self action:@selector(registerAction) forControlEvents:UIControlEventTouchUpInside];
+    self.registerButton = registerButton;
     [self.backView addSubview:registerButton];
     [registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@70);
@@ -215,9 +227,25 @@
     [serverConfigurationBtn setTitle:NSLocalizedString(@"serverConfig", nil) forState:UIControlStateNormal];
     [serverConfigurationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [serverConfigurationBtn addTarget:self action:@selector(changeAppkeyAction) forControlEvents:UIControlEventTouchUpInside];
-    
+    self.serverConfigButton = serverConfigurationBtn;
+
     [self.backView addSubview:serverConfigurationBtn];
     [serverConfigurationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        //make.width.equalTo(@70);
+        make.height.equalTo(@17);
+        make.left.right.equalTo(self.authorizationView);
+        make.bottom.equalTo(self.backView.mas_bottom).offset(-60);
+    }];
+    
+    UIButton *resetPasswordButton = [[UIButton alloc] init];
+    resetPasswordButton.titleLabel.font = [UIFont systemFontOfSize:12];
+    [resetPasswordButton setTitle:NSLocalizedString(@"resetPassword", nil) forState:UIControlStateNormal];
+    [resetPasswordButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [resetPasswordButton addTarget:self action:@selector(resetPasswordAction) forControlEvents:UIControlEventTouchUpInside];
+    self.resetPasswordButton = resetPasswordButton;
+
+    [self.backView addSubview:resetPasswordButton];
+    [resetPasswordButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@100);
         make.height.equalTo(@17);
         make.right.equalTo(self.authorizationView);
@@ -395,7 +423,7 @@
     }
     [self.backView endEditing:YES];
     
-    BOOL isTokenLogin = self.loginTypeButton.selected;
+    //BOOL isTokenLogin = self.loginTypeButton.selected;
     NSString *name = self.nameField.text;
     NSString *pswd = self.pswdField.text;
 
@@ -454,11 +482,31 @@
     };
     
     [weakself.authorizationView beingLoadedView];//正在加载视图
-    if (isTokenLogin) {
-        [[EMClient sharedClient] loginWithUsername:[name lowercaseString] token:pswd completion:finishBlock];
-        return;
+//    if (isTokenLogin) {
+//        [[EMClient sharedClient] loginWithUsername:[name lowercaseString] token:pswd completion:finishBlock];
+//        return;
+//    }
+    if([EMDemoOptions sharedOptions].isDevelopMode) {
+        [[EMClient sharedClient] loginWithUsername:[name lowercaseString] password:pswd completion:finishBlock];
+    }else{
+        [[EMHttpRequest sharedManager] loginToAppServer:[name lowercaseString] pwd:pswd completion:^(NSInteger statusCode, NSString * _Nonnull response) {
+            if(statusCode == 200) {
+                NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+                if(dic) {
+                    NSString* token = [dic objectForKey:@"token"];
+                    NSString* phone = [dic objectForKey:@"phoneNumber"];
+                    EMDemoOptions.sharedOptions.phone = phone;
+                    [[EMClient sharedClient] loginWithUsername:[name lowercaseString] token:token completion:finishBlock];
+                }
+                
+            }else {
+                [self showAlertWithMessage:[NSString stringWithFormat:@"Login failed:%@",response]];
+                [weakself.authorizationView originalView];
+            }
+        }];
     }
-    [[EMClient sharedClient] loginWithUsername:[name lowercaseString] password:pswd completion:finishBlock];
+    
+ //   [[EMClient sharedClient] loginWithUsername:[name lowercaseString] password:pswd completion:finishBlock];
 }
 
 - (void)registerAction
@@ -500,6 +548,42 @@
     self.pswdField.rightViewMode = UITextFieldViewModeAlways;
     self.pswdField.clearButtonMode = UITextFieldViewModeNever;
     [self.loginTypeButton setTitle:NSLocalizedString(@"loginWithToken", nil) forState:UIControlStateNormal];
+}
+
+- (void)updateMode
+{
+    self.nameField.placeholder = NSLocalizedString(@"userId", nil);
+    self.registerButton.hidden = EMDemoOptions.sharedOptions.isDevelopMode;
+    self.resetPasswordButton.hidden = EMDemoOptions.sharedOptions.isDevelopMode;
+    self.serverConfigButton.hidden = !EMDemoOptions.sharedOptions.isDevelopMode;
+}
+
+- (void)changeDevelopMode
+{
+    NSString* title = EMDemoOptions.sharedOptions.isDevelopMode ? @"是否关闭开发者模式" : @"是否开启开发者模式";
+    UIAlertController* ac = [UIAlertController alertControllerWithTitle:title message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if(EMDemoOptions.sharedOptions.isDevelopMode) {
+            EMDemoOptions.sharedOptions.appkey = DEF_APPKEY;
+        }
+        EMDemoOptions.sharedOptions.isDevelopMode = !EMDemoOptions.sharedOptions.isDevelopMode;
+        [self updateMode];
+        [EMDemoOptions.sharedOptions archive];
+    }];
+    [ac addAction:okAction];
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+    [ac addAction:cancelAction];
+    [self presentViewController:ac animated:YES completion:nil];
+}
+
+- (void)resetPasswordAction
+{
+    [self.backView endEditing:YES];
+    
+    EMResetPasswordViewController *controller = [[EMResetPasswordViewController alloc] init];
+    
+    controller.modalPresentationStyle = 0;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

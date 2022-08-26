@@ -49,6 +49,8 @@ static NSString *kOptions_CustomAudioDataSamples = @"CustomAudioDataSamples";
 static NSString *kOptions_IsCustomServer = @"IsCustomServer";
 static NSString *kOptions_IsFirstLaunch = @"IsFirstLaunch";
 static NSString *kOptions_TranslateLanguage = @"TranslateLanguage";
+static NSString *kOptions_isDevelopMode = @"isDevelopMode";
+static NSString *kOptions_phone = @"phone";
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -86,6 +88,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isFirstLaunch;
 @property (nonatomic, strong) NSMutableArray *locationAppkeyArray;
 @property (nonatomic, strong) NSString* language;
+@property (nonatomic, strong) NSString* phone;
+@property (nonatomic) BOOL isDevelopMode;
 
 
 + (instancetype)sharedOptions;

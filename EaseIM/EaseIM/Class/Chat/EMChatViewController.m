@@ -13,6 +13,7 @@
 #import "EMPersonalDataViewController.h"
 #import "EMAtGroupMembersViewController.h"
 #import "EMChatViewController+EMForwardMessage.h"
+#import "EMChatViewController+ReportMessage.h"
 #import "EMReadReceiptMsgViewController.h"
 #import "EMUserDataModel.h"
 #import "EMMessageCell.h"
@@ -23,6 +24,7 @@
 #import "UserInfoStore.h"
 #import "ConfirmUserCardView.h"
 #import "EMAccountViewController.h"
+#import "AntiFraudView.h"
 
 @interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
@@ -62,6 +64,15 @@
     if (_conversation.unreadMessagesCount > 0) {
         [[EMClient sharedClient].chatManager ackConversationRead:_conversation.conversationId completion:nil];
     }
+    [self setupAntiFraudView];
+}
+
+- (void)setupAntiFraudView
+{
+    AntiFraudView* antiView = [AntiFraudView new];
+    self.chatController.tableView.backgroundView = antiView;
+    antiView.textView.frame = CGRectMake(20, 200, self.chatController.view.frame.size.width - 40, 65);
+    
 }
 
 - (void)dealloc
@@ -158,14 +169,6 @@
 //自定义通话记录cell
 - (UITableViewCell *)cellForItem:(UITableView *)tableView messageModel:(EaseMessageModel *)messageModel
 {
-//    if (messageModel.type == EMMessageTypePictMixText) {
-//        EMMsgPicMixTextBubbleView* picMixBV = [[EMMsgPicMixTextBubbleView alloc] init];
-//        [picMixBV setModel:messageModel];
-//        EMMessageCell *cell = [[EMMessageCell alloc] initWithDirection:messageModel.direction type:messageModel.type msgView:picMixBV];
-//        cell.model = messageModel;
-//        cell.delegate = self;
-//        return cell;
-//    }
 
     if(![messageModel isKindOfClass:[EaseMessageModel class]])
         return nil;
@@ -250,6 +253,15 @@
             }
         }];
         [menuArray addObject:forwardMenu];
+        if(![message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
+            EaseExtMenuModel *reportMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"reportMessage"] funcDesc:NSLocalizedString(@"reportMessage", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+                if (isExecuted) {
+                    [weakself reportMenuItemAction:message];
+                }
+            }];
+            [menuArray addObject:reportMenu];
+        }
+        
     }
     if ([defaultLongPressItems count] >= 3 && [message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
         [menuArray addObject:defaultLongPressItems[2]];
