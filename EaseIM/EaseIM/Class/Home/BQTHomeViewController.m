@@ -187,6 +187,14 @@
 
 
 
+- (void)enForceKickOffByServer {
+    NSLog(@"%s",__func__);
+    
+}
+
+
+
+
 #pragma mark - Private
 
 - (void)_loadConversationTabBarItemBadge
