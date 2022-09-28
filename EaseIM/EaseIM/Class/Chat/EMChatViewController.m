@@ -491,7 +491,7 @@
     if(aUid && aUid.length > 0) {
         if (!aNickName) aNickName = @"";
         if (!aUrl) aUrl = @"";
-        EMCustomMessageBody* body = [[EMCustomMessageBody alloc] initWithEvent:@"userCard" ext:@{@"uid":aUid ,@"nickname":aNickName,@"avatar":aUrl}];
+        EMCustomMessageBody* body = [[EMCustomMessageBody alloc] initWithEvent:@"userCard" customExt:@{@"uid":aUid ,@"nickname":aNickName,@"avatar":aUrl}];
         [self.chatController sendMessageWithBody:body ext:nil];
     }
     [self.fullScreenView removeFromSuperview];
