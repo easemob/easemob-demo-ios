@@ -340,11 +340,20 @@
 		A54CAED727FEDF0E0092282A /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = A54CAED627FEDF0E0092282A /* NotificationService.m */; };
 		A54CAEDB27FEDF0E0092282A /* EMPushServerExt.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A54CAED327FEDF0E0092282A /* EMPushServerExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A54CAEE027FEDF2F0092282A /* EMPushExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54CAEDF27FEDF2F0092282A /* EMPushExtension.framework */; };
+		C0106A1328A0C2170059706D /* EMResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0106A1228A0C2170059706D /* EMResetPasswordViewController.m */; };
+		C033209A28A5ECE60013FA1B /* EMChatViewController+ReportMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C033209928A5ECE60013FA1B /* EMChatViewController+ReportMessage.m */; };
+		C033209C28A7A3C00013FA1B /* report.png in Resources */ = {isa = PBXBuildFile; fileRef = C033209B28A7A3C00013FA1B /* report.png */; };
+		C033209E28A7A3DB0013FA1B /* reportMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = C033209D28A7A3DB0013FA1B /* reportMessage.png */; };
+		C045A77B28ADD6FD0016264D /* img_broken@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C045A77928ADD6FD0016264D /* img_broken@3x.png */; };
+		C045A77C28ADD6FD0016264D /* img_broken@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C045A77A28ADD6FD0016264D /* img_broken@2x.png */; };
+		C06ABA6E28AB978E003D340C /* chattip.png in Resources */ = {isa = PBXBuildFile; fileRef = C06ABA6D28AB978E003D340C /* chattip.png */; };
 		C075E496262433B80080A126 /* titleTextImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E494262433B80080A126 /* titleTextImage@3x.png */; };
 		C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E495262433B80080A126 /* titleTextImage@2x.png */; };
 		C075E49E26243C0B0080A126 /* titleBackImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49C26243C0B0080A126 /* titleBackImage@3x.png */; };
 		C075E49F26243C0B0080A126 /* titleBackImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49D26243C0B0080A126 /* titleBackImage@2x.png */; };
+		C08474A3289A6F85004B52BF /* EMHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ED2B26D271EB17F00CB1CCA /* EMHttpRequest.m */; };
 		C0899C192779BCB90039B885 /* EMEmojiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C0899C172779BCB90039B885 /* EMEmojiHelper.m */; };
+		C0B32ECD289BD2B000C5A349 /* AntiFraudView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B32ECC289BD2B000C5A349 /* AntiFraudView.m */; };
 		C0DB11A627707D2D00E4B8A9 /* sendFail@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DB11A427707D2C00E4B8A9 /* sendFail@3x.png */; };
 		C0DB11A727707D2D00E4B8A9 /* sendFail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DB11A527707D2C00E4B8A9 /* sendFail@2x.png */; };
 		C0E75AD22744F03200E7B0E8 /* translate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E75ACE2744F03100E7B0E8 /* translate@2x.png */; };
@@ -871,12 +880,23 @@
 		A54CAED627FEDF0E0092282A /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		A54CAED827FEDF0E0092282A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A54CAEDF27FEDF2F0092282A /* EMPushExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EMPushExtension.framework; sourceTree = "<group>"; };
+		C0106A1128A0C2170059706D /* EMResetPasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMResetPasswordViewController.h; sourceTree = "<group>"; };
+		C0106A1228A0C2170059706D /* EMResetPasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMResetPasswordViewController.m; sourceTree = "<group>"; };
+		C033209828A5ECE60013FA1B /* EMChatViewController+ReportMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EMChatViewController+ReportMessage.h"; sourceTree = "<group>"; };
+		C033209928A5ECE60013FA1B /* EMChatViewController+ReportMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "EMChatViewController+ReportMessage.m"; sourceTree = "<group>"; };
+		C033209B28A7A3C00013FA1B /* report.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report.png; sourceTree = "<group>"; };
+		C033209D28A7A3DB0013FA1B /* reportMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reportMessage.png; sourceTree = "<group>"; };
+		C045A77928ADD6FD0016264D /* img_broken@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_broken@3x.png"; sourceTree = "<group>"; };
+		C045A77A28ADD6FD0016264D /* img_broken@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_broken@2x.png"; sourceTree = "<group>"; };
+		C06ABA6D28AB978E003D340C /* chattip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chattip.png; sourceTree = "<group>"; };
 		C075E494262433B80080A126 /* titleTextImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@3x.png"; sourceTree = "<group>"; };
 		C075E495262433B80080A126 /* titleTextImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@2x.png"; sourceTree = "<group>"; };
 		C075E49C26243C0B0080A126 /* titleBackImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@3x.png"; sourceTree = "<group>"; };
 		C075E49D26243C0B0080A126 /* titleBackImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@2x.png"; sourceTree = "<group>"; };
 		C0899C172779BCB90039B885 /* EMEmojiHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMEmojiHelper.m; sourceTree = "<group>"; };
 		C0899C182779BCB90039B885 /* EMEmojiHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMEmojiHelper.h; sourceTree = "<group>"; };
+		C0B32ECB289BD2B000C5A349 /* AntiFraudView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AntiFraudView.h; sourceTree = "<group>"; };
+		C0B32ECC289BD2B000C5A349 /* AntiFraudView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AntiFraudView.m; sourceTree = "<group>"; };
 		C0DB11A427707D2C00E4B8A9 /* sendFail@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sendFail@3x.png"; sourceTree = "<group>"; };
 		C0DB11A527707D2C00E4B8A9 /* sendFail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sendFail@2x.png"; sourceTree = "<group>"; };
 		C0E75ACE2744F03100E7B0E8 /* translate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "translate@2x.png"; sourceTree = "<group>"; };
@@ -1000,6 +1020,8 @@
 				3A45DCA92223A1FC00505786 /* Chatroom */,
 				3A45DC892223A1FC00505786 /* Group */,
 				3A45DD9B2223A1FD00505786 /* Settings */,
+				C0B32ECB289BD2B000C5A349 /* AntiFraudView.h */,
+				C0B32ECC289BD2B000C5A349 /* AntiFraudView.m */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -1131,6 +1153,8 @@
 				3A45E01C2223A21B00505786 /* EMLoginViewController.m */,
 				3A45E01B2223A21B00505786 /* EMRegisterViewController.h */,
 				3A45E0192223A21B00505786 /* EMRegisterViewController.m */,
+				C0106A1128A0C2170059706D /* EMResetPasswordViewController.h */,
+				C0106A1228A0C2170059706D /* EMResetPasswordViewController.m */,
 				3C8437622510A3AB003CFA53 /* EMProtocolViewController.h */,
 				3C8437612510A3AB003CFA53 /* EMProtocolViewController..m */,
 				3A45E01E2223A21B00505786 /* EMSDKOptions.plist */,
@@ -1146,6 +1170,8 @@
 		3A45DCD82223A1FC00505786 /* AccountImgs */ = {
 			isa = PBXGroup;
 			children = (
+				C045A77A28ADD6FD0016264D /* img_broken@2x.png */,
+				C045A77928ADD6FD0016264D /* img_broken@3x.png */,
 				C075E49D26243C0B0080A126 /* titleBackImage@2x.png */,
 				C075E49C26243C0B0080A126 /* titleBackImage@3x.png */,
 				C075E495262433B80080A126 /* titleTextImage@2x.png */,
@@ -1433,6 +1459,7 @@
 				3C87A0FA248F81BD0051E06E /* huanxin-logo@3x.png */,
 				3C87A0F8248F81AB0051E06E /* icon-enter@2x.png */,
 				3C87A0FC248F81C60051E06E /* icon-enter@3x.png */,
+				C033209B28A7A3C00013FA1B /* report.png */,
 				3CB106C4247FBEA800479BC1 /* ios@2x.png */,
 				3CB106C6247FBEAB00479BC1 /* ios@3x.png */,
 				3C7A150D239118C000F4AC48 /* iMac@2x.png */,
@@ -1497,6 +1524,8 @@
 				3C9A95F52578EC6F00752F28 /* EMUserDataModel.m */,
 				3C729B672571045D003DB315 /* ChatInfoComponents */,
 				3C729D9F25727A4B003DB315 /* ChatImagsResources */,
+				C033209828A5ECE60013FA1B /* EMChatViewController+ReportMessage.h */,
+				C033209928A5ECE60013FA1B /* EMChatViewController+ReportMessage.m */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1585,6 +1614,7 @@
 		3C729D9F25727A4B003DB315 /* ChatImagsResources */ = {
 			isa = PBXGroup;
 			children = (
+				C06ABA6D28AB978E003D340C /* chattip.png */,
 				668D54E6277EF37E007E5097 /* undisturbRing.png */,
 				668D54E7277EF37E007E5097 /* undisturbRing@2x.png */,
 				668D54E8277EF37E007E5097 /* undisturbRing@3x.png */,
@@ -1602,6 +1632,7 @@
 				3C9A961F2579E18200752F28 /* video-opposite@3x.png */,
 				3C9A961D2579E18100752F28 /* voice@2x.png */,
 				3C9A96222579E18500752F28 /* voice@3x.png */,
+				C033209D28A7A3DB0013FA1B /* reportMessage.png */,
 				3C9A963C2579E8F200752F28 /* msg_bg_recv@2x.png */,
 				3C9A963D2579E8F300752F28 /* msg_bg_recv@3x.png */,
 				3C9A96162579E15A00752F28 /* msg_bg_send@2x.png */,
@@ -2238,6 +2269,7 @@
 				3C9A97B9257CDFD300752F28 /* chatroom@2x.png in Resources */,
 				3A45E03A2223A22600505786 /* device@2x.png in Resources */,
 				3C87A0FD248F81C60051E06E /* icon-enter@3x.png in Resources */,
+				C033209C28A7A3C00013FA1B /* report.png in Resources */,
 				3C37DF1A2382508500399AE8 /* back_left@3x.png in Resources */,
 				3C37DF47238251ED00399AE8 /* icon-add@2x.png in Resources */,
 				3A45E0882223A28F00505786 /* close_gray@3x.png in Resources */,
@@ -2249,6 +2281,7 @@
 				9EA3D50327BA3FD000FD621D /* ring.caf in Resources */,
 				3CBCF5FB23A24FC70053E227 /* systemNotify@3x.png in Resources */,
 				3A45E0382223A22600505786 /* device@3x.png in Resources */,
+				C033209E28A7A3DB0013FA1B /* reportMessage.png in Resources */,
 				C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */,
 				668D54E9277EF37E007E5097 /* undisturbRing.png in Resources */,
 				3C7A1515239118C100F4AC48 /* web@3x.png in Resources */,
@@ -2278,6 +2311,7 @@
 				3A45E5412223D69800505786 /* uncheck@2x.png in Resources */,
 				3C4AED082499F8B7001F7C50 /* agreeProtocol@2x.png in Resources */,
 				3C4AED50249A2F9D001F7C50 /* icon-tab通讯录unselected@3x.png in Resources */,
+				C06ABA6E28AB978E003D340C /* chattip.png in Resources */,
 				3C7A1514239118C100F4AC48 /* web@2x.png in Resources */,
 				3C4AED0D2499FE5F001F7C50 /* unableClick@2x.png in Resources */,
 				3C37DF42238251ED00399AE8 /* icon-创建群组@3x.png in Resources */,
@@ -2297,6 +2331,8 @@
 				3A45E0902223A28F00505786 /* navbar_white@3x.png in Resources */,
 				3C37DF162382508500399AE8 /* icon_failure@2x.png in Resources */,
 				3C68ED1D2574D149004E167F /* userData@2x.png in Resources */,
+				C045A77C28ADD6FD0016264D /* img_broken@2x.png in Resources */,
+				C045A77B28ADD6FD0016264D /* img_broken@3x.png in Resources */,
 				3C87A0FB248F81BD0051E06E /* huanxin-logo@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2365,11 +2401,11 @@
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraRtcKit.framework/AgoraRtcKit",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraCore.framework/AgoraCore",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agoraffmpeg.framework/Agoraffmpeg",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agorafdkaac.framework/Agorafdkaac",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraRtcKit.framework/AgoraRtcKit",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraSoundTouch.framework/AgoraSoundTouch",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agorafdkaac.framework/Agorafdkaac",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agoraffmpeg.framework/Agoraffmpeg",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2380,11 +2416,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2443,10 +2479,12 @@
 				3A45E0E82223A2EB00505786 /* EMTextViewController.m in Sources */,
 				3A45DF0D2223A1FD00505786 /* EMBlacklistViewController.m in Sources */,
 				3A45DF0E2223A1FD00505786 /* EMAddBlacklistViewController.m in Sources */,
+				C033209A28A5ECE60013FA1B /* EMChatViewController+ReportMessage.m in Sources */,
 				3A45E3902223A48700505786 /* EMChatroomBlacklistViewController.m in Sources */,
 				3A45E3E42223A4E900505786 /* EMGroupAdminsViewController.m in Sources */,
 				C0E9E4BA260C74AC0080AB28 /* ConfirmUserCardView.m in Sources */,
 				3C87A103249080900051E06E /* EMSettingsViewController.m in Sources */,
+				C0B32ECD289BD2B000C5A349 /* AntiFraudView.m in Sources */,
 				3C8437632510A3AB003CFA53 /* EMProtocolViewController..m in Sources */,
 				3A45E41F2223A52100505786 /* EMAccountViewController.m in Sources */,
 				3A45E41E2223A52100505786 /* EMDevicesViewController.m in Sources */,
@@ -2505,6 +2543,7 @@
 				3C1B68CF252046EE005CAB3C /* EMAlertView.m in Sources */,
 				3C729B6E2571045E003DB315 /* EMChatRecordViewController.m in Sources */,
 				3C729C71257144AE003DB315 /* SingleCallController.m in Sources */,
+				C08474A3289A6F85004B52BF /* EMHttpRequest.m in Sources */,
 				3A45E3E22223A4E900505786 /* EMGroupSettingsViewController.m in Sources */,
 				3A45DF5C2223A1FD00505786 /* EMRefreshViewController.m in Sources */,
 				C0F4EBC42604A51400436782 /* EMMsgBubbleView.m in Sources */,
@@ -2513,6 +2552,7 @@
 				3C729D9825727461003DB315 /* EMAtGroupMembersViewController.m in Sources */,
 				3A45E3DE2223A4E900505786 /* EMGroupMutesViewController.m in Sources */,
 				3C76D3F52577588200E7AF7A /* LoadingCALayer.m in Sources */,
+				C0106A1328A0C2170059706D /* EMResetPasswordViewController.m in Sources */,
 				3A45E3DF2223A4E900505786 /* EMGroupMembersViewController.m in Sources */,
 				3A45E0172223A1FD00505786 /* EMHomeViewController.m in Sources */,
 				3C729E7C25739AF0003DB315 /* EMNotificationCell.m in Sources */,
@@ -2755,6 +2795,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseIM/EaseIM.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
