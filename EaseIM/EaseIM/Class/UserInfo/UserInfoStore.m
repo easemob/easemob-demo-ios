@@ -149,7 +149,6 @@ static UserInfoStore *userInfoStoreInstance = nil;
     [self.lock unlock];
     __weak typeof(self) weakself = self;
     dispatch_after(DISPATCH_TIME_NOW+200, self.workQueue, ^{
-        [weakself.lock lock];
         if(weakself.userIds.count > 0) {
             [[[EMClient sharedClient] userInfoManager] fetchUserInfoById:[weakself.userIds copy] completion:^(NSDictionary *aUserDatas, EMError *aError) {
                 if(!aError && aUserDatas.count > 0) {
@@ -167,9 +166,10 @@ static UserInfoStore *userInfoStoreInstance = nil;
                         [[NSNotificationCenter defaultCenter] postNotificationName:USERINFO_UPDATE  object:nil];
                 }
             }];
+            [weakself.lock lock];
             [weakself.userIds removeAllObjects];
+            [weakself.lock unlock];
         }
-        [weakself.lock unlock];
     });
 }
 

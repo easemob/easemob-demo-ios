@@ -402,7 +402,7 @@
 "login" = "登 录";
 "regist" = "注册账号";
 "confirmPwd" = "确认密码";
-"agreePrompt" = "请选择同意服务条款与隐私协议！";
+"agreePrompt" = "请选择同意《环信服务条款》与《环信隐私协议》协议！";
 "userOrPwdEmpty" = "用户ID或者密码不能为空";
 "pwdWrongInput" = "两次输入密码不一致,请重新输入";
 "pwdWrong" = "两次输入密码不一致";
@@ -560,5 +560,29 @@
 "removedFromGroupPrompt" = "您已被群管理员移出群组: %@";
 "groupDestroiedPrompt" = "群组 %@ 已解散";
 "groupRequestPrompt" = "\"%@\"申请加入群组\"%@\",是否同意该申请？";
-
-
+"phoneNumber" = "手机号";
+"resetPassword" = "重置密码";
+"register.messageCode" = "短信验证码";
+"register.imageCode" = "图片验证码";
+"register.getMessageCode" = "发送短信";
+"register.inputImageCode" = "请先输入图片验证码";
+"register.inputPhoneNumber" = "请先输入手机号";
+"register.inputSMSCode" = "请先输入短信验证码";
+"register.updateImageCode" = "请先更新图片验证码";
+"Reset Password" = "重置密码";
+"reportMessage" = "举报";
+"report.politics" = "涉政";
+"report.pornography" = "涉黄";
+"report.advertisement" = "广告";
+"report.abuse" = "辱骂";
+"report.violent" = "暴恐";
+"report.contraband" = "违禁";
+"report.other" = "其他";
+"report.reason" = "举报原因";
+"report.success" = "举报成功";
+"report.failed" = "举报失败:%@";
+"Suggestions" = "投诉建议";
+"SuggestionsPrompt" = "投诉建议内容将以邮件形式发送给";
+"reset.next" = "下一步";
+"reset.complete" = "完成";
+"mail.title" = "环信Demo投诉建议";
