@@ -261,8 +261,8 @@
     BOOL loginSuccess = [aNotif.object boolValue];
     if (loginSuccess) {//登录成功加载主窗口控制器
         navigationController = (UINavigationController *)self.window.rootViewController;
-        if (!navigationController || (navigationController && ![navigationController.viewControllers[0] isKindOfClass:[BQTHomeViewController class]])) {
-            BQTHomeViewController *homeController = [[BQTHomeViewController alloc] init];
+        if (!navigationController || (navigationController && ![navigationController.viewControllers[0] isKindOfClass:[EaseHomeViewController class]])) {
+            EaseHomeViewController *homeController = [[EaseHomeViewController alloc] init];
             navigationController = [[UINavigationController alloc] initWithRootViewController:homeController];
         }
         
