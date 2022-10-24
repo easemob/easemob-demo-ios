@@ -56,6 +56,7 @@
     self.isViewAppear = NO;
 }
 
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleDefault;
@@ -182,6 +183,7 @@
     NSInteger jhGroupUnread = EaseIMKitManager.shared.exclusivegroupUnReadCount;
     
     NSLog(@"%s allUnread:%ld\n jhGroupUnread:%ld\n",__func__,allUnread,jhGroupUnread);
+    
     
 }
 

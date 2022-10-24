@@ -60,10 +60,10 @@
 - (void)updateUI {
     if ([EaseIMKitOptions sharedOptions].isJiHuApp) {
         [self.aSwitch setOn:YES];
-        self.titleLabel.text = @"极狐App";
+        self.titleLabel.text = @"用户端";
     }else {
         [self.aSwitch setOn:NO];
-        self.titleLabel.text = @"运管App";
+        self.titleLabel.text = @"客服端";
     }
 }
 
@@ -72,10 +72,10 @@
 - (void)switchAction {
     if (self.aSwitch.isOn) {
         [EaseIMKitOptions sharedOptions].isJiHuApp = YES;
-        self.titleLabel.text = @"极狐App";
+        self.titleLabel.text = @"用户端";
     }else {
         [EaseIMKitOptions sharedOptions].isJiHuApp = NO;
-        self.titleLabel.text = @"运管App";
+        self.titleLabel.text = @"客服端";
     }
     
 }
@@ -123,7 +123,7 @@
         _loginButton.titleLabel.font = NFont(16.0);
         
         [_loginButton addTarget:self action:@selector(loginButtonAction) forControlEvents:UIControlEventTouchUpInside];
-        _loginButton.backgroundColor = [UIColor colorWithHexString:@"#4390C0"];
+        _loginButton.backgroundColor = [UIColor colorWithHexString:@"#4461F2"];
         _loginButton.layer.cornerRadius = 4.0;
         
     }
