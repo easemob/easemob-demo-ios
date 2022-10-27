@@ -18,7 +18,7 @@
 #import <UserNotifications/UserNotifications.h>
 #import <Bugly/Bugly.h>
 
-#import "BQEnterSwitchViewController.h"
+//#import "BQEnterSwitchViewController.h"
 #import "EMAlertView.h"
 
 
@@ -269,7 +269,10 @@
         
     } else {//登录失败加载登录页面控制器
         
-        BQEnterSwitchViewController *controller = [[BQEnterSwitchViewController alloc] init];
+//        BQEnterSwitchViewController *controller = [[BQEnterSwitchViewController alloc] init];
+        
+        EaseSwitchRoleViewController *controller = [[EaseSwitchRoleViewController alloc] init];
+
         navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     }
     
