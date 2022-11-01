@@ -760,7 +760,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.scene;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -847,10 +847,10 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.scene;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "EaseIM Enterprise InHouse";
+				PROVISIONING_PROFILE_SPECIFIER = scenedemo;
 				SKIP_INSTALL = NO;
 				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
