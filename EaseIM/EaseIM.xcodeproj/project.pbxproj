@@ -153,6 +153,7 @@
 		C0E70D5728ACF1C800338D43 /* EaseIMKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EaseIMKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0E70D5B28ACF1E300338D43 /* HyphenateChat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HyphenateChat.framework; sourceTree = "<group>"; };
 		C0E9E5212611D5480080AB28 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		C0F955CE2910BF2D007AA34A /* EaseIMRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EaseIMRelease.entitlements; sourceTree = "<group>"; };
 		D29A6BB41B7209C1002324BB /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		D2B1B9EC1C3B800E0087A74F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D2B1B9EE1C3B80290087A74F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -193,6 +194,7 @@
 		3A45D69922239DE200505786 /* EaseIM */ = {
 			isa = PBXGroup;
 			children = (
+				C0F955CE2910BF2D007AA34A /* EaseIMRelease.entitlements */,
 				3C91A0A825C3FFBC00103C2E /* music.mp3 */,
 				3A45D72222239DE200505786 /* Class */,
 				3A45D72022239DE200505786 /* main.m */,
@@ -697,7 +699,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CODE_SIGN_ENTITLEMENTS = EaseIM/EaseIM.entitlements;
+				CODE_SIGN_ENTITLEMENTS = EaseIM/EaseIMRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -760,7 +762,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.scene;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -784,7 +786,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CODE_SIGN_ENTITLEMENTS = EaseIM/EaseIM.entitlements;
+				CODE_SIGN_ENTITLEMENTS = EaseIM/EaseIMRelease.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: EaseMob Inc.";
 				CODE_SIGN_STYLE = Manual;
@@ -847,10 +849,10 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.scene;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "EaseIM Enterprise InHouse";
+				PROVISIONING_PROFILE_SPECIFIER = scenedemo;
 				SKIP_INSTALL = NO;
 				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
