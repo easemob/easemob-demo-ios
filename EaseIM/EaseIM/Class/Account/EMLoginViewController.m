@@ -11,7 +11,6 @@
 #import "MBProgressHUD.h"
 
 #import "EMDevicesViewController.h"
-#import "EMRegisterViewController.h"
 #import "EMQRCodeViewController.h"
 #import "EMSDKOptionsViewController.h"
 
@@ -21,29 +20,29 @@
 #import "EMErrorAlertViewController.h"
 #import "EMRightViewToolView.h"
 #import "EMAuthorizationView.h"
-#import "EMResetPasswordViewController.h"
 #import "EMHttpRequest.h"
+#import "EMUserAgreementView.h"
+#import "EMProtocolViewController.h"
 
-@interface EMLoginViewController ()<UITextFieldDelegate>
+@interface EMLoginViewController ()<UITextFieldDelegate,EMUserProtocol>
 
 @property (nonatomic, strong) UIView *backView;
 
-@property (nonatomic, strong) UIImageView *titleImageView;
-@property (nonatomic, strong) UITextField *nameField;
-@property (nonatomic, strong) UITextField *pswdField;
+@property (nonatomic, strong) UITextField *phoneField;
+@property (nonatomic, strong) UITextField *smsField;
 @property (nonatomic, strong) EMRightViewToolView *pswdRightView;
 @property (nonatomic, strong) EMRightViewToolView *userIdRightView;
 @property (nonatomic, strong) EMAuthorizationView *authorizationView;//授权操作视图
 
-@property (nonatomic, strong) UIButton *loginTypeButton;
-@property (nonatomic, strong) UIButton *registerButton;
 @property (nonatomic, strong) UIButton *serverConfigButton;
-@property (nonatomic, strong) UIButton *resetPasswordButton;
 @property (nonatomic) BOOL isLogin;
 
-@property (nonatomic, strong) UIImageView* titleTextImageView;
 @property (nonatomic, strong) UIImageView* sdkVersionBackView;
+@property (nonatomic, strong) UILabel* titleLable;
 @property (nonatomic, strong) UILabel* sdkVersionLable;
+@property (nonatomic, strong) EMUserAgreementView *userAgreementView;//用户协议
+@property (nonatomic, strong) UIButton* smsButton;
+@property (nonatomic) NSInteger codeTs;
 
 @end
 
@@ -54,6 +53,7 @@
     // Do any additional setup after loading the view.
     self.isLogin = false;
     [self _setupSubviews];
+    self.codeTs = 0;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -87,46 +87,35 @@
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-
-    self.titleImageView = [[UIImageView alloc]init];
-    self.titleImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.titleImageView.image = [UIImage imageNamed:@"titleImage"];
-    [self.backView addSubview:self.titleImageView];
-    [self.titleImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.backView);
-        make.width.equalTo(@73.32);
-        make.height.equalTo(@79.94);
-        make.top.equalTo(self.backView.mas_top).offset(96);
-    }];
     
-    self.titleTextImageView = [[UIImageView alloc]init];
-    self.titleTextImageView.image = [UIImage imageNamed:@"titleTextImage"];
-    [self.backView addSubview:self.titleTextImageView];
-    [self.titleTextImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.backView);
-        make.width.equalTo(@108);
-        make.height.equalTo(@24);
-        make.top.equalTo(self.titleImageView.mas_bottom).offset(22);
+    self.titleLable = [[UILabel alloc] init];
+    [self.backView addSubview:self.titleLable];
+    self.titleLable.text = NSLocalizedString(@"login.title", nil);
+    self.titleLable.font = [UIFont fontWithName:@"PingFang SC" size: 24];
+    self.titleLable.textColor = [UIColor whiteColor];
+    [self.titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(@30);
+        make.bottom.equalTo(self.backView).multipliedBy(0.23);
+        make.height.equalTo(@34);
     }];
     
     self.sdkVersionBackView = [[UIImageView alloc] init];
     self.sdkVersionBackView.image = [UIImage imageNamed:@"titleBackImage"];
     [self.backView addSubview:self.sdkVersionBackView];
     [self.sdkVersionBackView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.titleTextImageView.mas_right).offset(5);
+        make.left.equalTo(self.titleLable.mas_right).offset(5);
         make.width.equalTo(@50);
         make.height.equalTo(@17);
-        make.top.equalTo(self.titleTextImageView.mas_top);
+        make.top.equalTo(self.titleLable.mas_top);
     }];
     
     self.sdkVersionLable = [[UILabel alloc] init];
     [self.backView addSubview:self.sdkVersionLable];
-    self.sdkVersionLable.textColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:246/255.0 alpha:1.0];
-    self.sdkVersionLable.font = [UIFont systemFontOfSize:10];
+    self.sdkVersionLable.textColor = [UIColor whiteColor];
+    self.sdkVersionLable.font = [UIFont fontWithName:@"PingFang SC" size:10];
     NSString* version = [NSString stringWithFormat:@"V%@",[[EMClient sharedClient] version] ];
     self.sdkVersionLable.text = version;
     self.sdkVersionLable.textAlignment = NSTextAlignmentCenter;
-    self.sdkVersionLable.alpha = 0.6;
     
     [self.sdkVersionLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.sdkVersionBackView);
@@ -138,60 +127,117 @@
     self.sdkVersionLable.userInteractionEnabled = YES;
     [self.sdkVersionLable addGestureRecognizer:tap];
     
-    self.nameField = [[UITextField alloc] init];
-    self.nameField.backgroundColor = [UIColor whiteColor];
-    self.nameField.delegate = self;
-    self.nameField.borderStyle = UITextBorderStyleNone;
-    self.nameField.placeholder = NSLocalizedString(@"userId", nil);
-    self.nameField.returnKeyType = UIReturnKeyGo;
-    self.nameField.font = [UIFont systemFontOfSize:17];
-    self.nameField.rightViewMode = UITextFieldViewModeWhileEditing;
-    self.nameField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    self.nameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 18, 10)];
-    self.nameField.leftViewMode = UITextFieldViewModeAlways;
-    self.nameField.layer.cornerRadius = 25;
-    self.nameField.layer.borderWidth = 1;
-    self.nameField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.phoneField = [[UITextField alloc] init];
+    self.phoneField.backgroundColor = [UIColor whiteColor];
+    self.phoneField.delegate = self;
+    self.phoneField.borderStyle = UITextBorderStyleNone;
+    self.phoneField.placeholder = NSLocalizedString(@"phoneNumber", nil);
+    self.phoneField.returnKeyType = UIReturnKeyGo;
+    self.phoneField.font = [UIFont systemFontOfSize:17];
+    self.phoneField.rightViewMode = UITextFieldViewModeWhileEditing;
+    self.phoneField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    self.phoneField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 18, 10)];
+    self.phoneField.leftViewMode = UITextFieldViewModeAlways;
+    self.phoneField.layer.cornerRadius = 24;
+    self.phoneField.layer.borderWidth = 1;
+    self.phoneField.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.userIdRightView = [[EMRightViewToolView alloc]initRightViewWithViewType:EMUsernameRightView];
     [self.userIdRightView.rightViewBtn addTarget:self action:@selector(clearUserIdAction) forControlEvents:UIControlEventTouchUpInside];
-    self.nameField.rightView = self.userIdRightView;
+    self.phoneField.rightView = self.userIdRightView;
     self.userIdRightView.hidden = YES;
-    [self.backView addSubview:self.nameField];
-    [self.nameField mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.backView addSubview:self.phoneField];
+    [self.phoneField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.backView).offset(30);
         make.right.equalTo(self.backView).offset(-30);
-        make.top.equalTo(self.titleTextImageView.mas_bottom).offset(40);
-        make.height.equalTo(@55);
+        make.top.equalTo(self.titleLable.mas_bottom).offset(22);
+        make.height.equalTo(@48);
     }];
-    self.pswdField = [[UITextField alloc] init];
-    self.pswdField.backgroundColor = [UIColor whiteColor];
-    self.pswdField.delegate = self;
-    self.pswdField.borderStyle = UITextBorderStyleNone;
-    self.pswdField.placeholder = NSLocalizedString(@"password", nil);
-    self.pswdField.font = [UIFont systemFontOfSize:17];
-    self.pswdField.returnKeyType = UIReturnKeyGo;
-    self.pswdField.secureTextEntry = YES;
-    self.pswdField.clearsOnBeginEditing = NO;
+    self.smsField = [[UITextField alloc] init];
+    self.smsField.backgroundColor = [UIColor whiteColor];
+    self.smsField.delegate = self;
+    self.smsField.borderStyle = UITextBorderStyleNone;
+    self.smsField.placeholder = NSLocalizedString(@"register.messageCode", nil);
+    self.smsField.font = [UIFont systemFontOfSize:17];
+    self.smsField.returnKeyType = UIReturnKeyGo;
+    self.smsField.secureTextEntry = YES;
+    self.smsField.clearsOnBeginEditing = NO;
     self.pswdRightView = [[EMRightViewToolView alloc]initRightViewWithViewType:EMPswdRightView];
     [self.pswdRightView.rightViewBtn addTarget:self action:@selector(pswdSecureAction:) forControlEvents:UIControlEventTouchUpInside];
-    self.pswdField.rightView = self.pswdRightView;
+    self.smsField.rightView = self.pswdRightView;
     self.pswdRightView.hidden = YES;
-    self.pswdField.rightViewMode = UITextFieldViewModeAlways;
-    self.pswdField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 18, 10)];
-    self.pswdField.leftViewMode = UITextFieldViewModeAlways;
-    self.pswdField.layer.cornerRadius = 25;
-    self.pswdField.layer.borderWidth = 1;
-    self.pswdField.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    [self.backView addSubview:self.pswdField];
-    [self.pswdField mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.smsField.rightViewMode = UITextFieldViewModeAlways;
+    self.smsField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 18, 10)];
+    self.smsField.leftViewMode = UITextFieldViewModeAlways;
+    self.smsField.layer.cornerRadius = 24;
+    self.smsField.layer.borderWidth = 1;
+    self.smsField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    [self.backView addSubview:self.smsField];
+    [self.smsField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.backView).offset(30);
         make.right.equalTo(self.backView).offset(-30);
-        make.top.equalTo(self.nameField.mas_bottom).offset(20);
-        make.height.equalTo(@55);
+        make.top.equalTo(self.phoneField.mas_bottom).offset(24);
+        make.height.equalTo(self.phoneField);
     }];
+    
+    self.smsButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.smsButton setTitle:NSLocalizedString(@"login.smsCode", "") forState:UIControlStateNormal];
+    [self.smsButton.titleLabel setFont:[UIFont fontWithName:@"PingFang SC" size:14]];
+    [self.backView addSubview:self.smsButton];
+    [self.backView bringSubviewToFront:self.smsButton];
+    [self.smsButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.smsField);
+        make.right.equalTo(self.smsField).offset(-25);
+    }];
+    [self.smsButton addTarget:self action:@selector(smsCodeAction) forControlEvents:UIControlEventTouchUpInside];
     
     [self _setupLoginButton];
     [self updateMode];
+}
+
+- (void)smsCodeAction
+{
+    [self.backView endEditing:YES];
+    NSString* phoneNumber = self.phoneField.text;
+    if(phoneNumber.length <= 0) {
+        [self showHint:NSLocalizedString(@"register.inputPhoneNumber", nil)];
+        return;
+    }
+    NSString *pattern = @"1\\d{10}$";
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+
+    NSArray<NSTextCheckingResult *> *result = [regex matchesInString:phoneNumber options:0 range:NSMakeRange(0, phoneNumber.length)];
+    if (!result || result.count == 0) {
+        [self showHint: NSLocalizedString(@"login.wrongPhone", nil)];
+        return;
+    }
+
+    [[EMHttpRequest sharedManager] requestSMSWithPhone:phoneNumber completion:^(NSString * _Nonnull response) {
+        if (response.length <= 0) {
+            [self showHint: NSLocalizedString(@"offlinePrompt", nil)];
+            return;
+        }
+        NSDictionary* body = [NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+        if(body) {
+            NSNumber* code = [body objectForKey:@"code"];
+            if(code.intValue == 200) {
+                [self updateMsgCodeTitle:60];
+                [self showHint:NSLocalizedString(@"login.codeSent", nil)];
+            } else if (code.intValue == 400){
+                NSString * errorInfo = [body objectForKey:@"errorInfo"];
+                if ([errorInfo isEqualToString:@"Please wait a moment while trying to send."]) {
+                    [self showHint:NSLocalizedString(@"login.wait", nil)];
+                }
+                if ([errorInfo containsString:@"exceed the limit of"]) {
+                    [self showHint:NSLocalizedString(@"login.smsCodeLimit", nil)];
+                } else {
+                    [self showHint: errorInfo];
+                }
+            } else {
+                [self showHint: response];
+            }
+        }
+    }];
 }
 
 //授权登录按钮
@@ -204,26 +250,12 @@
     [self.authorizationView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.backView).offset(30);
         make.right.equalTo(self.backView).offset(-30);
-        make.top.equalTo(self.pswdField.mas_bottom).offset(40);
-        make.height.equalTo(@55);
-    }];
-    
-    UIButton *registerButton = [[UIButton alloc] init];
-    registerButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    [registerButton setTitle:NSLocalizedString(@"regist", nil) forState:UIControlStateNormal];
-    [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [registerButton addTarget:self action:@selector(registerAction) forControlEvents:UIControlEventTouchUpInside];
-    self.registerButton = registerButton;
-    [self.backView addSubview:registerButton];
-    [registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@70);
-        make.height.equalTo(@17);
-        make.left.equalTo(self.authorizationView);
-        make.bottom.equalTo(self.backView.mas_bottom).offset(-60);
+        make.top.equalTo(self.smsField.mas_bottom).offset(24);
+        make.height.equalTo(self.smsField);
     }];
     
     UIButton *serverConfigurationBtn = [[UIButton alloc] init];
-    serverConfigurationBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    serverConfigurationBtn.titleLabel.font = [UIFont fontWithName:@"PingFang SC" size:14];
     [serverConfigurationBtn setTitle:NSLocalizedString(@"serverConfig", nil) forState:UIControlStateNormal];
     [serverConfigurationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [serverConfigurationBtn addTarget:self action:@selector(changeAppkeyAction) forControlEvents:UIControlEventTouchUpInside];
@@ -237,33 +269,16 @@
         make.bottom.equalTo(self.backView.mas_bottom).offset(-60);
     }];
     
-    UIButton *resetPasswordButton = [[UIButton alloc] init];
-    resetPasswordButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    [resetPasswordButton setTitle:NSLocalizedString(@"resetPassword", nil) forState:UIControlStateNormal];
-    [resetPasswordButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [resetPasswordButton addTarget:self action:@selector(resetPasswordAction) forControlEvents:UIControlEventTouchUpInside];
-    self.resetPasswordButton = resetPasswordButton;
-
-    [self.backView addSubview:resetPasswordButton];
-    [resetPasswordButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@100);
-        make.height.equalTo(@17);
-        make.right.equalTo(self.authorizationView);
-        make.bottom.equalTo(self.backView.mas_bottom).offset(-60);
+    self.userAgreementView = [[EMUserAgreementView alloc]initUserAgreement];
+    self.userAgreementView.delegate = self;
+    [self.userAgreementView.userAgreementBtn addTarget:self action:@selector(confirmProtocol) forControlEvents:UIControlEventTouchUpInside];
+    [self.backView addSubview:_userAgreementView];
+    [self.userAgreementView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.authorizationView.mas_bottom).offset(24);
+        make.left.right.equalTo(self.authorizationView);
+        make.height.equalTo(@(ComponentHeight));
     }];
-    /*
-    self.loginTypeButton = [[UIButton alloc] init];
-    self.loginTypeButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    [self.loginTypeButton setTitle:NSLocalizedString(@"loginWithToken", nil) forState:UIControlStateNormal];
-    [self.loginTypeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.loginTypeButton addTarget:self action:@selector(loginTypeChangeAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.backView addSubview:self.loginTypeButton];
-    [self.loginTypeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@80);
-        make.height.equalTo(@17);
-        make.right.equalTo(self.authorizationView);
-        make.bottom.equalTo(self.backView.mas_bottom).offset(-60);
-    }];*/
+
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -275,7 +290,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if(self.nameField.text.length > 0 && self.pswdField.text.length > 0){
+    if(self.phoneField.text.length > 0 && self.smsField.text.length > 0){
         [self.authorizationView setupAuthBtnBgcolor:YES];
         self.isLogin = true;
         [self loginAction];
@@ -292,11 +307,11 @@
 {
     textField.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
-    if (textField == self.nameField && [self.nameField.text length] == 0)
+    if (textField == self.phoneField && [self.phoneField.text length] == 0)
         self.userIdRightView.hidden = YES;
-    if (textField == self.pswdField && [self.pswdField.text length] == 0)
+    if (textField == self.smsField && [self.smsField.text length] == 0)
         self.pswdRightView.hidden = YES;
-    if(self.nameField.text.length > 0 && self.pswdField.text.length > 0){
+    if(self.phoneField.text.length > 0 && self.smsField.text.length > 0){
         [self.authorizationView setupAuthBtnBgcolor:YES];
         self.isLogin = true;
         return;
@@ -311,18 +326,18 @@
         [textField resignFirstResponder];
         return NO;
     }
-    if (textField == self.nameField) {
+    if (textField == self.phoneField) {
         self.userIdRightView.hidden = NO;
-        if ([self.nameField.text length] <= 1 && [string isEqualToString:@""])
+        if ([self.phoneField.text length] <= 1 && [string isEqualToString:@""])
             self.userIdRightView.hidden = YES;
     }
-    if (textField == self.pswdField) {
+    if (textField == self.smsField && EMDemoOptions.sharedOptions.isDevelopMode) {
         NSString *updatedString = [textField.text stringByReplacingCharactersInRange:range withString:string];
         textField.text = updatedString;
         self.pswdRightView.hidden = NO;
-        if ([self.pswdField.text length] <= 0 && [string isEqualToString:@""]) {
+        if ([self.smsField.text length] <= 0 && [string isEqualToString:@""]) {
             self.pswdRightView.hidden = YES;
-            self.pswdField.secureTextEntry = YES;
+            self.smsField.secureTextEntry = YES;
             [self.pswdRightView.rightViewBtn setSelected:NO];
         }
         return NO;
@@ -335,7 +350,7 @@
 {
     UITextRange *rang = textField.markedTextRange;
     if (rang == nil) {
-        if(![self.nameField.text isEqualToString:@""] && ![self.pswdField.text isEqualToString:@""]){
+        if(![self.phoneField.text isEqualToString:@""] && ![self.smsField.text isEqualToString:@""]){
             [self.authorizationView setupAuthBtnBgcolor:YES];
             self.isLogin = true;
             return;
@@ -350,7 +365,7 @@
 //清除用户名
 - (void)clearUserIdAction
 {
-    self.nameField.text = @"";
+    self.phoneField.text = @"";
     self.userIdRightView.hidden = YES;
 }
 
@@ -383,11 +398,11 @@
             [EMDemoOptions updateAndSaveServerOptions:aJsonDic];
             
             //weakself.appkeyField.text = [EMDemoOptions sharedOptions].appkey;
-            weakself.nameField.text = username;
-            weakself.pswdField.text = pssword;
+            weakself.phoneField.text = username;
+            weakself.smsField.text = pssword;
             
             if ([pssword length] == 0) {
-                [weakself.pswdField becomeFirstResponder];
+                [weakself.smsField becomeFirstResponder];
             }
         }];
         controller.modalPresentationStyle = 0;
@@ -413,7 +428,7 @@
 - (void)pswdSecureAction:(UIButton *)aButton
 {
     aButton.selected = !aButton.selected;
-    self.pswdField.secureTextEntry = !self.pswdField.secureTextEntry;
+    self.smsField.secureTextEntry = !self.smsField.secureTextEntry;
 }
 
 - (void)loginAction
@@ -422,10 +437,18 @@
         return;
     }
     [self.backView endEditing:YES];
+    if (self.smsField.text.length <= 0) {
+        [self showHint:NSLocalizedString(@"login.enterSmsCode", nil)];
+        return;
+    }
+    if (!self.userAgreementView.userAgreementBtn.isSelected) {
+        [self showHint:NSLocalizedString(@"login.confirmTerms", nil)];
+        return;
+    }
+    [self.backView endEditing:YES];
     
-    //BOOL isTokenLogin = self.loginTypeButton.selected;
-    NSString *name = self.nameField.text;
-    NSString *pswd = self.pswdField.text;
+    NSString *name = self.phoneField.text;
+    NSString *pswd = self.smsField.text;
 
     __weak typeof(self) weakself = self;
     void (^finishBlock) (NSString *aName, EMError *aError) = ^(NSString *aName, EMError *aError) {
@@ -473,34 +496,51 @@
             default:
                 break;
         }
-        [EMAlertController showErrorAlert:errorDes];
+        [self showHint:errorDes];
         [self.authorizationView originalView];//恢复原始视图
-        /*EMErrorAlertViewController *errorAlerController = [[EMErrorAlertViewController alloc]initWithErrorReason:errorDes];
-        errorAlerController.modalPresentationStyle = 0;
-        [self presentViewController:errorAlerController animated:YES completion:nil];
-        [weakself.authorizationView setupAuthBtnBgcolor:YES];*/
     };
     
     [weakself.authorizationView beingLoadedView];//正在加载视图
-//    if (isTokenLogin) {
-//        [[EMClient sharedClient] loginWithUsername:[name lowercaseString] token:pswd completion:finishBlock];
-//        return;
-//    }
     if([EMDemoOptions sharedOptions].isDevelopMode) {
         [[EMClient sharedClient] loginWithUsername:[name lowercaseString] password:pswd completion:finishBlock];
     }else{
-        [[EMHttpRequest sharedManager] loginToAppServer:[name lowercaseString] pwd:pswd completion:^(NSInteger statusCode, NSString * _Nonnull response) {
-            if(statusCode == 200) {
-                NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-                if(dic) {
-                    NSString* token = [dic objectForKey:@"token"];
-                    NSString* phone = [dic objectForKey:@"phoneNumber"];
-                    EMDemoOptions.sharedOptions.phone = phone;
-                    [[EMClient sharedClient] loginWithUsername:[name lowercaseString] token:token completion:finishBlock];
+        [[EMHttpRequest sharedManager] loginToAppServerWithPhone:[name lowercaseString] smsCode:pswd completion:^(NSString * _Nullable response) {
+            if (response.length <= 0) {
+                [self showHint: NSLocalizedString(@"offlinePrompt", nil)];
+                [weakself.authorizationView originalView];
+                return;
+            }
+            NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+            NSNumber* code = [dic objectForKey:@"code"];
+            if (!code) {
+                [self showHint: NSLocalizedString(@"offlinePrompt", nil)];
+                [weakself.authorizationView originalView];
+                return;
+            }
+            if(code.intValue == 200) {
+                NSString* token = [dic objectForKey:@"token"];
+                [[EMClient sharedClient] loginWithUsername:[name lowercaseString] token:token completion:finishBlock];
+            } else if(code.intValue == 400){
+                NSString* errorInfo = [dic objectForKey:@"errorInfo"];
+                if ([errorInfo isEqualToString:@"phone number illegal"]) {
+                    [self showHint: NSLocalizedString(@"login.wrongPhone", nil)];
+                    [weakself.authorizationView originalView];
+                    return;
                 }
-                
-            }else {
-                [self showAlertWithMessage:[NSString stringWithFormat:@"Login failed:%@",response]];
+                if ([errorInfo isEqualToString:@"SMS verification code error."]) {
+                    [self showHint: NSLocalizedString(@"login.wrongSmsCode", nil)];
+                    [weakself.authorizationView originalView];
+                    return;
+                }
+                if ([errorInfo isEqualToString:@"Please send SMS to get mobile phone verification code."]) {
+                    [self showHint: NSLocalizedString(@"login.wrongSmsCode", nil)];
+                    [weakself.authorizationView originalView];
+                    return;
+                }
+                [self showHint:errorInfo];
+                [weakself.authorizationView originalView];
+            } else {
+                [self showHint:response];
                 [weakself.authorizationView originalView];
             }
         }];
@@ -509,58 +549,20 @@
  //   [[EMClient sharedClient] loginWithUsername:[name lowercaseString] password:pswd completion:finishBlock];
 }
 
-- (void)registerAction
-{
-    [self.backView endEditing:YES];
-    
-    EMRegisterViewController *controller = [[EMRegisterViewController alloc] init];
-    
-    __weak typeof(self) weakself = self;
-    [controller setSuccessCompletion:^(NSString * _Nonnull aName) {
-        weakself.nameField.text = aName;
-        weakself.pswdField.text = @"";
-    }];
-    
-    controller.modalPresentationStyle = 0;
-    //[self presentViewController:controller animated:YES completion:nil];
-    [self.navigationController pushViewController:controller animated:YES];
-}
-
-- (void)loginTypeChangeAction
-{
-    [self.backView endEditing:YES];
-    
-    self.loginTypeButton.selected = !self.loginTypeButton.selected;
-    if (self.loginTypeButton.selected) {
-        self.pswdField.text = @"";
-        self.pswdField.placeholder = @"token";
-        self.pswdField.secureTextEntry = NO;
-        self.pswdField.rightView = nil;
-        self.pswdField.rightViewMode = UITextFieldViewModeNever;
-        self.pswdField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        [self.loginTypeButton setTitle:NSLocalizedString(@"loginWithPwd", nil) forState:UIControlStateNormal];
-        return;
-    }
-    self.pswdField.placeholder = NSLocalizedString(@"password", nil);
-    self.pswdField.secureTextEntry = !self.pswdRightView.rightViewBtn.selected;
-    self.pswdField.rightView = self.pswdRightView;
-    self.pswdRightView.hidden = YES;
-    self.pswdField.rightViewMode = UITextFieldViewModeAlways;
-    self.pswdField.clearButtonMode = UITextFieldViewModeNever;
-    [self.loginTypeButton setTitle:NSLocalizedString(@"loginWithToken", nil) forState:UIControlStateNormal];
-}
-
 - (void)updateMode
 {
-    self.nameField.placeholder = NSLocalizedString(@"userId", nil);
-    self.registerButton.hidden = EMDemoOptions.sharedOptions.isDevelopMode;
-    self.resetPasswordButton.hidden = EMDemoOptions.sharedOptions.isDevelopMode;
+    self.phoneField.keyboardType = EMDemoOptions.sharedOptions.isDevelopMode ? UIKeyboardTypeDefault : UIKeyboardTypeNumberPad;
+    self.smsField.keyboardType = EMDemoOptions.sharedOptions.isDevelopMode ? UIKeyboardTypeDefault : UIKeyboardTypeNumberPad;
+    self.smsField.secureTextEntry = EMDemoOptions.sharedOptions.isDevelopMode;
+    self.phoneField.placeholder =  NSLocalizedString(EMDemoOptions.sharedOptions.isDevelopMode? @"userId" : @"phoneNumber", nil);
+    self.smsField.placeholder = NSLocalizedString(EMDemoOptions.sharedOptions.isDevelopMode?  @"password" : @"register.messageCode", nil);
     self.serverConfigButton.hidden = !EMDemoOptions.sharedOptions.isDevelopMode;
+    self.smsButton.hidden = EMDemoOptions.sharedOptions.isDevelopMode;
 }
 
 - (void)changeDevelopMode
 {
-    NSString* title = EMDemoOptions.sharedOptions.isDevelopMode ? @"是否关闭开发者模式" : @"是否开启开发者模式";
+    NSString* title = NSLocalizedString(EMDemoOptions.sharedOptions.isDevelopMode ? @"login.closeDebugMode" : @"login.openDebugMode", nil);
     UIAlertController* ac = [UIAlertController alertControllerWithTitle:title message:@"" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if(EMDemoOptions.sharedOptions.isDevelopMode) {
@@ -576,14 +578,64 @@
     [self presentViewController:ac animated:YES completion:nil];
 }
 
-- (void)resetPasswordAction
+
+#pragma mark - EMUserProtocol
+
+- (void)didTapUserProtocol:(NSString *)protocolUrl sign:(NSString *)sign
 {
-    [self.backView endEditing:YES];
-    
-    EMResetPasswordViewController *controller = [[EMResetPasswordViewController alloc] init];
-    
-    controller.modalPresentationStyle = 0;
-    [self.navigationController pushViewController:controller animated:YES];
+    EMProtocolViewController *protocolController = [[EMProtocolViewController alloc]initWithUrl:protocolUrl sign:sign];
+    protocolController.modalPresentationStyle = 0;
+    [self presentViewController:protocolController animated:YES completion:nil];
+}
+
+#pragma mark - Action
+
+- (void)confirmProtocol
+{
+    if(![self.phoneField.text isEqualToString:@""] && ![self.smsField.text isEqualToString:@""] && self.userAgreementView.userAgreementBtn.isSelected){
+        self.isLogin = YES;
+        return;
+    }
+    self.isLogin = NO;
+}
+
+- (void)updateMsgCodeTitle:(NSInteger)ts
+{
+    __weak typeof(self) weakself = self;
+    self.codeTs = ts;
+    if(self.codeTs > 0) {
+        [self.smsButton setEnabled:NO];
+        NSString* title = [NSString stringWithFormat:@"%@(%ld)",NSLocalizedString(@"login.getAfter", nil),ts];
+        self.smsButton.titleLabel.text = title;
+        [self.smsButton setTitle:title forState:UIControlStateDisabled];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1* NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [weakself updateMsgCodeTitle:weakself.codeTs-1];
+        });
+    }else{
+        [self.smsButton setEnabled:YES];
+        [self.smsButton setTitle:NSLocalizedString(@"login.smsCode", nil) forState:UIControlStateNormal];
+    }
+}
+
+- (void)showHint:(NSString *)hint
+{
+    UIWindow *win = [[[UIApplication sharedApplication] windows] firstObject];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:win animated:YES];
+    hud.userInteractionEnabled = NO;
+    // Configure for text only and offset down
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = hint;
+    hud.label.numberOfLines = 0;
+    hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
+    hud.bezelView.layer.cornerRadius = 10;
+    hud.bezelView.backgroundColor = [UIColor blackColor];
+    hud.contentColor = [UIColor whiteColor];
+    hud.margin = 15.f;
+    CGPoint offset = hud.offset;
+    offset.y = 200;
+    hud.offset = offset;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud hideAnimated:YES afterDelay:2];
 }
 
 @end

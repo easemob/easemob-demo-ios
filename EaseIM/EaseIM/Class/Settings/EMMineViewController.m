@@ -256,7 +256,7 @@
             count = 1;
             break;
         case 1:
-            count = 5;
+            count = 3;
             break;
         case 2:
             count = 1;
