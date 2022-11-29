@@ -12,7 +12,7 @@
 @interface UserInfoStore()
 @property (nonatomic,strong) NSMutableDictionary* dicUsersInfo;
 @property (nonatomic) NSTimeInterval timeOutInterval;
-@property (nonatomic,strong) NSMutableArray* userIds;
+@property (atomic,strong) NSMutableArray* userIds;
 @property (nonatomic,strong) NSLock* lock;
 @property (nonatomic,strong) NSLock* userInfolock;
 @property (nonatomic,strong) dispatch_queue_t workQueue;
@@ -138,19 +138,27 @@ static UserInfoStore *userInfoStoreInstance = nil;
     [self addUserInfos:array];
 }
 
-- (void)fetchUserInfosFromServer:(NSArray<NSString*>*)aUids
-{
-    [self.lock lock];
-    for (NSString* uid in aUids) {
-        if(![self.userIds containsObject:uid])
-            [self.userIds addObject:uid];
-            
+- (NSArray*) splitArrayWithArray:(NSArray*)rawArray rangeNumber:(int)rangeNumber{
+    NSUInteger totalCount = rawArray.count;
+    NSUInteger currentIndex = 0;
+    NSMutableArray* splitArray = [NSMutableArray array];
+    while (currentIndex < totalCount) {
+        NSRange range = NSMakeRange(currentIndex, MIN(rangeNumber, totalCount-currentIndex));
+        NSArray* subArray = [rawArray subarrayWithRange:range];
+        [splitArray addObject:subArray];
+        currentIndex +=rangeNumber;
     }
-    [self.lock unlock];
+    return splitArray;
+}
+
+- (void)fetchAction
+{
     __weak typeof(self) weakself = self;
-    dispatch_after(DISPATCH_TIME_NOW+200, self.workQueue, ^{
-        if(weakself.userIds.count > 0) {
-            [[[EMClient sharedClient] userInfoManager] fetchUserInfoById:[weakself.userIds copy] completion:^(NSDictionary *aUserDatas, EMError *aError) {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW + 500 * NSEC_PER_MSEC, 0), self.workQueue, ^{
+        // 每次最多获取100个，分组获取
+        NSArray* splitArrays = [self splitArrayWithArray:weakself.userIds rangeNumber:100];
+        for (NSArray* uids in splitArrays) {
+            [[[EMClient sharedClient] userInfoManager] fetchUserInfoById:uids completion:^(NSDictionary *aUserDatas, EMError *aError) {
                 if(!aError && aUserDatas.count > 0) {
                     NSMutableArray* arrayUserInfo = [NSMutableArray array];
                     for (NSString* uid in aUserDatas) {
@@ -158,19 +166,42 @@ static UserInfoStore *userInfoStoreInstance = nil;
                         if(uid.length > 0 && userInfo)
                         {
                             [arrayUserInfo addObject:userInfo];
-                            
                         }
+                        [weakself.lock lock];
+                        [weakself.userIds removeObject:uid];
+                        [weakself.lock unlock];
                     }
                     [self addUserInfos:arrayUserInfo];
                     if(arrayUserInfo.count > 0)
                         [[NSNotificationCenter defaultCenter] postNotificationName:USERINFO_UPDATE  object:nil];
                 }
             }];
-            [weakself.lock lock];
-            [weakself.userIds removeAllObjects];
-            [weakself.lock unlock];
         }
     });
+}
+
+- (void)fetchUserInfosFromServer:(NSArray<NSString*>*)aUids
+{
+    [self.lock lock];
+    BOOL add = NO;
+    for (NSString* uid in aUids) {
+        if ([self.dicUsersInfo objectForKey:uid]) {
+            continue;
+        }
+        if(![self.userIds containsObject:uid])
+        {
+            [self.userIds addObject:uid];
+            add = YES;
+        }
+    }
+    [self.lock unlock];
+    if (!add) {
+        return;
+    }
+    
+    // 延迟执行获取用户属性
+    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(fetchAction) object:nil];
+    [self performSelector:@selector(fetchAction) withObject:nil afterDelay:0.5f];
 }
 
 @end

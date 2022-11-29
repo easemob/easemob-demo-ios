@@ -39,12 +39,12 @@
 {
     self.authorizationBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     _authorizationBtn.backgroundColor = [UIColor blackColor];
-    _authorizationBtn.layer.cornerRadius = 25;
+    _authorizationBtn.layer.cornerRadius = 24;
     _authorizationBtn.alpha = 0.3;
     [self addSubview:_authorizationBtn];
     [_authorizationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.equalTo(self);
-        make.height.equalTo(@55);
+        make.height.equalTo(self);
     }];
     
     self.authorizationLabel = [[UILabel alloc] init];
@@ -68,7 +68,7 @@
     [self addSubview:self.arrowView];
     [self.arrowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@43);
-        make.right.equalTo(self.authorizationBtn.mas_right).offset(-6);
+        make.center.equalTo(self.authorizationBtn);
         make.top.equalTo(self.authorizationBtn.mas_top).offset(6);
         make.height.equalTo(@43);
     }];
@@ -95,7 +95,8 @@
     }];
     [self.loadingView startAnimation];
     if (_authorizationType < 1 || _authorizationType > 2) return;
-    self.authorizationLabel.text = self.authorizationType == EMAuthLogin ? NSLocalizedString(@"loging..", nil) : NSLocalizedString(@"Registing..", nil);
+    //self.authorizationLabel.text = self.authorizationType == EMAuthLogin ? NSLocalizedString(@"loging..", nil) : NSLocalizedString(@"Registing..", nil);
+    self.authorizationLabel.text = @"";
 }
 
 #pragma mark - Action
@@ -125,7 +126,7 @@
 - (CAGradientLayer *)backGl{
     if(_backGl == nil) {
         _backGl = [CAGradientLayer layer];
-        _backGl.frame = CGRectMake(0,0,_authorizationBtn.frame.size.width,55);
+        _backGl.frame = _authorizationBtn.frame;
         _backGl.startPoint = CGPointMake(0.15, 0.5);
         _backGl.endPoint = CGPointMake(1, 0.5);
         _backGl.colors = @[(__bridge id)[UIColor blackColor].CGColor, (__bridge id)[UIColor blackColor].CGColor];
@@ -138,7 +139,7 @@
 - (CAGradientLayer *)gl{
     if(_gl == nil){
         _gl = [CAGradientLayer layer];
-        _gl.frame = CGRectMake(0,0,_authorizationBtn.frame.size.width,55);
+        _gl.frame = _authorizationBtn.frame;
         _gl.startPoint = CGPointMake(0.15, 0.5);
         _gl.endPoint = CGPointMake(1, 0.5);
         _gl.colors = @[(__bridge id)[UIColor colorWithRed:4/255.0 green:174/255.0 blue:240/255.0 alpha:1.0].CGColor, (__bridge id)[UIColor colorWithRed:90/255.0 green:93/255.0 blue:208/255.0 alpha:1.0].CGColor];

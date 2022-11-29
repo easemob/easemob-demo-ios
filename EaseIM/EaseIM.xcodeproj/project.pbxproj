@@ -19,7 +19,6 @@
 		3A45DF5B2223A1FD00505786 /* EMRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A45DD742223A1FD00505786 /* EMRefreshTableViewController.m */; };
 		3A45DF5C2223A1FD00505786 /* EMRefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A45DD762223A1FD00505786 /* EMRefreshViewController.m */; };
 		3A45E0172223A1FD00505786 /* EMHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A45DE642223A1FD00505786 /* EMHomeViewController.m */; };
-		3A45E0212223A21B00505786 /* EMRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A45E0192223A21B00505786 /* EMRegisterViewController.m */; };
 		3A45E0222223A21B00505786 /* EMSDKOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A45E01A2223A21B00505786 /* EMSDKOptionsViewController.m */; };
 		3A45E0232223A21B00505786 /* EMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A45E01C2223A21B00505786 /* EMLoginViewController.m */; };
 		3A45E0242223A21B00505786 /* EMSDKOptions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A45E01E2223A21B00505786 /* EMSDKOptions.plist */; };
@@ -340,7 +339,6 @@
 		A54CAED727FEDF0E0092282A /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = A54CAED627FEDF0E0092282A /* NotificationService.m */; };
 		A54CAEDB27FEDF0E0092282A /* EMPushServerExt.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A54CAED327FEDF0E0092282A /* EMPushServerExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A54CAEE027FEDF2F0092282A /* EMPushExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54CAEDF27FEDF2F0092282A /* EMPushExtension.framework */; };
-		C0106A1328A0C2170059706D /* EMResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0106A1228A0C2170059706D /* EMResetPasswordViewController.m */; };
 		C033209A28A5ECE60013FA1B /* EMChatViewController+ReportMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C033209928A5ECE60013FA1B /* EMChatViewController+ReportMessage.m */; };
 		C033209C28A7A3C00013FA1B /* report.png in Resources */ = {isa = PBXBuildFile; fileRef = C033209B28A7A3C00013FA1B /* report.png */; };
 		C033209E28A7A3DB0013FA1B /* reportMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = C033209D28A7A3DB0013FA1B /* reportMessage.png */; };
@@ -442,9 +440,7 @@
 		3A45DD772223A1FD00505786 /* EMRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMRefreshTableViewController.h; sourceTree = "<group>"; };
 		3A45DE632223A1FD00505786 /* EMHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHomeViewController.h; sourceTree = "<group>"; };
 		3A45DE642223A1FD00505786 /* EMHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHomeViewController.m; sourceTree = "<group>"; };
-		3A45E0192223A21B00505786 /* EMRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMRegisterViewController.m; sourceTree = "<group>"; };
 		3A45E01A2223A21B00505786 /* EMSDKOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMSDKOptionsViewController.m; sourceTree = "<group>"; };
-		3A45E01B2223A21B00505786 /* EMRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMRegisterViewController.h; sourceTree = "<group>"; };
 		3A45E01C2223A21B00505786 /* EMLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMLoginViewController.m; sourceTree = "<group>"; };
 		3A45E01D2223A21B00505786 /* EMLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMLoginViewController.h; sourceTree = "<group>"; };
 		3A45E01E2223A21B00505786 /* EMSDKOptions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EMSDKOptions.plist; sourceTree = "<group>"; };
@@ -880,8 +876,6 @@
 		A54CAED627FEDF0E0092282A /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		A54CAED827FEDF0E0092282A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A54CAEDF27FEDF2F0092282A /* EMPushExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EMPushExtension.framework; sourceTree = "<group>"; };
-		C0106A1128A0C2170059706D /* EMResetPasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMResetPasswordViewController.h; sourceTree = "<group>"; };
-		C0106A1228A0C2170059706D /* EMResetPasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMResetPasswordViewController.m; sourceTree = "<group>"; };
 		C033209828A5ECE60013FA1B /* EMChatViewController+ReportMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EMChatViewController+ReportMessage.h"; sourceTree = "<group>"; };
 		C033209928A5ECE60013FA1B /* EMChatViewController+ReportMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "EMChatViewController+ReportMessage.m"; sourceTree = "<group>"; };
 		C033209B28A7A3C00013FA1B /* report.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report.png; sourceTree = "<group>"; };
@@ -1151,10 +1145,6 @@
 				3C37DEEA2382486100399AE8 /* EMErrorAlertViewController.m */,
 				3A45E01D2223A21B00505786 /* EMLoginViewController.h */,
 				3A45E01C2223A21B00505786 /* EMLoginViewController.m */,
-				3A45E01B2223A21B00505786 /* EMRegisterViewController.h */,
-				3A45E0192223A21B00505786 /* EMRegisterViewController.m */,
-				C0106A1128A0C2170059706D /* EMResetPasswordViewController.h */,
-				C0106A1228A0C2170059706D /* EMResetPasswordViewController.m */,
 				3C8437622510A3AB003CFA53 /* EMProtocolViewController.h */,
 				3C8437612510A3AB003CFA53 /* EMProtocolViewController..m */,
 				3A45E01E2223A21B00505786 /* EMSDKOptions.plist */,
@@ -2396,7 +2386,6 @@
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/EaseCallKit/EaseCallKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
-				"${PODS_ROOT}/HyphenateChat/HyphenateChat.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
@@ -2406,12 +2395,12 @@
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraSoundTouch.framework/AgoraSoundTouch",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agorafdkaac.framework/Agorafdkaac",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agoraffmpeg.framework/Agoraffmpeg",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/HyphenateChat/HyphenateChat.framework/HyphenateChat",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseCallKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyphenateChat.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
@@ -2421,6 +2410,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyphenateChat.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2531,7 +2521,6 @@
 				C0E9E5E5261482B00080AB28 /* UIImageView+UserInfo.m in Sources */,
 				3C8EBEF524ADDF7E00B6560A /* EMAuthorizationView.m in Sources */,
 				3C9A95DD2578E38700752F28 /* EMReadReceiptMsgViewController.m in Sources */,
-				3A45E0212223A21B00505786 /* EMRegisterViewController.m in Sources */,
 				3A45E37E2223A47900505786 /* EMChatroomsViewController.m in Sources */,
 				3C8EBEF124AD967C00B6560A /* EMUserAgreementView.m in Sources */,
 				3C3BAE842397C42800344F63 /* EMConfirmViewController.m in Sources */,
@@ -2552,7 +2541,6 @@
 				3C729D9825727461003DB315 /* EMAtGroupMembersViewController.m in Sources */,
 				3A45E3DE2223A4E900505786 /* EMGroupMutesViewController.m in Sources */,
 				3C76D3F52577588200E7AF7A /* LoadingCALayer.m in Sources */,
-				C0106A1328A0C2170059706D /* EMResetPasswordViewController.m in Sources */,
 				3A45E3DF2223A4E900505786 /* EMGroupMembersViewController.m in Sources */,
 				3A45E0172223A1FD00505786 /* EMHomeViewController.m in Sources */,
 				3C729E7C25739AF0003DB315 /* EMNotificationCell.m in Sources */,

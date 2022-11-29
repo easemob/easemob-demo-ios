@@ -49,7 +49,6 @@ static EMDemoOptions *sharedOptions = nil;
         self.isFirstLaunch = NO;
         self.locationAppkeyArray = [[NSMutableArray alloc]init];
         self.isDevelopMode = NO;
-        self.phone = @"";
     }
     
     return self;
@@ -107,7 +106,6 @@ static EMDemoOptions *sharedOptions = nil;
         self.isFirstLaunch = [aDecoder decodeBoolForKey:kOptions_IsFirstLaunch];
         self.language = [aDecoder decodeObjectForKey:kOptions_TranslateLanguage];
         self.isDevelopMode = [aDecoder decodeBoolForKey:kOptions_isDevelopMode];
-        self.phone = [aDecoder decodeObjectForKey:kOptions_phone];
     }
     return self;
 }
@@ -156,7 +154,6 @@ static EMDemoOptions *sharedOptions = nil;
     [aCoder encodeBool:self.isFirstLaunch forKey:kOptions_IsFirstLaunch];
     [aCoder encodeObject:self.language forKey:kOptions_TranslateLanguage];
     [aCoder encodeBool:self.isDevelopMode forKey:kOptions_isDevelopMode];
-    [aCoder encodeObject:self.phone forKey:kOptions_phone];
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone
@@ -194,7 +191,6 @@ static EMDemoOptions *sharedOptions = nil;
     retModel.isFirstLaunch = self.isFirstLaunch;
     retModel.language = self.language;
     retModel.isDevelopMode = self.isDevelopMode;
-    retModel.phone = self.phone;
     return retModel;
 }
 
@@ -263,7 +259,8 @@ static EMDemoOptions *sharedOptions = nil;
     
     retOpt.enableDeliveryAck = self.isAutoDeliveryAck;
     retOpt.enableConsoleLog = YES;
-    retOpt.enableFpa = NO;
+    retOpt.enableFpa = YES;
+    retOpt.enableStatistics = YES;
     return retOpt;
 }
 

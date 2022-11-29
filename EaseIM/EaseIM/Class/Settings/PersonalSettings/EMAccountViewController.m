@@ -114,8 +114,6 @@
 //    }
 //
 //    return count;
-    if(![EMDemoOptions sharedOptions].isDevelopMode)
-        return 3;
     return 2;
 }
 
@@ -145,9 +143,6 @@
             if(self.userInfo)
                 cell.detailTextLabel.text = self.userInfo.nickName;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        } else if (row == 2) {
-            cell.textLabel.text = NSLocalizedString(@"phoneNumber", nil);
-            cell.detailTextLabel.text = EMDemoOptions.sharedOptions.phone;
         }
     }
 //    else if (section == 1) {
