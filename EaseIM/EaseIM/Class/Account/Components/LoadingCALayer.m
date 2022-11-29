@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LoadingCALayer.h"
-static CGFloat const kLineWidth = 2;
+static CGFloat const kLineWidth = 4;
 
 @implementation LoadingCALayer
 
@@ -40,7 +40,7 @@ static CGFloat const kLineWidth = 2;
     [path addArcWithCenter:center radius:radius startAngle: currentOrigin endAngle: currentDest clockwise:NO];
     CGContextAddPath(ctx, path.CGPath);
     CGContextSetLineWidth(ctx, kLineWidth);
-    CGContextSetStrokeColorWithColor(ctx, [UIColor lightGrayColor].CGColor);
+    CGContextSetStrokeColorWithColor(ctx, [UIColor whiteColor].CGColor);
     CGContextStrokePath(ctx);
     
 }

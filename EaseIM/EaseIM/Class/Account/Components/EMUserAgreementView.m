@@ -44,7 +44,7 @@
 - (void)_setupLinkProtocol
 {
     NSString *linkStr = NSLocalizedString(@"agreePrompt", nil);
-    UIFont *linkFont = [UIFont systemFontOfSize:12.0];
+    UIFont *linkFont = [UIFont fontWithName:@"PingFang SC" size:12.0];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:linkStr];
     [attributedString addAttribute:NSLinkAttributeName value:@"serviceClause://" range:[[attributedString string] rangeOfString:NSLocalizedString(@"servicePrompt", nil)]];
     [attributedString addAttribute:NSLinkAttributeName value:@"privacyProtocol://" range:[[attributedString string] rangeOfString:NSLocalizedString(@"privacyPrompt", nil)]];
@@ -58,7 +58,7 @@
     [self addSubview:self.linkProtocol];
     [self.linkProtocol mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.userAgreementBtn.mas_right).offset(5);
-        make.right.equalTo(self).offset(-30);
+        make.right.equalTo(self).offset(-5);
         make.centerY.equalTo(self.userAgreementBtn);
         //make.height.equalTo(@(self.protocolTextHeight));
     }];
