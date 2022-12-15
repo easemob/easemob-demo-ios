@@ -82,8 +82,6 @@
     cell.nameLabel.text = [self.dataArray objectAtIndex:indexPath.row];
     [cell refreshUserInfo:[self.dataArray objectAtIndex:indexPath.row]];
     cell.indexPath = indexPath;
-    if (indexPath.row == 0)
-        cell.detailTextLabel.text = NSLocalizedString(@"groupOwner", nil);
     
     if (self.group.permissionType == EMGroupPermissionTypeOwner) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

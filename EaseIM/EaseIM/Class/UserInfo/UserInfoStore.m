@@ -200,8 +200,11 @@ static UserInfoStore *userInfoStoreInstance = nil;
     }
     
     // 延迟执行获取用户属性
-    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(fetchAction) object:nil];
-    [self performSelector:@selector(fetchAction) withObject:nil afterDelay:0.5f];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(fetchAction) object:nil];
+        [self performSelector:@selector(fetchAction) withObject:nil afterDelay:0.5f];
+    });
+    
 }
 
 @end
