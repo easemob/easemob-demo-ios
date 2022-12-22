@@ -223,11 +223,11 @@
             if(code.intValue == 200) {
                 [self updateMsgCodeTitle:60];
                 [self showHint:NSLocalizedString(@"login.codeSent", nil)];
-            } else if (code.intValue == 400){
+            } else if (code.intValue == 400) {
                 NSString * errorInfo = [body objectForKey:@"errorInfo"];
                 if ([errorInfo isEqualToString:@"Please wait a moment while trying to send."]) {
                     [self showHint:NSLocalizedString(@"login.wait", nil)];
-                }
+                } else
                 if ([errorInfo containsString:@"exceed the limit of"]) {
                     [self showHint:NSLocalizedString(@"login.smsCodeLimit", nil)];
                 } else {

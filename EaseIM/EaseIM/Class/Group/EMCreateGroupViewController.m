@@ -377,6 +377,15 @@
             [EMAlertController showErrorAlert:NSLocalizedString(@"createGroupFail", nil)];
         } else {
             [EMAlertController showSuccessAlert:NSLocalizedString(@"createGroupSucess", nil)];
+            // 添加一条自动销毁提示
+            if (!EMDemoOptions.sharedOptions.isDevelopMode) {
+                EMTextMessageBody* body = [[EMTextMessageBody alloc] initWithText:@"该群仅供试用，72小时后将被删除"];
+                EMChatMessage* message = [[EMChatMessage alloc] initWithConversationID:aGroup.groupId from:@"admin" to:aGroup.groupId body:body ext:@{MSG_EXT_NEWNOTI:NOTI_EXT_ADDGROUP}];
+                message.chatType = EMChatTypeGroupChat;
+                EMConversation* conv = [EMClient.sharedClient.chatManager getConversation:aGroup.groupId type:EMConversationTypeGroupChat createIfNotExist:YES];
+                EMError* err = nil;
+                [conv insertMessage:message error:&err];
+            }
             [weakself.navigationController popViewControllerAnimated:YES];
             if (weakself.successCompletion) {
                 weakself.successCompletion(aGroup);
