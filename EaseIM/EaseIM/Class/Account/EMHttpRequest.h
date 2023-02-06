@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
                        completion:(void (^)(NSString * _Nullable response))aCompletionBlock;
 
 - (void)requestSMSWithPhone:(NSString*)phone completion:(void(^)(NSString* _Nullable response))aCompletionBlock;
+
+- (void)uploadGroupIdToAutoDestroy:(NSString*)groupId appkey:(NSString*)appkey completion:(void(^)(NSString* _Nullable response))aCompletionBlock;
 @end
 
 NS_ASSUME_NONNULL_END
