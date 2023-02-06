@@ -519,7 +519,8 @@
             }
             if(code.intValue == 200) {
                 NSString* token = [dic objectForKey:@"token"];
-                [[EMClient sharedClient] loginWithUsername:[name lowercaseString] token:token completion:finishBlock];
+                NSString* userId = [dic objectForKey:@"chatUserName"];
+                [[EMClient sharedClient] loginWithUsername:[userId lowercaseString] token:token completion:finishBlock];
             } else if(code.intValue == 400){
                 NSString* errorInfo = [dic objectForKey:@"errorInfo"];
                 if ([errorInfo isEqualToString:@"phone number illegal"]) {

@@ -5,8 +5,10 @@
 //
 
 #import "EMHttpRequest.h"
+#import <HyphenateChat/EMOptions+PrivateDeploy.h>
 
 static NSString* domain = @"a1.easemob.com";
+static NSString* sandboxDomain = @"a1-hsb.easemob.com";
 @interface EMHttpRequest() <NSURLSessionDelegate>
 @property (readonly, nonatomic, strong) NSURLSession *session;
 @end
@@ -35,6 +37,14 @@ static NSString* domain = @"a1.easemob.com";
     return self;
 }
 
+- (NSString*)getDomain
+{
+    if (!EMClient.sharedClient.options.enableDnsConfig && [EMClient.sharedClient.options.restServer containsString:@"hsb"]) {
+        return sandboxDomain;
+    }
+    return domain;
+}
+
 - (void)loginToAppServerWithPhone:(NSString *)phoneNumber
                           smsCode:(NSString *)smsCode
                        completion:(void (^)(NSString * _Nullable response))aCompletionBlock
@@ -42,7 +52,7 @@ static NSString* domain = @"a1.easemob.com";
     if (phoneNumber.length <= 0 || smsCode.length <= 0) {
         return;
     }
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/user/login/V1",domain]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/user/login/V2",[self getDomain]]];
     NSMutableURLRequest *request = [NSMutableURLRequest
                                                 requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -76,7 +86,26 @@ static NSString* domain = @"a1.easemob.com";
 
 - (void)requestSMSWithPhone:(NSString*)phone completion:(void(^)(NSString* _Nullable response))aCompletionBlock
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/sms/send/%@",domain,phone]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/sms/send/%@",[self getDomain],phone]];
+    NSMutableDictionary *headerDict = [[NSMutableDictionary alloc] init];
+    [headerDict setObject:@"application/json" forKey:@"Content-Type"];
+    [headerDict setObject:@"application/json" forKey:@"Accept"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.allHTTPHeaderFields = headerDict;
+    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSString *responseData = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+        if (aCompletionBlock) {
+            aCompletionBlock(responseData);
+        }
+    }];
+
+    [task resume];
+}
+
+- (void)uploadGroupIdToAutoDestroy:(NSString*)groupId appkey:(NSString*)appkey completion:(void(^)(NSString* _Nullable response))aCompletionBlock
+{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/group/%@?appkey=%@",[self getDomain],groupId,[appkey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     NSMutableDictionary *headerDict = [[NSMutableDictionary alloc] init];
     [headerDict setObject:@"application/json" forKey:@"Content-Type"];
     [headerDict setObject:@"application/json" forKey:@"Accept"];

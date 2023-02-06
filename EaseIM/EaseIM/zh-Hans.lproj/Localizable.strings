@@ -30,6 +30,7 @@
 "group.sharedFileUpdate" = "群文件更新";
 "group.uploadSharedFile" = "群组:%@ 上传文件ID: %@";
 "group.removeSharedFile" = "群组:%@ 删除文件ID: %@";
+"group.autoDeleteTip" = "该群仅供试用，72小时后将被删除";
 "ok" = "确定";
 "title.searchNoResult" = "搜索无结果";
 "wait" = "请等待...";

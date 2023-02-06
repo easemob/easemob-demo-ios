@@ -58,7 +58,7 @@ static UserInfoStore *userInfoStoreInstance = nil;
                     info.avatarUrl = aUserInfo.avatarUrl;
                     break;
                 case EMUserInfoTypeNickName:
-                    info.nickName = aUserInfo.nickName;
+                    info.nickname = aUserInfo.nickname;
                     break;
                 case EMUserInfoTypeMail:
                     info.mail = aUserInfo.mail;
@@ -154,7 +154,7 @@ static UserInfoStore *userInfoStoreInstance = nil;
 - (void)fetchAction
 {
     __weak typeof(self) weakself = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW + 500 * NSEC_PER_MSEC, 0), self.workQueue, ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 500 * NSEC_PER_MSEC), self.workQueue, ^{
         // 每次最多获取100个，分组获取
         NSArray* splitArrays = [self splitArrayWithArray:weakself.userIds rangeNumber:100];
         for (NSArray* uids in splitArrays) {
@@ -185,9 +185,6 @@ static UserInfoStore *userInfoStoreInstance = nil;
     [self.lock lock];
     BOOL add = NO;
     for (NSString* uid in aUids) {
-        if ([self.dicUsersInfo objectForKey:uid]) {
-            continue;
-        }
         if(![self.userIds containsObject:uid])
         {
             [self.userIds addObject:uid];
