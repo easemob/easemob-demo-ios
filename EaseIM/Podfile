@@ -12,9 +12,8 @@ target 'EaseIM' do
     pod 'MJRefresh'
     pod 'SDWebImage'
     pod 'FMDB'
-    pod 'AgoraRtcEngine_iOS/RtcBasic', '3.6.3'
     pod 'HyphenateChat'
-    pod 'EaseIMKit', '3.9.6'
+    pod 'EaseIMKit'
     pod 'EaseCallKit'
     pod 'Bugly'
 #    xcode 14打开这个

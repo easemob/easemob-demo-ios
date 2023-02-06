@@ -30,6 +30,7 @@
 "group.uploadSharedFile" = "Group:%@ Upload file ID: %@";
 "group.sharedFileUpdate" = "Group SharedFile Update";
 "group.removeSharedFile" = "Group:%@ Remove file ID: %@";
+"group.autoDeleteTip" = "For trial only, will be deleted after 72 hours";
 "ok" = "OK";
 "title.searchNoResult" = "Search has no result";
 "wait" = "Please wait...";
