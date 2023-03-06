@@ -11,6 +11,7 @@
 #import "EMPersonalDataViewController.h"
 #import "UserInfoStore.h"
 #import "EMAccountViewController.h"
+#import "EaseGroupMemberAttributesCache.h"
 
 @interface EMGroupMembersViewController ()
 
@@ -213,7 +214,7 @@
     }
     
     __weak typeof(self) weakself = self;
-    [[EMClient sharedClient].groupManager getGroupMemberListFromServerWithId:self.group.groupId cursor:self.cursor pageSize:50 completion:^(EMCursorResult *aResult, EMError *aError) {
+    [[EMClient sharedClient].groupManager getGroupMemberListFromServerWithId:self.group.groupId cursor:self.cursor pageSize:15 completion:^(EMCursorResult *aResult, EMError *aError) {
         if (aIsShowHUD) {
             [weakself hideHud];
         }
@@ -226,15 +227,28 @@
             }
             
             weakself.cursor = aResult.cursor;
-            [weakself.dataArray addObjectsFromArray:aResult.list];
-            
-            if ([aResult.list count] == 0 || [aResult.cursor length] == 0) {
-                weakself.showRefreshFooter = NO;
-            } else {
-                weakself.showRefreshFooter = YES;
+            NSMutableArray *nickNames = [NSMutableArray arrayWithCapacity:9999];
+            for (NSString *userId in aResult.list) {
+                [[EaseGroupMemberAttributesCache shareInstance] fetchCacheValueGroupId:self.group.groupId userName:userId key:@"nickName" completion:^(EMError * _Nullable error, NSString * _Nullable value) {
+                    if (error == nil && value) {
+                        [nickNames addObject:value];
+                    } else {
+                        [nickNames addObject:userId];
+                    }
+                    if (aResult.list.count == nickNames.count) {
+                        [weakself.dataArray addObjectsFromArray:nickNames];
+                        
+                        if ([aResult.list count] == 0 || [aResult.cursor length] == 0) {
+                            weakself.showRefreshFooter = NO;
+                        } else {
+                            weakself.showRefreshFooter = YES;
+                        }
+                        
+                        [weakself.tableView reloadData];
+                    }
+                }];
             }
             
-            [weakself.tableView reloadData];
         }
         
         [weakself tableViewDidFinishTriggerHeader:aIsHeader reload:NO];
