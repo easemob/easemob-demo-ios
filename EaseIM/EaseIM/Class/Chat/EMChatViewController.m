@@ -52,6 +52,17 @@
     return self;
 }
 
+- (void)setupTip {
+    // 添加一条自动销毁提示
+    if (!EMDemoOptions.sharedOptions.isDevelopMode && self.conversation.type == EMConversationTypeGroupChat) {
+        EMGroup *group = [EMGroup groupWithId:self.conversation.conversationId];
+        NSString* ext = group.settings.ext;
+        if (![ext isEqualToString:@"default"]) {
+            self.titleDetailLabel.text = NSLocalizedString(@"group.autoDeleteTip", nil);
+        }
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     //单聊主叫方才能发送通话记录信息(本地通话记录)
@@ -66,6 +77,7 @@
         [[EMClient sharedClient].chatManager ackConversationRead:_conversation.conversationId completion:nil];
     }
     [self setupAntiFraudView];
+    [self setupTip];
 }
 
 - (void)setupAntiFraudView
@@ -139,8 +151,8 @@
     }];
     
     self.titleDetailLabel = [[UILabel alloc] init];
-    self.titleDetailLabel.font = [UIFont systemFontOfSize:15];
-    self.titleDetailLabel.textColor = [UIColor grayColor];
+    self.titleDetailLabel.font = [UIFont fontWithName:@"PingFang SC" size:12];
+    self.titleDetailLabel.textColor = [UIColor colorWithRed:0.678 green:0.678 blue:0.677 alpha:1.0];
     self.titleDetailLabel.textAlignment = NSTextAlignmentCenter;
     [titleView addSubview:self.titleDetailLabel];
     [self.titleDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {

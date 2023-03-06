@@ -5,8 +5,10 @@
 //
 
 #import "EMHttpRequest.h"
+#import <HyphenateChat/EMOptions+PrivateDeploy.h>
 
 static NSString* domain = @"a1.easemob.com";
+static NSString* sandboxDomain = @"a1-hsb.easemob.com";
 @interface EMHttpRequest() <NSURLSessionDelegate>
 @property (readonly, nonatomic, strong) NSURLSession *session;
 @end
@@ -35,13 +37,22 @@ static NSString* domain = @"a1.easemob.com";
     return self;
 }
 
-- (void)registerToApperServer:(NSString *)uName
-                          pwd:(NSString *)pwd
-                  phoneNumber:(NSString*)phoneNumber
-                      smsCode:(NSString*)smsCode
-                   completion:(void (^)(NSString*err))aCompletionBlock
+- (NSString*)getDomain
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/user/register",domain]];
+    if (!EMClient.sharedClient.options.enableDnsConfig && [EMClient.sharedClient.options.restServer containsString:@"hsb"]) {
+        return sandboxDomain;
+    }
+    return domain;
+}
+
+- (void)loginToAppServerWithPhone:(NSString *)phoneNumber
+                          smsCode:(NSString *)smsCode
+                       completion:(void (^)(NSString * _Nullable response))aCompletionBlock
+{
+    if (phoneNumber.length <= 0 || smsCode.length <= 0) {
+        return;
+    }
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/user/login/V2",[self getDomain]]];
     NSMutableURLRequest *request = [NSMutableURLRequest
                                                 requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -52,89 +63,14 @@ static NSString* domain = @"a1.easemob.com";
     request.allHTTPHeaderFields = headerDict;
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
-    [dict setObject:uName forKey:@"userId"];
-    [dict setObject:pwd forKey:@"userPassword"];
     [dict setObject:phoneNumber forKey:@"phoneNumber"];
     [dict setObject:smsCode forKey:@"smsCode"];
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSString *responseData = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
-        if(data) {
-            NSDictionary* body = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            NSLog(@"%@",body);
-            if(body) {
-                NSNumber* code = [body objectForKey:@"code"];
-                if(code.intValue == 200) {
-                    if(aCompletionBlock) {
-                        aCompletionBlock(nil);
-                    }
-                }else{
-                    aCompletionBlock(responseData);
-                }
-                return;
-            }
-        }
-        if(aCompletionBlock)
-            aCompletionBlock(responseData);
-    }];
-    [task resume];
-}
-
-- (void)loginToAppServer:(NSString *)uName
-                     pwd:(NSString *)pwd
-              completion:(void (^)(NSInteger statusCode, NSString *response))aCompletionBlock
-{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/user/login",domain]];
-    NSMutableURLRequest *request = [NSMutableURLRequest
-                                                requestWithURL:url];
-    request.HTTPMethod = @"POST";
-    
-    NSMutableDictionary *headerDict = [[NSMutableDictionary alloc]init];
-    [headerDict setObject:@"application/json" forKey:@"Content-Type"];
-    [headerDict setObject:@"application/json" forKey:@"Accept"];
-    request.allHTTPHeaderFields = headerDict;
-    
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
-    [dict setObject:uName forKey:@"userId"];
-    [dict setObject:pwd forKey:@"userPassword"];
-    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
-    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSString *responseData = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
         if (aCompletionBlock) {
-            aCompletionBlock(((NSHTTPURLResponse*)response).statusCode, responseData);
+            aCompletionBlock(responseData);
         }
-    }];
-    [task resume];
-}
-
-- (void)requestImageCodeWithCompletion:(void(^)(NSString*imageUrl,NSString*imageId))aCompletionBlock
-{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/image",domain]];
-    NSMutableDictionary *headerDict = [[NSMutableDictionary alloc] init];
-    [headerDict setObject:@"application/json" forKey:@"Content-Type"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.allHTTPHeaderFields = headerDict;
-    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data) {
-            NSDictionary* body = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            NSLog(@"%@",body);
-            if(body) {
-                NSNumber* code = [body objectForKey:@"code"];
-                if(code.intValue == 200) {
-                    NSDictionary* data = [body objectForKey:@"data"];
-                    if(data) {
-                        NSString* imageUrl = [data objectForKey:@"image_url"];
-                        NSString* imageId = [data objectForKey:@"image_id"];
-                        if(aCompletionBlock) {
-                            aCompletionBlock(imageUrl,imageId);
-                        }
-                        return;
-                    }
-                }
-            }
-        }
-        if(aCompletionBlock)
-            aCompletionBlock(nil,nil);
     }];
     [task resume];
 }
@@ -148,16 +84,14 @@ static NSString* domain = @"a1.easemob.com";
         }
 }
 
-- (void)requestSMSWithPhone:(NSString*)phone imageId:(NSString*)imageId imageCode:(NSString*)imageCode  completion:(void(^)(NSString* _Nullable response))aCompletionBlock
+- (void)requestSMSWithPhone:(NSString*)phone completion:(void(^)(NSString* _Nullable response))aCompletionBlock
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/sms/send",domain]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/sms/send/%@",[self getDomain],phone]];
     NSMutableDictionary *headerDict = [[NSMutableDictionary alloc] init];
     [headerDict setObject:@"application/json" forKey:@"Content-Type"];
     [headerDict setObject:@"application/json" forKey:@"Accept"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
-    NSDictionary* params = @{@"phoneNumber":phone,@"imageId":imageId,@"imageCode":imageCode};
-    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil];
     request.allHTTPHeaderFields = headerDict;
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSString *responseData = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
@@ -169,37 +103,14 @@ static NSString* domain = @"a1.easemob.com";
     [task resume];
 }
 
-- (void)requestResetPwdCheckUserId:(NSString*)userId phoneNumber:(NSString*)phoneNumber smsCode:(NSString*)smsCode completion:(void(^)(NSString* _Nullable response))aCompletionBlock
+- (void)uploadGroupIdToAutoDestroy:(NSString*)groupId appkey:(NSString*)appkey completion:(void(^)(NSString* _Nullable response))aCompletionBlock
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/user/reset/password",domain]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/group/%@?appkey=%@",[self getDomain],groupId,[appkey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     NSMutableDictionary *headerDict = [[NSMutableDictionary alloc] init];
     [headerDict setObject:@"application/json" forKey:@"Content-Type"];
     [headerDict setObject:@"application/json" forKey:@"Accept"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
-    NSDictionary* params = @{@"phoneNumber":phoneNumber,@"smsCode":smsCode,@"userId":userId};
-    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil];
-    request.allHTTPHeaderFields = headerDict;
-    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSString *responseData = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
-        if (aCompletionBlock) {
-            aCompletionBlock(responseData);
-        }
-    }];
-
-    [task resume];
-}
-
-- (void)requestResetPwdUserId:(NSString*)userId newPassword:(NSString*)password completion:(void(^)(NSString* _Nullable response))aCompletionBlock
-{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/user/%@/password",domain,userId]];
-    NSMutableDictionary *headerDict = [[NSMutableDictionary alloc] init];
-    [headerDict setObject:@"application/json" forKey:@"Content-Type"];
-    [headerDict setObject:@"application/json" forKey:@"Accept"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.HTTPMethod = @"PUT";
-    NSDictionary* params = @{@"newPassword":password};
-    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil];
     request.allHTTPHeaderFields = headerDict;
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSString *responseData = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
