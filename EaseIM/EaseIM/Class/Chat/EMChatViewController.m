@@ -25,8 +25,9 @@
 #import "ConfirmUserCardView.h"
 #import "EMAccountViewController.h"
 #import "AntiFraudView.h"
+#import "EaseGroupMemberAttributesCache.h"
 
-@interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate>
+@interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate,EMMultiDevicesDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *titleDetailLabel;
@@ -69,10 +70,8 @@
 
 - (void)setupAntiFraudView
 {
-    AntiFraudView* antiView = [AntiFraudView new];
-    self.chatController.tableView.backgroundView = antiView;
-    antiView.textView.frame = CGRectMake(20, 200, self.chatController.view.frame.size.width - 40, 65);
-    
+    AntiFraudView* antiView = [[AntiFraudView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 75)];
+    [self.view addSubview:antiView];
 }
 
 - (void)dealloc
@@ -103,7 +102,7 @@
     [self _setupNavigationBarRightItem];
     [self addChildViewController:_chatController];
     [self.view addSubview:_chatController.view];
-    _chatController.view.frame = self.view.bounds;
+    _chatController.view.frame = CGRectMake(0, 75, self.view.frame.size.width, self.view.frame.size.height-75);
     [self loadData:YES];
     self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
 }
@@ -195,8 +194,20 @@
 {
     self.titleDetailLabel.text = nil;
 }
+
+- (void)scrollViewEndScroll {
+    for (UITableViewCell *cell in [self.chatController.tableView visibleCells]) {
+        if ([cell canPerformAction:@selector(model) withSender:nil]) {
+            id model = [cell performSelector:@selector(model)];
+            if ([model isKindOfClass:[EaseMessageModel class]]) {
+                [cell performSelector:@selector(setModel:) withObject:model];
+            }
+        }
+    }
+}
+
 //userdata
-- (id<EaseUserDelegate>)userData:(NSString *)huanxinID
+- (id<EaseUserDelegate>) userData:(NSString *)huanxinID
 {
     EMUserDataModel *model = [[EMUserDataModel alloc] initWithEaseId:huanxinID];
     EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:huanxinID];
@@ -207,10 +218,43 @@
         if(userInfo.nickName.length > 0) {
             model.showName = userInfo.nickName;
         }
-    }else{
+    }
+    if (self.chatController.currentConversation.type == EMConversationTypeGroupChat && self.chatController.endScroll == YES) {
+        [self fetchMemberNickNameOnGroup:huanxinID model:model];
+    } else {
         [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];
     }
     return model;
+}
+
+- (void)fetchMemberNickNameOnGroup:(NSString *)userId model:(EMUserDataModel *)model{
+    if ([userId isEqualToString:EMClient.sharedClient.currentUsername]) {
+        return;
+    }
+    [[EaseGroupMemberAttributesCache shareInstance] fetchCacheValueGroupId:self.chatController.currentConversation.conversationId userName:userId key:@"nickName" completion:^(EMError * _Nullable error, NSString * _Nullable value) {
+        if (error == nil && value != nil && ![value isEqualToString:@""]) {
+            model.showName = value;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self.chatController.tableView visibleCells] enumerateObjectsUsingBlock:^(__kindof UITableViewCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
+                    EaseMessageModel *model;
+                    if (cell && [cell canPerformAction:@selector(model) withSender:nil]) {
+                        id tmp = [cell performSelector:@selector(model)];
+                        if ([tmp isKindOfClass:[EaseMessageModel class]]) {
+                            model = tmp;
+                        }
+                    }
+                    if ([model isKindOfClass:[EaseMessageModel class]] && [model.message.from isEqualToString:userId]) {
+                        if ([cell canPerformAction:@selector(setModel:) withSender:model]) {
+                            [cell performSelector:@selector(setModel:) withObject:model];
+                        }
+                        *stop = YES;
+                    }
+                }];
+            });
+        } else {
+            model.showName = @"";
+        }
+    }];
 }
 
 //头像点击

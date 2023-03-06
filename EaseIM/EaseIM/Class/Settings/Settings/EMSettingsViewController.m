@@ -11,6 +11,7 @@
 #import "EMGeneralViewController.h"
 #import "EMMsgRemindViewController.h"
 #import "EMSecurityPrivacyViewController.h"
+#import "EaseGroupMemberAttributesCache.h"
 
 @interface EMSettingsViewController ()
 @property(nonatomic, strong) UIAlertController *alertController;
@@ -145,6 +146,7 @@
      [self showHudInView:self.view hint:NSLocalizedString(@"exit...", nil)];
      [[EMClient sharedClient] logout:YES completion:^(EMError *aError) {
          [weakself hideHud];
+         [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
          if (aError) {
              [EMAlertController showErrorAlert:aError.errorDescription];
          } else {

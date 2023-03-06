@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		057572E529763C8E00037B24 /* EMGroupMemberNickNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 057572E429763C8E00037B24 /* EMGroupMemberNickNameViewController.m */; };
+		0583192C29752F4E0041AFC0 /* EaseGroupMemberAttributesCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0583192B29752F4E0041AFC0 /* EaseGroupMemberAttributesCache.m */; };
+		0583192F297533160041AFC0 /* NSDictionary+Safely.m in Sources */ = {isa = PBXBuildFile; fileRef = 0583192E297533160041AFC0 /* NSDictionary+Safely.m */; };
+		0583A77B297113D50065D497 /* Xcode14.m in Sources */ = {isa = PBXBuildFile; fileRef = 0583A779297113D50065D497 /* Xcode14.m */; };
 		3A03FE9F1E360BEE00DC1ABC /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B1B9EE1C3B80290087A74F /* MessageUI.framework */; };
 		3A45D9B322239DE200505786 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A45D69A22239DE200505786 /* Localizable.strings */; };
 		3A45D9B422239DE200505786 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A45D69C22239DE200505786 /* InfoPlist.strings */; };
@@ -418,6 +422,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		057572E329763C8E00037B24 /* EMGroupMemberNickNameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMGroupMemberNickNameViewController.h; sourceTree = "<group>"; };
+		057572E429763C8E00037B24 /* EMGroupMemberNickNameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMGroupMemberNickNameViewController.m; sourceTree = "<group>"; };
+		0583192A29752F4E0041AFC0 /* EaseGroupMemberAttributesCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EaseGroupMemberAttributesCache.h; sourceTree = "<group>"; };
+		0583192B29752F4E0041AFC0 /* EaseGroupMemberAttributesCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EaseGroupMemberAttributesCache.m; sourceTree = "<group>"; };
+		0583192D297533160041AFC0 /* NSDictionary+Safely.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Safely.h"; sourceTree = "<group>"; };
+		0583192E297533160041AFC0 /* NSDictionary+Safely.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Safely.m"; sourceTree = "<group>"; };
+		0583A779297113D50065D497 /* Xcode14.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Xcode14.m; sourceTree = "<group>"; };
+		0583A77A297113D50065D497 /* Xcode14.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Xcode14.h; sourceTree = "<group>"; };
 		21C2DFFAE688B874EBF5F6EF /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		2E0DB98EDA87CC73A29F9EB8 /* Pods-EaseIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.debug.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.debug.xcconfig"; sourceTree = "<group>"; };
 		3A45D69B22239DE200505786 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -1008,6 +1020,10 @@
 				C0F4EBA826037CB600436782 /* UserInfo */,
 				3A45D9B122239DE200505786 /* EaseIMHelper.h */,
 				3A45D8FF22239DE200505786 /* EaseIMHelper.m */,
+				0583192A29752F4E0041AFC0 /* EaseGroupMemberAttributesCache.h */,
+				0583192B29752F4E0041AFC0 /* EaseGroupMemberAttributesCache.m */,
+				0583192D297533160041AFC0 /* NSDictionary+Safely.h */,
+				0583192E297533160041AFC0 /* NSDictionary+Safely.m */,
 				3A45D8FE22239DE200505786 /* AppDelegate.h */,
 				3A45D9B022239DE200505786 /* AppDelegate.m */,
 				3C729BB2257144AC003DB315 /* Communicate */,
@@ -1084,6 +1100,8 @@
 				3C3BAE862398E45600344F63 /* EMGroupAllMembersViewController.m */,
 				3C3BAE822397C42800344F63 /* EMConfirmViewController.h */,
 				3C3BAE832397C42800344F63 /* EMConfirmViewController.m */,
+				057572E329763C8E00037B24 /* EMGroupMemberNickNameViewController.h */,
+				057572E429763C8E00037B24 /* EMGroupMemberNickNameViewController.m */,
 			);
 			path = GroupInfo;
 			sourceTree = "<group>";
@@ -1992,6 +2010,8 @@
 		C0F4EBA826037CB600436782 /* UserInfo */ = {
 			isa = PBXGroup;
 			children = (
+				0583A77A297113D50065D497 /* Xcode14.h */,
+				0583A779297113D50065D497 /* Xcode14.m */,
 				C0E9E4AC260B3E530080AB28 /* resource */,
 				C0F4EBB926037E3600436782 /* UserInfoStore.h */,
 				C0F4EBBA26037E3600436782 /* UserInfoStore.m */,
@@ -2064,7 +2084,7 @@
 				ORGANIZATIONNAME = "___FULLUSERNAME___";
 				TargetAttributes = {
 					90911023192EEA70008A48AA = {
-						DevelopmentTeam = 499WYUV8Q2;
+						DevelopmentTeam = JC854K845H;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -2077,7 +2097,7 @@
 					};
 					A54CAED227FEDF0E0092282A = {
 						CreatedOnToolsVersion = 13.0;
-						DevelopmentTeam = 499WYUV8Q2;
+						DevelopmentTeam = JC854K845H;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -2492,6 +2512,7 @@
 				3A45E4202223A52100505786 /* EMGeneralViewController.m in Sources */,
 				3C729B5E2570F786003DB315 /* EMInviteFriendViewController.m in Sources */,
 				3C729B6F2571045E003DB315 /* EMChatInfoViewController.m in Sources */,
+				0583192C29752F4E0041AFC0 /* EaseGroupMemberAttributesCache.m in Sources */,
 				3C9A95DF2578E38700752F28 /* EMReadReceiptMemberModel.m in Sources */,
 				C0F4EBBE2603839100436782 /* SelectUserViewController.m in Sources */,
 				3C9A960C257914DE00752F28 /* EMMessageCell.m in Sources */,
@@ -2519,6 +2540,7 @@
 				C0899C192779BCB90039B885 /* EMEmojiHelper.m in Sources */,
 				C0F4EBC12604A38700436782 /* EMUserCardMsgView.m in Sources */,
 				3C8DFAB724ED1FD90047C277 /* EMAvatarNameModel.m in Sources */,
+				057572E529763C8E00037B24 /* EMGroupMemberNickNameViewController.m in Sources */,
 				3C7A14DA238F6F3900F4AC48 /* EMMsgNotificViewController.m in Sources */,
 				3A45DA2622239DE200505786 /* main.m in Sources */,
 				3C729D09257144AE003DB315 /* EMButton.m in Sources */,
@@ -2551,6 +2573,7 @@
 				3C729DA225727ACB003DB315 /* EMChatViewController+EMForwardMessage.m in Sources */,
 				3C729D9825727461003DB315 /* EMAtGroupMembersViewController.m in Sources */,
 				3A45E3DE2223A4E900505786 /* EMGroupMutesViewController.m in Sources */,
+				0583192F297533160041AFC0 /* NSDictionary+Safely.m in Sources */,
 				3C76D3F52577588200E7AF7A /* LoadingCALayer.m in Sources */,
 				C0106A1328A0C2170059706D /* EMResetPasswordViewController.m in Sources */,
 				3A45E3DF2223A4E900505786 /* EMGroupMembersViewController.m in Sources */,
@@ -2558,6 +2581,7 @@
 				3C729E7C25739AF0003DB315 /* EMNotificationCell.m in Sources */,
 				3C9A95DE2578E38700752F28 /* EMReadReceiptTableViewCell.m in Sources */,
 				3A45DBDF22239DE300505786 /* AppDelegate.m in Sources */,
+				0583A77B297113D50065D497 /* Xcode14.m in Sources */,
 				3A45E4242223A52100505786 /* EMMineViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2707,15 +2731,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = NO;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = JC854K845H;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
 				EASEMOB_ROOT = "";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2736,7 +2760,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.9.4;
+				MARKETING_VERSION = 4.0.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2767,7 +2791,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2798,14 +2822,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = JC854K845H;
 				EASEMOB_INC = "";
 				EASEMOB_LIB = "";
 				EASEMOB_LIBNAME = "";
 				EASEMOB_ROOT = "";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = YES;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2827,7 +2851,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.9.4;
+				MARKETING_VERSION = 4.0.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2858,7 +2882,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2895,7 +2919,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = JC854K845H;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EMPushServerExt",
@@ -2910,7 +2934,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim.EMPushServerExt;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim.EMPushServerExt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2941,7 +2965,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = JC854K845H;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EMPushServerExt",
@@ -2956,7 +2980,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim.EMPushServerExt;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim.EMPushServerExt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
