@@ -229,7 +229,7 @@
             cell.detailTextLabel.text = @"";
         } else if (row == 2) {
             cell.textLabel.text = NSLocalizedString(@"groupAnn", nil);
-            cell.detailTextLabel.text = @"";
+            cell.detailTextLabel.text = self.group.announcement;
         } else if (row == 3) {
             cell.textLabel.text = NSLocalizedString(@"groupDescription", nil);
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",self.group.description];
@@ -541,6 +541,7 @@
                 [[EMClient sharedClient].groupManager updateGroupAnnouncementWithId:weakself.groupId announcement:aString completion:^(EMGroup *aGroup, EMError *aError) {
                     [weakController hideHud];
                     if (aError) {
+                        weakself.group = aGroup;
                         [EMAlertController showErrorAlert:NSLocalizedString(@"updateGroupAnnFail", nil)];
                     } else {
                         [weakController.navigationController popViewControllerAnimated:YES];
@@ -689,7 +690,7 @@
                 }
                 
                 [[EMClient sharedClient].chatManager deleteConversation:weakself.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
-                    [[EMTranslationManager sharedManager] removeTranslationByConversationId:weakself.groupId];
+                    
                 }];
             }];
         }

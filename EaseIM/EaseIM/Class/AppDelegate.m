@@ -51,7 +51,6 @@
     NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
     NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
     [self.window makeKeyAndVisible];
-    
     return YES;
 }
 
@@ -199,7 +198,12 @@
 {
     EMDemoOptions *demoOptions = [EMDemoOptions sharedOptions];
     [EaseIMKitManager initWithEMOptions:[demoOptions toOptions]];
+    
     gIsInitializedSDK = YES;
+    
+    //初始化EaseIMHelper，注册 EMClient 监听
+    [EaseIMHelper shareHelper];
+    
     if (demoOptions.isAutoLogin){
         [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@(YES)];
     } else {
@@ -217,8 +221,6 @@
     //注册推送
     [self _registerRemoteNotification];
     
-    //初始化EaseIMHelper，注册 EMClient 监听
-    [EaseIMHelper shareHelper];
 }
 
 //注册远程通知
@@ -281,6 +283,8 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:GROUP_LIST_FETCHFINISHED object:nil];
             }
         }];
+        
+        
         [EMNotificationHelper shared];
         [SingleCallController sharedManager];
         [ConferenceController sharedManager];
@@ -292,12 +296,6 @@
         [[EaseCallManager sharedManager] initWithConfig:config delegate:self];
 //        NSString* path = [[NSBundle mainBundle] pathForResource:@"huahai128" ofType:@"mp3"];
 //        config.ringFileUrl = [NSURL fileURLWithPath:path];
-        EMMicrosoftTranslateParams* params = [[EMMicrosoftTranslateParams alloc] init];
-        params.subscriptionKey = TRANSLATE_KEY;
-        params.endpoint = TRANSLATE_ENDPOINT;
-        params.location = TRANSLATE_LOCATION;
-        [[EMTranslationManager sharedManager] initialize];
-        [[EMTranslationManager sharedManager] setTranslateParam:params];
     } else {//登录失败加载登录页面控制器
         EMLoginViewController *controller = [[EMLoginViewController alloc] init];
         navigationController = [[UINavigationController alloc] initWithRootViewController:controller];

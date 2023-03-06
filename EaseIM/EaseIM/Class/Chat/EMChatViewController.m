@@ -13,6 +13,7 @@
 #import "EMPersonalDataViewController.h"
 #import "EMAtGroupMembersViewController.h"
 #import "EMChatViewController+EMForwardMessage.h"
+#import "EMChatViewController+ReportMessage.h"
 #import "EMReadReceiptMsgViewController.h"
 #import "EMUserDataModel.h"
 #import "EMMessageCell.h"
@@ -23,7 +24,7 @@
 #import "UserInfoStore.h"
 #import "ConfirmUserCardView.h"
 #import "EMAccountViewController.h"
-#import "EMChatViewController+Translate.h"
+#import "AntiFraudView.h"
 
 @interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
@@ -50,6 +51,17 @@
     return self;
 }
 
+- (void)setupTip {
+    // 添加一条自动销毁提示
+    if (!EMDemoOptions.sharedOptions.isDevelopMode && self.conversation.type == EMConversationTypeGroupChat) {
+        EMGroup *group = [EMGroup groupWithId:self.conversation.conversationId];
+        NSString* ext = group.settings.ext;
+        if (![ext isEqualToString:@"default"]) {
+            self.titleDetailLabel.text = NSLocalizedString(@"group.autoDeleteTip", nil);
+        }
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     //单聊主叫方才能发送通话记录信息(本地通话记录)
@@ -63,6 +75,16 @@
     if (_conversation.unreadMessagesCount > 0) {
         [[EMClient sharedClient].chatManager ackConversationRead:_conversation.conversationId completion:nil];
     }
+    [self setupAntiFraudView];
+    [self setupTip];
+}
+
+- (void)setupAntiFraudView
+{
+    AntiFraudView* antiView = [AntiFraudView new];
+    self.chatController.tableView.backgroundView = antiView;
+    antiView.textView.frame = CGRectMake(20, 200, self.chatController.view.frame.size.width - 40, 65);
+    
 }
 
 - (void)dealloc
@@ -130,8 +152,8 @@
     }];
     
     self.titleDetailLabel = [[UILabel alloc] init];
-    self.titleDetailLabel.font = [UIFont systemFontOfSize:15];
-    self.titleDetailLabel.textColor = [UIColor grayColor];
+    self.titleDetailLabel.font = [UIFont fontWithName:@"PingFang SC" size:12];
+    self.titleDetailLabel.textColor = [UIColor colorWithRed:0.678 green:0.678 blue:0.677 alpha:1.0];
     self.titleDetailLabel.textAlignment = NSTextAlignmentCenter;
     [titleView addSubview:self.titleDetailLabel];
     [self.titleDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -159,14 +181,6 @@
 //自定义通话记录cell
 - (UITableViewCell *)cellForItem:(UITableView *)tableView messageModel:(EaseMessageModel *)messageModel
 {
-//    if (messageModel.type == EMMessageTypePictMixText) {
-//        EMMsgPicMixTextBubbleView* picMixBV = [[EMMsgPicMixTextBubbleView alloc] init];
-//        [picMixBV setModel:messageModel];
-//        EMMessageCell *cell = [[EMMessageCell alloc] initWithDirection:messageModel.direction type:messageModel.type msgView:picMixBV];
-//        cell.model = messageModel;
-//        cell.delegate = self;
-//        return cell;
-//    }
 
     if(![messageModel isKindOfClass:[EaseMessageModel class]])
         return nil;
@@ -181,18 +195,6 @@
             userCardCell.delegate = self;
             return userCardCell;
         }
-    }
-    if(messageModel.type == EMMessageTypeText)
-    {
-        NSString* msgId = messageModel.message.messageId;
-        EMTranslationResult* translateResult = [[EMTranslationManager sharedManager] getTranslationByMsgId:msgId];
-        TranslateTextBubbleView * bubbleView = [[TranslateTextBubbleView alloc] initWithDirection:messageModel.direction type:messageModel.type];
-        [bubbleView setModel:messageModel];
-        EMMessageCell* texMsgtCell = [[EMMessageCell alloc] initWithDirection:messageModel.direction type:messageModel.type msgView:bubbleView translate:translateResult isTranslating:[self.translatingMsgIds containsObject:messageModel.message.messageId]];
-        texMsgtCell.translateResult = translateResult;
-        texMsgtCell.model = messageModel;
-        texMsgtCell.delegate = self;
-        return texMsgtCell;
     }
     return nil;
 }
@@ -263,6 +265,15 @@
             }
         }];
         [menuArray addObject:forwardMenu];
+        if(![message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
+            EaseExtMenuModel *reportMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"reportMessage"] funcDesc:NSLocalizedString(@"reportMessage", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+                if (isExecuted) {
+                    [weakself reportMenuItemAction:message];
+                }
+            }];
+            [menuArray addObject:reportMenu];
+        }
+        
     }
     if ([defaultLongPressItems count] >= 3 && [message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
         [menuArray addObject:defaultLongPressItems[2]];
@@ -493,7 +504,7 @@
     if(aUid && aUid.length > 0) {
         if (!aNickName) aNickName = @"";
         if (!aUrl) aUrl = @"";
-        EMCustomMessageBody* body = [[EMCustomMessageBody alloc] initWithEvent:@"userCard" ext:@{@"uid":aUid ,@"nickname":aNickName,@"avatar":aUrl}];
+        EMCustomMessageBody* body = [[EMCustomMessageBody alloc] initWithEvent:@"userCard" customExt:@{@"uid":aUid ,@"nickname":aNickName,@"avatar":aUrl}];
         [self.chatController sendMessageWithBody:body ext:nil];
     }
     [self.fullScreenView removeFromSuperview];
@@ -686,6 +697,20 @@
     if (self.conversation.type == EMChatTypeChatRoom && [aChatroom.chatroomId isEqualToString:self.conversation.conversationId]) {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (void)didReciveMessage:(EMChatMessage *)message {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self showHint:[NSString stringWithFormat:@"消息在线状态:%d",message.onlineState]];
+    });
+}
+
+- (void)groupSpecificationDidUpdate:(EMGroup *)aGroup {
+    [self showHint:[NSString stringWithFormat:@"群变更回调:%@",aGroup.groupName]];
+}
+
+- (void)chatroomSpecificationDidUpdate:(EMChatroom *)aChatroom {
+    [self showHint:[NSString stringWithFormat:@"聊天室变更回调:%@",aChatroom.subject]];
 }
 
 - (void)chatroomMuteListDidUpdate:(EMChatroom *)aChatroom removedMutedMembers:(NSArray *)aMutes

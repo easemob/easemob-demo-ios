@@ -14,14 +14,17 @@
 #import "EMAvatarNameCell.h"
 #import "EMDateHelper.h"
 #import "PellTableViewSelect.h"
+#import <QuickLook/QuickLook.h>
 
-@interface EMGroupSharedFilesViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, EMGroupManagerDelegate, UIDocumentPickerDelegate,UIDocumentInteractionControllerDelegate>
+@interface EMGroupSharedFilesViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, EMGroupManagerDelegate, UIDocumentPickerDelegate,UIDocumentInteractionControllerDelegate,QLPreviewControllerDelegate,QLPreviewControllerDataSource>
 
 @property (nonatomic, strong) EMGroup *group;
 
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+
+@property (nonatomic) NSURL *fileUrl;
 
 @end
 
@@ -153,6 +156,19 @@
             }
         }];
     }
+}
+
+- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
+    return 1;
+}
+
+- (id<QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
+    return self.fileUrl;
+}
+
+- (BOOL)previewController:(QLPreviewController *)controller shouldOpenURL:(NSURL *)url forPreviewItem:(id <QLPreviewItem>)item
+{
+    return YES;
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -297,10 +313,16 @@
 
 - (void)_openFileWithPath:(NSString *)aPath
 {
-    NSURL *url = [NSURL fileURLWithPath:aPath];
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[url] applicationActivities:nil];
-    controller.excludedActivityTypes = @[UIActivityTypeMessage, UIActivityTypeMail, UIActivityTypeSaveToCameraRoll, UIActivityTypeAirDrop];
-    [self presentViewController:controller animated:YES completion:nil];
+//    NSURL *url = [NSURL fileURLWithPath:aPath];
+//    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[url] applicationActivities:nil];
+//    controller.excludedActivityTypes = @[UIActivityTypeMessage, UIActivityTypeMail, UIActivityTypeSaveToCameraRoll, UIActivityTypeAirDrop];
+//    [self presentViewController:controller animated:YES completion:nil];
+    self.fileUrl = [NSURL fileURLWithPath:aPath];
+    QLPreviewController *quick = [[QLPreviewController alloc] init];
+    quick.delegate = self;
+    quick.dataSource = self;
+    quick.currentPreviewItemIndex = 0;
+    [self.navigationController pushViewController:quick animated:YES];
 }
 
 - (NSURL *)_videoConvert2Mp4:(NSURL *)movUrl

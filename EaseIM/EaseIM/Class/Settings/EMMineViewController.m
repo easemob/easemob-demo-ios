@@ -246,7 +246,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -258,6 +258,8 @@
         case 1:
             count = 3;
             break;
+        case 2:
+            count = 1;
         default:
             break;
     }
@@ -298,13 +300,23 @@
             self.funLabel.text = NSLocalizedString(@"setting", nil);
         } else if (row == 3){
             imgView.image = [UIImage imageNamed:@"opinionFeedback"];
-            self.funLabel.text = NSLocalizedString(@"advices", nil);
+            //self.funLabel.text = NSLocalizedString(@"advices", nil);
+            self.funLabel.text = @"set push template";
+        } else if (row == 4){
+            imgView.image = [UIImage imageNamed:@"opinionFeedback"];
+            //self.funLabel.text = NSLocalizedString(@"advices", nil);
+            self.funLabel.text = @"get push template";
         } else if (row == 1) {
             imgView.image = [UIImage imageNamed:@"aboutHX"];
             self.funLabel.text = NSLocalizedString(@"about", nil);
         } else if (row == 2) {
             imgView.image = [UIImage imageNamed:@"developerService"];
             self.funLabel.text = NSLocalizedString(@"developerService", nil);
+        }
+    }else if (section == 2) {
+        if (row == 0) {
+            imgView.image = [UIImage imageNamed:@"report"];
+            self.funLabel.text = NSLocalizedString(@"Suggestions", nil);
         }
     }
     self.funLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
@@ -313,7 +325,6 @@
     cell.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);
     return cell;
 }
-
 #pragma mark - Table view delegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -347,8 +358,26 @@
             EMSettingsViewController *settingsController = [[EMSettingsViewController alloc]init];
             [self.navigationController pushViewController:settingsController animated:YES];
         } else if (row == 3) {
-            EMOpinionFeedbackViewController *opinionController = [[EMOpinionFeedbackViewController alloc]init];
-            [self.navigationController pushViewController:opinionController animated:YES];
+            //EMOpinionFeedbackViewController *opinionController = [[EMOpinionFeedbackViewController alloc]init];
+            //[self.navigationController pushViewController:opinionController animated:YES];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Set Push Template" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                //textField.placeholder = @"input template name";
+            }];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:cancelAction];
+            
+            __weak typeof(self) weakself = self;
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                UITextField *textField = alertController.textFields.firstObject;
+                [weakself setPushTemplate:textField.text];
+            }];
+            [alertController addAction:okAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+        } else if (row == 4) {
+            [self getPushTemplate];
         } else if (row == 1) {
             EMAboutHuanXinViewController *aboutHuanXin = [[EMAboutHuanXinViewController alloc]init];
             [self.navigationController pushViewController:aboutHuanXin animated:YES];
@@ -356,7 +385,43 @@
             EMDeveloperServiceViewController *developerServiceController = [[EMDeveloperServiceViewController alloc]init];
             [self.navigationController pushViewController:developerServiceController animated:YES];
         }
+    }else if (section == 2) {
+        if (row == 0) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"SuggestionsPrompt", nil) message:@"yunying@easemob.com" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:cancelAction];
+            
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                NSString* url = [NSString stringWithFormat:@"mailto:yunying@easemob.com?Subject=%@",NSLocalizedString(@"mail.title", nil)];
+                url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                [UIApplication.sharedApplication openURL:[NSURL URLWithString:url] options:nil completionHandler:^(BOOL success) {
+                    
+                }];
+            }];
+            [alertController addAction:okAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
     }
+}
+
+- (void)setPushTemplate:(NSString *)templateName
+{
+    [[EMClient sharedClient].pushManager setPushTemplate:templateName.length > 0 ? templateName : nil completion:^(EMError * _Nullable aError) {
+        [self showHint:aError != nil ? aError.errorDescription : @"set push template success !"];
+    }];
+}
+
+- (void)getPushTemplate
+{
+    [[EMClient sharedClient].pushManager getPushTemplate:^(NSString * _Nullable aPushTemplateName, EMError * _Nullable aError) {
+        if (aError) {
+            [self showHint:aError.errorDescription];
+        } else {
+            [self showHint:[NSString stringWithFormat:@"template : %@", aPushTemplateName]];
+        }
+    }];
 }
 
 #pragma mark - scrollview delegate
