@@ -31,6 +31,8 @@
 "group.uploadSharedFile" = "群组:%@ 上传文件ID: %@";
 "group.removeSharedFile" = "群组:%@ 删除文件ID: %@";
 "group.autoDeleteTip" = "该群仅供试用，72小时后将被删除";
+"When you enter the group,you can see your nick name in the group." = "设置后别人可以看到你在群中的昵称";
+"Please input your nick name in group" = "请输入您在群中的昵称";
 "ok" = "确定";
 "title.searchNoResult" = "搜索无结果";
 "wait" = "请等待...";
@@ -296,6 +298,7 @@
 "inputGroupAnn" = "请输入群组公告";
 "noGroupAnn" = "暂无群公告哦～";
 "groupAnn" = "群组公告";
+"My nick name in group" = "我的本群昵称";
 "updateGroupAnnFail" = "更新群组公告失败";
 "fetchGroupAnnFail" = "获取群组公告失败";
 "inputGroupNickname" = "输入你的群昵称";
@@ -600,3 +603,4 @@
 "login.openDebugMode" = "是否开启开发者模式?";
 "login.closeDebugMode" = "是否关闭开发者模式?";
 "login.smsCodeLimit" = "获取已达上限";
+"Modify successful!" = "修改成功";
