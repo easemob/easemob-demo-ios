@@ -70,7 +70,7 @@
     }
     [EMClient.sharedClient.groupManager setMemberAttribute:self.groupId userId:EMClient.sharedClient.currentUsername attributes:@{@"nickName":self.nickNameField.text} completion:^(EMError * _Nullable error) {
         if (error == nil) {
-            [self showHint:@"Modify successful!"];
+            [self showHint:NSLocalizedString(@"Modify successful!", nil)];
             [[EaseGroupMemberAttributesCache shareInstance] updateCacheWithGroupId:self.groupId userName:EMClient.sharedClient.currentUsername key:@"nickName" value:self.nickNameField.text];
             if (self.changeResult) {
                 self.changeResult(self.nickNameField.text);
