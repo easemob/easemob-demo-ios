@@ -229,11 +229,11 @@
         if(userInfo.nickName.length > 0) {
             model.showName = userInfo.nickName;
         }
+    } else {
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];
     }
     if (self.chatController.currentConversation.type == EMConversationTypeGroupChat && self.chatController.endScroll == YES) {
         [self fetchMemberNickNameOnGroup:huanxinID model:model];
-    } else {
-        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];
     }
     return model;
 }
@@ -262,8 +262,6 @@
                     }
                 }];
             });
-        } else {
-            model.showName = @"";
         }
     }];
 }
@@ -560,7 +558,6 @@
 - (NSArray *)formatMessages:(NSArray<EMChatMessage *> *)aMessages
 {
     NSMutableArray *formated = [[NSMutableArray alloc] init];
-
     for (int i = 0; i < [aMessages count]; i++) {
         EMChatMessage *msg = aMessages[i];
         if (msg.chatType == EMChatTypeChat && msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
