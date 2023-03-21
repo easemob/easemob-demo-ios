@@ -90,8 +90,14 @@ static EaseGroupMemberAttributesCache *instance = nil;
         if (nickName == nil || [nickName isEqualToString:@""]) {
             [EMClient.sharedClient.groupManager fetchMembersAttributes:groupId userIds:self.userNames keys:@[key] completion:^(NSDictionary<NSString *,NSDictionary<NSString *,NSString *> *> * _Nullable attributes, EMError * _Nullable error) {
                 if (error == nil) {
-                    value = [[attributes objectForKeySafely:attributes.allKeys.firstObject] objectForKeySafely:key];
-                    [self updateCacheWithGroupId:groupId userName:attributes.allKeys.firstObject key:key value:value];
+                    for (NSString *userNameKey in attributes.allKeys) {
+                        NSDictionary<NSString *,NSString *> *dic = [attributes objectForKeySafely:userNameKey];
+                        for (NSString *valueKey in dic.allKeys) {
+                            NSString *realValue = [attributes objectForKeySafely:valueKey];
+                            [self updateCacheWithGroupId:groupId userName:userNameKey key:valueKey value:realValue];
+                        }
+                    }
+                    
                 }
                 [self.userNames removeObject:attributes.allKeys.firstObject];
                 if (completion) {
