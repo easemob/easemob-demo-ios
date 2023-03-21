@@ -229,11 +229,11 @@
         if(userInfo.nickName.length > 0) {
             model.showName = userInfo.nickName;
         }
+    } else {
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];
     }
     if (self.chatController.currentConversation.type == EMConversationTypeGroupChat && self.chatController.endScroll == YES) {
         [self fetchMemberNickNameOnGroup:huanxinID model:model];
-    } else {
-        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];
     }
     return model;
 }
@@ -262,8 +262,6 @@
                     }
                 }];
             });
-        } else {
-            model.showName = @"";
         }
     }];
 }
