@@ -558,7 +558,6 @@
 - (NSArray *)formatMessages:(NSArray<EMChatMessage *> *)aMessages
 {
     NSMutableArray *formated = [[NSMutableArray alloc] init];
-
     for (int i = 0; i < [aMessages count]; i++) {
         EMChatMessage *msg = aMessages[i];
         if (msg.chatType == EMChatTypeChat && msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
