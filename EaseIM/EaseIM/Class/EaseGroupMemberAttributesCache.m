@@ -92,8 +92,8 @@ static EaseGroupMemberAttributesCache *instance = nil;
                 if (error == nil) {
                     value = [[attributes objectForKeySafely:attributes.allKeys.firstObject] objectForKeySafely:key];
                     [self updateCacheWithGroupId:groupId userName:attributes.allKeys.firstObject key:key value:value];
-                    [self.userNames removeObject:attributes.allKeys.firstObject];
                 }
+                [self.userNames removeObject:attributes.allKeys.firstObject];
                 if (completion) {
                     completion(error,value);
                 }
