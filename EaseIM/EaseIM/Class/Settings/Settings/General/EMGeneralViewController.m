@@ -11,7 +11,6 @@
 
 #import "EMDemoOptions.h"
 #import "EMServiceCheckViewController.h"
-#import "Language/LanguageViewController.h"
 #import "EMGeneralTitleSwitchCell.h"
 
 static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
@@ -59,7 +58,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -79,9 +78,6 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
             count = 1;
             break;
         case 2:
-            count = 1;
-            break;
-        case 3:
             count = 2;
             break;
         default:
@@ -126,18 +122,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
             
             return self.silentTimeCell;
         }
-    } else if(section == 1) {
-        UITableViewCell *generalCell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCellValue1"];
-        if (generalCell == nil) {
-            generalCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCellValue1"];
-        }
-        generalCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if(row == 0) {
-            generalCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            generalCell.textLabel.text = NSLocalizedString(@"MultiLanguages", nil);
-        }
-        return generalCell;
-    }else if (section == 2) {
+    } else if (section == 1) {
         if (row == 0) {
             cell.nameLabel.text = NSLocalizedString(@"showInputTip", nil);
             [cell.aSwitch setOn:options.isChatTyping animated:NO];
@@ -148,7 +133,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
                 [weakSelf.tableView reloadData];
             };
         }
-    } else if (section == 3) {
+    } else if (section == 2) {
         if (row == 0) {
             cell.nameLabel.text = NSLocalizedString(@"autoJoin", nil);
             [cell.aSwitch setOn:options.isAutoAcceptGroupInvitation animated:NO];
@@ -184,7 +169,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
     if (section == 0) {
         return 0.001;
     }
-    if (section == 2) {
+    if (section == 1) {
         return 46;
     }
     return 16;
@@ -192,7 +177,7 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == 2) {
+    if (section == 1) {
         UILabel *label = [[UILabel alloc] init];
         label.font = [UIFont systemFontOfSize:14.0];
         label.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
@@ -226,11 +211,6 @@ static NSString *generalCellIndetifier = @"GeneralCellIndetifier";
         if (row == 1) {
             [self changeDisturbDateAction];
         }
-    }
-    if(section == 1 && row == 0) {
-        // 多语言选择
-        LanguageViewController *languageController = [[LanguageViewController alloc] init];
-        [self.navigationController pushViewController:languageController animated:YES];
     }
 }
 

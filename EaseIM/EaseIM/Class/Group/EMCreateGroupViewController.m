@@ -11,6 +11,8 @@
 #import "EMTextFieldViewController.h"
 #import "EMTextViewController.h"
 #import "EMInviteGroupMemberViewController.h"
+#import "EMHttpRequest.h"
+
 
 @interface EMCreateGroupViewController ()
 
@@ -378,6 +380,12 @@
         } else {
             [EMAlertController showSuccessAlert:NSLocalizedString(@"createGroupSucess", nil)];
             [weakself.navigationController popViewControllerAnimated:YES];
+            // 上传groupId到appServer，用于72小时后解散
+            if(![EMDemoOptions sharedOptions].isDevelopMode) {
+                [[EMHttpRequest sharedManager] uploadGroupIdToAutoDestroy:aGroup.groupId appkey:EMClient.sharedClient.options.appkey completion:^(NSString * _Nullable response) {
+                                    
+                }];
+            }
             if (weakself.successCompletion) {
                 weakself.successCompletion(aGroup);
             }

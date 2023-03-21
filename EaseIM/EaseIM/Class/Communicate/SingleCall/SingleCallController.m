@@ -11,6 +11,7 @@
 #import "EMGlobalVariables.h"
 #import "EMChatViewController.h"
 #import "UserInfoStore.h"
+#import <AVFoundation/AVFoundation.h>
 
 static SingleCallController *callManager = nil;
 
@@ -64,18 +65,6 @@ static SingleCallController *callManager = nil;
         return;
     }
     EaseCallType aType = (EaseCallType)[[notify.object objectForKey:CALL_TYPE] integerValue];
-    AVAudioSessionRecordPermission permissionStatus = [[AVAudioSession sharedInstance] recordPermission];
-    if (permissionStatus == AVAudioSessionRecordPermissionDenied) {
-        [EMAlertController showErrorAlert:NSLocalizedString(@"needMicRight", nil)];
-        return;
-    }
-    if (aType == EaseCallType1v1Video) {
-        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        if (authStatus == AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied) {
-            [EMAlertController showErrorAlert:NSLocalizedString(@"needCameraRight", nil)];
-            return;
-        }
-    }
     _chatter = [notify.object valueForKey:CALL_CHATTER] ;
     EMConversation* conversation = [[[EMClient sharedClient] chatManager] getConversationWithConvId:_chatter];
     NSString*msgId = [conversation latestMessage].messageId;

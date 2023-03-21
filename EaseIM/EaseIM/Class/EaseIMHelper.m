@@ -17,6 +17,8 @@
 #import "EMChatroomInfoViewController.h"
 #import "EMRemindManager.h"
 #import "EMAlertController.h"
+#import "EaseGroupMemberAttributesCache.h"
+
 
 static EaseIMHelper *helper = nil;
 
@@ -88,6 +90,7 @@ static EaseIMHelper *helper = nil;
 
 - (void)userAccountDidLoginFromOtherDevice
 {
+    [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
     [[EMClient sharedClient] logout:NO];
     [self showAlertWithMessage:NSLocalizedString(@"loginOtherPrompt", nil)];
     
@@ -102,6 +105,7 @@ static EaseIMHelper *helper = nil;
     [[EMClient sharedClient] logout:NO];
     [self showAlertWithMessage:NSLocalizedString(@"removedByServerPrompt", nil)];
     
+    [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
     [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
 }
 
@@ -113,6 +117,7 @@ static EaseIMHelper *helper = nil;
     [[EMClient sharedClient] logout:NO];
     [self showAlertWithMessage:NSLocalizedString(@"accountForbiddenPrompt", nil)];
     
+    [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
     [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
 }
 
@@ -121,6 +126,7 @@ static EaseIMHelper *helper = nil;
     [[EMClient sharedClient] logout:NO];
     [self showAlertWithMessage:aError.errorDescription];
     
+    [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
     [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
 }
 
@@ -140,7 +146,18 @@ static EaseIMHelper *helper = nil;
 {
     NSString *message = [NSString stringWithFormat:@"%li-%@-%@", (long)aEvent, aGroupId, aExt];
     [self showAlertWithTitle:NSLocalizedString(@"multiDevices[Group]", nil) message:message];
+    if (aEvent == EMMultiDevicesEventGroupMemberAttributesChanged) {
+        [EMClient.sharedClient.groupManager fetchMemberAttribute:aGroupId userId:EMClient.sharedClient.currentUsername completion:^(NSDictionary<NSString *,NSString *> * _Nullable attributes, EMError * _Nullable error) {
+            if (error == nil) {
+                for (NSString *key in attributes) {
+                    [[EaseGroupMemberAttributesCache shareInstance] updateCacheWithGroupId:aGroupId userName:EMClient.sharedClient.currentUsername key:key value:attributes[key]];
+                }
+            }
+        }];
+    }
 }
+
+
 
 #pragma mark - EMChatManagerDelegate
 
@@ -154,6 +171,12 @@ static EaseIMHelper *helper = nil;
 }
 
 #pragma mark - EMGroupManagerDelegate
+- (void)onAttributesChangedOfGroupMember:(NSString *)groupId userId:(NSString *)userId attributes:(NSDictionary<NSString *,NSString *> *)attributes operatorId:(NSString *)operatorId {
+    [self showAlertWithMessage:[NSString stringWithFormat:@"%@ changed %@ attributes %@ in %@",operatorId,userId,attributes,groupId]];
+    for (NSString *key in attributes.allKeys) {
+        [[EaseGroupMemberAttributesCache shareInstance] updateCacheWithGroupId:groupId userName:userId key:key value:attributes[key]];
+    }
+}
 
 - (void)didJoinGroup:(EMGroup *)aGroup inviter:(NSString *)aInviter message:(NSString *)aMessage
 {
@@ -304,6 +327,7 @@ static EaseIMHelper *helper = nil;
     
     NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", aUsername, NSLocalizedString(@"group.leave", @"Leave group"), [NSString stringWithFormat:@"「%@」",aGroup.groupName]];
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.membersUpdate", @"Group Members Update") message:msg];
+    [[EaseGroupMemberAttributesCache shareInstance] removeCacheWithGroupId:aGroup.groupId userId:aUsername];
     [alertView show];
 }
 
@@ -311,21 +335,19 @@ static EaseIMHelper *helper = nil;
 {
     __block EMAlertView *alertView = nil;
     if (aReason == EMGroupLeaveReasonBeRemoved) {
-        alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"removedFromGroupPrompt", nil), aGroup.groupName]];
-        
+        [[EaseGroupMemberAttributesCache shareInstance] removeCacheWithGroupId:aGroup.groupId];
         [[EMClient sharedClient].chatManager deleteServerConversation:aGroup.groupId conversationType:EMConversationTypeGroupChat isDeleteServerMessages:NO completion:^(NSString *aConversationId, EMError *aError) {
-            
-            alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"removedFromGroupPrompt", nil), aError.errorDescription]];
+            alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"removedFromGroupPrompt", nil), aGroup.groupName]];
             [alertView show];
             
             [[EMClient sharedClient].chatManager deleteConversation:aGroup.groupId isDeleteMessages:NO completion:nil];
         }];
     }
     if (aReason == EMGroupLeaveReasonDestroyed) {
-        alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"groupDestroiedPrompt", nil), aGroup.groupName]];
+        [[EaseGroupMemberAttributesCache shareInstance] removeCacheWithGroupId:aGroup.groupId];
         [[EMClient sharedClient].chatManager deleteServerConversation:aGroup.groupId conversationType:EMConversationTypeGroupChat isDeleteServerMessages:NO completion:^(NSString *aConversationId, EMError *aError) {
             
-            alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"removedFromGroupPrompt", nil), aError.errorDescription]];
+            alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"group.leave", @"Leave group") message:[NSString stringWithFormat:NSLocalizedString(@"groupDestroiedPrompt", nil), aGroup.groupName]];
             [alertView show];
             
             [[EMClient sharedClient].chatManager deleteConversation:aGroup.groupId isDeleteMessages:NO completion:nil];

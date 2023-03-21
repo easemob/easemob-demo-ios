@@ -23,7 +23,11 @@
 #import "EMGroupManageViewController.h"
 #import "EMGroupAllMembersViewController.h"
 #import "EMChatRecordViewController.h"
+#import "EMGroupMemberNickNameViewController.h"
+#import "EaseGroupMemberAttributesCache.h"
 #import <EaseIMKit/EaseIMKit.h>
+#import "NSDictionary+Safely.h"
+#import "EaseGroupMemberAttributesCache.h"
 
 @interface EMGroupInfoViewController ()<EMMultiDevicesDelegate, EMGroupManagerDelegate>
 
@@ -35,6 +39,7 @@
 @property (nonatomic, strong) UILabel *leaveCellContentLabel;
 @property (nonatomic, strong) EMConversation *conversation;
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
+@property (nonatomic) NSString *nickName;
 
 @end
 
@@ -57,13 +62,28 @@
     
     // Uncomment the following line to preserve selection between presentations.
     [self _setupSubviews];
+    self.nickName = @"";
 //    [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     self.showRefreshHeader = NO;
     [self _fetchGroupWithId:self.groupId isShowHUD:YES];
+    [self fetchUserNickName];
     [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient] addMultiDevicesDelegate:self delegateQueue:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleGroupInfoUpdated:) name:GROUP_INFO_UPDATED object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadInfo) name:GROUP_INFO_REFRESH object:nil];
+}
+
+
+- (void)fetchUserNickName {
+    [EMClient.sharedClient.groupManager fetchMemberAttribute:self.groupId userId:EMClient.sharedClient.currentUsername completion:^(NSDictionary<NSString *,NSString *> * _Nullable attributes, EMError * _Nullable error) {
+        if (error == nil) {
+            self.nickName = [attributes objectForKeySafely:@"nickName"];
+            if (![self.nickName isEqualToString:@""]) {
+                [[EaseGroupMemberAttributesCache shareInstance] updateCacheWithGroupId:self.groupId userName:EMClient.sharedClient.currentUsername key:@"nickName" value:self.nickName];
+                [self.tableView reloadData];
+            }
+        }
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -140,9 +160,10 @@
         return 2;
     }
     if (section == 1) {
-        if (self.group.permissionType == EMGroupPermissionTypeOwner || self.group.permissionType == EMGroupPermissionTypeAdmin)
-            return 5;
-        return 4;
+        if (self.group.permissionType == EMGroupPermissionTypeOwner || self.group.permissionType == EMGroupPermissionTypeAdmin) {
+            return 6;
+        }
+        return 6;
     }
     if (section == 2)
         return 1;
@@ -229,7 +250,7 @@
             cell.detailTextLabel.text = @"";
         } else if (row == 2) {
             cell.textLabel.text = NSLocalizedString(@"groupAnn", nil);
-            cell.detailTextLabel.text = @"";
+            cell.detailTextLabel.text = self.group.announcement;
         } else if (row == 3) {
             cell.textLabel.text = NSLocalizedString(@"groupDescription", nil);
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",self.group.description];
@@ -237,6 +258,10 @@
         } else if (row == 4) {
             cell.textLabel.text = NSLocalizedString(@"groupAdmin", nil);
             cell.detailTextLabel.text = @"";
+        } else if (row == 5) {
+            cell.textLabel.text = NSLocalizedString(@"My nick name in group", nil);
+            cell.detailTextLabel.text = self.nickName != nil ? self.nickName:@"";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }  else if (section == 2) {
         if (row == 0) {
@@ -312,6 +337,14 @@
             //群管理
             EMGroupManageViewController *controller = [[EMGroupManageViewController alloc]initWithGroup:self.groupId];
             [self.navigationController pushViewController:controller animated:YES];
+        } else if (row == 5) {
+            EMGroupMemberNickNameViewController *VC = [[EMGroupMemberNickNameViewController alloc] initWithGroupId:self.groupId nickName:self.nickName];
+            [VC setChangeResult:^(NSString * _Nonnull nickName) {
+                self.nickName = nickName;
+                [self.tableView reloadData];
+            }];
+            VC.title = NSLocalizedString(@"My nick name in group", nil);
+            [self.navigationController pushViewController:VC animated:YES];
         }
     } else if (section == 2) {
         if (row == 0) {
@@ -541,6 +574,7 @@
                 [[EMClient sharedClient].groupManager updateGroupAnnouncementWithId:weakself.groupId announcement:aString completion:^(EMGroup *aGroup, EMError *aError) {
                     [weakController hideHud];
                     if (aError) {
+                        weakself.group = aGroup;
                         [EMAlertController showErrorAlert:NSLocalizedString(@"updateGroupAnnFail", nil)];
                     } else {
                         [weakController.navigationController popViewControllerAnimated:YES];
@@ -682,6 +716,7 @@
 {
     __weak typeof(self) weakself = self;
     void (^block)(EMError *aError) = ^(EMError *aError) {
+        [[EaseGroupMemberAttributesCache shareInstance] removeCacheWithGroupId:self.groupId];
         if (!aError && [EMClient sharedClient].options.isDeleteMessagesWhenExitGroup) {
             [[EMClient sharedClient].chatManager deleteServerConversation:weakself.groupId conversationType:EMConversationTypeGroupChat isDeleteServerMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
                 if (aError) {
@@ -689,7 +724,7 @@
                 }
                 
                 [[EMClient sharedClient].chatManager deleteConversation:weakself.groupId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
-                    [[EMTranslationManager sharedManager] removeTranslationByConversationId:weakself.groupId];
+                    
                 }];
             }];
         }

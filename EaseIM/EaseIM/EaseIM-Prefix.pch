@@ -17,7 +17,6 @@
     #import <EaseIMKit/EaseIMKit.h>
     #import <HyphenateChat/HyphenateChat.h>
     #import <EaseCallKit/EaseCallUIKit.h>
-    #import <EMTranslate/EMTranslationManager.h>
     #import <Masonry/Masonry.h>
     #import "EMHeaders.h"
     #import "EMDefines.h"
