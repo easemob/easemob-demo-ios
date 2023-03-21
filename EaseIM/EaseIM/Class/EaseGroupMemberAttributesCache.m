@@ -92,7 +92,6 @@ static EaseGroupMemberAttributesCache *instance = nil;
                 if (error == nil) {
                     for (NSString *userNameKey in attributes.allKeys) {
                         NSDictionary<NSString *,NSString *> *dic = [attributes objectForKeySafely:userNameKey];
-                        [self.userNames removeObject:userNameKey];
                         for (NSString *valueKey in dic.allKeys) {
                             NSString *realValue = [attributes objectForKeySafely:valueKey];
                             [self updateCacheWithGroupId:groupId userName:userNameKey key:valueKey value:realValue];
