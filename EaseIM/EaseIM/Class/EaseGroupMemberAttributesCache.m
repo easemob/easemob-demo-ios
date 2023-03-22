@@ -77,42 +77,34 @@ static EaseGroupMemberAttributesCache *instance = nil;
 
 - (void)fetchCacheValueGroupId:(NSString *)groupId userName:(NSString *)userName key:(NSString *)key completion:(void(^)(EMError *_Nullable error,NSString * _Nullable value))completion {
     __block NSString *value = [[[self.attributes objectForKeySafely:groupId] objectForKeySafely:userName] objectForKeySafely:key];
-    if (![self.userNames containsObject:userName]) {
+    if (![self.userNames containsObject:userName] && value == nil) {
         [self.userNames addObject:userName];
-    } else {
-        if (completion) {
-            completion(nil,value);
-        }
-        return;
-    }
-    if (value == nil) {
-        NSString *nickName = [[UserInfoStore sharedInstance] getUserInfoById:userName].nickname;
-        if (nickName == nil || [nickName isEqualToString:@""]) {
-            [EMClient.sharedClient.groupManager fetchMembersAttributes:groupId userIds:self.userNames keys:@[key] completion:^(NSDictionary<NSString *,NSDictionary<NSString *,NSString *> *> * _Nullable attributes, EMError * _Nullable error) {
-                if (error == nil) {
-                    for (NSString *userNameKey in attributes.allKeys) {
-                        NSDictionary<NSString *,NSString *> *dic = [attributes objectForKeySafely:userNameKey];
-                        for (NSString *valueKey in dic.allKeys) {
-                            NSString *realValue = [attributes objectForKeySafely:valueKey];
-                            [self updateCacheWithGroupId:groupId userName:userNameKey key:valueKey value:realValue];
-                        }
-                    }
-                    
-                } else {
-                    for (NSString *userNameKey in attributes.allKeys) {
-                        [self.userNames removeObject:userNameKey];
+        [EMClient.sharedClient.groupManager fetchMembersAttributes:groupId userIds:self.userNames keys:@[key] completion:^(NSDictionary<NSString *,NSDictionary<NSString *,NSString *> *> * _Nullable attributes, EMError * _Nullable error) {
+            if (error == nil) {
+                for (NSString *userNameKey in attributes.allKeys) {
+                    NSDictionary<NSString *,NSString *> *dic = [attributes objectForKeySafely:userNameKey];
+                    [self.userNames removeObject:userNameKey];
+                    for (NSString *valueKey in dic.allKeys) {
+                        NSString *realValue = [dic objectForKeySafely:valueKey];
+                        [self updateCacheWithGroupId:groupId userName:userNameKey key:valueKey value:realValue];
+                        value = realValue;
                     }
                 }
-                if (completion) {
-                    completion(error,value);
+                
+            } else {
+                for (NSString *userNameKey in attributes.allKeys) {
+                    [self.userNames removeObject:userNameKey];
                 }
-            }];
-        } else {
-            value = nickName;
-        }
+            }
+            if (completion) {
+                completion(error,value);
+            }
+        }];
     } else {
+        [self.userNames removeObject:userName];
         completion(nil,value);
     }
+    
 }
 
 - (void)setGroupMemberAttributes:(NSString *)groupId userName:(NSString *)userName key:(NSString *)key value:(NSString *)value completion:(void(^)(EMError *error))completion {
