@@ -77,7 +77,7 @@ static EaseGroupMemberAttributesCache *instance = nil;
 
 - (void)fetchCacheValueGroupId:(NSString *)groupId userName:(NSString *)userName key:(NSString *)key completion:(void(^)(EMError *_Nullable error,NSString * _Nullable value))completion {
     __block NSString *value = [[[self.attributes objectForKeySafely:groupId] objectForKeySafely:userName] objectForKeySafely:key];
-    if (![self.userNames containsObject:userName] && value == nil) {
+    if (![self.userNames containsObject:userName] || value == nil) {
         [self.userNames addObject:userName];
         [EMClient.sharedClient.groupManager fetchMembersAttributes:groupId userIds:self.userNames keys:@[key] completion:^(NSDictionary<NSString *,NSDictionary<NSString *,NSString *> *> * _Nullable attributes, EMError * _Nullable error) {
             if (error == nil) {
