@@ -11,10 +11,15 @@ target 'EaseIM' do
     pod 'Masonry'
     pod 'MJRefresh'
     pod 'SDWebImage'
+
+    pod 'AgoraRtcEngine_iOS/RtcBasic'
     pod 'FMDB'
     pod 'HyphenateChat'
-    pod 'EaseIMKit'
+#    pod 'EaseIMKit'
     pod 'EaseCallKit'
+
+    pod 'EaseIMKit'
+
     pod 'Bugly'
 #    xcode 14打开这个
 #    post_install do |installer|
