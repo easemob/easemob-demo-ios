@@ -12,14 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedManager;
 
-- (void)registerToApperServer:(NSString *)uName
-                          pwd:(NSString *)pwd
-                   completion:(void (^)(NSInteger statusCode, NSString *response))aCompletionBlock;
+- (void)loginToAppServerWithPhone:(NSString *)phoneNumber
+                          smsCode:(NSString *)smsCode
+                       completion:(void (^)(NSString * _Nullable response))aCompletionBlock;
 
-- (void)loginToApperServer:(NSString *)uName
-                       pwd:(NSString *)pwd
-                completion:(void (^)(NSInteger statusCode, NSString *response))aCompletionBlock;
+- (void)requestSMSWithPhone:(NSString*)phone completion:(void(^)(NSString* _Nullable response))aCompletionBlock;
 
+- (void)uploadGroupIdToAutoDestroy:(NSString*)groupId appkey:(NSString*)appkey completion:(void(^)(NSString* _Nullable response))aCompletionBlock;
 @end
 
 NS_ASSUME_NONNULL_END

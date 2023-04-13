@@ -5,7 +5,10 @@
 //
 
 #import "EMHttpRequest.h"
+#import <HyphenateChat/EMOptions+PrivateDeploy.h>
 
+static NSString* domain = @"a1.easemob.com";
+static NSString* sandboxDomain = @"a1-hsb.easemob.com";
 @interface EMHttpRequest() <NSURLSessionDelegate>
 @property (readonly, nonatomic, strong) NSURLSession *session;
 @end
@@ -34,53 +37,39 @@
     return self;
 }
 
-- (void)registerToApperServer:(NSString *)uName
-                          pwd:(NSString *)pwd
-                   completion:(void (^)(NSInteger statusCode, NSString *aUsername))aCompletionBlock
+- (NSString*)getDomain
 {
-    NSURL *url = [NSURL URLWithString:@"http://hk.test.easemob.com/app/chat/user/register"];
-    NSMutableURLRequest *request = [NSMutableURLRequest
-                                                requestWithURL:url];
-    request.HTTPMethod = @"POST";
-    
-    NSMutableDictionary *headerDict = [[NSMutableDictionary alloc]init];
-    [headerDict setObject:@"application/json" forKey:@"Content-Type"];
-    request.allHTTPHeaderFields = headerDict;
-    
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
-    [dict setObject:uName forKey:@"userAccount"];
-    [dict setObject:pwd forKey:@"userPassword"];
-    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
-    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSString *responseData = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
-        if (aCompletionBlock) {
-            aCompletionBlock(((NSHTTPURLResponse*)response).statusCode, responseData);
-        }
-    }];
-    [task resume];
+    if (!EMClient.sharedClient.options.enableDnsConfig && [EMClient.sharedClient.options.restServer containsString:@"hsb"]) {
+        return sandboxDomain;
+    }
+    return domain;
 }
 
-- (void)loginToApperServer:(NSString *)uName
-                       pwd:(NSString *)pwd
-                completion:(void (^)(NSInteger statusCode, NSString *response))aCompletionBlock
+- (void)loginToAppServerWithPhone:(NSString *)phoneNumber
+                          smsCode:(NSString *)smsCode
+                       completion:(void (^)(NSString * _Nullable response))aCompletionBlock
 {
-    NSURL *url = [NSURL URLWithString:@"http://hk.test.easemob.com/app/chat/user/login"];
+    if (phoneNumber.length <= 0 || smsCode.length <= 0) {
+        return;
+    }
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/user/login/V2",[self getDomain]]];
     NSMutableURLRequest *request = [NSMutableURLRequest
                                                 requestWithURL:url];
     request.HTTPMethod = @"POST";
     
     NSMutableDictionary *headerDict = [[NSMutableDictionary alloc]init];
     [headerDict setObject:@"application/json" forKey:@"Content-Type"];
+    [headerDict setObject:@"application/json" forKey:@"Accept"];
     request.allHTTPHeaderFields = headerDict;
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
-    [dict setObject:uName forKey:@"userAccount"];
-    [dict setObject:pwd forKey:@"userPassword"];
+    [dict setObject:phoneNumber forKey:@"phoneNumber"];
+    [dict setObject:smsCode forKey:@"smsCode"];
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSString *responseData = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
         if (aCompletionBlock) {
-            aCompletionBlock(((NSHTTPURLResponse*)response).statusCode, responseData);
+            aCompletionBlock(responseData);
         }
     }];
     [task resume];
@@ -93,6 +82,44 @@
             if(completionHandler)
                 completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
         }
+}
+
+- (void)requestSMSWithPhone:(NSString*)phone completion:(void(^)(NSString* _Nullable response))aCompletionBlock
+{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/sms/send/%@",[self getDomain],phone]];
+    NSMutableDictionary *headerDict = [[NSMutableDictionary alloc] init];
+    [headerDict setObject:@"application/json" forKey:@"Content-Type"];
+    [headerDict setObject:@"application/json" forKey:@"Accept"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.allHTTPHeaderFields = headerDict;
+    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSString *responseData = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+        if (aCompletionBlock) {
+            aCompletionBlock(responseData);
+        }
+    }];
+
+    [task resume];
+}
+
+- (void)uploadGroupIdToAutoDestroy:(NSString*)groupId appkey:(NSString*)appkey completion:(void(^)(NSString* _Nullable response))aCompletionBlock
+{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/inside/app/group/%@?appkey=%@",[self getDomain],groupId,[appkey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    NSMutableDictionary *headerDict = [[NSMutableDictionary alloc] init];
+    [headerDict setObject:@"application/json" forKey:@"Content-Type"];
+    [headerDict setObject:@"application/json" forKey:@"Accept"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.allHTTPHeaderFields = headerDict;
+    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSString *responseData = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+        if (aCompletionBlock) {
+            aCompletionBlock(responseData);
+        }
+    }];
+
+    [task resume];
 }
 
 @end

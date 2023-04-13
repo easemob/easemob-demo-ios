@@ -256,8 +256,10 @@
             count = 1;
             break;
         case 1:
-            count = 5;
+            count = 3;
             break;
+        case 2:
+            count = 1;
         default:
             break;
     }
@@ -310,6 +312,11 @@
         } else if (row == 2) {
             imgView.image = [UIImage imageNamed:@"developerService"];
             self.funLabel.text = NSLocalizedString(@"developerService", nil);
+        }
+    }else if (section == 2) {
+        if (row == 0) {
+            imgView.image = [UIImage imageNamed:@"report"];
+            self.funLabel.text = NSLocalizedString(@"Suggestions", nil);
         }
     }
     self.funLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
@@ -377,6 +384,24 @@
         } else if (row == 2) {
             EMDeveloperServiceViewController *developerServiceController = [[EMDeveloperServiceViewController alloc]init];
             [self.navigationController pushViewController:developerServiceController animated:YES];
+        }
+    }else if (section == 2) {
+        if (row == 0) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"SuggestionsPrompt", nil) message:@"yunying@easemob.com" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:cancelAction];
+            
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                NSString* url = [NSString stringWithFormat:@"mailto:yunying@easemob.com?Subject=%@",NSLocalizedString(@"mail.title", nil)];
+                url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                [UIApplication.sharedApplication openURL:[NSURL URLWithString:url] options:nil completionHandler:^(BOOL success) {
+                    
+                }];
+            }];
+            [alertController addAction:okAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
         }
     }
 }

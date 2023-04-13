@@ -23,8 +23,10 @@
 #import "UserInfoStore.h"
 #import "ConfirmUserCardView.h"
 #import "EMAccountViewController.h"
+#import "AntiFraudView.h"
+#import "EaseGroupMemberAttributesCache.h"
 
-@interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate>
+@interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate,EMMultiDevicesDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *titleDetailLabel;
@@ -49,6 +51,17 @@
     return self;
 }
 
+- (void)setupTip {
+    // 添加一条自动销毁提示
+    if (!EMDemoOptions.sharedOptions.isDevelopMode && self.conversation.type == EMConversationTypeGroupChat) {
+        EMGroup *group = [EMGroup groupWithId:self.conversation.conversationId];
+        NSString* ext = group.settings.ext;
+        if (![ext isEqualToString:@"default"]) {
+            self.titleDetailLabel.text = NSLocalizedString(@"group.autoDeleteTip", nil);
+        }
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     //单聊主叫方才能发送通话记录信息(本地通话记录)
@@ -62,6 +75,14 @@
     if (_conversation.unreadMessagesCount > 0) {
         [[EMClient sharedClient].chatManager ackConversationRead:_conversation.conversationId completion:nil];
     }
+    [self setupAntiFraudView];
+    [self setupTip];
+}
+
+- (void)setupAntiFraudView
+{
+    AntiFraudView* antiView = [[AntiFraudView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 75)];
+    [self.view addSubview:antiView];
 }
 
 - (void)dealloc
@@ -92,7 +113,7 @@
     [self _setupNavigationBarRightItem];
     [self addChildViewController:_chatController];
     [self.view addSubview:_chatController.view];
-    _chatController.view.frame = self.view.bounds;
+    _chatController.view.frame = CGRectMake(0, 75, self.view.frame.size.width, self.view.frame.size.height-75);
     [self loadData:YES];
     self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
 }
@@ -129,8 +150,8 @@
     }];
     
     self.titleDetailLabel = [[UILabel alloc] init];
-    self.titleDetailLabel.font = [UIFont systemFontOfSize:15];
-    self.titleDetailLabel.textColor = [UIColor grayColor];
+    self.titleDetailLabel.font = [UIFont fontWithName:@"PingFang SC" size:12];
+    self.titleDetailLabel.textColor = [UIColor colorWithRed:0.678 green:0.678 blue:0.677 alpha:1.0];
     self.titleDetailLabel.textAlignment = NSTextAlignmentCenter;
     [titleView addSubview:self.titleDetailLabel];
     [self.titleDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -158,14 +179,6 @@
 //自定义通话记录cell
 - (UITableViewCell *)cellForItem:(UITableView *)tableView messageModel:(EaseMessageModel *)messageModel
 {
-//    if (messageModel.type == EMMessageTypePictMixText) {
-//        EMMsgPicMixTextBubbleView* picMixBV = [[EMMsgPicMixTextBubbleView alloc] init];
-//        [picMixBV setModel:messageModel];
-//        EMMessageCell *cell = [[EMMessageCell alloc] initWithDirection:messageModel.direction type:messageModel.type msgView:picMixBV];
-//        cell.model = messageModel;
-//        cell.delegate = self;
-//        return cell;
-//    }
 
     if(![messageModel isKindOfClass:[EaseMessageModel class]])
         return nil;
@@ -192,8 +205,20 @@
 {
     self.titleDetailLabel.text = nil;
 }
+
+- (void)scrollViewEndScroll {
+    for (UITableViewCell *cell in [self.chatController.tableView visibleCells]) {
+        if ([cell canPerformAction:@selector(model) withSender:nil]) {
+            id model = [cell performSelector:@selector(model)];
+            if ([model isKindOfClass:[EaseMessageModel class]]) {
+                [cell performSelector:@selector(setModel:) withObject:model];
+            }
+        }
+    }
+}
+
 //userdata
-- (id<EaseUserDelegate>)userData:(NSString *)huanxinID
+- (id<EaseUserDelegate>) userData:(NSString *)huanxinID
 {
     EMUserDataModel *model = [[EMUserDataModel alloc] initWithEaseId:huanxinID];
     EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:huanxinID];
@@ -204,10 +229,41 @@
         if(userInfo.nickName.length > 0) {
             model.showName = userInfo.nickName;
         }
-    }else{
+    } else {
         [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];
     }
+    if (self.chatController.currentConversation.type == EMConversationTypeGroupChat && self.chatController.endScroll == YES) {
+        [self fetchMemberNickNameOnGroup:huanxinID model:model];
+    }
     return model;
+}
+
+- (void)fetchMemberNickNameOnGroup:(NSString *)userId model:(EMUserDataModel *)model{
+    if ([userId isEqualToString:EMClient.sharedClient.currentUsername]) {
+        return;
+    }
+    [[EaseGroupMemberAttributesCache shareInstance] fetchCacheValueGroupId:self.chatController.currentConversation.conversationId userName:userId key:@"nickName" completion:^(EMError * _Nullable error, NSString * _Nullable value) {
+        if (error == nil && value != nil && ![value isEqualToString:@""]) {
+            model.showName = value;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self.chatController.tableView visibleCells] enumerateObjectsUsingBlock:^(__kindof UITableViewCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
+                    EaseMessageModel *model;
+                    if (cell && [cell canPerformAction:@selector(model) withSender:nil]) {
+                        id tmp = [cell performSelector:@selector(model)];
+                        if ([tmp isKindOfClass:[EaseMessageModel class]]) {
+                            model = tmp;
+                        }
+                    }
+                    if ([model isKindOfClass:[EaseMessageModel class]] && [model.message.from isEqualToString:userId]) {
+                        if ([cell canPerformAction:@selector(setModel:) withSender:model]) {
+                            [cell performSelector:@selector(setModel:) withObject:model];
+                        }
+                        *stop = YES;
+                    }
+                }];
+            });
+        }
+    }];
 }
 
 //头像点击
@@ -228,11 +284,58 @@
 //@群成员
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if ([text isEqualToString:@"@"] && self.conversation.type == EMConversationTypeGroupChat) {
-        [self _willInputAt:textView];
+    if (self.conversation.type == EMConversationTypeGroupChat) {
+        if ([text isEqualToString:@"@"]) {
+            [self _willInputAt:textView];
+        } else if ([text isEqualToString:@""]) {
+            __block BOOL isAt = NO;
+            [textView.attributedText enumerateAttributesInRange:NSMakeRange(0, textView.text.length) options:0 usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+                NSString *atUser = attrs[@"AtInfo"];
+                if (atUser) {
+                    if (textView.selectedRange.location == range.location + range.length) {
+                        isAt = YES;
+                        NSMutableAttributedString *result = [[NSMutableAttributedString alloc] initWithAttributedString:textView.attributedText];
+                        [result deleteCharactersInRange:range];
+                        textView.attributedText = result;
+                        if ([atUser isEqualToString:@"All"]) {
+                            [self.chatController removeAtAll];
+                        } else {
+                            [self.chatController removeAtUser:atUser];
+                        }
+                        *stop = YES;
+                    }
+                }
+            }];
+            return !isAt;
+        }
     }
     return YES;
 }
+
+- (void)textViewDidChangeSelection:(UITextView *)textView
+{
+    [textView.attributedText enumerateAttributesInRange:NSMakeRange(0, textView.text.length) options:0 usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+        if (attrs[@"AtInfo"]) {
+            NSUInteger min = textView.selectedRange.location;
+            NSUInteger max = textView.selectedRange.location + textView.selectedRange.length;
+            if (min > range.location && min <= range.location + range.length) {
+                NSUInteger location = range.location + range.length;
+                NSUInteger length = 0;
+                if (textView.selectedRange.location + textView.selectedRange.length > location) {
+                    length = textView.selectedRange.location + textView.selectedRange.length - location;
+                }
+                textView.selectedRange = NSMakeRange(location, length);
+                *stop = YES;
+            } else if (max > range.location && max <= range.location + range.length) {
+                NSUInteger location = min;
+                NSUInteger length = textView.selectedRange.length - (max - range.location - range.length);
+                textView.selectedRange = NSMakeRange(location, length);
+                *stop = YES;
+            }
+        }
+    }];
+}
+
 //添加转发消息
 - (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMChatMessage *)message
 {
@@ -250,6 +353,15 @@
             }
         }];
         [menuArray addObject:forwardMenu];
+        if(![message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
+            EaseExtMenuModel *reportMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"reportMessage"] funcDesc:NSLocalizedString(@"reportMessage", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
+                if (isExecuted) {
+//                    [weakself reportMenuItemAction:message];
+                }
+            }];
+            [menuArray addObject:reportMenu];
+        }
+        
     }
     if ([defaultLongPressItems count] >= 3 && [message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
         [menuArray addObject:defaultLongPressItems[2]];
@@ -479,7 +591,7 @@
     if(aUid && aUid.length > 0) {
         if (!aNickName) aNickName = @"";
         if (!aUrl) aUrl = @"";
-        EMCustomMessageBody* body = [[EMCustomMessageBody alloc] initWithEvent:@"userCard" ext:@{@"uid":aUid ,@"nickname":aNickName,@"avatar":aUrl}];
+        EMCustomMessageBody* body = [[EMCustomMessageBody alloc] initWithEvent:@"userCard" customExt:@{@"uid":aUid ,@"nickname":aNickName,@"avatar":aUrl}];
         [self.chatController sendMessageWithBody:body ext:nil];
     }
     [self.fullScreenView removeFromSuperview];
@@ -493,7 +605,6 @@
 - (NSArray *)formatMessages:(NSArray<EMChatMessage *> *)aMessages
 {
     NSMutableArray *formated = [[NSMutableArray alloc] init];
-
     for (int i = 0; i < [aMessages count]; i++) {
         EMChatMessage *msg = aMessages[i];
         if (msg.chatType == EMChatTypeChat && msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
@@ -546,22 +657,34 @@
 - (void)_willInputAt:(UITextView *)aInputView
 {
     do {
-        NSString *text = [NSString stringWithFormat:@"%@%@",aInputView.text,@"@"];
         EMGroup *group = [EMGroup groupWithId:self.conversation.conversationId];
         if (!group) {
             break;
         }
-        [self.view endEditing:YES];
+//        [self.view endEditing:YES];
         //选择 @ 某群成员
         EMAtGroupMembersViewController *controller = [[EMAtGroupMembersViewController alloc] initWithGroup:group];
         [self.navigationController pushViewController:controller animated:NO];
         [controller setSelectedCompletion:^(NSString * _Nonnull aName) {
-            NSString *newStr = [NSString stringWithFormat:@"%@%@ ", text, aName];
-            [aInputView setText:newStr];
-            aInputView.selectedRange = NSMakeRange(newStr.length, 0);
+            NSMutableAttributedString *result = [[NSMutableAttributedString alloc] initWithAttributedString:aInputView.attributedText];
+            NSString *newStr = [NSString stringWithFormat:@"@%@ ", aName];
+            NSAttributedString *newString = [[NSAttributedString alloc] initWithString:newStr attributes:@{
+                NSFontAttributeName: aInputView.font,
+                @"AtInfo": aName
+            }];
+            if (result.length > 0 && [result.string hasSuffix:@"@"]) {
+                [result deleteCharactersInRange:NSMakeRange(result.length - 1, 1)];
+            }
+            [result appendAttributedString:newString];
+            aInputView.attributedText = result;
+            aInputView.selectedRange = NSMakeRange(result.length, 0);
             [aInputView becomeFirstResponder];
+            if ([aName isEqualToString:@"All"]) {
+                [self.chatController appendAtAll];
+            } else {
+                [self.chatController appendAtUser:aName];
+            }
         }];
-        
     } while (0);
 }
 
