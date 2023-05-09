@@ -24,13 +24,14 @@
 #import "UserInfoStore.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Bugly/Bugly.h>
+#import <EaseIMKit/EaseIMKit.h>
+#import "EMUserDataModel.h"
 
 #define FIRSTLAUNCH @"firstLaunch"
 
-@interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate,EMLocalNotificationDelegate>
+@interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate,EMLocalNotificationDelegate, EaseUserUtilsDelegate>
 
 @end
-
 
 @implementation AppDelegate
 
@@ -51,6 +52,9 @@
     NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
     NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
     [self.window makeKeyAndVisible];
+
+    EaseUserUtils.shared.delegate = self;
+    
     return YES;
 }
 
@@ -502,6 +506,23 @@
     hud.offset = offset;
     hud.removeFromSuperViewOnHide = YES;
     [hud hideAnimated:YES afterDelay:2];
+}
+
+- (id<EaseUserDelegate>)getUserInfo:(NSString *)easeId moduleType:(EaseUserModuleType)moduleType
+{
+    EMUserDataModel *model = [[EMUserDataModel alloc] initWithEaseId:easeId];
+    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:easeId];
+    if(userInfo) {
+        if(userInfo.avatarUrl.length > 0) {
+            model.avatarURL = userInfo.avatarUrl;
+        }
+        if(userInfo.nickname.length > 0) {
+            model.showName = userInfo.nickname;
+        }
+    } else {
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[easeId]];
+    }
+    return model;
 }
 
 @end

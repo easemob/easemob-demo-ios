@@ -344,6 +344,7 @@
         [menuArray addObject:defaultLongPressItems[0]];
     }
     [menuArray addObject:defaultLongPressItems[1]];
+    [menuArray addObject:defaultLongPressItems[2]];
     //转发
     __weak typeof(self) weakself = self;
     if (message.body.type == EMMessageBodyTypeText || message.body.type == EMMessageBodyTypeImage || message.body.type == EMMessageBodyTypeLocation || message.body.type == EMMessageBodyTypeVideo) {
@@ -363,8 +364,8 @@
         }
         
     }
-    if ([defaultLongPressItems count] >= 3 && [message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
-        [menuArray addObject:defaultLongPressItems[2]];
+    if ([defaultLongPressItems count] >= 4 && [message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
+        [menuArray addObject:defaultLongPressItems[3]];
     }
     return menuArray;
 }
@@ -471,7 +472,6 @@
             }
         }];
     }
-    
 }
 
 #pragma mark - data
