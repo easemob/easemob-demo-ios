@@ -60,7 +60,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
-        return [self.dataArray count];
+        return [self.dataArray count] + 1;
     } else {
         return [self.searchResults count];
     }
@@ -77,7 +77,11 @@
     
     NSString *name = nil;
     if (tableView == self.tableView) {
-        name = [self.dataArray objectAtIndex:indexPath.row];
+        if (indexPath.row == 0) {
+            name = @"All";
+        } else {
+            name = [self.dataArray objectAtIndex:indexPath.row - 1];
+        }
     } else {
         name = [self.searchResults objectAtIndex:indexPath.row];
     }
@@ -97,7 +101,11 @@
     
     NSString *name = nil;
     if (tableView == self.tableView) {
-        name = [self.dataArray objectAtIndex:indexPath.row];
+        if (indexPath.row == 0) {
+            name = @"All";
+        } else {
+            name = [self.dataArray objectAtIndex:indexPath.row - 1];
+        }
     } else {
         name = [self.searchResults objectAtIndex:indexPath.row];
     }

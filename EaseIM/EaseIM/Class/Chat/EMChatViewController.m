@@ -284,11 +284,58 @@
 //@群成员
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if ([text isEqualToString:@"@"] && self.conversation.type == EMConversationTypeGroupChat) {
-        [self _willInputAt:textView];
+    if (self.conversation.type == EMConversationTypeGroupChat) {
+        if ([text isEqualToString:@"@"]) {
+            [self _willInputAt:textView];
+        } else if ([text isEqualToString:@""]) {
+            __block BOOL isAt = NO;
+            [textView.attributedText enumerateAttributesInRange:NSMakeRange(0, textView.text.length) options:0 usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+                NSString *atUser = attrs[@"AtInfo"];
+                if (atUser) {
+                    if (textView.selectedRange.location == range.location + range.length) {
+                        isAt = YES;
+                        NSMutableAttributedString *result = [[NSMutableAttributedString alloc] initWithAttributedString:textView.attributedText];
+                        [result deleteCharactersInRange:range];
+                        textView.attributedText = result;
+                        if ([atUser isEqualToString:@"All"]) {
+                            [self.chatController removeAtAll];
+                        } else {
+                            [self.chatController removeAtUser:atUser];
+                        }
+                        *stop = YES;
+                    }
+                }
+            }];
+            return !isAt;
+        }
     }
     return YES;
 }
+
+- (void)textViewDidChangeSelection:(UITextView *)textView
+{
+    [textView.attributedText enumerateAttributesInRange:NSMakeRange(0, textView.text.length) options:0 usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+        if (attrs[@"AtInfo"]) {
+            NSUInteger min = textView.selectedRange.location;
+            NSUInteger max = textView.selectedRange.location + textView.selectedRange.length;
+            if (min > range.location && min <= range.location + range.length) {
+                NSUInteger location = range.location + range.length;
+                NSUInteger length = 0;
+                if (textView.selectedRange.location + textView.selectedRange.length > location) {
+                    length = textView.selectedRange.location + textView.selectedRange.length - location;
+                }
+                textView.selectedRange = NSMakeRange(location, length);
+                *stop = YES;
+            } else if (max > range.location && max <= range.location + range.length) {
+                NSUInteger location = min;
+                NSUInteger length = textView.selectedRange.length - (max - range.location - range.length);
+                textView.selectedRange = NSMakeRange(location, length);
+                *stop = YES;
+            }
+        }
+    }];
+}
+
 //添加转发消息
 - (NSMutableArray<EaseExtMenuModel *> *)messageLongPressExtMenuItemArray:(NSMutableArray<EaseExtMenuModel *> *)defaultLongPressItems message:(EMChatMessage *)message
 {
@@ -610,22 +657,34 @@
 - (void)_willInputAt:(UITextView *)aInputView
 {
     do {
-        NSString *text = [NSString stringWithFormat:@"%@%@",aInputView.text,@"@"];
         EMGroup *group = [EMGroup groupWithId:self.conversation.conversationId];
         if (!group) {
             break;
         }
-        [self.view endEditing:YES];
+//        [self.view endEditing:YES];
         //选择 @ 某群成员
         EMAtGroupMembersViewController *controller = [[EMAtGroupMembersViewController alloc] initWithGroup:group];
         [self.navigationController pushViewController:controller animated:NO];
         [controller setSelectedCompletion:^(NSString * _Nonnull aName) {
-            NSString *newStr = [NSString stringWithFormat:@"%@%@ ", text, aName];
-            [aInputView setText:newStr];
-            aInputView.selectedRange = NSMakeRange(newStr.length, 0);
+            NSMutableAttributedString *result = [[NSMutableAttributedString alloc] initWithAttributedString:aInputView.attributedText];
+            NSString *newStr = [NSString stringWithFormat:@"@%@ ", aName];
+            NSAttributedString *newString = [[NSAttributedString alloc] initWithString:newStr attributes:@{
+                NSFontAttributeName: aInputView.font,
+                @"AtInfo": aName
+            }];
+            if (result.length > 0 && [result.string hasSuffix:@"@"]) {
+                [result deleteCharactersInRange:NSMakeRange(result.length - 1, 1)];
+            }
+            [result appendAttributedString:newString];
+            aInputView.attributedText = result;
+            aInputView.selectedRange = NSMakeRange(result.length, 0);
             [aInputView becomeFirstResponder];
+            if ([aName isEqualToString:@"All"]) {
+                [self.chatController appendAtAll];
+            } else {
+                [self.chatController appendAtUser:aName];
+            }
         }];
-        
     } while (0);
 }
 
