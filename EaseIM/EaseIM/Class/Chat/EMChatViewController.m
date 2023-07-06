@@ -13,7 +13,6 @@
 #import "EMPersonalDataViewController.h"
 #import "EMAtGroupMembersViewController.h"
 #import "EMChatViewController+EMForwardMessage.h"
-#import "EMChatViewController+ReportMessage.h"
 #import "EMReadReceiptMsgViewController.h"
 #import "EMUserDataModel.h"
 #import "EMMessageCell.h"
@@ -96,26 +95,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setShadowImage:UIColorAsImage([UIColor whiteColor], CGSizeMake(CGRectGetWidth(self.view.frame), 87))];
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     self.navigationController.navigationBarHidden = NO;
 }
-
-UIKIT_EXTERN UIImage * __nullable UIColorAsImage(UIColor * __nonnull color, CGSize size) {
-    
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    
-    UIGraphicsBeginImageContextWithOptions(rect.size, NO, [UIScreen mainScreen].scale);
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context,color.CGColor);
-    CGContextFillRect(context, rect);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return image;
-}
-
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -149,17 +131,6 @@ UIKIT_EXTERN UIImage * __nullable UIColorAsImage(UIColor * __nonnull color, CGSi
     if (self.conversation.type == EMConversationTypeChatRoom) {
         UIImage *image = [[UIImage imageNamed:@"groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(chatroomInfoAction)];
-    }
-}
-
-- (void)onAttributesChangedOfGroupMember:(NSString *)groupId userId:(NSString *)userId attributes:(NSDictionary<NSString *,NSString *> *)attributes operatorId:(NSString *)operatorId {
-    for (EaseMessageModel *model in self.chatController.dataArray) {
-        if ([model isKindOfClass:[EaseMessageModel class]]&&[model.message.from isEqualToString:userId]) {
-            model.userDataDelegate.showName = attributes[@"nickName"];
-        }
-    }
-    if (self.chatController.endScroll) {
-        [self.chatController.tableView reloadData];
     }
 }
 
@@ -258,11 +229,11 @@ UIKIT_EXTERN UIImage * __nullable UIColorAsImage(UIColor * __nonnull color, CGSi
         if(userInfo.nickName.length > 0) {
             model.showName = userInfo.nickName;
         }
+    } else {
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];
     }
     if (self.chatController.currentConversation.type == EMConversationTypeGroupChat && self.chatController.endScroll == YES) {
         [self fetchMemberNickNameOnGroup:huanxinID model:model];
-    } else {
-        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];
     }
     return model;
 }
@@ -291,8 +262,6 @@ UIKIT_EXTERN UIImage * __nullable UIColorAsImage(UIColor * __nonnull color, CGSi
                     }
                 }];
             });
-        } else {
-            model.showName = @"";
         }
     }];
 }
@@ -340,7 +309,7 @@ UIKIT_EXTERN UIImage * __nullable UIColorAsImage(UIColor * __nonnull color, CGSi
         if(![message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
             EaseExtMenuModel *reportMenu = [[EaseExtMenuModel alloc]initWithData:[UIImage imageNamed:@"reportMessage"] funcDesc:NSLocalizedString(@"reportMessage", nil) handle:^(NSString * _Nonnull itemDesc, BOOL isExecuted) {
                 if (isExecuted) {
-                    [weakself reportMenuItemAction:message];
+//                    [weakself reportMenuItemAction:message];
                 }
             }];
             [menuArray addObject:reportMenu];
@@ -589,7 +558,6 @@ UIKIT_EXTERN UIImage * __nullable UIColorAsImage(UIColor * __nonnull color, CGSi
 - (NSArray *)formatMessages:(NSArray<EMChatMessage *> *)aMessages
 {
     NSMutableArray *formated = [[NSMutableArray alloc] init];
-
     for (int i = 0; i < [aMessages count]; i++) {
         EMChatMessage *msg = aMessages[i];
         if (msg.chatType == EMChatTypeChat && msg.isReadAcked && (msg.body.type == EMMessageBodyTypeText || msg.body.type == EMMessageBodyTypeLocation)) {
@@ -641,18 +609,24 @@ UIKIT_EXTERN UIImage * __nullable UIColorAsImage(UIColor * __nonnull color, CGSi
 //@群成员
 - (void)_willInputAt:(UITextView *)aInputView
 {
-    NSString *text = [NSString stringWithFormat:@"%@%@",aInputView.text,@"@"];
-    EMGroup *group = [EMGroup groupWithId:self.conversation.conversationId];
-    [self.view endEditing:YES];
-    //选择 @ 某群成员
-    EMAtGroupMembersViewController *controller = [[EMAtGroupMembersViewController alloc] initWithGroup:group];
-    [self.navigationController pushViewController:controller animated:NO];
-    [controller setSelectedCompletion:^(NSString * _Nonnull aName) {
-        NSString *newStr = [NSString stringWithFormat:@"%@%@ ", text, aName];
-        [aInputView setText:newStr];
-        aInputView.selectedRange = NSMakeRange(newStr.length, 0);
-        [aInputView becomeFirstResponder];
-    }];
+    do {
+        NSString *text = [NSString stringWithFormat:@"%@%@",aInputView.text,@"@"];
+        EMGroup *group = [EMGroup groupWithId:self.conversation.conversationId];
+        if (!group) {
+            break;
+        }
+        [self.view endEditing:YES];
+        //选择 @ 某群成员
+        EMAtGroupMembersViewController *controller = [[EMAtGroupMembersViewController alloc] initWithGroup:group];
+        [self.navigationController pushViewController:controller animated:NO];
+        [controller setSelectedCompletion:^(NSString * _Nonnull aName) {
+            NSString *newStr = [NSString stringWithFormat:@"%@%@ ", text, aName];
+            [aInputView setText:newStr];
+            aInputView.selectedRange = NSMakeRange(newStr.length, 0);
+            [aInputView becomeFirstResponder];
+        }];
+        
+    } while (0);
 }
 
 //个人资料页

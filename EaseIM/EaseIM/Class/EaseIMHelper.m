@@ -90,6 +90,7 @@ static EaseIMHelper *helper = nil;
 
 - (void)userAccountDidLoginFromOtherDevice
 {
+    [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
     [[EMClient sharedClient] logout:NO];
     [self showAlertWithMessage:NSLocalizedString(@"loginOtherPrompt", nil)];
     
@@ -104,6 +105,7 @@ static EaseIMHelper *helper = nil;
     [[EMClient sharedClient] logout:NO];
     [self showAlertWithMessage:NSLocalizedString(@"removedByServerPrompt", nil)];
     
+    [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
     [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
 }
 
@@ -115,6 +117,7 @@ static EaseIMHelper *helper = nil;
     [[EMClient sharedClient] logout:NO];
     [self showAlertWithMessage:NSLocalizedString(@"accountForbiddenPrompt", nil)];
     
+    [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
     [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
 }
 
@@ -123,6 +126,7 @@ static EaseIMHelper *helper = nil;
     [[EMClient sharedClient] logout:NO];
     [self showAlertWithMessage:aError.errorDescription];
     
+    [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
     [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
 }
 
@@ -170,7 +174,7 @@ static EaseIMHelper *helper = nil;
 - (void)onAttributesChangedOfGroupMember:(NSString *)groupId userId:(NSString *)userId attributes:(NSDictionary<NSString *,NSString *> *)attributes operatorId:(NSString *)operatorId {
     [self showAlertWithMessage:[NSString stringWithFormat:@"%@ changed %@ attributes %@ in %@",operatorId,userId,attributes,groupId]];
     for (NSString *key in attributes.allKeys) {
-        [[EaseGroupMemberAttributesCache shareInstance] updateCacheWithGroupId:groupId userName:userId key:key value:attributes[@"nickName"]];
+        [[EaseGroupMemberAttributesCache shareInstance] updateCacheWithGroupId:groupId userName:userId key:key value:attributes[key]];
     }
 }
 

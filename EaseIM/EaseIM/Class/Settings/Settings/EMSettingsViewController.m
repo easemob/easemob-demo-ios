@@ -140,23 +140,23 @@
 
 #pragma mark - Action
 
- - (void)logoutAction
- {
-     __weak typeof(self) weakself = self;
-     [self showHudInView:self.view hint:NSLocalizedString(@"exit...", nil)];
-     [[EMClient sharedClient] logout:YES completion:^(EMError *aError) {
-         [weakself hideHud];
-         [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
-         if (aError) {
-             [EMAlertController showErrorAlert:aError.errorDescription];
-         } else {
-             EMDemoOptions *options = [EMDemoOptions sharedOptions];
-             options.isAutoLogin = NO;
-             options.loggedInUsername = @"";
-             [options archive];
-             [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
-         }
-     }];
- }
+- (void)logoutAction
+{
+    __weak typeof(self) weakself = self;
+    [self showHudInView:self.view hint:NSLocalizedString(@"exit...", nil)];
+    [[EMClient sharedClient] logout:YES completion:^(EMError *aError) {
+        [weakself hideHud];
+        [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
+        if (aError) {
+            [EMAlertController showErrorAlert:aError.errorDescription];
+        } else {
+            EMDemoOptions *options = [EMDemoOptions sharedOptions];
+            options.isAutoLogin = NO;
+            options.loggedInUsername = @"";
+            [options archive];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:@NO];
+        }
+    }];
+}
 
 @end

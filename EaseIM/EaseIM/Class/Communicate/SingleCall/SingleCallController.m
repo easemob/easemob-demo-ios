@@ -11,6 +11,7 @@
 #import "EMGlobalVariables.h"
 #import "EMChatViewController.h"
 #import "UserInfoStore.h"
+#import <AVFoundation/AVFoundation.h>
 
 static SingleCallController *callManager = nil;
 
