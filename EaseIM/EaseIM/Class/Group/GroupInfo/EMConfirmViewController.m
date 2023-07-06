@@ -36,7 +36,6 @@
 - (void)_setupSuviews
 {
     self.view.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.6];
-    
     UIView *confirmView = [[UIView alloc]init];
     confirmView.backgroundColor = [UIColor whiteColor];
     confirmView.layer.cornerRadius = 8;

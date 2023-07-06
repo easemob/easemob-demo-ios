@@ -170,7 +170,7 @@ static EaseIMHelper *helper = nil;
 - (void)onAttributesChangedOfGroupMember:(NSString *)groupId userId:(NSString *)userId attributes:(NSDictionary<NSString *,NSString *> *)attributes operatorId:(NSString *)operatorId {
     [self showAlertWithMessage:[NSString stringWithFormat:@"%@ changed %@ attributes %@ in %@",operatorId,userId,attributes,groupId]];
     for (NSString *key in attributes.allKeys) {
-        [[EaseGroupMemberAttributesCache shareInstance] updateCacheWithGroupId:groupId userName:userId key:key value:attributes[key]];
+        [[EaseGroupMemberAttributesCache shareInstance] updateCacheWithGroupId:groupId userName:userId key:key value:attributes[@"nickName"]];
     }
 }
 

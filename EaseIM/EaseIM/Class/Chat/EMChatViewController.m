@@ -96,9 +96,26 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    [self.navigationController.navigationBar setShadowImage:UIColorAsImage([UIColor whiteColor], CGSizeMake(CGRectGetWidth(self.view.frame), 87))];
     self.navigationController.navigationBarHidden = NO;
 }
+
+UIKIT_EXTERN UIImage * __nullable UIColorAsImage(UIColor * __nonnull color, CGSize size) {
+    
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, [UIScreen mainScreen].scale);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context,color.CGColor);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -132,6 +149,17 @@
     if (self.conversation.type == EMConversationTypeChatRoom) {
         UIImage *image = [[UIImage imageNamed:@"groupInfo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(chatroomInfoAction)];
+    }
+}
+
+- (void)onAttributesChangedOfGroupMember:(NSString *)groupId userId:(NSString *)userId attributes:(NSDictionary<NSString *,NSString *> *)attributes operatorId:(NSString *)operatorId {
+    for (EaseMessageModel *model in self.chatController.dataArray) {
+        if ([model isKindOfClass:[EaseMessageModel class]]&&[model.message.from isEqualToString:userId]) {
+            model.userDataDelegate.showName = attributes[@"nickName"];
+        }
+    }
+    if (self.chatController.endScroll) {
+        [self.chatController.tableView reloadData];
     }
 }
 
@@ -613,24 +641,18 @@
 //@群成员
 - (void)_willInputAt:(UITextView *)aInputView
 {
-    do {
-        NSString *text = [NSString stringWithFormat:@"%@%@",aInputView.text,@"@"];
-        EMGroup *group = [EMGroup groupWithId:self.conversation.conversationId];
-        if (!group) {
-            break;
-        }
-        [self.view endEditing:YES];
-        //选择 @ 某群成员
-        EMAtGroupMembersViewController *controller = [[EMAtGroupMembersViewController alloc] initWithGroup:group];
-        [self.navigationController pushViewController:controller animated:NO];
-        [controller setSelectedCompletion:^(NSString * _Nonnull aName) {
-            NSString *newStr = [NSString stringWithFormat:@"%@%@ ", text, aName];
-            [aInputView setText:newStr];
-            aInputView.selectedRange = NSMakeRange(newStr.length, 0);
-            [aInputView becomeFirstResponder];
-        }];
-        
-    } while (0);
+    NSString *text = [NSString stringWithFormat:@"%@%@",aInputView.text,@"@"];
+    EMGroup *group = [EMGroup groupWithId:self.conversation.conversationId];
+    [self.view endEditing:YES];
+    //选择 @ 某群成员
+    EMAtGroupMembersViewController *controller = [[EMAtGroupMembersViewController alloc] initWithGroup:group];
+    [self.navigationController pushViewController:controller animated:NO];
+    [controller setSelectedCompletion:^(NSString * _Nonnull aName) {
+        NSString *newStr = [NSString stringWithFormat:@"%@%@ ", text, aName];
+        [aInputView setText:newStr];
+        aInputView.selectedRange = NSMakeRange(newStr.length, 0);
+        [aInputView becomeFirstResponder];
+    }];
 }
 
 //个人资料页
