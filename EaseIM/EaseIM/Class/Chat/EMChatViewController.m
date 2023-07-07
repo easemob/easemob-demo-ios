@@ -217,6 +217,64 @@
     }
 }
 
+- (NSString *)chatBarQuoteMessageShowContent:(EMChatMessage *)message
+{
+    if (message.body.type == EMMessageBodyTypeCustom) {
+        EMCustomMessageBody *body = ((EMCustomMessageBody *)message.body);
+        if ([body.event isEqualToString:@"userCard"]) {
+            // uid nickname avatar
+            NSString *showname = body.customExt[@"nickname"];
+            if (showname.length <= 0) {
+                showname = body.customExt[@"uid"];
+            }
+            return [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"userCard", nil), showname];
+        }
+    }
+    return nil;
+}
+
+- (NSAttributedString *)messageCellQuoteViewShowContent:(EMChatMessage *)message
+{
+    NSDictionary *quoteInfo = message.ext[@"msgQuote"];
+    if (quoteInfo) {
+        NSDictionary <NSString *, NSNumber *>*msgTypeDict = @{
+            @"txt": @(EMMessageBodyTypeText),
+            @"img": @(EMMessageBodyTypeImage),
+            @"video": @(EMMessageBodyTypeVideo),
+            @"audio": @(EMMessageBodyTypeVoice),
+            @"custom": @(EMMessageBodyTypeCustom),
+            @"cmd": @(EMMessageBodyTypeCmd),
+            @"file": @(EMMessageBodyTypeFile),
+            @"location": @(EMMessageBodyTypeLocation)
+        };
+        NSString *quoteMsgId = quoteInfo[@"msgID"];
+        EMMessageBodyType msgBodyType = msgTypeDict[quoteInfo[@"msgType"]].intValue;
+        NSString *msgSender = quoteInfo[@"msgSender"];
+        NSString *msgPreview = quoteInfo[@"msgPreview"];
+        EMChatMessage *quoteMessage = [EMClient.sharedClient.chatManager getMessageWithMessageId:quoteMsgId];
+        if (msgBodyType == EMMessageBodyTypeCustom && quoteMessage) {
+            EMCustomMessageBody *body = (EMCustomMessageBody *)quoteMessage.body;
+            if ([body.event isEqualToString:@"userCard"]) {
+                // uid nickname avatar
+                NSMutableAttributedString *result = [[NSMutableAttributedString alloc] init];
+                NSString *showname = body.customExt[@"nickname"];
+                if (showname.length <= 0) {
+                    showname = body.customExt[@"uid"];
+                }
+                NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+                attachment.image = [UIImage imageNamed:@"quote_location"];
+                attachment.bounds = CGRectMake(0, -4, attachment.image.size.width, attachment.image.size.height);
+                [result appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+                [result appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", NSLocalizedString(@"userCard", nil) ,showname] attributes:@{
+                    NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular]
+                }]];
+                return result;
+            }
+        }
+    }
+    return nil;
+}
+
 //userdata
 - (id<EaseUserDelegate>) userData:(NSString *)huanxinID
 {
@@ -344,6 +402,7 @@
         [menuArray addObject:defaultLongPressItems[0]];
     }
     [menuArray addObject:defaultLongPressItems[1]];
+    [menuArray addObject:defaultLongPressItems[2]];
     //转发
     __weak typeof(self) weakself = self;
     if (message.body.type == EMMessageBodyTypeText || message.body.type == EMMessageBodyTypeImage || message.body.type == EMMessageBodyTypeLocation || message.body.type == EMMessageBodyTypeVideo) {
@@ -363,8 +422,8 @@
         }
         
     }
-    if ([defaultLongPressItems count] >= 3 && [message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
-        [menuArray addObject:defaultLongPressItems[2]];
+    if ([defaultLongPressItems count] >= 4 && [message.from isEqualToString:EMClient.sharedClient.currentUsername]) {
+        [menuArray addObject:defaultLongPressItems[3]];
     }
     return menuArray;
 }
@@ -471,7 +530,6 @@
             }
         }];
     }
-    
 }
 
 #pragma mark - data
