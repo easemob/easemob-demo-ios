@@ -9,10 +9,7 @@
 		<string>iCloud.com.easemob.easeim</string>
 	</array>
 	<key>com.apple.developer.icloud-services</key>
-	<array>
-		<string>CloudDocuments</string>
-		<string>CloudKit</string>
-	</array>
+	<array/>
 	<key>com.apple.developer.networking.wifi-info</key>
 	<true/>
 	<key>com.apple.developer.ubiquity-container-identifiers</key>
