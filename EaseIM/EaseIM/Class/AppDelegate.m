@@ -24,13 +24,14 @@
 #import "UserInfoStore.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Bugly/Bugly.h>
+#import <EaseIMKit/EaseIMKit.h>
+#import "EMUserDataModel.h"
 
 #define FIRSTLAUNCH @"firstLaunch"
 
-@interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate,EMLocalNotificationDelegate>
+@interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate,EMLocalNotificationDelegate, EaseUserUtilsDelegate>
 
 @end
-
 
 @implementation AppDelegate
 
@@ -50,9 +51,31 @@
     [Bugly startWithAppId:@"请填写您的 bugly ID" config:config];
     NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
     NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
+//    [[UINavigationBar appearance] setBackgroundColor:[UIColor whiteColor]];
+//    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
+//    [[UINavigationBar appearance] setBackgroundImage:UIColorAsImage([UIColor whiteColor], CGSizeMake(1, 1)) forBarMetrics:UIBarMetricsDefault];
     [self.window makeKeyAndVisible];
+
+    EaseUserUtils.shared.delegate = self;
+    
     return YES;
 }
+
+//UIKIT_EXTERN UIImage * __nullable UIColorAsImage(UIColor * __nonnull color, CGSize size) {
+//    
+//    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+//    
+//    UIGraphicsBeginImageContextWithOptions(rect.size, NO, [UIScreen mainScreen].scale);
+//    
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGContextSetFillColorWithColor(context,color.CGColor);
+//    CGContextFillRect(context, rect);
+//    
+//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    
+//    return image;
+//}
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
@@ -502,6 +525,23 @@
     hud.offset = offset;
     hud.removeFromSuperViewOnHide = YES;
     [hud hideAnimated:YES afterDelay:2];
+}
+
+- (id<EaseUserDelegate>)getUserInfo:(NSString *)easeId moduleType:(EaseUserModuleType)moduleType
+{
+    EMUserDataModel *model = [[EMUserDataModel alloc] initWithEaseId:easeId];
+    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:easeId];
+    if(userInfo) {
+        if(userInfo.avatarUrl.length > 0) {
+            model.avatarURL = userInfo.avatarUrl;
+        }
+        if(userInfo.nickname.length > 0) {
+            model.showName = userInfo.nickname;
+        }
+    } else {
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[easeId]];
+    }
+    return model;
 }
 
 @end

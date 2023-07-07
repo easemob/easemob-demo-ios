@@ -14,6 +14,7 @@ target 'EaseIM' do
 
     pod 'AgoraRtcEngine_iOS/RtcBasic'
     pod 'FMDB'
+    pod 'AgoraRtcEngine_iOS/RtcBasic', '3.6.3'
     pod 'HyphenateChat'
 #    pod 'EaseIMKit'
     pod 'EaseCallKit'
