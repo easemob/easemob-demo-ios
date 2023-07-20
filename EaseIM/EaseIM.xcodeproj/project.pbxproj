@@ -348,6 +348,9 @@
 		C033209E28A7A3DB0013FA1B /* reportMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = C033209D28A7A3DB0013FA1B /* reportMessage.png */; };
 		C045A77B28ADD6FD0016264D /* img_broken@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C045A77928ADD6FD0016264D /* img_broken@3x.png */; };
 		C045A77C28ADD6FD0016264D /* img_broken@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C045A77A28ADD6FD0016264D /* img_broken@2x.png */; };
+		C0633A382A66312800399D92 /* EMMsgURLPreviewBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0633A362A66312800399D92 /* EMMsgURLPreviewBubbleView.m */; };
+		C0633A3B2A6631A900399D92 /* EaseURLPreviewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0633A392A6631A900399D92 /* EaseURLPreviewManager.m */; };
+		C0633A3E2A666A3900399D92 /* EMUrlPreviewMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0633A3D2A666A3900399D92 /* EMUrlPreviewMessageCell.m */; };
 		C06ABA6E28AB978E003D340C /* chattip.png in Resources */ = {isa = PBXBuildFile; fileRef = C06ABA6D28AB978E003D340C /* chattip.png */; };
 		C075E496262433B80080A126 /* titleTextImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E494262433B80080A126 /* titleTextImage@3x.png */; };
 		C075E497262433B80080A126 /* titleTextImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E495262433B80080A126 /* titleTextImage@2x.png */; };
@@ -355,6 +358,8 @@
 		C075E49F26243C0B0080A126 /* titleBackImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C075E49D26243C0B0080A126 /* titleBackImage@2x.png */; };
 		C08474A3289A6F85004B52BF /* EMHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ED2B26D271EB17F00CB1CCA /* EMHttpRequest.m */; };
 		C0899C192779BCB90039B885 /* EMEmojiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C0899C172779BCB90039B885 /* EMEmojiHelper.m */; };
+		C0968CD92A678E1B00A4604E /* quote_contact@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0968CD72A678E1B00A4604E /* quote_contact@2x.png */; };
+		C0968CDA2A678E1B00A4604E /* quote_contact@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0968CD82A678E1B00A4604E /* quote_contact@3x.png */; };
 		C0B32ECD289BD2B000C5A349 /* AntiFraudView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B32ECC289BD2B000C5A349 /* AntiFraudView.m */; };
 		C0DB11A627707D2D00E4B8A9 /* sendFail@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DB11A427707D2C00E4B8A9 /* sendFail@3x.png */; };
 		C0DB11A727707D2D00E4B8A9 /* sendFail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DB11A527707D2C00E4B8A9 /* sendFail@2x.png */; };
@@ -894,6 +899,12 @@
 		C033209D28A7A3DB0013FA1B /* reportMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reportMessage.png; sourceTree = "<group>"; };
 		C045A77928ADD6FD0016264D /* img_broken@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_broken@3x.png"; sourceTree = "<group>"; };
 		C045A77A28ADD6FD0016264D /* img_broken@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_broken@2x.png"; sourceTree = "<group>"; };
+		C0633A362A66312800399D92 /* EMMsgURLPreviewBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMMsgURLPreviewBubbleView.m; sourceTree = "<group>"; };
+		C0633A372A66312800399D92 /* EMMsgURLPreviewBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMMsgURLPreviewBubbleView.h; sourceTree = "<group>"; };
+		C0633A392A6631A900399D92 /* EaseURLPreviewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseURLPreviewManager.m; sourceTree = "<group>"; };
+		C0633A3A2A6631A900399D92 /* EaseURLPreviewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseURLPreviewManager.h; sourceTree = "<group>"; };
+		C0633A3C2A666A3900399D92 /* EMUrlPreviewMessageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMUrlPreviewMessageCell.h; sourceTree = "<group>"; };
+		C0633A3D2A666A3900399D92 /* EMUrlPreviewMessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMUrlPreviewMessageCell.m; sourceTree = "<group>"; };
 		C06ABA6D28AB978E003D340C /* chattip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chattip.png; sourceTree = "<group>"; };
 		C075E494262433B80080A126 /* titleTextImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@3x.png"; sourceTree = "<group>"; };
 		C075E495262433B80080A126 /* titleTextImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleTextImage@2x.png"; sourceTree = "<group>"; };
@@ -901,6 +912,8 @@
 		C075E49D26243C0B0080A126 /* titleBackImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titleBackImage@2x.png"; sourceTree = "<group>"; };
 		C0899C172779BCB90039B885 /* EMEmojiHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMEmojiHelper.m; sourceTree = "<group>"; };
 		C0899C182779BCB90039B885 /* EMEmojiHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMEmojiHelper.h; sourceTree = "<group>"; };
+		C0968CD72A678E1B00A4604E /* quote_contact@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quote_contact@2x.png"; sourceTree = "<group>"; };
+		C0968CD82A678E1B00A4604E /* quote_contact@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quote_contact@3x.png"; sourceTree = "<group>"; };
 		C0B32ECB289BD2B000C5A349 /* AntiFraudView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AntiFraudView.h; sourceTree = "<group>"; };
 		C0B32ECC289BD2B000C5A349 /* AntiFraudView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AntiFraudView.m; sourceTree = "<group>"; };
 		C0DB11A427707D2C00E4B8A9 /* sendFail@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sendFail@3x.png"; sourceTree = "<group>"; };
@@ -1261,6 +1274,8 @@
 				3A45E0492223A25000505786 /* EMGlobalVariables.m */,
 				3A45E0452223A25000505786 /* EMRealtimeSearch.h */,
 				3A45E04C2223A25100505786 /* EMRealtimeSearch.m */,
+				C0633A3A2A6631A900399D92 /* EaseURLPreviewManager.h */,
+				C0633A392A6631A900399D92 /* EaseURLPreviewManager.m */,
 				3A45DCFE2223A1FC00505786 /* Category */,
 				3A45DD062223A1FD00505786 /* SharedImgs */,
 				3A45DD1C2223A1FD00505786 /* View */,
@@ -1622,6 +1637,8 @@
 		3C729D9F25727A4B003DB315 /* ChatImagsResources */ = {
 			isa = PBXGroup;
 			children = (
+				C0968CD72A678E1B00A4604E /* quote_contact@2x.png */,
+				C0968CD82A678E1B00A4604E /* quote_contact@3x.png */,
 				C06ABA6D28AB978E003D340C /* chattip.png */,
 				668D54E6277EF37E007E5097 /* undisturbRing.png */,
 				668D54E7277EF37E007E5097 /* undisturbRing@2x.png */,
@@ -1723,6 +1740,10 @@
 				C0F4EBC32604A51400436782 /* EMMsgBubbleView.m */,
 				C0899C182779BCB90039B885 /* EMEmojiHelper.h */,
 				C0899C172779BCB90039B885 /* EMEmojiHelper.m */,
+				C0633A372A66312800399D92 /* EMMsgURLPreviewBubbleView.h */,
+				C0633A362A66312800399D92 /* EMMsgURLPreviewBubbleView.m */,
+				C0633A3C2A666A3900399D92 /* EMUrlPreviewMessageCell.h */,
+				C0633A3D2A666A3900399D92 /* EMUrlPreviewMessageCell.m */,
 			);
 			path = MessageCell;
 			sourceTree = "<group>";
@@ -2201,6 +2222,7 @@
 				3C4AECFB2499CFF8001F7C50 /* showPwd@2x.png in Resources */,
 				3CB106C7247FBEAC00479BC1 /* ios@2x.png in Resources */,
 				3C729DEF25729875003DB315 /* icon-setting@2x.png in Resources */,
+				C0968CD92A678E1B00A4604E /* quote_contact@2x.png in Resources */,
 				3A45E0352223A22600505786 /* device_disable@3x.png in Resources */,
 				3C59EDCC257E4C640009DF69 /* pin_readReceipt@3x.png in Resources */,
 				3C4AED3F249A2F7B001F7C50 /* icon-tab我@3x.png in Resources */,
@@ -2264,6 +2286,7 @@
 				3C37DF4D238251ED00399AE8 /* icon-添加好友@3x.png in Resources */,
 				3C4AED0F2499FE5F001F7C50 /* unableClick@3x.png in Resources */,
 				3C9A97B6257CDFD300752F28 /* newFriend@2x.png in Resources */,
+				C0968CDA2A678E1B00A4604E /* quote_contact@3x.png in Resources */,
 				3A45E08E2223A28F00505786 /* back_gary@3x.png in Resources */,
 				3C8DFAB124EBDA0F0047C277 /* check@3x.png in Resources */,
 				3C37DF4E238251ED00399AE8 /* icon-创建群组@2x.png in Resources */,
@@ -2364,7 +2387,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-resources.sh",
-				"${PODS_ROOT}/EaseIMKit/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
+				"${PODS_ROOT}/../../../easeui_ios/EaseIMKit/EaseIMKit/Resources/EaseIMKit.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -2406,31 +2429,33 @@
 				"${PODS_ROOT}/Target Support Files/Pods-EaseIM/Pods-EaseIM-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/EaseCallKit/EaseCallKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
-				"${PODS_ROOT}/HyphenateChat/HyphenateChat.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraCore.framework/AgoraCore",
+				"${BUILT_PRODUCTS_DIR}/TFHpple/TFHpple.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraRtcKit.framework/AgoraRtcKit",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraSoundTouch.framework/AgoraSoundTouch",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraDav1d.framework/AgoraDav1d",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agorafdkaac.framework/Agorafdkaac",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agoraffmpeg.framework/Agoraffmpeg",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraSoundTouch.framework/AgoraSoundTouch",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/HyphenateChat/HyphenateChat.framework/HyphenateChat",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EaseCallKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyphenateChat.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TFHpple.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraDav1d.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyphenateChat.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2446,6 +2471,7 @@
 			files = (
 				3C729E8125739B0C003DB315 /* EMNotificationHelper.m in Sources */,
 				3C729B65257102E0003DB315 /* EMChatViewController.m in Sources */,
+				C0633A3E2A666A3900399D92 /* EMUrlPreviewMessageCell.m in Sources */,
 				C0F4EBBB26037E3600436782 /* UserInfoStore.m in Sources */,
 				3C9A9797257CD71100752F28 /* EMConversationUserDataModel.m in Sources */,
 				3C3BAE872398E45600344F63 /* EMGroupAllMembersViewController.m in Sources */,
@@ -2453,6 +2479,7 @@
 				3A45E0FB2223A30000505786 /* EMAlertController.m in Sources */,
 				3C37DEEC2382486200399AE8 /* EMErrorAlertViewController.m in Sources */,
 				C0E9E48B26083E9E0080AB28 /* AvatarUrlStore.m in Sources */,
+				C0633A3B2A6631A900399D92 /* EaseURLPreviewManager.m in Sources */,
 				3A45E38F2223A48700505786 /* EMChatroomAdminsViewController.m in Sources */,
 				3C729A4D2570F785003DB315 /* EMConversationsViewController.m in Sources */,
 				3C729C7A257144AE003DB315 /* ConferenceController.m in Sources */,
@@ -2487,6 +2514,7 @@
 				3C87A1062490BF560051E06E /* EMMsgRemindViewController.m in Sources */,
 				3A45E0E92223A2EB00505786 /* EMTextFieldViewController.m in Sources */,
 				3A45E0E82223A2EB00505786 /* EMTextViewController.m in Sources */,
+				C0633A382A66312800399D92 /* EMMsgURLPreviewBubbleView.m in Sources */,
 				3A45DF0D2223A1FD00505786 /* EMBlacklistViewController.m in Sources */,
 				3A45DF0E2223A1FD00505786 /* EMAddBlacklistViewController.m in Sources */,
 				C033209A28A5ECE60013FA1B /* EMChatViewController+ReportMessage.m in Sources */,
@@ -2719,7 +2747,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = JC854K845H;
@@ -2729,6 +2757,7 @@
 				EASEMOB_ROOT = "";
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 arm64";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2748,7 +2777,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.1.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2810,7 +2839,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 14;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = JC854K845H;
 				EASEMOB_INC = "";
@@ -2839,7 +2868,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.1.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2908,6 +2937,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = JC854K845H;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EMPushServerExt",

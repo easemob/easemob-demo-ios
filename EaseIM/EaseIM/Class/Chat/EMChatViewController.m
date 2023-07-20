@@ -25,8 +25,11 @@
 #import "EMAccountViewController.h"
 #import "AntiFraudView.h"
 #import "EaseGroupMemberAttributesCache.h"
+#import "EMMsgURLPreviewBubbleView.h"
+#import "EaseURLPreviewManager.h"
+#import "EMUrlPreviewMessageCell.h"
 
-@interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate,EMMultiDevicesDelegate>
+@interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate,EMMultiDevicesDelegate,EMUrlPreviewMessageCellDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *titleDetailLabel;
@@ -194,6 +197,30 @@
             return userCardCell;
         }
     }
+    if (messageModel.message.body.type == EMMessageTypeText) {
+        NSString *text = ((EMTextMessageBody *)messageModel.message.body).text;
+        NSDataDetector *detector= [[NSDataDetector alloc] initWithTypes:NSTextCheckingTypeLink error:nil];
+        NSArray *checkArr = [detector matchesInString:text options:0 range:NSMakeRange(0, text.length)];
+        // 检测到url链接，使用自定义的urlPreview cell
+        if (checkArr.count >= 1) {
+            NSTextCheckingResult *checkResult = checkArr.firstObject;
+            EMUrlPreviewMessageCell* urlPreviewCell = [[EMUrlPreviewMessageCell alloc] initWithDirection:messageModel.message.direction chatType:messageModel.message.chatType messageType:EMMessageTypeURLPreview viewModel:[[EaseChatViewModel alloc]init]];
+            urlPreviewCell.delegate = self.chatController;
+            urlPreviewCell.cellDelegate = self;
+            messageModel.type = EMMessageTypeURLPreview;
+            EaseURLPreviewResult *result = [EaseURLPreviewManager.shared resultWithURL:checkResult.URL];
+            if (!result || result.state == EaseURLPreviewStateLoading) {
+                [EaseURLPreviewManager.shared preview:checkResult.URL successHandle:^(EaseURLPreviewResult * _Nonnull result) {
+                    [tableView reloadData];
+                } faieldHandle:^{
+                    [tableView reloadData];
+                }];
+            }
+            [urlPreviewCell setModel:messageModel];
+            return urlPreviewCell;
+        }
+    }
+    
     return nil;
 }
 //对方输入状态
@@ -262,10 +289,10 @@
                     showname = body.customExt[@"uid"];
                 }
                 NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
-                attachment.image = [UIImage imageNamed:@"quote_location"];
-                attachment.bounds = CGRectMake(0, -4, attachment.image.size.width, attachment.image.size.height);
+                attachment.image = [UIImage imageNamed:@"quote_contact"];
+                attachment.bounds = CGRectMake(0, -4, 16, 16);
                 [result appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-                [result appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", NSLocalizedString(@"userCard", nil) ,showname] attributes:@{
+                [result appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", showname] attributes:@{
                     NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular]
                 }]];
                 return result;
@@ -330,6 +357,28 @@
     if (userData && userData.easeId) {
         [self personData:userData.easeId];
     }
+}
+
+// 引用消息点击
+- (BOOL)messageCellDidClickQuote:(EMChatMessage *)message
+{
+    NSString *msgId = message.ext[@"msgQuote"][@"msgID"];
+    if (msgId.length <= 0) {
+        return NO;
+    }
+    EMChatMessage* quoteMsg = [EMClient.sharedClient.chatManager getMessageWithMessageId:msgId];
+    if (!quoteMsg)
+        return NO;
+    if (quoteMsg.body.type == EMMessageTypeCustom) {
+        EMCustomMessageBody* body = (EMCustomMessageBody*)quoteMsg.body;
+        if([body.event isEqualToString:@"userCard"]) {
+            NSString* uid = [body.customExt objectForKey:@"uid"];
+            if(uid.length > 0)
+                [self personData:uid];
+        }
+        return NO;
+    }
+    return YES;
 }
 
 //群组阅读回执
@@ -467,6 +516,14 @@
     }
     
     return menuArray;
+}
+
+- (void)messageCellNeedReload:(EMUrlPreviewMessageCell *)cell
+{
+    NSIndexPath *indexPath = [self.chatController.tableView indexPathForCell:cell];
+    if (indexPath) {
+        [self.chatController.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }
 }
 
 - (void)loadMoreMessageData:(NSString *)firstMessageId currentMessageList:(NSArray<EMChatMessage *> *)messageList
