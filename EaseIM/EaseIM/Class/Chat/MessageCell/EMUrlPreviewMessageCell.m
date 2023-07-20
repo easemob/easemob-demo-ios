@@ -8,6 +8,7 @@
 
 #import "EMUrlPreviewMessageCell.h"
 #import "EMMsgURLPreviewBubbleView.h"
+#import "EaseEmojiHelper.h"
 
 @interface EMUrlPreviewMessageCell() <EMMsgURLPreviewBubbleViewDelegate>
 
@@ -48,8 +49,22 @@
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(bubbleViewLongPressAction:)];
         [urlPreviewBubbleView addGestureRecognizer:longPress];
     }
-    urlPreviewBubbleView.delegate = self;
+    //urlPreviewBubbleView.delegate = self;
     return urlPreviewBubbleView;
+}
+
+- (void)bubbleViewTapAction:(UITapGestureRecognizer *)aTap
+{
+    EMTextMessageBody *body = (EMTextMessageBody *)self.model.message.body;
+    NSString *text = [EaseEmojiHelper convertEmoji:body.text];
+    NSMutableAttributedString *attaStr = [[NSMutableAttributedString alloc] initWithString:text];
+
+    NSDataDetector *detector = [[NSDataDetector alloc] initWithTypes:NSTextCheckingTypeLink error:nil];
+    NSArray *checkArr = [detector matchesInString:text options:0 range:NSMakeRange(0, text.length)];
+    if (checkArr.count == 1) {
+        NSTextCheckingResult *result = checkArr.firstObject;
+        [[UIApplication sharedApplication] openURL:result.URL options:@{} completionHandler:nil];
+    }
 }
 
 - (void)URLPreviewBubbleViewNeedLayout:(EMMsgURLPreviewBubbleView *)view

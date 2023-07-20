@@ -16,10 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
 @interface EMMsgURLPreviewBubbleView : EMMessageBubbleView
-
-@property (nonatomic, weak) id<EMMsgURLPreviewBubbleViewDelegate> delegate;
-
 @end
 
 NS_ASSUME_NONNULL_END
