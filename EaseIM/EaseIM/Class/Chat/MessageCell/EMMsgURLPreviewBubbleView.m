@@ -58,8 +58,7 @@
      }];
      [self addSubview:self.textLabel];
 
-     _urlPreviewLoadingView = [[UIView alloc] init];
-     _urlPreviewLoadingView.backgroundColor = UIColor.clearColor;
+     self.urlPreviewLoadingView.backgroundColor = UIColor.clearColor;
      [self addSubview:_urlPreviewLoadingView];
 
      _urlPreviewLoadingImageView = [[UIImageView alloc] init];
@@ -79,16 +78,16 @@
          make.height.equalTo(@16);
      }];
 
-     [_urlPreviewLoadingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-         make.left.centerY.equalTo(_urlPreviewLoadingView);
-         make.size.equalTo(@16);
-     }];
-
-     [_urlPreviewLoadingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-         make.centerY.equalTo(_urlPreviewLoadingView);
-         make.left.equalTo(_urlPreviewLoadingImageView.mas_right).offset(4);
-         make.right.equalTo(_urlPreviewLoadingView);
-     }];
+//     [_urlPreviewLoadingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//         make.left.centerY.equalTo(_urlPreviewLoadingView);
+//         make.size.equalTo(@16);
+//     }];
+//
+//     [_urlPreviewLoadingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//         make.centerY.equalTo(_urlPreviewLoadingView);
+//         make.left.equalTo(_urlPreviewLoadingImageView.mas_right).offset(4);
+//         make.right.equalTo(_urlPreviewLoadingView);
+//     }];
  }
 
  #pragma mark - Setter
@@ -233,7 +232,8 @@
          [self addSubview:_urlPreviewLoadingView];
 
          _urlPreviewLoadingImageView = [[UIImageView alloc] init];
-         _urlPreviewLoadingImageView.image = [UIImage imageNamed:@"url_preview_loading"];
+         UIImage* image = [UIImage imageNamed:@"url_preview_loading"];
+         _urlPreviewLoadingImageView.image = image;
          [_urlPreviewLoadingView addSubview:_urlPreviewLoadingImageView];
 
          _urlPreviewLoadingLabel = [[UILabel alloc] init];
@@ -244,7 +244,7 @@
 
          [_urlPreviewLoadingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
              make.left.centerY.equalTo(_urlPreviewLoadingView);
-             make.size.equalTo(@16);
+             make.size.equalTo(@24);
          }];
 
          [_urlPreviewLoadingLabel mas_makeConstraints:^(MASConstraintMaker *make) {

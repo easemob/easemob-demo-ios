@@ -368,7 +368,7 @@
     }
     EMChatMessage* quoteMsg = [EMClient.sharedClient.chatManager getMessageWithMessageId:msgId];
     if (!quoteMsg)
-        return NO;
+        return YES;
     if (quoteMsg.body.type == EMMessageTypeCustom) {
         EMCustomMessageBody* body = (EMCustomMessageBody*)quoteMsg.body;
         if([body.event isEqualToString:@"userCard"]) {

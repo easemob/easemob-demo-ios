@@ -210,7 +210,6 @@ static UserInfoStore *userInfoStoreInstance = nil;
         [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(fetchAction) object:nil];
         [self performSelector:@selector(fetchAction) withObject:nil afterDelay:0.5f];
     });
-    
 }
 
 @end
