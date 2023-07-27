@@ -11,27 +11,28 @@ target 'EaseIM' do
     pod 'Masonry'
     pod 'MJRefresh'
     pod 'SDWebImage'
+    pod 'TFHpple'
 
     pod 'AgoraRtcEngine_iOS/RtcBasic'
     pod 'FMDB'
-    pod 'AgoraRtcEngine_iOS/RtcBasic', '3.6.3'
-    pod 'HyphenateChat'
+    pod 'HyphenateChat', '4.1.0'
 #    pod 'EaseIMKit'
     pod 'EaseCallKit'
 
-    pod 'EaseIMKit'
+    pod 'EaseIMKit', '4.1.0'
 
     pod 'Bugly'
 #    xcode 14打开这个
-#    post_install do |installer|
-#      installer.generated_projects.each do |project|
-#        project.targets.each do |target|
-#            target.build_configurations.each do |config|
-#                config.build_settings["DEVELOPMENT_TEAM"] = "499WYUV8Q2"
-#             end
-#        end
-#      end
-#    end
+    post_install do |installer|
+      installer.generated_projects.each do |project|
+        project.targets.each do |target|
+            target.build_configurations.each do |config|
+                config.build_settings["IPHONEOS_DEPLOYMENT_TARGET"] = "11.0"
+                config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+             end
+        end
+      end
+    end
     
 end
 
