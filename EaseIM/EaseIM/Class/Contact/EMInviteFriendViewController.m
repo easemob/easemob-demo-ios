@@ -122,7 +122,7 @@
     
     [self showHudInView:self.view hint:NSLocalizedString(@"inviteContact...", nil)];
     __weak typeof(self) weakself = self;
-    [[EMClient sharedClient].contactManager addContact:name message:nil completion:^(NSString *aUsername, EMError *aError) {
+    [[EMClient sharedClient].contactManager addContact:name message:@"21241234" completion:^(NSString *aUsername, EMError *aError) {
         [weakself hideHud];
         if (aError) {
             if (aError.code == EMErrorContactReachLimit) {

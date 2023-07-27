@@ -43,9 +43,14 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
     // Configure for text only and offset down
     hud.mode = MBProgressHUDModeText;
     hud.label.text = hint;
-    hud.margin = 10.f;
+    hud.label.numberOfLines = 0;
+    hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
+    hud.bezelView.layer.cornerRadius = 10;
+    hud.bezelView.backgroundColor = [UIColor blackColor];
+    hud.contentColor = [UIColor whiteColor];
+    hud.margin = 15.f;
     CGPoint offset = hud.offset;
-    offset.y = 180;
+    offset.y = 200;
     hud.offset = offset;
     hud.removeFromSuperViewOnHide = YES;
     [hud hideAnimated:YES afterDelay:2];

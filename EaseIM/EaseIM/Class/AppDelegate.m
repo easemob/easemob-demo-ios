@@ -51,31 +51,12 @@
     [Bugly startWithAppId:@"请填写您的 bugly ID" config:config];
     NSLog(@"imkit version : %@",EaseIMKitManager.shared.version);
     NSLog(@"sdk   version : %@",EMClient.sharedClient.version);
-//    [[UINavigationBar appearance] setBackgroundColor:[UIColor whiteColor]];
-//    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
-//    [[UINavigationBar appearance] setBackgroundImage:UIColorAsImage([UIColor whiteColor], CGSizeMake(1, 1)) forBarMetrics:UIBarMetricsDefault];
     [self.window makeKeyAndVisible];
 
     EaseUserUtils.shared.delegate = self;
     
     return YES;
 }
-
-//UIKIT_EXTERN UIImage * __nullable UIColorAsImage(UIColor * __nonnull color, CGSize size) {
-//    
-//    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-//    
-//    UIGraphicsBeginImageContextWithOptions(rect.size, NO, [UIScreen mainScreen].scale);
-//    
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//    CGContextSetFillColorWithColor(context,color.CGColor);
-//    CGContextFillRect(context, rect);
-//    
-//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    
-//    return image;
-//}
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
