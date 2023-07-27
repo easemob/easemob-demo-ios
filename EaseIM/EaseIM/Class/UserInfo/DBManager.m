@@ -65,19 +65,14 @@ static DBManager *databaseManager = nil;
     if([EMClient sharedClient].options.appkey.length > 0) {
         NSString*appkeyPath = [path stringByAppendingPathComponent:[EMClient sharedClient].options.appkey];
         [self createPath:appkeyPath];
-        if([EMClient sharedClient].currentUsername.length > 0) {
-            NSString* userPath = [appkeyPath stringByAppendingPathComponent:[EMClient sharedClient].currentUsername];
-            [self createPath:userPath];
-            
-            NSString *dbfile = [userPath stringByAppendingFormat:@"/userinfo.db"];
-            self.database = [[FMDatabase alloc] initWithPath:dbfile];
-            if([self.database open]) {
-                [self createUserInfoTable];
-                [self deleteOutDateData];
-            }
-            else {
-                NSLog(@"Failed to open/create database");
-            }
+        NSString *dbfile = [appkeyPath stringByAppendingFormat:@"/userinfo.db"];
+        self.database = [[FMDatabase alloc] initWithPath:dbfile];
+        if([self.database open]) {
+            [self createUserInfoTable];
+            [self deleteOutDateData];
+        }
+        else {
+            NSLog(@"Failed to open/create database");
         }
     }
 }
@@ -94,12 +89,6 @@ static DBManager *databaseManager = nil;
     }
 }
 
--(void) closeDB
-{
-    if(![self.database isOpen]) {
-        [self.database close];
-    }
-}
 -(void) saveUserInfos
 {
     if([self.database isOpen] && self.usersInfoArray.count > 0) {

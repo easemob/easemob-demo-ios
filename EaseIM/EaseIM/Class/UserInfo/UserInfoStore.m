@@ -12,7 +12,7 @@
 @interface UserInfoStore()
 @property (nonatomic,strong) NSMutableDictionary* dicUsersInfo;
 @property (nonatomic) NSTimeInterval timeOutInterval;
-@property (atomic,strong) NSMutableArray* userIds;
+@property (nonatomic,strong) NSMutableArray* userIds;
 @property (nonatomic,strong) NSLock* lock;
 @property (nonatomic,strong) NSLock* userInfolock;
 @property (nonatomic,strong) dispatch_queue_t workQueue;
@@ -134,8 +134,17 @@ static UserInfoStore *userInfoStoreInstance = nil;
 
 - (void)loadInfosFromLocal
 {
-    NSArray<EMUserInfo*>* array = [[DBManager sharedInstance] loadUserInfos];
-    [self addUserInfos:array];
+    NSArray<EMUserInfo*>* aUserInfos = [[DBManager sharedInstance] loadUserInfos];
+    [self.userInfolock lock];
+    if(aUserInfos.count > 0) {
+        for (EMUserInfo* userInfo in aUserInfos) {
+            if(userInfo && userInfo.userId.length > 0 )
+            {
+                [self.dicUsersInfo setObject:userInfo forKey:userInfo.userId];
+            }
+        }
+    }
+    [self.userInfolock unlock];
 }
 
 - (NSArray*) splitArrayWithArray:(NSArray*)rawArray rangeNumber:(int)rangeNumber{
@@ -201,7 +210,6 @@ static UserInfoStore *userInfoStoreInstance = nil;
         [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(fetchAction) object:nil];
         [self performSelector:@selector(fetchAction) withObject:nil afterDelay:0.5f];
     });
-    
 }
 
 @end

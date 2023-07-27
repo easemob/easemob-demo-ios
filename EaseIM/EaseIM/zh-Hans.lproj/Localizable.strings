@@ -251,6 +251,9 @@
 "beMemberFail" = "降为普通成员失败";
 "beMemberSuccess" = "降为普通成员成功";
 "groupAdmin" = "群管理";
+"My nick name in group" = "我在群里的昵称";
+"Please input your nick name in group" = "请输入你的群昵称";
+"When you enter the group,you can see your nick name in the group." = "昵称修改后，只会在此群内显示，群内成员都可以看见。";
 "groupOwner" = "群主移交";
 "blManger" = "黑名单管理";
 "usersCount" = "共%lu人";
