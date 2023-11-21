@@ -23,6 +23,7 @@
 #import "EMHttpRequest.h"
 #import "EMUserAgreementView.h"
 #import "EMProtocolViewController.h"
+#import "ContactsStore.h"
 
 @interface EMLoginViewController ()<UITextFieldDelegate,EMUserProtocol>
 
@@ -455,6 +456,8 @@
         [weakself hideHud];
         
         if (!aError) {
+            NSArray<EMContact*>* contacts = [EMClient.sharedClient.contactManager getAllContacts];
+            [ContactsStore.sharedInstance setUserContacts:contacts];
             //设置是否自动登录
             [[EMClient sharedClient].options setIsAutoLogin:YES];
             

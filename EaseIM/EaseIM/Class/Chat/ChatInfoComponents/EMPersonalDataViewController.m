@@ -12,6 +12,7 @@
 #import "PellTableViewSelect.h"
 #import "UserInfoStore.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "EMRemarkViewController.h"
 
 @interface EMPersonalDataViewController ()
 
@@ -77,14 +78,10 @@
 
     self.view.backgroundColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1.0];
     self.tableView.scrollEnabled = NO;
-    self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self.view);
-        if ([self.contacts containsObject:self.nickName])
-            make.height.equalTo(@324);
-        else
-            make.height.equalTo(@152);
+        make.edges.equalTo(self.view);
     }];
 }
 
@@ -98,7 +95,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self.contacts containsObject:self.nickName]) {
-        return 5;
+        return 6;
     }
     return 2;
 }
@@ -123,26 +120,36 @@
     }
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
     
+    if (section == 1)
+    {
+        cell.textLabel.text = NSLocalizedString(@"contact.settingRemark", nil);
+        EMContact* contact = [EMClient.sharedClient.contactManager getContact:self.nickName];
+        if (contact.remark.length > 0)
+            cell.detailTextLabel.text = contact.remark;
+        else
+            cell.detailTextLabel.text = @"未设置";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        return cell;
+    }
     self.funLabel = [[UILabel alloc]init];
     self.funLabel.userInteractionEnabled = NO;
     self.funLabel.font = [UIFont systemFontOfSize:18.0];
     self.funLabel.textColor = [UIColor colorWithRed:4/255.0 green:174/255.0 blue:240/255.0 alpha:1.0];
-    
-    if (section == 1)
-        self.funLabel.text = [self.contacts containsObject:self.nickName] ? @"" : self.hint;
     if (section == 2)
-        self.funLabel.text = NSLocalizedString(@"sendMsg", nil);
+        self.funLabel.text = [self.contacts containsObject:self.nickName] ? @"" : self.hint;
     if (section == 3)
+        self.funLabel.text = NSLocalizedString(@"sendMsg", nil);
+    if (section == 4)
         self.funLabel.text = NSLocalizedString(@"audioCall", nil);
-    if (section == 4 )
+    if (section == 5 )
         self.funLabel.text = NSLocalizedString(@"videoCall", nil);
     
     [cell.contentView addSubview:self.funLabel];
     [self.funLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(cell.contentView);
     }];
-    cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }
 
@@ -150,15 +157,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1 && [self.contacts containsObject:self.nickName])
+    if (indexPath.section == 1 && ![self.contacts containsObject:self.nickName])
+        return 0;
+    if (indexPath.section == 2 && [self.contacts containsObject:self.nickName])
         return 0;
     return 66;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0 || (section == 1 && [self.contacts containsObject:self.nickName]))
-        return 0.001;
+    if (section == 1 && ![self.contacts containsObject:self.nickName])
+        return 0.01;
+    if (section == 2 && [self.contacts containsObject:self.nickName])
+        return 0.01;
     return 20;
 }
 
@@ -166,10 +177,13 @@
 {
     NSInteger section = indexPath.section;
     self.chatController = [[EMChatViewController alloc]initWithConversationId:self.nickName conversationType:EMConversationTypeChat];
-    if (section == 1)
+    if (section == 1) {
+        [self goRemark];
+    }
+    if (section == 2)
         //添加联系人
         [self addContact];
-    if (section == 2) {
+    if (section == 3) {
         //聊天
         if (self.isChatting) {
             [self.navigationController popViewControllerAnimated:YES];
@@ -177,14 +191,14 @@
             [self.navigationController pushViewController:self.chatController animated:YES];
         }
     }
-    if (section == 3) {
+    if (section == 4) {
         //语音通话
         [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:self.nickName, CALL_TYPE:@(EaseCallType1v1Audio)}];
         if (!self.isChatting)
             [[NSNotificationCenter defaultCenter] addObserver:self.chatController selector:@selector(insertLocationCallRecord:) name:EMCOMMMUNICATE_RECORD object:nil];
             //[[NSNotificationCenter defaultCenter] addObserver:self.chatController selector:@selector(sendCallEndMsg:) name:EMCOMMMUNICATE object:nil];
     }
-    if (section == 4) {
+    if (section == 5) {
         //视频通话
         [[NSNotificationCenter defaultCenter] postNotificationName:CALL_MAKE1V1 object:@{CALL_CHATTER:self.nickName, CALL_TYPE:@(EaseCallType1v1Video)}];
         if (!self.isChatting)
@@ -222,6 +236,18 @@
         if (!aError)
             [[NSNotificationCenter defaultCenter] postNotificationName:CONTACT_BLACKLIST_UPDATE object:nil];
     }];
+}
+
+- (void)goRemark
+{
+    __weak typeof(self) weakself = self;
+    EMRemarkViewController *remarkController = [[EMRemarkViewController alloc] initWithUserId:self.nickName remark:[EMClient.sharedClient.contactManager getContact:self.nickName].remark complete:^(NSString * _Nonnull remark) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakself.tableView reloadData];
+            [[NSNotificationCenter defaultCenter] postNotificationName:CONTACT_BLACKLIST_UPDATE object:nil];
+        });
+    }];
+    [self.navigationController pushViewController:remarkController animated:NO];
 }
 
 //添加联系人

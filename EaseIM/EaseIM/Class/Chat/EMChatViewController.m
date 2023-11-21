@@ -28,6 +28,7 @@
 #import "EMMsgURLPreviewBubbleView.h"
 #import "EaseURLPreviewManager.h"
 #import "EMUrlPreviewMessageCell.h"
+#import "ContactsStore.h"
 
 @interface EMChatViewController ()<EaseChatViewControllerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate, EMMessageCellDelegate, EMReadReceiptMsgDelegate,ConfirmUserCardViewDelegate,EMMultiDevicesDelegate,EMUrlPreviewMessageCellDelegate>
 @property (nonatomic, strong) EaseConversationModel *conversationModel;
@@ -171,9 +172,14 @@
 - (void)updateNavigationTitle {
     self.titleLabel.text = _conversationModel.showName;
     if (self.conversation.type == EMConversationTypeChat) {
-        EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
-        if(userInfo && userInfo.nickName.length > 0)
-            self.titleLabel.text = userInfo.nickName;
+        NSString* remark = [ContactsStore.sharedInstance remark:self.conversation.conversationId];
+        if (remark.length <= 0) {
+            EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:self.conversation.conversationId];
+            if(userInfo && userInfo.nickname.length > 0)
+                self.titleLabel.text = userInfo.nickname;
+        } else {
+            self.titleLabel.text = remark;
+        }
     }
 }
 
@@ -306,13 +312,16 @@
 - (id<EaseUserDelegate>) userData:(NSString *)huanxinID
 {
     EMUserDataModel *model = [[EMUserDataModel alloc] initWithEaseId:huanxinID];
+    NSString* remark = [ContactsStore.sharedInstance remark:huanxinID];
+    if (remark.length > 0)
+        model.showName = remark;
     EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:huanxinID];
     if(userInfo) {
         if(userInfo.avatarUrl.length > 0) {
             model.avatarURL = userInfo.avatarUrl;
         }
-        if(userInfo.nickName.length > 0) {
-            model.showName = userInfo.nickName;
+        if(remark.length <= 0 && userInfo.nickname.length > 0) {
+            model.showName = userInfo.nickname;
         }
     } else {
         [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[huanxinID]];

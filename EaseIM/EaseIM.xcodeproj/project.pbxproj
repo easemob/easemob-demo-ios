@@ -343,6 +343,8 @@
 		A54CAED727FEDF0E0092282A /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = A54CAED627FEDF0E0092282A /* NotificationService.m */; };
 		A54CAEDB27FEDF0E0092282A /* EMPushServerExt.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A54CAED327FEDF0E0092282A /* EMPushServerExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A54CAEE027FEDF2F0092282A /* EMPushExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54CAEDF27FEDF2F0092282A /* EMPushExtension.framework */; };
+		C0006F612AB428A80000BA4E /* ContactsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0006F602AB428A80000BA4E /* ContactsStore.m */; };
+		C0006F642AB42E010000BA4E /* EMRemarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0006F632AB42E010000BA4E /* EMRemarkViewController.m */; };
 		C033209A28A5ECE60013FA1B /* EMChatViewController+ReportMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C033209928A5ECE60013FA1B /* EMChatViewController+ReportMessage.m */; };
 		C033209C28A7A3C00013FA1B /* report.png in Resources */ = {isa = PBXBuildFile; fileRef = C033209B28A7A3C00013FA1B /* report.png */; };
 		C033209E28A7A3DB0013FA1B /* reportMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = C033209D28A7A3DB0013FA1B /* reportMessage.png */; };
@@ -897,6 +899,10 @@
 		A54CAED627FEDF0E0092282A /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		A54CAED827FEDF0E0092282A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A54CAEDF27FEDF2F0092282A /* EMPushExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EMPushExtension.framework; sourceTree = "<group>"; };
+		C0006F5F2AB428A80000BA4E /* ContactsStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsStore.h; sourceTree = "<group>"; };
+		C0006F602AB428A80000BA4E /* ContactsStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsStore.m; sourceTree = "<group>"; };
+		C0006F622AB42E010000BA4E /* EMRemarkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMRemarkViewController.h; sourceTree = "<group>"; };
+		C0006F632AB42E010000BA4E /* EMRemarkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMRemarkViewController.m; sourceTree = "<group>"; };
 		C033209828A5ECE60013FA1B /* EMChatViewController+ReportMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EMChatViewController+ReportMessage.h"; sourceTree = "<group>"; };
 		C033209928A5ECE60013FA1B /* EMChatViewController+ReportMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "EMChatViewController+ReportMessage.m"; sourceTree = "<group>"; };
 		C033209B28A7A3C00013FA1B /* report.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report.png; sourceTree = "<group>"; };
@@ -1588,6 +1594,8 @@
 				3C729B692571045E003DB315 /* EMChatRecordViewController.m */,
 				3C729B6A2571045E003DB315 /* EMPersonalDataViewController.h */,
 				3C729B6C2571045E003DB315 /* EMPersonalDataViewController.m */,
+				C0006F622AB42E010000BA4E /* EMRemarkViewController.h */,
+				C0006F632AB42E010000BA4E /* EMRemarkViewController.m */,
 			);
 			path = ChatInfoComponents;
 			sourceTree = "<group>";
@@ -2050,6 +2058,8 @@
 				C0E9E51F2611C51C0080AB28 /* DBManager.m */,
 				C0E9E5E3261482B00080AB28 /* UIImageView+UserInfo.h */,
 				C0E9E5E4261482B00080AB28 /* UIImageView+UserInfo.m */,
+				C0006F5F2AB428A80000BA4E /* ContactsStore.h */,
+				C0006F602AB428A80000BA4E /* ContactsStore.m */,
 			);
 			path = UserInfo;
 			sourceTree = "<group>";
@@ -2507,6 +2517,7 @@
 				3C7A14FB2390D49F00F4AC48 /* SPDateTimePickerView.m in Sources */,
 				3C9A96082579148000752F28 /* EMMsgPicMixTextBubbleView.m in Sources */,
 				3A45E3E32223A4E900505786 /* EMGroupSharedFilesViewController.m in Sources */,
+				C0006F642AB42E010000BA4E /* EMRemarkViewController.m in Sources */,
 				3C843EDF24933154005D9891 /* EMCustomAppkeyViewController.m in Sources */,
 				3C87A1092490D1640051E06E /* EMSecurityPrivacyViewController.m in Sources */,
 				3C8EBEEE24AC913600B6560A /* EMRightViewToolView.m in Sources */,
@@ -2525,6 +2536,7 @@
 				3A45E0232223A21B00505786 /* EMLoginViewController.m in Sources */,
 				90AE9446230D2CDC00A905E5 /* EMRemindManager.m in Sources */,
 				3A45E0EA2223A2EB00505786 /* EMTextView.m in Sources */,
+				C0006F612AB428A80000BA4E /* ContactsStore.m in Sources */,
 				3C87A10C2490ECF00051E06E /* EMOpinionFeedbackViewController.m in Sources */,
 				3C87A0F5248F7C680051E06E /* EMAboutHuanXinViewController.m in Sources */,
 				3C87A1062490BF560051E06E /* EMMsgRemindViewController.m in Sources */,
@@ -2763,7 +2775,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = JC854K845H;
@@ -2793,7 +2805,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.1.0;
+				MARKETING_VERSION = 4.2.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2855,7 +2867,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 4;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = JC854K845H;
 				EASEMOB_INC = "";
@@ -2884,7 +2896,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.1.0;
+				MARKETING_VERSION = 4.2.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"$(inherited)",
