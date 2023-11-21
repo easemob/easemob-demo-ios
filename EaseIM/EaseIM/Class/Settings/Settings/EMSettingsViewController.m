@@ -149,6 +149,7 @@
         [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
         if (aError) {
             [EMAlertController showErrorAlert:aError.errorDescription];
+            [EMClient.sharedClient logout:NO completion:nil];
         } else {
             EMDemoOptions *options = [EMDemoOptions sharedOptions];
             options.isAutoLogin = NO;
