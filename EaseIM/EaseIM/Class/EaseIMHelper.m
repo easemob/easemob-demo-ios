@@ -88,6 +88,16 @@ static EaseIMHelper *helper = nil;
     }
 }
 
+- (void)tokenDidExpire:(EMErrorCode)aErrorCode
+{
+    
+}
+
+- (void)tokenWillExpire:(EMErrorCode)aErrorCode
+{
+    
+}
+
 - (void)userAccountDidLoginFromOtherDevice
 {
     [[EaseGroupMemberAttributesCache shareInstance] removeAllCaches];
@@ -217,6 +227,11 @@ static EaseIMHelper *helper = nil;
     }
     EMAlertView *alertView = [[EMAlertView alloc]initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:aReason];
     [alertView show];
+}
+
+- (void)joinGroupRequestDidDecline:(NSString *)aGroupId reason:(NSString *)aReason decliner:(NSString *)aDecliner applicant:(NSString *)aApplicant
+{
+    
 }
 
 - (void)joinGroupRequestDidApprove:(EMGroup *)aGroup

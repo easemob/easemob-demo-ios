@@ -20,6 +20,7 @@
 #import "EMPersonalDataViewController.h"
 #import "EMSearchResultController.h"
 #import "UserInfoStore.h"
+#import "ContactsStore.h"
 
 @interface EMContactsViewController ()<EMMultiDevicesDelegate, EMContactManagerDelegate, EMSearchControllerDelegate, EaseContactsViewControllerDelegate>
 @property (nonatomic, strong) EaseContactsViewController *contactsVC;
@@ -77,9 +78,14 @@
         }else{
             [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[username]];
         }
+        NSString* remark = [ContactsStore.sharedInstance remark:username];
+        if (remark.length > 0) {
+            model.showName = remark;
+        }
             
         [contacts addObject:model];
     }
+    
     
     [self->_contactsVC setContacts:contacts];
     [self->_contactsVC endRefresh];
@@ -88,7 +94,7 @@
 #pragma mark - EaseContactsViewControllerDelegate
 
 - (void)willBeginRefresh {
-    [EMClient.sharedClient.contactManager getContactsFromServerWithCompletion:^(NSArray *aList, EMError *aError) {
+    [EMClient.sharedClient.contactManager getContactsFromServerWithCompletion:^(NSArray* _Nullable aList, EMError * _Nullable aError) {
         if (!aError) {
             NSArray* blockUsers = [[[EMClient sharedClient] contactManager] getBlackList];
             NSMutableArray* array = [aList mutableCopy];
@@ -245,6 +251,9 @@
 
 - (void)fetchAllContactsUserInfo
 {
+//    [EMClient.sharedClient.contactManager getAllContactsFromServerWithCompletion:^(NSArray<EMContact *> * _Nullable aList, EMError * _Nullable aError) {
+//        [ContactsStore.sharedInstance setUserContacts:aList];
+//    }];
     NSArray* aList = [[[EMClient sharedClient] contactManager] getContacts];
     NSMutableArray * array = [NSMutableArray array];
     for (NSString* userId in aList) {
