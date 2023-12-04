@@ -19,7 +19,7 @@ target 'EaseIM' do
 #    pod 'EaseIMKit'
     pod 'EaseCallKit'
 
-    pod 'EaseIMKit', '4.1.0'
+    pod 'EaseIMKit',  '4.2.0'
 
     pod 'Bugly'
 #    xcode 14打开这个
