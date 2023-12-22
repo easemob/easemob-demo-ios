@@ -17,7 +17,7 @@ static EaseGroupMemberAttributesCache *instance = nil;
 
 @property (nonatomic) NSMutableDictionary *attributes;
 
-@property (nonatomic) NSMutableArray *userNames;
+@property (atomic) NSMutableArray *userNames;
 
 @end
 
@@ -46,11 +46,11 @@ static EaseGroupMemberAttributesCache *instance = nil;
 
 - (void)updateCacheWithGroupId:(NSString *)groupId userName:(NSString *)userName key:(NSString *)key value:(NSString *)value {
     NSMutableDictionary<NSString*,NSString*> *usesAttributes = [self.attributes objectForKeySafely:groupId];
-    if (usesAttributes == nil) {
+    if (usesAttributes == nil  || ![usesAttributes isKindOfClass:[NSMutableDictionary class]]) {
         usesAttributes = [NSMutableDictionary dictionary];
     }
     NSMutableDictionary<NSString*,NSString*> *attributes = [usesAttributes objectForKeySafely:userName];
-    if (attributes == nil) {
+    if (attributes == nil  || ![attributes isKindOfClass:[NSMutableDictionary class]]) {
         attributes = [NSMutableDictionary dictionary];
     }
     [attributes setObject:value forKeySafely:key];
@@ -60,7 +60,7 @@ static EaseGroupMemberAttributesCache *instance = nil;
 
 - (void)updateCacheWithGroupId:(NSString *)groupId userName:(NSString *)userName attributes:(NSDictionary<NSString*,NSString*>*)attributes {
     NSMutableDictionary<NSString*,NSString*> *usesAttributes = [self.attributes objectForKeySafely:groupId];
-    if (usesAttributes == nil) {
+    if (usesAttributes == nil || ![usesAttributes isKindOfClass:[NSMutableDictionary class]]) {
         usesAttributes = [NSMutableDictionary dictionary];
     }
     [usesAttributes setObject:attributes forKeySafely:userName];
