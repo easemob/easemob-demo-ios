@@ -62,6 +62,8 @@
         {
             self.userInfo = [[UserInfoStore sharedInstance] getUserInfoById:[EMClient sharedClient].currentUsername];
             if(!self.userInfo) {
+                if (!EMClient.sharedClient.isLoggedIn)
+                    return;
                 [[[EMClient sharedClient] userInfoManager] fetchUserInfoById:@[[EMClient sharedClient].currentUsername] completion:^(NSDictionary *aUserDatas, EMError *aError) {
                     if(!aError) {
                         self.userInfo = [aUserDatas objectForKey:[EMClient sharedClient].currentUsername];

@@ -471,6 +471,8 @@
 {
     __weak typeof(self) weakSelf = self;
     NSInteger row = indexPath.row;
+    if (row >= self.easeConvsVC.dataAry.count)
+        return;
     EaseConversationModel *model = [self.easeConvsVC.dataAry objectAtIndex:row];
     int unreadCount = [[EMClient sharedClient].chatManager getConversationWithConvId:model.easeId].unreadMessagesCount;
     [[EMClient sharedClient].chatManager deleteServerConversation:model.easeId conversationType:model.type isDeleteServerMessages:YES completion:^(NSString *aConversationId, EMError *aError) {
