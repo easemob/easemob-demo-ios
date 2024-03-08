@@ -15,11 +15,15 @@ target 'EaseIM' do
 
     pod 'AgoraRtcEngine_iOS/RtcBasic'
     pod 'FMDB'
-    pod 'HyphenateChat', '4.4.0'
+    pod 'HyphenateChat', '4.4.1'
 #    pod 'EaseIMKit'
-    pod 'EaseCallKit'
+#    pod 'EaseCallKit'
 
-    pod 'EaseIMKit'
+#    pod 'EaseIMKit'
+
+    pod 'EaseCallKit',  :path => "../../easecallkitui-ios"
+    pod 'EaseIMKit',  :path => "../../easeui_ios"
+
 
     pod 'Bugly'
 #    xcode 14打开这个
