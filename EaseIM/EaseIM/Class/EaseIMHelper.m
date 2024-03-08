@@ -19,6 +19,7 @@
 #import "EMAlertController.h"
 #import "EaseGroupMemberAttributesCache.h"
 
+#import "EMUserDataModel.h"
 
 static EaseIMHelper *helper = nil;
 
@@ -63,7 +64,7 @@ static EaseIMHelper *helper = nil;
     [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].contactManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
-    
+    EaseUserUtils.shared.delegate = self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePushChatController:) name:CHAT_PUSHVIEWCONTROLLER object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePushGroupsController:) name:GROUP_LIST_PUSHVIEWCONTROLLER object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePushChatroomsController:) name:CHATROOM_LIST_PUSHVIEWCONTROLLER object:nil];
@@ -486,5 +487,31 @@ static EaseIMHelper *helper = nil;
     EMChatroomsViewController *controller = [[EMChatroomsViewController alloc] init];
     [navController pushViewController:controller animated:YES];
 }
+
+//新增一个回调   userinfo相关
+- (id<EaseUserDelegate>)getUserInfo:(NSString *)easeId moduleType:(EaseUserModuleType)moduleType
+{
+    EMUserDataModel *model = [[EMUserDataModel alloc] initWithEaseId:easeId];
+    EMUserInfo* userInfo = [[UserInfoStore sharedInstance] getUserInfoById:easeId];
+    if(userInfo) {
+        if(userInfo.avatarUrl.length > 0) {
+            model.avatarURL = userInfo.avatarUrl;
+        }
+        if(userInfo.nickname.length > 0) {
+            model.showName = userInfo.nickname;
+        }
+    } else {
+        [[UserInfoStore sharedInstance] fetchUserInfosFromServer:@[easeId]];
+    }
+    return model;
+}
+
+
+
+
+
+
+
+
 
 @end

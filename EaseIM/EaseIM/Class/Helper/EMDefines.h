@@ -29,7 +29,8 @@
 //#define DEF_APPKEY @"41351358#427351"
 //#define DEF_APPKEY @"easemob-demo#testmd1"
 //#define DEF_APPKEY @"easemob-demo#easeim"
-#define DEF_APPKEY @"easemob#easeim"
+//#define DEF_APPKEY @"easemob#easeim"
+#define DEF_APPKEY @"easemob-demo#support"
 //#define DEF_APPKEY @"easemob-demo#chatdemoui"
 
 // 翻译

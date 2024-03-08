@@ -11,6 +11,10 @@
 		0583192C29752F4E0041AFC0 /* EaseGroupMemberAttributesCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0583192B29752F4E0041AFC0 /* EaseGroupMemberAttributesCache.m */; };
 		0583192F297533160041AFC0 /* NSDictionary+Safely.m in Sources */ = {isa = PBXBuildFile; fileRef = 0583192E297533160041AFC0 /* NSDictionary+Safely.m */; };
 		0583A77B297113D50065D497 /* Xcode14.m in Sources */ = {isa = PBXBuildFile; fileRef = 0583A779297113D50065D497 /* Xcode14.m */; };
+		390202BB2B9AAEE900BE0662 /* EMTabbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 390202BA2B9AAEE900BE0662 /* EMTabbarController.m */; };
+		390202BF2B9AB31C00BE0662 /* EMAppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 390202BE2B9AB31C00BE0662 /* EMAppConfig.m */; };
+		390202C22B9AB38300BE0662 /* EMUserNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 390202C12B9AB38300BE0662 /* EMUserNotificationHelper.m */; };
+		390202C82B9AB39300BE0662 /* EMAppCallHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 390202C62B9AB39300BE0662 /* EMAppCallHelper.m */; };
 		3A03FE9F1E360BEE00DC1ABC /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B1B9EE1C3B80290087A74F /* MessageUI.framework */; };
 		3A45D9B322239DE200505786 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A45D69A22239DE200505786 /* Localizable.strings */; };
 		3A45D9B422239DE200505786 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A45D69C22239DE200505786 /* InfoPlist.strings */; };
@@ -441,6 +445,14 @@
 		0583A77A297113D50065D497 /* Xcode14.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Xcode14.h; sourceTree = "<group>"; };
 		21C2DFFAE688B874EBF5F6EF /* Pods-EaseIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.release.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.release.xcconfig"; sourceTree = "<group>"; };
 		2E0DB98EDA87CC73A29F9EB8 /* Pods-EaseIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseIM.debug.xcconfig"; path = "Target Support Files/Pods-EaseIM/Pods-EaseIM.debug.xcconfig"; sourceTree = "<group>"; };
+		390202B92B9AAEE900BE0662 /* EMTabbarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMTabbarController.h; sourceTree = "<group>"; };
+		390202BA2B9AAEE900BE0662 /* EMTabbarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMTabbarController.m; sourceTree = "<group>"; };
+		390202BD2B9AB31C00BE0662 /* EMAppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMAppConfig.h; sourceTree = "<group>"; };
+		390202BE2B9AB31C00BE0662 /* EMAppConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EMAppConfig.m; sourceTree = "<group>"; };
+		390202C02B9AB38300BE0662 /* EMUserNotificationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMUserNotificationHelper.h; sourceTree = "<group>"; };
+		390202C12B9AB38300BE0662 /* EMUserNotificationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMUserNotificationHelper.m; sourceTree = "<group>"; };
+		390202C32B9AB39300BE0662 /* EMAppCallHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAppCallHelper.h; sourceTree = "<group>"; };
+		390202C62B9AB39300BE0662 /* EMAppCallHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMAppCallHelper.m; sourceTree = "<group>"; };
 		3A45D69B22239DE200505786 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3A45D69D22239DE200505786 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		3A45D69E22239DE200505786 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1019,6 +1031,37 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		390202B72B9AAE9B00BE0662 /* _NEW */ = {
+			isa = PBXGroup;
+			children = (
+				390202BC2B9AB2FC00BE0662 /* appconfig */,
+				390202B82B9AAEB900BE0662 /* review_tabbar */,
+			);
+			path = _NEW;
+			sourceTree = "<group>";
+		};
+		390202B82B9AAEB900BE0662 /* review_tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				390202B92B9AAEE900BE0662 /* EMTabbarController.h */,
+				390202BA2B9AAEE900BE0662 /* EMTabbarController.m */,
+			);
+			path = review_tabbar;
+			sourceTree = "<group>";
+		};
+		390202BC2B9AB2FC00BE0662 /* appconfig */ = {
+			isa = PBXGroup;
+			children = (
+				390202C32B9AB39300BE0662 /* EMAppCallHelper.h */,
+				390202C62B9AB39300BE0662 /* EMAppCallHelper.m */,
+				390202C02B9AB38300BE0662 /* EMUserNotificationHelper.h */,
+				390202C12B9AB38300BE0662 /* EMUserNotificationHelper.m */,
+				390202BD2B9AB31C00BE0662 /* EMAppConfig.h */,
+				390202BE2B9AB31C00BE0662 /* EMAppConfig.m */,
+			);
+			path = appconfig;
+			sourceTree = "<group>";
+		};
 		3A45D69922239DE200505786 /* EaseIM */ = {
 			isa = PBXGroup;
 			children = (
@@ -1038,6 +1081,7 @@
 		3A45D72222239DE200505786 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				390202B72B9AAE9B00BE0662 /* _NEW */,
 				C0F4EBA826037CB600436782 /* UserInfo */,
 				3A45D9B122239DE200505786 /* EaseIMHelper.h */,
 				3A45D8FF22239DE200505786 /* EaseIMHelper.m */,
@@ -2560,6 +2604,8 @@
 				3C729B6F2571045E003DB315 /* EMChatInfoViewController.m in Sources */,
 				0583192C29752F4E0041AFC0 /* EaseGroupMemberAttributesCache.m in Sources */,
 				3C9A95DF2578E38700752F28 /* EMReadReceiptMemberModel.m in Sources */,
+				390202C22B9AB38300BE0662 /* EMUserNotificationHelper.m in Sources */,
+				390202BB2B9AAEE900BE0662 /* EMTabbarController.m in Sources */,
 				C0F4EBBE2603839100436782 /* SelectUserViewController.m in Sources */,
 				3C9A960C257914DE00752F28 /* EMMessageCell.m in Sources */,
 				3C729C78257144AE003DB315 /* ConfInviteUserCell.m in Sources */,
@@ -2568,6 +2614,7 @@
 				3A45E3DD2223A4E900505786 /* EMGroupOwnerViewController.m in Sources */,
 				3C729D1C257238FD003DB315 /* EMContactModel.m in Sources */,
 				3A45E38E2223A48700505786 /* EMChatroomOwnerViewController.m in Sources */,
+				390202C82B9AB39300BE0662 /* EMAppCallHelper.m in Sources */,
 				3A45DF5B2223A1FD00505786 /* EMRefreshTableViewController.m in Sources */,
 				EC6B516A2759BC8A00FA4350 /* EMGeneralTitleSwitchCell.m in Sources */,
 				3A45E05E2223A25C00505786 /* UIViewController+HUD.m in Sources */,
@@ -2609,6 +2656,7 @@
 				3A45E3E02223A4E900505786 /* EMGroupBlacklistViewController.m in Sources */,
 				3C1B68CF252046EE005CAB3C /* EMAlertView.m in Sources */,
 				3C729B6E2571045E003DB315 /* EMChatRecordViewController.m in Sources */,
+				390202BF2B9AB31C00BE0662 /* EMAppConfig.m in Sources */,
 				3C729C71257144AE003DB315 /* SingleCallController.m in Sources */,
 				C08474A3289A6F85004B52BF /* EMHttpRequest.m in Sources */,
 				3A45E3E22223A4E900505786 /* EMGroupSettingsViewController.m in Sources */,

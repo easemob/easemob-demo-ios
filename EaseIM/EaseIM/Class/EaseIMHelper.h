@@ -7,7 +7,13 @@
 //
 #import <Foundation/Foundation.h>
 
-@interface EaseIMHelper : NSObject<EMMultiDevicesDelegate, EMContactManagerDelegate, EMGroupManagerDelegate, EMChatManagerDelegate, EMClientDelegate>
+@interface EaseIMHelper : NSObject
+<EMMultiDevicesDelegate,
+EMContactManagerDelegate,
+EMGroupManagerDelegate,
+EMChatManagerDelegate,
+EMClientDelegate,
+EaseUserUtilsDelegate>
 
 + (instancetype)shareHelper;
 

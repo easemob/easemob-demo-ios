@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "UserInfoStore.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface EMUserDataModel : NSObject <EaseUserDelegate>
