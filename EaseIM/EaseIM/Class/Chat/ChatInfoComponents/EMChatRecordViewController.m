@@ -107,7 +107,7 @@
         return;
     if (!self.isSearching) return;
     __weak typeof(self) weakself = self;
-    [self.conversation loadMessagesWithKeyword:aString timestamp:0 count:50 fromUser:nil searchDirection:EMMessageSearchDirectionDown scope:EMMessageSearchScopeContent completion:^(NSArray *aMessages, EMError *aError) {
+    [self.conversation loadMessagesWithKeyword:aString timestamp:0 count:50 fromUser:nil searchDirection:EMMessageSearchDirectionDown /*scope:EMMessageSearchScopeContent*/ completion:^(NSArray *aMessages, EMError *aError) {
         if (!aError && [aMessages count] > 0) {
             dispatch_async(self.msgQueue, ^{
                 NSMutableArray *msgArray = [[NSMutableArray alloc] init];
