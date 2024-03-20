@@ -1,0 +1,89 @@
+/* 
+  Localizable.strings
+  EaseChatDemo
+
+  Created by 朱继超 on 2024/3/5.
+  
+*/
+"Me" = "Me";
+"Chats" = "Chats";
+"Contacts" = "Contacts";
+" and " = " and ";
+"Login" = "Login";
+"Logout" = "Logout";
+"Service" = "Service";
+"Setting" = "Setting";
+"Privacy Policy" = "Privacy Policy";
+"Get Code" = "Get Code";
+"Mobile Number" = "Mobile Number";
+"PinCodePlaceHolder" = "Verification code";
+"PhoneError" = "Please enter the correct mobile number.";
+"AgreeProtocol" = "Please confirm Service & Policy";
+"PinCodeError" = "Please enter the correct verification code";
+"Login Easemob Chat" = "Login Easemob Chat";
+"Please tick to agree" = "Please tick to agree ";
+
+"Official Website" = "Official Website";
+"Hotline" = "Hotline";
+"Business Cooperation" = "Business Cooperation";
+"Channel Cooperation" = "Channel Cooperation";
+"Suggestions" = "Suggestions";
+
+"Personal Info" = "Personal Info";
+"Avatar" = "Avatar";
+"Nickname" = "Nickname";
+
+"dark_mode" = "Dark Mode";
+"switch_theme" = "Switch Theme";
+"color_setting" = "Color Setting";
+"feature_switch" = "Feature Switch";
+"language_setting" = "Language Setting";
+
+
+"Chinese" = "Chinese";
+"English" = "English";
+
+"Switch Language" = "Switch Language";
+"Switch Theme" = "Switch Theme";
+"Terminal Alert" = "The application will be closed, are you sure?";
+"Classic" = "Classic";
+"Smart" = "Smart";
+"primary hue" = "Primary Hue";
+"secondary hue" = "Secondary Hue";
+"error hue" = "Error Hue";
+"neutralHue" = "Neutral Hue";
+"neutral special hue" = "Neutral Special Hue";
+
+"GetPinCodeSuccessful" = "Verification code sent successfully";
+
+"PasswordError" = "Please enter the correct password.";
+"UserIdError" = "Please enter the correct user id.";
+
+"EeaseMobID" = "EeaseMob ID";
+"Password" = "Password";
+"Personal info" = "Personal info";
+"General" = "General";
+"Notification" = "Notification";
+"About" = "About";
+"message_translate" = "Translation";
+"group_topic" = "Thread";
+"message_reaction" = "Reaction";
+"otherDevice" = "Already processed on other end";
+"remoteBusy" = "The other party is busy";
+"refuseCall" = "Call rejected";
+"cancelCall" = "You have canceled the call";
+"callCancel" = "Call canceled";
+"remoteNoResponse" = "The other party did not answer";
+"noResponse" = "Not answered";
+
+"callendPrompt" = "The call has ended. Call duration:";
+"Audio Call" = "Audio Call";
+"Video Call" = "Video Call";
+" start a multi call" = " start a multi call";
+"contact_details_button_remark" = "contact_details_button_remark";
+"Offline Message Push" = "Offline Message Push";
+"Notification Alert" = "After turning off, only receive the message you were mentioned in the group.";
+
+"Confirm Logout" = "Confirm Logout？";
+"Modify Remark" = "Modify Remark";
+"Modify failed" = "Modify failed";
