@@ -251,12 +251,12 @@ extension LoginViewController: UITextFieldDelegate {
             return
         }
         
-        guard let pinCode = self.pinCode.text else {
+        guard let phoneNum = self.phoneNumber.text else {
             self.showToast(toast: "PinCodeError".localized())
             return
         }
         self.timer?.resume()
-        EasemobBusinessRequest.shared.sendPOSTRequest(api: .verificationCode((pinCode)), params: [:]) { [weak self] result, error in
+        EasemobBusinessRequest.shared.sendPOSTRequest(api: .verificationCode((phoneNum)), params: [:]) { [weak self] result, error in
             if error == nil {
                 self?.timer?.cancel()
                 guard let code = result?["code"] as? Int else { return }

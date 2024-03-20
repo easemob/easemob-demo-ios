@@ -60,6 +60,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         //Set up EaseChatUIKit
         _ = EaseChatUIKitClient.shared.setup(option: options)
+        EaseChatUIKitClient.shared.registerUserStateListener(self)
     }
     
     private func setupEaseChatUIKitConfig() {
@@ -174,4 +175,45 @@ extension AppDelegate: EMLocalNotificationDelegate {
             //notification will dispaly
         }
     }
+}
+
+//MARK: - UserStateChangedListener
+extension AppDelegate: UserStateChangedListener {
+    func onUserTokenDidExpired() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
+    }
+    
+    func onUserLoginOtherDevice(device: String) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
+    }
+    
+    func onUserTokenWillExpired() {
+        //Notice: - If you want to refresh token, you need to implement the logic in this method.
+//        EaseChatUIKitClient.shared.refreshToken(token: token)
+    }
+    
+    func onSocketConnectionStateChanged(state: EaseChatUIKit.ConnectionState) {
+        //Socket state monitor network
+    }
+    
+    func userAccountDidRemoved() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
+    }
+    
+    func userDidForbidden() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
+    }
+    
+    func userAccountDidForcedToLogout(error: EaseChatUIKit.ChatError?) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
+    }
+    
+    func onUserAutoLoginCompletion(error: EaseChatUIKit.ChatError?) {
+        if error != nil {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
+        } else {
+            NotificationCenter.default.post(name: Notification.Name(loginSuccessfulSwitchMainPage), object: nil)
+        }
+    }
+    
 }

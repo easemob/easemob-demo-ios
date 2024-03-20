@@ -143,9 +143,14 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
     
     private func logout() {
         DialogManager.shared.showAlert(title: "Confirm Logout".localized(), content: "", showCancel: true, showConfirm: true) { _ in
-            NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
+            ChatClient.shared().logout(true) { error in
+                if error == nil {
+                    NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
+                } else {
+                    self.showToast(toast: "\(error?.errorDescription ?? "")")
+                }
+            }
         }
-        
     }
 }
 

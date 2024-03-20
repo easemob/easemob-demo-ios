@@ -30,8 +30,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.chooseRootViewController()
         self.window?.makeKeyAndVisible()
         self.switchTheme()
-        NotificationCenter.default.addObserver(self, selector: #selector(loadMain), name: NSNotification.Name(loginSuccessfulSwitchMainPage), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(loadLogin), name: NSNotification.Name(backLoginPage), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadMain), name: Notification.Name(loginSuccessfulSwitchMainPage), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadLogin), name: Notification.Name(backLoginPage), object: nil)
     }
     
     private func switchTheme() {
@@ -48,15 +48,20 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.window?.rootViewController = LoginViewController()
                 return
             }
-            let user = EaseProfile()
-            if let userInfo = self.userData[userId]?[userId] as? [String : Any] {
-                user.setValuesForKeys(userInfo)
+            if ChatClient.shared().isLoggedIn,ChatClient.shared().isConnected {
+                let user = EaseProfile()
+                if let userInfo = self.userData[userId]?[userId] as? [String : Any] {
+                    user.setValuesForKeys(userInfo)
+                }
+                if user.id.isEmpty {
+                    user.id = userId
+                }
+                EaseChatUIKitContext.shared?.currentUser = user
+                self.window?.rootViewController = MainViewController()
+            } else {
+                self.window?.rootViewController = AutoLoginLoadingViewController()
             }
-            if user.id.isEmpty {
-                user.id = userId
-            }
-            EaseChatUIKitContext.shared?.currentUser = user
-            self.window?.rootViewController = MainViewController()
+            
         }
     }
 

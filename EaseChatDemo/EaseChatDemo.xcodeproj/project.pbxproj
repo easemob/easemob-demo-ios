@@ -22,6 +22,7 @@
 		057227682B98393500AA866D /* ServerConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227672B98393500AA866D /* ServerConfigViewController.swift */; };
 		0572276A2B987C4600AA866D /* PersonalInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227692B987C4600AA866D /* PersonalInfoCell.swift */; };
 		05A9415D2BAA700000C71A74 /* MineContactRemarkEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */; };
+		05A9415F2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */; };
 		05B7C1EF2B96AC3200DA0F8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */; };
 		05B7C1F12B96AC3200DA0F8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1F02B96AC3200DA0F8F /* SceneDelegate.swift */; };
 		05B7C1F32B96AC3200DA0F8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1F22B96AC3200DA0F8F /* LoginViewController.swift */; };
@@ -95,6 +96,7 @@
 		057227672B98393500AA866D /* ServerConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfigViewController.swift; sourceTree = "<group>"; };
 		057227692B987C4600AA866D /* PersonalInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoCell.swift; sourceTree = "<group>"; };
 		05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactRemarkEditViewController.swift; sourceTree = "<group>"; };
+		05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLoginLoadingViewController.swift; sourceTree = "<group>"; };
 		05B7C1EB2B96AC3200DA0F8F /* EaseChatDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseChatDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		05B7C1F02B96AC3200DA0F8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				05B7C20C2B96BD2100DA0F8F /* Utils */,
 				05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */,
 				05B7C1F02B96AC3200DA0F8F /* SceneDelegate.swift */,
+				05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */,
 				05B7C1F22B96AC3200DA0F8F /* LoginViewController.swift */,
 				057227672B98393500AA866D /* ServerConfigViewController.swift */,
 				05B7C20A2B96BB5300DA0F8F /* Localizable.strings */,
@@ -521,6 +524,7 @@
 				05A9415D2BAA700000C71A74 /* MineContactRemarkEditViewController.swift in Sources */,
 				05FE6C2A2B9A9F160030A983 /* ThemesSettingViewController.swift in Sources */,
 				05E0D7322BA2E2C200373197 /* MineCallInviteUsersController.swift in Sources */,
+				05A9415F2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift in Sources */,
 				057227642B97FFB200AA866D /* AboutEasemobHeader.swift in Sources */,
 				05E5A1C52B9971AD00955DD1 /* LanguageSettingViewController.swift in Sources */,
 				05E5A1C32B996EE400955DD1 /* LanguageCell.swift in Sources */,
@@ -720,7 +724,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -763,7 +767,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
