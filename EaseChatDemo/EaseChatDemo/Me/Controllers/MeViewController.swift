@@ -32,8 +32,10 @@ final class MeViewController: UIViewController {
         if nickName.isEmpty {
             nickName = userId
         }
+        self.header.status.isHidden = true
         self.header.nickName.text = nickName
         self.header.detailText = userId
+        self.header.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL ?? ""
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProfile), name: NSNotification.Name(rawValue: userAvatarUpdated), object: nil)
@@ -143,7 +145,7 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
     
     private func logout() {
         DialogManager.shared.showAlert(title: "Confirm Logout".localized(), content: "", showCancel: true, showConfirm: true) { _ in
-            ChatClient.shared().logout(true) { error in
+            EaseChatUIKitClient.shared.logout(unbindNotificationDeviceToken: true) { error in
                 if error == nil {
                     NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
                 } else {

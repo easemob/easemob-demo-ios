@@ -14,7 +14,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     @UserDefault("EaseChatDemoPreferencesLanguage", defaultValue: "zh-Hans") var language: String
     
-    @UserDefault("EasemobUser",defaultValue: Dictionary<String,Dictionary<String,Any>>()) private var userData
+    @UserDefault("EasemobUser",defaultValue: Dictionary<String,Dictionary<String,Dictionary<String,Any>>>()) private var userData
     
 
     var window: UIWindow?
@@ -48,19 +48,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.window?.rootViewController = LoginViewController()
                 return
             }
-            if ChatClient.shared().isLoggedIn,ChatClient.shared().isConnected {
-                let user = EaseProfile()
-                if let userInfo = self.userData[userId]?[userId] as? [String : Any] {
-                    user.setValuesForKeys(userInfo)
-                }
-                if user.id.isEmpty {
-                    user.id = userId
-                }
-                EaseChatUIKitContext.shared?.currentUser = user
-                self.window?.rootViewController = MainViewController()
-            } else {
-                self.window?.rootViewController = AutoLoginLoadingViewController()
+            let user = EaseProfile()
+            if let userInfo = self.userData[userId]?[userId] as? [String : Any],let json = userInfo["ease_chat_uikit_info"] as? [String : Any] {
+                user.setValuesForKeys(json)
             }
+            if user.id.isEmpty {
+                user.id = userId
+            }
+            EaseChatUIKitContext.shared?.currentUser = user
+            self.window?.rootViewController = MainViewController()
             
         }
     }
@@ -98,11 +94,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     @objc private func loadMain() {
-        self.window?.rootViewController = MainViewController()
+        DispatchQueue.main.async {
+            self.window?.rootViewController = MainViewController()
+        }
     }
     
     @objc private func loadLogin() {
-        self.window?.rootViewController = LoginViewController()
+        DispatchQueue.main.async {
+            self.window?.rootViewController = LoginViewController()
+        }
     }
 
 }

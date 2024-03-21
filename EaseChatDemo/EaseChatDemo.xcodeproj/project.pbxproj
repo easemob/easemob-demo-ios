@@ -15,12 +15,14 @@
 		052226C42BA987A3007F14B9 /* MineConversationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052226C32BA987A3007F14B9 /* MineConversationsViewModel.swift */; };
 		052978542B97261D008AB5A0 /* MeMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052978532B97261D008AB5A0 /* MeMenuCell.swift */; };
 		0551FFA42B9FE4C000FF3294 /* NotificationSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */; };
+		0560CFF52BABCF26001BF12E /* MineContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0560CFF42BABCF26001BF12E /* MineContactsViewController.swift */; };
 		0572275F2B97FA2C00AA866D /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */; };
 		057227612B97FAF200AA866D /* AboutEasemobController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227602B97FAF200AA866D /* AboutEasemobController.swift */; };
 		057227642B97FFB200AA866D /* AboutEasemobHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227632B97FFB200AA866D /* AboutEasemobHeader.swift */; };
 		057227662B9802DC00AA866D /* AboutEasemobCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227652B9802DC00AA866D /* AboutEasemobCell.swift */; };
 		057227682B98393500AA866D /* ServerConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227672B98393500AA866D /* ServerConfigViewController.swift */; };
 		0572276A2B987C4600AA866D /* PersonalInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227692B987C4600AA866D /* PersonalInfoCell.swift */; };
+		059BEEEC2BABDC96004C7380 /* GradientSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059BEEEB2BABDC96004C7380 /* GradientSlider.swift */; };
 		05A9415D2BAA700000C71A74 /* MineContactRemarkEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */; };
 		05A9415F2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */; };
 		05B7C1EF2B96AC3200DA0F8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */; };
@@ -89,12 +91,14 @@
 		052226C32BA987A3007F14B9 /* MineConversationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineConversationsViewModel.swift; sourceTree = "<group>"; };
 		052978532B97261D008AB5A0 /* MeMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeMenuCell.swift; sourceTree = "<group>"; };
 		0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingViewController.swift; sourceTree = "<group>"; };
+		0560CFF42BABCF26001BF12E /* MineContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactsViewController.swift; sourceTree = "<group>"; };
 		0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
 		057227602B97FAF200AA866D /* AboutEasemobController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutEasemobController.swift; sourceTree = "<group>"; };
 		057227632B97FFB200AA866D /* AboutEasemobHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutEasemobHeader.swift; sourceTree = "<group>"; };
 		057227652B9802DC00AA866D /* AboutEasemobCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutEasemobCell.swift; sourceTree = "<group>"; };
 		057227672B98393500AA866D /* ServerConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfigViewController.swift; sourceTree = "<group>"; };
 		057227692B987C4600AA866D /* PersonalInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoCell.swift; sourceTree = "<group>"; };
+		059BEEEB2BABDC96004C7380 /* GradientSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientSlider.swift; sourceTree = "<group>"; };
 		05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactRemarkEditViewController.swift; sourceTree = "<group>"; };
 		05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLoginLoadingViewController.swift; sourceTree = "<group>"; };
 		05B7C1EB2B96AC3200DA0F8F /* EaseChatDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseChatDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,6 +184,7 @@
 				052226BF2BA92282007F14B9 /* MineContactDetailViewController.swift */,
 				052226C12BA92299007F14B9 /* MineGroupDetailViewController.swift */,
 				05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */,
+				0560CFF42BABCF26001BF12E /* MineContactsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -217,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				057227632B97FFB200AA866D /* AboutEasemobHeader.swift */,
+				059BEEEB2BABDC96004C7380 /* GradientSlider.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -514,9 +520,11 @@
 				05B7C2142B96C24100DA0F8F /* EasemobBusinessApi.swift in Sources */,
 				0572275F2B97FA2C00AA866D /* PersonalInfoViewController.swift in Sources */,
 				052226C02BA92282007F14B9 /* MineContactDetailViewController.swift in Sources */,
+				059BEEEC2BABDC96004C7380 /* GradientSlider.swift in Sources */,
 				05B7C1F32B96AC3200DA0F8F /* LoginViewController.swift in Sources */,
 				05B7C2122B96C1E400DA0F8F /* EasemobBusinessRequest.swift in Sources */,
 				057227662B9802DC00AA866D /* AboutEasemobCell.swift in Sources */,
+				0560CFF52BABCF26001BF12E /* MineContactsViewController.swift in Sources */,
 				05B7C1EF2B96AC3200DA0F8F /* AppDelegate.swift in Sources */,
 				05E5A1C72B9997FC00955DD1 /* DemoLanguage.swift in Sources */,
 				052226C22BA92299007F14B9 /* MineGroupDetailViewController.swift in Sources */,
@@ -724,7 +732,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -767,7 +775,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;

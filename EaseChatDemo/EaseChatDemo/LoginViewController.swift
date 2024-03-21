@@ -17,7 +17,7 @@ final class LoginViewController: UIViewController {
     
     private var code = ""
     
-    @UserDefault("EasemobUser",defaultValue: Dictionary<String,Dictionary<String,Any>>()) private var userData
+    @UserDefault("EasemobUser",defaultValue: Dictionary<String,Dictionary<String,Dictionary<String,Any>>>()) private var userData
     
     @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var config
     
@@ -27,6 +27,10 @@ final class LoginViewController: UIViewController {
     
     private lazy var appName: UILabel = {
         UILabel(frame: CGRect(x: 30, y: 187, width: ScreenWidth - 60, height: 35)).font(UIFont(name: "PingFangSC-Medium", size: 24)).text("Login Easemob Chat".localized())
+    }()
+    
+    lazy var sdkVersion: UILabel = {
+        UILabel(frame: CGRect(x: self.view.frame.width-73.5, y: self.appName.frame.minY+8, width: 43, height: 18)).cornerRadius(Appearance.avatarRadius).font(UIFont.theme.bodyExtraSmall).textColor(UIColor.theme.neutralColor98).textAlignment(.center)
     }()
     
     private lazy var phoneNumber: UITextField = {
@@ -78,8 +82,9 @@ final class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubViews([self.background,self.appName,self.phoneNumber,self.pinCode,self.loginContainer,self.login,self.agree,self.protocolContainer,self.serverConfig])
+        self.view.addSubViews([self.background,self.appName,self.sdkVersion,self.phoneNumber,self.pinCode,self.loginContainer,self.login,self.agree,self.protocolContainer,self.serverConfig])
         self.serverConfig.isHidden = true
+        self.sdkVersion.text = ChatClient.shared().version
         if let appkey = self.config["application"],!appkey.isEmpty {
             self.serverConfig.isHidden = false
             self.resetDisplay()
@@ -204,6 +209,7 @@ extension LoginViewController: UITextFieldDelegate {
                 if error ==  nil,let chatToken = token {
                     let user = EaseChatAppUser()
                     user.id = userId
+                    self?.userData[userId]?[userId] = user.toJsonObject()
                     self?.login(user: user, token: chatToken)
                 } else {
                     self?.showToast(toast: "PasswordError".localized())
@@ -225,7 +231,13 @@ extension LoginViewController: UITextFieldDelegate {
                         user.id = userId
                         user.avatarURL = (result?["avatarUrl"] as? String) ?? ""
                         self?.login(user: user, token: token)
-                        self?.userData[userId]?[userId] = user.toJsonObject()
+                        if let userInfo = user.toJsonObject() {
+                            if var currentUserCacheMap = self?.userData[userId] {
+                                self?.userData[userId]?[userId] = userInfo
+                            } else {
+                                self?.userData[userId] = [userId:userInfo]
+                            }
+                        }
                     }
                 } else {
                     self?.showToast(toast: "PhoneError".localized())
@@ -283,6 +295,7 @@ extension LoginViewController: ThemeSwitchProtocol {
         self.protocolContainer.linkTextAttributes = [.foregroundColor:(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5)]
         self.background.image = style == .dark ? UIImage(named: "login_bg_dark") : UIImage(named: "login_bg")
         self.appName.textColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
+        self.sdkVersion.backgroundColor = style == .light ? UIColor.theme.barrageLightColor2 : UIColor.theme.barrageDarkColor2
         self.phoneNumber.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.pinCode.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.phoneNumber.textColor = style == .dark ? UIColor.theme.neutralColor98 : UIColor.theme.neutralColor1

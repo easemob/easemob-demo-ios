@@ -14,7 +14,7 @@ let userAvatarUpdated = "userAvatarUpdated"
 
 final class PersonalInfoViewController: UIViewController {
     
-    @UserDefault("EasemobUser",defaultValue: Dictionary<String,Dictionary<String,Any>>()) private var userData
+    @UserDefault("EasemobUser",defaultValue: Dictionary<String,Dictionary<String,Dictionary<String,Any>>>()) private var userData
     
     private lazy var infos: [Dictionary<String,String>] = {
         var userId = EaseChatUIKitContext.shared?.currentUserId ?? ""

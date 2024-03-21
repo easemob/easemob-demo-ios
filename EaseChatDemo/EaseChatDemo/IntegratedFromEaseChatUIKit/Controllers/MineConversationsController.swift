@@ -10,6 +10,12 @@ import EaseChatUIKit
 
 final class MineConversationsController: ConversationListController {
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigation.status.isHidden = true
+        self.navigation.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL
+    }
+    
     override func create(profiles: [EaseProfileProtocol]) {
         var name = ""
         var ids = [String]()
