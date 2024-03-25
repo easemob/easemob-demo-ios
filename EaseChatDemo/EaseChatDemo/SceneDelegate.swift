@@ -7,6 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
+import SwiftFFDB
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -14,9 +15,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     @UserDefault("EaseChatDemoPreferencesLanguage", defaultValue: "zh-Hans") var language: String
     
-    @UserDefault("EasemobUser",defaultValue: Dictionary<String,Dictionary<String,Dictionary<String,Any>>>()) private var userData
-    
-
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -44,20 +42,30 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if !ChatClient.shared().isAutoLogin {
             self.window?.rootViewController = LoginViewController()
         } else {
-            guard let userId = ChatClient.shared().currentUsername else {
+            guard let userId = ChatClient.shared().currentUsername,!userId.isEmpty else {
                 self.window?.rootViewController = LoginViewController()
                 return
             }
-            let user = EaseProfile()
-            if let userInfo = self.userData[userId]?[userId] as? [String : Any],let json = userInfo["ease_chat_uikit_info"] as? [String : Any] {
-                user.setValuesForKeys(json)
-            }
-            if user.id.isEmpty {
-                user.id = userId
-            }
-            EaseChatUIKitContext.shared?.currentUser = user
+            self.loadCache()
             self.window?.rootViewController = MainViewController()
             
+        }
+    }
+    
+    private func loadCache() {
+        if let profiles = EaseChatProfile.select(where: nil) as? [EaseChatProfile] {
+            for profile in profiles {
+                if let conversation = ChatClient.shared().chatManager?.getConversationWithConvId(profile.id) {
+                    if conversation.type == .chat {
+                        EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                    } else {
+                        EaseChatUIKitContext.shared?.groupCache?[profile.id] = profile
+                    }
+                }
+                if profile.id == ChatClient.shared().currentUsername ?? "" {
+                    EaseChatUIKitContext.shared?.currentUser = profile
+                }
+            }
         }
     }
 

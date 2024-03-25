@@ -9,6 +9,7 @@ target 'EaseChatDemo' do
   pod 'EaseChatUIKit', :path => '../chatuikit-ios/'
   pod 'EaseCallKit'
   pod 'KakaJSON', '~> 1.1.2'
+  pod 'SwiftFFDB'
   post_install do |installer|
     installer.generated_projects.each do |project|
       project.targets.each do |target|

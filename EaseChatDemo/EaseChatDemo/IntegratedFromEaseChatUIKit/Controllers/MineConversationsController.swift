@@ -10,6 +10,11 @@ import EaseChatUIKit
 
 final class MineConversationsController: ConversationListController {
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigation.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigation.status.isHidden = true
@@ -61,7 +66,7 @@ final class MineConversationsController: ConversationListController {
                 consoleLogInfo("fetchGroupAvatar error:\(error?.localizedDescription ?? "")", type: .error)
             } else {
                 if let avatarURL = result?["avatarUrl"] as? String {
-                    if let info = EaseChatUIKitContext.shared?.conversationsCache?[groupId] {
+                    if let info = EaseChatUIKitContext.shared?.groupCache?[groupId] {
                         info.avatarURL = avatarURL
                         self?.viewModel?.renderDriver(infos: [info])
                     } else {

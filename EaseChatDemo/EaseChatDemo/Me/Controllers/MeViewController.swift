@@ -7,6 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
+import SwiftFFDB
 
 final class MeViewController: UIViewController {
     
@@ -32,6 +33,7 @@ final class MeViewController: UIViewController {
         if nickName.isEmpty {
             nickName = userId
         }
+        self.fetchUserInfo(userId: userId)
         self.header.status.isHidden = true
         self.header.nickName.text = nickName
         self.header.detailText = userId
@@ -41,9 +43,38 @@ final class MeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProfile), name: NSNotification.Name(rawValue: userAvatarUpdated), object: nil)
     }
     
+    private func fetchUserInfo(userId: String) {
+        ChatClient.shared().userInfoManager?.fetchUserInfo(byId: [userId], type: [0,1], completion: { [weak self] infoMap, error in
+            if let info = infoMap?[userId],error == nil {
+                DispatchQueue.main.async {
+                    self?.header.nickName.text = info.nickname
+                    self?.header.detailText = userId
+                    self?.header.avatarURL = info.avatarUrl
+                }
+                if let profiles = EaseChatProfile.select(where: "id = ?",values: [userId]) as? [EaseChatProfile],let profile = profiles.first(where: { $0.id == userId }) {
+                    profile.nickname = info.nickname ?? userId
+                    profile.avatarURL = info.avatarUrl ?? ""
+                    profile.update()
+                    EaseChatUIKitContext.shared?.currentUser = profile
+                }
+            } else {
+                self?.showToast(toast: "fetchUserInfo error:\(error?.errorDescription ?? "")")
+            }
+        })
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        let userId = EaseChatUIKitContext.shared?.currentUserId ?? ""
+        var nickName = EaseChatUIKitContext.shared?.currentUser?.nickname ?? ""
+        if nickName.isEmpty {
+            nickName = userId
+        }
+        if self.header.nickName.text != nickName {
+            self.header.nickName.text = nickName
+        }
+        self.header.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL ?? ""
     }
     
     @objc private func refreshProfile() {

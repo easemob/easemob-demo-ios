@@ -8,6 +8,7 @@
 import UIKit
 import EaseChatUIKit
 import EaseCallKit
+import SwiftFFDB
 
 final class MineContactDetailViewController: ContactInfoViewController {
     
@@ -22,8 +23,13 @@ final class MineContactDetailViewController: ContactInfoViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.requestRemark()
+        self.requestInfo()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
     }
     
     private func requestRemark() {
@@ -32,10 +38,41 @@ final class MineContactDetailViewController: ContactInfoViewController {
         self.datas.first(where: { $0.title == "contact_details_button_remark".localized() })?.detail = remark
         self.menuList.reloadData()
         
-        EaseChatUIKitContext.shared?.chatCache?[self.profile.id]?.remark = remark
-        EaseChatUIKitContext.shared?.contactsCache?[self.profile.id]?.remark = remark
-        EaseChatUIKitContext.shared?.conversationsCache?[self.profile.id]?.remark = remark
+        EaseChatUIKitContext.shared?.userCache?[self.profile.id]?.remark = remark
         
+    }
+    
+    private func requestInfo() {
+        ChatClient.shared().userInfoManager?.fetchUserInfo(byId: [self.profile.id], type: [0,1],completion: { [weak self] infoMap, error in
+            guard let userId = self?.profile.id else { return }
+            self?.requestRemark()
+            if let info = infoMap?[userId],error == nil {
+                DispatchQueue.main.async {
+                    var remark = EaseChatUIKitContext.shared?.userCache?[userId]?.remark ?? ""
+                    if remark.isEmpty {
+                        remark = info.nickname ?? userId
+                    }
+                    self?.header.nickName.text = remark
+                    self?.header.detailText = userId
+                    self?.header.avatarURL = info.avatarUrl
+                }
+                if let profiles = EaseChatProfile.select(where: "id = ?",values: [userId]) as? [EaseChatProfile],let profile = profiles.first(where: { $0.id == userId }) {
+                    profile.nickname = info.nickname ?? userId
+                    profile.avatarURL = info.avatarUrl ?? ""
+                    profile.update()
+                    EaseChatUIKitContext.shared?.userCache?[userId] = profile
+                } else {
+                    let profile = EaseChatProfile()
+                    profile.id = userId
+                    profile.nickname = info.nickname ?? userId
+                    profile.avatarURL = info.avatarUrl ?? ""
+                    profile.insert()
+                    EaseChatUIKitContext.shared?.userCache?[userId] = profile
+                }
+            } else {
+                self?.showToast(toast: "fetchUserInfo error:\(error?.errorDescription ?? "")")
+            }
+        })
     }
     
     override func headerActions() {
@@ -99,9 +136,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
             self.profile.remark = remark
             self.datas.first?.detail = remark
             self.menuList.reloadData()
-            EaseChatUIKitContext.shared?.chatCache?[self.profile.id]?.remark = remark
-            EaseChatUIKitContext.shared?.contactsCache?[self.profile.id]?.remark = remark
-            EaseChatUIKitContext.shared?.conversationsCache?[self.profile.id]?.remark = remark
+            EaseChatUIKitContext.shared?.userCache?[self.profile.id]?.remark = remark
         }
         self.navigationController?.pushViewController(vc, animated: true)
     }

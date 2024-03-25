@@ -9,12 +9,11 @@ import UIKit
 import EaseChatUIKit
 import MobileCoreServices
 import AVFoundation
+import SwiftFFDB
 
 let userAvatarUpdated = "userAvatarUpdated"
 
 final class PersonalInfoViewController: UIViewController {
-    
-    @UserDefault("EasemobUser",defaultValue: Dictionary<String,Dictionary<String,Dictionary<String,Any>>>()) private var userData
     
     private lazy var infos: [Dictionary<String,String>] = {
         var userId = EaseChatUIKitContext.shared?.currentUserId ?? ""
@@ -82,10 +81,37 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
                 DialogManager.shared.showActions(actions: [ActionSheetItem(title: "input_extension_menu_photo".chat.localize, type: .normal,tag: "Photo",image: UIImage(named: "photo", in: .chatBundle, with: nil)), ActionSheetItem(title: "input_extension_menu_camera".chat.localize, type: .normal,tag: "Camera",image: UIImage(named: "camera_fill", in: .chatBundle, with: nil))]) { [weak self] item in
                     self?.processAction(item: item)
                 }
+            case "Nickname".localized(): self.editName()
             default:
                 break
             }
         }
+    }
+    
+    private func editName() {
+        guard let userId = EaseChatUIKitContext.shared?.currentUserId else { return }
+        let vc = MineContactRemarkEditViewController(userId: userId, rawText: self.infos[1]["detail"] ?? "") { [weak self] nickname in
+            guard let `self` = self else { return }
+            self.infos[1]["detail"] = nickname
+            self.infoList.reloadData()
+            EaseChatUIKitContext.shared?.currentUser?.nickname = nickname
+            EaseChatUIKitContext.shared?.userCache?[userId]?.nickname = nickname
+            EaseChatUIKitContext.shared?.chatCache?[userId]?.nickname = nickname
+            ChatClient.shared().userInfoManager?.updateOwnUserInfo(nickname, with: .nickName) { userInfo,error in
+                if error != nil {
+                    DialogManager.shared.showAlert(title: "error".chat.localize, content: "update nickname failed".chat.localize, showCancel: false, showConfirm: true) { _ in
+                        
+                    }
+                } else {
+                    if let userJson = EaseChatUIKitContext.shared?.currentUser?.toJsonObject() {
+                        let profile = EaseChatProfile()
+                        profile.setValuesForKeys(userJson)
+                        profile.update()
+                    }
+                }
+            }
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func processAction(item: ActionSheetItemProtocol) {
@@ -171,7 +197,11 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
                     EaseChatUIKitContext.shared?.currentUser?.avatarURL = avatarURL
                     EaseChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = avatarURL
                     self?.infos[0]["detail"] = avatarURL
-                    self?.userData[userId]?[userId] = EaseChatUIKitContext.shared?.currentUser?.toJsonObject() ?? [:]
+                    if let userJson = EaseChatUIKitContext.shared?.currentUser?.toJsonObject() {
+                        let profile = EaseChatProfile()
+                        profile.setValuesForKeys(userJson)
+                        profile.update()
+                    }
                     self?.infoList.reloadData()
                     NotificationCenter.default.post(name: NSNotification.Name(userAvatarUpdated), object: nil)
                 } else {

@@ -9,13 +9,13 @@ import UIKit
 import EaseChatUIKit
 import HyphenateChat
 import UserNotifications
+import SwiftFFDB
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var serverConfig
     
-    @UserDefault("EasemobUser",defaultValue: Dictionary<String,Dictionary<String,Dictionary<String,Any>>>()) private var userData
     
     @UserDefault("EaseChatDemoPreferencesTheme", defaultValue: 0) var theme: UInt
     
@@ -62,9 +62,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         //Set up EaseChatUIKit
         _ = EaseChatUIKitClient.shared.setup(option: options)
-//        let profile = EaseProfile()
-//        profile.setValuesForKeys(self.userData)
-//        EaseChatUIKitClient.shared.registerUserStateListener(self)
     }
     
     private func setupEaseChatUIKitConfig() {
@@ -101,6 +98,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         ComponentsRegister.shared.GroupInfoController = MineGroupDetailViewController.self
         ComponentsRegister.shared.ContactsController = MineContactsViewController.self
     }
+    
+    
 
     // MARK: UISceneSession Lifecycle
 
@@ -110,7 +109,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set) {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.

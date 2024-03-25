@@ -13,7 +13,9 @@ final class MineMessageListViewController: MessageListController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.navigation.subtitle = nil
+        self.navigation.title = self.profile.nickname.isEmpty ? self.profile.id:self.profile.nickname
         // Do any additional setup after loading the view.
     }
     

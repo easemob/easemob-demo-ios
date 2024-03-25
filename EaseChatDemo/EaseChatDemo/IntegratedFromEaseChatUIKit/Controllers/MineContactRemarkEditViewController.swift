@@ -73,14 +73,8 @@ final class MineContactRemarkEditViewController: UIViewController {
         if text.count > self.textLimit() {
             self.showToast(toast: "Reach content character limit.".chat.localize)
         } else {
-            ChatClient.shared().contactManager?.setContactRemark(self.userId, remark: text,completion: { contact, error in
-                if error != nil {
-                    self.showToast(toast: "Modify failed".localized())
-                } else {
-                    self.modifySuccess?(text)
-                    self.pop()
-                }
-            })
+            self.modifySuccess?(text)
+            self.pop()
         }
         
     }

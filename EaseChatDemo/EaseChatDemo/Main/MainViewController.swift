@@ -8,18 +8,19 @@
 import UIKit
 import EaseChatUIKit
 import EaseCallKit
+import SwiftFFDB
 
 final class MainViewController: UITabBarController {
     
     private lazy var chats: ConversationListController = {
-        let vc = EaseChatUIKit.ComponentsRegister.shared.ConversationsController.init(provider: self)
+        let vc = EaseChatUIKit.ComponentsRegister.shared.ConversationsController.init()
         vc.tabBarItem.tag = 0
         vc.viewModel?.registerEventsListener(listener: self)
         return vc
     }()
     
     private lazy var contacts: ContactViewController = {
-        let vc = EaseChatUIKit.ComponentsRegister.shared.ContactsController.init(headerStyle: .contact, provider:nil)
+        let vc = EaseChatUIKit.ComponentsRegister.shared.ContactsController.init(headerStyle: .contact)
         vc.tabBarItem.tag = 1
         vc.viewModel?.registerEventsListener(self)
         return vc
@@ -44,10 +45,20 @@ final class MainViewController: UITabBarController {
         self.tabBar.insetsLayoutMarginsFromSafeArea = false
         self.tabBarController?.additionalSafeAreaInsets = .zero
         self.callKitSet()
+        self.setupDataProvider()
         self.loadViewControllers()
         // Do any additional setup after loading the view.
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
+    }
+    
+    private func setupDataProvider() {
+        //userProfileProvider为用户数据的提供者，使用协程实现与userProfileProviderOC不能同时存在userProfileProviderOC使用闭包实现
+        EaseChatUIKitContext.shared?.userProfileProvider = self
+        EaseChatUIKitContext.shared?.userProfileProviderOC = nil
+        //groupProvider原理同上
+        EaseChatUIKitContext.shared?.groupProfileProvider = self
+        EaseChatUIKitContext.shared?.groupProfileProviderOC = nil
     }
     
     private func callKitSet() {
@@ -64,16 +75,18 @@ final class MainViewController: UITabBarController {
         let nav2 = UINavigationController(rootViewController: self.contacts)
         let nav3 = UINavigationController(rootViewController: self.me)
         self.viewControllers = [nav1, nav2,nav3]
-        self.tabBar.isTranslucent = false
+//        self.tabBar.isTranslucent = false
         self.view.backgroundColor = UIColor.theme.neutralColor98
         self.tabBar.backgroundColor = UIColor.theme.barrageDarkColor8
         self.tabBar.barTintColor = UIColor.theme.barrageDarkColor8
-        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-        blurView.frame = CGRect(x: 0, y: 0, width: ScreenWidth, height: BottomBarHeight+49)
-        blurView.alpha = 0.8
-        blurView.insetsLayoutMarginsFromSafeArea = false
-        blurView.layoutMargins = .zero
-        self.tabBar.insertSubview(blurView, at: 0)
+//        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+//        blurView.frame = CGRect(x: 0, y: 0, width: ScreenWidth, height: BottomBarHeight+49)
+//        blurView.alpha = 0.8
+//        blurView.insetsLayoutMarginsFromSafeArea = false
+//        blurView.layoutMargins = .zero
+//        self.tabBar.insertSubview(blurView, at: 0)
+        self.tabBar.isTranslucent = true
+        self.tabBar.barStyle = .default
         self.tabBar.backgroundImage = UIImage()
         self.tabBar.shadowImage = UIImage()
     }
@@ -83,10 +96,10 @@ final class MainViewController: UITabBarController {
 extension MainViewController: ThemeSwitchProtocol {
     
     func switchTheme(style: EaseChatUIKit.ThemeStyle) {
-        if let blur = self.tabBar.viewWithTag(0) as? UIVisualEffectView {
-            blur.effect = style == .dark ? UIBlurEffect(style: .dark): UIBlurEffect(style: .light)
-            blur.alpha = style == .dark ? 1:0.8
-        }
+//        if let blur = self.tabBar.viewWithTag(0) as? UIVisualEffectView {
+//            blur.effect = style == .dark ? UIBlurEffect(style: .dark): UIBlurEffect(style: .light)
+//            blur.alpha = style == .dark ? 1:0.8
+//        }
         self.tabBar.barTintColor = style == .dark ? UIColor.theme.barrageLightColor8:UIColor.theme.barrageDarkColor8
         self.view.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.tabBar.backgroundColor = style == .dark ? UIColor.theme.barrageLightColor8:UIColor.theme.barrageDarkColor8
@@ -111,46 +124,18 @@ extension MainViewController: ThemeSwitchProtocol {
 
 //MARK: - EaseProfileProvider for conversations&contacts usage.
 //For example using conversations controller,as follows.
-extension MainViewController: EaseProfileProvider {
-
-    func fetchProfiles(profilesMap: [EaseChatUIKit.EaseProfileProviderType : [String]]) async -> [EaseChatUIKit.EaseProfileProtocol] {
-        //Create a task group
+extension MainViewController: EaseProfileProvider,EaseGroupProfileProvider {
+    //MARK: - EaseProfileProvider
+    func fetchProfiles(profileIds: [String]) async -> [any EaseChatUIKit.EaseProfileProtocol] {
         return await withTaskGroup(of: [EaseChatUIKit.EaseProfileProtocol].self, returning: [EaseChatUIKit.EaseProfileProtocol].self) { group in
             var resultProfiles: [EaseChatUIKit.EaseProfileProtocol] = []
-            for (type,profileIds) in profilesMap {
-                //According to condition,add task execute
-                if type == .chat {
-                    group.addTask {
-                        var resultProfiles: [EaseChatUIKit.EaseProfileProtocol] = []
-                        let result = await self.requestUserInfos(profileIds: profileIds)
-                        if let infos = result {
-                            for info in infos {
-                                let profile = EaseProfile()
-                                profile.id = info.id
-                                profile.nickname = info.nickname
-                                profile.avatarURL = info.avatarURL
-                                resultProfiles.append(profile)
-                            }
-                        }
-                        return resultProfiles
-                    }
-                } else {
-                    group.addTask {
-                        var resultProfiles: [EaseChatUIKit.EaseProfileProtocol] = []
-                        //根据profileIds去请求每个群的昵称头像并且 map塞进resultProfiles中返回
-                        let result = await self.requestGroupsInfo(groupIds: profileIds)
-                        if let groups = result {
-                            for group in groups {
-                                let profile = EaseProfile()
-                                profile.id = group.id
-                                profile.nickname = group.nickname
-                                profile.avatarURL = group.avatarURL
-                                resultProfiles.append(profile)
-                            }
-                        }
-                        return resultProfiles
-                    }
+            group.addTask {
+                var resultProfiles: [EaseChatUIKit.EaseProfileProtocol] = []
+                let result = await self.requestUserInfos(profileIds: profileIds)
+                if let infos = result {
+                    resultProfiles.append(contentsOf: infos)
                 }
+                return resultProfiles
             }
             //Await all task were executed.Return values.
             for await result in group {
@@ -158,21 +143,59 @@ extension MainViewController: EaseProfileProvider {
             }
             return resultProfiles
         }
-
+    }
+    //MARK: - EaseGroupProfileProvider
+    func fetchGroupProfiles(profileIds: [String]) async -> [any EaseChatUIKit.EaseProfileProtocol] {
         
+        return await withTaskGroup(of: [EaseChatUIKit.EaseProfileProtocol].self, returning: [EaseChatUIKit.EaseProfileProtocol].self) { group in
+            var resultProfiles: [EaseChatUIKit.EaseProfileProtocol] = []
+            group.addTask {
+                var resultProfiles: [EaseChatUIKit.EaseProfileProtocol] = []
+                let result = await self.requestGroupsInfo(groupIds: profileIds)
+                if let infos = result {
+                    resultProfiles.append(contentsOf: infos)
+                }
+                return resultProfiles
+            }
+            //Await all task were executed.Return values.
+            for await result in group {
+                resultProfiles.append(contentsOf: result)
+            }
+            return resultProfiles
+        }
     }
     
     private func requestUserInfos(profileIds: [String]) async -> [EaseProfileProtocol]? {
-        let result = await ChatClient.shared().userInfoManager?.fetchUserInfo(byId: profileIds)
-        
+        let ids = profileIds.map { _ in "?" }
+        let sql = ids.joined(separator: ",")
+        var unknownIds = [String]()
+        var resultProfiles = [EaseProfileProtocol]()
+        if let profiles = EaseChatProfile.select(where: "id IN (\(sql))",values: profileIds) as? [EaseChatProfile],!profiles.isEmpty {
+            for profile in profiles {
+                if !profileIds.contains(profile.id) {
+                    unknownIds.append(profile.id)
+                }
+            }
+            resultProfiles = profiles
+        } else {
+            unknownIds = profileIds
+        }
+        if unknownIds.isEmpty {
+            return resultProfiles
+        }
+        let result = await ChatClient.shared().userInfoManager?.fetchUserInfo(byId: unknownIds)
         if result?.1 == nil,let infoMap = result?.0 {
-            var profiles = [EaseProfileProtocol]()
+            var profiles = [EaseChatProfile]()
             for (userId,info) in infoMap {
-                let profile = EaseProfile()
+                let profile = EaseChatProfile()
+                let nickname = info.nickname ?? userId
                 profile.id = userId
-                profile.nickname = info.nickname ?? ""
+                profile.nickname = nickname
+                profile.remark = ChatClient.shared().contactManager?.getContact(userId)?.remark ?? nickname
                 profile.avatarURL = info.avatarUrl ?? ""
+                EaseChatUIKitContext.shared?.userCache?[userId] = profile
                 profiles.append(profile)
+                profile.insert()
             }
             return profiles
         }
@@ -180,19 +203,37 @@ extension MainViewController: EaseProfileProvider {
     }
     
     private func requestGroupsInfo(groupIds: [String]) async -> [EaseProfileProtocol]? {
-        var profiles = [EaseProfileProtocol]()
+        let ids = groupIds.map { _ in "?" }
+        let sql = ids.joined(separator: ",")
+        var unknownIds = [String]()
+        var resultProfiles = [EaseProfileProtocol]()
+        if let profiles = EaseChatProfile.select(where: "id IN (\(sql))",values: groupIds) as? [EaseChatProfile] {
+            for profile in profiles {
+                if !groupIds.contains(profile.id) {
+                    unknownIds.append(profile.id)
+                }
+                EaseChatUIKitContext.shared?.groupCache?[profile.id] = profile
+            }
+            resultProfiles = profiles
+        } else {
+            unknownIds = groupIds
+        }
+        if unknownIds.isEmpty {
+            return resultProfiles
+        }
         let groups = ChatClient.shared().groupManager?.getJoinedGroups() ?? []
-        for groupId in groupIds {
+        for groupId in unknownIds {
             if let group = groups.first(where: { $0.groupId == groupId }) {
-                let profile = EaseProfile()
+                let profile = EaseChatProfile()
                 profile.id = groupId
                 profile.nickname = group.groupName
                 profile.avatarURL = group.settings.ext
-                profiles.append(profile)
+                resultProfiles.append(profile)
+                profile.insert()
             }
 
         }
-        return profiles
+        return resultProfiles
     }
 }
 //MARK: - ConversationEmergencyListener
@@ -335,7 +376,39 @@ extension MainViewController: EaseCallDelegate {
             
             let user = EaseCallUser(nickName: nickname, image: URL(string: cacheUser.avatarURL) ?? URL(string: "https://www.baidu.com")!)
             EaseCallManager.shared().getEaseCallConfig().setUser(userId, info: user)
+        } else {
+            if let cacheUser = EaseChatUIKitContext.shared?.userCache?[userId] {
+                var nickname = cacheUser.remark
+                if nickname.isEmpty {
+                    nickname = cacheUser.nickname
+                }
+                if nickname.isEmpty {
+                    nickname = cacheUser.id
+                }
+                
+                let user = EaseCallUser(nickName: nickname, image: URL(string: cacheUser.avatarURL) ?? URL(string: "https://www.baidu.com")!)
+                EaseCallManager.shared().getEaseCallConfig().setUser(userId, info: user)
+            } else {
+                self.fetchUserInfo(userId: userId)
+            }
         }
+    }
+    
+    private func fetchUserInfo(userId: String) {
+        ChatClient.shared().userInfoManager?.fetchUserInfo(byId: [userId], type: [0,1], completion: { userMap, error in
+            if error == nil,let user = userMap?[userId] {
+                let callUser = EaseCallUser(nickName: user.nickname ?? userId, image: URL(string: user.avatarUrl ?? "") ?? URL(string: "https://www.baidu.com")!)
+                EaseCallManager.shared().getEaseCallConfig().setUser(userId, info: callUser)
+                let cache = EaseChatProfile()
+                cache.id = userId
+                cache.nickname = user.nickname ?? userId
+                cache.avatarURL = user.avatarUrl ?? ""
+                cache.insert()
+                EaseChatUIKitContext.shared?.userCache?[userId] = cache
+            } else {
+                consoleLogInfo("EaseCallKit mapUserDisplayInfo error:\(error?.errorDescription ?? "")", type: .error)
+            }
+        })
     }
     
     func callDidJoinChannel(_ aChannelName: String, uid aUid: UInt) {

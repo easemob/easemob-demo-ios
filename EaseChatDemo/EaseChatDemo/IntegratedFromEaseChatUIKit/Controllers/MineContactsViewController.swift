@@ -16,6 +16,10 @@ final class MineContactsViewController: ContactViewController {
         self.navigation.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigation.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL
+    }
 
     /*
     // MARK: - Navigation

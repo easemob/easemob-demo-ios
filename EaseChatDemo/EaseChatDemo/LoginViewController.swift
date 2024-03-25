@@ -7,6 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
+import SwiftFFDB
 
 let loginSuccessfulSwitchMainPage = "loginSuccessfulSwitchMainPage"
 let backLoginPage = "backLoginPage"
@@ -16,9 +17,7 @@ final class LoginViewController: UIViewController {
     private let regular = "^((1[1-9][0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))d{8}$"
     
     private var code = ""
-    
-    @UserDefault("EasemobUser",defaultValue: Dictionary<String,Dictionary<String,Dictionary<String,Any>>>()) private var userData
-    
+        
     @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var config
     
     private lazy var background: UIImageView = {
@@ -96,6 +95,7 @@ final class LoginViewController: UIViewController {
         self.addGesture()
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
+        EaseChatProfile.registerTable()
     }
     
     private func addGesture() {
@@ -114,9 +114,13 @@ final class LoginViewController: UIViewController {
         if self.serverConfig.isHidden {
             self.phoneNumber.placeholder = "Mobile Number".localized()
             self.pinCode.placeholder = "PinCodePlaceHolder".localized()
+            self.pinCode.keyboardType = .numberPad
+            self.phoneNumber.keyboardType = .numberPad
         } else {
             self.phoneNumber.placeholder = "EeaseMobID".localized()
             self.pinCode.placeholder = "Password".localized()
+            self.phoneNumber.keyboardType = .namePhonePad
+            self.pinCode.keyboardType = .namePhonePad
         }
         self.right.isHidden = self.serverConfig.isHidden
     }
@@ -168,7 +172,7 @@ extension LoginViewController: UITextFieldDelegate {
         self.right.setTitle("Get After".localized()+"(\(self.count)s)", for: .disabled)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    func touchesBegan(_ touches: Set, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
@@ -196,7 +200,7 @@ extension LoginViewController: UITextFieldDelegate {
     }
     
     @objc private func loginRequest() {
-        if !self.config.isEmpty {
+        if !self.serverConfig.isHidden {
             guard let userId = self.phoneNumber.text else {
                 self.showToast(toast: "UserIdError".localized())
                 return
@@ -207,10 +211,10 @@ extension LoginViewController: UITextFieldDelegate {
             }
             ChatClient.shared().fetchToken(withUsername: userId.lowercased(), password: password) {[weak self] token, error in
                 if error ==  nil,let chatToken = token {
-                    let user = EaseChatAppUser()
+                    let user = EaseChatProfile()
                     user.id = userId
-                    self?.userData[userId]?[userId] = user.toJsonObject()
                     self?.login(user: user, token: chatToken)
+                    user.insert()
                 } else {
                     self?.showToast(toast: "PasswordError".localized())
                 }
@@ -227,15 +231,16 @@ extension LoginViewController: UITextFieldDelegate {
             EasemobBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["phoneNumber":phone,"smsCode":code]) { [weak self] result, error in
                 if error == nil {
                     if let userId = result?["chatUserName"] as? String,let token = result?["token"] as? String{
-                        let user = EaseChatAppUser()
+                        let user = EaseChatProfile()
                         user.id = userId
                         user.avatarURL = (result?["avatarUrl"] as? String) ?? ""
                         self?.login(user: user, token: token)
-                        if let userInfo = user.toJsonObject() {
-                            if var currentUserCacheMap = self?.userData[userId] {
-                                self?.userData[userId]?[userId] = userInfo
+                        if let profiles = EaseChatProfile.select(where: "id = '\(userId)'") as? [EaseChatProfile] {
+                            if profiles.first == nil {
+                                user.insert()
                             } else {
-                                self?.userData[userId] = [userId:userInfo]
+                                user.update()
+                                EaseChatUIKitContext.shared?.currentUser = profiles.first
                             }
                         }
                     }
@@ -249,6 +254,9 @@ extension LoginViewController: UITextFieldDelegate {
     private func login(user: EaseProfileProtocol,token: String) {
         EaseChatUIKitClient.shared.login(user: user, token: token) { [weak self] error in
             if error == nil {
+                if let dbPath = FMDBConnection.databasePath,dbPath.isEmpty {
+                    FMDBConnection.databasePath = String.documentsPath+"/EaseMobDemo/"+user.id+".db"
+                }
                 self?.entryHome()
             } else {
                 self?.showToast(toast: error?.errorDescription ?? "")
@@ -332,7 +340,24 @@ extension UIView {
     
 }
 
-final class EaseChatAppUser:NSObject, EaseProfileProtocol {
+final class EaseChatProfile:NSObject, EaseProfileProtocol, FFObject {
+    
+    static func ignoreProperties() -> [String]? {
+        ["selected"]
+    }
+    
+    static func customColumnsType() -> [String : String]? {
+        nil
+    }
+    
+    static func customColumns() -> [String : String]? {
+        nil
+    }
+    
+    static func primaryKeyColumn() -> String {
+        "primaryId"
+    }
+    
     
     var id: String = ""
     
@@ -348,5 +373,30 @@ final class EaseChatAppUser:NSObject, EaseProfileProtocol {
         ["ease_chat_uikit_info":["nickname":self.nickname,"avatarURL":self.avatarURL,"userId":self.id,"remark":self.remark]]
     }
     
+    override func setValue(_ value: Any?, forUndefinedKey key: String) {
+        
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case remark
+        case nickname
+        case avatarURL
+        case selected
+    }
+    
+    override init() {
+        
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try container.decode(String.self, forKey: .id)
+        remark = try container.decode(String.self, forKey: .remark)
+        nickname = try container.decode(String.self, forKey: .nickname)
+        avatarURL = try container.decode(String.self, forKey: .avatarURL)
+        selected = try container.decodeIfPresent(Bool.self, forKey: .selected) ?? false
+    }
     
 }
