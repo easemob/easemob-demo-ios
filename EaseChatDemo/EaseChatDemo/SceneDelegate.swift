@@ -48,7 +48,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
             self.loadCache()
             self.window?.rootViewController = MainViewController()
-            
         }
     }
     
@@ -58,15 +57,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 if let conversation = ChatClient.shared().chatManager?.getConversationWithConvId(profile.id) {
                     if conversation.type == .chat {
                         EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
-                    } else {
-                        EaseChatUIKitContext.shared?.groupCache?[profile.id] = profile
                     }
                 }
                 if profile.id == ChatClient.shared().currentUsername ?? "" {
                     EaseChatUIKitContext.shared?.currentUser = profile
+                    EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
                 }
             }
         }
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -103,13 +102,17 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     @objc private func loadMain() {
         DispatchQueue.main.async {
-            self.window?.rootViewController = MainViewController()
+            if self.window?.rootViewController is LoginViewController {
+                self.window?.rootViewController = MainViewController()
+            }
         }
     }
     
     @objc private func loadLogin() {
         DispatchQueue.main.async {
-            self.window?.rootViewController = LoginViewController()
+            if self.window?.rootViewController is MainViewController {
+                self.window?.rootViewController = LoginViewController()
+            }
         }
     }
 

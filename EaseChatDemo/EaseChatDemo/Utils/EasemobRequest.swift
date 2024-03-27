@@ -131,7 +131,7 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
     
     @objc public func uploadImage(image: UIImage, callBack: @escaping ((Error?,Dictionary<String,Any>?) -> Void)) {
 
-        guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
+        guard let imageData = image.jpegData(compressionQuality: 0.1) else { return }
         // 创建上传的 URLRequest
         guard let userId = EaseChatUIKitContext.shared?.currentUserId  else { return }
         var request = URLRequest(url: URL(string: ServerHost+"/inside/app/user/\(userId)/avatar/upload")!)

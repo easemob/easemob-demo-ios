@@ -239,9 +239,16 @@ extension LoginViewController: UITextFieldDelegate {
                             if profiles.first == nil {
                                 user.insert()
                             } else {
-                                user.update()
-                                EaseChatUIKitContext.shared?.currentUser = profiles.first
+                                if let profile = profiles.first {
+                                    user.update()
+                                    EaseChatUIKitContext.shared?.currentUser = profiles.first
+                                    EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                                }
                             }
+                        } else {
+                            user.insert()
+                            EaseChatUIKitContext.shared?.currentUser = user
+                            EaseChatUIKitContext.shared?.userCache?[userId] = user
                         }
                     }
                 } else {
@@ -358,7 +365,8 @@ final class EaseChatProfile:NSObject, EaseProfileProtocol, FFObject {
         "primaryId"
     }
     
-    
+    var primaryId: Int = 0
+
     var id: String = ""
     
     var remark: String = ""

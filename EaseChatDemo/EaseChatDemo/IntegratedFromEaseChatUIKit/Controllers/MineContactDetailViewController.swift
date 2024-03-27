@@ -35,42 +35,45 @@ final class MineContactDetailViewController: ContactInfoViewController {
     private func requestRemark() {
         let contact = ChatClient.shared().contactManager?.getAllContacts()?.first(where: { $0.userId == self.profile.id })
         let remark = contact?.remark ?? ""
+        self.header.nickName.text = remark
         self.datas.first(where: { $0.title == "contact_details_button_remark".localized() })?.detail = remark
         self.menuList.reloadData()
-        
+        self.profile.remark = remark
         EaseChatUIKitContext.shared?.userCache?[self.profile.id]?.remark = remark
+        self.updateRemark(remark: remark)
         
     }
     
     private func requestInfo() {
         ChatClient.shared().userInfoManager?.fetchUserInfo(byId: [self.profile.id], type: [0,1],completion: { [weak self] infoMap, error in
             guard let userId = self?.profile.id else { return }
-            self?.requestRemark()
-            if let info = infoMap?[userId],error == nil {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                self?.requestRemark()
+                if let info = infoMap?[userId],error == nil {
+                    
                     var remark = EaseChatUIKitContext.shared?.userCache?[userId]?.remark ?? ""
                     if remark.isEmpty {
-                        remark = info.nickname ?? userId
+                        remark = info.nickname ?? ""
                     }
                     self?.header.nickName.text = remark
                     self?.header.detailText = userId
                     self?.header.avatarURL = info.avatarUrl
-                }
-                if let profiles = EaseChatProfile.select(where: "id = ?",values: [userId]) as? [EaseChatProfile],let profile = profiles.first(where: { $0.id == userId }) {
-                    profile.nickname = info.nickname ?? userId
-                    profile.avatarURL = info.avatarUrl ?? ""
-                    profile.update()
-                    EaseChatUIKitContext.shared?.userCache?[userId] = profile
+                    if let profiles = EaseChatProfile.select(where: "id = ?",values: [userId]) as? [EaseChatProfile],let profile = profiles.first(where: { $0.id == userId }) {
+                        profile.nickname = info.nickname ?? ""
+                        profile.avatarURL = info.avatarUrl ?? ""
+                        profile.updateFFDB()
+                        EaseChatUIKitContext.shared?.userCache?[userId] = profile
+                    } else {
+                        let profile = EaseChatProfile()
+                        profile.id = userId
+                        profile.nickname = info.nickname ?? ""
+                        profile.avatarURL = info.avatarUrl ?? ""
+                        profile.insert()
+                        EaseChatUIKitContext.shared?.userCache?[userId] = profile
+                    }
                 } else {
-                    let profile = EaseChatProfile()
-                    profile.id = userId
-                    profile.nickname = info.nickname ?? userId
-                    profile.avatarURL = info.avatarUrl ?? ""
-                    profile.insert()
-                    EaseChatUIKitContext.shared?.userCache?[userId] = profile
+                    self?.showToast(toast: "fetchUserInfo error:\(error?.errorDescription ?? "")")
                 }
-            } else {
-                self?.showToast(toast: "fetchUserInfo error:\(error?.errorDescription ?? "")")
             }
         })
     }
@@ -133,11 +136,42 @@ final class MineContactDetailViewController: ContactInfoViewController {
     private func editRemark() {
         let vc = MineContactRemarkEditViewController(userId: self.profile.id, rawText: self.profile.remark) { [weak self] remark in
             guard let `self` = self else { return }
-            self.profile.remark = remark
-            self.datas.first?.detail = remark
-            self.menuList.reloadData()
-            EaseChatUIKitContext.shared?.userCache?[self.profile.id]?.remark = remark
+            ChatClient.shared().contactManager?.setContactRemark(self.profile.id, remark: remark,completion: { [weak self] contact, error in
+                guard let `self` = self else { return }
+                if error == nil {
+                    self.header.nickName.text = remark
+                    self.profile.remark = remark
+                    self.datas.first?.detail = remark
+                    self.menuList.reloadData()
+                    self.updateRemark(remark: remark)
+                } else {
+                    self.showToast(toast: "modify remark failed:\(error?.errorDescription ?? "")")
+                }
+            })
+            
         }
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func updateRemark(remark: String) {
+        if let info = EaseChatUIKitContext.shared?.userCache?[self.profile.id]  {
+            info.remark = remark
+            EaseChatUIKitContext.shared?.updateCache(type: .user, profile: info)
+            let dbInfo = EaseChatProfile()
+            dbInfo.id = self.profile.id
+            dbInfo.nickname = self.profile.nickname
+            dbInfo.avatarURL = self.profile.avatarURL
+            dbInfo.remark = self.profile.remark
+            dbInfo.update()
+        } else {
+            self.profile.remark = remark
+            EaseChatUIKitContext.shared?.updateCache(type: .user, profile: self.profile)
+            let dbInfo = EaseChatProfile()
+            dbInfo.id = self.profile.id
+            dbInfo.nickname = self.profile.nickname
+            dbInfo.avatarURL = self.profile.avatarURL
+            dbInfo.remark = self.profile.remark
+            dbInfo.insert()
+        }
     }
 }

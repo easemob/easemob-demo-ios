@@ -63,6 +63,12 @@ final class MineCallInviteUsersController: GroupParticipantsRemoveController {
                     }
                     return profile
                 })
+                if result?.list?.count ?? 0 <= 200 {
+                    let profile = EaseProfile()
+                    profile.id = self.chatGroup.owner
+                    profile.nickname = EaseChatUIKitContext.shared?.userCache?[self.chatGroup.owner]?.nickname ?? profile.id
+                    self.participants.insert(profile, at: 0)
+                }
                 for profile in self.existProfiles {
                     self.participants.removeAll { $0.id == profile.id }
                 }

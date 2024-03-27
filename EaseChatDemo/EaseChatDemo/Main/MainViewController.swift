@@ -166,70 +166,57 @@ extension MainViewController: EaseProfileProvider,EaseGroupProfileProvider {
     }
     
     private func requestUserInfos(profileIds: [String]) async -> [EaseProfileProtocol]? {
-        let ids = profileIds.map { _ in "?" }
-        let sql = ids.joined(separator: ",")
         var unknownIds = [String]()
         var resultProfiles = [EaseProfileProtocol]()
-        if let profiles = EaseChatProfile.select(where: "id IN (\(sql))",values: profileIds) as? [EaseChatProfile],!profiles.isEmpty {
-            for profile in profiles {
-                if !profileIds.contains(profile.id) {
+        for profileId in profileIds {
+            if let profile = EaseChatUIKitContext.shared?.userCache?[profileId] {
+                if profile.nickname.isEmpty {
                     unknownIds.append(profile.id)
+                } else {
+                    resultProfiles.append(profile)
                 }
+            } else {
+                unknownIds.append(profileId)
             }
-            resultProfiles = profiles
-        } else {
-            unknownIds = profileIds
         }
         if unknownIds.isEmpty {
             return resultProfiles
         }
         let result = await ChatClient.shared().userInfoManager?.fetchUserInfo(byId: unknownIds)
         if result?.1 == nil,let infoMap = result?.0 {
-            var profiles = [EaseChatProfile]()
             for (userId,info) in infoMap {
                 let profile = EaseChatProfile()
-                let nickname = info.nickname ?? userId
+                let nickname = info.nickname ?? ""
                 profile.id = userId
                 profile.nickname = nickname
-                profile.remark = ChatClient.shared().contactManager?.getContact(userId)?.remark ?? nickname
+                if let remark = ChatClient.shared().contactManager?.getContact(userId)?.remark {
+                    profile.remark = remark
+                }
                 profile.avatarURL = info.avatarUrl ?? ""
+                resultProfiles.append(profile)
+                if (EaseChatUIKitContext.shared?.userCache?[userId]) != nil {
+                    profile.updateFFDB()
+                } else {
+                    profile.insert()
+                }
                 EaseChatUIKitContext.shared?.userCache?[userId] = profile
-                profiles.append(profile)
-                profile.insert()
             }
-            return profiles
+            return resultProfiles
         }
         return []
     }
     
     private func requestGroupsInfo(groupIds: [String]) async -> [EaseProfileProtocol]? {
-        let ids = groupIds.map { _ in "?" }
-        let sql = ids.joined(separator: ",")
-        var unknownIds = [String]()
         var resultProfiles = [EaseProfileProtocol]()
-        if let profiles = EaseChatProfile.select(where: "id IN (\(sql))",values: groupIds) as? [EaseChatProfile] {
-            for profile in profiles {
-                if !groupIds.contains(profile.id) {
-                    unknownIds.append(profile.id)
-                }
-                EaseChatUIKitContext.shared?.groupCache?[profile.id] = profile
-            }
-            resultProfiles = profiles
-        } else {
-            unknownIds = groupIds
-        }
-        if unknownIds.isEmpty {
-            return resultProfiles
-        }
         let groups = ChatClient.shared().groupManager?.getJoinedGroups() ?? []
-        for groupId in unknownIds {
+        for groupId in groupIds {
             if let group = groups.first(where: { $0.groupId == groupId }) {
                 let profile = EaseChatProfile()
                 profile.id = groupId
                 profile.nickname = group.groupName
                 profile.avatarURL = group.settings.ext
                 resultProfiles.append(profile)
-                profile.insert()
+                EaseChatUIKitContext.shared?.groupCache?[groupId] = profile
             }
 
         }
@@ -256,6 +243,8 @@ extension MainViewController: ContactEmergencyListener {
         if type != .setRemark {
             if let newFriends = UserDefaults.standard.value(forKey: "EaseChatUIKit_contact_new_request") as?  Dictionary<String,Double> {
                 self.contacts.tabBarItem.badgeValue = newFriends.count > 0 ? "\(newFriends.count)":nil
+            } else {
+                self.contacts.tabBarItem.badgeValue = nil
             }
         }
     }
@@ -397,7 +386,7 @@ extension MainViewController: EaseCallDelegate {
     private func fetchUserInfo(userId: String) {
         ChatClient.shared().userInfoManager?.fetchUserInfo(byId: [userId], type: [0,1], completion: { userMap, error in
             if error == nil,let user = userMap?[userId] {
-                let callUser = EaseCallUser(nickName: user.nickname ?? userId, image: URL(string: user.avatarUrl ?? "") ?? URL(string: "https://www.baidu.com")!)
+                let callUser = EaseCallUser(nickName: user.nickname ?? "", image: URL(string: user.avatarUrl ?? "") ?? URL(string: "https://www.baidu.com")!)
                 EaseCallManager.shared().getEaseCallConfig().setUser(userId, info: callUser)
                 let cache = EaseChatProfile()
                 cache.id = userId

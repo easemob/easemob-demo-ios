@@ -62,6 +62,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         //Set up EaseChatUIKit
         _ = EaseChatUIKitClient.shared.setup(option: options)
+        EaseChatUIKitClient.shared.registerUserStateListener(self)
     }
     
     private func setupEaseChatUIKitConfig() {
@@ -88,7 +89,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             Appearance.chat.contentStyle.removeAll { $0 == .withMessageReaction }
         }
         //Notice: - Feature identify can't changed, it's used to identify feature action.
-        Appearance.contact.detailExtensionActionItems = [ContactListHeaderItem(featureIdentify: "Chat", featureName: "Chat".chat.localize, featureIcon: UIImage(named: "chatTo", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "Search Messages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "AudioCall", featureName: "AudioCall".chat.localize, featureIcon: UIImage(named: "voice_call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "VideoCall".chat.localize, featureIcon: UIImage(named: "video_call", in: .chatBundle, with: nil))]
+        Appearance.contact.detailExtensionActionItems = [ContactListHeaderItem(featureIdentify: "Chat", featureName: "Chat".chat.localize, featureIcon: UIImage(named: "chatTo", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "AudioCall", featureName: "AudioCall".chat.localize, featureIcon: UIImage(named: "voice_call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "VideoCall".chat.localize, featureIcon: UIImage(named: "video_call", in: .chatBundle, with: nil))]
         //Register custom components
         ComponentsRegister.shared.MessagesViewModel = MineMessageListViewModel.self
         ComponentsRegister.shared.ConversationViewService = MineConversationsViewModel.self
@@ -216,6 +217,17 @@ extension AppDelegate: UserStateChangedListener {
         if error != nil {
             NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
         } else {
+            if let groups = ChatClient.shared().groupManager?.getJoinedGroups() {
+                var profiles = [EaseChatProfile]()
+                for group in groups {
+                    let profile = EaseChatProfile()
+                    profile.id = group.groupId
+                    profile.nickname = group.groupName
+                    profile.avatarURL = group.settings.ext
+                    profiles.append(profile)
+                }
+                EaseChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
+            }
             NotificationCenter.default.post(name: Notification.Name(loginSuccessfulSwitchMainPage), object: nil)
         }
     }

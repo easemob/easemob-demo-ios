@@ -14,8 +14,10 @@ final class GeneralViewController: UIViewController {
     
     @UserDefault("EaseChatDemoPreferencesLanguage", defaultValue: "zh-Hans") var language: String
     
+    @UserDefault("EaseChatDemoPreferencesTheme", defaultValue: 0) var theme: UInt
+    
     private lazy var jsons: [Dictionary<String,Any>] = {
-        [["title":"dark_mode".localized(),"detail":"","withSwitch": true,"switchValue":self.darkMode],["title":"switch_theme".localized(),"detail":"","withSwitch": false,"switchValue":false],["title":"color_setting".localized(),"detail":"","withSwitch": false,"switchValue":false],["title":"feature_switch".localized(),"detail":"","withSwitch": false,"switchValue":false],["title":"language_setting".localized(),"detail":self.language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false]]
+        [["title":"dark_mode".localized(),"detail":"","withSwitch": true,"switchValue":self.darkMode],["title":"switch_theme".localized(),"detail":"","withSwitch": false,"switchValue":(self.theme == 0 ? "Classic".localized():"Smart".localized())],["title":"color_setting".localized(),"detail":"","withSwitch": false,"switchValue":false],["title":"feature_switch".localized(),"detail":"","withSwitch": false,"switchValue":false],["title":"language_setting".localized(),"detail":self.language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false]]
     }()
     
     private lazy var datas: [DetailInfo] = {

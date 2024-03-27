@@ -54,8 +54,9 @@ final class MeViewController: UIViewController {
                 if let profiles = EaseChatProfile.select(where: "id = ?",values: [userId]) as? [EaseChatProfile],let profile = profiles.first(where: { $0.id == userId }) {
                     profile.nickname = info.nickname ?? userId
                     profile.avatarURL = info.avatarUrl ?? ""
-                    profile.update()
+                    profile.updateFFDB()
                     EaseChatUIKitContext.shared?.currentUser = profile
+                    EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
                 }
             } else {
                 self?.showToast(toast: "fetchUserInfo error:\(error?.errorDescription ?? "")")
@@ -71,10 +72,13 @@ final class MeViewController: UIViewController {
         if nickName.isEmpty {
             nickName = userId
         }
-        if self.header.nickName.text != nickName {
+        if self.header.nickName.text != nickName,!nickName.isEmpty {
             self.header.nickName.text = nickName
         }
-        self.header.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL ?? ""
+        if let url = EaseChatUIKitContext.shared?.currentUser?.avatarURL,!url.isEmpty  {
+            self.header.avatarURL = url
+        }
+        
     }
     
     @objc private func refreshProfile() {
@@ -193,5 +197,24 @@ extension MeViewController: ThemeSwitchProtocol {
     func switchTheme(style: ThemeStyle) {
         self.view.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.menuList.reloadData()
+    }
+}
+
+extension FFObject {
+    @discardableResult
+    public func updateFFDB() -> Bool {
+        do {
+            var values = [Any]()
+            for column in subType.columnsOfSelf() {
+                let value = valueNotNullFrom(column)
+                values.append(value)
+            }
+            values.append(valueNotNullFrom("id"))
+//            values.append(valueNotNullFrom(subType.primaryKeyColumn()))
+            return try FFDBManager.update(subType, set: subType.columnsOfSelf(), where: "id = ?",values:values)
+        } catch {
+            consoleLogInfo("failed: \(error.localizedDescription)", type: .error)
+        }
+        return false
     }
 }

@@ -10,19 +10,43 @@ import EaseChatUIKit
 import EaseCallKit
 
 final class MineMessageListViewController: MessageListController {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let info = (self.chatType == .chat ? EaseChatUIKitContext.shared?.userCache:EaseChatUIKitContext.shared?.groupCache)?[self.profile.id] else { return }
+        self.profile.remark = info.remark
+        var nickname = self.profile.remark
+        if nickname.isEmpty {
+            nickname = self.profile.nickname
+        }
+        if nickname.isEmpty {
+            nickname = self.profile.id
+        }
+        self.navigation.title = nickname
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigation.subtitle = nil
-        self.navigation.title = self.profile.nickname.isEmpty ? self.profile.id:self.profile.nickname
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        ChatClient.shared().chatManager?.getConversationWithConvId(self.profile.id)?.markAllMessages(asRead: nil)
+        self.viewModel.notifyUnreadCountChanged()
     }
     
     override func rightImages() -> [UIImage] {
         var images = [UIImage(named: "message_action_topic", in: .chatBundle, with: nil)!,UIImage(named: "call", in: .chatBundle, with: nil)!]
-        if !Appearance.chat.contentStyle.contains(.withMessageTopic) {
-            images.remove(at: 0)
+        if self.chatType == .chat {
+            images = [UIImage(named: "call", in: .chatBundle, with: nil)!]
+        } else {
+            if !Appearance.chat.contentStyle.contains(.withMessageTopic) {
+                if images.count > 0 {
+                    images.remove(at: 0)
+                }
+            }
         }
         return images
     }
@@ -30,7 +54,12 @@ final class MineMessageListViewController: MessageListController {
     override func rightItemsAction(indexPath: IndexPath?) {
         guard let idx = indexPath else { return }
         switch idx.row {
-        case 0: !Appearance.chat.contentStyle.contains(.withMessageTopic) ? self.callAction():self.viewTopicList()
+        case 0:
+            if self.chatType == .chat {
+                self.callAction()
+            } else {
+                !Appearance.chat.contentStyle.contains(.withMessageTopic) ? self.callAction():self.viewTopicList()
+            }
         case 1: self.callAction()
         default:
             break
@@ -112,14 +141,12 @@ final class MineMessageListViewController: MessageListController {
 
     override func filterMessageActions(message: MessageEntity) -> [ActionSheetItemProtocol] {
         var messageActions = Appearance.chat.messageLongPressedActions
-        if let ext = message.message.ext {
-            if !ext.keys.contains("msgType") {
-                return [
-                    ActionSheetItem(title: "barrage_long_press_menu_delete".chat.localize, type: .normal,tag: "Delete",image: UIImage(named: "message_action_delete", in: .chatBundle, with: nil)),
-                    ActionSheetItem(title: "barrage_long_press_menu_multi_select".chat.localize, type: .normal,tag: "MultiSelect",image: UIImage(named: "message_action_multi_select", in: .chatBundle, with: nil)),
-                    ActionSheetItem(title: "barrage_long_press_menu_forward".chat.localize, type: .normal,tag: "Forward",image: UIImage(named: "message_action_forward", in: .chatBundle, with: nil))
-                ]
-            }
+        if let ext = message.message.ext,ext.keys.contains("msgType") {
+            return [
+                ActionSheetItem(title: "barrage_long_press_menu_delete".chat.localize, type: .normal,tag: "Delete",image: UIImage(named: "message_action_delete", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_multi_select".chat.localize, type: .normal,tag: "MultiSelect",image: UIImage(named: "message_action_multi_select", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_forward".chat.localize, type: .normal,tag: "Forward",image: UIImage(named: "message_action_forward", in: .chatBundle, with: nil))
+            ]
         }
         if message.message.body.type != .text {
             messageActions.removeAll { $0.tag == "Copy" }

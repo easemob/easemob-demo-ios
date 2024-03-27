@@ -11,7 +11,7 @@ import EaseChatUIKit
 final class MineConversationsViewModel: ConversationViewModel {
     
     override func conversationLastMessageUpdate(message: ChatMessage, info: ConversationInfo) {
-        
+        super.conversationLastMessageUpdate(message: message, info: info)
         if let ext = message.ext?["ext"] as? Dictionary<String,String>,let groupId = ext["groupId"] {
             let callMessage = ChatMessage(conversationID: groupId, from: message.from, to: groupId ,body: message.body, ext: message.ext)
             callMessage.direction = .receive

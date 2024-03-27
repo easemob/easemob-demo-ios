@@ -35,6 +35,10 @@ final class PersonalInfoViewController: UIViewController {
         super.viewDidLoad()
         self.view.addSubViews([self.navigation,self.infoList])
         self.infoList.reloadData()
+        if let url = EaseChatUIKitContext.shared?.currentUser?.avatarURL,!url.isEmpty {
+            self.navigation.avatarURL = url
+        }
+        
         self.navigation.title = "Personal Info".localized()
         self.navigation.clickClosure = { [weak self] _,_ in
             self?.navigationController?.popViewController(animated: true)
@@ -92,26 +96,39 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
         guard let userId = EaseChatUIKitContext.shared?.currentUserId else { return }
         let vc = MineContactRemarkEditViewController(userId: userId, rawText: self.infos[1]["detail"] ?? "") { [weak self] nickname in
             guard let `self` = self else { return }
-            self.infos[1]["detail"] = nickname
-            self.infoList.reloadData()
-            EaseChatUIKitContext.shared?.currentUser?.nickname = nickname
-            EaseChatUIKitContext.shared?.userCache?[userId]?.nickname = nickname
-            EaseChatUIKitContext.shared?.chatCache?[userId]?.nickname = nickname
-            ChatClient.shared().userInfoManager?.updateOwnUserInfo(nickname, with: .nickName) { userInfo,error in
-                if error != nil {
-                    DialogManager.shared.showAlert(title: "error".chat.localize, content: "update nickname failed".chat.localize, showCancel: false, showConfirm: true) { _ in
-                        
-                    }
-                } else {
-                    if let userJson = EaseChatUIKitContext.shared?.currentUser?.toJsonObject() {
-                        let profile = EaseChatProfile()
-                        profile.setValuesForKeys(userJson)
-                        profile.update()
+            self.updateUserInfo(userId: userId, nickname: nickname)
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func updateUserInfo(userId: String,nickname: String) {
+        ChatClient.shared().userInfoManager?.updateOwnUserInfo(nickname, with: .nickName, completion: { [weak self] info, error in
+            guard let `self` = self else { return }
+            if error == nil {
+                DispatchQueue.main.async {
+                    self.infos[1]["detail"] = nickname
+                    self.infoList.reloadData()
+                    EaseChatUIKitContext.shared?.currentUser?.nickname = nickname
+                    EaseChatUIKitContext.shared?.userCache?[userId]?.nickname = nickname
+                    EaseChatUIKitContext.shared?.chatCache?[userId]?.nickname = nickname
+                    ChatClient.shared().userInfoManager?.updateOwnUserInfo(nickname, with: .nickName) { userInfo,error in
+                        DispatchQueue.main.async {
+                            if error != nil {
+                                DialogManager.shared.showAlert(title: "error".chat.localize, content: "update nickname failed".chat.localize, showCancel: false, showConfirm: true) { _ in
+                                    
+                                }
+                            } else {
+                                if let userJson = EaseChatUIKitContext.shared?.currentUser?.toJsonObject() {
+                                    let profile = EaseChatProfile()
+                                    profile.setValuesForKeys(userJson)
+                                    profile.updateFFDB()
+                                }
+                            }
+                        }
                     }
                 }
             }
-        }
-        self.navigationController?.pushViewController(vc, animated: true)
+        })
     }
     
     @objc private func processAction(item: ActionSheetItemProtocol) {
@@ -176,8 +193,7 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
     @objc private func processImagePickerData(info: [UIImagePickerController.InfoKey : Any]) {
         let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String
         if mediaType == kUTTypeImage as String {
-            if let imageURL = info[.imageURL] as? URL {
-//                let fileName = imageURL.lastPathComponent
+            if let imageURL = info[.editedImage] as? URL {
                 if let image = UIImage(contentsOfFile: imageURL.path) {
                     self.uploadImage(image: image)
                 }
@@ -200,8 +216,9 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
                     if let userJson = EaseChatUIKitContext.shared?.currentUser?.toJsonObject() {
                         let profile = EaseChatProfile()
                         profile.setValuesForKeys(userJson)
-                        profile.update()
+                        profile.updateFFDB()
                     }
+                    self?.setUserAvatar(url: avatarURL)
                     self?.infoList.reloadData()
                     NotificationCenter.default.post(name: NSNotification.Name(userAvatarUpdated), object: nil)
                 } else {
@@ -209,6 +226,16 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
                 }
             }
         }
+    }
+    
+    private func setUserAvatar(url: String) {
+        ChatClient.shared().userInfoManager?.updateOwnUserInfo(url, with: .avatarURL, completion: { info, error in
+            DispatchQueue.main.async {
+                if error != nil {
+                    self.showToast(toast: "\(error?.errorDescription ?? "update avatar failed")" )
+                }
+            }
+        })
     }
 
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
