@@ -80,6 +80,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         //Enable message translation
         Appearance.chat.enableTranslation = self.targetLanguage
+        if Appearance.chat.enableTranslation {
+            
+            let preferredLanguage = NSLocale.preferredLanguages[0]
+            if preferredLanguage.starts(with: "zh-Hans") || preferredLanguage.starts(with: "zh-Hant") {
+                Appearance.chat.targetLanguage = .Chinese
+            } else {
+                Appearance.chat.targetLanguage = .English
+            }
+        }
         //Whether show message topic or not.
         if !self.createTopic {
             Appearance.chat.contentStyle.removeAll { $0 == .withMessageTopic }
@@ -89,7 +98,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             Appearance.chat.contentStyle.removeAll { $0 == .withMessageReaction }
         }
         //Notice: - Feature identify can't changed, it's used to identify feature action.
-        Appearance.contact.detailExtensionActionItems = [ContactListHeaderItem(featureIdentify: "Chat", featureName: "Chat".chat.localize, featureIcon: UIImage(named: "chatTo", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "AudioCall", featureName: "AudioCall".chat.localize, featureIcon: UIImage(named: "voice_call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "VideoCall".chat.localize, featureIcon: UIImage(named: "video_call", in: .chatBundle, with: nil))]
+        
         //Register custom components
         ComponentsRegister.shared.MessagesViewModel = MineMessageListViewModel.self
         ComponentsRegister.shared.ConversationViewService = MineConversationsViewModel.self
@@ -227,6 +236,11 @@ extension AppDelegate: UserStateChangedListener {
                     profiles.append(profile)
                 }
                 EaseChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
+            }
+            if let users = EaseChatUIKitContext.shared?.userCache {
+                for user in users.values {
+                    EaseChatUIKitContext.shared?.userCache?[user.id]?.remark = ChatClient.shared().contactManager?.getContact(user.id)?.remark ?? ""
+                }
             }
             NotificationCenter.default.post(name: Notification.Name(loginSuccessfulSwitchMainPage), object: nil)
         }

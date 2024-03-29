@@ -62,7 +62,7 @@ final class ColorHueSettingCell: UITableViewCell {
     }
     
     @objc private func sliderValueChanged() {
-        self.sliderValueUpdated?(CGFloat(UInt(self.colorSlider.value))/360,self.indexPath)
+        self.sliderValueUpdated?(CGFloat(self.colorSlider.value),self.indexPath)
 //        self.colorView.backgroundColor = UIColor(hue: CGFloat(UInt(self.colorSlider.value))/360, saturation: 1, lightness: CGFloat(UInt(50))/100.0, alpha: 1)
 //        self.colorValue.text = "\(Int(self.colorSlider.value))"
     }

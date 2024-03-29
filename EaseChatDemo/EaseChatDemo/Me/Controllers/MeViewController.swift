@@ -52,7 +52,7 @@ final class MeViewController: UIViewController {
                     self?.header.avatarURL = info.avatarUrl
                 }
                 if let profiles = EaseChatProfile.select(where: "id = ?",values: [userId]) as? [EaseChatProfile],let profile = profiles.first(where: { $0.id == userId }) {
-                    profile.nickname = info.nickname ?? userId
+                    profile.nickname = info.nickname ?? ""
                     profile.avatarURL = info.avatarUrl ?? ""
                     profile.updateFFDB()
                     EaseChatUIKitContext.shared?.currentUser = profile

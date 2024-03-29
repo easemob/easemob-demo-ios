@@ -49,7 +49,7 @@ final class MineCallInviteUsersController: GroupParticipantsRemoveController {
                 self.participants = (result?.list ?? []).map({
                     let profile = EaseProfile()
                     profile.id = $0 as String
-                    if let user = EaseChatUIKitContext.shared?.chatCache?[$0 as String] {
+                    if let user = EaseChatUIKitContext.shared?.userCache?[$0 as String] {
                         var nickname = profile.nickname
                         nickname = user.remark
                         if nickname.isEmpty {
@@ -60,13 +60,29 @@ final class MineCallInviteUsersController: GroupParticipantsRemoveController {
                         }
                         profile.nickname = nickname
                         profile.avatarURL = user.avatarURL
+                    } else {
+                        if let user = EaseChatUIKitContext.shared?.chatCache?[$0 as String] {
+                            var nickname = profile.nickname
+                            nickname = user.remark
+                            if nickname.isEmpty {
+                                nickname = user.nickname
+                            }
+                            if nickname.isEmpty {
+                                nickname = profile.id
+                            }
+                            profile.nickname = nickname
+                            profile.avatarURL = user.avatarURL
+                        }
                     }
                     return profile
                 })
                 if result?.list?.count ?? 0 <= 200 {
                     let profile = EaseProfile()
                     profile.id = self.chatGroup.owner
-                    profile.nickname = EaseChatUIKitContext.shared?.userCache?[self.chatGroup.owner]?.nickname ?? profile.id
+                    profile.nickname = EaseChatUIKitContext.shared?.userCache?[self.chatGroup.owner]?.nickname ?? ""
+                    if profile.nickname.isEmpty {
+                        profile.nickname = EaseChatUIKitContext.shared?.chatCache?[self.chatGroup.owner]?.nickname ?? ""
+                    }
                     self.participants.insert(profile, at: 0)
                 }
                 for profile in self.existProfiles {

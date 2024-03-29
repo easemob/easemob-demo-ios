@@ -89,21 +89,30 @@ extension ColorSettingViewController: UITableViewDelegate,UITableViewDataSource 
     }
     
     private func updateHues(hue: CGFloat,indexPath: IndexPath) {
+        var color = UIColor.white
         switch indexPath.section {
         case 0:
             Appearance.primaryHue = hue
+            color = UIColor(hue: Appearance.primaryHue, saturation: 1, lightness: 50/100.0, alpha: 1)
         case 1:
             Appearance.secondaryHue = hue
+            color = UIColor(hue: Appearance.secondaryHue, saturation: 1, lightness: 40/100.0, alpha: 1)
         case 2:
             Appearance.errorHue = hue
+            color = UIColor(hue: Appearance.errorHue, saturation: 1, lightness: 50/100.0, alpha: 1)
         case 3:
             Appearance.neutralHue = hue
+            color = UIColor(hue: Appearance.neutralHue, saturation: 1, lightness: 50/100.0, alpha: 1)
         case 4:
             Appearance.neutralSpecialHue = hue
+            color = UIColor(hue: Appearance.neutralSpecialHue, saturation: 1, lightness: 50/100.0, alpha: 1)
         default:
             break
         }
-        self.infoList.reloadData()
+        let cell = self.infoList.cellForRow(at: indexPath) as? ColorHueSettingCell
+        cell?.colorView.backgroundColor = color
+        cell?.colorValue.text = "\(Int(hue*360))"
+//        self.infoList.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 

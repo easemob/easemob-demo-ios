@@ -50,6 +50,8 @@ final class MainViewController: UITabBarController {
         // Do any additional setup after loading the view.
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
+        self.contacts.tabBarItem.badgeValue = "1"
+        self.updateContactBadge()
     }
     
     private func setupDataProvider() {
@@ -234,16 +236,26 @@ extension  MainViewController: ConversationEmergencyListener {
     }
     
     func onConversationsUnreadCountUpdate(unreadCount: UInt) {
-        self.chats.tabBarItem.badgeValue = unreadCount > 0 ? "\(unreadCount)" : nil
+        DispatchQueue.main.async {
+            self.chats.tabBarItem.badgeValue = unreadCount > 0 ? "\(unreadCount)" : nil
+        }
     }
 }
 //MARK: - ContactEmergencyListener
 extension MainViewController: ContactEmergencyListener {
     func onResult(error: EaseChatUIKit.ChatError?, type: EaseChatUIKit.ContactEmergencyType, operatorId: String) {
         if type != .setRemark {
-            if let newFriends = UserDefaults.standard.value(forKey: "EaseChatUIKit_contact_new_request") as?  Dictionary<String,Double> {
+            self.updateContactBadge()
+        }
+    }
+    
+    private func updateContactBadge() {
+        if let newFriends = UserDefaults.standard.value(forKey: "EaseChatUIKit_contact_new_request") as?  Dictionary<String,Double> {
+            DispatchQueue.main.async {
                 self.contacts.tabBarItem.badgeValue = newFriends.count > 0 ? "\(newFriends.count)":nil
-            } else {
+            }
+        } else {
+            DispatchQueue.main.async {
                 self.contacts.tabBarItem.badgeValue = nil
             }
         }
@@ -390,7 +402,7 @@ extension MainViewController: EaseCallDelegate {
                 EaseCallManager.shared().getEaseCallConfig().setUser(userId, info: callUser)
                 let cache = EaseChatProfile()
                 cache.id = userId
-                cache.nickname = user.nickname ?? userId
+                cache.nickname = user.nickname ?? ""
                 cache.avatarURL = user.avatarUrl ?? ""
                 cache.insert()
                 EaseChatUIKitContext.shared?.userCache?[userId] = cache
@@ -401,6 +413,10 @@ extension MainViewController: EaseCallDelegate {
     }
     
     func callDidJoinChannel(_ aChannelName: String, uid aUid: UInt) {
+        if let profile = EaseChatUIKitContext.shared?.currentUser {
+            let user = EaseCallUser(nickName: profile.nickname, image: URL(string: profile.avatarURL) ?? URL(string: "https://www.baidu.com")!)
+            EaseCallManager.shared().getEaseCallConfig().setUser(profile.id, info: user)
+        }
         
     }
     

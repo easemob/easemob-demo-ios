@@ -84,7 +84,8 @@ final class MineMessageListViewController: MessageListController {
             }
             self.startSingleCall(callType: callType)
         } else {
-            let vc = MineCallInviteUsersController(groupId: self.profile.id,profiles: []) { [weak self] users in
+            guard let userInfo = EaseChatUIKitContext.shared?.currentUser else { return }
+            let vc = MineCallInviteUsersController(groupId: self.profile.id,profiles: [userInfo]) { [weak self] users in
                 let user = EaseChatUIKitContext.shared?.chatCache?[EaseChatUIKitContext.shared?.currentUserId ?? ""]
                 var nickname = user?.id ?? ""
                 if let realName = user?.nickname,!realName.isEmpty {
@@ -140,53 +141,66 @@ final class MineMessageListViewController: MessageListController {
     }
 
     override func filterMessageActions(message: MessageEntity) -> [ActionSheetItemProtocol] {
-        var messageActions = Appearance.chat.messageLongPressedActions
         if let ext = message.message.ext,ext.keys.contains("msgType") {
             return [
                 ActionSheetItem(title: "barrage_long_press_menu_delete".chat.localize, type: .normal,tag: "Delete",image: UIImage(named: "message_action_delete", in: .chatBundle, with: nil)),
                 ActionSheetItem(title: "barrage_long_press_menu_multi_select".chat.localize, type: .normal,tag: "MultiSelect",image: UIImage(named: "message_action_multi_select", in: .chatBundle, with: nil)),
                 ActionSheetItem(title: "barrage_long_press_menu_forward".chat.localize, type: .normal,tag: "Forward",image: UIImage(named: "message_action_forward", in: .chatBundle, with: nil))
             ]
-        }
-        if message.message.body.type != .text {
-            messageActions.removeAll { $0.tag == "Copy" }
-            messageActions.removeAll { $0.tag == "Edit" }
-            messageActions.removeAll { $0.tag == "Translate" }
-            messageActions.removeAll { $0.tag == "OriginalText" }
         } else {
-            if message.message.direction != .send {
+            var messageActions = [
+                ActionSheetItem(title: "barrage_long_press_menu_copy".chat.localize, type: .normal,tag: "Copy",image: UIImage(named: "message_action_copy", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_edit".chat.localize, type: .normal,tag: "Edit",image: UIImage(named: "message_action_edit", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_reply".chat.localize, type: .normal,tag: "Reply",image: UIImage(named: "message_action_reply", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_delete".chat.localize, type: .normal,tag: "Delete",image: UIImage(named: "message_action_delete", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_recall".chat.localize, type: .normal,tag: "Recall",image: UIImage(named: "message_action_recall", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_report".chat.localize, type: .normal,tag: "Report",image: UIImage(named: "message_action_report", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_translate".chat.localize, type: .normal,tag: "Translate",image: UIImage(named: "message_action_translation", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_show_original_text".chat.localize, type: .normal,tag: "OriginalText",image: UIImage(named: "message_action_translation", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_multi_select".chat.localize, type: .normal,tag: "MultiSelect",image: UIImage(named: "message_action_multi_select", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_topic".chat.localize, type: .normal,tag: "Topic",image: UIImage(named: "message_action_topic", in: .chatBundle, with: nil)),
+                ActionSheetItem(title: "barrage_long_press_menu_forward".chat.localize, type: .normal,tag: "Forward",image: UIImage(named: "message_action_forward", in: .chatBundle, with: nil)),
+            ]
+            if message.message.body.type != .text {
+                messageActions.removeAll { $0.tag == "Copy" }
                 messageActions.removeAll { $0.tag == "Edit" }
-            } else {
-                if message.message.status != .succeed {
-                    messageActions.removeAll { $0.tag == "Edit" }
-                }
-            }
-            if Appearance.chat.enableTranslation {
-                if message.showTranslation {
-                    messageActions.removeAll { $0.tag == "Translate" }
-                } else {
-                    messageActions.removeAll { $0.tag == "OriginalText" }
-                }
-            } else {
                 messageActions.removeAll { $0.tag == "Translate" }
                 messageActions.removeAll { $0.tag == "OriginalText" }
+            } else {
+                if message.message.direction != .send {
+                    messageActions.removeAll { $0.tag == "Edit" }
+                } else {
+                    if message.message.status != .succeed {
+                        messageActions.removeAll { $0.tag == "Edit" }
+                    }
+                }
+                if Appearance.chat.enableTranslation {
+                    if message.showTranslation {
+                        messageActions.removeAll { $0.tag == "Translate" }
+                    } else {
+                        messageActions.removeAll { $0.tag == "OriginalText" }
+                    }
+                } else {
+                    messageActions.removeAll { $0.tag == "Translate" }
+                    messageActions.removeAll { $0.tag == "OriginalText" }
+                }
             }
-        }
-        if !Appearance.chat.contentStyle.contains(.withReply) {
-            messageActions.removeAll { $0.tag == "Reply" }
-        }
-        if !Appearance.chat.contentStyle.contains(.withMessageTopic) || message.message.chatType == .chat || message.message.chatThread != nil {
-            messageActions.removeAll { $0.tag == "Topic" }
-        }
-        if message.message.direction != .send {
-            messageActions.removeAll { $0.tag == "Recall" }
-        } else {
-            let duration = UInt(abs(Double(Date().timeIntervalSince1970) - Double(message.message.timestamp/1000)))
-            if duration > Appearance.chat.recallExpiredTime {
+            if !Appearance.chat.contentStyle.contains(.withReply) {
+                messageActions.removeAll { $0.tag == "Reply" }
+            }
+            if !Appearance.chat.contentStyle.contains(.withMessageTopic) || message.message.chatType == .chat || message.message.chatThread != nil {
+                messageActions.removeAll { $0.tag == "Topic" }
+            }
+            if message.message.direction != .send {
                 messageActions.removeAll { $0.tag == "Recall" }
+            } else {
+                let duration = UInt(abs(Double(Date().timeIntervalSince1970) - Double(message.message.timestamp/1000)))
+                if duration > Appearance.chat.recallExpiredTime {
+                    messageActions.removeAll { $0.tag == "Recall" }
+                }
             }
+            return messageActions
         }
-        return messageActions
     }
 
 }

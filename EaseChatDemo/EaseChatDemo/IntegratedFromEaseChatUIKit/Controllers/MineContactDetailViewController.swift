@@ -12,6 +12,10 @@ import SwiftFFDB
 
 final class MineContactDetailViewController: ContactInfoViewController {
     
+    override func createHeader() -> DetailInfoHeader {
+        super.createHeader()
+    }
+    
     override func dataSource() -> [DetailInfo] {
         [["title":"contact_details_button_remark".localized(),"detail":"","withSwitch": false,"switchValue":false],["title":"contact_details_switch_donotdisturb".chat.localize,"detail":"","withSwitch": true,"switchValue":self.muteMap[EaseChatUIKitContext.shared?.currentUserId ?? ""]?[self.profile.id] ?? 0 == 1],["title":"contact_details_button_clearchathistory".chat.localize,"detail":"","withSwitch": false,"switchValue":false]
         ].map {
@@ -22,6 +26,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
     }
 
     override func viewDidLoad() {
+        Appearance.contact.detailExtensionActionItems = [ContactListHeaderItem(featureIdentify: "Chat", featureName: "Chat".chat.localize, featureIcon: UIImage(named: "chatTo", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "AudioCall", featureName: "AudioCall".chat.localize, featureIcon: UIImage(named: "voice_call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "VideoCall".chat.localize, featureIcon: UIImage(named: "video_call", in: .chatBundle, with: nil))]
         super.viewDidLoad()
         self.requestInfo()
         // Do any additional setup after loading the view.
@@ -62,14 +67,20 @@ final class MineContactDetailViewController: ContactInfoViewController {
                         profile.nickname = info.nickname ?? ""
                         profile.avatarURL = info.avatarUrl ?? ""
                         profile.updateFFDB()
-                        EaseChatUIKitContext.shared?.userCache?[userId] = profile
+                        EaseChatUIKitContext.shared?.userCache?[userId]?.nickname = info.nickname ?? ""
+                        EaseChatUIKitContext.shared?.userCache?[userId]?.avatarURL = info.avatarUrl ?? ""
                     } else {
                         let profile = EaseChatProfile()
                         profile.id = userId
                         profile.nickname = info.nickname ?? ""
                         profile.avatarURL = info.avatarUrl ?? ""
                         profile.insert()
-                        EaseChatUIKitContext.shared?.userCache?[userId] = profile
+                        if let cacheUser = EaseChatUIKitContext.shared?.userCache?[userId] {
+                            EaseChatUIKitContext.shared?.userCache?[userId]?.nickname = info.nickname ?? ""
+                            EaseChatUIKitContext.shared?.userCache?[userId]?.avatarURL = info.avatarUrl ?? ""
+                        } else {
+                            EaseChatUIKitContext.shared?.userCache?[userId] = profile
+                        }
                     }
                 } else {
                     self?.showToast(toast: "fetchUserInfo error:\(error?.errorDescription ?? "")")

@@ -64,6 +64,7 @@ final class MineMessageListViewModel: MessageListViewModel {
             }
             let entity = message
             entity.direction = message.direction
+            self.driver?.showMessage(message: entity)
             if let scrolledBottom = self.driver?.scrolledBottom,scrolledBottom {
                 let conversation = ChatClient.shared().chatManager?.getConversationWithConvId(self.to)
                 conversation?.markMessageAsRead(withId: message.messageId, error: nil)
@@ -76,7 +77,6 @@ final class MineMessageListViewModel: MessageListViewModel {
                     }
                 }
             }
-            self.driver?.showMessage(message: entity)
         } else {
             if let ext = message.ext?["ext"] as? Dictionary<String,String>,let groupId = ext["groupId"] {
                 let callMessage = ChatMessage(conversationID: groupId, from: message.from, to: groupId ,body: message.body, ext: message.ext)
