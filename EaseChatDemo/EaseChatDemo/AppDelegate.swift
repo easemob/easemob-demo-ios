@@ -81,7 +81,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         //Enable message translation
         Appearance.chat.enableTranslation = self.targetLanguage
         if Appearance.chat.enableTranslation {
-            
             let preferredLanguage = NSLocale.preferredLanguages[0]
             if preferredLanguage.starts(with: "zh-Hans") || preferredLanguage.starts(with: "zh-Hant") {
                 Appearance.chat.targetLanguage = .Chinese

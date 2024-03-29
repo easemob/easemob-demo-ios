@@ -88,8 +88,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        let style = self.window?.traitCollection.userInterfaceStyle ??  .light
-        self.switchTheme(style: style == .light ? .light:.dark)
+        self.switchTheme(style: self.darkMode == false ? .light:.dark)
         ChatClient.shared().applicationWillEnterForeground(UIApplication.shared)
     }
 
