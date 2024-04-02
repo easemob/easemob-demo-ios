@@ -92,3 +92,8 @@
 "Modify Remark" = "修改备注";
 "Modify failed" = "修改失败";
 "Get After" = "重新获取";
+
+
+"message_translate_description" = "通过长按将消息翻译为系统语言";
+"group_topic_description" = "通过群组内的一条消息创建一个话题";
+"message_reaction_description" = "通过长按消息添加表情回应";"

@@ -88,3 +88,8 @@
 "Confirm Logout" = "Confirm Logout？";
 "Modify Remark" = "Modify Remark";
 "Modify failed" = "Modify failed";
+
+"message_translate_description" = "Long press a message to translate it to the system language";
+"group_topic_description" = "Create a thread from a message within the group";
+"message_reaction_description" = "Long press a message to add emoji reactions";
+

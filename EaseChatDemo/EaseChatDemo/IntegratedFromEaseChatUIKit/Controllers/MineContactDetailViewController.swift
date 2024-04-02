@@ -75,7 +75,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
                         profile.nickname = info.nickname ?? ""
                         profile.avatarURL = info.avatarUrl ?? ""
                         profile.insert()
-                        if let cacheUser = EaseChatUIKitContext.shared?.userCache?[userId] {
+                        if (EaseChatUIKitContext.shared?.userCache?[userId]) != nil {
                             EaseChatUIKitContext.shared?.userCache?[userId]?.nickname = info.nickname ?? ""
                             EaseChatUIKitContext.shared?.userCache?[userId]?.avatarURL = info.avatarUrl ?? ""
                         } else {
