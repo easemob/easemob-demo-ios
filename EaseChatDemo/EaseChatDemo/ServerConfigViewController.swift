@@ -122,7 +122,7 @@ extension ServerConfigViewController: ThemeSwitchProtocol {
         self.navigation.backgroundColor = .clear
         self.customizeSwitch.onTintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
         self.applicationField.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
-        self.applicationField.textColor = style == .light ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
+        self.applicationField.textColor = style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
         self.customize.textColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
         self.chatServerField.backgroundColor = self.applicationField.backgroundColor
         self.chatPortField.backgroundColor = self.applicationField.backgroundColor

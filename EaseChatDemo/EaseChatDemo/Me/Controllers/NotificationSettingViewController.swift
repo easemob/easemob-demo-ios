@@ -77,7 +77,7 @@ extension NotificationSettingViewController: ThemeSwitchProtocol {
     func switchTheme(style: ThemeStyle) {
         self.view.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.container.backgroundColor = style == .dark ? UIColor.theme.neutralColor0:UIColor.theme.neutralColor95
-        self.settingName.textColor = style == .light ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
+        self.settingName.textColor = style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
         self.settingSwitch.onTintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
         self.separatorLine.backgroundColor(style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor9)
         self.alert.textColor(style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor5)

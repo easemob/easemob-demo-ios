@@ -318,7 +318,7 @@ extension LoginViewController: ThemeSwitchProtocol {
         self.protocolContainer.linkTextAttributes = [.foregroundColor:(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5)]
         self.background.image = style == .dark ? UIImage(named: "login_bg_dark") : UIImage(named: "login_bg")
         self.appName.textColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
-        self.sdkVersion.backgroundColor = style == .light ? UIColor.theme.barrageLightColor2 : UIColor.theme.barrageDarkColor2
+        self.sdkVersion.backgroundColor = style == .dark ? UIColor.theme.barrageDarkColor2:UIColor.theme.barrageLightColor2
         self.phoneNumber.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.pinCode.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.phoneNumber.textColor = style == .dark ? UIColor.theme.neutralColor98 : UIColor.theme.neutralColor1

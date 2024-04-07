@@ -106,7 +106,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         ComponentsRegister.shared.ContactInfoController = MineContactDetailViewController.self
         ComponentsRegister.shared.GroupInfoController = MineGroupDetailViewController.self
         ComponentsRegister.shared.ContactsController = MineContactsViewController.self
-        ComponentsRegister.shared.ChatMessageBaseCell = MineMessageCell.self
     }
     
     
