@@ -31,7 +31,7 @@ final class ColorHueSettingCell: UITableViewCell {
     }()
     
     lazy var colorValue: UILabel = {
-        UILabel(frame: CGRect(x: self.contentView.frame.width-47, y: 0, width: 27, height: 18)).font(UIFont.theme.labelMedium).textColor(UIColor.theme.neutralColor5)
+        UILabel(frame: CGRect(x: self.contentView.frame.width-47, y: 0, width: 27, height: 18)).font(UIFont.theme.labelMedium).textColor(UIColor.theme.neutralColor5).textAlignment(.right)
     }()
 
     lazy var separatorLine: UIView = {
@@ -57,8 +57,8 @@ final class ColorHueSettingCell: UITableViewCell {
         self.colorContainer.frame = CGRect(x: 16, y: 13, width: 28, height: 28)
         self.colorView.frame = CGRect(x: 1, y: 1, width: 26, height: 26)
         self.colorSlider.frame = CGRect(x: self.colorContainer.frame.maxX+16, y: self.colorContainer.frame.minY, width: self.contentView.frame.width-self.colorContainer.frame.maxX-16-47-20, height: 24)
-        self.colorValue.frame = CGRect(x: self.contentView.frame.width-47, y: 0, width: 27, height: 18)
-        self.separatorLine.frame = CGRect(x: self.colorSlider.frame.minX, y: self.contentView.frame.height-0.5, width: self.contentView.frame.width-16, height: 0.5)
+        self.colorValue.frame = CGRect(x: self.contentView.frame.width-47, y: self.colorSlider.center.y-9, width: 27, height: 18)
+        self.separatorLine.frame = CGRect(x: self.colorSlider.frame.minX, y: self.contentView.frame.height-0.5, width: self.frame.width-16, height: 0.5)
     }
     
     @objc private func sliderValueChanged() {

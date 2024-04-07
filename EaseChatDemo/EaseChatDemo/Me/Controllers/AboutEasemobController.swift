@@ -25,7 +25,7 @@ final class AboutEasemobController: UIViewController {
     }()
     
     private lazy var menuList: UITableView = {
-        UITableView(frame: CGRect(x: 0, y: NavigationHeight, width: self.view.frame.width, height: self.view.frame.height-NavigationHeight), style: .plain).tableFooterView(UIView()).tableHeaderView(self.header).separatorStyle(.none).dataSource(self).delegate(self).rowHeight(54)
+        UITableView(frame: CGRect(x: 0, y: NavigationHeight, width: self.view.frame.width, height: self.view.frame.height-NavigationHeight), style: .plain).tableFooterView(UIView()).tableHeaderView(self.header).separatorStyle(.none).dataSource(self).delegate(self).rowHeight(54).backgroundColor(.clear)
     }()
     
     override func viewDidLoad() {

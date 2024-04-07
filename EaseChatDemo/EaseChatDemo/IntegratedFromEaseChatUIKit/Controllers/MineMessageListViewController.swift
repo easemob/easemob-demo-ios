@@ -107,6 +107,7 @@ final class MineMessageListViewController: MessageListController {
                 }
                 self?.startGroupCall(users: users)
             }
+            
             self.present(vc, animated: true)
             
         }

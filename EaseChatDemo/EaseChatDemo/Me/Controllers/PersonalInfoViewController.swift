@@ -98,6 +98,7 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
             guard let `self` = self else { return }
             self.updateUserInfo(userId: userId, nickname: nickname)
         }
+        vc.navigation.title = "Modify Nickname".localized()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -193,13 +194,7 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
     @objc private func processImagePickerData(info: [UIImagePickerController.InfoKey : Any]) {
         let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String
         if mediaType == kUTTypeImage as String {
-            if let imageURL = info[.editedImage] as? URL {
-                if let image = UIImage(contentsOfFile: imageURL.path) {
-                    self.uploadImage(image: image)
-                }
-                
-            } else {
-                guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+            if let image = info[.editedImage] as? UIImage {
                 self.uploadImage(image: image)
             }
         }

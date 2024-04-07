@@ -23,7 +23,7 @@ final class AboutEasemobHeader: UIView {
     }()
     
     private lazy var UIKit_version: UILabel = {
-        UILabel(frame: CGRect(x: 80, y: self.demo_version.frame.maxY+4, width: self.frame.width-160, height: 18)).font(UIFont.theme.labelMedium).backgroundColor(.clear).text(EaseChatUIKit_VERSION).textAlignment(.center)
+        UILabel(frame: CGRect(x: 80, y: self.demo_version.frame.maxY+4, width: self.frame.width-160, height: 18)).font(UIFont.theme.labelMedium).backgroundColor(.clear).text("UIKitVersion "+EaseChatUIKit_VERSION).textAlignment(.center)
     }()
 
 
@@ -31,7 +31,7 @@ final class AboutEasemobHeader: UIView {
         super.init(frame: frame)
         self.addSubViews([self.icon,self.applicationName,self.demo_version,self.UIKit_version])
         if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
-            self.demo_version.text = version
+            self.demo_version.text = "Version "+version
         }
         if let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String {
             self.applicationName.text = appName

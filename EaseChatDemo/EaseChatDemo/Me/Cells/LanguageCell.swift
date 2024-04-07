@@ -29,13 +29,14 @@ final class LanguageCell: UITableViewCell {
         self.contentView.addSubViews([self.content,self.checkbox,self.separatorLine])
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
+        self.checkbox.isUserInteractionEnabled = false
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         self.content.frame = CGRect(x: 16, y: 16, width: self.contentView.frame.width-28-32-10, height: 22)
         self.checkbox.frame = CGRect(x: self.contentView.frame.width-16-28, y: (self.contentView.frame.height-28)/2.0, width: 28, height: 28)
-        self.separatorLine.frame = CGRect(x: self.content.frame.minX, y: self.contentView.frame.height-0.5, width: self.contentView.frame.width-self.content.frame.minX, height: 0.5)
+        self.separatorLine.frame = CGRect(x: self.content.frame.minX, y: self.contentView.frame.height-0.5, width: self.frame.width-self.content.frame.minX, height: 0.5)
     }
     
     

@@ -17,7 +17,7 @@ final class MeViewController: UIViewController {
     ]
     
     private lazy var header: DetailInfoHeader = {
-        DetailInfoHeader(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 300-NavigationHeight), showMenu: false, placeHolder: Appearance.conversation.singlePlaceHolder)
+        DetailInfoHeader(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 264), showMenu: false, placeHolder: Appearance.conversation.singlePlaceHolder)
     }()
     
     private lazy var menuList: UITableView = {
@@ -130,7 +130,6 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
                 cell?.textLabel?.isHidden = true
                 cell?.content.isHidden = false
                 cell?.detail.isHidden = false
-                cell?.selectionStyle = .none
                 cell?.accessoryType = .disclosureIndicator
                 cell?.content.textColor = Theme.style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
             }

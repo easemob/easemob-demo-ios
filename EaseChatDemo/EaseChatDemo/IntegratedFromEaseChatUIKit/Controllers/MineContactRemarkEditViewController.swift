@@ -21,8 +21,16 @@ final class MineContactRemarkEditViewController: UIViewController {
         EaseChatNavigationBar(textAlignment: .left,rightTitle: "Save".chat.localize)
     }()
     
+    lazy var container: UIView = {
+        UIView(frame: CGRect(x: 16, y: self.navigation.frame.maxY+16, width: self.view.frame.width-32, height: 114)).backgroundColor(Theme.style == .dark ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor95).cornerRadius(.extraSmall)
+    }()
+    
     public private(set) lazy var contentEditor: PlaceHolderTextView = {
-        PlaceHolderTextView(frame: CGRect(x: 16, y: self.navigation.frame.maxY+16, width: self.view.frame.width-32, height: 35)).delegate(self).font(UIFont.theme.bodyLarge).backgroundColor(Theme.style == .dark ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor95).cornerRadius(.small)
+        PlaceHolderTextView(frame: CGRect(x: 16, y: self.container.frame.minY+13, width: self.view.frame.width-32, height: 114-38)).delegate(self).font(UIFont.theme.bodyLarge).backgroundColor(.clear)
+    }()
+    
+    lazy var limitCount: UILabel = {
+        UILabel(frame: CGRect(x: self.container.frame.maxX-70, y: self.container.frame.maxY-35, width: 54, height: 22)).font(UIFont.theme.bodyLarge).textColor(Theme.style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor7).textAlignment(.right)
     }()
     
     @objc public required convenience init(userId: String,rawText: String,modifyClosure: @escaping (String) -> Void) {
@@ -39,16 +47,16 @@ final class MineContactRemarkEditViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.contentEditor.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        self.contentEditor.contentInset = UIEdgeInsets(top: -8, left: 10, bottom: 0, right: 10)
         self.contentEditor.placeHolderColor = Theme.style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor6
         self.contentEditor.placeHolder = "Please input".chat.localize
-        self.navigation.title = "Modify Remark".localized()
-        self.contentEditor.text = self.raw
-        self.contentEditor.autoresizingMask = .flexibleHeight
+//        self.navigation.title = "Modify Remark".localized()
         self.navigation.clickClosure = { [weak self] in
             self?.navigationClick(type: $0, indexPath: $1)
         }
-        self.view.addSubViews([self.navigation,self.contentEditor])
+        self.view.addSubViews([self.navigation,self.container,self.contentEditor,self.limitCount])
+        self.contentEditor.text = self.raw
+        self.limitCount.text = "\(self.raw.count)/\(self.textLimit())"
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
         self.contentEditor.becomeFirstResponder()
@@ -92,7 +100,7 @@ final class MineContactRemarkEditViewController: UIViewController {
 extension MineContactRemarkEditViewController: UITextViewDelegate {
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         self.navigation.rightItem.isEnabled = (!(textView.text ?? "").isEmpty || !text.isEmpty)
-        if text.count + (textView.text ?? "").count > self.textLimit() {
+        if (textView.text ?? "").count > self.textLimit(),!text.isEmpty {
             self.showToast(toast: "Reach content character limit.".chat.localize)
             return false
         } else {
@@ -102,15 +110,12 @@ extension MineContactRemarkEditViewController: UITextViewDelegate {
     
     public func textViewDidChange(_ textView: UITextView) {
         let limitCount = self.textLimit()
-        if (textView.text ?? "").count > limitCount {
+        let count = (textView.text ?? "").count
+        if count > limitCount {
             self.showToast(toast: "Reach content character limit.".chat.localize)
             textView.text = textView.text.chat.subStringTo(limitCount)
-        } else {
-            let fixedWidth = textView.frame.size.width
-            let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-            textView.frame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
         }
-        
+        self.limitCount.text = "\(count)/\(limitCount)"
     }
 }
 

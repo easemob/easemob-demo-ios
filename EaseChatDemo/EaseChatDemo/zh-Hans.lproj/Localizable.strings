@@ -49,7 +49,7 @@
 "Terminal Alert" = "应用将会关闭，确定？";
 
 "Classic" = "经典";
-"Smart" = "轻灵";
+"Smart" = "现代";
 
 "primary hue" = "主题色色相";
 "secondary hue" = "成功色色相";
@@ -90,10 +90,16 @@
 "Notification Alert" = "关闭后，只接受群组内你被@消息";
 "Confirm Logout" = "确定退出登录？";
 "Modify Remark" = "修改备注";
+"Modify Nickname" = "修改昵称";
 "Modify failed" = "修改失败";
 "Get After" = "重新获取";
 
 
 "message_translate_description" = "通过长按将消息翻译为系统语言";
 "group_topic_description" = "通过群组内的一条消息创建一个话题";
-"message_reaction_description" = "通过长按消息添加表情回应";"
+"message_reaction_description" = "通过长按消息添加表情回应";
+
+"Server Config" = "服务器配置";
+"Clean successful!" = "清除成功";
+
+"agreeFriendRequest success" = "好友请求已同意";

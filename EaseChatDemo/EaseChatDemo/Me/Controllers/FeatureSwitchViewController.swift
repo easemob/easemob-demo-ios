@@ -18,7 +18,7 @@ final class FeatureSwitchViewController: UIViewController {
     
     
     private lazy var jsons: [Dictionary<String,Any>] = {
-        [["title":"message_translate".localized(),"detail":"message_translate_description".localized(),"withSwitch": true,"switchValue":self.targetLanguage],["title":"group_topic".localized(),"detail":"group_topic_description","withSwitch": true,"switchValue":self.createTopic],["title":"message_reaction".localized(),"detail":"message_reaction_description","withSwitch": true,"switchValue":self.messageReaction]]
+        [["title":"message_translate".localized(),"detail":"message_translate_description".localized(),"withSwitch": true,"switchValue":self.targetLanguage],["title":"group_topic".localized(),"detail":"group_topic_description".localized(),"withSwitch": true,"switchValue":self.createTopic],["title":"message_reaction".localized(),"detail":"message_reaction_description".localized(),"withSwitch": true,"switchValue":self.messageReaction]]
     }()
 
     private lazy var navigation: EaseChatNavigationBar = {

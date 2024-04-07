@@ -10,6 +10,46 @@ import EaseChatUIKit
 
 final class MineConversationsViewModel: ConversationViewModel {
     
+    @objc override func mapper(objects: [ChatConversation]) -> [ConversationInfo] {
+        objects.map {
+            let conversation = ComponentsRegister.shared.Conversation.init()
+            conversation.id = $0.conversationId
+            var nickname = ""
+            var profile: EaseProfileProtocol?
+            if $0.type == .chat {
+                profile = EaseChatUIKitContext.shared?.userCache?[$0.conversationId]
+            } else {
+                profile = EaseChatUIKitContext.shared?.groupCache?[$0.conversationId]
+                if EaseChatUIKitContext.shared?.groupProfileProvider == nil,EaseChatUIKitContext.shared?.groupProfileProviderOC == nil {
+                    profile?.nickname = ChatGroup(id: $0.conversationId).groupName ?? ""
+                }
+            }
+            if nickname.isEmpty {
+                nickname = profile?.remark ?? ""
+            }
+            if nickname.isEmpty {
+                nickname = profile?.nickname ?? ""
+            }
+            if nickname.isEmpty {
+                nickname = $0.conversationId
+            }
+            conversation.unreadCount = UInt($0.unreadMessagesCount)
+            conversation.lastMessage = $0.latestMessage
+            conversation.type = EaseProfileProviderType(rawValue: UInt($0.type.rawValue)) ?? .chat
+            conversation.pinned = $0.isPinned
+            conversation.nickname = profile?.nickname ?? ""
+            conversation.remark = profile?.remark ?? ""
+            conversation.avatarURL = profile?.avatarURL ?? ""
+            conversation.doNotDisturb = false
+            if let silentMode = self.muteMap[EaseChatUIKitContext.shared?.currentUserId ?? ""]?[$0.conversationId] {
+                conversation.doNotDisturb = silentMode != 0
+            }
+            
+            _ = conversation.showContent
+            return conversation
+        }
+    }
+    
     override func conversationLastMessageUpdate(message: ChatMessage, info: ConversationInfo) {
         super.conversationLastMessageUpdate(message: message, info: info)
         if let ext = message.ext?["ext"] as? Dictionary<String,String>,let groupId = ext["groupId"] {

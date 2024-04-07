@@ -11,19 +11,19 @@ import EaseChatUIKit
 final class PersonalInfoCell: UITableViewCell {
 
     private lazy var titleLabel: UILabel = {
-        UILabel(frame: CGRect(x: 16, y: 16, width: self.contentView.frame.width/2.0-26, height: 22)).font(UIFont.theme.labelLarge).backgroundColor(.clear).font(UIFont.theme.labelLarge)
+        UILabel(frame: CGRect(x: 16, y: 16, width: self.frame.width/2.0-26, height: 22)).font(UIFont.theme.labelLarge).backgroundColor(.clear).font(UIFont.theme.labelLarge)
     }()
     
     private lazy var detailLabel: UILabel = {
-        UILabel(frame: CGRect(x: self.contentView.frame.width/2.0, y: 16, width: self.contentView.frame.width/2.0-80, height: 22)).tag(12).backgroundColor(.clear).font(UIFont.theme.labelLarge).textAlignment(.right)
+        UILabel(frame: CGRect(x: self.frame.width/2.0, y: 16, width: self.frame.width/2.0-80, height: 22)).tag(12).backgroundColor(.clear).font(UIFont.theme.labelLarge).textAlignment(.right)
     }()
     
     private lazy var detailImage: ImageView = {
-        ImageView(frame: CGRect(x: self.contentView.frame.width-76, y: 7, width: 40, height: 40)).cornerRadius(Appearance.avatarRadius).contentMode(.scaleToFill)
+        ImageView(frame: CGRect(x: self.frame.width-76, y: 7, width: 40, height: 40)).cornerRadius(Appearance.avatarRadius).contentMode(.scaleToFill)
     }()
     
     private lazy var separatorLine: UIView = {
-        UIView(frame: CGRect(x: self.titleLabel.frame.minX, y: self.contentView.frame.height - 0.5, width: self.contentView.frame.width-self.titleLabel.frame.minX, height: 0.5))
+        UIView(frame: CGRect(x: self.titleLabel.frame.minX, y: self.contentView.frame.height - 0.5, width: self.frame.width-self.titleLabel.frame.minX, height: 0.5))
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -41,10 +41,10 @@ final class PersonalInfoCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.titleLabel.frame = CGRect(x: 16, y: 16, width: self.contentView.frame.width/2.0-26, height: 22)
-        self.detailLabel.frame = CGRect(x: self.contentView.frame.width/2.0, y: 16, width: self.contentView.frame.width/2.0-17, height: 22)
-        self.detailImage.frame = CGRect(x: self.contentView.frame.width-56, y: 7, width: 40, height: 40)
-        self.separatorLine.frame = CGRect(x: self.titleLabel.frame.minX, y: self.contentView.frame.height - 0.5, width: self.contentView.frame.width-self.titleLabel.frame.minX, height: 0.5)
+        self.titleLabel.frame = CGRect(x: 16, y: 16, width: self.frame.width/2.0-26, height: 22)
+        self.detailLabel.frame = CGRect(x: self.frame.width/2.0, y: 16, width: self.frame.width/2.0-30, height: 22)
+        self.detailImage.frame = CGRect(x: self.frame.width-76, y: 7, width: 40, height: 40)
+        self.separatorLine.frame = CGRect(x: self.titleLabel.frame.minX, y: self.contentView.frame.height - 0.5, width: self.frame.width, height: 0.5)
     }
     
     func refresh(title: String, detail: String) {

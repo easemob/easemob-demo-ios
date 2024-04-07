@@ -25,6 +25,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Appearance.ease_chat_language = LanguageType(rawValue: self.language) ?? .Chinese
         self.window = nil
         self.window = UIWindow(windowScene: windowScene)
+        self.window?.backgroundColor = .black
         self.chooseRootViewController()
         self.window?.makeKeyAndVisible()
         self.switchTheme()

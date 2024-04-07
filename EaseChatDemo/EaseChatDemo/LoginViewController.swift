@@ -33,11 +33,11 @@ final class LoginViewController: UIViewController {
     }()
     
     private lazy var phoneNumber: UITextField = {
-        UITextField(frame: CGRect(x: 30, y: self.appName.frame.maxY+22, width: ScreenWidth-60, height: 48)).delegate(self).tag(11).font(.systemFont(ofSize: 18, weight: .regular)).placeholder("Mobile Number".localized()).leftView(UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 48)), .always).cornerRadius(Appearance.avatarRadius).clearButtonMode(.whileEditing)
+        UITextField(frame: CGRect(x: 30, y: self.appName.frame.maxY+22, width: ScreenWidth-60, height: 48)).delegate(self).tag(11).font(UIFont.theme.bodyLarge).placeholder("Mobile Number".localized()).leftView(UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 48)), .always).cornerRadius(Appearance.avatarRadius).clearButtonMode(.whileEditing)
     }()
     
     private lazy var pinCode: UITextField = {
-        UITextField(frame: CGRect(x: 30, y: self.phoneNumber.frame.maxY+24, width: ScreenWidth-60, height: 48)).delegate(self).tag(12).font(.systemFont(ofSize: 18, weight: .regular)).placeholder("PinCodePlaceHolder".localized()).leftView(UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 48)), .always).cornerRadius(Appearance.avatarRadius)
+        UITextField(frame: CGRect(x: 30, y: self.phoneNumber.frame.maxY+24, width: ScreenWidth-60, height: 48)).delegate(self).tag(12).font(UIFont.theme.bodyLarge).placeholder("PinCodePlaceHolder".localized()).leftView(UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 48)), .always).cornerRadius(Appearance.avatarRadius)
     }()
     
     private lazy var right: UIButton = {
@@ -53,11 +53,11 @@ final class LoginViewController: UIViewController {
     }()
     
     private lazy var agree: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.login.frame.minX+15, y: self.login.frame.maxY+20, width: 16, height: 16)).image(UIImage(named: "selected"), .selected).image(UIImage(named: "unselected"), .normal).addTargetFor(self, action: #selector(agreeAction(sender:)), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: self.login.frame.minX+5, y: self.login.frame.maxY+16, width: 20, height: 20)).image(UIImage(named: "selected"), .selected).image(UIImage(named: "unselected"), .normal).addTargetFor(self, action: #selector(agreeAction(sender:)), for: .touchUpInside)
     }()
     
     private lazy var protocolContainer: UITextView = {
-        UITextView(frame: CGRect(x: self.agree.frame.maxX+4, y: self.login.frame.maxY+10, width: ScreenWidth-31-90-4, height: 58)).attributedText(self.protocolContent).isEditable(false).backgroundColor(.clear)
+        UITextView(frame: CGRect(x: self.agree.frame.maxX+4, y: self.login.frame.maxY+10, width: ScreenWidth-90-4, height: 58)).attributedText(self.protocolContent).isEditable(false).backgroundColor(.clear)
     }()
     
     private var count = 60
@@ -76,14 +76,20 @@ final class LoginViewController: UIViewController {
     }
     
     private lazy var serverConfig: UIButton = {
-        UIButton(frame: CGRect(x: 140, y: ScreenHeight-100, width: ScreenWidth-280, height: 20)).backgroundColor(.clear).font(UIFont.theme.labelMedium).title("Server Config", .normal).addTargetFor(self, action: #selector(changeServerConfig), for: .touchUpInside)
+        UIButton(frame: CGRect(x: 140, y: ScreenHeight-100, width: ScreenWidth-280, height: 20)).backgroundColor(.clear).font(UIFont.theme.labelMedium).title("Server Config".localized(), .normal).addTargetFor(self, action: #selector(changeServerConfig), for: .touchUpInside)
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.view.window?.backgroundColor = .white
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubViews([self.background,self.appName,self.sdkVersion,self.phoneNumber,self.pinCode,self.loginContainer,self.login,self.agree,self.protocolContainer,self.serverConfig])
         self.serverConfig.isHidden = true
-        self.sdkVersion.text = ChatClient.shared().version
+        self.right.titleLabel?.textAlignment = .right
+        self.sdkVersion.text = "V\(ChatClient.shared().version)"
         if let appkey = self.config["application"],!appkey.isEmpty {
             self.serverConfig.isHidden = false
             self.resetDisplay()
@@ -116,17 +122,19 @@ final class LoginViewController: UIViewController {
             self.pinCode.placeholder = "PinCodePlaceHolder".localized()
             self.pinCode.keyboardType = .numberPad
             self.phoneNumber.keyboardType = .numberPad
+            self.right.isHidden = false
         } else {
+            self.right.isHidden = true
             self.phoneNumber.placeholder = "EeaseMobID".localized()
             self.pinCode.placeholder = "Password".localized()
             self.phoneNumber.keyboardType = .namePhonePad
             self.pinCode.keyboardType = .namePhonePad
         }
-        self.right.isHidden = self.serverConfig.isHidden
     }
     
     @objc private func changeServerConfig() {
         let vc = ServerConfigViewController()
+        self.view.window?.backgroundColor = .black
         self.present(vc, animated: true)
     }
     
@@ -182,7 +190,7 @@ extension LoginViewController: UITextFieldDelegate {
     
     @objc private func loginAction() {
         self.view.endEditing(true)
-        if !self.config.isEmpty {
+        if self.serverConfig.isHidden {
             if self.phoneNumber.text?.count ?? 0 != 11,!(self.phoneNumber.text ?? "").chat.isMatchRegular(expression: self.regular) {
                 self.showToast(toast: "PhoneError".localized())
                 return
@@ -378,7 +386,7 @@ final class EaseChatProfile:NSObject, EaseProfileProtocol, FFObject {
     var avatarURL: String = ""
     
     public func toJsonObject() -> Dictionary<String, Any>? {
-        ["ease_chat_uikit_info":["nickname":self.nickname,"avatarURL":self.avatarURL,"userId":self.id,"remark":self.remark]]
+        ["ease_chat_uikit_user_info":["nickname":self.nickname,"avatarURL":self.avatarURL,"userId":self.id,"remark":self.remark]]
     }
     
     override func setValue(_ value: Any?, forUndefinedKey key: String) {

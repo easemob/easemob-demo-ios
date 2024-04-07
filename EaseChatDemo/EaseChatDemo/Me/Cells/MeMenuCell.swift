@@ -15,15 +15,15 @@ final class MeMenuCell: UITableViewCell {
     }()
     
     lazy var content: UILabel = {
-        UILabel(frame: CGRect(x: self.icon.frame.maxX+8, y: 16, width: (self.contentView.frame.width-32)/2.0, height: 22)).font(UIFont.theme.labelLarge)
+        UILabel(frame: CGRect(x: self.icon.frame.maxX+8, y: 16, width: (self.frame.width-32)/2.0, height: 22)).font(UIFont.theme.labelLarge)
     }()
     
     lazy var detail: UILabel = {
-        UILabel(frame: CGRect(x: self.contentView.frame.width-36, y: 18, width: (self.contentView.frame.width-36)/2.0-20, height: 18)).font(UIFont.theme.labelMedium)
+        UILabel(frame: CGRect(x: self.frame.width-36, y: 18, width: (self.frame.width-36)/2.0-20, height: 18)).font(UIFont.theme.labelMedium)
     }()
     
     public private(set) lazy var separatorLine: UIView = {
-        UIView(frame: CGRect(x: self.textLabel?.frame.minX ?? 16, y: self.contentView.frame.height - 0.5, width: self.contentView.frame.width, height: 0.5))
+        UIView(frame: CGRect(x: self.textLabel?.frame.minX ?? 16, y: self.contentView.frame.height - 0.5, width: self.frame.width, height: 0.5))
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -39,9 +39,9 @@ final class MeMenuCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.icon.frame = CGRect(x: 16, y: 13, width: self.contentView.frame.height-26, height: self.contentView.frame.height-26)
-        self.content.frame = CGRect(x: self.icon.frame.maxX+8, y: 16, width: (self.contentView.frame.width-32)/2.0, height: 22)
-        self.detail.frame = CGRect(x: self.contentView.frame.width-36, y: 18, width: (self.contentView.frame.width-36)/2.0-20, height: 18)
-        self.separatorLine.frame = CGRect(x: 16, y: self.contentView.frame.height - 0.5, width: self.contentView.frame.width, height: 0.5)
+        self.content.frame = CGRect(x: self.icon.frame.maxX+8, y: 16, width: (self.frame.width-32)/2.0, height: 22)
+        self.detail.frame = CGRect(x: self.frame.width-36, y: 18, width: (self.frame.width-36)/2.0-20, height: 18)
+        self.separatorLine.frame = CGRect(x: self.content.frame.minX, y: self.contentView.frame.height - 0.5, width: self.frame.width, height: 0.5)
     }
     
     required init?(coder: NSCoder) {

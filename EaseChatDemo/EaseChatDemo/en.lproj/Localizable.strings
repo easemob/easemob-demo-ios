@@ -9,19 +9,19 @@
 "Chats" = "Chats";
 "Contacts" = "Contacts";
 " and " = " and ";
-"Login" = "Login";
+"Login" = "Log In";
 "Logout" = "Logout";
 "Service" = "Service";
 "Setting" = "Setting";
 "Privacy Policy" = "Privacy Policy";
 "Get Code" = "Get Code";
 "Get After" = "Get After";
-"Mobile Number" = "Mobile Number";
+"Mobile Number" = "Phone Number";
 "PinCodePlaceHolder" = "Verification code";
 "PhoneError" = "Please enter the correct mobile number.";
-"AgreeProtocol" = "Please confirm Service & Policy";
+"AgreeProtocol" = "Agree to Easemob Terms & Privacy";
 "PinCodeError" = "Please enter the correct verification code";
-"Login Easemob Chat" = "Login Easemob Chat";
+"Login Easemob Chat" = "Login Easemob IM";
 "Please tick to agree" = "Please tick to agree ";
 
 "Official Website" = "Official Website";
@@ -48,7 +48,7 @@
 "Switch Theme" = "Switch Theme";
 "Terminal Alert" = "The application will be closed, are you sure?";
 "Classic" = "Classic";
-"Smart" = "Smart";
+"Smart" = "Modern";
 "primary hue" = "Primary Hue";
 "secondary hue" = "Secondary Hue";
 "error hue" = "Error Hue";
@@ -87,9 +87,13 @@
 
 "Confirm Logout" = "Confirm Logout？";
 "Modify Remark" = "Modify Remark";
+"Modify Nickname" = "Modify nickname";
 "Modify failed" = "Modify failed";
 
-"message_translate_description" = "Long press a message to translate it to the system language";
+"message_translate_description" = "Long press a message translate into system language";
 "group_topic_description" = "Create a thread from a message within the group";
 "message_reaction_description" = "Long press a message to add emoji reactions";
 
+"Server Config" = "Server Config";
+"Clean successful!" = "Clean successful";
+"agreeFriendRequest success" = "Friend request accepted";

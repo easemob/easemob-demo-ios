@@ -74,8 +74,14 @@ final class MainViewController: UITabBarController {
     private func loadViewControllers() {
 
         let nav1 = UINavigationController(rootViewController: self.chats)
+        nav1.interactivePopGestureRecognizer?.isEnabled = true
+        nav1.interactivePopGestureRecognizer?.delegate = self
         let nav2 = UINavigationController(rootViewController: self.contacts)
+        nav2.interactivePopGestureRecognizer?.isEnabled = true
+        nav2.interactivePopGestureRecognizer?.delegate = self
         let nav3 = UINavigationController(rootViewController: self.me)
+        nav3.interactivePopGestureRecognizer?.isEnabled = true
+        nav3.interactivePopGestureRecognizer?.delegate = self
         self.viewControllers = [nav1, nav2,nav3]
 //        self.tabBar.isTranslucent = false
         self.view.backgroundColor = UIColor.theme.neutralColor98
@@ -95,6 +101,15 @@ final class MainViewController: UITabBarController {
 
 }
 
+extension MainViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == self.navigationController?.interactivePopGestureRecognizer {
+            return self.navigationController!.viewControllers.count > 1
+        }
+        return true
+    }
+}
+
 extension MainViewController: ThemeSwitchProtocol {
     
     func switchTheme(style: EaseChatUIKit.ThemeStyle) {
@@ -111,15 +126,23 @@ extension MainViewController: ThemeSwitchProtocol {
         let selectedChatsImage = chatsImage?.withTintColor(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5, renderingMode: .alwaysOriginal)
         self.chats.tabBarItem = UITabBarItem(title: "Chats".localized(), image: chatsImage, selectedImage: selectedChatsImage)
         
+        self.chats.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5], for: .normal)
+        self.chats.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5], for: .selected)
+        
         var contactImage = UIImage(named: "tabbar_contacts")
         contactImage = contactImage?.withTintColor(style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5, renderingMode: .alwaysOriginal)
         let selectedContactImage = contactImage?.withTintColor(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5, renderingMode: .alwaysOriginal)
         self.contacts.tabBarItem = UITabBarItem(title: "Contacts".localized(), image: contactImage, selectedImage: selectedContactImage)
+        self.contacts.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5], for: .normal)
+        self.contacts.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5], for: .selected)
         
         var meImage = UIImage(named: "tabbar_mine")
         meImage = meImage?.withTintColor(style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5, renderingMode: .alwaysOriginal)
         let selectedMeImage = meImage?.withTintColor(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5, renderingMode: .alwaysOriginal)
         self.me.tabBarItem = UITabBarItem(title: "Me".localized(), image: meImage, selectedImage: selectedMeImage)
+        
+        self.me.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5], for: .normal)
+        self.me.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5], for: .selected)
     }
     
 }
@@ -306,6 +329,7 @@ extension MainViewController: EaseCallDelegate {
             })) { users in
                 EaseCallManager.shared().startInviteUsers(users, ext: ["groupId":groupId])
             }
+            UIViewController.currentController?.view.window?.backgroundColor = .black
             UIViewController.currentController?.present(inviteVC, animated: true)
         }
         

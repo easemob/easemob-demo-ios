@@ -25,7 +25,7 @@ final class ColorSettingViewController: UIViewController {
     }()
     
     private lazy var infoList: UITableView = {
-        UITableView(frame: CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: self.view.frame.height-NavigationHeight), style: .plain).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).delegate(self).dataSource(self).rowHeight(54).sectionHeaderHeight(20)
+        UITableView(frame: CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: self.view.frame.height-NavigationHeight), style: .grouped).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).delegate(self).dataSource(self).rowHeight(54).sectionHeaderHeight(20).sectionFooterHeight(0)
     }()
     
     override func viewDidLoad() {
@@ -33,12 +33,14 @@ final class ColorSettingViewController: UIViewController {
         self.view.addSubViews([self.navigation,self.infoList])
         // Do any additional setup after loading the view.
         self.navigation.title = "color_setting".localized()
+        self.navigation.editMode = false
         self.navigation.clickClosure = { [weak self]  in
             if $0 == .back {
                 self?.navigationController?.popViewController(animated: true)
             }
             if $0 == .rightTitle {
                 Theme.switchTheme(style: .custom)
+                self?.navigationController?.popViewController(animated: true)
             }
             consoleLogInfo("\($1?.row ?? 0)", type: .debug)
         }
@@ -60,7 +62,7 @@ extension ColorSettingViewController: UITableViewDelegate,UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         UIView {
-            UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 20))
+            UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 20)).backgroundColor(Theme.style == .dark ? UIColor.theme.neutralColor0:UIColor.theme.neutralColor95)
             UILabel(frame: CGRect(x: 16, y: 0, width: self.view.frame.width-32, height: 20)).font(UIFont.theme.labelMedium).textColor(Theme.style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor5).text(self.sectionTitles[section])
         }
     }
@@ -102,18 +104,17 @@ extension ColorSettingViewController: UITableViewDelegate,UITableViewDataSource 
             color = UIColor(hue: Appearance.errorHue, saturation: 1, lightness: 50/100.0, alpha: 1)
         case 3:
             Appearance.neutralHue = hue
-            color = UIColor(hue: Appearance.neutralHue, saturation: 1, lightness: 50/100.0, alpha: 1)
+            color = UIColor(hue: Appearance.neutralHue, saturation: 0.08, lightness: 50/100.0, alpha: 1)
         case 4:
             Appearance.neutralSpecialHue = hue
-            color = UIColor(hue: Appearance.neutralSpecialHue, saturation: 1, lightness: 50/100.0, alpha: 1)
+            color = UIColor(hue: Appearance.neutralSpecialHue, saturation: 0.36, lightness: 50/100.0, alpha: 1)
         default:
             break
         }
         let cell = self.infoList.cellForRow(at: indexPath) as? ColorHueSettingCell
         cell?.colorView.backgroundColor = color
         cell?.colorValue.text = "\(Int(hue*360))"
-//        self.infoList.reloadRows(at: [indexPath], with: .automatic)
-    }
+     }
 }
 
 extension ColorSettingViewController: ThemeSwitchProtocol {

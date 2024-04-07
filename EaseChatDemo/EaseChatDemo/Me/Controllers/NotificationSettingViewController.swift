@@ -11,7 +11,11 @@ import EaseChatUIKit
 final class NotificationSettingViewController: UIViewController {
     
     private lazy var navigation: EaseChatNavigationBar = {
-        EaseChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight),textAlignment: .left,rightTitle: "Confirm".chat.localize)
+        EaseChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight),textAlignment: .left)
+    }()
+    
+    private lazy var container: UIView = {
+        UIView(frame: CGRect(x: 0, y: self.settingName.frame.maxY+17, width: self.view.frame.width, height: 22))
     }()
     
     private lazy var settingName: UILabel = {
@@ -33,7 +37,8 @@ final class NotificationSettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.view.addSubViews([self.navigation,self.settingName,self.settingSwitch,self.separatorLine,self.alert])
+        self.view.addSubViews([self.navigation,self.settingName,self.settingSwitch,self.separatorLine,self.container,self.alert])
+        self.navigation.title = "Notification".localized()
         self.settingSwitch.addTarget(self, action: #selector(valueChanged(sender:)), for: .touchUpInside)
         self.navigation.clickClosure = { [weak self] _,_ in
             self?.navigationController?.popViewController(animated: true)
@@ -71,6 +76,7 @@ final class NotificationSettingViewController: UIViewController {
 extension NotificationSettingViewController: ThemeSwitchProtocol {
     func switchTheme(style: ThemeStyle) {
         self.view.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        self.container.backgroundColor = style == .dark ? UIColor.theme.neutralColor0:UIColor.theme.neutralColor95
         self.settingName.textColor = style == .light ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.settingSwitch.onTintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
         self.separatorLine.backgroundColor(style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor9)
