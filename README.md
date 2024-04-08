@@ -94,7 +94,7 @@ extension MainViewController: EaseProfileProvider,EaseGroupProfileProvider {
 
 # Demo设计
 浏览器中打开如下链接
-https://www.figma.com/file/8hUyvioi2insTUc5KXbetl/Chat-UIkit-for-Mobiles
+https://www.figma.com/community/file/1327193019424263350/chat-uikit-for-mobile
 
 
 # 已知问题
