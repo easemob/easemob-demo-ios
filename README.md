@@ -49,7 +49,7 @@ end
 
 # 跑通Demo
 
-1. ![注册环信应用](https://doc.easemob.com/product/enable_and_configure_IM.html)
+1. [注册环信应用](https://doc.easemob.com/product/enable_and_configure_IM.html)
 
 2. 将Appkey填入`PublicFiles.swift`文件中的`AppKey`中
 
