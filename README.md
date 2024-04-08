@@ -49,29 +49,29 @@ end
 
 # 跑通Demo
 
-1. [注册环信应用](https://doc.easemob.com/product/enable_and_configure_IM.html)
+## 1. [注册环信应用](https://doc.easemob.com/product/enable_and_configure_IM.html)
 
-2. 将Appkey填入`PublicFiles.swift`文件中的`AppKey`中
+## 2. 将Appkey填入`PublicFiles.swift`文件中的`AppKey`中
 
-3. 需要将服务端源码部署后填入`PublicFiles.swift`文件中的`ServerHost`中，手机号验证码暂时可以跳过，可以使用手机号后六位当验证码，服务端中的Appkey 要跟客户端的Appkey保持一致。
+## 3. 需要将服务端源码部署后填入`PublicFiles.swift`文件中的`ServerHost`中，手机号验证码暂时可以跳过，可以使用手机号后六位当验证码，服务端中的Appkey 要跟客户端的Appkey保持一致。
 
-4. 点击运行至目标设备上（注意：不支持arm模拟器，需要选择Rosetta模拟器或者真机）
+## 4. 点击运行至目标设备上（注意：不支持arm模拟器，需要选择Rosetta模拟器或者真机）
 
 # EaseChatUIKit在Demo中的使用
 
-1. 初始化
+## 1. 初始化
 
 [详情参见](./EaseChatDemo/EaseChatDemo/AppDelegate.swift) 中 `didFinishLaunchingWithOptions`方法中步骤。
 
-2. 登录
+## 2. 登录
 
 [详情参见](./EaseChatDemo/EaseChatDemo/LoginViewController.swift)中`loginRequest`方法后续步骤
 
-3. Provider使用及其最佳示例用法
+## 3. Provider使用及其最佳示例用法
 
-3.1 [Provider初始化详情参见](./EaseChatDemo/EaseChatDemo/Main/MainViewController.swift)中`viewDidLoad`方法中
+### 3.1 [Provider初始化详情参见](./EaseChatDemo/EaseChatDemo/Main/MainViewController.swift)中`viewDidLoad`方法中
 
-3.2 实现Provider协议对`MainViewController`类的扩展参见下述示例代码
+### 3.2 实现Provider协议对`MainViewController`类的扩展参见下述示例代码
 
 ```Swift
 extension MainViewController: EaseProfileProvider,EaseGroupProfileProvider {
@@ -79,7 +79,7 @@ extension MainViewController: EaseProfileProvider,EaseGroupProfileProvider {
 }
 ```
 
-4.集成EaseChatUIKit中的类进行二次开发
+## 4.集成EaseChatUIKit中的类进行二次开发
 
 4.1 如何继承EaseChatUIKit中的可自定义的类
 
