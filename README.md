@@ -70,7 +70,9 @@ end
 3. Provider使用及其最佳示例用法
 
 3.1 [Provider初始化详情参见](./EaseChatDemo/EaseChatDemo/Main/MainViewController.swift)中`viewDidLoad`方法中
+
 3.2 实现Provider协议对`MainViewController`类的扩展参见下述示例代码
+
 ```Swift
 extension MainViewController: EaseProfileProvider,EaseGroupProfileProvider {
 
