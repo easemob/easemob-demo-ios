@@ -91,6 +91,9 @@ public class EasemobError: Error,Convertible {
                         NotificationCenter.default.post(name: Notification.Name("BackLogin"), object: nil)
                     }
                 } else {
+                    let someError = EasemobError()
+                    someError.message = error?.localizedDescription
+                    someError.code = "\((error as? NSError)?.code ?? 400)"
                     callBack(nil,error)
                 }
             }
