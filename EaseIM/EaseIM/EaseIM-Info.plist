@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>环信需要使用您的位置信息</string>
 	<key>BuglyAppIDString</key>
 	<string></string>
 	<key>CFBundleDevelopmentRegion</key>

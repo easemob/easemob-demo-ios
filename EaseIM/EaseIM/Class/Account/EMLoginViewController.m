@@ -467,6 +467,9 @@
             options.loggedInPassword = pswd;
             [options archive];
             [weakself.authorizationView originalView];
+            [EMClient.sharedClient registerForRemoteNotificationsWithDeviceToken:weakself.deviceToken completion:^(EMError * _Nullable aError) {
+                            
+            }];
             //发送自动登录状态通知
             [[NSNotificationCenter defaultCenter] postNotificationName:ACCOUNT_LOGIN_CHANGED object:[NSNumber numberWithBool:YES]];
             

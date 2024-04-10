@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface EMLoginViewController : UIViewController
-
+@property (nonatomic,strong) NSData* deviceToken;
 @end
 
 NS_ASSUME_NONNULL_END
