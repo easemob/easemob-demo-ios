@@ -30,6 +30,7 @@
 #define FIRSTLAUNCH @"firstLaunch"
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate,EaseCallDelegate,EMLocalNotificationDelegate, EaseUserUtilsDelegate>
+@property (nonatomic,strong) NSData* deviceToken;
 
 @end
 
@@ -38,6 +39,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     _connectionState = EMConnectionConnected;
+    _deviceToken = nil;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self _initDemo];
@@ -76,6 +78,7 @@
 // 将得到的deviceToken传给SDK
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+    _deviceToken = deviceToken;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[EMClient sharedClient] bindDeviceToken:deviceToken];
     });
@@ -302,6 +305,7 @@
 //        config.ringFileUrl = [NSURL fileURLWithPath:path];
     } else {//登录失败加载登录页面控制器
         EMLoginViewController *controller = [[EMLoginViewController alloc] init];
+        controller.deviceToken = self.deviceToken;
         navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     }
     

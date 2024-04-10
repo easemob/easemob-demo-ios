@@ -26,13 +26,14 @@
 - (void)_forwardMsg:(EMChatMessage *)message
                toUser:(NSString *)aUsername
 {
-    EMMessageBodyType type = message.body.type;
-    if (type == EMMessageBodyTypeText || type == EMMessageBodyTypeLocation)
-        [self _forwardMsgWithBody:message.body to:aUsername ext:message.ext completion:nil];
-    if (type == EMMessageBodyTypeImage)
-        [self _forwardImageMsg:message toUser:aUsername];
-    if (type == EMMessageBodyTypeVideo)
-        [self _forwardVideoMsg:message toUser:aUsername];
+    [self _forwardMsgWithBody:message.body to:aUsername ext:message.ext completion:nil];
+//    EMMessageBodyType type = message.body.type;
+//    if (type == EMMessageBodyTypeText || type == EMMessageBodyTypeLocation)
+//        [self _forwardMsgWithBody:message.body to:aUsername ext:message.ext completion:nil];
+//    if (type == EMMessageBodyTypeImage)
+//        [self _forwardImageMsg:message toUser:aUsername];
+//    if (type == EMMessageBodyTypeVideo)
+//        [self _forwardVideoMsg:message toUser:aUsername];
 }
 
 - (void)_forwardMsgWithBody:(EMMessageBody *)aBody
