@@ -25,7 +25,16 @@ final class MineGroupDetailViewController: GroupInfoViewController {
     
 
     override func headerActions() {
-        super.headerActions()
+        if let chat = Appearance.contact.detailExtensionActionItems.first(where: { $0.featureIdentify == "Chat" }) {
+            chat.actionClosure = { [weak self] in
+                self?.processHeaderActionEvents(item: $0)
+            }
+        }
+        if let search = Appearance.contact.detailExtensionActionItems.first(where: { $0.featureIdentify == "SearchMessages" }) {
+            search.actionClosure = { [weak self] in
+                self?.processHeaderActionEvents(item: $0)
+            }
+        }
         if let audioCall = Appearance.contact.detailExtensionActionItems.first(where: { $0.featureIdentify == "AudioCall" }) {
             audioCall.actionClosure = { [weak self] in
                 self?.processHeaderActionEvents(item: $0)

@@ -263,8 +263,10 @@ extension  MainViewController: ConversationEmergencyListener {
             self.chats.tabBarItem.badgeValue = unreadCount > 0 ? "\(unreadCount)" : nil
         }
     }
+
 }
-//MARK: - ContactEmergencyListener
+
+//MARK: - ContactEmergencyListener ContactEventListener
 extension MainViewController: ContactEmergencyListener {
     func onResult(error: EaseChatUIKit.ChatError?, type: EaseChatUIKit.ContactEmergencyType, operatorId: String) {
         if type != .setRemark {

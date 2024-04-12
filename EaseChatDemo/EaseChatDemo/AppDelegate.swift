@@ -16,14 +16,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var serverConfig
     
-    
     @UserDefault("EaseChatDemoPreferencesTheme", defaultValue: 0) var theme: UInt
     
-    @UserDefault("EaseMobChatMessageTargetLanguage", defaultValue: true) var targetLanguage: Bool
+    @UserDefault("EaseMobChatMessageTranslation", defaultValue: true) var enableTranslation: Bool
     
     @UserDefault("EaseMobChatMessageReaction", defaultValue: true) var messageReaction: Bool
     
-    @UserDefault("EaseMobChatCreateTopic", defaultValue: true) var createTopic: Bool
+    @UserDefault("EaseMobChatCreateMessageThread", defaultValue: true) var messageThread: Bool
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -39,6 +38,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             appKey = applicationKey
         }
         let options = ChatOptions(appkey: appKey)
+        options.includeSendMessageInMessageListener = true
         options.isAutoLogin = true
         options.enableConsoleLog = true
         options.usingHttpsOnly = true
@@ -49,7 +49,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
         //Set the chat server and rest server address.Using private deploy.
         if let chatServer = self.serverConfig["chat_server_ip"] {
-            options.setValue(false, forKey: "enableDnsConfig")
             options.setValue(chatServer, forKey: "chatServer")
         }
     
@@ -59,6 +58,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let restAddress = self.serverConfig["rest_server_address"] {
             options.setValue(restAddress, forKey: "restServer")
+        }
+        if let customServer = self.serverConfig["use_custom_server"], customServer == "1" {
+            options.setValue(false, forKey: "enableDnsConfig")
         }
         //Set up EaseChatUIKit
         _ = EaseChatUIKitClient.shared.setup(option: options)
@@ -79,7 +81,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             Appearance.chat.bubbleStyle = .withMultiCorner
         }
         //Enable message translation
-        Appearance.chat.enableTranslation = self.targetLanguage
+        Appearance.chat.enableTranslation = self.enableTranslation
         if Appearance.chat.enableTranslation {
             let preferredLanguage = NSLocale.preferredLanguages[0]
             if preferredLanguage.starts(with: "zh-Hans") || preferredLanguage.starts(with: "zh-Hant") {
@@ -89,23 +91,20 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         //Whether show message topic or not.
-        if !self.createTopic {
-            Appearance.chat.contentStyle.removeAll { $0 == .withMessageTopic }
+        if self.messageThread {
+            Appearance.chat.contentStyle.append(.withMessageThread)
         }
         //Whether show message reaction or not.
-        if !self.messageReaction {
-            Appearance.chat.contentStyle.removeAll { $0 == .withMessageReaction }
+        if self.messageReaction {
+            Appearance.chat.contentStyle.append(.withMessageReaction)
         }
         //Notice: - Feature identify can't changed, it's used to identify feature action.
         
         //Register custom components
-        ComponentsRegister.shared.MessagesViewModel = MineMessageListViewModel.self
-        ComponentsRegister.shared.ConversationViewService = MineConversationsViewModel.self
         ComponentsRegister.shared.ConversationsController = MineConversationsController.self
         ComponentsRegister.shared.MessageViewController = MineMessageListViewController.self
         ComponentsRegister.shared.ContactInfoController = MineContactDetailViewController.self
         ComponentsRegister.shared.GroupInfoController = MineGroupDetailViewController.self
-        ComponentsRegister.shared.ContactsController = MineContactsViewController.self
     }
     
     
@@ -192,11 +191,21 @@ extension AppDelegate: EMLocalNotificationDelegate {
 
 //MARK: - UserStateChangedListener
 extension AppDelegate: UserStateChangedListener {
+    
+    private func logoutUser() {
+        EaseChatUIKitClient.shared.logout(unbindNotificationDeviceToken: true) { error in
+            if error != nil {
+                consoleLogInfo("Logout failed:\(error?.errorDescription ?? "")", type: .error)
+            }
+        }
+    }
+    
     func onUserTokenDidExpired() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
     }
     
     func onUserLoginOtherDevice(device: String) {
+        self.logoutUser()
         NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
     }
     
@@ -210,14 +219,17 @@ extension AppDelegate: UserStateChangedListener {
     }
     
     func userAccountDidRemoved() {
+        self.logoutUser()
         NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
     }
     
     func userDidForbidden() {
+        self.logoutUser()
         NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
     }
     
     func userAccountDidForcedToLogout(error: EaseChatUIKit.ChatError?) {
+        self.logoutUser()
         NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
     }
     

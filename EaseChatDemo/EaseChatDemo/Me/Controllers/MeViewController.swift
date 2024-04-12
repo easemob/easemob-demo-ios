@@ -17,11 +17,11 @@ final class MeViewController: UIViewController {
     ]
     
     private lazy var header: DetailInfoHeader = {
-        DetailInfoHeader(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 264), showMenu: false, placeHolder: Appearance.conversation.singlePlaceHolder)
+        DetailInfoHeader(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 204), showMenu: false, placeHolder: Appearance.conversation.singlePlaceHolder)
     }()
     
     private lazy var menuList: UITableView = {
-        UITableView(frame: self.view.bounds, style: .plain).backgroundColor(.clear).separatorStyle(.none).tableFooterView(UIView()).tableHeaderView(self.header).dataSource(self).delegate(self).rowHeight(54)
+        UITableView(frame: CGRect(x: 0, y: NavigationHeight, width: ScreenWidth, height: ScreenHeight-NavigationHeight-BottomBarHeight-(self.tabBarController?.tabBar.frame.height ?? 49)), style: .plain).backgroundColor(.clear).separatorStyle(.none).tableFooterView(UIView()).tableHeaderView(self.header).dataSource(self).delegate(self).rowHeight(54)
     }()
 
     override func viewDidLoad() {

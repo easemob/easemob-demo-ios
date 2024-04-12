@@ -17,16 +17,20 @@ final class MineContactDetailViewController: ContactInfoViewController {
     }
     
     override func dataSource() -> [DetailInfo] {
-        [["title":"contact_details_button_remark".localized(),"detail":"","withSwitch": false,"switchValue":false],["title":"contact_details_switch_donotdisturb".chat.localize,"detail":"","withSwitch": true,"switchValue":self.muteMap[EaseChatUIKitContext.shared?.currentUserId ?? ""]?[self.profile.id] ?? 0 == 1],["title":"contact_details_button_clearchathistory".chat.localize,"detail":"","withSwitch": false,"switchValue":false]
-        ].map {
-            let info = DetailInfo()
-            info.setValuesForKeys($0)
-            return info
-        }
+        let json: [String : Any] = ["title":"contact_details_button_remark".localized(),"detail":"","withSwitch": false,"switchValue":false]
+        let info = self.dictionaryMapToInfo(json: json)
+        var infos = super.dataSource()
+        infos.insert(info, at: 0)
+        return infos
     }
 
     override func viewDidLoad() {
-        Appearance.contact.detailExtensionActionItems = [ContactListHeaderItem(featureIdentify: "Chat", featureName: "Chat".chat.localize, featureIcon: UIImage(named: "chatTo", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "AudioCall", featureName: "AudioCall".chat.localize, featureIcon: UIImage(named: "voice_call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "VideoCall".chat.localize, featureIcon: UIImage(named: "video_call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil))]
+        Appearance.contact.detailExtensionActionItems = [
+            ContactListHeaderItem(featureIdentify: "Chat", featureName: "Chat".chat.localize, featureIcon: UIImage(named: "chatTo", in: .chatBundle, with: nil)),
+            ContactListHeaderItem(featureIdentify: "AudioCall", featureName: "AudioCall".chat.localize, featureIcon: UIImage(named: "voice_call", in: .chatBundle, with: nil)),
+            ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "VideoCall".chat.localize, featureIcon: UIImage(named: "video_call", in: .chatBundle, with: nil)),
+            ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil))
+        ]
         super.viewDidLoad()
         self.requestInfo()
         self.header.status.isHidden = true
@@ -123,6 +127,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
     }
     
     override func didSelectRow(indexPath: IndexPath) {
+        
         if let info = self.datas[safe: indexPath.row] {
             switch info.title {
             case "contact_details_button_clearchathistory".chat.localize:

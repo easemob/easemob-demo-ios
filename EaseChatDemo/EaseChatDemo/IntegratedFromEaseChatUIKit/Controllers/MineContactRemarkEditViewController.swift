@@ -39,10 +39,6 @@ final class MineContactRemarkEditViewController: UIViewController {
         self.raw = rawText
         self.modifySuccess = modifyClosure
     }
-    
-    public override func viewIsAppearing(_ animated: Bool) {
-        super.viewIsAppearing(animated)
-    }
 
     public override func viewDidLoad() {
         super.viewDidLoad()

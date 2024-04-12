@@ -48,7 +48,9 @@ final class ServerConfigViewController: UIViewController {
         super.viewDidLoad()
         self.view.cornerRadius(Appearance.avatarRadius, [.topLeft,.topRight], .clear, 0)
         self.view.addSubViews([self.background,self.navigation,self.applicationField,self.customize,self.customizeSwitch,self.chatServerField,self.chatPortField,self.restServerField])
+        self.customizeSwitch.isOn = self.serverConfig["use_custom_server"] == "1" ? true : false
         // Do any additional setup after loading the view.
+        self.customizeSwitch.addTarget(self, action: #selector(useCustomServer), for: .touchUpInside)
         self.navigation.clickClosure = { [weak self] in
             self?.view.endEditing(true)
             consoleLogInfo("\($1?.row ?? 0)", type: .debug)
@@ -90,6 +92,19 @@ final class ServerConfigViewController: UIViewController {
         super.viewWillDisappear(animated)
         self.view.endEditing(true)
     }
+    
+    @objc func useCustomServer() {
+        self.serverConfig["use_custom_server"] = self.customizeSwitch.isOn ? "1" : "0"
+        if self.customizeSwitch.isOn {
+            self.chatServerField.isEnabled = true
+            self.chatPortField.isEnabled = true
+            self.restServerField.isEnabled = true
+        } else {
+            self.chatServerField.isEnabled = false
+            self.chatPortField.isEnabled = false
+            self.restServerField.isEnabled = false
+        }
+    }
 
 }
 
@@ -99,21 +114,41 @@ extension ServerConfigViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        if reason == .committed {
-            switch textField.tag {
-            case 11:
-                self.serverConfig["application"] = textField.text
-            case 33:
-                self.serverConfig["chat_server_ip"] = textField.text
-            case 44:
-                self.serverConfig["chat_server_port"] = textField.text
-            case 55:
-                self.serverConfig["rest_server_address"] = textField.text
-            default:
-                break
-            }
-        }
+        
     }
+    
+    func saveServerConfig() {
+        let appkey = self.applicationField.text ?? ""
+        let chatServer = self.chatServerField.text ?? ""
+        let chatPort = self.chatPortField.text ?? ""
+        let restAddress = self.restServerField.text ?? ""
+        if !appkey.isEmpty {
+            self.serverConfig["application"] = appkey
+        } else {
+            self.showToast(toast: "请输入App Key")
+        }
+        
+        if !chatServer.isEmpty {
+            self.serverConfig["chat_server_ip"] = chatServer
+        } else {
+            self.showToast(toast: "请输入IM服务器IP地址")
+        }
+        
+        if !chatPort.isEmpty {
+            self.serverConfig["chat_server_port"] = chatPort
+        } else {
+            self.showToast(toast: "请输入IM服务器IP端口号")
+        }
+        
+        if !restAddress.isEmpty {
+            self.serverConfig["rest_server_address"] = restAddress
+        } else {
+            self.showToast(toast: "请输入服务器地址")
+        }
+        
+        
+    }
+    
 }
 
 extension ServerConfigViewController: ThemeSwitchProtocol {

@@ -172,7 +172,6 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         imagePicker.mediaTypes = [kUTTypeImage as String]
-        imagePicker.videoMaximumDuration = 20
         self.present(imagePicker, animated: true, completion: nil)
     }
 }
@@ -195,7 +194,7 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
         let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String
         if mediaType == kUTTypeImage as String {
             if let image = info[.editedImage] as? UIImage {
-                self.uploadImage(image: image)
+                self.uploadImage(image: image.fixOrientation())
             }
         }
     }
@@ -242,5 +241,58 @@ extension PersonalInfoViewController: ThemeSwitchProtocol {
     func switchTheme(style: ThemeStyle) {
         self.view.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.infoList.reloadData()
+    }
+}
+
+
+extension UIImage {
+    func fixOrientation() -> UIImage {
+        if imageOrientation == .up {
+            return self
+        }
+        
+        var transform: CGAffineTransform = .identity
+          
+        switch imageOrientation {
+        case .down, .downMirrored:
+            transform = transform.translatedBy(x: size.width, y: size.height)
+            transform = transform.rotated(by: .pi)
+        case .left, .leftMirrored:
+            transform = transform.translatedBy(x: size.width, y: 0)
+            transform = transform.rotated(by: .pi / 2)
+        case .right, .rightMirrored:
+            transform = transform.translatedBy(x: 0, y: size.height)
+            transform = transform.rotated(by: -.pi / 2)
+        case .up, .upMirrored:
+            break
+        @unknown default:
+            fatalError()
+        }
+        
+        switch imageOrientation {
+        case .upMirrored, .downMirrored:
+            transform = transform.translatedBy(x: size.width, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
+        case .leftMirrored, .rightMirrored:
+            transform = transform.translatedBy(x: size.height, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
+        case .up, .down, .left, .right:
+            break
+        @unknown default:
+            fatalError()
+        }
+        
+        let context = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: cgImage!.bitsPerComponent, bytesPerRow: 0, space: cgImage!.colorSpace!, bitmapInfo: cgImage!.bitmapInfo.rawValue)!
+        context.concatenate(transform)
+        
+        switch imageOrientation {
+        case .left, .leftMirrored, .right, .rightMirrored:
+            context.draw(cgImage!, in: CGRect(x: 0, y: 0, width: size.height, height: size.width))
+        default:
+            context.draw(cgImage!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        }
+        
+        let cgImage: CGImage = context.makeImage()!
+        return UIImage(cgImage: cgImage)
     }
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,10 +12,8 @@
 		0518E5B12BA1ABC900EA7D7B /* FeatureSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0518E5B02BA1ABC900EA7D7B /* FeatureSwitchCell.swift */; };
 		052226C02BA92282007F14B9 /* MineContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052226BF2BA92282007F14B9 /* MineContactDetailViewController.swift */; };
 		052226C22BA92299007F14B9 /* MineGroupDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052226C12BA92299007F14B9 /* MineGroupDetailViewController.swift */; };
-		052226C42BA987A3007F14B9 /* MineConversationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052226C32BA987A3007F14B9 /* MineConversationsViewModel.swift */; };
 		052978542B97261D008AB5A0 /* MeMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052978532B97261D008AB5A0 /* MeMenuCell.swift */; };
 		0551FFA42B9FE4C000FF3294 /* NotificationSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */; };
-		0560CFF52BABCF26001BF12E /* MineContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0560CFF42BABCF26001BF12E /* MineContactsViewController.swift */; };
 		0572275F2B97FA2C00AA866D /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */; };
 		057227612B97FAF200AA866D /* AboutEasemobController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227602B97FAF200AA866D /* AboutEasemobController.swift */; };
 		057227642B97FFB200AA866D /* AboutEasemobHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227632B97FFB200AA866D /* AboutEasemobHeader.swift */; };
@@ -25,7 +23,6 @@
 		059BEEEC2BABDC96004C7380 /* GradientSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059BEEEB2BABDC96004C7380 /* GradientSlider.swift */; };
 		05A9415D2BAA700000C71A74 /* MineContactRemarkEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */; };
 		05A9415F2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */; };
-		05A9704A2BB3B8EC00920002 /* MineNewFriendRequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A970492BB3B8EC00920002 /* MineNewFriendRequestController.swift */; };
 		05B161B72BB664B400917245 /* EaseMobHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B161B62BB664B400917245 /* EaseMobHUD.swift */; };
 		05B7C1EF2B96AC3200DA0F8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */; };
 		05B7C1F12B96AC3200DA0F8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1F02B96AC3200DA0F8F /* SceneDelegate.swift */; };
@@ -49,7 +46,6 @@
 		05CF132E2BA7DC120026595C /* EMPushExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF132D2BA7DC120026595C /* EMPushExtension.framework */; };
 		05E0D7302BA298EC00373197 /* MineMessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E0D72F2BA298EC00373197 /* MineMessageListViewController.swift */; };
 		05E0D7322BA2E2C200373197 /* MineCallInviteUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E0D7312BA2E2C200373197 /* MineCallInviteUsersController.swift */; };
-		05E0D7352BA2E62100373197 /* MineMessageListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E0D7342BA2E62100373197 /* MineMessageListViewModel.swift */; };
 		05E5A1C12B99646700955DD1 /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C02B99646700955DD1 /* GeneralViewController.swift */; };
 		05E5A1C32B996EE400955DD1 /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C22B996EE400955DD1 /* LanguageCell.swift */; };
 		05E5A1C52B9971AD00955DD1 /* LanguageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C42B9971AD00955DD1 /* LanguageSettingViewController.swift */; };
@@ -91,10 +87,8 @@
 		0518E5B02BA1ABC900EA7D7B /* FeatureSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureSwitchCell.swift; sourceTree = "<group>"; };
 		052226BF2BA92282007F14B9 /* MineContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactDetailViewController.swift; sourceTree = "<group>"; };
 		052226C12BA92299007F14B9 /* MineGroupDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineGroupDetailViewController.swift; sourceTree = "<group>"; };
-		052226C32BA987A3007F14B9 /* MineConversationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineConversationsViewModel.swift; sourceTree = "<group>"; };
 		052978532B97261D008AB5A0 /* MeMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeMenuCell.swift; sourceTree = "<group>"; };
 		0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingViewController.swift; sourceTree = "<group>"; };
-		0560CFF42BABCF26001BF12E /* MineContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactsViewController.swift; sourceTree = "<group>"; };
 		0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
 		057227602B97FAF200AA866D /* AboutEasemobController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutEasemobController.swift; sourceTree = "<group>"; };
 		057227632B97FFB200AA866D /* AboutEasemobHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutEasemobHeader.swift; sourceTree = "<group>"; };
@@ -104,7 +98,6 @@
 		059BEEEB2BABDC96004C7380 /* GradientSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientSlider.swift; sourceTree = "<group>"; };
 		05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactRemarkEditViewController.swift; sourceTree = "<group>"; };
 		05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLoginLoadingViewController.swift; sourceTree = "<group>"; };
-		05A970492BB3B8EC00920002 /* MineNewFriendRequestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineNewFriendRequestController.swift; sourceTree = "<group>"; };
 		05B161B62BB664B400917245 /* EaseMobHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EaseMobHUD.swift; sourceTree = "<group>"; };
 		05B7C1EB2B96AC3200DA0F8F /* EaseChatDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseChatDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -135,7 +128,6 @@
 		05CF132D2BA7DC120026595C /* EMPushExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EMPushExtension.framework; sourceTree = "<group>"; };
 		05E0D72F2BA298EC00373197 /* MineMessageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineMessageListViewController.swift; sourceTree = "<group>"; };
 		05E0D7312BA2E2C200373197 /* MineCallInviteUsersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCallInviteUsersController.swift; sourceTree = "<group>"; };
-		05E0D7342BA2E62100373197 /* MineMessageListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineMessageListViewModel.swift; sourceTree = "<group>"; };
 		05E5A1C02B99646700955DD1 /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
 		05E5A1C22B996EE400955DD1 /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
 		05E5A1C42B9971AD00955DD1 /* LanguageSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSettingViewController.swift; sourceTree = "<group>"; };
@@ -191,8 +183,6 @@
 				052226BF2BA92282007F14B9 /* MineContactDetailViewController.swift */,
 				052226C12BA92299007F14B9 /* MineGroupDetailViewController.swift */,
 				05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */,
-				0560CFF42BABCF26001BF12E /* MineContactsViewController.swift */,
-				05A970492BB3B8EC00920002 /* MineNewFriendRequestController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -338,8 +328,6 @@
 		05E0D7332BA2E60600373197 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				05E0D7342BA2E62100373197 /* MineMessageListViewModel.swift */,
-				052226C32BA987A3007F14B9 /* MineConversationsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -376,8 +364,8 @@
 				05B7C1E82B96AC3200DA0F8F /* Frameworks */,
 				05B7C1E92B96AC3200DA0F8F /* Resources */,
 				204A598C89513C3533DA05E3 /* [CP] Embed Pods Frameworks */,
-				5B245EF6BB26C5B65E7B1C6E /* [CP] Copy Pods Resources */,
 				05CF132C2BA7DBF10026595C /* Embed Foundation Extensions */,
+				70634AF2770D7ED5FBC11983 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -506,7 +494,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5B245EF6BB26C5B65E7B1C6E /* [CP] Copy Pods Resources */ = {
+		70634AF2770D7ED5FBC11983 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -542,7 +530,6 @@
 				05B7C1F32B96AC3200DA0F8F /* LoginViewController.swift in Sources */,
 				05B7C2122B96C1E400DA0F8F /* EasemobBusinessRequest.swift in Sources */,
 				057227662B9802DC00AA866D /* AboutEasemobCell.swift in Sources */,
-				0560CFF52BABCF26001BF12E /* MineContactsViewController.swift in Sources */,
 				05B7C1EF2B96AC3200DA0F8F /* AppDelegate.swift in Sources */,
 				05E5A1C72B9997FC00955DD1 /* DemoLanguage.swift in Sources */,
 				052226C22BA92299007F14B9 /* MineGroupDetailViewController.swift in Sources */,
@@ -554,18 +541,15 @@
 				057227642B97FFB200AA866D /* AboutEasemobHeader.swift in Sources */,
 				05E5A1C52B9971AD00955DD1 /* LanguageSettingViewController.swift in Sources */,
 				05E5A1C32B996EE400955DD1 /* LanguageCell.swift in Sources */,
-				052226C42BA987A3007F14B9 /* MineConversationsViewModel.swift in Sources */,
 				05B7C21B2B97019300DA0F8F /* MainViewController.swift in Sources */,
 				05E0D7302BA298EC00373197 /* MineMessageListViewController.swift in Sources */,
 				0572276A2B987C4600AA866D /* PersonalInfoCell.swift in Sources */,
-				05A9704A2BB3B8EC00920002 /* MineNewFriendRequestController.swift in Sources */,
 				0518E5AF2BA1A6DF00EA7D7B /* FeatureSwitchViewController.swift in Sources */,
 				0518E5B12BA1ABC900EA7D7B /* FeatureSwitchCell.swift in Sources */,
 				05B7C2162B96C55800DA0F8F /* PublicDefines.swift in Sources */,
 				05B161B72BB664B400917245 /* EaseMobHUD.swift in Sources */,
 				05B7C1F12B96AC3200DA0F8F /* SceneDelegate.swift in Sources */,
 				05E5A1C12B99646700955DD1 /* GeneralViewController.swift in Sources */,
-				05E0D7352BA2E62100373197 /* MineMessageListViewModel.swift in Sources */,
 				057227682B98393500AA866D /* ServerConfigViewController.swift in Sources */,
 				0518E5AD2BA15B8300EA7D7B /* MineConversationsController.swift in Sources */,
 				0551FFA42B9FE4C000FF3294 /* NotificationSettingViewController.swift in Sources */,
@@ -753,7 +737,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 37;
+				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -797,7 +781,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 37;
+				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;

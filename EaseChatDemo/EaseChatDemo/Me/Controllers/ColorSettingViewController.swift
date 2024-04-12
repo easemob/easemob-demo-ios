@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import EaseCallKit
 import EaseChatUIKit
 
 final class ColorSettingViewController: UIViewController {

@@ -10,15 +10,15 @@ import EaseChatUIKit
 
 final class FeatureSwitchViewController: UIViewController {
     
-    @UserDefault("EaseMobChatMessageTargetLanguage", defaultValue: true) var targetLanguage: Bool
+    @UserDefault("EaseMobChatMessageTranslation", defaultValue: true) var enableTranslation: Bool
     
     @UserDefault("EaseMobChatMessageReaction", defaultValue: true) var messageReaction: Bool
     
-    @UserDefault("EaseMobChatCreateTopic", defaultValue: true) var createTopic: Bool
+    @UserDefault("EaseMobChatCreateMessageThread", defaultValue: true) var messageThread: Bool
     
     
     private lazy var jsons: [Dictionary<String,Any>] = {
-        [["title":"message_translate".localized(),"detail":"message_translate_description".localized(),"withSwitch": true,"switchValue":self.targetLanguage],["title":"group_topic".localized(),"detail":"group_topic_description".localized(),"withSwitch": true,"switchValue":self.createTopic],["title":"message_reaction".localized(),"detail":"message_reaction_description".localized(),"withSwitch": true,"switchValue":self.messageReaction]]
+        [["title":"message_translate".localized(),"detail":"message_translate_description".localized(),"withSwitch": true,"switchValue":self.enableTranslation],["title":"group_topic".localized(),"detail":"group_topic_description".localized(),"withSwitch": true,"switchValue":self.messageThread],["title":"message_reaction".localized(),"detail":"message_reaction_description".localized(),"withSwitch": true,"switchValue":self.messageReaction]]
     }()
 
     private lazy var navigation: EaseChatNavigationBar = {
@@ -73,16 +73,16 @@ extension FeatureSwitchViewController: UITableViewDelegate,UITableViewDataSource
         info["switchValue"] = sender.isOn
         if info["title"] as? String == "message_translate".localized() {
             Appearance.chat.enableTranslation = sender.isOn
-            self.targetLanguage = sender.isOn
+            self.enableTranslation = sender.isOn
         }
         if info["title"] as? String == "group_topic".localized() {
-            self.createTopic = sender.isOn
+            self.messageThread = sender.isOn
             if sender.isOn {
-                if !Appearance.chat.contentStyle.contains(.withMessageTopic) {
-                    Appearance.chat.contentStyle.append(.withMessageTopic)
+                if !Appearance.chat.contentStyle.contains(.withMessageThread) {
+                    Appearance.chat.contentStyle.append(.withMessageThread)
                 }
             } else {
-                Appearance.chat.contentStyle.removeAll { $0 == .withMessageTopic }
+                Appearance.chat.contentStyle.removeAll { $0 == .withMessageThread }
             }
         }
         if info["title"] as? String == "message_reaction".localized() {

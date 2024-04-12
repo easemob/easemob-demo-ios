@@ -267,14 +267,52 @@ extension LoginViewController: UITextFieldDelegate {
     }
     
     private func login(user: EaseProfileProtocol,token: String) {
+        if let dbPath = FMDBConnection.databasePath,dbPath.isEmpty {
+            FMDBConnection.databasePath = String.documentsPath+"/EaseMobDemo/"+"\(AppKey)/"+user.id+".db"
+        }
+        self.loadCache()
         EaseChatUIKitClient.shared.login(user: user, token: token) { [weak self] error in
             if error == nil {
-                if let dbPath = FMDBConnection.databasePath,dbPath.isEmpty {
-                    FMDBConnection.databasePath = String.documentsPath+"/EaseMobDemo/"+user.id+".db"
-                }
+                self?.fillCache()
                 self?.entryHome()
             } else {
                 self?.showToast(toast: error?.errorDescription ?? "")
+            }
+        }
+    }
+    
+    private func loadCache() {
+        if let profiles = EaseChatProfile.select(where: nil) as? [EaseChatProfile] {
+            for profile in profiles {
+                if let conversation = ChatClient.shared().chatManager?.getConversationWithConvId(profile.id) {
+                    if conversation.type == .chat {
+                        EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                    }
+                }
+                if profile.id == ChatClient.shared().currentUsername ?? "" {
+                    EaseChatUIKitContext.shared?.currentUser = profile
+                    EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                }
+            }
+        }
+        
+    }
+    
+    private func fillCache() {
+        if let groups = ChatClient.shared().groupManager?.getJoinedGroups() {
+            var profiles = [EaseChatProfile]()
+            for group in groups {
+                let profile = EaseChatProfile()
+                profile.id = group.groupId
+                profile.nickname = group.groupName
+                profile.avatarURL = group.settings.ext
+                profiles.append(profile)
+            }
+            EaseChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
+        }
+        if let users = EaseChatUIKitContext.shared?.userCache {
+            for user in users.values {
+                EaseChatUIKitContext.shared?.userCache?[user.id]?.remark = ChatClient.shared().contactManager?.getContact(user.id)?.remark ?? ""
             }
         }
     }
