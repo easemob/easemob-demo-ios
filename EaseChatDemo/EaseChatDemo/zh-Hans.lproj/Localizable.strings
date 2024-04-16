@@ -1,0 +1,105 @@
+/* 
+  Localizable.strings
+  EaseChatDemo
+
+  Created by 朱继超 on 2024/3/5.
+  
+*/
+"Me" = "我";
+"Chats" = "会话";
+"Contacts" = "联系人";
+" and " = "和";
+"Login" = "登录";
+"Logout" = "退出登录";
+"Get Code" = "获取验证码";
+"Service" = "《环信服务条款》";
+"Setting" = "设置";
+"Privacy Policy" = "《环信隐私协议》";
+"Mobile Number" = "请输入电话号码";
+"PinCodePlaceHolder" = "请输入验证码";
+"PhoneError" = "请输入正确的电话号码.";
+"AgreeProtocol" = "请勾选同意协议";
+"PinCodeError" = "请输入正确的验证码";
+"Login Easemob Chat" = "登录环信IM";
+"Please tick to agree" = "请勾选同意";
+
+
+"Official Website" = "访问官网";
+"Hotline" = "服务热线";
+"Business Cooperation" = "商务合作";
+"Channel Cooperation" = "渠道合作";
+"Suggestions" = "投诉建议";
+
+"Personal Info" = "个人信息";
+"Avatar" = "头像";
+"Nickname" = "昵称";
+
+
+
+"dark_mode" = "暗黑模式";
+"switch_theme" = "切换主题";
+"color_setting" = "颜色设置";
+"feature_switch" = "特性开关";
+"language_setting" = "语言设置";
+"Chinese" = "中文";
+"English" = "英文";
+
+"Switch Language" = "切换语言";
+"Switch Theme" = "切换主题";
+"Terminal Alert" = "应用将会关闭，确定？";
+
+"Classic" = "经典";
+"Smart" = "现代";
+
+"primary hue" = "主题色色相";
+"secondary hue" = "成功色色相";
+"error hue" = "警示色色相";
+"neutralHue" = "中性色色相";
+"neutral special hue" = "特殊中性色色相";
+"GetPinCodeSuccessful" = "获取成功";
+"PasswordError" = "请输入正确的密码";
+
+"UserIdError" = "请输入正确的用户ID";
+
+"EeaseMobID" = "环信ID";
+"Password" = "密码";
+
+"Personal info" = "个人信息";
+"General" = "通用";
+"Notification" = "消息通知";
+"About" = "关于";
+
+"message_translate" = "消息翻译";
+"group_topic" = "群组话题";
+"message_reaction" = "表情回应";
+"otherDevice" = "已在其他端处理";
+"remoteBusy" = "对方忙";
+"refuseCall" = "拒绝通话";
+"cancelCall" = "您已取消呼叫";
+"callCancel" = "通话已取消";
+"remoteNoResponse" = "对方超时未响应";
+"noResponse" = "未接听";
+"callendPrompt" = "通话已结束，通话时长：";
+
+"Audio Call" = "音频通话";
+"Video Call" = "视频通话";
+" start a multi call" = "发起多人通话";
+"contact_details_button_remark" = "备注";
+"Offline Message Push" = "消息离线推送";
+
+"Notification Alert" = "关闭后，只接受群组内你被@消息";
+"Confirm Logout" = "确定退出登录？";
+"Modify Remark" = "修改备注";
+"Modify Nickname" = "修改昵称";
+"Modify failed" = "修改失败";
+"Get After" = "重新获取";
+
+
+"message_translate_description" = "通过长按将消息翻译为系统语言";
+"group_topic_description" = "通过群组内的一条消息创建一个话题";
+"message_reaction_description" = "通过长按消息添加表情回应";
+
+"Server Config" = "服务器配置";
+"Clean successful!" = "清除成功";
+
+"agreeFriendRequest success" = "好友请求已同意";

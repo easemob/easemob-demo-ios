@@ -1,0 +1,911 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0518E5AD2BA15B8300EA7D7B /* MineConversationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0518E5AC2BA15B8300EA7D7B /* MineConversationsController.swift */; };
+		0518E5AF2BA1A6DF00EA7D7B /* FeatureSwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0518E5AE2BA1A6DF00EA7D7B /* FeatureSwitchViewController.swift */; };
+		0518E5B12BA1ABC900EA7D7B /* FeatureSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0518E5B02BA1ABC900EA7D7B /* FeatureSwitchCell.swift */; };
+		052226C02BA92282007F14B9 /* MineContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052226BF2BA92282007F14B9 /* MineContactDetailViewController.swift */; };
+		052226C22BA92299007F14B9 /* MineGroupDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052226C12BA92299007F14B9 /* MineGroupDetailViewController.swift */; };
+		052978542B97261D008AB5A0 /* MeMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052978532B97261D008AB5A0 /* MeMenuCell.swift */; };
+		0551FFA42B9FE4C000FF3294 /* NotificationSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */; };
+		0572275F2B97FA2C00AA866D /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */; };
+		057227612B97FAF200AA866D /* AboutEasemobController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227602B97FAF200AA866D /* AboutEasemobController.swift */; };
+		057227642B97FFB200AA866D /* AboutEasemobHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227632B97FFB200AA866D /* AboutEasemobHeader.swift */; };
+		057227662B9802DC00AA866D /* AboutEasemobCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227652B9802DC00AA866D /* AboutEasemobCell.swift */; };
+		057227682B98393500AA866D /* ServerConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227672B98393500AA866D /* ServerConfigViewController.swift */; };
+		0572276A2B987C4600AA866D /* PersonalInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227692B987C4600AA866D /* PersonalInfoCell.swift */; };
+		059BEEEC2BABDC96004C7380 /* GradientSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059BEEEB2BABDC96004C7380 /* GradientSlider.swift */; };
+		05A9415D2BAA700000C71A74 /* MineContactRemarkEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */; };
+		05A9415F2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */; };
+		05B161B72BB664B400917245 /* EaseMobHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B161B62BB664B400917245 /* EaseMobHUD.swift */; };
+		05B7C1EF2B96AC3200DA0F8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */; };
+		05B7C1F12B96AC3200DA0F8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1F02B96AC3200DA0F8F /* SceneDelegate.swift */; };
+		05B7C1F32B96AC3200DA0F8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1F22B96AC3200DA0F8F /* LoginViewController.swift */; };
+		05B7C1F62B96AC3200DA0F8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B7C1F42B96AC3200DA0F8F /* Main.storyboard */; };
+		05B7C1F82B96AC3300DA0F8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05B7C1F72B96AC3300DA0F8F /* Assets.xcassets */; };
+		05B7C1FB2B96AC3300DA0F8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B7C1F92B96AC3300DA0F8F /* LaunchScreen.storyboard */; };
+		05B7C2082B96BB5300DA0F8F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05B7C20A2B96BB5300DA0F8F /* Localizable.strings */; };
+		05B7C20E2B96BD3100DA0F8F /* GCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C20D2B96BD3100DA0F8F /* GCDTimer.swift */; };
+		05B7C2102B96C16B00DA0F8F /* EasemobRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C20F2B96C16B00DA0F8F /* EasemobRequest.swift */; };
+		05B7C2122B96C1E400DA0F8F /* EasemobBusinessRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C2112B96C1E400DA0F8F /* EasemobBusinessRequest.swift */; };
+		05B7C2142B96C24100DA0F8F /* EasemobBusinessApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C2132B96C24100DA0F8F /* EasemobBusinessApi.swift */; };
+		05B7C2162B96C55800DA0F8F /* PublicDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C2152B96C55800DA0F8F /* PublicDefines.swift */; };
+		05B7C21B2B97019300DA0F8F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C21A2B97019300DA0F8F /* MainViewController.swift */; };
+		05B7C21E2B970D2F00DA0F8F /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C21D2B970D2F00DA0F8F /* MeViewController.swift */; };
+		05CF13182BA7D55E0026595C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF13172BA7D55E0026595C /* CloudKit.framework */; };
+		05CF131A2BA7D5670026595C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF13192BA7D5670026595C /* Accounts.framework */; };
+		05CF131C2BA7D56E0026595C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF131B2BA7D56E0026595C /* CFNetwork.framework */; };
+		05CF13242BA7DBF10026595C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05CF13232BA7DBF10026595C /* NotificationService.swift */; };
+		05CF13282BA7DBF10026595C /* EMPushServerExt.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 05CF13212BA7DBF10026595C /* EMPushServerExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		05CF132E2BA7DC120026595C /* EMPushExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF132D2BA7DC120026595C /* EMPushExtension.framework */; };
+		05E0D7302BA298EC00373197 /* MineMessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E0D72F2BA298EC00373197 /* MineMessageListViewController.swift */; };
+		05E0D7322BA2E2C200373197 /* MineCallInviteUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E0D7312BA2E2C200373197 /* MineCallInviteUsersController.swift */; };
+		05E5A1C12B99646700955DD1 /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C02B99646700955DD1 /* GeneralViewController.swift */; };
+		05E5A1C32B996EE400955DD1 /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C22B996EE400955DD1 /* LanguageCell.swift */; };
+		05E5A1C52B9971AD00955DD1 /* LanguageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C42B9971AD00955DD1 /* LanguageSettingViewController.swift */; };
+		05E5A1C72B9997FC00955DD1 /* DemoLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C62B9997FC00955DD1 /* DemoLanguage.swift */; };
+		05E5A1C92B99A8C200955DD1 /* ColorSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C82B99A8C200955DD1 /* ColorSettingViewController.swift */; };
+		05EAF26B2BB2650B00D905F4 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 05EAF26A2BB2650B00D905F4 /* PrivacyInfo.xcprivacy */; };
+		05FE6C2A2B9A9F160030A983 /* ThemesSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FE6C292B9A9F160030A983 /* ThemesSettingViewController.swift */; };
+		05FE6C2C2B9AADD00030A983 /* ColorHueSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */; };
+		C4459C57463963DE809CB15A /* Pods_EaseChatDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52296E4D561A746F13103874 /* Pods_EaseChatDemo.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		05CF13262BA7DBF10026595C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 05B7C1E32B96AC3200DA0F8F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 05CF13202BA7DBF10026595C;
+			remoteInfo = EMPushServerExt;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		05CF132C2BA7DBF10026595C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				05CF13282BA7DBF10026595C /* EMPushServerExt.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0518E5AC2BA15B8300EA7D7B /* MineConversationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineConversationsController.swift; sourceTree = "<group>"; };
+		0518E5AE2BA1A6DF00EA7D7B /* FeatureSwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureSwitchViewController.swift; sourceTree = "<group>"; };
+		0518E5B02BA1ABC900EA7D7B /* FeatureSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureSwitchCell.swift; sourceTree = "<group>"; };
+		052226BF2BA92282007F14B9 /* MineContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactDetailViewController.swift; sourceTree = "<group>"; };
+		052226C12BA92299007F14B9 /* MineGroupDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineGroupDetailViewController.swift; sourceTree = "<group>"; };
+		052978532B97261D008AB5A0 /* MeMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeMenuCell.swift; sourceTree = "<group>"; };
+		0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingViewController.swift; sourceTree = "<group>"; };
+		0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
+		057227602B97FAF200AA866D /* AboutEasemobController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutEasemobController.swift; sourceTree = "<group>"; };
+		057227632B97FFB200AA866D /* AboutEasemobHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutEasemobHeader.swift; sourceTree = "<group>"; };
+		057227652B9802DC00AA866D /* AboutEasemobCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutEasemobCell.swift; sourceTree = "<group>"; };
+		057227672B98393500AA866D /* ServerConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfigViewController.swift; sourceTree = "<group>"; };
+		057227692B987C4600AA866D /* PersonalInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoCell.swift; sourceTree = "<group>"; };
+		059BEEEB2BABDC96004C7380 /* GradientSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientSlider.swift; sourceTree = "<group>"; };
+		05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactRemarkEditViewController.swift; sourceTree = "<group>"; };
+		05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLoginLoadingViewController.swift; sourceTree = "<group>"; };
+		05B161B62BB664B400917245 /* EaseMobHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EaseMobHUD.swift; sourceTree = "<group>"; };
+		05B7C1EB2B96AC3200DA0F8F /* EaseChatDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseChatDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		05B7C1F02B96AC3200DA0F8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		05B7C1F22B96AC3200DA0F8F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		05B7C1F52B96AC3200DA0F8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		05B7C1F72B96AC3300DA0F8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		05B7C1FA2B96AC3300DA0F8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		05B7C1FC2B96AC3300DA0F8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		05B7C2042B96BB1300DA0F8F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		05B7C2052B96BB1300DA0F8F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		05B7C2092B96BB5300DA0F8F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		05B7C20B2B96BB5700DA0F8F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		05B7C20D2B96BD3100DA0F8F /* GCDTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDTimer.swift; sourceTree = "<group>"; };
+		05B7C20F2B96C16B00DA0F8F /* EasemobRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasemobRequest.swift; sourceTree = "<group>"; };
+		05B7C2112B96C1E400DA0F8F /* EasemobBusinessRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasemobBusinessRequest.swift; sourceTree = "<group>"; };
+		05B7C2132B96C24100DA0F8F /* EasemobBusinessApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasemobBusinessApi.swift; sourceTree = "<group>"; };
+		05B7C2152B96C55800DA0F8F /* PublicDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicDefines.swift; sourceTree = "<group>"; };
+		05B7C21A2B97019300DA0F8F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		05B7C21D2B970D2F00DA0F8F /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
+		05CF13162BA7D4EB0026595C /* EaseChatDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EaseChatDemo.entitlements; sourceTree = "<group>"; };
+		05CF13172BA7D55E0026595C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		05CF13192BA7D5670026595C /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		05CF131B2BA7D56E0026595C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		05CF13212BA7DBF10026595C /* EMPushServerExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EMPushServerExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		05CF13232BA7DBF10026595C /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		05CF13252BA7DBF10026595C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		05CF132D2BA7DC120026595C /* EMPushExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EMPushExtension.framework; sourceTree = "<group>"; };
+		05E0D72F2BA298EC00373197 /* MineMessageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineMessageListViewController.swift; sourceTree = "<group>"; };
+		05E0D7312BA2E2C200373197 /* MineCallInviteUsersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCallInviteUsersController.swift; sourceTree = "<group>"; };
+		05E5A1C02B99646700955DD1 /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
+		05E5A1C22B996EE400955DD1 /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
+		05E5A1C42B9971AD00955DD1 /* LanguageSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSettingViewController.swift; sourceTree = "<group>"; };
+		05E5A1C62B9997FC00955DD1 /* DemoLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLanguage.swift; sourceTree = "<group>"; };
+		05E5A1C82B99A8C200955DD1 /* ColorSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSettingViewController.swift; sourceTree = "<group>"; };
+		05EAF26A2BB2650B00D905F4 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Pods/FMDB/privacy/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		05FE6C292B9A9F160030A983 /* ThemesSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesSettingViewController.swift; sourceTree = "<group>"; };
+		05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHueSettingCell.swift; sourceTree = "<group>"; };
+		52296E4D561A746F13103874 /* Pods_EaseChatDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseChatDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEA7C6DED4C4F4A662BE5BBD /* Pods-EaseChatDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseChatDemo.release.xcconfig"; path = "Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo.release.xcconfig"; sourceTree = "<group>"; };
+		FBAD9654D9F80811528E34F0 /* Pods-EaseChatDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseChatDemo.debug.xcconfig"; path = "Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		05B7C1E82B96AC3200DA0F8F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4459C57463963DE809CB15A /* Pods_EaseChatDemo.framework in Frameworks */,
+				05CF13182BA7D55E0026595C /* CloudKit.framework in Frameworks */,
+				05CF131C2BA7D56E0026595C /* CFNetwork.framework in Frameworks */,
+				05CF131A2BA7D5670026595C /* Accounts.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		05CF131E2BA7DBF10026595C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05CF132E2BA7DC120026595C /* EMPushExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0518E5AA2BA15B3F00EA7D7B /* IntegratedFromEaseChatUIKit */ = {
+			isa = PBXGroup;
+			children = (
+				05BC4F3D2BBD08D60086E567 /* Cells */,
+				05E0D7332BA2E60600373197 /* ViewModels */,
+				0518E5AB2BA15B5800EA7D7B /* Controllers */,
+			);
+			path = IntegratedFromEaseChatUIKit;
+			sourceTree = "<group>";
+		};
+		0518E5AB2BA15B5800EA7D7B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0518E5AC2BA15B8300EA7D7B /* MineConversationsController.swift */,
+				05E0D72F2BA298EC00373197 /* MineMessageListViewController.swift */,
+				05E0D7312BA2E2C200373197 /* MineCallInviteUsersController.swift */,
+				052226BF2BA92282007F14B9 /* MineContactDetailViewController.swift */,
+				052226C12BA92299007F14B9 /* MineGroupDetailViewController.swift */,
+				05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		052978512B9725F4008AB5A0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				05B7C21D2B970D2F00DA0F8F /* MeViewController.swift */,
+				0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */,
+				057227602B97FAF200AA866D /* AboutEasemobController.swift */,
+				05E5A1C02B99646700955DD1 /* GeneralViewController.swift */,
+				05E5A1C42B9971AD00955DD1 /* LanguageSettingViewController.swift */,
+				05E5A1C82B99A8C200955DD1 /* ColorSettingViewController.swift */,
+				05FE6C292B9A9F160030A983 /* ThemesSettingViewController.swift */,
+				0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */,
+				0518E5AE2BA1A6DF00EA7D7B /* FeatureSwitchViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		052978522B972605008AB5A0 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				052978532B97261D008AB5A0 /* MeMenuCell.swift */,
+				057227652B9802DC00AA866D /* AboutEasemobCell.swift */,
+				057227692B987C4600AA866D /* PersonalInfoCell.swift */,
+				05E5A1C22B996EE400955DD1 /* LanguageCell.swift */,
+				05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */,
+				0518E5B02BA1ABC900EA7D7B /* FeatureSwitchCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		057227622B97FF9E00AA866D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				057227632B97FFB200AA866D /* AboutEasemobHeader.swift */,
+				059BEEEB2BABDC96004C7380 /* GradientSlider.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		05B7C1E22B96AC3200DA0F8F = {
+			isa = PBXGroup;
+			children = (
+				05EAF26A2BB2650B00D905F4 /* PrivacyInfo.xcprivacy */,
+				05B7C1ED2B96AC3200DA0F8F /* EaseChatDemo */,
+				05CF13222BA7DBF10026595C /* EMPushServerExt */,
+				05B7C1EC2B96AC3200DA0F8F /* Products */,
+				F0190ED9AEEEC02D795E722F /* Pods */,
+				ABD94F7056FDF0CBB57CB0FC /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		05B7C1EC2B96AC3200DA0F8F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				05B7C1EB2B96AC3200DA0F8F /* EaseChatDemo.app */,
+				05CF13212BA7DBF10026595C /* EMPushServerExt.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		05B7C1ED2B96AC3200DA0F8F /* EaseChatDemo */ = {
+			isa = PBXGroup;
+			children = (
+				05CF13162BA7D4EB0026595C /* EaseChatDemo.entitlements */,
+				0518E5AA2BA15B3F00EA7D7B /* IntegratedFromEaseChatUIKit */,
+				05B7C21C2B970D2300DA0F8F /* Me */,
+				05B7C2192B97017000DA0F8F /* Main */,
+				05B7C2182B96C56D00DA0F8F /* CustomConstants */,
+				05B7C20C2B96BD2100DA0F8F /* Utils */,
+				05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */,
+				05B7C1F02B96AC3200DA0F8F /* SceneDelegate.swift */,
+				05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */,
+				05B7C1F22B96AC3200DA0F8F /* LoginViewController.swift */,
+				057227672B98393500AA866D /* ServerConfigViewController.swift */,
+				05B7C20A2B96BB5300DA0F8F /* Localizable.strings */,
+				05B7C1F42B96AC3200DA0F8F /* Main.storyboard */,
+				05B7C1F72B96AC3300DA0F8F /* Assets.xcassets */,
+				05B7C1F92B96AC3300DA0F8F /* LaunchScreen.storyboard */,
+				05B7C1FC2B96AC3300DA0F8F /* Info.plist */,
+			);
+			path = EaseChatDemo;
+			sourceTree = "<group>";
+		};
+		05B7C20C2B96BD2100DA0F8F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				05B7C20D2B96BD3100DA0F8F /* GCDTimer.swift */,
+				05B7C20F2B96C16B00DA0F8F /* EasemobRequest.swift */,
+				05B7C2132B96C24100DA0F8F /* EasemobBusinessApi.swift */,
+				05B7C2112B96C1E400DA0F8F /* EasemobBusinessRequest.swift */,
+				05E5A1C62B9997FC00955DD1 /* DemoLanguage.swift */,
+				05B161B62BB664B400917245 /* EaseMobHUD.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		05B7C2182B96C56D00DA0F8F /* CustomConstants */ = {
+			isa = PBXGroup;
+			children = (
+				05B7C2152B96C55800DA0F8F /* PublicDefines.swift */,
+			);
+			path = CustomConstants;
+			sourceTree = "<group>";
+		};
+		05B7C2192B97017000DA0F8F /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				05B7C21A2B97019300DA0F8F /* MainViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		05B7C21C2B970D2300DA0F8F /* Me */ = {
+			isa = PBXGroup;
+			children = (
+				057227622B97FF9E00AA866D /* Views */,
+				052978522B972605008AB5A0 /* Cells */,
+				052978512B9725F4008AB5A0 /* Controllers */,
+			);
+			path = Me;
+			sourceTree = "<group>";
+		};
+		05BC4F3D2BBD08D60086E567 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		05CF13222BA7DBF10026595C /* EMPushServerExt */ = {
+			isa = PBXGroup;
+			children = (
+				05CF132D2BA7DC120026595C /* EMPushExtension.framework */,
+				05CF13232BA7DBF10026595C /* NotificationService.swift */,
+				05CF13252BA7DBF10026595C /* Info.plist */,
+			);
+			path = EMPushServerExt;
+			sourceTree = "<group>";
+		};
+		05E0D7332BA2E60600373197 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		ABD94F7056FDF0CBB57CB0FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				05CF131B2BA7D56E0026595C /* CFNetwork.framework */,
+				05CF13192BA7D5670026595C /* Accounts.framework */,
+				05CF13172BA7D55E0026595C /* CloudKit.framework */,
+				52296E4D561A746F13103874 /* Pods_EaseChatDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F0190ED9AEEEC02D795E722F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FBAD9654D9F80811528E34F0 /* Pods-EaseChatDemo.debug.xcconfig */,
+				BEA7C6DED4C4F4A662BE5BBD /* Pods-EaseChatDemo.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		05B7C1EA2B96AC3200DA0F8F /* EaseChatDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 05B7C1FF2B96AC3300DA0F8F /* Build configuration list for PBXNativeTarget "EaseChatDemo" */;
+			buildPhases = (
+				516118A26EF2DE250014EE0D /* [CP] Check Pods Manifest.lock */,
+				05B7C1E72B96AC3200DA0F8F /* Sources */,
+				05B7C1E82B96AC3200DA0F8F /* Frameworks */,
+				05B7C1E92B96AC3200DA0F8F /* Resources */,
+				204A598C89513C3533DA05E3 /* [CP] Embed Pods Frameworks */,
+				05CF132C2BA7DBF10026595C /* Embed Foundation Extensions */,
+				70634AF2770D7ED5FBC11983 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				05CF13272BA7DBF10026595C /* PBXTargetDependency */,
+			);
+			name = EaseChatDemo;
+			productName = EaseChatDemo;
+			productReference = 05B7C1EB2B96AC3200DA0F8F /* EaseChatDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		05CF13202BA7DBF10026595C /* EMPushServerExt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 05CF13292BA7DBF10026595C /* Build configuration list for PBXNativeTarget "EMPushServerExt" */;
+			buildPhases = (
+				05CF131D2BA7DBF10026595C /* Sources */,
+				05CF131E2BA7DBF10026595C /* Frameworks */,
+				05CF131F2BA7DBF10026595C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EMPushServerExt;
+			productName = EMPushServerExt;
+			productReference = 05CF13212BA7DBF10026595C /* EMPushServerExt.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		05B7C1E32B96AC3200DA0F8F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					05B7C1EA2B96AC3200DA0F8F = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					05CF13202BA7DBF10026595C = {
+						CreatedOnToolsVersion = 15.3;
+					};
+				};
+			};
+			buildConfigurationList = 05B7C1E62B96AC3200DA0F8F /* Build configuration list for PBXProject "EaseChatDemo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = 05B7C1E22B96AC3200DA0F8F;
+			productRefGroup = 05B7C1EC2B96AC3200DA0F8F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				05B7C1EA2B96AC3200DA0F8F /* EaseChatDemo */,
+				05CF13202BA7DBF10026595C /* EMPushServerExt */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		05B7C1E92B96AC3200DA0F8F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05EAF26B2BB2650B00D905F4 /* PrivacyInfo.xcprivacy in Resources */,
+				05B7C1FB2B96AC3300DA0F8F /* LaunchScreen.storyboard in Resources */,
+				05B7C2082B96BB5300DA0F8F /* Localizable.strings in Resources */,
+				05B7C1F82B96AC3300DA0F8F /* Assets.xcassets in Resources */,
+				05B7C1F62B96AC3200DA0F8F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		05CF131F2BA7DBF10026595C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		204A598C89513C3533DA05E3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		516118A26EF2DE250014EE0D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EaseChatDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		70634AF2770D7ED5FBC11983 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		05B7C1E72B96AC3200DA0F8F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05E5A1C92B99A8C200955DD1 /* ColorSettingViewController.swift in Sources */,
+				052978542B97261D008AB5A0 /* MeMenuCell.swift in Sources */,
+				05B7C21E2B970D2F00DA0F8F /* MeViewController.swift in Sources */,
+				05FE6C2C2B9AADD00030A983 /* ColorHueSettingCell.swift in Sources */,
+				05B7C20E2B96BD3100DA0F8F /* GCDTimer.swift in Sources */,
+				05B7C2142B96C24100DA0F8F /* EasemobBusinessApi.swift in Sources */,
+				0572275F2B97FA2C00AA866D /* PersonalInfoViewController.swift in Sources */,
+				052226C02BA92282007F14B9 /* MineContactDetailViewController.swift in Sources */,
+				059BEEEC2BABDC96004C7380 /* GradientSlider.swift in Sources */,
+				05B7C1F32B96AC3200DA0F8F /* LoginViewController.swift in Sources */,
+				05B7C2122B96C1E400DA0F8F /* EasemobBusinessRequest.swift in Sources */,
+				057227662B9802DC00AA866D /* AboutEasemobCell.swift in Sources */,
+				05B7C1EF2B96AC3200DA0F8F /* AppDelegate.swift in Sources */,
+				05E5A1C72B9997FC00955DD1 /* DemoLanguage.swift in Sources */,
+				052226C22BA92299007F14B9 /* MineGroupDetailViewController.swift in Sources */,
+				05B7C2102B96C16B00DA0F8F /* EasemobRequest.swift in Sources */,
+				05A9415D2BAA700000C71A74 /* MineContactRemarkEditViewController.swift in Sources */,
+				05FE6C2A2B9A9F160030A983 /* ThemesSettingViewController.swift in Sources */,
+				05E0D7322BA2E2C200373197 /* MineCallInviteUsersController.swift in Sources */,
+				05A9415F2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift in Sources */,
+				057227642B97FFB200AA866D /* AboutEasemobHeader.swift in Sources */,
+				05E5A1C52B9971AD00955DD1 /* LanguageSettingViewController.swift in Sources */,
+				05E5A1C32B996EE400955DD1 /* LanguageCell.swift in Sources */,
+				05B7C21B2B97019300DA0F8F /* MainViewController.swift in Sources */,
+				05E0D7302BA298EC00373197 /* MineMessageListViewController.swift in Sources */,
+				0572276A2B987C4600AA866D /* PersonalInfoCell.swift in Sources */,
+				0518E5AF2BA1A6DF00EA7D7B /* FeatureSwitchViewController.swift in Sources */,
+				0518E5B12BA1ABC900EA7D7B /* FeatureSwitchCell.swift in Sources */,
+				05B7C2162B96C55800DA0F8F /* PublicDefines.swift in Sources */,
+				05B161B72BB664B400917245 /* EaseMobHUD.swift in Sources */,
+				05B7C1F12B96AC3200DA0F8F /* SceneDelegate.swift in Sources */,
+				05E5A1C12B99646700955DD1 /* GeneralViewController.swift in Sources */,
+				057227682B98393500AA866D /* ServerConfigViewController.swift in Sources */,
+				0518E5AD2BA15B8300EA7D7B /* MineConversationsController.swift in Sources */,
+				0551FFA42B9FE4C000FF3294 /* NotificationSettingViewController.swift in Sources */,
+				057227612B97FAF200AA866D /* AboutEasemobController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		05CF131D2BA7DBF10026595C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05CF13242BA7DBF10026595C /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		05CF13272BA7DBF10026595C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 05CF13202BA7DBF10026595C /* EMPushServerExt */;
+			targetProxy = 05CF13262BA7DBF10026595C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		05B7C1F42B96AC3200DA0F8F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05B7C1F52B96AC3200DA0F8F /* Base */,
+				05B7C2042B96BB1300DA0F8F /* zh-Hans */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		05B7C1F92B96AC3300DA0F8F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05B7C1FA2B96AC3300DA0F8F /* Base */,
+				05B7C2052B96BB1300DA0F8F /* zh-Hans */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		05B7C20A2B96BB5300DA0F8F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05B7C2092B96BB5300DA0F8F /* zh-Hans */,
+				05B7C20B2B96BB5700DA0F8F /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		05B7C1FD2B96AC3300DA0F8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		05B7C1FE2B96AC3300DA0F8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		05B7C2002B96AC3300DA0F8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBAD9654D9F80811528E34F0 /* Pods-EaseChatDemo.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 40;
+				DEVELOPMENT_TEAM = JC854K845H;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EaseChatDemo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EaseChat;
+				INFOPLIST_KEY_NSCameraUsageDescription = "For usage";
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "For usage";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "For usage";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "For usage";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 4.4.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		05B7C2012B96AC3300DA0F8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEA7C6DED4C4F4A662BE5BBD /* Pods-EaseChatDemo.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 40;
+				DEVELOPMENT_TEAM = JC854K845H;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EaseChatDemo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EaseChat;
+				INFOPLIST_KEY_NSCameraUsageDescription = "For usage";
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "For usage";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "For usage";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "For usage";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 4.4.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		05CF132A2BA7DBF10026595C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JC854K845H;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EMPushServerExt",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EMPushServerExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EMPushServerExt;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim.EMPushServerExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		05CF132B2BA7DBF10026595C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JC854K845H;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EMPushServerExt",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EMPushServerExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EMPushServerExt;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim.EMPushServerExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		05B7C1E62B96AC3200DA0F8F /* Build configuration list for PBXProject "EaseChatDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05B7C1FD2B96AC3300DA0F8F /* Debug */,
+				05B7C1FE2B96AC3300DA0F8F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		05B7C1FF2B96AC3300DA0F8F /* Build configuration list for PBXNativeTarget "EaseChatDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05B7C2002B96AC3300DA0F8F /* Debug */,
+				05B7C2012B96AC3300DA0F8F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		05CF13292BA7DBF10026595C /* Build configuration list for PBXNativeTarget "EMPushServerExt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05CF132A2BA7DBF10026595C /* Debug */,
+				05CF132B2BA7DBF10026595C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 05B7C1E32B96AC3200DA0F8F /* Project object */;
+}
