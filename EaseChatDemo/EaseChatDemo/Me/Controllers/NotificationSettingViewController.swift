@@ -31,7 +31,7 @@ final class NotificationSettingViewController: UIViewController {
     }()
     
     private lazy var alert: UILabel = {
-        UILabel(frame: CGRect(x: 16, y: self.settingName.frame.maxY+20, width: self.view.frame.width-32, height: 18)).font(UIFont.theme.bodyMedium).text("Notification Alert".localized())
+        UILabel(frame: CGRect(x: 16, y: self.settingName.frame.maxY+20, width: self.view.frame.width-32, height: 30)).font(UIFont.theme.bodyMedium).text("Notification Alert".localized()).numberOfLines(2)
     }()
 
     override func viewDidLoad() {

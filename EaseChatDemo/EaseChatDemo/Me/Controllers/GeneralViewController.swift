@@ -7,6 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
+import QuickLook
 
 final class GeneralViewController: UIViewController {
     
@@ -17,7 +18,12 @@ final class GeneralViewController: UIViewController {
     @UserDefault("EaseChatDemoPreferencesTheme", defaultValue: 0) var theme: UInt
     
     private lazy var jsons: [Dictionary<String,Any>] = {
-        [["title":"dark_mode".localized(),"detail":"","withSwitch": true,"switchValue":self.darkMode],["title":"switch_theme".localized(),"detail":(self.theme == 0 ? "Classic".localized():"Smart".localized()),"withSwitch": false,"switchValue":false],["title":"color_setting".localized(),"detail":"","withSwitch": false,"switchValue":false],["title":"feature_switch".localized(),"detail":"","withSwitch": false,"switchValue":false],["title":"language_setting".localized(),"detail":self.language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false]]
+        [["title":"dark_mode".localized(),"detail":"","withSwitch": true,"switchValue":self.darkMode],
+         ["title":"switch_theme".localized(),"detail":(self.theme == 0 ? "Classic".localized():"Smart".localized()),"withSwitch": false,"switchValue":false],
+         ["title":"color_setting".localized(),"detail":"","withSwitch": false,"switchValue":false],
+         ["title":"feature_switch".localized(),"detail":"","withSwitch": false,"switchValue":false],
+         ["title":"language_setting".localized(),"detail":self.language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false],
+         ["title":"Debug Log".localized(),"detail":"","withSwitch": false,"switchValue":false]]
     }()
     
     private lazy var datas: [DetailInfo] = {
@@ -89,6 +95,7 @@ extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
             case "color_setting".localized(): self.colorSet()
             case "feature_switch".localized(): self.featureSwitch()
             case "language_setting".localized(): self.languageSet()
+            case "Debug Log".localized(): self.openLog()
             default:
                 break
             }
@@ -114,6 +121,25 @@ extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
         let vc = LanguageSettingViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    private func openLog() {
+        let previewController = QLPreviewController()
+        previewController.dataSource = self
+        self.navigationController?.pushViewController(previewController, animated: true)
+    }
+    
+}
+
+extension GeneralViewController: QLPreviewControllerDataSource {
+    public func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+        1
+    }
+    
+    public func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+        let fileURL = URL(fileURLWithPath: NSHomeDirectory() + "/Library/Application Support/HyphenateSDK/easemobLog/easemob.log")
+        return fileURL as QLPreviewItem
+    }
+    
     
 }
 
