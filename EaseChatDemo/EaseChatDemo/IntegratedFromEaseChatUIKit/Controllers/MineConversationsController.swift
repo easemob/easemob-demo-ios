@@ -14,6 +14,11 @@ final class MineConversationsController: ConversationListController {
         super.viewDidLoad()
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigation.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL
+    }
     
     
     override func create(profiles: [EaseProfileProtocol]) {

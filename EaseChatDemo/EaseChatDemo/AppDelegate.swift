@@ -43,6 +43,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         options.enableConsoleLog = true
         options.usingHttpsOnly = true
         options.deleteMessagesOnLeaveGroup = false
+        options.enableDeliveryAck = true
+        options.enableRequireReadAck = true
         //Simulator can't use APNS, so we need to judge whether it is a real machine.
         #if !targetEnvironment(simulator)
         options.apnsCertName = "EaseIM_APNS_Product"

@@ -21,7 +21,7 @@
 "PhoneError" = "Please enter the correct mobile number.";
 "AgreeProtocol" = "Agree to Easemob Terms & Privacy";
 "PinCodeError" = "Please enter the correct verification code";
-"Login Easemob Chat" = "Login Easemob IM";
+"Login Easemob Chat" = "Easemob IM";
 "Please tick to agree" = "Please tick to agree ";
 
 "Official Website" = "Official Website";
@@ -83,7 +83,7 @@
 " start a multi call" = " start a multi call";
 "contact_details_button_remark" = "Remark";
 "Offline Message Push" = "Offline Message Push";
-"Notification Alert" = "After turning off, only receive the message you were mentioned in the group.";
+"Notification Alert" = "After turning off, you will no longer receive any message notifications except for messages where you are @mentioned in the group.";
 
 "Confirm Logout" = "Confirm Logout？";
 "Modify Remark" = "Modify Remark";
@@ -97,3 +97,4 @@
 "Server Config" = "Server Config";
 "Clean successful!" = "Clean successful";
 "agreeFriendRequest success" = "Friend request accepted";
+"Debug Log" = "Debug Log";

@@ -63,7 +63,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
                     
                     var remark = EaseChatUIKitContext.shared?.userCache?[userId]?.remark ?? ""
                     if remark.isEmpty {
-                        remark = info.nickname ?? ""
+                        remark = info.nickname ?? userId
                     }
                     self?.header.nickName.text = remark
                     self?.header.detailText = userId

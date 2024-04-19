@@ -15,12 +15,12 @@
 "Service" = "《环信服务条款》";
 "Setting" = "设置";
 "Privacy Policy" = "《环信隐私协议》";
-"Mobile Number" = "请输入电话号码";
-"PinCodePlaceHolder" = "请输入验证码";
+"Mobile Number" = "手机号";
+"PinCodePlaceHolder" = "验证码";
 "PhoneError" = "请输入正确的电话号码.";
 "AgreeProtocol" = "请勾选同意协议";
 "PinCodeError" = "请输入正确的验证码";
-"Login Easemob Chat" = "登录环信IM";
+"Login Easemob Chat" = "环信IM";
 "Please tick to agree" = "请勾选同意";
 
 
@@ -87,7 +87,7 @@
 "contact_details_button_remark" = "备注";
 "Offline Message Push" = "消息离线推送";
 
-"Notification Alert" = "关闭后，只接受群组内你被@消息";
+"Notification Alert" = "关闭后，除群组内被@的消息，将不再接收任何消息推送";
 "Confirm Logout" = "确定退出登录？";
 "Modify Remark" = "修改备注";
 "Modify Nickname" = "修改昵称";
@@ -103,3 +103,4 @@
 "Clean successful!" = "清除成功";
 
 "agreeFriendRequest success" = "好友请求已同意";
+"Debug Log" = "调试日志";
