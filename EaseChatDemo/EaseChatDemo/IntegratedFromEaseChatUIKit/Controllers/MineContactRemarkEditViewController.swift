@@ -46,7 +46,6 @@ final class MineContactRemarkEditViewController: UIViewController {
         self.contentEditor.contentInset = UIEdgeInsets(top: -8, left: 10, bottom: 0, right: 10)
         self.contentEditor.placeHolderColor = Theme.style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor6
         self.contentEditor.placeHolder = "Please input".chat.localize
-//        self.navigation.title = "Modify Remark".localized()
         self.navigation.clickClosure = { [weak self] in
             self?.navigationClick(type: $0, indexPath: $1)
         }

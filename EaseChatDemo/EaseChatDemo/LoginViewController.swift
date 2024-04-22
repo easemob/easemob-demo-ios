@@ -7,7 +7,8 @@
 
 import UIKit
 import EaseChatUIKit
-import SwiftFFDB
+import SwiftFFDBHotFix
+
 
 let loginSuccessfulSwitchMainPage = "loginSuccessfulSwitchMainPage"
 let backLoginPage = "backLoginPage"
@@ -180,7 +181,8 @@ extension LoginViewController: UITextFieldDelegate {
         self.right.setTitle("Get After".localized()+"(\(self.count)s)", for: .disabled)
     }
     
-    func touchesBegan(_ touches: Set, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         self.view.endEditing(true)
     }
     

@@ -8,7 +8,7 @@
 import UIKit
 import EaseChatUIKit
 import EaseCallKit
-import SwiftFFDB
+import SwiftFFDBHotFix
 
 final class MineContactDetailViewController: ContactInfoViewController {
     
