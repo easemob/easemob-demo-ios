@@ -9,7 +9,7 @@ import UIKit
 import EaseChatUIKit
 import MobileCoreServices
 import AVFoundation
-import SwiftFFDB
+import SwiftFFDBHotFix
 
 let userAvatarUpdated = "userAvatarUpdated"
 

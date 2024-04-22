@@ -7,7 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
-import SwiftFFDB
+import SwiftFFDBHotFix
 
 final class MeViewController: UIViewController {
     

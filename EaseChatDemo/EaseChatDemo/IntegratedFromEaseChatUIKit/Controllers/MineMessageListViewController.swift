@@ -21,6 +21,7 @@ final class MineMessageListViewController: MessageListController {
         // Do any additional setup after loading the view.
     }
     
+    
     override func rightImages() -> [UIImage] {
         var images = [UIImage(named: "message_action_topic", in: .chatBundle, with: nil)!,UIImage(named: "call", in: .chatBundle, with: nil)!]
         if self.chatType == .chat {
