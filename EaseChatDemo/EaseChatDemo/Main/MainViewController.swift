@@ -270,14 +270,22 @@ extension  MainViewController: ConversationEmergencyListener {
 extension MainViewController: ContactEmergencyListener {
     func onResult(error: EaseChatUIKit.ChatError?, type: EaseChatUIKit.ContactEmergencyType, operatorId: String) {
         if type != .setRemark {
-            self.updateContactBadge()
+            if type == .cleanFriendBadge {
+                DispatchQueue.main.async {
+                    self.contacts.tabBarItem.badgeValue = nil
+                }
+            } else {
+                self.updateContactBadge()
+            }
         }
     }
     
     private func updateContactBadge() {
-        if let newFriends = UserDefaults.standard.value(forKey: "EaseChatUIKit_contact_new_request") as?  Dictionary<String,Double> {
+        if let newFriends = UserDefaults.standard.value(forKey: "EaseChatUIKit_contact_new_request") as? Array<Dictionary<String,Any>> {
+            
+            let unreadCount = newFriends.filter({ $0["read"] as? Int == 0 }).count
             DispatchQueue.main.async {
-                self.contacts.tabBarItem.badgeValue = newFriends.count > 0 ? "\(newFriends.count)":nil
+                self.contacts.tabBarItem.badgeValue = unreadCount > 0 ? "\(newFriends.count)":nil
             }
         } else {
             DispatchQueue.main.async {
