@@ -102,7 +102,6 @@ final class LoginViewController: UIViewController {
         self.addGesture()
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
-        EaseChatProfile.registerTable()
     }
     
     private func addGesture() {

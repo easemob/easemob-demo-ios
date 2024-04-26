@@ -26,6 +26,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = nil
         self.window = UIWindow(windowScene: windowScene)
         self.window?.backgroundColor = .black
+        EaseChatProfile.registerTable()
         self.chooseRootViewController()
         self.window?.makeKeyAndVisible()
         self.switchTheme()

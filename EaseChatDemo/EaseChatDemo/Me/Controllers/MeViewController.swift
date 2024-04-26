@@ -57,6 +57,14 @@ final class MeViewController: UIViewController {
                     profile.updateFFDB()
                     EaseChatUIKitContext.shared?.currentUser = profile
                     EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                } else {
+                    let profile = EaseChatProfile()
+                    profile.id = userId
+                    profile.nickname = info.nickname ?? ""
+                    profile.avatarURL = info.avatarUrl ?? ""
+                    profile.insert()
+                    EaseChatUIKitContext.shared?.currentUser = profile
+                    EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
                 }
             } else {
                 self?.showToast(toast: "fetchUserInfo error:\(error?.errorDescription ?? "")")
