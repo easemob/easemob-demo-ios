@@ -33,8 +33,6 @@
 
 ![](./demo.png)
 
-如果用户下载有环信老Demo的话，需要卸载老Demo后，系统相机扫码后在Testflight中->点击环信->点击以前的Builds->点击4.4.1，安装4.4.1下最新的build即可。
-
 #  前置环境需求
 
 - Xcode 15.0及以上版本 原因是UIKit中使用了部分检测音频AVAudioApplication api适配iOS17以上系统
@@ -80,7 +78,7 @@ end
 
  2. 将Appkey填入`PublicFiles.swift`文件中的`AppKey`中
 
- 3. 需要将服务端源码部署后填入`PublicFiles.swift`文件中的`ServerHost`中，手机号验证码暂时可以跳过，可以使用手机号后六位当验证码，服务端中的Appkey 要跟客户端的Appkey保持一致。Appserver主要提供了手机号验证码登录接口以及上传用户头像的接口，此接口主要的职能是根据用户的信息注册并生成EaseChatUIKit登录所需的token或者使用已注册的用户信息生成EaseChatUIKit登录所需的token，上传头像是一个普通的通用功能在此不过多赘述。
+ 3. 需要将[服务端源码](https://github.com/easemob/easemob-im-app-server/tree/dev-demo)部署后填入`PublicFiles.swift`文件中的`ServerHost`中，手机号验证码暂时可以跳过，可以使用手机号后六位当验证码，服务端中的Appkey 要跟客户端的Appkey保持一致。Appserver主要提供了手机号验证码登录接口以及上传用户头像的接口，此接口主要的职能是根据用户的信息注册并生成EaseChatUIKit登录所需的token或者使用已注册的用户信息生成EaseChatUIKit登录所需的token，上传头像是一个普通的通用功能在此不过多赘述。
 
  4. 点击运行至目标设备上（注意：不支持arm模拟器，需要选择Rosetta模拟器或者真机）
 
