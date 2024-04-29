@@ -18,7 +18,7 @@ class NotificationService: UNNotificationServiceExtension {
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         
         
-        EMPushServiceExt.setAppkey("easemob-demo#easeim")
+        EMPushServiceExt.setAppkey("easemob#easeim")
         EMPushServiceExt.receiveRemoteNotificationRequest(request) { [weak self] error in
             if error == nil {
                 debugPrint("EMPushServiceExt complete apns delivery")

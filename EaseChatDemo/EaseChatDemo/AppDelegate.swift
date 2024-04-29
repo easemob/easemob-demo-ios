@@ -63,6 +63,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         if let customServer = self.serverConfig["use_custom_server"], customServer == "1" {
             options.setValue(false, forKey: "enableDnsConfig")
+            options.setValue(true, forKey: "usingHttpsOnly")
         }
         //Set up EaseChatUIKit
         _ = EaseChatUIKitClient.shared.setup(option: options)

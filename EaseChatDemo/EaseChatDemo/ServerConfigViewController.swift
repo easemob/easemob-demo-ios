@@ -58,6 +58,7 @@ final class ServerConfigViewController: UIViewController {
             case .back:
                 self?.dismiss(animated: true)
             default:
+                self?.saveServerConfig()
                 exit(0)
             }
         }
@@ -94,7 +95,6 @@ final class ServerConfigViewController: UIViewController {
     }
     
     @objc func useCustomServer() {
-        self.serverConfig["use_custom_server"] = self.customizeSwitch.isOn ? "1" : "0"
         if self.customizeSwitch.isOn {
             self.chatServerField.isEnabled = true
             self.chatPortField.isEnabled = true
@@ -118,6 +118,7 @@ extension ServerConfigViewController: UITextFieldDelegate {
     }
     
     func saveServerConfig() {
+        self.view.endEditing(true)
         let appkey = self.applicationField.text ?? ""
         let chatServer = self.chatServerField.text ?? ""
         let chatPort = self.chatPortField.text ?? ""
@@ -126,26 +127,32 @@ extension ServerConfigViewController: UITextFieldDelegate {
             self.serverConfig["application"] = appkey
         } else {
             self.showToast(toast: "请输入App Key")
+            return
+        }
+        if self.customizeSwitch.isOn {
+            
+            if !chatServer.isEmpty {
+                self.serverConfig["chat_server_ip"] = chatServer
+            } else {
+                self.showToast(toast: "请输入IM服务器IP地址")
+                return
+            }
+            
+            if !chatPort.isEmpty {
+                self.serverConfig["chat_server_port"] = chatPort
+            } else {
+                self.showToast(toast: "请输入IM服务器IP端口号")
+                return
+            }
+            
+            if !restAddress.isEmpty {
+                self.serverConfig["rest_server_address"] = restAddress
+            } else {
+                self.showToast(toast: "请输入服务器地址")
+            }
         }
         
-        if !chatServer.isEmpty {
-            self.serverConfig["chat_server_ip"] = chatServer
-        } else {
-            self.showToast(toast: "请输入IM服务器IP地址")
-        }
-        
-        if !chatPort.isEmpty {
-            self.serverConfig["chat_server_port"] = chatPort
-        } else {
-            self.showToast(toast: "请输入IM服务器IP端口号")
-        }
-        
-        if !restAddress.isEmpty {
-            self.serverConfig["rest_server_address"] = restAddress
-        } else {
-            self.showToast(toast: "请输入服务器地址")
-        }
-        
+        self.serverConfig["use_custom_server"] = self.customizeSwitch.isOn ? "1" : "0"
         
     }
     
