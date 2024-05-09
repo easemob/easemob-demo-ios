@@ -46,9 +46,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         options.enableDeliveryAck = true
         options.enableRequireReadAck = true
         //Simulator can't use APNS, so we need to judge whether it is a real machine.
-        #if !targetEnvironment(simulator)
+        #if DEBUG
+        options.apnsCertName = "EaseIM_APNS_Developer"
+        #else
         options.apnsCertName = "EaseIM_APNS_Product"
         #endif
+        
         //Set the chat server and rest server address.Using private deploy.
         if let chatServer = self.serverConfig["chat_server_ip"] {
             options.setValue(chatServer, forKey: "chatServer")

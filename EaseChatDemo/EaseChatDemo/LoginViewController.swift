@@ -80,6 +80,8 @@ final class LoginViewController: UIViewController {
         UIButton(frame: CGRect(x: 140, y: ScreenHeight-100, width: ScreenWidth-280, height: 20)).backgroundColor(.clear).font(UIFont.theme.labelMedium).title("Server Config".localized(), .normal).addTargetFor(self, action: #selector(changeServerConfig), for: .touchUpInside)
     }()
     
+    @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var serverInfo
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.view.window?.backgroundColor = .white
@@ -123,7 +125,18 @@ final class LoginViewController: UIViewController {
             self.pinCode.keyboardType = .numberPad
             self.phoneNumber.keyboardType = .numberPad
             self.right.isHidden = false
+            //此方法仅用于有限情况下内部调试，正常使用不需要
+            ChatClient.shared().changeAppkey(AppKey)
+            ChatClient.shared().options.setValue(true, forKey: "enableDnsConfig")
+            ChatClient.shared().options.setValue(true, forKey: "usingHttpsOnly")
         } else {
+            if let applicationKey = self.serverInfo["application"] {
+                ChatClient.shared().changeAppkey(applicationKey)
+            }
+            if let customServer = self.serverInfo["use_custom_server"], customServer == "1" {
+                ChatClient.shared().options.setValue(false, forKey: "enableDnsConfig")
+                ChatClient.shared().options.setValue(true, forKey: "usingHttpsOnly")
+            }
             self.right.isHidden = true
             self.phoneNumber.placeholder = "EeaseMobID".localized()
             self.pinCode.placeholder = "Password".localized()

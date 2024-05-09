@@ -42,7 +42,7 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
     @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var serverConfig
     
     var host: String {
-        if let restAddress = self.serverConfig["rest_server_address"] {
+        if let restAddress = self.serverConfig["rest_server_address"],let enableDnsConfig = EaseChatUIKitClient.shared.option.option_chat.value(forKey:  "enableDnsConfig") as? Bool,!enableDnsConfig {
             return restAddress
         } else {
             return ServerHost
