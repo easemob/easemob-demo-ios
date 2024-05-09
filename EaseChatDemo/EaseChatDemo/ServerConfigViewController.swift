@@ -149,6 +149,7 @@ extension ServerConfigViewController: UITextFieldDelegate {
                 self.serverConfig["rest_server_address"] = restAddress
             } else {
                 self.showToast(toast: "请输入服务器地址")
+                return
             }
         }
         

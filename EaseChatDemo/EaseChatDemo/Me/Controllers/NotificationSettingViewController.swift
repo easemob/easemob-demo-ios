@@ -15,7 +15,7 @@ final class NotificationSettingViewController: UIViewController {
     }()
     
     private lazy var container: UIView = {
-        UIView(frame: CGRect(x: 0, y: self.settingName.frame.maxY+17, width: self.view.frame.width, height: 22))
+        UIView(frame: CGRect(x: 0, y: self.separatorLine.frame.maxY, width: self.view.frame.width, height: ScreenWidth <= 375 ? 40:30))
     }()
     
     private lazy var settingName: UILabel = {
@@ -31,13 +31,14 @@ final class NotificationSettingViewController: UIViewController {
     }()
     
     private lazy var alert: UILabel = {
-        UILabel(frame: CGRect(x: 16, y: self.settingName.frame.maxY+20, width: self.view.frame.width-32, height: 30)).font(UIFont.theme.bodyMedium).text("Notification Alert".localized()).numberOfLines(2)
+        UILabel(frame: CGRect(x: 16, y: self.separatorLine.frame.maxY+4, width: self.view.frame.width-32, height: ScreenWidth <= 375 ? 40:30)).font(UIFont.theme.bodyMedium).text("Notification Alert".localized()).numberOfLines(2)
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.view.addSubViews([self.navigation,self.settingName,self.settingSwitch,self.separatorLine,self.container,self.alert])
+        self.alert.sizeToFit()
         self.navigation.title = "Notification".localized()
         self.settingSwitch.addTarget(self, action: #selector(valueChanged(sender:)), for: .touchUpInside)
         self.navigation.clickClosure = { [weak self] _,_ in
@@ -53,21 +54,23 @@ final class NotificationSettingViewController: UIViewController {
             guard let `self` = self else { return }
             if error == nil {
                 if let remind = result?.remindType {
-                    self.settingSwitch.isOn = remind == .mentionOnly ? true:false
+                    self.settingSwitch.isOn = remind == .all ? true:false
                 }
             } else {
-                consoleLogInfo("error:\(error?.errorDescription ?? "")", type: .error)
+                consoleLogInfo("fetchSilentMode error:\(error?.errorDescription ?? "")", type: .error)
+                self.showToast(toast: "fetchSilentMode error:\(error?.errorDescription ?? "")")
             }
         })
     }
 
     @objc private func valueChanged(sender: UISwitch) {
         let params = SilentModeParam()
-        params.remindType = sender.isOn ? .mentionOnly:.all
+        params.remindType = sender.isOn ? .all:.mentionOnly
         ChatClient.shared().pushManager?.setSilentModeForAll(params, completion: { [weak self] result, error in
             if error != nil {
-                self?.settingSwitch.isOn = false
+                self?.settingSwitch.isOn = true
                 consoleLogInfo("Set notification error:\(error?.errorDescription ?? "")", type: .error)
+                self?.showToast(toast: "Set notification error:\(error?.errorDescription ?? "")")
             }
         })
     }
