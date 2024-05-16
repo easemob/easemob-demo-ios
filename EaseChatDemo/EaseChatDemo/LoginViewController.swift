@@ -126,9 +126,9 @@ final class LoginViewController: UIViewController {
             self.phoneNumber.keyboardType = .numberPad
             self.right.isHidden = false
             //此方法仅用于有限情况下内部调试，正常使用不需要
-            ChatClient.shared().changeAppkey(AppKey)
+            self.serverInfo["use_custom_server"] = "0"
             ChatClient.shared().options.setValue(true, forKey: "enableDnsConfig")
-            ChatClient.shared().options.setValue(true, forKey: "usingHttpsOnly")
+            ChatClient.shared().changeAppkey(AppKey)
         } else {
             if let applicationKey = self.serverInfo["application"] {
                 ChatClient.shared().changeAppkey(applicationKey)

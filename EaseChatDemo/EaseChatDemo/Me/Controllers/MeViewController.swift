@@ -67,7 +67,9 @@ final class MeViewController: UIViewController {
                     EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
                 }
             } else {
-                self?.showToast(toast: "fetchUserInfo error:\(error?.errorDescription ?? "")")
+                DispatchQueue.main.async {
+                    self?.showToast(toast: "fetchUserInfo error:\(error?.errorDescription ?? "")")
+                }
             }
         })
     }

@@ -68,7 +68,7 @@ final class NotificationSettingViewController: UIViewController {
         params.remindType = sender.isOn ? .all:.mentionOnly
         ChatClient.shared().pushManager?.setSilentModeForAll(params, completion: { [weak self] result, error in
             if error != nil {
-                self?.settingSwitch.isOn = true
+                self?.settingSwitch.isOn    = true
                 consoleLogInfo("Set notification error:\(error?.errorDescription ?? "")", type: .error)
                 self?.showToast(toast: "Set notification error:\(error?.errorDescription ?? "")")
             }

@@ -26,7 +26,7 @@ final class MineContactRemarkEditViewController: UIViewController {
     }()
     
     public private(set) lazy var contentEditor: PlaceHolderTextView = {
-        PlaceHolderTextView(frame: CGRect(x: 16, y: self.container.frame.minY+13, width: self.view.frame.width-32, height: 114-38)).delegate(self).font(UIFont.theme.bodyLarge).backgroundColor(.clear)
+        PlaceHolderTextView(frame: CGRect(x: 16, y: self.container.frame.minY, width: self.view.frame.width-32, height: 72)).delegate(self).font(UIFont.theme.bodyLarge).backgroundColor(.clear)
     }()
     
     lazy var limitCount: UILabel = {
@@ -43,7 +43,8 @@ final class MineContactRemarkEditViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.contentEditor.contentInset = UIEdgeInsets(top: -8, left: 10, bottom: 0, right: 10)
+        self.contentEditor.contentInset = UIEdgeInsets(top: 6, left: 10, bottom: 0, right: 10)
+        self.contentEditor.linkTextAttributes = [.foregroundColor:Theme.style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor6]
         self.contentEditor.placeHolderColor = Theme.style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor6
         self.contentEditor.placeHolder = "Please input".chat.localize
         self.navigation.clickClosure = { [weak self] in
@@ -118,6 +119,7 @@ extension MineContactRemarkEditViewController: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
         self.view.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.contentEditor.textColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
+        self.contentEditor.tintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
     }
     
     

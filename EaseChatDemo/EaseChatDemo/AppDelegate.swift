@@ -34,7 +34,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setupEaseChatUIKit() {
         var appKey = AppKey
-        if let applicationKey = self.serverConfig["application"] {
+        if let applicationKey = self.serverConfig["application"],let customServer = self.serverConfig["use_custom_server"], customServer == "1" {
             appKey = applicationKey
         }
         let options = ChatOptions(appkey: appKey)
@@ -52,21 +52,22 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         options.apnsCertName = "EaseIM_APNS_Product"
         #endif
         
-        //Set the chat server and rest server address.Using private deploy.
-        if let chatServer = self.serverConfig["chat_server_ip"] {
-            options.setValue(chatServer, forKey: "chatServer")
-        }
-    
-        if let chatPort = Int(self.serverConfig["chat_server_port"] ?? "6717") {
-            options.setValue(chatPort, forKey: "chatPort")
-        }
-
-        if let restAddress = self.serverConfig["rest_server_address"] {
-            options.setValue(restAddress, forKey: "restServer")
-        }
+        
         if let customServer = self.serverConfig["use_custom_server"], customServer == "1" {
             options.setValue(false, forKey: "enableDnsConfig")
             options.setValue(true, forKey: "usingHttpsOnly")
+            //Set the chat server and rest server address.Using private deploy.
+            if let chatServer = self.serverConfig["chat_server_ip"] {
+                options.setValue(chatServer, forKey: "chatServer")
+            }
+        
+            if let chatPort = Int(self.serverConfig["chat_server_port"] ?? "6717") {
+                options.setValue(chatPort, forKey: "chatPort")
+            }
+
+            if let restAddress = self.serverConfig["rest_server_address"] {
+                options.setValue(restAddress, forKey: "restServer")
+            }
         }
         //Set up EaseChatUIKit
         _ = EaseChatUIKitClient.shared.setup(option: options)
@@ -153,6 +154,7 @@ extension AppDelegate {
                 consoleLogInfo("Register for remote notification error:\(error?.errorDescription ?? "")", type: .error)
             }
         }
+        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: any Error) {
