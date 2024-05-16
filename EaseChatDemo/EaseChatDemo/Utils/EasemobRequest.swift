@@ -35,7 +35,7 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
     }
 }
 
-@objcMembers public class EasemobRequest: NSObject, URLSessionDelegate {
+@objcMembers public class EasemobRequest: NSObject, URLSessionDelegate,URLSessionDataDelegate {
     
     @objc public static var shared = EasemobRequest()
     
@@ -173,6 +173,8 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
             completionHandler(.useCredential,credential)
         }
     }
+    
+    
     
 }
 

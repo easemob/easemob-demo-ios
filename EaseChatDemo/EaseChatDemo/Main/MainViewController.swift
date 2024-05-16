@@ -143,6 +143,8 @@ extension MainViewController: ThemeSwitchProtocol {
         
         self.me.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5], for: .normal)
         self.me.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5], for: .selected)
+        
+        
     }
     
 }
