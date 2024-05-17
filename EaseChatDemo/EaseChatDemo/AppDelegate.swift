@@ -34,7 +34,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setupEaseChatUIKit() {
         var appKey = AppKey
-        if let applicationKey = self.serverConfig["application"],let customServer = self.serverConfig["use_custom_server"], customServer == "1" {
+        if let applicationKey = self.serverConfig["application"],let debugMode = self.serverConfig["debug_mode"],debugMode == "1" {
             appKey = applicationKey
         }
         let options = ChatOptions(appkey: appKey)
@@ -52,8 +52,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         options.apnsCertName = "EaseIM_APNS_Product"
         #endif
         
-        
-        if let customServer = self.serverConfig["use_custom_server"], customServer == "1" {
+        if let debugMode = self.serverConfig["debug_mode"],debugMode == "1",let customServer = self.serverConfig["use_custom_server"], customServer == "1" {
             options.setValue(false, forKey: "enableDnsConfig")
             options.setValue(true, forKey: "usingHttpsOnly")
             //Set the chat server and rest server address.Using private deploy.
