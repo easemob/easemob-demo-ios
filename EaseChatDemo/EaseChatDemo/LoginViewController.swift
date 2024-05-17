@@ -115,11 +115,12 @@ final class LoginViewController: UIViewController {
     
     @objc private func showServerConfig() {
         self.serverConfig.isHidden = !self.serverConfig.isHidden
+        self.serverInfo["debug_mode"] = self.serverConfig.isHidden ? "0":"1"
         self.resetDisplay()
     }
     
     private func resetDisplay() {
-        if self.serverConfig.isHidden {
+        if let debugMode = self.serverInfo["debug_mode"],debugMode != "1" {
             self.phoneNumber.placeholder = "Mobile Number".localized()
             self.pinCode.placeholder = "PinCodePlaceHolder".localized()
             self.pinCode.keyboardType = .numberPad
