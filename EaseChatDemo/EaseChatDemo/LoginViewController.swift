@@ -93,12 +93,12 @@ final class LoginViewController: UIViewController {
         self.serverConfig.isHidden = true
         self.right.titleLabel?.textAlignment = .right
         self.sdkVersion.text = "V\(ChatClient.shared().version)"
-        if let appkey = self.config["application"],!appkey.isEmpty {
+        
+        self.fieldSetting()
+        if let debugMode = self.serverInfo["debug_mode"],debugMode == "1"{
             self.serverConfig.isHidden = false
             self.resetDisplay()
         }
-    
-        self.fieldSetting()
         // Do any additional setup after loading the view.
         self.setContainerShadow()
         self.addGesture()
@@ -127,7 +127,6 @@ final class LoginViewController: UIViewController {
             self.phoneNumber.keyboardType = .numberPad
             self.right.isHidden = false
             //此方法仅用于有限情况下内部调试，正常使用不需要
-            self.serverInfo["use_custom_server"] = "0"
             ChatClient.shared().options.setValue(true, forKey: "enableDnsConfig")
             ChatClient.shared().changeAppkey(AppKey)
         } else {
