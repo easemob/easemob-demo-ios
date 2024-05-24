@@ -137,3 +137,6 @@ https://www.figma.com/community/file/1327193019424263350/chat-uikit-for-mobile
 
 
 如有问题请联系环信技术支持或者发邮件到issue@easemob.com
+
+
+[推送角标后台更新以及推送达到率统计](https://doc.easemob.com/push/push_apns_deliver_statistics.html#_1%E3%80%81%E6%8E%A8%E9%80%81%E6%9C%8D%E5%8A%A1%E6%89%A9%E5%B1%95%E4%BB%8B%E7%BB%8D)
