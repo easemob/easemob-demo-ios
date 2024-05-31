@@ -283,11 +283,11 @@ extension MainViewController: ContactEmergencyListener {
     }
     
     private func updateContactBadge() {
-        if let newFriends = UserDefaults.standard.value(forKey: "EaseChatUIKit_contact_new_request") as? Array<Dictionary<String,Any>> {
+        if let newFriends = UserDefaults.standard.value(forKey: "EaseChatUIKit_contact_new_request") as? Dictionary<String,Array<Dictionary<String,Any>>> {
             
-            let unreadCount = newFriends.filter({ $0["read"] as? Int == 0 }).count
+            let unreadCount = newFriends[saveIdentifier]?.filter({ $0["read"] as? Int == 0 }).count ?? 0
             DispatchQueue.main.async {
-                self.contacts.tabBarItem.badgeValue = unreadCount > 0 ? "\(newFriends.count)":nil
+                self.contacts.tabBarItem.badgeValue = unreadCount > 0 ? "\(unreadCount)":nil
             }
         } else {
             DispatchQueue.main.async {
