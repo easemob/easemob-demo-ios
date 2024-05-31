@@ -213,10 +213,10 @@ extension LoginViewController: UITextFieldDelegate {
                 self.showToast(toast: "PinCodeError".localized())
                 return
             }
-            if !self.agree.isSelected {
-                self.showToast(toast:"AgreeProtocol".localized())
-                return
-            }
+        }
+        if !self.agree.isSelected {
+            self.showToast(toast:"AgreeProtocol".localized())
+            return
         }
         self.loginRequest()
     }
