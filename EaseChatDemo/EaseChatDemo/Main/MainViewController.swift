@@ -50,7 +50,6 @@ final class MainViewController: UITabBarController {
         // Do any additional setup after loading the view.
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
-        self.contacts.tabBarItem.badgeValue = "1"
         self.updateContactBadge()
     }
     
