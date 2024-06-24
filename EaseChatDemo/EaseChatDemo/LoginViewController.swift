@@ -313,6 +313,7 @@ extension LoginViewController: UITextFieldDelegate {
     }
     
     private func fillCache() {
+
         if let groups = ChatClient.shared().groupManager?.getJoinedGroups() {
             var profiles = [EaseChatProfile]()
             for group in groups {
@@ -330,6 +331,7 @@ extension LoginViewController: UITextFieldDelegate {
             }
         }
     }
+    
     
     @objc private func getPinCode() {
         self.view.endEditing(true)
@@ -438,7 +440,7 @@ final class EaseChatProfile:NSObject, EaseProfileProtocol, FFObject {
     var avatarURL: String = ""
     
     public func toJsonObject() -> Dictionary<String, Any>? {
-        ["ease_chat_uikit_user_info":["nickname":self.nickname,"avatarURL":self.avatarURL,"userId":self.id,"remark":self.remark]]
+        ["ease_chat_uikit_user_info":["nickname":self.nickname,"avatarURL":self.avatarURL,"userId":self.id,"remark":""]]
     }
     
     override func setValue(_ value: Any?, forUndefinedKey key: String) {
