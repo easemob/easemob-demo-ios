@@ -110,6 +110,7 @@ extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
     
     func switchChanged(isOn: Bool, indexPath: IndexPath) {
         if let title = self.datas[safe: indexPath.section]?[safe: indexPath.row]?.title {
+            self.datas[safe: indexPath.section]?[safe: indexPath.row]?.switchValue = isOn
             switch title {
             case "dark_mode".localized():
                 Theme.switchTheme(style: isOn ? .dark:.light)

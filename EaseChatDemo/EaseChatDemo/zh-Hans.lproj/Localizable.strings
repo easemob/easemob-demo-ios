@@ -108,7 +108,7 @@
 "block_list" = "黑名单";
 "Target Language" = "目标语言";
 "After setting, long-pressing a message will translate it into the specified target language." = "设置后，长按消息将翻译为指定的目标语言";
-"online_status" = "在线状态";
+"online_status" = "用户状态";
 "Custom Status" = "自定义";
 "Away" = "离开";
 "Busy" = "忙碌";
@@ -124,3 +124,5 @@
 
 "Typing Alert" = "开启后，对方将看到您的输入状态";
 "Block Alert" = "开启好友黑名单功能";
+
+"Account" = "账号";

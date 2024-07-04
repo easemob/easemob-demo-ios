@@ -14,6 +14,10 @@ final class MineCallInviteUsersController: GroupParticipantsRemoveController {
     
     private var existProfiles = [EaseProfileProtocol]()
     
+    private var pageSize = UInt(200)
+    
+    private var cursor = ""
+    
     public required init(groupId: String, profiles: [EaseProfileProtocol],usersClosure: @escaping ([String]) -> Void) {
         super.init(group: ChatGroup(id: groupId), profiles: profiles, removeClosure: usersClosure)
         self.existProfiles = profiles
@@ -43,52 +47,61 @@ final class MineCallInviteUsersController: GroupParticipantsRemoveController {
     }
     
     private func fetchParticipants() {
-        self.service.fetchParticipants(groupId: self.chatGroup.groupId, cursor: "", pageSize: 200) { [weak self] result, error in
+        self.service.fetchParticipants(groupId: self.chatGroup.groupId, cursor: self.cursor, pageSize: self.pageSize) { [weak self] result, error in
             guard let `self` = self else {return}
             if error == nil {
-                self.participants = (result?.list ?? []).map({
-                    let profile = EaseProfile()
-                    profile.id = $0 as String
-                    if let user = EaseChatUIKitContext.shared?.userCache?[$0 as String] {
-                        var nickname = profile.nickname
-                        nickname = user.remark
-                        if nickname.isEmpty {
-                            nickname = user.nickname
+                if let list = result?.list {
+                    if self.cursor.isEmpty {
+                        self.participants.removeAll()
+                        self.participants = list.map({
+                            let profile = EaseProfile()
+                            let id = $0 as String
+                            profile.id = id
+                            if let user = EaseChatUIKitContext.shared?.userCache?[id] {
+                                profile.nickname = user.nickname
+                                profile.avatarURL = user.avatarURL
+                            }
+                            if let user = EaseChatUIKitContext.shared?.chatCache?[id] {
+                                profile.nickname = user.nickname
+                                profile.avatarURL = user.avatarURL
+                            }
+                            
+                            return profile
+                        })
+                        if list.count <= self.pageSize {
+                            let profile = EaseProfile()
+                            profile.id = self.chatGroup.owner
+                            if let user = EaseChatUIKitContext.shared?.userCache?[self.chatGroup.owner] {
+                                profile.nickname = user.nickname
+                                profile.avatarURL = user.avatarURL
+                            }
+                            if let user = EaseChatUIKitContext.shared?.chatCache?[self.chatGroup.owner] {
+                                profile.nickname = user.nickname
+                                profile.avatarURL = user.avatarURL
+                            }
+                            self.participants.insert(profile, at: 0)
                         }
-                        if nickname.isEmpty {
-                            nickname = profile.id
-                        }
-                        profile.nickname = nickname
-                        profile.avatarURL = user.avatarURL
                     } else {
-                        if let user = EaseChatUIKitContext.shared?.chatCache?[$0 as String] {
-                            var nickname = profile.nickname
-                            nickname = user.remark
-                            if nickname.isEmpty {
-                                nickname = user.nickname
+                        self.participants.append(contentsOf: list.map({
+                            let profile = EaseProfile()
+                            profile.id = $0 as String
+                            if let user = EaseChatUIKitContext.shared?.userCache?[profile.id] {
+                                profile.nickname = user.nickname
+                                profile.avatarURL = user.avatarURL
                             }
-                            if nickname.isEmpty {
-                                nickname = profile.id
+                            if let user = EaseChatUIKitContext.shared?.chatCache?[profile.id] {
+                                profile.nickname = user.nickname
+                                profile.avatarURL = user.avatarURL
                             }
-                            profile.nickname = nickname
-                            profile.avatarURL = user.avatarURL
-                        }
+                            return profile
+                        }))
                     }
-                    return profile
-                })
-                if result?.list?.count ?? 0 <= 200 {
-                    let profile = EaseProfile()
-                    profile.id = self.chatGroup.owner
-                    profile.nickname = EaseChatUIKitContext.shared?.userCache?[self.chatGroup.owner]?.nickname ?? ""
-                    if profile.nickname.isEmpty {
-                        profile.nickname = EaseChatUIKitContext.shared?.chatCache?[self.chatGroup.owner]?.nickname ?? ""
-                    }
-                    self.participants.insert(profile, at: 0)
                 }
-                for profile in self.existProfiles {
-                    self.participants.removeAll { $0.id == profile.id }
-                }
+                self.cursor = result?.cursor ?? ""
                 self.participantsList.reloadData()
+                if !self.cursor.isEmpty {
+                    self.fetchParticipants()
+                }
             } else {
                 self.showToast(toast: error?.errorDescription ?? "Failed to fetch participants")
             }

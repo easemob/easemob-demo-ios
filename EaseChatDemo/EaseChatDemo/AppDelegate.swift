@@ -74,6 +74,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         //Set up EaseChatUIKit
         _ = EaseChatUIKitClient.shared.setup(option: options)
         EaseChatUIKitClient.shared.registerUserStateListener(self)
+        _ = PresenceManager.shared
     }
     
     private func setupEaseChatUIKitConfig() {

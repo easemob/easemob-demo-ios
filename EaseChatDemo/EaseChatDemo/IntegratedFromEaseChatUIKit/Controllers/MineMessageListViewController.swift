@@ -24,6 +24,7 @@ final class MineMessageListViewController: MessageListController {
         if self.chatType == .chat {
             self.subscribeUserStatus()
         }
+        self.navigation.status.isHidden = self.chatType != .chat
     }
     
     deinit {

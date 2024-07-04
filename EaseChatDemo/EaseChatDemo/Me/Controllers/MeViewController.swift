@@ -14,7 +14,7 @@ final class MeViewController: UIViewController {
     private var menusData: [[String:Any]] {
         [
             ["sectionTitle":"Setting".localized(),"sectionData":[["title":"online_status".localized(),"icon":"online_status","detail":PresenceManager.shared.currentUserStatus],["title":"Personal info".localized(),"icon":"userinfo"],["title":"General".localized(),"icon":"general"],["title":"Notification".localized(),"icon":"notification"],["title":"Privacy".localized(),"icon":"privacy"],["title":"About".localized(),"icon":"about"]]],
-            ["sectionTitle":"Login".localized(),"sectionData":[["title":"Logout".localized()]]]
+            ["sectionTitle":"Account".localized(),"sectionData":[["title":"Logout".localized()]]]
         ]
     }
     

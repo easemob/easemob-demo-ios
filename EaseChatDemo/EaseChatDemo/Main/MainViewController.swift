@@ -82,16 +82,9 @@ final class MainViewController: UITabBarController {
         nav3.interactivePopGestureRecognizer?.isEnabled = true
         nav3.interactivePopGestureRecognizer?.delegate = self
         self.viewControllers = [nav1, nav2,nav3]
-//        self.tabBar.isTranslucent = false
         self.view.backgroundColor = UIColor.theme.neutralColor98
         self.tabBar.backgroundColor = UIColor.theme.barrageDarkColor8
         self.tabBar.barTintColor = UIColor.theme.barrageDarkColor8
-//        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-//        blurView.frame = CGRect(x: 0, y: 0, width: ScreenWidth, height: BottomBarHeight+49)
-//        blurView.alpha = 0.8
-//        blurView.insetsLayoutMarginsFromSafeArea = false
-//        blurView.layoutMargins = .zero
-//        self.tabBar.insertSubview(blurView, at: 0)
         self.tabBar.isTranslucent = true
         self.tabBar.barStyle = .default
         self.tabBar.backgroundImage = UIImage()
@@ -105,6 +98,9 @@ extension MainViewController: UIGestureRecognizerDelegate {
         if gestureRecognizer == self.navigationController?.interactivePopGestureRecognizer {
             return self.navigationController!.viewControllers.count > 1
         }
+        if UIViewController.currentController is MineConversationsController || UIViewController.currentController is MineContactsViewController || UIViewController.currentController is MeViewController {
+            return false
+        }
         return true
     }
 }
@@ -112,10 +108,6 @@ extension MainViewController: UIGestureRecognizerDelegate {
 extension MainViewController: ThemeSwitchProtocol {
     
     func switchTheme(style: EaseChatUIKit.ThemeStyle) {
-//        if let blur = self.tabBar.viewWithTag(0) as? UIVisualEffectView {
-//            blur.effect = style == .dark ? UIBlurEffect(style: .dark): UIBlurEffect(style: .light)
-//            blur.alpha = style == .dark ? 1:0.8
-//        }
         self.tabBar.barTintColor = style == .dark ? UIColor.theme.barrageLightColor8:UIColor.theme.barrageDarkColor8
         self.view.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.tabBar.backgroundColor = style == .dark ? UIColor.theme.barrageLightColor8:UIColor.theme.barrageDarkColor8
