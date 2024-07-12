@@ -98,7 +98,7 @@ extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
         }
         cell?.indexPath = indexPath
         if let info = self.datas[safe: indexPath.section]?[safe: indexPath.row] {
-            cell?.accessoryType = info.withSwitch ? .none:.disclosureIndicator
+//            cell?.accessoryType = info.withSwitch ? .none:.disclosureIndicator
             cell?.refresh(info: info)
         }
         cell?.valueChanged = { [weak self] in

@@ -12,7 +12,7 @@ import EaseCallKit
 final class MineGroupDetailViewController: GroupInfoViewController {
     
     override func cleanHistoryMessages() {
-        DialogManager.shared.showAlert(title: "group_details_button_clearchathistory".chat.localize, content: "", showCancel: true, showConfirm: true) { [weak self] _ in
+        DialogManager.shared.showAlert(title: "", content: "group_details_button_clearchathistory".chat.localize, showCancel: true, showConfirm: true) { [weak self] _ in
             guard let `self` = self else { return }
             self.showToast(toast: "Clean successful!".localized())
             ChatClient.shared().chatManager?.getConversationWithConvId(self.chatGroup.groupId)?.deleteAllMessages(nil)
@@ -106,6 +106,20 @@ final class MineGroupDetailViewController: GroupInfoViewController {
                 self.showToast(toast: "\(error?.errorDescription ?? "")")
             }
            
+        }
+    }
+    
+    override func disbandRequest() {
+        self.service.disband(groupId: self.chatGroup.groupId) { error in
+            if error == nil {
+                self.showToast(toast: "Group disbanded".localized())
+                NotificationCenter.default.post(name: Notification.Name("EaseChatUIKit_leaveGroup"), object: self.chatGroup.groupId)
+                DispatchQueue.main.asyncAfter(wallDeadline: .now()+1) {
+                    self.pop()
+                }
+            } else {
+                consoleLogInfo("disband error:\(error?.errorDescription ?? "")", type: .error)
+            }
         }
     }
 }

@@ -25,12 +25,7 @@ final class MineContactsViewController: ContactViewController {
     }
     
     private func listenToUserStatus() {
-        PresenceManager.shared.usersStatusChanged = { [weak self] users in
-            if let user = users.first(where: { EaseChatUIKitContext.shared?.currentUserId ?? "" == $0
-            }) {
-                self?.showUserStatus()
-            }
-        }
+        PresenceManager.shared.addHandler(handler: self)
     }
     
     private func showUserStatus() {
@@ -157,4 +152,12 @@ extension MineContactsViewController: UITextFieldDelegate {
         }
         return true
     }
+}
+
+extension MineContactsViewController: PresenceDidChangedListener {
+    func presenceStatusChanged(users: [String]) {
+        self.showUserStatus()
+    }
+    
+    
 }

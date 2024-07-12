@@ -14,6 +14,7 @@ public enum EasemobBusinessApi {
     case autoDestroyGroup(String)
     case fetchGroupAvatar(String)
     case fetchRTCToken(String,String)
+    case addFriendByPhoneNumber(String,String)
     case mirrorCallUserIdToChatUserId(String)
 }
 

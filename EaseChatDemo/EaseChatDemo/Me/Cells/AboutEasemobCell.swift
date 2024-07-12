@@ -18,6 +18,7 @@ final class AboutEasemobCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(self.separatorLine)
         self.contentView.backgroundColor = .clear
+        self.textLabel?.font = UIFont.theme.labelLarge
         self.backgroundColor = .clear
         self.accessoryType = .disclosureIndicator
         Theme.registerSwitchThemeViews(view: self)

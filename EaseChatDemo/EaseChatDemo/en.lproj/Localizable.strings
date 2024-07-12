@@ -10,7 +10,7 @@
 "Contacts" = "Contacts";
 " and " = " and ";
 "Login" = "Log In";
-"Logout" = "Log out";
+"Logout" = "Log Out";
 "Service" = "Service";
 "Setting" = "Settings";
 "Privacy Policy" = "Privacy Policy";
@@ -116,3 +116,7 @@
 "Block Alert" = "Enable the friend blacklist feature";
 
 "Account" = "Account";
+"The user does not exist" = "The user does not exist";
+"Friend request sent" = "Friend request sent";
+"Friend request sent" = "好友请求已发送";
+"Group disbanded" = "Group disbanded";

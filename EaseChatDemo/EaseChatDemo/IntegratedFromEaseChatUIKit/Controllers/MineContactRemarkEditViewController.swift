@@ -100,6 +100,9 @@ final class MineContactRemarkEditViewController: UIViewController {
 
 extension MineContactRemarkEditViewController: UITextViewDelegate {
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            return false
+        }
         self.navigation.rightItem.isEnabled = (!(textView.text ?? "").isEmpty || !text.isEmpty)
         if (textView.text ?? "").count > self.textLimit(),!text.isEmpty {
             self.showToast(toast: "Reach content character limit.".chat.localize)

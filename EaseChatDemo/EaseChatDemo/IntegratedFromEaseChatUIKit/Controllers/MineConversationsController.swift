@@ -35,12 +35,7 @@ final class MineConversationsController: ConversationListController {
     }
     
     private func listenToUserStatus() {
-        PresenceManager.shared.usersStatusChanged = { [weak self] users in
-            if let user = users.first(where: { EaseChatUIKitContext.shared?.currentUserId ?? "" == $0
-            }) {
-                self?.showUserStatus()
-            }
-        }
+        PresenceManager.shared.addHandler(handler: self)
     }
     
     private func showUserStatus() {
@@ -146,6 +141,14 @@ final class MineConversationsController: ConversationListController {
     
     override func create(profiles: [EaseProfileProtocol]) {
         var name = ""
+        var users = [EaseProfileProtocol]()
+        let ownerId = EaseChatUIKitContext.shared?.currentUserId ?? ""
+        let owner = EaseChatProfile()
+        owner.id = ownerId
+        owner.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL ?? ""
+        owner.nickname = EaseChatUIKitContext.shared?.currentUser?.nickname ?? ""
+        users.append(owner)
+        users.append(contentsOf: profiles)
         var ids = [String]()
         for (index,profile) in profiles.enumerated() {
             if index <= 2 {
@@ -168,7 +171,6 @@ final class MineConversationsController: ConversationListController {
                 profile.nickname = group.groupName
                 self?.createChat(profile: profile, type: .groupChat,info: name)
                 self?.fetchGroupAvatar(groupId: group.groupId)
-                self?.autoDestroyGroupChat(groupId: group.groupId)
             } else {
                 consoleLogInfo("create group error:\(error?.errorDescription ?? "")", type: .error)
             }
@@ -216,6 +218,34 @@ final class MineConversationsController: ConversationListController {
             })
         }
     }
+    
+    override func addContact() {
+        DialogManager.shared.showAlert(title: "new_chat_button_click_menu_addcontacts".chat.localize, content:
+                                        "add_contacts_subtitle".chat.localize, showCancel: true, showConfirm: true,showTextFiled: true,placeHolder: "contactID".chat.localize) { [weak self] text in
+            self?.addContactRequest(text: text)
+        }
+    }    
+    
+    @objc public func addContactRequest(text: String) {
+        EasemobBusinessRequest.shared.sendGETRequest(api: .addFriendByPhoneNumber(text, EaseChatUIKitContext.shared?.currentUserId ?? ""), params: ["userId":text]) { result, error in
+            if error != nil,let someError  = error as? EasemobError,someError.code == "404" {
+                DispatchQueue.main.async {
+                    self.showToast(toast: "The user does not exist".localized())
+                }
+            } else {
+                if let userId = result?["chatUserName"] as? String {
+                    ChatClient.shared().contactManager?.addContact(userId, message: "", completion: {  userId,error  in
+                        if let error = error {
+                            consoleLogInfo("add contact error:\(error.errorDescription ?? "")", type: .error)
+                        } else {
+                            self.showToast(toast: "Friend request sent".localized())
+                        }
+                    })
+                }
+                
+            }
+        }
+    }
 }
 
 extension MineConversationsController: UITextFieldDelegate {
@@ -234,4 +264,12 @@ extension MineConversationsController: UITextFieldDelegate {
         }
         return true
     }
+}
+
+extension MineConversationsController: PresenceDidChangedListener {
+    func presenceStatusChanged(users: [String]) {
+        self.showUserStatus()
+    }
+    
+    
 }

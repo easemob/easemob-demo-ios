@@ -145,6 +145,7 @@ extension MainViewController: ThemeSwitchProtocol {
 extension MainViewController: EaseProfileProvider,EaseGroupProfileProvider {
     //MARK: - EaseProfileProvider
     func fetchProfiles(profileIds: [String]) async -> [any EaseChatUIKit.EaseProfileProtocol] {
+        consoleLogInfo("fetchProfiles", type: .error)
         return await withTaskGroup(of: [EaseChatUIKit.EaseProfileProtocol].self, returning: [EaseChatUIKit.EaseProfileProtocol].self) { group in
             var resultProfiles: [EaseChatUIKit.EaseProfileProtocol] = []
             group.addTask {
@@ -164,7 +165,7 @@ extension MainViewController: EaseProfileProvider,EaseGroupProfileProvider {
     }
     //MARK: - EaseGroupProfileProvider
     func fetchGroupProfiles(profileIds: [String]) async -> [any EaseChatUIKit.EaseProfileProtocol] {
-        
+        consoleLogInfo("fetchGroupProfiles", type: .error)
         return await withTaskGroup(of: [EaseChatUIKit.EaseProfileProtocol].self, returning: [EaseChatUIKit.EaseProfileProtocol].self) { group in
             var resultProfiles: [EaseChatUIKit.EaseProfileProtocol] = []
             group.addTask {

@@ -15,6 +15,11 @@
 		052978542B97261D008AB5A0 /* MeMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052978532B97261D008AB5A0 /* MeMenuCell.swift */; };
 		053953B22C1142BD0068981C /* PresenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053953B12C1142BD0068981C /* PresenceManager.swift */; };
 		053C98822C0E9D0A00F546C8 /* PrivacySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053C98812C0E9D0A00F546C8 /* PrivacySettingViewController.swift */; };
+		0544D43D2C3BC24000E36B08 /* ImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544D4382C3BC24000E36B08 /* ImagePreviewCell.swift */; };
+		0544D43E2C3BC24000E36B08 /* ImagePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544D4392C3BC24000E36B08 /* ImagePreviewController.swift */; };
+		0544D43F2C3BC24000E36B08 /* ImagePreviewTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544D43A2C3BC24000E36B08 /* ImagePreviewTransitionDelegate.swift */; };
+		0544D4402C3BC24000E36B08 /* PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544D43B2C3BC24000E36B08 /* PreviewImage.swift */; };
+		0544D4432C3BC2C000E36B08 /* MineMessageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544D4422C3BC2C000E36B08 /* MineMessageEntity.swift */; };
 		0551FFA42B9FE4C000FF3294 /* NotificationSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */; };
 		0571F74E2C0D5B4000877895 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0571F74D2C0D5B4000877895 /* PrivacyPolicyViewController.swift */; };
 		0572275F2B97FA2C00AA866D /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */; };
@@ -26,7 +31,6 @@
 		059BEEEC2BABDC96004C7380 /* GradientSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059BEEEB2BABDC96004C7380 /* GradientSlider.swift */; };
 		05A7EF1E2BDB8B3D00473D52 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 05A7EF1D2BDB8B3700473D52 /* PrivacyInfo.xcprivacy */; };
 		05A9415D2BAA700000C71A74 /* MineContactRemarkEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */; };
-		05A9415F2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */; };
 		05B161B72BB664B400917245 /* EaseMobHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B161B62BB664B400917245 /* EaseMobHUD.swift */; };
 		05B384312C1846CB00832A9C /* TranslateLanguageSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B384302C1846CB00832A9C /* TranslateLanguageSettingController.swift */; };
 		05B7C1EF2B96AC3200DA0F8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */; };
@@ -95,6 +99,11 @@
 		052978532B97261D008AB5A0 /* MeMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeMenuCell.swift; sourceTree = "<group>"; };
 		053953B12C1142BD0068981C /* PresenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenceManager.swift; sourceTree = "<group>"; };
 		053C98812C0E9D0A00F546C8 /* PrivacySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingViewController.swift; sourceTree = "<group>"; };
+		0544D4382C3BC24000E36B08 /* ImagePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewCell.swift; sourceTree = "<group>"; };
+		0544D4392C3BC24000E36B08 /* ImagePreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewController.swift; sourceTree = "<group>"; };
+		0544D43A2C3BC24000E36B08 /* ImagePreviewTransitionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewTransitionDelegate.swift; sourceTree = "<group>"; };
+		0544D43B2C3BC24000E36B08 /* PreviewImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewImage.swift; sourceTree = "<group>"; };
+		0544D4422C3BC2C000E36B08 /* MineMessageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineMessageEntity.swift; sourceTree = "<group>"; };
 		0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingViewController.swift; sourceTree = "<group>"; };
 		0571F74D2C0D5B4000877895 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
@@ -106,7 +115,6 @@
 		059BEEEB2BABDC96004C7380 /* GradientSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientSlider.swift; sourceTree = "<group>"; };
 		05A7EF1D2BDB8B3700473D52 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactRemarkEditViewController.swift; sourceTree = "<group>"; };
-		05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLoginLoadingViewController.swift; sourceTree = "<group>"; };
 		05B161B62BB664B400917245 /* EaseMobHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EaseMobHUD.swift; sourceTree = "<group>"; };
 		05B384302C1846CB00832A9C /* TranslateLanguageSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateLanguageSettingController.swift; sourceTree = "<group>"; };
 		05B7C1EB2B96AC3200DA0F8F /* EaseChatDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseChatDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -231,6 +239,17 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		0544D43C2C3BC24000E36B08 /* PhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				0544D4382C3BC24000E36B08 /* ImagePreviewCell.swift */,
+				0544D4392C3BC24000E36B08 /* ImagePreviewController.swift */,
+				0544D43A2C3BC24000E36B08 /* ImagePreviewTransitionDelegate.swift */,
+				0544D43B2C3BC24000E36B08 /* PreviewImage.swift */,
+			);
+			path = PhotoBrowser;
+			sourceTree = "<group>";
+		};
 		057227622B97FF9E00AA866D /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				05CF13162BA7D4EB0026595C /* EaseChatDemo.entitlements */,
+				0544D43C2C3BC24000E36B08 /* PhotoBrowser */,
 				0518E5AA2BA15B3F00EA7D7B /* IntegratedFromEaseChatUIKit */,
 				05B7C21C2B970D2300DA0F8F /* Me */,
 				05B7C2192B97017000DA0F8F /* Main */,
@@ -272,7 +292,6 @@
 				05B7C20C2B96BD2100DA0F8F /* Utils */,
 				05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */,
 				05B7C1F02B96AC3200DA0F8F /* SceneDelegate.swift */,
-				05A9415E2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift */,
 				05B7C1F22B96AC3200DA0F8F /* LoginViewController.swift */,
 				057227672B98393500AA866D /* ServerConfigViewController.swift */,
 				05B7C20A2B96BB5300DA0F8F /* Localizable.strings */,
@@ -345,6 +364,7 @@
 		05E0D7332BA2E60600373197 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				0544D4422C3BC2C000E36B08 /* MineMessageEntity.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -553,13 +573,15 @@
 				05B7C1EF2B96AC3200DA0F8F /* AppDelegate.swift in Sources */,
 				05E5A1C72B9997FC00955DD1 /* DemoLanguage.swift in Sources */,
 				052226C22BA92299007F14B9 /* MineGroupDetailViewController.swift in Sources */,
+				0544D43D2C3BC24000E36B08 /* ImagePreviewCell.swift in Sources */,
 				05B7C2102B96C16B00DA0F8F /* EasemobRequest.swift in Sources */,
 				05A9415D2BAA700000C71A74 /* MineContactRemarkEditViewController.swift in Sources */,
 				05FE6C2A2B9A9F160030A983 /* ThemesSettingViewController.swift in Sources */,
+				0544D43F2C3BC24000E36B08 /* ImagePreviewTransitionDelegate.swift in Sources */,
 				05E595362C129A6C00970D48 /* MineContactsViewController.swift in Sources */,
 				05E0D7322BA2E2C200373197 /* MineCallInviteUsersController.swift in Sources */,
-				05A9415F2BAADABF00C71A74 /* AutoLoginLoadingViewController.swift in Sources */,
 				057227642B97FFB200AA866D /* AboutEasemobHeader.swift in Sources */,
+				0544D4402C3BC24000E36B08 /* PreviewImage.swift in Sources */,
 				05E5A1C52B9971AD00955DD1 /* LanguageSettingViewController.swift in Sources */,
 				05E5A1C32B996EE400955DD1 /* LanguageCell.swift in Sources */,
 				05B7C21B2B97019300DA0F8F /* MainViewController.swift in Sources */,
@@ -575,7 +597,9 @@
 				053953B22C1142BD0068981C /* PresenceManager.swift in Sources */,
 				0518E5AD2BA15B8300EA7D7B /* MineConversationsController.swift in Sources */,
 				0551FFA42B9FE4C000FF3294 /* NotificationSettingViewController.swift in Sources */,
+				0544D4432C3BC2C000E36B08 /* MineMessageEntity.swift in Sources */,
 				057227612B97FAF200AA866D /* AboutEasemobController.swift in Sources */,
+				0544D43E2C3BC24000E36B08 /* ImagePreviewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -759,12 +783,12 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EaseChatDemo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = EaseChat;
+				INFOPLIST_KEY_CFBundleDisplayName = "环信";
 				INFOPLIST_KEY_NSCameraUsageDescription = "For usage";
 				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "For usage";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "For usage";
@@ -780,7 +804,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.7.0;
+				MARKETING_VERSION = 4.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -803,12 +827,12 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EaseChatDemo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = EaseChat;
+				INFOPLIST_KEY_CFBundleDisplayName = "环信";
 				INFOPLIST_KEY_NSCameraUsageDescription = "For usage";
 				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "For usage";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "For usage";
@@ -824,7 +848,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.7.0;
+				MARKETING_VERSION = 4.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
