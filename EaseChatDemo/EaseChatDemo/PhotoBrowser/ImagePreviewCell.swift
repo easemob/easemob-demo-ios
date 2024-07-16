@@ -89,18 +89,15 @@ class ImagePreviewCell: UICollectionViewCell {
         
     }
     
-    func setPhoto(photo: PreviewImage) {
-        
+    func setPhoto(photo: PreviewImage?) {
+        guard let photo = photo else {
+            return
+        }
         self.photo = photo
         scrollView.contentSize = CGSize.zero
         scrollView.zoomScale = 1.0
         imageView.frame = UIScreen.main.bounds
         imageView.image = nil
-        
-        guard photo.image == nil else {
-            showImage(photo.image!)
-            return
-        }
         
         let placeHolder = photo.placeholderImage != nil ? photo.placeholderImage! : photo.originalView?.image
         if placeHolder != nil {

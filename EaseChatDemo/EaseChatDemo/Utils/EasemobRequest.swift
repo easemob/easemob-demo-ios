@@ -77,7 +77,7 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
             do {
                 urlRequest.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
             } catch {
-                assert(false, "\(error.localizedDescription)")
+                consoleLogInfo("request failed: \(error.localizedDescription)", type: .error)
             }
         }
         urlRequest.allHTTPHeaderFields = headers
@@ -109,7 +109,7 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
         do {
             urlRequest.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
         } catch {
-            assert(false, "\(error.localizedDescription)")
+            consoleLogInfo("request failed: \(error.localizedDescription)", type: .error)
         }
         urlRequest.allHTTPHeaderFields = headers
         urlRequest.httpMethod = method

@@ -262,6 +262,7 @@ extension AppDelegate: UserStateChangedListener {
                     profile.nickname = group.groupName
                     profile.avatarURL = group.settings.ext
                     profiles.append(profile)
+                    profile.insert()
                 }
                 EaseChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
             }

@@ -89,7 +89,7 @@ extension ImagePreviewController: UICollectionViewDataSource, UICollectionViewDe
             cache[indexPath.item] = photo
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImagePreviewCell
-        cell.setPhoto(photo: photo!)
+        cell.setPhoto(photo: photo)
         cell.index = indexPath.item
         cell.browser = self
         return cell
@@ -112,3 +112,4 @@ extension ImagePreviewController: UICollectionViewDataSource, UICollectionViewDe
     }
 
 }
+

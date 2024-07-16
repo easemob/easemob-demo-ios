@@ -7,6 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
+import EaseCallKit
 
 class MineMessageEntity: MessageEntity {
         
@@ -52,8 +53,16 @@ class MineMessageEntity: MessageEntity {
                         })
                         text.addAttribute(NSAttributedString.Key.foregroundColor, value: Theme.style == .dark ? Color.theme.primaryColor6:Color.theme.primaryColor5, range: range)
                     } else {
+                        let user = EaseChatUIKitContext.shared?.chatCache?[self.message.mention]
+                        var nickname = user?.remark
+                        if nickname?.isEmpty ?? true {
+                            nickname = user?.nickname
+                            if nickname?.isEmpty ?? true {
+                                nickname = message.from
+                            }
+                        }
                         text.append(NSMutableAttributedString {
-                            AttributedText(self.message.user?.nickname ?? self.message.from).foregroundColor(Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.labelSmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
+                            AttributedText(nickname!).foregroundColor(Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.labelSmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
                         })
                         text.append(NSAttributedString {
                             AttributedText(" "+something).foregroundColor(Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.bodySmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
@@ -76,7 +85,22 @@ class MineMessageEntity: MessageEntity {
                 result = result.replacingOccurrences(of: key, with: value)
             }
             if self.message.mention.isEmpty {
-                if let timeLength = self.message.ext?["callDuration"] as? Int {
+                if let timeLength = self.message.ext?["callDuration"] as? Int,let callTypeValue = self.message.ext?["type"] as? Int  {
+                    let callType = EaseCallType(rawValue: callTypeValue) ?? .type1v1Audio
+                    var callImageColor = UIColor.white
+                    if self.message.direction == .send {
+                        callImageColor = Theme.style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor95
+                    } else {
+                        callImageColor = Theme.style == .dark ? UIColor.theme.neutralColor8:UIColor.theme.neutralColor5
+                    }
+                    var callImage = UIImage(named: "call", in: .chatBundle, with: nil)?.withTintColor(callImageColor)
+                    switch callType {
+                    case .type1v1Audio:
+                        callImage = UIImage(named: "phone_hang")?.withTintColor(callImageColor)
+                    case .type1v1Video:
+                        callImage = UIImage(named: "video_call")?.withTintColor(callImageColor)
+                    default: break
+                    }
                     var showTime = "and the call duration is ".localized()
                     if timeLength > 0 {
                         let hours = UInt(timeLength / 3600)
@@ -101,10 +125,17 @@ class MineMessageEntity: MessageEntity {
                             }
                         }
                     }
-                    text.append(NSAttributedString {
-                        
-                        AttributedText(result+showTime).foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(.byWordWrapping)
-                    })
+                    if self.message.direction == .send {
+                        text.append(NSAttributedString {
+                            AttributedText(result+showTime+" ").foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(.byWordWrapping)
+                            ImageAttachment(callImage, bounds: CGRect(x: 0, y: -4, width: 18, height: 18))
+                        })
+                    } else {
+                        text.append(NSAttributedString {
+                            ImageAttachment(callImage, bounds: CGRect(x: 0, y: -4, width: 18, height: 18))
+                            AttributedText(" "+result+showTime).foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(.byWordWrapping)
+                        })
+                    }
                 } else {
                     text.append(NSAttributedString {
                         AttributedText(result).foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(.byWordWrapping)
