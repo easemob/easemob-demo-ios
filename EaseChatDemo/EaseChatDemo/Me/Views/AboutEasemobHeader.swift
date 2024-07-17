@@ -30,9 +30,7 @@ final class AboutEasemobHeader: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubViews([self.icon,self.applicationName,self.demo_version,self.UIKit_version])
-        if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
-            self.demo_version.text = "Version "+version
-        }
+        self.demo_version.text = "SDK Version "+ChatClient.shared().version
         if let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String {
             self.applicationName.text = appName
         } else if let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String {

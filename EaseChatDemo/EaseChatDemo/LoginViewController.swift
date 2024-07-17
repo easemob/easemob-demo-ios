@@ -106,7 +106,7 @@ final class LoginViewController: UIViewController {
         self.loadingView.isHidden = true
         self.serverConfig.isHidden = true
         self.right.titleLabel?.textAlignment = .right
-        self.sdkVersion.text = "V\(ChatClient.shared().version)"
+        self.sdkVersion.text = "V\(EaseChatUIKit_VERSION)"
         
         self.fieldSetting()
         if let debugMode = self.serverInfo["debug_mode"],debugMode == "1"{
