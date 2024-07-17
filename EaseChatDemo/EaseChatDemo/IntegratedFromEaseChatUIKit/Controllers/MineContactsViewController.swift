@@ -30,7 +30,7 @@ final class MineContactsViewController: ContactViewController {
     
     private func showUserStatus() {
         if let presence = PresenceManager.shared.presences[EaseChatUIKitContext.shared?.currentUserId ?? ""] {
-            let state = PresenceManager.fetchStatus(presence: presence)
+            let state = PresenceManager.status(with: presence)
             switch state {
             case .online:
                 self.navigation.userState = .online

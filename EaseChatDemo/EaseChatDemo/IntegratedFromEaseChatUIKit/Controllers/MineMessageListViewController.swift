@@ -40,7 +40,7 @@ final class MineMessageListViewController: MessageListController {
         PresenceManager.shared.addHandler(handler: self)
         PresenceManager.shared.subscribe(members: [self.profile.id]) { [weak self] presences, error in
             if let presence = presences?.first {
-                self?.showUserStatus(state: PresenceManager.fetchStatus(presence: presence))
+                self?.showUserStatus(state: PresenceManager.status(with: presence))
             }
         }
     }
@@ -311,7 +311,7 @@ extension MineMessageListViewController: ImageBrowserProtocol {
 extension MineMessageListViewController: PresenceDidChangedListener {
     func presenceStatusChanged(users: [String]) {
         if users.contains(self.profile.id), let presence = PresenceManager.shared.presences[self.profile.id] {
-            self.showUserStatus(state: PresenceManager.fetchStatus(presence: presence))
+            self.showUserStatus(state: PresenceManager.status(with: presence))
         }
     }
     

@@ -45,7 +45,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
     
     @objc func fetchUserStatus() {
         PresenceManager.shared.fetchPresenceStatus(userId: self.profile.id) {  [weak self] presence, error in
-            switch PresenceManager.fetchStatus(presence: presence) {
+            switch PresenceManager.status(with: presence) {
             case .online: self?.updateUserState(state: .online)
             case .offline: self?.updateUserState(state: .offline)
             case .busy:

@@ -57,7 +57,7 @@ class PresenceManager: NSObject {
         
     static let shared = PresenceManager()
     
-    class func fetchStatus(presence: EMPresence?) -> State {
+    class func status(with presence: EMPresence?) -> State {
         guard let presence = presence, let statusDetails = presence.statusDetails else {
             return .offline
         }
@@ -91,9 +91,7 @@ class PresenceManager: NSObject {
     }
     
     var presences:[String:EMPresence] = [:]
-    
-    var usersStatusChanged: ((_ users: [String]) -> Void)?
-    
+        
     private override init() {
         super.init()
         ChatClient.shared().presenceManager?.add(self, delegateQueue: nil)
@@ -120,11 +118,6 @@ class PresenceManager: NSObject {
                         if presence.publisher.count > 0 {
                             users.append(presence.publisher)
                             self?.presences[presence.publisher] = presence
-                        }
-                    }
-                    if presences.count > 0 {
-                        DispatchQueue.main.async {
-                            self?.usersStatusChanged?(users)
                         }
                     }
                 }
@@ -161,18 +154,17 @@ class PresenceManager: NSObject {
         if description == PresenceManager.showStatusMap[.online] {
             description = nil
         }
-        ChatClient.shared().presenceManager?.publishPresence(withDescription: description, completion: { [weak self] error in
+        ChatClient.shared().presenceManager?.publishPresence(withDescription: description, completion: { error in
             DispatchQueue.main.async {
-                self?.usersStatusChanged?([EaseChatUIKitContext.shared?.currentUserId ?? ""])
                 completion?(error)
             }
         })
     }
     
     func fetchPresenceStatus(userId: String, completion: @escaping (_ presence: EMPresence?, _ error: ChatError?) -> Void) {
-        ChatClient.shared().presenceManager?.fetchPresenceStatus([userId], completion: { presences, error in
+        ChatClient.shared().presenceManager?.fetchPresenceStatus([userId], completion: { [weak self] presences, error in
             if let presence = presences?.first {
-                self.presences[userId] = presence
+                self?.presences[userId] = presence
                 DispatchQueue.main.async {
                     completion(presence,error)
                 }

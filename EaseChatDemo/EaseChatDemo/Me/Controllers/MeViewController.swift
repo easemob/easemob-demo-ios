@@ -112,7 +112,7 @@ final class MeViewController: UIViewController {
     
     private func showUserStatus() {
         if let presence = PresenceManager.shared.presences[EaseChatUIKitContext.shared?.currentUserId ?? ""] {
-            switch PresenceManager.fetchStatus(presence: presence) {
+            switch PresenceManager.status(with: presence) {
             case .online: self.header.userState = .online
             case .offline: self.header.userState = .offline
             case .busy:
