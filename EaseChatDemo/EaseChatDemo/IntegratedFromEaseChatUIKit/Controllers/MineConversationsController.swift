@@ -224,7 +224,7 @@ final class MineConversationsController: ConversationListController {
     
     override func addContact() {
         DialogManager.shared.showAlert(title: "new_chat_button_click_menu_addcontacts".chat.localize, content:
-                                        "add_contacts_subtitle".chat.localize, showCancel: true, showConfirm: true,showTextFiled: true,placeHolder: "contactID".chat.localize) { [weak self] text in
+                                        "add_contacts_subtitle".chat.localize, showCancel: true, showConfirm: true,showTextFiled: true,placeHolder: "contactID".localized()) { [weak self] text in
             self?.addContactRequest(text: text)
         }
     }    

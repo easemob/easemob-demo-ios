@@ -129,3 +129,5 @@
 "Friend request sent" = "好友请求已发送";
 "Group disbanded" = "群组已解散";
 "Save Image" = "保存图片";
+
+"contactID" = "通过手机号或ID添加联系人";

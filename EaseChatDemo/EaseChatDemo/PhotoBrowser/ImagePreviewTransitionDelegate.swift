@@ -47,8 +47,8 @@ extension ImagePreviewTransitionDelegate: UIViewControllerAnimatedTransitioning 
         
         let toView = transitionContext.view(forKey: .to)!
         transitionContext.containerView.addSubview(toView)
-        let toCtr = transitionContext.viewController(forKey: .to) as! ImagePreviewController
-        let originalView = toCtr.delegate.photo(of: toCtr.selectedIndex, with: toCtr).originalView
+        let toController = transitionContext.viewController(forKey: .to) as! ImagePreviewController
+        let originalView = toController.delegate.photo(of: toController.selectedIndex, with: toController).originalView
         guard originalView != nil else {
             transitionContext.completeTransition(true)
             return
@@ -63,7 +63,7 @@ extension ImagePreviewTransitionDelegate: UIViewControllerAnimatedTransitioning 
         imageView.contentMode = originalView!.contentMode
         transitionContext.containerView.addSubview(imageView)
         
-        UIView.animate(withDuration: toCtr.presentDuration, animations: {
+        UIView.animate(withDuration: toController.presentDuration, animations: {
             
             imageView.frame = UIScreen.main.bounds
             imageView.contentMode = .scaleAspectFit
@@ -80,21 +80,21 @@ extension ImagePreviewTransitionDelegate: UIViewControllerAnimatedTransitioning 
     
     func animationForDissmissed(using transitionContext: UIViewControllerContextTransitioning) {
         
-        let fromCtr = transitionContext.viewController(forKey: .from) as! ImagePreviewController
-        let originalView = fromCtr.delegate.photo(of: fromCtr.selectedIndex, with: fromCtr).originalView
+        let fromController = transitionContext.viewController(forKey: .from) as! ImagePreviewController
+        let originalView = fromController.delegate.photo(of: fromController.selectedIndex, with: fromController).originalView
         guard originalView != nil else {
             transitionContext.completeTransition(true)
             return
         }
         
-        let cell = fromCtr.collectionView.cellForItem(at: IndexPath.init(item: fromCtr.selectedIndex, section: 0)) as! ImagePreviewCell
+        let cell = fromController.collectionView.cellForItem(at: IndexPath.init(item: fromController.selectedIndex, section: 0)) as! ImagePreviewCell
         let showView = cell.imageView!
         transitionContext.containerView.addSubview(showView)
         let newRect = originalView!.convert(originalView!.bounds, to: nil)
-        UIView.animate(withDuration: fromCtr.dissmissDuration, animations: {
+        UIView.animate(withDuration: fromController.dissmissDuration, animations: {
             
             showView.frame = newRect
-            fromCtr.view.backgroundColor = UIColor.clear
+            fromController.view.backgroundColor = UIColor.clear
             
         }) { (finish) in
             transitionContext.completeTransition(true)

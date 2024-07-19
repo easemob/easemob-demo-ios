@@ -120,3 +120,5 @@
 "Friend request sent" = "Friend request sent";
 "Group disbanded" = "Group disbanded";
 "Save Image" = "Save Image";
+
+"contactID" = "Add contacts by phone number or ID.";
