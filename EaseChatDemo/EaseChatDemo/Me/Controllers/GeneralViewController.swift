@@ -12,32 +12,28 @@ import QuickLook
 final class GeneralViewController: UIViewController {
     
     @UserDefault("EaseChatDemoDarkMode", defaultValue: false) var darkMode: Bool
+        
+    @UserDefault("EaseChatDemoPreferencesTheme", defaultValue: 1) var theme: UInt
     
     @UserDefault("EaseChatDemoPreferencesLanguage", defaultValue: "zh-Hans") var language: String
     
-    @UserDefault("EaseChatDemoPreferencesTheme", defaultValue: 0) var theme: UInt
-    
-    @UserDefault("EaseChatDemoPreferencesTyping", defaultValue: true) var typing: Bool
-    
     @UserDefault("EaseChatDemoTranslateTargetLanguage", defaultValue: "zh-Hans") var translate_language: String
-    
-    private lazy var jsons: [[Dictionary<String,Any>]] = {
-        [[["title":"typing_indicator".localized(),"detail":"","withSwitch": true,"switchValue":self.typing]],[["title":"dark_mode".localized(),"detail":"","withSwitch": true,"switchValue":self.darkMode],
+
+    private lazy var jsons: [Dictionary<String,Any>] = {
+        [["title":"dark_mode".localized(),"detail":"","withSwitch": true,"switchValue":self.darkMode],
              ["title":"switch_theme".localized(),"detail":(self.theme == 0 ? "Classic".localized():"Smart".localized()),"withSwitch": false,"switchValue":false],
              ["title":"color_setting".localized(),"detail":"","withSwitch": false,"switchValue":false],
              ["title":"feature_switch".localized(),"detail":"","withSwitch": false,"switchValue":false],
-             ["title":"language_setting".localized(),"detail":self.language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false],
+         ["title":"language_setting".localized(),"detail":self.language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false],
              ["title":"translate_language_setting".localized(),"detail":self.translate_language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false],
-             ["title":"Debug Log".localized(),"detail":"","withSwitch": false,"switchValue":false]]]
+             ["title":"Debug Log".localized(),"detail":"","withSwitch": false,"switchValue":false]]
     }()
     
-    private lazy var datas: [[DetailInfo]] = {
+    private lazy var datas: [DetailInfo] = {
         self.jsons.map {
-            $0.map { dic in
-                let info = DetailInfo()
-                info.setValuesForKeys(dic)
-                return info
-            }
+            let info = DetailInfo()
+            info.setValuesForKeys($0)
+            return info
         }
     }()
     
@@ -68,27 +64,8 @@ final class GeneralViewController: UIViewController {
 
 extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        self.datas.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        section == 0 ? 26:0
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if section == 0 {
-            return UIView {
-                UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 26)).backgroundColor(Theme.style == .dark ? UIColor.theme.neutralColor0:UIColor.theme.neutralColor95)
-                UILabel(frame: CGRect(x: 16, y: 4, width: self.view.frame.width-32, height: 18)).font(UIFont.theme.bodyMedium).textColor(Theme.style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor5).text("Typing Alert".localized()).textAlignment(.right)
-            }
-        } else {
-            return nil
-        }
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.datas[section].count
+        self.datas.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -97,8 +74,7 @@ extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
             cell = DetailInfoListCell(style: .default, reuseIdentifier: "GeneralCell")
         }
         cell?.indexPath = indexPath
-        if let info = self.datas[safe: indexPath.section]?[safe: indexPath.row] {
-//            cell?.accessoryType = info.withSwitch ? .none:.disclosureIndicator
+        if let info = self.datas[safe: indexPath.row] {
             cell?.refresh(info: info)
         }
         cell?.valueChanged = { [weak self] in
@@ -109,15 +85,12 @@ extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func switchChanged(isOn: Bool, indexPath: IndexPath) {
-        if let title = self.datas[safe: indexPath.section]?[safe: indexPath.row]?.title {
-            self.datas[safe: indexPath.section]?[safe: indexPath.row]?.switchValue = isOn
+        if let title = self.datas[safe: indexPath.row]?.title {
+            self.datas[safe: indexPath.row]?.switchValue = isOn
             switch title {
             case "dark_mode".localized():
                 Theme.switchTheme(style: isOn ? .dark:.light)
                 self.darkMode = isOn
-            case "typing_indicator".localized():
-                self.typing = isOn
-                Appearance.chat.enableTyping = isOn
             default:
                 break
             }
@@ -127,7 +100,7 @@ extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if let title = self.datas[safe: indexPath.section]?[safe: indexPath.row]?.title,title != "dark_mode".localized() {
+        if let title = self.datas[safe: indexPath.row]?.title,title != "dark_mode".localized() {
             switch title {
             case "switch_theme".localized(): self.switchTheme()
             case "color_setting".localized(): self.colorSet()
@@ -190,6 +163,6 @@ extension GeneralViewController: QLPreviewControllerDataSource {
 extension GeneralViewController: ThemeSwitchProtocol {
     func switchTheme(style: ThemeStyle) {
         self.view.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
-        self.menuList.reloadData()
+        self.menuList.reloadSections(IndexSet(arrayLiteral: 0), with: .none)
     }
 }

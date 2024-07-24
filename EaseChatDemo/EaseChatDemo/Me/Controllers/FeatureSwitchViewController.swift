@@ -11,17 +11,20 @@ import EaseChatUIKit
 
 final class FeatureSwitchViewController: UIViewController {
     
-    @UserDefault("EaseMobChatMessageTranslation", defaultValue: true) var enableTranslation: Bool
+    @UserDefault("EaseChatMessageTranslation", defaultValue: true) var enableTranslation: Bool
     
-    @UserDefault("EaseMobChatMessageReaction", defaultValue: true) var messageReaction: Bool
+    @UserDefault("EaseChatMessageReaction", defaultValue: true) var messageReaction: Bool
     
-    @UserDefault("EaseMobChatCreateMessageThread", defaultValue: true) var messageThread: Bool
+    @UserDefault("EaseChatCreateMessageThread", defaultValue: true) var messageThread: Bool
     
     @UserDefault("EaseChatDemoPreferencesBlock", defaultValue: true) var block: Bool
     
+    @UserDefault("EaseChatDemoPreferencesTyping", defaultValue: true) var typing: Bool
+    
     
     private lazy var jsons: [Dictionary<String,Any>] = {
-        [["title":"message_translate".localized(),"detail":"message_translate_description".localized(),"withSwitch": true,"switchValue":self.enableTranslation],["title":"group_topic".localized(),"detail":"group_topic_description".localized(),"withSwitch": true,"switchValue":self.messageThread],["title":"message_reaction".localized(),"detail":"message_reaction_description".localized(),"withSwitch": true,"switchValue":self.messageReaction],["title":"block_list".localized(),"detail":"Block Alert".localized(),"withSwitch": true,"switchValue":self.block]
+        [["title":"message_translate".localized(),"detail":"message_translate_description".localized(),"withSwitch": true,"switchValue":self.enableTranslation],["title":"group_topic".localized(),"detail":"group_topic_description".localized(),"withSwitch": true,"switchValue":self.messageThread],["title":"message_reaction".localized(),"detail":"message_reaction_description".localized(),"withSwitch": true,"switchValue":self.messageReaction],["title":"block_list".localized(),"detail":"Block Alert".localized(),"withSwitch": true,"switchValue":self.block],
+         ["title":"typing_indicator".localized(),"detail":"Typing Alert".localized(),"withSwitch": true,"switchValue":self.typing]
         ]
     }()
 
@@ -75,11 +78,12 @@ extension FeatureSwitchViewController: UITableViewDelegate,UITableViewDataSource
     @objc private func switchAction(_ sender: UISwitch) {
         var info = self.jsons[sender.tag]
         info["switchValue"] = sender.isOn
-        if info["title"] as? String == "message_translate".localized() {
+        guard let switchTitle = info["title"] as? String else { return }
+        switch switchTitle {
+        case "message_translate".localized():
             Appearance.chat.enableTranslation = sender.isOn
             self.enableTranslation = sender.isOn
-        }
-        if info["title"] as? String == "group_topic".localized() {
+        case "group_topic".localized():
             self.messageThread = sender.isOn
             if sender.isOn {
                 if !Appearance.chat.contentStyle.contains(.withMessageThread) {
@@ -88,8 +92,7 @@ extension FeatureSwitchViewController: UITableViewDelegate,UITableViewDataSource
             } else {
                 Appearance.chat.contentStyle.removeAll { $0 == .withMessageThread }
             }
-        }
-        if info["title"] as? String == "message_reaction".localized() {
+        case "message_reaction".localized():
             self.messageReaction = sender.isOn
             if sender.isOn {
                 if !Appearance.chat.contentStyle.contains(.withMessageReaction) {
@@ -98,11 +101,17 @@ extension FeatureSwitchViewController: UITableViewDelegate,UITableViewDataSource
             } else {
                 Appearance.chat.contentStyle.removeAll { $0 == .withMessageReaction }
             }
-        }
-        if info["title"] as? String == "block_list".localized() {
+        case "block_list".localized():
             self.block = sender.isOn
             Appearance.contact.enableBlock = sender.isOn
+        case "typing_indicator".localized():
+            self.typing = sender.isOn
+            Appearance.chat.enableTyping = sender.isOn
+        default:
+            break
         }
+        
+    
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
