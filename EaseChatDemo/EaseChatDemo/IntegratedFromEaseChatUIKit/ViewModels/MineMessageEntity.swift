@@ -53,16 +53,16 @@ class MineMessageEntity: MessageEntity {
                         })
                         text.addAttribute(NSAttributedString.Key.foregroundColor, value: Theme.style == .dark ? Color.theme.primaryColor6:Color.theme.primaryColor5, range: range)
                     } else {
-                        let user = EaseChatUIKitContext.shared?.chatCache?[self.message.mention]
-                        var nickname = user?.remark
-                        if nickname?.isEmpty ?? true {
-                            nickname = user?.nickname
-                            if nickname?.isEmpty ?? true {
-                                nickname = message.from
+                        let user = EaseChatUIKitContext.shared?.chatCache?[self.message.from]
+                        var nickname = user?.remark ?? ""
+                        if nickname.isEmpty {
+                            nickname = user?.nickname ?? ""
+                            if nickname.isEmpty {
+                                nickname = self.message.from
                             }
                         }
                         text.append(NSMutableAttributedString {
-                            AttributedText(nickname!).foregroundColor(Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.labelSmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
+                            AttributedText(nickname).foregroundColor(Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.labelSmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
                         })
                         text.append(NSAttributedString {
                             AttributedText(" "+something).foregroundColor(Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.bodySmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
@@ -143,17 +143,17 @@ class MineMessageEntity: MessageEntity {
                 }
             } else {
                 if self.message.mention == EaseChatUIKitContext.shared?.currentUserId ?? "" {
-                    let mentionUser = EaseChatUIKitContext.shared?.chatCache?[self.message.mention]
-                    var nickname = mentionUser?.remark
-                    if nickname?.isEmpty ?? true {
-                        nickname = mentionUser?.nickname
-                        if nickname?.isEmpty ?? true {
+                    let user = EaseChatUIKitContext.shared?.chatCache?[self.message.from]
+                    var nickname = user?.remark ?? ""
+                    if nickname.isEmpty {
+                        nickname = user?.nickname ?? ""
+                        if nickname.isEmpty {
                             nickname = EaseChatUIKitContext.shared?.currentUserId ?? ""
                         }
                     }
                     let content = result
                     
-                    let mentionRange = content.lowercased().chat.rangeOfString(nickname ?? "")
+                    let mentionRange = content.lowercased().chat.rangeOfString(nickname)
                     let range = NSMakeRange(mentionRange.location-1, mentionRange.length+1)
                     let mentionAttribute = NSMutableAttributedString {
                         AttributedText(content).foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(Appearance.chat.targetLanguage == .Chinese ? .byCharWrapping:.byWordWrapping)
