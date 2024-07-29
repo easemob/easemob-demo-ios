@@ -53,7 +53,7 @@ class MineMessageEntity: MessageEntity {
                         })
                         text.addAttribute(NSAttributedString.Key.foregroundColor, value: Theme.style == .dark ? Color.theme.primaryColor6:Color.theme.primaryColor5, range: range)
                     } else {
-                        let user = EaseChatUIKitContext.shared?.chatCache?[self.message.from]
+                        let user = self.message.user
                         var nickname = user?.remark ?? ""
                         if nickname.isEmpty {
                             nickname = user?.nickname ?? ""
@@ -143,10 +143,10 @@ class MineMessageEntity: MessageEntity {
                 }
             } else {
                 if self.message.mention == EaseChatUIKitContext.shared?.currentUserId ?? "" {
-                    let user = EaseChatUIKitContext.shared?.chatCache?[self.message.from]
-                    var nickname = user?.remark ?? ""
+                    let mentionUser = EaseChatUIKitContext.shared?.userCache?[EaseChatUIKitContext.shared?.currentUserId ?? ""]
+                    var nickname = mentionUser?.remark ?? ""
                     if nickname.isEmpty {
-                        nickname = user?.nickname ?? ""
+                        nickname = mentionUser?.nickname ?? ""
                         if nickname.isEmpty {
                             nickname = EaseChatUIKitContext.shared?.currentUserId ?? ""
                         }

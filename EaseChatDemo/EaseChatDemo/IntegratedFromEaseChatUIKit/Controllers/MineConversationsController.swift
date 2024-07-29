@@ -146,14 +146,12 @@ final class MineConversationsController: ConversationListController {
         var name = ""
         var users = [EaseProfileProtocol]()
         let ownerId = EaseChatUIKitContext.shared?.currentUserId ?? ""
-        let owner = EaseChatProfile()
-        owner.id = ownerId
-        owner.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL ?? ""
-        owner.nickname = EaseChatUIKitContext.shared?.currentUser?.nickname ?? ""
-        users.append(owner)
-        users.append(contentsOf: profiles)
+        if let owner = EaseChatUIKitContext.shared?.userCache?[ownerId] {
+            users.append(owner)
+            users.append(contentsOf: profiles)
+        }
         var ids = [String]()
-        for (index,profile) in profiles.enumerated() {
+        for (index,profile) in users.enumerated() {
             if index <= 2 {
                 if index == 0 {
                     name += (profile.nickname.isEmpty ? profile.id:profile.nickname)

@@ -184,9 +184,9 @@ final class MineMessageListViewController: MessageListController {
             if let conversation = ChatClient.shared().chatManager?.getConversationWithConvId(self?.profile.id) {
                 let messageId = conversation.latestMessage.messageId
                 conversation.loadMessagesStart(fromId: messageId, count: 1, searchDirection:  messageId.isEmpty ? .down:.up) { messages, error in
-                    if let message = messages?.first {
-                        self?.messageContainer.showMessage(message: message)
-                    }
+//                    if let message = messages?.first {
+//                        self?.messageContainer.showMessage(message: message)
+//                    }
                 }
             }
         }
