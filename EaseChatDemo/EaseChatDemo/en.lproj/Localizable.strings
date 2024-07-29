@@ -93,7 +93,7 @@
 "message_reaction_description" = "Long press a message to add emoji reactions";
 
 "Server Config" = "Server Config";
-"Clean successful!" = "Clean successful";
+"Clean successful!" = "Clear successful";
 "agreeFriendRequest success" = "Friend request accepted";
 "Debug Log" = "Debug Log";
 "Privacy" = "Privacy";
