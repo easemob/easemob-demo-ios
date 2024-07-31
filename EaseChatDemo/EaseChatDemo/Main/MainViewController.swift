@@ -64,10 +64,9 @@ final class MainViewController: UITabBarController {
     
     private func callKitSet() {
         let callConfig = EaseCallConfig()
-        callConfig.agoraAppId = "15cb0d28b87b425ea613fc46f7c9f974"
+        callConfig.agoraAppId = CallKitAppId
         callConfig.enableRTCTokenValidate = true
         EaseCallManager.shared().initWith(callConfig, delegate: self)
-        EaseCallManager.shared()
     }
 
     private func loadViewControllers() {
