@@ -53,12 +53,17 @@ public class EasemobError: Error,Convertible {
                 } else {
                     if error == nil {
                         let errorMap = data?.chat.toDictionary() ?? [:]
-                        let someError = model(from: errorMap, type: EasemobError.self) as? Error
+                        let someError = EasemobError()
+                        someError.message = errorMap["errorInfo"] as? String
+                        someError.code = "\((errorMap["code"] as? Int) ?? response!.statusCode)"
                         if let code = errorMap["code"] as? String,code == "401" {
-                            NotificationCenter.default.post(name: NSNotification.Name("BackLogin"), object: nil)
+                            NotificationCenter.default.post(name: Notification.Name("BackLogin"), object: nil)
                         }
-                        callBack(nil,someError)
+                        callBack(nil,error)
                     } else {
+                        let someError = EasemobError()
+                        someError.message = error?.localizedDescription
+                        someError.code = "\((error as? NSError)?.code ?? response!.statusCode)"
                         callBack(nil,error)
                     }
                 }
@@ -86,14 +91,17 @@ public class EasemobError: Error,Convertible {
             } else {
                 if error == nil {
                     let errorMap = data?.chat.toDictionary() ?? [:]
-                    let someError = model(from: errorMap, type: EasemobError.self) as? Error
+                    let someError = EasemobError()
+                    someError.message = errorMap["errorInfo"] as? String
+                    someError.code = "\((errorMap["code"] as? Int) ?? response!.statusCode)"
                     if let code = errorMap["code"] as? String,code == "401" {
                         NotificationCenter.default.post(name: Notification.Name("BackLogin"), object: nil)
                     }
+                    callBack(nil,error)
                 } else {
                     let someError = EasemobError()
                     someError.message = error?.localizedDescription
-                    someError.code = "\((error as? NSError)?.code ?? 400)"
+                    someError.code = "\((error as? NSError)?.code ?? response!.statusCode)"
                     callBack(nil,error)
                 }
             }
@@ -359,6 +367,8 @@ public extension EasemobBusinessRequest {
             uri += "/group/\(groupId)/avatarurl"
         case .fetchRTCToken(let channelId,let userId):
             uri = "/inside/token/rtc/channel/\(channelId)/user/\(userId)"
+        case .addFriendByPhoneNumber(let phone, let userId):
+            uri += "/user/\(phone)?operator=\(userId)"
         case .mirrorCallUserIdToChatUserId(let callUserId):
             uri = "/inside/agora/channel/mapper?channelName=\(callUserId)"
         }

@@ -30,7 +30,6 @@
 "Channel Cooperation" = "渠道合作";
 "Suggestions" = "投诉建议";
 
-"Personal Info" = "个人信息";
 "Avatar" = "头像";
 "Nickname" = "昵称";
 
@@ -64,7 +63,7 @@
 "EeaseMobID" = "环信ID";
 "Password" = "密码";
 
-"Personal info" = "个人信息";
+"Personal Info" = "个人信息";
 "General" = "通用";
 "Notification" = "消息通知";
 "About" = "关于";
@@ -104,3 +103,31 @@
 
 "agreeFriendRequest success" = "好友请求已同意";
 "Debug Log" = "调试日志";
+"Privacy" = "隐私";
+"block_list" = "黑名单";
+"Target Language" = "目标语言";
+"After setting, long-pressing a message will translate it into the specified target language." = "设置后，长按消息将翻译为指定的目标语言";
+"online_status" = "用户状态";
+"Custom Status" = "自定义";
+"Away" = "离开";
+"Busy" = "忙碌";
+"The length of the custom status should be less than 20 characters" = "自定义状态长度应该小于20个字符";
+"Do Not Disturb" = "勿扰";
+"Online" = "在线";
+"Offline" = "离线";
+
+"typing_indicator" = "输入状态";
+"translate_language_setting" = "翻译目标语言";
+
+"translate_language_setting_alert" = "设置后，长按消息将翻译为指定的目标语言";
+
+"Typing Alert" = "开启后，对方将看到您的输入状态";
+"Block Alert" = "开启好友黑名单功能";
+
+"Account" = "账号";
+"The user does not exist" = "用户不存在";
+"Friend request sent" = "好友请求已发送";
+"Group disbanded" = "群组已解散";
+"Save Image" = "保存图片";
+
+"contactID" = "通过手机号或ID添加联系人";

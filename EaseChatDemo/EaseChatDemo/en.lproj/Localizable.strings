@@ -10,9 +10,9 @@
 "Contacts" = "Contacts";
 " and " = " and ";
 "Login" = "Log In";
-"Logout" = "Logout";
+"Logout" = "Log Out";
 "Service" = "Service";
-"Setting" = "Setting";
+"Setting" = "Settings";
 "Privacy Policy" = "Privacy Policy";
 "Get Code" = "Get Code";
 "Get After" = "Get After";
@@ -30,7 +30,6 @@
 "Channel Cooperation" = "Channel Cooperation";
 "Suggestions" = "Suggestions";
 
-"Personal Info" = "Personal Info";
 "Avatar" = "Avatar";
 "Nickname" = "Nickname";
 
@@ -62,9 +61,8 @@
 
 "EeaseMobID" = "EeaseMob ID";
 "Password" = "Password";
-"Personal info" = "Personal info";
 "General" = "General";
-"Notification" = "Notification";
+"Notification" = "Message Notifications";
 "About" = "About";
 "message_translate" = "Translation";
 "group_topic" = "Thread";
@@ -95,6 +93,32 @@
 "message_reaction_description" = "Long press a message to add emoji reactions";
 
 "Server Config" = "Server Config";
-"Clean successful!" = "Clean successful";
+"Clean successful!" = "Clear successful";
 "agreeFriendRequest success" = "Friend request accepted";
 "Debug Log" = "Debug Log";
+"Privacy" = "Privacy";
+"block_list" = "Block List";
+"Target Language" = "Target Language";
+"After setting, long-pressing a message will translate it into the specified target language." = "After setting, long-pressing a message will translate it into the specified target language.";
+"online_status" = "User Status";
+"Custom Status" = "Custom";
+"Personal Info" = "Profile";
+"Away" = "Away";
+"Busy" = "Busy";
+"The length of the custom status should be less than 20 characters" = "The length of the custom status should be less than 20 characters";
+"Do Not Disturb" = "Do Not Disturb";
+"Offline" = "Offline";
+
+"typing_indicator" = "Typing Indicator";
+"translate_language_setting" = "Target Language";
+"translate_language_setting_alert" = "After setting, long-pressing a message will translate it into the specified target language.";
+"Typing Alert" = "Turn on,other party'll saw your typing";
+"Block Alert" = "Enable the friend blacklist feature";
+
+"Account" = "Account";
+"The user does not exist" = "The user does not exist";
+"Friend request sent" = "Friend request sent";
+"Group disbanded" = "Group disbanded";
+"Save Image" = "Save Image";
+
+"contactID" = "Add contacts by phone number or ID.";

@@ -59,6 +59,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 if let conversation = ChatClient.shared().chatManager?.getConversationWithConvId(profile.id) {
                     if conversation.type == .chat {
                         EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                    } else {
+                        EaseChatUIKitContext.shared?.groupCache?[profile.id] = profile
                     }
                 }
                 if profile.id == ChatClient.shared().currentUsername ?? "" {
@@ -111,9 +113,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     @objc private func loadLogin() {
         DispatchQueue.main.async {
-            if self.window?.rootViewController is MainViewController {
-                self.window?.rootViewController = LoginViewController()
-            }
+            self.window?.rootViewController = LoginViewController()
         }
     }
 

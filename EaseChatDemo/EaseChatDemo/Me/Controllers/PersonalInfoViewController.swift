@@ -105,27 +105,21 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
     private func updateUserInfo(userId: String,nickname: String) {
         ChatClient.shared().userInfoManager?.updateOwnUserInfo(nickname, with: .nickName, completion: { [weak self] info, error in
             guard let `self` = self else { return }
-            if error == nil {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if error == nil {
                     self.infos[1]["detail"] = nickname
                     self.infoList.reloadData()
                     EaseChatUIKitContext.shared?.currentUser?.nickname = nickname
                     EaseChatUIKitContext.shared?.userCache?[userId]?.nickname = nickname
                     EaseChatUIKitContext.shared?.chatCache?[userId]?.nickname = nickname
-                    ChatClient.shared().userInfoManager?.updateOwnUserInfo(nickname, with: .nickName) { userInfo,error in
-                        DispatchQueue.main.async {
-                            if error != nil {
-                                DialogManager.shared.showAlert(title: "error".chat.localize, content: "update nickname failed".chat.localize, showCancel: false, showConfirm: true) { _ in
-                                    
-                                }
-                            } else {
-                                if let userJson = EaseChatUIKitContext.shared?.currentUser?.toJsonObject() {
-                                    let profile = EaseChatProfile()
-                                    profile.setValuesForKeys(userJson)
-                                    profile.updateFFDB()
-                                }
-                            }
-                        }
+                    if let userJson = EaseChatUIKitContext.shared?.currentUser?.toJsonObject() {
+                        let profile = EaseChatProfile()
+                        profile.setValuesForKeys(userJson)
+                        profile.updateFFDB()
+                    }
+                } else {
+                    DialogManager.shared.showAlert(title: "error".chat.localize, content: "update nickname failed".chat.localize, showCancel: false, showConfirm: true) { _ in
+                        
                     }
                 }
             }

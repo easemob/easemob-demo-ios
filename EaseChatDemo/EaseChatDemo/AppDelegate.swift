@@ -23,6 +23,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     @UserDefault("EaseMobChatMessageReaction", defaultValue: true) var messageReaction: Bool
     
     @UserDefault("EaseMobChatCreateMessageThread", defaultValue: true) var messageThread: Bool
+    
+    @UserDefault("EaseChatDemoPreferencesBlock", defaultValue: true) var block: Bool
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -71,6 +74,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         //Set up EaseChatUIKit
         _ = EaseChatUIKitClient.shared.setup(option: options)
         EaseChatUIKitClient.shared.registerUserStateListener(self)
+        _ = PresenceManager.shared
     }
     
     private func setupEaseChatUIKitConfig() {
@@ -86,6 +90,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             Appearance.alertStyle = .large
             Appearance.chat.bubbleStyle = .withMultiCorner
         }
+        Appearance.hiddenPresence = false
+        Appearance.chat.enableTyping = true
+        Appearance.contact.enableBlock = self.block
         //Enable message translation
         Appearance.chat.enableTranslation = self.enableTranslation
         if Appearance.chat.enableTranslation {
@@ -108,9 +115,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Register custom components
         ComponentsRegister.shared.ConversationsController = MineConversationsController.self
+        ComponentsRegister.shared.ContactsController = MineContactsViewController.self
         ComponentsRegister.shared.MessageViewController = MineMessageListViewController.self
         ComponentsRegister.shared.ContactInfoController = MineContactDetailViewController.self
         ComponentsRegister.shared.GroupInfoController = MineGroupDetailViewController.self
+        ComponentsRegister.shared.MessageRenderEntity = MineMessageEntity.self
     }
     
     
@@ -242,6 +251,9 @@ extension AppDelegate: UserStateChangedListener {
         if error != nil {
             NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
         } else {
+            ChatClient.shared().pushManager?.syncSilentModeConversations(fromServerCompletion: { error in
+                
+            })
             if let groups = ChatClient.shared().groupManager?.getJoinedGroups() {
                 var profiles = [EaseChatProfile]()
                 for group in groups {
@@ -250,6 +262,7 @@ extension AppDelegate: UserStateChangedListener {
                     profile.nickname = group.groupName
                     profile.avatarURL = group.settings.ext
                     profiles.append(profile)
+                    profile.insert()
                 }
                 EaseChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
             }

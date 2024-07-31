@@ -25,8 +25,8 @@ final class MineContactRemarkEditViewController: UIViewController {
         UIView(frame: CGRect(x: 16, y: self.navigation.frame.maxY+16, width: self.view.frame.width-32, height: 114)).backgroundColor(Theme.style == .dark ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor95).cornerRadius(.extraSmall)
     }()
     
-    public private(set) lazy var contentEditor: PlaceHolderTextView = {
-        PlaceHolderTextView(frame: CGRect(x: 16, y: self.container.frame.minY, width: self.view.frame.width-32, height: 72)).delegate(self).font(UIFont.theme.bodyLarge).backgroundColor(.clear)
+    public private(set) lazy var contentEditor: CustomTextView = {
+        CustomTextView(frame: CGRect(x: 16, y: self.container.frame.minY, width: self.view.frame.width-32, height: 72)).delegate(self).font(UIFont.theme.bodyLarge).backgroundColor(.clear)
     }()
     
     lazy var limitCount: UILabel = {
@@ -45,8 +45,8 @@ final class MineContactRemarkEditViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.contentEditor.contentInset = UIEdgeInsets(top: 6, left: 10, bottom: 0, right: 10)
         self.contentEditor.linkTextAttributes = [.foregroundColor:Theme.style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor6]
-        self.contentEditor.placeHolderColor = Theme.style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor6
-        self.contentEditor.placeHolder = "Please input".chat.localize
+//        self.contentEditor.placeHolderColor = Theme.style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor6
+        self.contentEditor.placeholder = "Please input".chat.localize
         self.navigation.clickClosure = { [weak self] in
             self?.navigationClick(type: $0, indexPath: $1)
         }
@@ -55,6 +55,11 @@ final class MineContactRemarkEditViewController: UIViewController {
         self.limitCount.text = "\(self.raw.count)/\(self.textLimit())"
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.contentEditor.becomeFirstResponder()
     }
     
@@ -95,6 +100,9 @@ final class MineContactRemarkEditViewController: UIViewController {
 
 extension MineContactRemarkEditViewController: UITextViewDelegate {
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            return false
+        }
         self.navigation.rightItem.isEnabled = (!(textView.text ?? "").isEmpty || !text.isEmpty)
         if (textView.text ?? "").count > self.textLimit(),!text.isEmpty {
             self.showToast(toast: "Reach content character limit.".chat.localize)
