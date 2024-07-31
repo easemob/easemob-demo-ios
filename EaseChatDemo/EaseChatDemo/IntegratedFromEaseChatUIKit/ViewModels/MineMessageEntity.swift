@@ -22,11 +22,6 @@ class MineMessageEntity: MessageEntity {
             }
         }
         var textColor = self.message.direction == .send ? Appearance.chat.sendTextColor:Appearance.chat.receiveTextColor
-        if self.message.direction == .send {
-            textColor = Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
-        } else {
-            textColor = Theme.style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
-        }
         if self.historyMessage {
             textColor = Theme.style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
         }
