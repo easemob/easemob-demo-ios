@@ -344,7 +344,8 @@ extension MainViewController: EaseCallDelegate {
     }
     
     func callDidOccurError(_ aError: EaseCallError) {
-        
+        consoleLogInfo("callDidOccurError:\(aError.errDescription)", type: .error)
+        UIViewController.currentController?.showToast(toast: "callDidOccurError:\(aError.errDescription)")
     }
     
     func callDidRequestRTCToken(forAppId aAppId: String, channelName aChannelName: String, account aUserAccount: String, uid aAgoraUid: Int) {
