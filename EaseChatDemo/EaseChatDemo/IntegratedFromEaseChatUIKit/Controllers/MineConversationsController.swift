@@ -228,10 +228,25 @@ final class MineConversationsController: ConversationListController {
     }    
     
     @objc public func addContactRequest(text: String) {
-        EasemobBusinessRequest.shared.sendGETRequest(api: .addFriendByPhoneNumber(text, EaseChatUIKitContext.shared?.currentUserId ?? ""), params: ["userId":text]) { result, error in
+        if text.chat.numCount != 11 {
+            ChatClient.shared().contactManager?.addContact(text, message: "", completion: { [weak self]  userId,error  in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self?.showToast(toast: "add contact error:\(error.errorDescription ?? "")")
+                    }
+                    consoleLogInfo("add contact error:\(error.errorDescription ?? "")", type: .error)
+                } else {
+                    DispatchQueue.main.async {
+                        self?.showToast(toast: "Friend request sent".localized())
+                    }
+                }
+            })
+            return
+        }
+        EasemobBusinessRequest.shared.sendGETRequest(api: .addFriendByPhoneNumber(text, EaseChatUIKitContext.shared?.currentUserId ?? ""), params: [:]) { [weak self] result, error in
             if error != nil,let someError  = error as? EasemobError,someError.code == "404" {
                 DispatchQueue.main.async {
-                    self.showToast(toast: "The user does not exist".localized())
+                    self?.showToast(toast: "The user does not exist".localized())
                 }
             } else {
                 if let userId = result?["chatUserName"] as? String {
@@ -239,7 +254,9 @@ final class MineConversationsController: ConversationListController {
                         if let error = error {
                             consoleLogInfo("add contact error:\(error.errorDescription ?? "")", type: .error)
                         } else {
-                            self.showToast(toast: "Friend request sent".localized())
+                            DispatchQueue.main.async {
+                                self?.showToast(toast: "Friend request sent".localized())
+                            }
                         }
                     })
                 }

@@ -21,6 +21,8 @@ final class LoginViewController: UIViewController {
         
     @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var config
     
+    @UserDefault("EaseChatDemoUserToken", defaultValue: "") private var token
+    
     private lazy var background: UIImageView = {
         UIImageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight)).contentMode(.scaleAspectFill)
     }()
@@ -249,6 +251,7 @@ extension LoginViewController: UITextFieldDelegate {
             ChatClient.shared().fetchToken(withUsername: userId.lowercased(), password: password) {[weak self] token, error in
                 self?.loadingView.stopAnimating()
                 if error ==  nil,let chatToken = token {
+                    self?.token = chatToken
                     let user = EaseChatProfile()
                     user.id = userId
                     self?.login(user: user, token: chatToken)

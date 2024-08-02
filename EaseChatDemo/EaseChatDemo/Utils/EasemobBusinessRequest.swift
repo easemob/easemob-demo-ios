@@ -28,6 +28,8 @@ public class EasemobError: Error,Convertible {
         
     @objc public static let shared = EasemobBusinessRequest()
     
+    @UserDefault("EaseChatDemoUserToken", defaultValue: "") private var token
+    
     @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var serverConfig
     
     /// Description send a request contain generic
@@ -45,7 +47,8 @@ public class EasemobError: Error,Convertible {
         callBack:@escaping ((T?,Error?) -> Void)) -> URLSessionTask? {
         print(params)
 
-        let headers = ["Accept":"application/json","Content-Type":"application/json"]
+        let headers = ["Accept":"application/json","Authorization":self.token,"Content-Type":"application/json"]
+            
         let task = EasemobRequest.shared.constructRequest(method: method, uri: uri, params: params, headers: headers) { data, response, error in
             DispatchQueue.main.async {
                 if error == nil,response?.statusCode ?? 0 == 200 {
@@ -84,7 +87,7 @@ public class EasemobError: Error,Convertible {
         uri: String,
         params: Dictionary<String, Any>,
         callBack:@escaping ((Dictionary<String,Any>?,Error?) -> Void)) -> URLSessionTask? {
-        let headers = ["Accept":"application/json","Content-Type":"application/json"]
+        let headers = ["Accept":"application/json","Authorization":self.token,"Content-Type":"application/json"]
         let task = EasemobRequest.shared.constructRequest(method: method, uri: uri, params: params, headers: headers) { data, response, error in
             if error == nil,response?.statusCode ?? 0 == 200 {
                 callBack(data?.chat.toDictionary(),nil)
