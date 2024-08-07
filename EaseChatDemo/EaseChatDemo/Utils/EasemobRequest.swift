@@ -80,6 +80,7 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
                 consoleLogInfo("request failed: \(error.localizedDescription)", type: .error)
             }
         }
+        print("urlRequest: \(urlRequest.cURL())")
         urlRequest.allHTTPHeaderFields = headers
         urlRequest.httpMethod = method.rawValue
         let task = self.session?.dataTask(with: urlRequest){
@@ -87,11 +88,11 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
                 let response = ($1 as? HTTPURLResponse)
                 callBack($0,response,$2)
                 if response?.statusCode ?? 200 != 200 {
-                    consoleLogInfo("request failed: log curl:\(urlRequest.cURL)", type: .error)
+                    consoleLogInfo("request failed: log curl:\(urlRequest.cURL())", type: .error)
                 }
             } else {
                 callBack(nil,nil,$2)
-                consoleLogInfo("request failed: log curl:\(urlRequest.cURL)", type: .error)
+                consoleLogInfo("request failed: log curl:\(urlRequest.cURL())", type: .error)
             }
         }
         task?.resume()
@@ -118,11 +119,11 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
                 let response = ($1 as? HTTPURLResponse)
                 callBack($0,response,$2)
                 if response?.statusCode ?? 200 != 200 {
-                    consoleLogInfo("request failed: log curl:\(urlRequest.cURL)", type: .error)
+                    consoleLogInfo("request failed: log curl:\(urlRequest.cURL())", type: .error)
                 }
             } else {
                 callBack(nil,nil,$2)
-                consoleLogInfo("request failed: log curl:\(urlRequest.cURL)", type: .error)
+                consoleLogInfo("request failed: log curl:\(urlRequest.cURL())", type: .error)
             }
         }
         task?.resume()
@@ -180,44 +181,27 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
 
 extension URLRequest {
 
-    var cURL: String {
-        guard
-            let url = url,
-            let httpMethod = httpMethod,
-            url.absoluteString.utf8.count > 0,
-            httpMethod.utf8.count > 0
-        else {
-            return ""
-        }
+    func cURL(pretty: Bool = false) -> String {
+        let newLine = pretty ? "\\\n" : ""
+        let method = (pretty ? "--request " : "-X ") + "\(httpMethod ?? "GET") \(newLine)"
+        let url: String = (pretty ? "--url " : "") + "\'\(url?.absoluteString ?? "")\' \(newLine)"
 
-        var curlCommand = "curl"
+        var cURL = "curl "
+        var header = ""
+        var data = ""
 
-        // URL
-        curlCommand = curlCommand.appendingFormat(" '%@'", url.absoluteString)
-
-        // Method if different from GET
-        if "GET" != httpMethod {
-            curlCommand = curlCommand.appendingFormat(" -X %@", httpMethod)
-        }
-
-        // Headers
-        let allHTTPHeaderFields = self.allHTTPHeaderFields
-        allHTTPHeaderFields?.keys.forEach({ key in
-            if let value = allHTTPHeaderFields![key] {
-                curlCommand = curlCommand.appendingFormat(" -H '%@: %@'", key, value)
+        if let httpHeaders = allHTTPHeaderFields, httpHeaders.keys.count > 0 {
+            for (key, value) in httpHeaders {
+                header += (pretty ? "--header " : "-H ") + "\'\(key): \(value)\' \(newLine)"
             }
-        })
-
-        // HTTP body
-        if
-            let httpBodyData = httpBody,
-            let httpBody = String(data: httpBodyData, encoding: .utf8),
-            httpBody.utf8.count > 0
-        {
-            var escapedHttpBody = httpBody.replacingOccurrences(of: "\\\"", with: "\\\\\\\"")
-            escapedHttpBody = escapedHttpBody.replacingOccurrences(of: "\"", with: "\\\"")
-            curlCommand = curlCommand.appendingFormat(" -d \"%@\"", escapedHttpBody)
         }
-        return curlCommand
+
+        if let bodyData = httpBody, let bodyString = String(data: bodyData, encoding: .utf8), !bodyString.isEmpty {
+            data = "--data '\(bodyString)'"
+        }
+
+        cURL += method + url + header + data
+
+        return cURL
     }
 }
