@@ -26,6 +26,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @UserDefault("EaseChatDemoPreferencesBlock", defaultValue: true) var block: Bool
     
+    @UserDefault("EaseChatDemoUserToken", defaultValue: "") private var token
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -251,6 +253,7 @@ extension AppDelegate: UserStateChangedListener {
         if error != nil {
             NotificationCenter.default.post(name: Notification.Name(rawValue: backLoginPage), object: nil)
         } else {
+            self.token = ChatClient.shared().accessUserToken ?? ""
             ChatClient.shared().pushManager?.syncSilentModeConversations(fromServerCompletion: { error in
                 
             })
