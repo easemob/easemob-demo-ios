@@ -126,10 +126,12 @@ final class MineMessageListViewController: MessageListController {
     }
     
     private func processItemAction(item: ActionSheetItemProtocol) {
-        var callType = self.chatType == .chat ? EaseCallType.type1v1Audio:EaseCallType.type1v1Video
-        if item.tag == "VideoCall".localized() {
-            if self.chatType != .chat {
-                callType = EaseCallType.typeMulti
+        var callType = EaseCallType.type1v1Audio
+        if self.chatType != .chat {
+            callType = EaseCallType.typeMulti
+        } else {
+            if item.tag == "VideoCall".localized() {
+                callType = EaseCallType.type1v1Video
             }
         }
         

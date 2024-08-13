@@ -306,6 +306,11 @@ extension LoginViewController: UITextFieldDelegate {
                 } else {
                     EaseChatUIKitContext.shared?.currentUser = user
                     EaseChatUIKitContext.shared?.userCache?[user.id] = user
+                    let profile = EaseChatProfile()
+                    profile.id = user.id
+                    profile.avatarURL = user.avatarURL
+                    profile.nickname = user.nickname
+                    profile.insert()
                 }
                 self?.fillCache()
                 self?.entryHome()
