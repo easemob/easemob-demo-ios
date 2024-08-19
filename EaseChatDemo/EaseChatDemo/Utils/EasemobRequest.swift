@@ -80,7 +80,6 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
                 consoleLogInfo("request failed: \(error.localizedDescription)", type: .error)
             }
         }
-        print("urlRequest: \(urlRequest.cURL())")
         urlRequest.allHTTPHeaderFields = headers
         urlRequest.httpMethod = method.rawValue
         let task = self.session?.dataTask(with: urlRequest){
