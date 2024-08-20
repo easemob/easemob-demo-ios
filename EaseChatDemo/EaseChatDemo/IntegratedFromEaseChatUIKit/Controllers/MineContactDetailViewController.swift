@@ -31,7 +31,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
             ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "VideoCall".chat.localize, featureIcon: UIImage(named: "video_call", in: .chatBundle, with: nil)),
             ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil))
         ]
-        Appearance.contact.moreActions = [ActionSheetItem(title: "contact_details_extend_button_delete".chat.localize, type: .destructive, tag: "contact_delete"),ActionSheetItem(title: "barrage_long_press_menu_report".chat.localize, type: .normal, tag: "report")]
+        Appearance.contact.moreActions.insert(ActionSheetItem(title: "barrage_long_press_menu_report".chat.localize, type: .normal, tag: "report"), at: 0)
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
