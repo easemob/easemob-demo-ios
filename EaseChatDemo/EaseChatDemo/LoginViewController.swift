@@ -23,6 +23,8 @@ final class LoginViewController: UIViewController {
     
     @UserDefault("EaseChatDemoUserToken", defaultValue: "") private var token
     
+    @UserDefault("EaseChatDemoUserPhone", defaultValue: "") private var phone
+        
     private lazy var background: UIImageView = {
         UIImageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight)).contentMode(.scaleAspectFill)
     }()
@@ -270,9 +272,11 @@ extension LoginViewController: UITextFieldDelegate {
                 return
             }
             self.loadingView.startAnimating()
+            self.phone = phone
             EasemobBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["phoneNumber":phone,"smsCode":code]) { [weak self] result, error in
                 if error == nil {
                     if let userId = result?["chatUserName"] as? String,let token = result?["token"] as? String{
+                        self?.token = token
                         let user = EaseChatProfile()
                         user.id = userId
                         user.avatarURL = (result?["avatarUrl"] as? String) ?? ""
