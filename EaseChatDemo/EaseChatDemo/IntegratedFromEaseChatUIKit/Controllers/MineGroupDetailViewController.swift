@@ -146,7 +146,9 @@ final class MineGroupDetailViewController: GroupInfoViewController {
     }
     
     private func reportUser() {
-        if let url = URL(string: "mailto:issues@easemob.com?subject=Easemob Official DEMO Report \(self.chatGroup.groupId ?? "")&body=Thank you for your feedback. Please describe the content you would like to report and provide the relevant screenshots..") {
+        let subject = "Easemob Official DEMO Report \(self.chatGroup.groupId ?? "")".chat.urlEncoded
+        let body = "Thank you for your feedback. Please describe the content you would like to report and provide the relevant screenshots..".chat.urlEncoded
+        if let url = URL(string: "mailto:issues@easemob.com?subject=\(subject)&body=\(body)") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
