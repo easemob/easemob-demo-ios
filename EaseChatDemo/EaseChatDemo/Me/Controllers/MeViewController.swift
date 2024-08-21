@@ -14,7 +14,7 @@ final class MeViewController: UIViewController {
     private var menusData: [[String:Any]] {
         [
             ["sectionTitle":"Setting".localized(),"sectionData":[["title":"online_status".localized(),"icon":"online_status","detail":PresenceManager.shared.currentUserStatus],["title":"Personal Info".localized(),"icon":"userinfo"],["title":"General".localized(),"icon":"general"],["title":"Notification".localized(),"icon":"notification"],["title":"Privacy".localized(),"icon":"privacy"],["title":"About".localized(),"icon":"about"]]],
-            ["sectionTitle":"Account".localized(),"sectionData":[["title":"Logout".localized()]]]
+            ["sectionTitle":"Account".localized(),"sectionData":[["title":"Logout".localized()],["title":"Deregister".localized()]]]
         ]
     }
     
@@ -33,6 +33,8 @@ final class MeViewController: UIViewController {
     private var limited = false
     
     private var customStatus = ""
+    
+    @UserDefault("EaseChatDemoUserPhone", defaultValue: "") private var phone
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -167,21 +169,17 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
             let detail = rowDatas[safe:indexPath.row]?["detail"] as? String
             let imageName = rowDatas[safe:indexPath.row]?["icon"] ?? ""
             cell?.icon.image = UIImage(named: imageName)
-            if let rowTitle = title,rowTitle == "Logout".localized() {
-                cell?.textLabel?.text = title
-                cell?.textLabel?.isHidden = false
-                cell?.icon.isHidden = true
-                cell?.content.isHidden = true
-                cell?.detail.isHidden = true
+            cell?.content.text = title
+            if let rowTitle = title,(rowTitle == "Logout".localized() || rowTitle == "Deregister".localized()) {
+                cell?.refreshViews(hasIcon: false)
+                if rowTitle == "Deregister".localized() {
+                    cell?.content.textColor(Theme.style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor6)
+                } else {
+                    cell?.content.textColor(Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5)
+                }
+                
             } else {
-                cell?.content.text = title
-                cell?.detail.text = detail
-                cell?.icon.isHidden = false
-                cell?.textLabel?.isHidden = true
-                cell?.content.isHidden = false
-                cell?.detail.isHidden = false
-                cell?.accessoryType = .disclosureIndicator
-                cell?.content.textColor = Theme.style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
+                cell?.refreshViews(hasIcon: true)
             }
         }
         
@@ -199,8 +197,36 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
             case "About".localized(): self.viewAbout()
             case "Logout".localized(): self.logout()
             case "Privacy".localized(): self.privacySetting()
+            case "Deregister".localized(): self.deregister()
             default:
                 break
+            }
+        }
+    }
+    
+    private func deregister() {
+        DialogManager.shared.showAlert(title: "Deregister".localized(), content: "Deregister Alert".localized(), showCancel: true, showConfirm: true) { _ in
+            EasemobBusinessRequest.shared.sendDELETERequest(api: .deregister(self.phone), params: [:]) { result, error in
+                if error == nil {
+                    DispatchQueue.main.async {
+                        if error == nil {
+                            EaseChatUIKitClient.shared.logout(unbindNotificationDeviceToken: false) { _ in
+                                NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
+                            }
+                            
+                        } else {
+                            NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        if let error = error as? EasemobError {
+                            self.showToast(toast: "\(error.message ?? "")")
+                        } else {
+                            self.showToast(toast: "\(error?.localizedDescription ?? "")")
+                        }
+                    }
+                }
             }
         }
     }

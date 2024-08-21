@@ -9,6 +9,7 @@ import Foundation
 
 public enum EasemobBusinessApi {
     case login(Void)
+    case deregister(String)
     case verificationCode(String)
     case refreshIMToken(Void)
     case autoDestroyGroup(String)
