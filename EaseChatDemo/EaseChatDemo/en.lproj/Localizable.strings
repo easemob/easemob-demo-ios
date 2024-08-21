@@ -11,6 +11,8 @@
 " and " = " and ";
 "Login" = "Log In";
 "Logout" = "Log Out";
+"Deregister" = "Deregister";
+"Deregister Alert" = "After deregistration, the account cannot be restored, and you will not be able to add or send any messages using this account. The personal information recorded in this account (including but not limited to avatars, user names, etc.) and information data related to the account (including but not limited to contacts, created sessions, session details, etc.) will not be able to be retrieved.";
 "Service" = "Service";
 "Setting" = "Settings";
 "Privacy Policy" = "Privacy Policy";

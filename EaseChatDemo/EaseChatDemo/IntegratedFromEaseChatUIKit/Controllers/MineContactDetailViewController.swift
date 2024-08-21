@@ -31,6 +31,9 @@ final class MineContactDetailViewController: ContactInfoViewController {
             ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "VideoCall".chat.localize, featureIcon: UIImage(named: "video_call", in: .chatBundle, with: nil)),
             ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil))
         ]
+        if !Appearance.contact.moreActions.contains(where: { $0.tag == "report" }) {
+            Appearance.contact.moreActions.insert(ActionSheetItem(title: "barrage_long_press_menu_report".chat.localize, type: .normal, tag: "report"), at: 0)
+        }
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
@@ -40,6 +43,44 @@ final class MineContactDetailViewController: ContactInfoViewController {
         if self.showMenu {
             self.requestInfo()
             self.fetchUserStatus()
+        }
+    }
+    
+    override func rightActions(indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            DialogManager.shared.showActions(actions: Appearance.contact.moreActions) { [weak self] item  in
+                guard let `self` = self else { return }
+                self.processItemAction(item: item)
+            }
+        default:
+            break
+        }
+    }
+    
+    private func processItemAction(item: ActionSheetItemProtocol) {
+        switch item.tag {
+        case "contact_delete": self.deleteUser()
+        case "report": self.reportUser()
+        default:
+            break
+        }
+    }
+    
+    private func deleteUser() {
+        self.service.removeContact(userId: self.profile.id) { [weak self] error, userId in
+            if error == nil {
+                self?.removeContact?()
+                self?.pop()
+            } else {
+                consoleLogInfo("ContactInfoViewController delete contact error:\(error?.errorDescription ?? "")", type: .error)
+            }
+        }
+    }
+    
+    private func reportUser() {
+        if let url = URL(string: "mailto:issues@easemob.com?subject=Easemob Official DEMO Report \(self.profile.id)&body=Thank you for your feedback. Please describe the content you would like to report and provide the relevant screenshots..") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     

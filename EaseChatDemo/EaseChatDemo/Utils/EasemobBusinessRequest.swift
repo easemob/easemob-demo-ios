@@ -28,7 +28,7 @@ public class EasemobError: Error,Convertible {
         
     @objc public static let shared = EasemobBusinessRequest()
     
-    @UserDefault("EaseChatDemoUserToken", defaultValue: "") private var token
+    @UserDefault("EaseChatDemoUserToken", defaultValue: ChatClient.shared().accessUserToken ?? "") private var token
     
     @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var serverConfig
     
@@ -87,7 +87,7 @@ public class EasemobError: Error,Convertible {
         uri: String,
         params: Dictionary<String, Any>,
         callBack:@escaping ((Dictionary<String,Any>?,Error?) -> Void)) -> URLSessionTask? {
-        let headers = ["Accept":"application/json","Authorization":self.token,"Content-Type":"application/json"]
+        let headers = ["Accept":"application/json","Authorization":"Bearer "+self.token,"Content-Type":"application/json"]
         let task = EasemobRequest.shared.constructRequest(method: method, uri: uri, params: params, headers: headers) { data, response, error in
             if error == nil,response?.statusCode ?? 0 == 200 {
                 callBack(data?.chat.toDictionary(),nil)
@@ -358,6 +358,8 @@ public extension EasemobBusinessRequest {
             uri += "/user/login/V2"
         case .refreshIMToken(_):
             uri += "/user/token/refresh"
+        case .deregister(let phoneNum):
+            uri += "/user/\(phoneNum)"
         case .verificationCode(let phoneNum):
             uri += "/sms/send/"+phoneNum
         case .autoDestroyGroup(let groupId):
