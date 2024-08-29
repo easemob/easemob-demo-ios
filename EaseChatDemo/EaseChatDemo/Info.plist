@@ -7,7 +7,7 @@
 		<string>tel</string>
 	</array>
 	<key>Privacy - File Access Usage Description</key>
-	<string>For usage</string>
+	<string>环信想使用您的文件用于发送文件消息</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

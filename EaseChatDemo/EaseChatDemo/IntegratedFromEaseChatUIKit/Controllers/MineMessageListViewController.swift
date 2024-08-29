@@ -305,7 +305,7 @@ extension MineMessageListViewController: ImageBrowserProtocol {
             UIViewController.currentController?.showToast(toast: "Failed to save image.")
         } else {
             // Handle success
-            UIViewController.currentController?.showToast(toast: "Failed to save image.")
+            UIViewController.currentController?.showToast(toast: "Successful to save image.")
         }
     }
 }
