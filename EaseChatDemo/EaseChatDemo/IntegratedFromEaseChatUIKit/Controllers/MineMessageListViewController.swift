@@ -93,7 +93,7 @@ final class MineMessageListViewController: MessageListController {
     override func rightImages() -> [UIImage] {
         var images = [UIImage(named: "pinned_messages", in: .chatBundle, with: nil)!,UIImage(named: "message_action_topic", in: .chatBundle, with: nil)!,UIImage(named: "call", in: .chatBundle, with: nil)!]
         if self.chatType == .chat {
-            images = [UIImage(named: "call", in: .chatBundle, with: nil)!]
+            images = [UIImage(named: "pinned_messages", in: .chatBundle, with: nil)!,UIImage(named: "call", in: .chatBundle, with: nil)!]
         } else {
             if !Appearance.chat.contentStyle.contains(.withMessageThread) {
                 if images.count > 0 {
@@ -107,12 +107,14 @@ final class MineMessageListViewController: MessageListController {
     override func rightItemsAction(indexPath: IndexPath?) {
         guard let idx = indexPath else { return }
         switch idx.row {
-        case 0: self.chatType == .chat ? self.callAction():self.showPinnedMessages()
+        case 0: self.showPinnedMessages()
         case 1:
             if self.chatType == .group {
                 !Appearance.chat.contentStyle.contains(.withMessageThread) ? self.callAction():self.viewTopicList()
+            } else {
+                self.callAction()
             }
-        case 2: self.callAction()
+        case 2: if self.chatType == .group { self.callAction() }
         default:
             break
         }
@@ -305,7 +307,7 @@ extension MineMessageListViewController: ImageBrowserProtocol {
             UIViewController.currentController?.showToast(toast: "Failed to save image.")
         } else {
             // Handle success
-            UIViewController.currentController?.showToast(toast: "Failed to save image.")
+            UIViewController.currentController?.showToast(toast: "Successful to save image.")
         }
     }
 }
