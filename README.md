@@ -101,6 +101,11 @@ end
 3.2 实现Provider协议对`MainViewController`类的扩展参见下述示例代码
 
 ```Swift
+4.10.0及其以上
+extension MainViewController: ChatUserProfileProvider,ChatGroupProfileProvider {
+
+}
+4.10.0以下
 extension MainViewController: EaseProfileProvider,EaseGroupProfileProvider {
 
 }
