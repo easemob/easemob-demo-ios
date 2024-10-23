@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0506DBF92CB7D67900E0EEA8 /* ShowMenuStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0506DBF82CB7D67900E0EEA8 /* ShowMenuStyleViewController.swift */; };
 		0518E5AD2BA15B8300EA7D7B /* MineConversationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0518E5AC2BA15B8300EA7D7B /* MineConversationsController.swift */; };
 		0518E5AF2BA1A6DF00EA7D7B /* FeatureSwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0518E5AE2BA1A6DF00EA7D7B /* FeatureSwitchViewController.swift */; };
 		0518E5B12BA1ABC900EA7D7B /* FeatureSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0518E5B02BA1ABC900EA7D7B /* FeatureSwitchCell.swift */; };
@@ -91,6 +92,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0506DBF82CB7D67900E0EEA8 /* ShowMenuStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMenuStyleViewController.swift; sourceTree = "<group>"; };
 		0518E5AC2BA15B8300EA7D7B /* MineConversationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineConversationsController.swift; sourceTree = "<group>"; };
 		0518E5AE2BA1A6DF00EA7D7B /* FeatureSwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureSwitchViewController.swift; sourceTree = "<group>"; };
 		0518E5B02BA1ABC900EA7D7B /* FeatureSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureSwitchCell.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				0518E5AE2BA1A6DF00EA7D7B /* FeatureSwitchViewController.swift */,
 				0571F74D2C0D5B4000877895 /* PrivacyPolicyViewController.swift */,
 				053C98812C0E9D0A00F546C8 /* PrivacySettingViewController.swift */,
+				0506DBF82CB7D67900E0EEA8 /* ShowMenuStyleViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				05FE6C2A2B9A9F160030A983 /* ThemesSettingViewController.swift in Sources */,
 				0544D43F2C3BC24000E36B08 /* ImagePreviewTransitionDelegate.swift in Sources */,
 				05E595362C129A6C00970D48 /* MineContactsViewController.swift in Sources */,
+				0506DBF92CB7D67900E0EEA8 /* ShowMenuStyleViewController.swift in Sources */,
 				05E0D7322BA2E2C200373197 /* MineCallInviteUsersController.swift in Sources */,
 				057227642B97FFB200AA866D /* AboutEasemobHeader.swift in Sources */,
 				0544D4402C3BC24000E36B08 /* PreviewImage.swift in Sources */,
@@ -783,7 +787,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -804,7 +808,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.8.0;
+				MARKETING_VERSION = 4.10.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -827,7 +831,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -848,7 +852,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.8.0;
+				MARKETING_VERSION = 4.10.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

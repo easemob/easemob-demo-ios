@@ -17,7 +17,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
     }
     
     override func dataSource() -> [DetailInfo] {
-        let json: [String : Any] = ["title":"contact_details_button_remark".localized(),"detail":EaseChatUIKitContext.shared?.userCache?[self.profile.id]?.remark ?? "","withSwitch": false,"switchValue":false]
+        let json: [String : Any] = ["title":"contact_details_button_remark".localized(),"detail":ChatUIKitContext.shared?.userCache?[self.profile.id]?.remark ?? "","withSwitch": false,"switchValue":false]
         let info = self.dictionaryMapToInfo(json: json)
         var infos = super.dataSource()
         infos.insert(info, at: 0)
@@ -121,13 +121,13 @@ final class MineContactDetailViewController: ContactInfoViewController {
         self.datas.first(where: { $0.title == "contact_details_button_remark".localized() })?.detail = remark
         self.menuList.reloadData()
         self.profile.remark = remark
-        EaseChatUIKitContext.shared?.userCache?[self.profile.id]?.remark = remark
+        ChatUIKitContext.shared?.userCache?[self.profile.id]?.remark = remark
         self.updateRemark(remark: remark)
         
     }
     
     private func updateHeader() {
-        if let user = EaseChatUIKitContext.shared?.userCache?[self.profile.id] {
+        if let user = ChatUIKitContext.shared?.userCache?[self.profile.id] {
             if !user.nickname.isEmpty {
                 self.header.nickName.text = user.nickname
             }
@@ -147,7 +147,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
             DispatchQueue.main.async {
                 if let info = infoMap?[userId],error == nil {
                     
-                    var remark = EaseChatUIKitContext.shared?.userCache?[userId]?.remark ?? ""
+                    var remark = ChatUIKitContext.shared?.userCache?[userId]?.remark ?? ""
                     if remark.isEmpty {
                         remark = info.nickname ?? userId
                     }
@@ -155,24 +155,24 @@ final class MineContactDetailViewController: ContactInfoViewController {
                         profile.nickname = info.nickname ?? ""
                         profile.avatarURL = info.avatarUrl ?? ""
                         profile.updateFFDB()
-                        EaseChatUIKitContext.shared?.userCache?[userId]?.nickname = info.nickname ?? ""
-                        EaseChatUIKitContext.shared?.userCache?[userId]?.avatarURL = info.avatarUrl ?? ""
-                        EaseChatUIKitContext.shared?.chatCache?[userId]?.nickname = info.nickname ?? ""
-                        EaseChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = info.avatarUrl ?? ""
+                        ChatUIKitContext.shared?.userCache?[userId]?.nickname = info.nickname ?? ""
+                        ChatUIKitContext.shared?.userCache?[userId]?.avatarURL = info.avatarUrl ?? ""
+                        ChatUIKitContext.shared?.chatCache?[userId]?.nickname = info.nickname ?? ""
+                        ChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = info.avatarUrl ?? ""
                     } else {
                         let profile = EaseChatProfile()
                         profile.id = userId
                         profile.nickname = info.nickname ?? ""
                         profile.avatarURL = info.avatarUrl ?? ""
                         profile.insert()
-                        if (EaseChatUIKitContext.shared?.userCache?[userId]) != nil {
-                            EaseChatUIKitContext.shared?.userCache?[userId]?.nickname = info.nickname ?? ""
-                            EaseChatUIKitContext.shared?.userCache?[userId]?.avatarURL = info.avatarUrl ?? ""
+                        if (ChatUIKitContext.shared?.userCache?[userId]) != nil {
+                            ChatUIKitContext.shared?.userCache?[userId]?.nickname = info.nickname ?? ""
+                            ChatUIKitContext.shared?.userCache?[userId]?.avatarURL = info.avatarUrl ?? ""
                         } else {
-                            EaseChatUIKitContext.shared?.userCache?[userId] = profile
+                            ChatUIKitContext.shared?.userCache?[userId] = profile
                         }
-                        EaseChatUIKitContext.shared?.chatCache?[userId]?.nickname = info.nickname ?? ""
-                        EaseChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = info.avatarUrl ?? ""
+                        ChatUIKitContext.shared?.chatCache?[userId]?.nickname = info.nickname ?? ""
+                        ChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = info.avatarUrl ?? ""
                     }
                     
                     self?.updateHeader()
@@ -263,9 +263,9 @@ final class MineContactDetailViewController: ContactInfoViewController {
     }
     
     private func updateRemark(remark: String) {
-        if let info = EaseChatUIKitContext.shared?.userCache?[self.profile.id]  {
+        if let info = ChatUIKitContext.shared?.userCache?[self.profile.id]  {
             info.remark = remark
-            EaseChatUIKitContext.shared?.updateCache(type: .user, profile: info)
+            ChatUIKitContext.shared?.updateCache(type: .user, profile: info)
             let dbInfo = EaseChatProfile()
             dbInfo.id = self.profile.id
             dbInfo.nickname = self.profile.nickname
@@ -274,7 +274,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
             dbInfo.update()
         } else {
             self.profile.remark = remark
-            EaseChatUIKitContext.shared?.updateCache(type: .user, profile: self.profile)
+            ChatUIKitContext.shared?.updateCache(type: .user, profile: self.profile)
             let dbInfo = EaseChatProfile()
             dbInfo.id = self.profile.id
             dbInfo.nickname = self.profile.nickname
@@ -288,11 +288,11 @@ final class MineContactDetailViewController: ContactInfoViewController {
         self.header.refreshHeader(showMenu: !blocked)
         self.datas.removeAll()
         var blockUserDatas = [
-            ["title":"contact_details_button_remark".localized(),"detail":EaseChatUIKitContext.shared?.userCache?[self.profile.id]?.remark ?? "","withSwitch": false,"switchValue":false],
+            ["title":"contact_details_button_remark".localized(),"detail":ChatUIKitContext.shared?.userCache?[self.profile.id]?.remark ?? "","withSwitch": false,"switchValue":false],
             ["title":"contact_details_switch_donotdisturb".chat.localize,
              "detail":"",
              "withSwitch": true,
-             "switchValue":self.muteMap[EaseChatUIKitContext.shared?.currentUserId ?? ""]?[self.profile.id] ?? 0 == 1],
+             "switchValue":self.muteMap[ChatUIKitContext.shared?.currentUserId ?? ""]?[self.profile.id] ?? 0 == 1],
             ["title":"contact_details_switch_block".chat.localize,
              "detail":"",
              "withSwitch": true,
@@ -309,11 +309,11 @@ final class MineContactDetailViewController: ContactInfoViewController {
                                "switchValue":blocked]]
         }
         self.datas = (Appearance.contact.enableBlock ? blockUserDatas:[
-            ["title":"contact_details_button_remark".localized(),"detail":EaseChatUIKitContext.shared?.userCache?[self.profile.id]?.remark ?? "","withSwitch": false,"switchValue":false],
+            ["title":"contact_details_button_remark".localized(),"detail":ChatUIKitContext.shared?.userCache?[self.profile.id]?.remark ?? "","withSwitch": false,"switchValue":false],
             ["title":"contact_details_switch_donotdisturb".chat.localize,
              "detail":"",
              "withSwitch": true,
-             "switchValue":self.muteMap[EaseChatUIKitContext.shared?.currentUserId ?? ""]?[self.profile.id] ?? 0 == 1],
+             "switchValue":self.muteMap[ChatUIKitContext.shared?.currentUserId ?? ""]?[self.profile.id] ?? 0 == 1],
             ["title":"contact_details_button_clearchathistory".chat.localize,
              "detail":"",
              "withSwitch": false,

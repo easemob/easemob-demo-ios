@@ -65,7 +65,7 @@ final class MineGroupDetailViewController: GroupInfoViewController {
     }
     
     private func groupCall() {
-        guard let groupId = self.chatGroup.groupId,let userInfo = EaseChatUIKitContext.shared?.currentUser else {
+        guard let groupId = self.chatGroup.groupId,let userInfo = ChatUIKitContext.shared?.currentUser else {
             self.showToast(toast: "Chat group id is nil")
             return
         }
@@ -96,14 +96,14 @@ final class MineGroupDetailViewController: GroupInfoViewController {
                 self.header.userState = .offline
                 self.header.detailText = groupId
                 self.menuList.reloadData()
-                let profile = EaseProfile()
+                let profile = ChatUserProfile()
                 profile.id = self.chatGroup.groupId
                 profile.nickname = self.chatGroup.groupName
                 if !self.chatGroup.groupName.isEmpty {
                     profile.avatarURL = self.chatGroup.settings.ext
                     self.header.avatarURL = self.chatGroup.settings.ext
                 }
-                EaseChatUIKitContext.shared?.updateCache(type: .group, profile: profile)
+                ChatUIKitContext.shared?.updateCache(type: .group, profile: profile)
             } else {
                 self.chatGroup = ChatGroup(id: groupId)
                 self.showToast(toast: "\(error?.errorDescription ?? "")")

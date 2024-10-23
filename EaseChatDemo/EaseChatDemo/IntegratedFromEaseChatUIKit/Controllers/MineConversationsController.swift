@@ -22,9 +22,10 @@ final class MineConversationsController: ConversationListController {
         self.listenToUserStatus()
         self.showUserStatus()
         self.previewRequestContact()
+        self.navigation.separateLine.isHidden = true
     }
     
-    override func navigationClick(type: EaseChatNavigationBarClickEvent, indexPath: IndexPath?) {
+    override func navigationClick(type: ChatNavigationBarClickEvent, indexPath: IndexPath?) {
         switch type {
         case .back: self.pop()
         case .rightItems: self.rightActions(indexPath: indexPath ?? IndexPath())
@@ -39,7 +40,7 @@ final class MineConversationsController: ConversationListController {
     }
     
     private func showUserStatus() {
-        if let presence = PresenceManager.shared.presences[EaseChatUIKitContext.shared?.currentUserId ?? ""] {
+        if let presence = PresenceManager.shared.presences[ChatUIKitContext.shared?.currentUserId ?? ""] {
             let state = PresenceManager.status(with: presence)
             switch state {
             case .online:
@@ -106,7 +107,7 @@ final class MineConversationsController: ConversationListController {
         })
         alert.textField.becomeFirstResponder()
         alert.leftButton(color: Theme.style == .dark ? UIColor.theme.neutralColor95:UIColor.theme.neutralColor3).leftButtonBorder(color: Theme.style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor7).leftButton(title: "report_button_click_menu_button_cancel".chat.localize).leftButtonRadius(cornerRadius: Appearance.alertStyle == .small ? .extraSmall:.large)
-        alert.rightButtonBackground(color: Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5).rightButton(color: UIColor.theme.neutralColor98).rightButtonTapClosure { [weak self] _ in
+        alert.rightButtonBackground(color: Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).rightButton(color: UIColor.theme.neutralColor98).rightButtonTapClosure { [weak self] _ in
             guard let `self` = self else { return }
             if self.limited {
                 self.showToast(toast: "The length of the custom status should be less than 20 characters".chat.localize)
@@ -138,15 +139,15 @@ final class MineConversationsController: ConversationListController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        self.navigation.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL
+        self.navigation.avatarURL = ChatUIKitContext.shared?.currentUser?.avatarURL
     }
     
     
-    override func create(profiles: [EaseProfileProtocol]) {
+    override func create(profiles: [ChatUserProfileProtocol]) {
         var name = ""
-        var users = [EaseProfileProtocol]()
-        let ownerId = EaseChatUIKitContext.shared?.currentUserId ?? ""
-        if let owner = EaseChatUIKitContext.shared?.userCache?[ownerId] {
+        var users = [ChatUserProfileProtocol]()
+        let ownerId = ChatUIKitContext.shared?.currentUserId ?? ""
+        if let owner = ChatUIKitContext.shared?.userCache?[ownerId] {
             users.append(owner)
             users.append(contentsOf: profiles)
         }
@@ -167,7 +168,7 @@ final class MineConversationsController: ConversationListController {
         option.style = .privateMemberCanInvite
         ChatClient.shared().groupManager?.createGroup(withSubject: name, description: "", invitees: ids, message: nil, setting: option, completion: { [weak self] group, error in
             if error == nil,let group = group {
-                let profile = EaseProfile()
+                let profile = ChatUserProfile()
                 profile.id = group.groupId
                 profile.nickname = group.groupName
                 self?.createChat(profile: profile, type: .groupChat,info: name)
@@ -192,11 +193,11 @@ final class MineConversationsController: ConversationListController {
                 consoleLogInfo("fetchGroupAvatar error:\(error?.localizedDescription ?? "")", type: .error)
             } else {
                 if let avatarURL = result?["avatarUrl"] as? String {
-                    if let info = EaseChatUIKitContext.shared?.groupCache?[groupId] {
+                    if let info = ChatUIKitContext.shared?.groupCache?[groupId] {
                         info.avatarURL = avatarURL
                         self?.viewModel?.renderDriver(infos: [info])
                     } else {
-                        let info = EaseProfile()
+                        let info = ChatUserProfile()
                         info.id = groupId
                         info.avatarURL = avatarURL
                         self?.viewModel?.renderDriver(infos: [info])
@@ -243,7 +244,7 @@ final class MineConversationsController: ConversationListController {
             })
             return
         }
-        EasemobBusinessRequest.shared.sendGETRequest(api: .addFriendByPhoneNumber(text, EaseChatUIKitContext.shared?.currentUserId ?? ""), params: [:]) { [weak self] result, error in
+        EasemobBusinessRequest.shared.sendGETRequest(api: .addFriendByPhoneNumber(text, ChatUIKitContext.shared?.currentUserId ?? ""), params: [:]) { [weak self] result, error in
             if error != nil,let someError  = error as? EasemobError,someError.code == "404" {
                 DispatchQueue.main.async {
                     self?.showToast(toast: "The user does not exist".localized())
@@ -289,5 +290,36 @@ extension MineConversationsController: PresenceDidChangedListener {
         self.showUserStatus()
     }
     
-    
+    override func switchTheme(style: ThemeStyle) {
+        super.switchTheme(style: style)
+        let image = UIImage(named: style == .dark ? "conversation_ondark":"conversation_onlight") ?? UIImage()
+        self.navigation.updateRightItems(images: [image], original: true)
+        self.navigation.titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        self.navigation.titleLabel.textColor(style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor)
+    }
 }
+
+extension UIFont {
+    static func customFont(ofSize size: CGFloat, weight: UIFont.Weight) -> UIFont {
+        let fontName: String
+        switch weight {
+        case .light:
+            fontName = "chatfontVF-Light"
+        case .regular:
+            fontName = "chatfontVF-Regular"
+        case .bold:
+            fontName = "chatfontVF-Bold"
+        case .semibold:
+            fontName = "chatfontVF-semibold"
+        default:
+            fontName = "chatfontVF-semibold"
+        }
+        
+        return UIFont(name: fontName, size: size) ?? .systemFont(ofSize: size, weight: weight)
+    }
+}
+
+// 使用
+let lightFont = UIFont.customFont(ofSize: 17, weight: .light)
+let regularFont = UIFont.customFont(ofSize: 17, weight: .regular)
+let boldFont = UIFont.customFont(ofSize: 17, weight: .bold)

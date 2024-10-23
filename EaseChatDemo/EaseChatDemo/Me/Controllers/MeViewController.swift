@@ -40,15 +40,15 @@ final class MeViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.view.addSubview(self.menuList)
-        let userId = EaseChatUIKitContext.shared?.currentUserId ?? ""
-        var nickName = EaseChatUIKitContext.shared?.currentUser?.nickname ?? ""
+        let userId = ChatUIKitContext.shared?.currentUserId ?? ""
+        var nickName = ChatUIKitContext.shared?.currentUser?.nickname ?? ""
         if nickName.isEmpty {
             nickName = userId
         }
         self.fetchUserInfo(userId: userId)
         self.header.nickName.text = nickName
         self.header.detailText = userId
-        self.header.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL ?? ""
+        self.header.avatarURL = ChatUIKitContext.shared?.currentUser?.avatarURL ?? ""
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
         self.listenToUserStatus()
@@ -68,16 +68,16 @@ final class MeViewController: UIViewController {
                     profile.nickname = info.nickname ?? ""
                     profile.avatarURL = info.avatarUrl ?? ""
                     profile.updateFFDB()
-                    EaseChatUIKitContext.shared?.currentUser = profile
-                    EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                    ChatUIKitContext.shared?.currentUser = profile
+                    ChatUIKitContext.shared?.userCache?[profile.id] = profile
                 } else {
                     let profile = EaseChatProfile()
                     profile.id = userId
                     profile.nickname = info.nickname ?? ""
                     profile.avatarURL = info.avatarUrl ?? ""
                     profile.insert()
-                    EaseChatUIKitContext.shared?.currentUser = profile
-                    EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                    ChatUIKitContext.shared?.currentUser = profile
+                    ChatUIKitContext.shared?.userCache?[profile.id] = profile
                 }
             } else {
                 DispatchQueue.main.async {
@@ -90,22 +90,22 @@ final class MeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        let userId = EaseChatUIKitContext.shared?.currentUserId ?? ""
-        var nickName = EaseChatUIKitContext.shared?.currentUser?.nickname ?? ""
+        let userId = ChatUIKitContext.shared?.currentUserId ?? ""
+        var nickName = ChatUIKitContext.shared?.currentUser?.nickname ?? ""
         if nickName.isEmpty {
             nickName = userId
         }
         if self.header.nickName.text != nickName,!nickName.isEmpty {
             self.header.nickName.text = nickName
         }
-        if let url = EaseChatUIKitContext.shared?.currentUser?.avatarURL,!url.isEmpty  {
+        if let url = ChatUIKitContext.shared?.currentUser?.avatarURL,!url.isEmpty  {
             self.header.avatarURL = url
         }
         self.menuList.reloadData()
     }
     
     @objc private func refreshProfile() {
-        self.header.avatarURL = EaseChatUIKitContext.shared?.currentUser?.avatarURL
+        self.header.avatarURL = ChatUIKitContext.shared?.currentUser?.avatarURL
     }
     
     private func listenToUserStatus() {
@@ -113,7 +113,7 @@ final class MeViewController: UIViewController {
     }
     
     private func showUserStatus() {
-        if let presence = PresenceManager.shared.presences[EaseChatUIKitContext.shared?.currentUserId ?? ""] {
+        if let presence = PresenceManager.shared.presences[ChatUIKitContext.shared?.currentUserId ?? ""] {
             switch PresenceManager.status(with: presence) {
             case .online: self.header.userState = .online
             case .offline: self.header.userState = .offline
@@ -175,7 +175,7 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
                 if rowTitle == "Deregister".localized() {
                     cell?.content.textColor(Theme.style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor6)
                 } else {
-                    cell?.content.textColor(Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5)
+                    cell?.content.textColor(Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor)
                 }
                 
             } else {
@@ -210,7 +210,7 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
                 if error == nil {
                     DispatchQueue.main.async {
                         if error == nil {
-                            EaseChatUIKitClient.shared.logout(unbindNotificationDeviceToken: false) { _ in
+                            ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: false) { _ in
                                 NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
                             }
                             
@@ -263,11 +263,11 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
     
     private func logout() {
         DialogManager.shared.showAlert(title: "Confirm Logout".localized(), content: "", showCancel: true, showConfirm: true) { _ in
-            EaseChatUIKitClient.shared.logout(unbindNotificationDeviceToken: true) { error in
+            ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: true) { error in
                 if error == nil {
                     NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
                 } else {
-                    EaseChatUIKitClient.shared.logout(unbindNotificationDeviceToken: false) { _ in
+                    ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: false) { _ in
                         NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
                     }
                     self.showToast(toast: "\(error?.errorDescription ?? "")")
@@ -317,7 +317,7 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
         })
         alert.textField.becomeFirstResponder()
         alert.leftButton(color: Theme.style == .dark ? UIColor.theme.neutralColor95:UIColor.theme.neutralColor3).leftButtonBorder(color: Theme.style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor7).leftButton(title: "report_button_click_menu_button_cancel".chat.localize).leftButtonRadius(cornerRadius: Appearance.alertStyle == .small ? .extraSmall:.large)
-        alert.rightButtonBackground(color: Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5).rightButton(color: UIColor.theme.neutralColor98).rightButtonTapClosure { [weak self] _ in
+        alert.rightButtonBackground(color: Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).rightButton(color: UIColor.theme.neutralColor98).rightButtonTapClosure { [weak self] _ in
             guard let `self` = self else { return }
             if self.limited {
                 self.showToast(toast: "The length of the custom status should be less than 20 characters".chat.localize)

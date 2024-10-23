@@ -18,27 +18,29 @@ final class GeneralViewController: UIViewController {
     @UserDefault("EaseChatDemoPreferencesLanguage", defaultValue: "zh-Hans") var language: String
     
     @UserDefault("EaseChatDemoTranslateTargetLanguage", defaultValue: "zh-Hans") var translate_language: String
+    
+    @UserDefault("EaseChatDemoPreferencesLongPressStyle", defaultValue: 0) var longPressStyle: UInt8
+    
+    @UserDefault("EaseChatDemoPreferencesAttachmentStyle", defaultValue: 0) var attachmentStyle: UInt8
 
     private lazy var jsons: [Dictionary<String,Any>] = {
         [["title":"dark_mode".localized(),"detail":"","withSwitch": true,"switchValue":self.darkMode],
-             ["title":"switch_theme".localized(),"detail":(self.theme == 0 ? "Classic".localized():"Smart".localized()),"withSwitch": false,"switchValue":false],
-             ["title":"color_setting".localized(),"detail":"","withSwitch": false,"switchValue":false],
-             ["title":"feature_switch".localized(),"detail":"","withSwitch": false,"switchValue":false],
+         ["title":"switch_theme".localized(),"detail":(self.theme == 0 ? "Classic".localized():"Smart".localized()),"withSwitch": false,"switchValue":false],
+         ["title":"long_press_style".localized(),"detail":self.longPressStyle == 0 ? "style1".localized() : "style2".localized(),"withSwitch": false,"switchValue":false],
+         ["title":"attachment_menu_style".localized(),"detail":self.attachmentStyle == 0 ? "style1".localized() : "style2".localized(),"withSwitch": false,"switchValue":false],
+         ["title":"color_setting".localized(),"detail":"","withSwitch": false,"switchValue":false],
+         ["title":"feature_switch".localized(),"detail":"","withSwitch": false,"switchValue":false],
          ["title":"language_setting".localized(),"detail":self.language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false],
-             ["title":"translate_language_setting".localized(),"detail":self.translate_language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false],
-             ["title":"Debug Log".localized(),"detail":"","withSwitch": false,"switchValue":false]]
+         ["title":"translate_language_setting".localized(),"detail":self.translate_language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false],
+         ["title":"Debug Log".localized(),"detail":"","withSwitch": false,"switchValue":false]]
     }()
     
     private lazy var datas: [DetailInfo] = {
-        self.jsons.map {
-            let info = DetailInfo()
-            info.setValuesForKeys($0)
-            return info
-        }
+        self.fillDatas()
     }()
     
-    private lazy var navigation: EaseChatNavigationBar = {
-        EaseChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight), textAlignment: .left, rightTitle: nil)
+    private lazy var navigation: ChatNavigationBar = {
+        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight), textAlignment: .left, rightTitle: nil)
     }()
     
     private lazy var menuList: UITableView = {
@@ -59,7 +61,21 @@ final class GeneralViewController: UIViewController {
         self.switchTheme(style: Theme.style)
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.datas.first { $0.title == "long_press_style".localized() }?.detail = self.longPressStyle == 0 ? "style1".localized() : "style2".localized()
+        self.datas.first { $0.title == "attachment_menu_style".localized() }?.detail = self.attachmentStyle == 0 ? "style1".localized() : "style2".localized()
+        self.datas.first { $0.title == "translate_language_setting".localized() }?.detail = self.translate_language.hasPrefix("zh") ? "Chinese".localized():"English".localized()
+        self.menuList.reloadData()
+    }
+    
+    private func fillDatas() -> [DetailInfo] {
+        self.jsons.map {
+            let info = DetailInfo()
+            info.setValuesForKeys($0)
+            return info
+        }
+    }
 }
 
 extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
@@ -108,6 +124,8 @@ extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
             case "language_setting".localized(): self.languageSet()
             case "Debug Log".localized(): self.openLog()
             case "translate_language_setting".localized(): self.translateLanguageSet()
+            case "long_press_style".localized(): self.chooseMenuStyle(style: .longPress)
+            case "attachment_menu_style".localized(): self.chooseMenuStyle(style: .attachment)
             default:
                 break
             }
@@ -145,6 +163,10 @@ extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
         self.present(previewController, animated: true)
     }
     
+    private func chooseMenuStyle(style : ShowMenuStyle) {
+        let vc = ShowMenuStyleViewController(style: style)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension GeneralViewController: QLPreviewControllerDataSource {

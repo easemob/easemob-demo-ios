@@ -16,8 +16,8 @@ final class ServerConfigViewController: UIViewController {
         UIImageView(frame: self.view.bounds).contentMode(.scaleAspectFill)
     }()
     
-    private lazy var navigation: EaseChatNavigationBar = {
-        EaseChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44),textAlignment: .left,rightTitle: "保存".chat.localize)
+    private lazy var navigation: ChatNavigationBar = {
+        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44),textAlignment: .left,rightTitle: "保存".chat.localize)
     }()
     
     private lazy var applicationField: UITextField = {
@@ -163,7 +163,7 @@ extension ServerConfigViewController: ThemeSwitchProtocol {
     func switchTheme(style: ThemeStyle) {
         self.background.image = style == .dark ? UIImage(named: "login_bg_dark"):UIImage(named: "login_bg")
         self.navigation.backgroundColor = .clear
-        self.customizeSwitch.onTintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
+        self.customizeSwitch.onTintColor = style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor
         self.applicationField.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.applicationField.textColor = style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
         self.customize.textColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)

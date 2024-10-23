@@ -17,8 +17,8 @@ final class MineContactRemarkEditViewController: UIViewController {
     
     private var modifySuccess: ((String) -> ())?
     
-    public private(set) lazy var navigation: EaseChatNavigationBar = {
-        EaseChatNavigationBar(textAlignment: .left,rightTitle: "Save".chat.localize)
+    public private(set) lazy var navigation: ChatNavigationBar = {
+        ChatNavigationBar(textAlignment: .left,rightTitle: "Save".chat.localize)
     }()
     
     lazy var container: UIView = {
@@ -63,7 +63,7 @@ final class MineContactRemarkEditViewController: UIViewController {
         self.contentEditor.becomeFirstResponder()
     }
     
-    private func navigationClick(type: EaseChatNavigationBarClickEvent,indexPath: IndexPath?) {
+    private func navigationClick(type: ChatNavigationBarClickEvent,indexPath: IndexPath?) {
         switch type {
         case .back: self.pop()
         case .rightTitle: self.save()
@@ -127,7 +127,7 @@ extension MineContactRemarkEditViewController: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
         self.view.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.contentEditor.textColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
-        self.contentEditor.tintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
+        self.contentEditor.tintColor = style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor
     }
     
     

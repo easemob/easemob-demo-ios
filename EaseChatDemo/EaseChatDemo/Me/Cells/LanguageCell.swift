@@ -55,7 +55,7 @@ extension LanguageCell: ThemeSwitchProtocol {
         self.checkbox.image(normalImage, .normal)
         var selectedImage = UIImage(named: "check")
         if style == .dark {
-            selectedImage = selectedImage?.withTintColor(UIColor.theme.primaryColor6, renderingMode: .alwaysOriginal)
+            selectedImage = selectedImage?.withTintColor(UIColor.theme.primaryDarkColor, renderingMode: .alwaysOriginal)
         }
         self.checkbox.image(selectedImage, .selected)
         self.separatorLine.backgroundColor(style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor9)

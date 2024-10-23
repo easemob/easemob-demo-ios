@@ -10,12 +10,12 @@ import EaseChatUIKit
 
 final class NotificationSettingViewController: UIViewController {
     
-    private lazy var navigation: EaseChatNavigationBar = {
-        EaseChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight),textAlignment: .left)
+    private lazy var navigation: ChatNavigationBar = {
+        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight),textAlignment: .left)
     }()
     
     private lazy var container: UIView = {
-        UIView(frame: CGRect(x: 0, y: self.separatorLine.frame.maxY, width: self.view.frame.width, height: ScreenWidth <= 375 ? 40:30))
+        UIView(frame: CGRect(x: 0, y: self.separatorLine.frame.maxY, width: self.view.frame.width, height: ScreenWidth <= 375 ? 50:40))
     }()
     
     private lazy var settingName: UILabel = {
@@ -81,7 +81,7 @@ extension NotificationSettingViewController: ThemeSwitchProtocol {
         self.view.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.container.backgroundColor = style == .dark ? UIColor.theme.neutralColor0:UIColor.theme.neutralColor95
         self.settingName.textColor = style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
-        self.settingSwitch.onTintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
+        self.settingSwitch.onTintColor = style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor
         self.separatorLine.backgroundColor(style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor9)
         self.alert.textColor(style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor5)
     }

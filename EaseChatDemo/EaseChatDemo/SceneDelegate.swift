@@ -58,14 +58,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             for profile in profiles {
                 if let conversation = ChatClient.shared().chatManager?.getConversationWithConvId(profile.id) {
                     if conversation.type == .chat {
-                        EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                        ChatUIKitContext.shared?.userCache?[profile.id] = profile
                     } else {
-                        EaseChatUIKitContext.shared?.groupCache?[profile.id] = profile
+                        ChatUIKitContext.shared?.groupCache?[profile.id] = profile
                     }
                 }
                 if profile.id == ChatClient.shared().currentUsername ?? "" {
-                    EaseChatUIKitContext.shared?.currentUser = profile
-                    EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                    ChatUIKitContext.shared?.currentUser = profile
+                    ChatUIKitContext.shared?.userCache?[profile.id] = profile
                 }
             }
         }

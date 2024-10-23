@@ -42,7 +42,7 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
     @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var serverConfig
     
     var host: String {
-        if let restAddress = self.serverConfig["rest_server_address"],let enableDnsConfig = EaseChatUIKitClient.shared.option.option_chat.value(forKey:  "enableDnsConfig") as? Bool,!enableDnsConfig {
+        if let restAddress = self.serverConfig["rest_server_address"],let enableDnsConfig = ChatUIKitClient.shared.option.option_chat.value(forKey:  "enableDnsConfig") as? Bool,!enableDnsConfig {
             return restAddress
         } else {
             return ServerHost
@@ -133,7 +133,7 @@ public struct EasemobRequestHTTPMethod: RawRepresentable, Equatable, Hashable {
 
         guard let imageData = image.jpegData(compressionQuality: 0.1) else { return }
         // 创建上传的 URLRequest
-        guard let userId = EaseChatUIKitContext.shared?.currentUserId  else { return }
+        guard let userId = ChatUIKitContext.shared?.currentUserId  else { return }
         var request = URLRequest(url: URL(string: ServerHost+"/inside/app/user/\(userId)/avatar/upload")!)
         request.httpMethod = "POST"
         let boundary = Date().timeIntervalSince1970*1000

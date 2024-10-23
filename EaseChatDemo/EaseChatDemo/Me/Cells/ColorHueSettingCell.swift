@@ -72,7 +72,7 @@ final class ColorHueSettingCell: UITableViewCell {
 extension ColorHueSettingCell: ThemeSwitchProtocol {
     func switchTheme(style: ThemeStyle) {
         self.colorContainer.layer.borderColor = style == .dark ? UIColor.theme.neutralColor2.cgColor:UIColor.theme.neutralColor9.cgColor
-        self.colorSlider.minimumTrackTintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
+        self.colorSlider.minimumTrackTintColor = style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor
         self.colorValue.textColor = style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor6
         self.separatorLine.backgroundColor = style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor9
     }

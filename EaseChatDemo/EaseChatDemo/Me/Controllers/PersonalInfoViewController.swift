@@ -16,15 +16,15 @@ let userAvatarUpdated = "userAvatarUpdated"
 final class PersonalInfoViewController: UIViewController {
     
     private lazy var infos: [Dictionary<String,String>] = {
-        var userId = EaseChatUIKitContext.shared?.currentUserId ?? ""
-        if let nickname = EaseChatUIKitContext.shared?.currentUser?.nickname {
+        var userId = ChatUIKitContext.shared?.currentUserId ?? ""
+        if let nickname = ChatUIKitContext.shared?.currentUser?.nickname {
             userId = nickname
         }
-        return [["title":"Avatar".localized(),"detail":EaseChatUIKitContext.shared?.currentUser?.avatarURL ?? ""],["title":"Nickname".localized(),"detail":userId]]
+        return [["title":"Avatar".localized(),"detail":ChatUIKitContext.shared?.currentUser?.avatarURL ?? ""],["title":"Nickname".localized(),"detail":userId]]
     }()
     
-    private lazy var navigation: EaseChatNavigationBar = {
-        EaseChatNavigationBar(textAlignment: .left)
+    private lazy var navigation: ChatNavigationBar = {
+        ChatNavigationBar(textAlignment: .left)
     }()
     
     private lazy var infoList: UITableView = {
@@ -35,7 +35,7 @@ final class PersonalInfoViewController: UIViewController {
         super.viewDidLoad()
         self.view.addSubViews([self.navigation,self.infoList])
         self.infoList.reloadData()
-        if let url = EaseChatUIKitContext.shared?.currentUser?.avatarURL,!url.isEmpty {
+        if let url = ChatUIKitContext.shared?.currentUser?.avatarURL,!url.isEmpty {
             self.navigation.avatarURL = url
         }
         
@@ -93,7 +93,7 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
     }
     
     private func editName() {
-        guard let userId = EaseChatUIKitContext.shared?.currentUserId else { return }
+        guard let userId = ChatUIKitContext.shared?.currentUserId else { return }
         let vc = MineContactRemarkEditViewController(userId: userId, rawText: self.infos[1]["detail"] ?? "") { [weak self] nickname in
             guard let `self` = self else { return }
             self.updateUserInfo(userId: userId, nickname: nickname)
@@ -109,10 +109,10 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
                 if error == nil {
                     self.infos[1]["detail"] = nickname
                     self.infoList.reloadData()
-                    EaseChatUIKitContext.shared?.currentUser?.nickname = nickname
-                    EaseChatUIKitContext.shared?.userCache?[userId]?.nickname = nickname
-                    EaseChatUIKitContext.shared?.chatCache?[userId]?.nickname = nickname
-                    if let userJson = EaseChatUIKitContext.shared?.currentUser?.toJsonObject() {
+                    ChatUIKitContext.shared?.currentUser?.nickname = nickname
+                    ChatUIKitContext.shared?.userCache?[userId]?.nickname = nickname
+                    ChatUIKitContext.shared?.chatCache?[userId]?.nickname = nickname
+                    if let userJson = ChatUIKitContext.shared?.currentUser?.toJsonObject() {
                         let profile = EaseChatProfile()
                         profile.setValuesForKeys(userJson)
                         profile.updateFFDB()
@@ -197,11 +197,11 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
         EasemobRequest.shared.uploadImage(image: image) { [weak self] error, result in
             DispatchQueue.main.async {
                 if error == nil,let avatarURL = result?["avatarUrl"] as? String {
-                    let userId = EaseChatUIKitContext.shared?.currentUserId ?? ""
-                    EaseChatUIKitContext.shared?.currentUser?.avatarURL = avatarURL
-                    EaseChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = avatarURL
+                    let userId = ChatUIKitContext.shared?.currentUserId ?? ""
+                    ChatUIKitContext.shared?.currentUser?.avatarURL = avatarURL
+                    ChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = avatarURL
                     self?.infos[0]["detail"] = avatarURL
-                    if let userJson = EaseChatUIKitContext.shared?.currentUser?.toJsonObject() {
+                    if let userJson = ChatUIKitContext.shared?.currentUser?.toJsonObject() {
                         let profile = EaseChatProfile()
                         profile.setValuesForKeys(userJson)
                         profile.updateFFDB()

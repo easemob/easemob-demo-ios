@@ -133,3 +133,9 @@
 "Save Image" = "保存图片";
 
 "contactID" = "通过手机号或ID添加联系人";
+
+"long_press_style" = "长按消息菜单";
+"attachment_menu_style" = "发送附件菜单";
+"style1" = "样式1";
+"style2" = "样式2";
+"style_preview" = "样式预览";

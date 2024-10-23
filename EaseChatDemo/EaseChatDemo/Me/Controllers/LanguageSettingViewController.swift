@@ -16,8 +16,8 @@ final class LanguageSettingViewController: UIViewController {
     
     private var languageRawValues = ["zh-Hans","en"]
     
-    private lazy var navigation: EaseChatNavigationBar = {
-        EaseChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight),textAlignment: .left,rightTitle: "Confirm".chat.localize)
+    private lazy var navigation: ChatNavigationBar = {
+        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight),textAlignment: .left,rightTitle: "Confirm".chat.localize)
     }()
     
     private lazy var infoList: UITableView = {
