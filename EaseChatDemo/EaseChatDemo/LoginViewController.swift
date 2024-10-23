@@ -88,9 +88,9 @@ final class LoginViewController: UIViewController {
     
     private var protocolContent: NSAttributedString = NSAttributedString {
         AttributedText("Please tick to agree".localized()).font(.systemFont(ofSize: 12, weight: .regular)).foregroundColor(Theme.style == .dark ? UIColor.theme.neutralColor8:UIColor.theme.neutralColor3).lineSpacing(5)
-        Link("Service".localized(), url: URL(string: "https://www.easemob.com/terms/im")!).foregroundColor(Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5).font(.systemFont(ofSize: 12, weight: .medium)).underline(.single,color: Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5).lineSpacing(5)
+        Link("Service".localized(), url: URL(string: "https://www.easemob.com/terms/im")!).foregroundColor(Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).font(.systemFont(ofSize: 12, weight: .medium)).underline(.single,color: Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).lineSpacing(5)
         AttributedText(" and ".localized()).foregroundColor(Theme.style == .dark ? UIColor.theme.neutralColor8:UIColor.theme.neutralColor3).font(.systemFont(ofSize: 12, weight: .regular)).foregroundColor(Color(0x3C4267)).lineSpacing(5)
-        Link("Privacy Policy".localized(), url: URL(string: "https://www.easemob.com/protocol")!).foregroundColor(Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5).font(.systemFont(ofSize: 12, weight: .medium)).underline(.single,color: Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5).lineSpacing(5)
+        Link("Privacy Policy".localized(), url: URL(string: "https://www.easemob.com/protocol")!).foregroundColor(Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).font(.systemFont(ofSize: 12, weight: .medium)).underline(.single,color: Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).lineSpacing(5)
     }
     
     private lazy var serverConfig: UIButton = {
@@ -110,7 +110,7 @@ final class LoginViewController: UIViewController {
         self.loadingView.isHidden = true
         self.serverConfig.isHidden = true
         self.right.titleLabel?.textAlignment = .right
-        self.sdkVersion.text = "V\(EaseChatUIKit_VERSION)"
+        self.sdkVersion.text = "V\(ChatUIKit_VERSION)"
         
         self.fieldSetting()
         if let debugMode = self.serverInfo["debug_mode"],debugMode == "1"{
@@ -291,25 +291,25 @@ extension LoginViewController: UITextFieldDelegate {
         }
     }
     
-    private func login(user: EaseProfileProtocol,token: String) {
+    private func login(user: ChatUserProfileProtocol,token: String) {
         if let dbPath = FMDBConnection.databasePath,dbPath.isEmpty {
             FMDBConnection.databasePath = String.documentsPath+"/EaseMobDemo/"+"\(AppKey)/"+user.id+".db"
         }
         self.loadCache()
-        EaseChatUIKitClient.shared.login(user: user, token: token) { [weak self] error in
+        ChatUIKitClient.shared.login(user: user, token: token) { [weak self] error in
             self?.loadingView.stopAnimating()
             if error == nil {
                 if let profiles = EaseChatProfile.select(where: "id = '\(user.id)'") as? [EaseChatProfile] {
                     if profiles.first != nil {
                         if let profile = profiles.first {
                             (user as? EaseChatProfile)?.update()
-                            EaseChatUIKitContext.shared?.currentUser = profiles.first
-                            EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                            ChatUIKitContext.shared?.currentUser = profiles.first
+                            ChatUIKitContext.shared?.userCache?[profile.id] = profile
                         }
                     }
                 } else {
-                    EaseChatUIKitContext.shared?.currentUser = user
-                    EaseChatUIKitContext.shared?.userCache?[user.id] = user
+                    ChatUIKitContext.shared?.currentUser = user
+                    ChatUIKitContext.shared?.userCache?[user.id] = user
                     let profile = EaseChatProfile()
                     profile.id = user.id
                     profile.avatarURL = user.avatarURL
@@ -329,12 +329,12 @@ extension LoginViewController: UITextFieldDelegate {
             for profile in profiles {
                 if let conversation = ChatClient.shared().chatManager?.getConversationWithConvId(profile.id) {
                     if conversation.type == .chat {
-                        EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                        ChatUIKitContext.shared?.userCache?[profile.id] = profile
                     }
                 }
                 if profile.id == ChatClient.shared().currentUsername ?? "" {
-                    EaseChatUIKitContext.shared?.currentUser = profile
-                    EaseChatUIKitContext.shared?.userCache?[profile.id] = profile
+                    ChatUIKitContext.shared?.currentUser = profile
+                    ChatUIKitContext.shared?.userCache?[profile.id] = profile
                 }
             }
         }
@@ -352,11 +352,11 @@ extension LoginViewController: UITextFieldDelegate {
                 profile.avatarURL = group.settings.ext
                 profiles.append(profile)
             }
-            EaseChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
+            ChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
         }
-        if let users = EaseChatUIKitContext.shared?.userCache {
+        if let users = ChatUIKitContext.shared?.userCache {
             for user in users.values {
-                EaseChatUIKitContext.shared?.userCache?[user.id]?.remark = ChatClient.shared().contactManager?.getContact(user.id)?.remark ?? ""
+                ChatUIKitContext.shared?.userCache?[user.id]?.remark = ChatClient.shared().contactManager?.getContact(user.id)?.remark ?? ""
             }
         }
     }
@@ -398,16 +398,16 @@ extension LoginViewController: UITextFieldDelegate {
 
 extension LoginViewController: ThemeSwitchProtocol {
     func switchTheme(style: ThemeStyle) {
-        self.protocolContainer.linkTextAttributes = [.foregroundColor:(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5)]
+        self.protocolContainer.linkTextAttributes = [.foregroundColor:(style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor)]
         self.background.image = style == .dark ? UIImage(named: "login_bg_dark") : UIImage(named: "login_bg")
-        self.appName.textColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
+        self.appName.textColor = style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor
         self.sdkVersion.backgroundColor = style == .dark ? UIColor.theme.barrageDarkColor2:UIColor.theme.barrageLightColor2
         self.phoneNumber.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.pinCode.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
         self.phoneNumber.textColor = style == .dark ? UIColor.theme.neutralColor98 : UIColor.theme.neutralColor1
         self.pinCode.textColor =  style == .dark ? UIColor.theme.neutralColor98 : UIColor.theme.neutralColor1
         self.right.setTitleColor(style == . dark ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor7, for: .disabled)
-        self.right.setTitleColor(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5, for: .normal)
+        self.right.setTitleColor(style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor, for: .normal)
         if style == .dark {
             self.login.setGradient([UIColor(red: 0.2, green: 0.696, blue: 1, alpha: 1),UIColor(red: 0.4, green: 0.47, blue: 1, alpha: 1)],[ CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
         } else {
@@ -438,7 +438,7 @@ extension UIView {
     
 }
 
-final class EaseChatProfile:NSObject, EaseProfileProtocol, FFObject {
+final class EaseChatProfile:NSObject, ChatUserProfileProtocol, FFObject {
     
     static func ignoreProperties() -> [String]? {
         ["selected"]

@@ -17,11 +17,11 @@ final class ColorSettingViewController: UIViewController {
     }
     
     private var hueColors: [UIColor] {
-        [UIColor.theme.primaryColor5,UIColor.theme.secondaryColor4,UIColor.theme.errorColor5,UIColor.theme.neutralColor5,UIColor.theme.neutralSpecialColor5]
+        [UIColor.theme.primaryLightColor,UIColor.theme.secondaryColor4,UIColor.theme.errorColor5,UIColor.theme.neutralColor5,UIColor.theme.neutralSpecialColor5]
     }
     
-    private lazy var navigation: EaseChatNavigationBar = {
-        EaseChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight), textAlignment: .left, rightTitle: "Confirm".chat.localize)
+    private lazy var navigation: ChatNavigationBar = {
+        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight), textAlignment: .left, rightTitle: "Confirm".chat.localize)
     }()
     
     private lazy var infoList: UITableView = {

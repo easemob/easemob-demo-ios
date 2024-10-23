@@ -137,13 +137,13 @@ class MineMessageEntity: MessageEntity {
                     })
                 }
             } else {
-                if self.message.mention == EaseChatUIKitContext.shared?.currentUserId ?? "" {
-                    let mentionUser = EaseChatUIKitContext.shared?.userCache?[EaseChatUIKitContext.shared?.currentUserId ?? ""]
+                if self.message.mention == ChatUIKitContext.shared?.currentUserId ?? "" {
+                    let mentionUser = ChatUIKitContext.shared?.userCache?[ChatUIKitContext.shared?.currentUserId ?? ""]
                     var nickname = mentionUser?.remark ?? ""
                     if nickname.isEmpty {
                         nickname = mentionUser?.nickname ?? ""
                         if nickname.isEmpty {
-                            nickname = EaseChatUIKitContext.shared?.currentUserId ?? ""
+                            nickname = ChatUIKitContext.shared?.currentUserId ?? ""
                         }
                     }
                     let content = result
@@ -154,7 +154,7 @@ class MineMessageEntity: MessageEntity {
                         AttributedText(content).foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(Appearance.chat.targetLanguage == .Chinese ? .byCharWrapping:.byWordWrapping)
                     }
                     if mentionRange.location != NSNotFound,mentionRange.length != NSNotFound {
-                        mentionAttribute.addAttribute(.foregroundColor, value: (Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5), range: range)
+                        mentionAttribute.addAttribute(.foregroundColor, value: (Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor), range: range)
                     }
                     text.append(mentionAttribute)
                 } else {
@@ -166,7 +166,7 @@ class MineMessageEntity: MessageEntity {
                         AttributedText(content).foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(.byWordWrapping)
                     }
                     if mentionRange.location != NSNotFound,mentionRange.length != NSNotFound {
-                        mentionAttribute.addAttribute(.foregroundColor, value: (Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5), range: range)
+                        mentionAttribute.addAttribute(.foregroundColor, value: (Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor), range: range)
                     }
                     text.append(mentionAttribute)
                 }
@@ -203,7 +203,7 @@ class MineMessageEntity: MessageEntity {
             }
             if let result = matches.first, result.range.length > 0,result.range.location != NSNotFound,let linkURL = result.url {
                 self.previewURL = linkURL.absoluteString
-                let receiveLinkColor = Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
+                let receiveLinkColor = Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor
                 let sendLinkColor = Appearance.chat.sendTextColor
                 let color = self.message.direction == .send ? sendLinkColor:receiveLinkColor
                 text.addAttributes([.link:linkURL,.underlineStyle:NSUnderlineStyle.single.rawValue,.underlineColor:color,.foregroundColor:color], range: result.range)

@@ -58,7 +58,7 @@ final class MeMenuCell: UITableViewCell {
         } else {
             self.icon.frame = .zero
             self.content.frame = CGRect(x: 16, y: 16, width: self.frame.width-32-28-8, height: 22)
-            self.content.textColor(Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5)
+            self.content.textColor(Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor)
         }
         self.separatorLine.frame = CGRect(x: self.content.frame.minX, y: self.contentView.frame.height - 0.5, width: ScreenWidth, height: 0.5)
         self.indicator.isHidden = !hasIcon

@@ -19,8 +19,8 @@ final class AboutEasemobController: UIViewController {
         ["title":"Privacy Policy".localized(),"content":"https://www.easemob.com/protocol","destination":"https://www.easemob.com/protocol"]
     ]
     
-    private lazy var navigation: EaseChatNavigationBar = {
-        EaseChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight), textAlignment: .left, rightTitle: nil)
+    private lazy var navigation: ChatNavigationBar = {
+        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight), textAlignment: .left, rightTitle: nil)
     }()
     
     private lazy var header: AboutEasemobHeader = {

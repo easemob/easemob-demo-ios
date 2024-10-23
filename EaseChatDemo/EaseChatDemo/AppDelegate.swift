@@ -28,6 +28,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @UserDefault("EaseChatDemoUserToken", defaultValue: "") private var token
     
+    @UserDefault("EaseChatDemoPreferencesLongPressStyle", defaultValue: 0) var longPressStyle: UInt8
+    
+    @UserDefault("EaseChatDemoPreferencesAttachmentStyle", defaultValue: 0) var attachmentStyle: UInt8
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -74,8 +78,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         //Set up EaseChatUIKit
-        _ = EaseChatUIKitClient.shared.setup(option: options)
-        EaseChatUIKitClient.shared.registerUserStateListener(self)
+        _ = ChatUIKitClient.shared.setup(option: options)
+        ChatUIKitClient.shared.registerUserStateListener(self)
         _ = PresenceManager.shared
     }
     
@@ -86,15 +90,21 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             Appearance.chat.inputBarCorner = .extraSmall
             Appearance.alertStyle = .small
             Appearance.chat.bubbleStyle = .withArrow
+            Appearance.chat.messageLongPressMenuStyle = .withArrow
+            Appearance.chat.messageAttachmentMenuStyle = .followInput
         } else {
             Appearance.avatarRadius = .large
             Appearance.chat.inputBarCorner = .large
             Appearance.alertStyle = .large
             Appearance.chat.bubbleStyle = .withMultiCorner
+            Appearance.chat.messageLongPressMenuStyle = .actionSheet
+            Appearance.chat.messageAttachmentMenuStyle = .actionSheet
         }
         Appearance.hiddenPresence = false
         Appearance.chat.enableTyping = true
         Appearance.contact.enableBlock = self.block
+        self.longPressStyle = Appearance.chat.messageLongPressMenuStyle.rawValue
+        self.attachmentStyle = Appearance.chat.messageAttachmentMenuStyle.rawValue
         //Enable message translation
         Appearance.chat.enableTranslation = self.enableTranslation
         if Appearance.chat.enableTranslation {
@@ -186,15 +196,11 @@ extension AppDelegate: EMLocalNotificationDelegate {
 
         if notification.request.trigger is UNPushNotificationTrigger {
             //apns
-            DialogManager.shared.showAlert(title: state == .willPresentNotification ? "Push Arrive":"Push Click", content: notification.request.content.title, showCancel: false, showConfirm: true) { _ in
-                
-            }
+            consoleLogInfo("\(state == .willPresentNotification ? "Push Arrive":"Push Click") content:\(notification.request.content.title)", type: .debug)
         } else {
             //local notification
             if let userInfo = notification.request.content.userInfo as? [String: Any] {
-                DialogManager.shared.showAlert(title: state == .willPresentNotification ? "Local Arrive":"Local Click", content: notification.request.content.title, showCancel: false, showConfirm: true) { _ in
-                    
-                }
+                consoleLogInfo("\(state == .willPresentNotification ? "Local Arrive":"Local Click") content:\(notification.request.content.title)", type: .debug)
             }
         }
         if state == .didReceiveNotificationResponse {
@@ -209,7 +215,7 @@ extension AppDelegate: EMLocalNotificationDelegate {
 extension AppDelegate: UserStateChangedListener {
     
     private func logoutUser() {
-        EaseChatUIKitClient.shared.logout(unbindNotificationDeviceToken: true) { error in
+        ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: true) { error in
             if error != nil {
                 consoleLogInfo("Logout failed:\(error?.errorDescription ?? "")", type: .error)
             }
@@ -267,11 +273,11 @@ extension AppDelegate: UserStateChangedListener {
                     profiles.append(profile)
                     profile.insert()
                 }
-                EaseChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
+                ChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
             }
-            if let users = EaseChatUIKitContext.shared?.userCache {
+            if let users = ChatUIKitContext.shared?.userCache {
                 for user in users.values {
-                    EaseChatUIKitContext.shared?.userCache?[user.id]?.remark = ChatClient.shared().contactManager?.getContact(user.id)?.remark ?? ""
+                    ChatUIKitContext.shared?.userCache?[user.id]?.remark = ChatClient.shared().contactManager?.getContact(user.id)?.remark ?? ""
                 }
             }
             NotificationCenter.default.post(name: Notification.Name(loginSuccessfulSwitchMainPage), object: nil)

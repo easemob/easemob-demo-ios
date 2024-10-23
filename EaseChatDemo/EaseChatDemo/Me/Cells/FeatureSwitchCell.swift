@@ -59,6 +59,6 @@ extension FeatureSwitchCell: ThemeSwitchProtocol {
         self.detailContainer.backgroundColor = style == .dark ? UIColor.theme.neutralColor0:UIColor.theme.neutralColor95
         self.featureDetail.textColor(style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor5)
         self.separatorLine.backgroundColor = style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor9
-        self.featureSwitch.onTintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
+        self.featureSwitch.onTintColor = style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor
     }
 }

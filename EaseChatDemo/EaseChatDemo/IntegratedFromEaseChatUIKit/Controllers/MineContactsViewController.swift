@@ -29,7 +29,7 @@ final class MineContactsViewController: ContactViewController {
     }
     
     private func showUserStatus() {
-        if let presence = PresenceManager.shared.presences[EaseChatUIKitContext.shared?.currentUserId ?? ""] {
+        if let presence = PresenceManager.shared.presences[ChatUIKitContext.shared?.currentUserId ?? ""] {
             let state = PresenceManager.status(with: presence)
             switch state {
             case .online:
@@ -54,7 +54,7 @@ final class MineContactsViewController: ContactViewController {
         
     }
     
-    override func navigationClick(type: EaseChatNavigationBarClickEvent, indexPath: IndexPath?) {
+    override func navigationClick(type: ChatNavigationBarClickEvent, indexPath: IndexPath?) {
         switch type {
         case .back: self.pop()
         case .rightTitle: self.confirmAction()
@@ -107,7 +107,7 @@ final class MineContactsViewController: ContactViewController {
         })
         alert.textField.becomeFirstResponder()
         alert.leftButton(color: Theme.style == .dark ? UIColor.theme.neutralColor95:UIColor.theme.neutralColor3).leftButtonBorder(color: Theme.style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor7).leftButton(title: "report_button_click_menu_button_cancel".chat.localize).leftButtonRadius(cornerRadius: Appearance.alertStyle == .small ? .extraSmall:.large)
-        alert.rightButtonBackground(color: Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5).rightButton(color: UIColor.theme.neutralColor98).rightButtonTapClosure { [weak self] _ in
+        alert.rightButtonBackground(color: Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).rightButton(color: UIColor.theme.neutralColor98).rightButtonTapClosure { [weak self] _ in
             guard let `self` = self else { return }
             if self.limited {
                 self.showToast(toast: "The length of the custom status should be less than 20 characters".chat.localize)
@@ -162,5 +162,9 @@ extension MineContactsViewController: PresenceDidChangedListener {
         self.showUserStatus()
     }
     
-    
+    override func switchTheme(style: ThemeStyle) {
+        super.switchTheme(style: style)
+        self.navigation.titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        self.navigation.titleLabel.textColor(style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor)
+    }
 }

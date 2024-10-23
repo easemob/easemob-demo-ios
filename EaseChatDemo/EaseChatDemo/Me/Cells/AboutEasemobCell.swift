@@ -44,7 +44,7 @@ extension AboutEasemobCell: ThemeSwitchProtocol {
         self.textLabel?.textColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
         self.accessoryView?.tintColor = style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor3
         self.accessoryView?.subviews.first?.tintColor = style == .dark ? UIColor.theme.neutralColor5:UIColor.theme.neutralColor3
-        self.detailTextLabel?.textColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
+        self.detailTextLabel?.textColor = style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor
         self.separatorLine.backgroundColor = style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor9
     }
 }

@@ -124,3 +124,10 @@
 "Save Image" = "Save Image";
 
 "contactID" = "Add contacts by phone number or ID.";
+
+"long_press_style" = "Long press the message menu";
+"attachment_menu_style" = "Send attachment menu";
+
+"style1" = "Style 1";
+"style2" = "Style 2";
+"style_preview" = "Style Preview";

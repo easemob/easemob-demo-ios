@@ -11,11 +11,11 @@ import EaseChatUIKit
 
 final class FeatureSwitchViewController: UIViewController {
     
-    @UserDefault("EaseChatMessageTranslation", defaultValue: true) var enableTranslation: Bool
+    @UserDefault("EaseMobChatMessageTranslation", defaultValue: true) var enableTranslation: Bool
     
-    @UserDefault("EaseChatMessageReaction", defaultValue: true) var messageReaction: Bool
+    @UserDefault("EaseMobChatMessageReaction", defaultValue: true) var messageReaction: Bool
     
-    @UserDefault("EaseChatCreateMessageThread", defaultValue: true) var messageThread: Bool
+    @UserDefault("EaseMobChatCreateMessageThread", defaultValue: true) var messageThread: Bool
     
     @UserDefault("EaseChatDemoPreferencesBlock", defaultValue: true) var block: Bool
     
@@ -28,8 +28,8 @@ final class FeatureSwitchViewController: UIViewController {
         ]
     }()
 
-    private lazy var navigation: EaseChatNavigationBar = {
-        EaseChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight), textAlignment: .left, rightTitle: nil)
+    private lazy var navigation: ChatNavigationBar = {
+        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight), textAlignment: .left, rightTitle: nil)
     }()
     
     private lazy var featureList: UITableView = {
