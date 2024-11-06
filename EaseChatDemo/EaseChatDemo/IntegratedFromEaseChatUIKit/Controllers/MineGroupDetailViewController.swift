@@ -113,7 +113,8 @@ final class MineGroupDetailViewController: GroupInfoViewController {
     }
     
     override func disbandRequest() {
-        self.service.disband(groupId: self.chatGroup.groupId) { error in
+        self.service.disband(groupId: self.chatGroup.groupId) { [weak self] error in
+            guard let `self` = self else { return }
             if error == nil {
                 self.showToast(toast: "Group disbanded".localized())
                 NotificationCenter.default.post(name: Notification.Name("EaseChatUIKit_leaveGroup"), object: self.chatGroup.groupId)
