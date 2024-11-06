@@ -63,6 +63,7 @@ final class MainViewController: UITabBarController {
     }
     
     private func callKitSet() {
+        //接入环信CallKit
         let callConfig = EaseCallConfig()
         callConfig.agoraAppId = CallKitAppId
         callConfig.enableRTCTokenValidate = true
@@ -116,23 +117,23 @@ extension MainViewController: ThemeSwitchProtocol {
         let selectedChatsImage = chatsImage?.withTintColor(style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor, renderingMode: .alwaysOriginal)
         self.chats.tabBarItem = UITabBarItem(title: "Chats".localized(), image: chatsImage, selectedImage: selectedChatsImage)
         
-        self.chats.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5], for: .normal)
-        self.chats.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor], for: .selected)
+        self.chats.tabBarItem.setTitleTextAttributes([.foregroundColor:UIColor(0x999999)], for: .normal)
+        self.chats.tabBarItem.setTitleTextAttributes([.foregroundColor:UIColor(0x007AFF)], for: .selected)
         
         var contactImage = UIImage(named: "tabbar_contacts")
         contactImage = contactImage?.withTintColor(style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5, renderingMode: .alwaysOriginal)
         let selectedContactImage = contactImage?.withTintColor(style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor, renderingMode: .alwaysOriginal)
         self.contacts.tabBarItem = UITabBarItem(title: "Contacts".localized(), image: contactImage, selectedImage: selectedContactImage)
-        self.contacts.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5], for: .normal)
-        self.contacts.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor], for: .selected)
+        self.contacts.tabBarItem.setTitleTextAttributes([.foregroundColor:UIColor(0x999999)], for: .normal)
+        self.contacts.tabBarItem.setTitleTextAttributes([.foregroundColor:UIColor(0x007AFF)], for: .selected)
         
         var meImage = UIImage(named: "tabbar_mine")
         meImage = meImage?.withTintColor(style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5, renderingMode: .alwaysOriginal)
         let selectedMeImage = meImage?.withTintColor(style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor, renderingMode: .alwaysOriginal)
         self.me.tabBarItem = UITabBarItem(title: "Me".localized(), image: meImage, selectedImage: selectedMeImage)
         
-        self.me.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor5], for: .normal)
-        self.me.tabBarItem.setTitleTextAttributes([.foregroundColor:style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor], for: .selected)
+        self.me.tabBarItem.setTitleTextAttributes([.foregroundColor:UIColor(0x999999)], for: .normal)
+        self.me.tabBarItem.setTitleTextAttributes([.foregroundColor:UIColor(0x007AFF)], for: .selected)
         
         
     }
