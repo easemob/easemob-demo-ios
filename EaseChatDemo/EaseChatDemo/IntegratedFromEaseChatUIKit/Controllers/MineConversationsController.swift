@@ -19,6 +19,7 @@ final class MineConversationsController: ConversationListController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigation.title = "Chats"
         self.listenToUserStatus()
         self.showUserStatus()
         self.previewRequestContact()
