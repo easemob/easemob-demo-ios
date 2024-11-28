@@ -105,7 +105,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         Appearance.contact.enableBlock = self.block
         self.longPressStyle = Appearance.chat.messageLongPressMenuStyle.rawValue
         self.attachmentStyle = Appearance.chat.messageAttachmentMenuStyle.rawValue
-        //Enable message translation
+        //Enable message translation(开启翻译功能,前提是Console上已经开通)
         Appearance.chat.enableTranslation = self.enableTranslation
         if Appearance.chat.enableTranslation {
             let preferredLanguage = NSLocale.preferredLanguages[0]
@@ -115,17 +115,17 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 Appearance.chat.targetLanguage = .English
             }
         }
-        //Whether show message topic or not.
+        //Whether show message topic or not.(是否显示根据消息创建话题的功能)
         if self.messageThread {
             Appearance.chat.contentStyle.append(.withMessageThread)
         }
-        //Whether show message reaction or not.
+        //Whether show message reaction or not.(是否显示消息表情回应功能)
         if self.messageReaction {
             Appearance.chat.contentStyle.append(.withMessageReaction)
         }
         //Notice: - Feature identify can't changed, it's used to identify feature action.
         
-        //Register custom components
+        //Register custom components(注册Demo中继承EaseChatUIKit中类替换EaseChatUIKit中的父类)
         ComponentsRegister.shared.ConversationsController = MineConversationsController.self
         ComponentsRegister.shared.ContactsController = MineContactsViewController.self
         ComponentsRegister.shared.MessageViewController = MineMessageListViewController.self

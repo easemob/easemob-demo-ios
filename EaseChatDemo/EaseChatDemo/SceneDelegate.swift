@@ -22,11 +22,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        //设置整个UIKit中的语言 目前只支持中英文
         Appearance.ease_chat_language = LanguageType(rawValue: self.language) ?? .Chinese
         self.window = nil
         self.window = UIWindow(windowScene: windowScene)
         self.window?.backgroundColor = .black
-        EaseChatProfile.registerTable()
+        EaseChatProfile.registerTable()//使用三方数据库，将模型注册成为表
         self.chooseRootViewController()
         self.window?.makeKeyAndVisible()
         self.switchTheme()

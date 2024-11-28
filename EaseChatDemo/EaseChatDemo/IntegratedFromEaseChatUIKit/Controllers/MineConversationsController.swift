@@ -19,6 +19,7 @@ final class MineConversationsController: ConversationListController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigation.title = "Chats"
         self.listenToUserStatus()
         self.showUserStatus()
         self.previewRequestContact()
@@ -294,7 +295,7 @@ extension MineConversationsController: PresenceDidChangedListener {
         super.switchTheme(style: style)
         let image = UIImage(named: style == .dark ? "conversation_ondark":"conversation_onlight") ?? UIImage()
         self.navigation.updateRightItems(images: [image], original: true)
-        self.navigation.titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        self.navigation.titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
         self.navigation.titleLabel.textColor(style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor)
     }
 }

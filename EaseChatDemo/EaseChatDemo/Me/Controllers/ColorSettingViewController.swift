@@ -39,7 +39,8 @@ final class ColorSettingViewController: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             }
             if $0 == .rightTitle {
-                Theme.switchTheme(style: .custom)
+                UIColor.ColorTheme.switchHues(hues: [Appearance.primaryHue,Appearance.secondaryHue,Appearance.errorHue,Appearance.neutralHue,Appearance.neutralSpecialHue])
+                Theme.switchTheme(style: Theme.style)
                 self?.navigationController?.popViewController(animated: true)
             }
             consoleLogInfo("\($1?.row ?? 0)", type: .debug)

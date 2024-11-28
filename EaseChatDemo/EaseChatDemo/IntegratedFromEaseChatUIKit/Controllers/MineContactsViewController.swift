@@ -164,7 +164,11 @@ extension MineContactsViewController: PresenceDidChangedListener {
     
     override func switchTheme(style: ThemeStyle) {
         super.switchTheme(style: style)
-        self.navigation.titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
-        self.navigation.titleLabel.textColor(style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor)
+        self.navigation.titleLabel.font = self.style == .contact ? UIFont.systemFont(ofSize: 22, weight: .semibold):UIFont.theme.headlineSmall
+        if self.style == .contact {
+            self.navigation.titleLabel.textColor(style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor)
+        } else {
+            self.navigation.titleLabel.textColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
+        }
     }
 }

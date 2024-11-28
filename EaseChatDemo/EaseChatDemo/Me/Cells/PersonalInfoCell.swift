@@ -58,7 +58,6 @@ final class PersonalInfoCell: UITableViewCell {
             self.detailLabel.isHidden = false
             self.detailLabel.text = detail
         }
-        
     }
 }
 
