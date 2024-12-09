@@ -159,6 +159,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
                         ChatUIKitContext.shared?.userCache?[userId]?.avatarURL = info.avatarUrl ?? ""
                         ChatUIKitContext.shared?.chatCache?[userId]?.nickname = info.nickname ?? ""
                         ChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = info.avatarUrl ?? ""
+                        ChatUIKitContext.shared?.updateCache(type: .user, profile: profile)
                     } else {
                         let profile = EaseChatProfile()
                         profile.id = userId
@@ -173,6 +174,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
                         }
                         ChatUIKitContext.shared?.chatCache?[userId]?.nickname = info.nickname ?? ""
                         ChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = info.avatarUrl ?? ""
+                        ChatUIKitContext.shared?.updateCache(type: .user, profile: profile)
                     }
                     
                     self?.updateHeader()

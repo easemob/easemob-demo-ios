@@ -33,7 +33,7 @@ final class MineCallInviteUsersController: GroupParticipantsRemoveController {
     }
     
     override func createNavigation() -> ChatNavigationBar {
-        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44),textAlignment: .left,rightTitle: "Confirm".chat.localize)
+        ChatNavigationBar(show: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44),textAlignment: .left,rightTitle: "Confirm".chat.localize)
     }
     
     override func viewDidLoad() {
