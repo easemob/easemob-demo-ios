@@ -40,7 +40,7 @@ final class GeneralViewController: UIViewController {
     }()
     
     private lazy var navigation: ChatNavigationBar = {
-        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight), textAlignment: .left, rightTitle: nil)
+        ChatNavigationBar(show: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight), textAlignment: .left, rightTitle: nil)
     }()
     
     private lazy var menuList: UITableView = {

@@ -10,6 +10,10 @@ import EaseChatUIKit
 import EaseCallKit
 
 class MineMessageEntity: MessageEntity {
+    
+    override func customSize() -> CGSize {
+        super.customSize()
+    }
         
     open override func convertTextAttribute() -> NSAttributedString? {
         if self.message.messageId.isEmpty {

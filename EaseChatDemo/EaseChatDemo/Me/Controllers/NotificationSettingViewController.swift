@@ -11,11 +11,11 @@ import EaseChatUIKit
 final class NotificationSettingViewController: UIViewController {
     
     private lazy var navigation: ChatNavigationBar = {
-        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight),textAlignment: .left)
+        ChatNavigationBar(show:  CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight),textAlignment: .left)
     }()
     
     private lazy var container: UIView = {
-        UIView(frame: CGRect(x: 0, y: self.separatorLine.frame.maxY, width: self.view.frame.width, height: ScreenWidth <= 375 ? 50:40))
+        UIView(frame: .zero)
     }()
     
     private lazy var settingName: UILabel = {
@@ -31,14 +31,26 @@ final class NotificationSettingViewController: UIViewController {
     }()
     
     private lazy var alert: UILabel = {
-        UILabel(frame: CGRect(x: 16, y: self.separatorLine.frame.maxY+4, width: self.view.frame.width-32, height: ScreenWidth <= 375 ? 40:30)).font(UIFont.theme.bodyMedium).text("Notification Alert".localized()).numberOfLines(2)
+        UILabel(frame: .zero).font(UIFont.theme.bodyMedium).text("Notification Alert".localized()).numberOfLines(0).backgroundColor(.clear)
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.view.addSubViews([self.navigation,self.settingName,self.settingSwitch,self.separatorLine,self.container,self.alert])
-        self.alert.sizeToFit()
+        self.view.addSubViews([self.navigation,self.settingName,self.settingSwitch,self.separatorLine,self.container])
+        self.container.addSubview(self.alert)
+        self.container.translatesAutoresizingMaskIntoConstraints = false
+        self.alert.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.container.topAnchor.constraint(equalTo: self.separatorLine.bottomAnchor),
+            self.container.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.container.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            
+            self.alert.topAnchor.constraint(equalTo: self.container.topAnchor,constant: 2),
+            self.alert.leadingAnchor.constraint(equalTo: self.container.leadingAnchor,constant: 16),
+            self.alert.trailingAnchor.constraint(equalTo: self.container.trailingAnchor,constant: -16),
+            self.alert.bottomAnchor.constraint(equalTo: self.container.bottomAnchor,constant: -2)
+        ])
         self.navigation.title = "Notification".localized()
         self.settingSwitch.addTarget(self, action: #selector(valueChanged(sender:)), for: .touchUpInside)
         self.navigation.clickClosure = { [weak self] _,_ in

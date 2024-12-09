@@ -62,6 +62,7 @@
 		05E5A1C52B9971AD00955DD1 /* LanguageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C42B9971AD00955DD1 /* LanguageSettingViewController.swift */; };
 		05E5A1C72B9997FC00955DD1 /* DemoLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C62B9997FC00955DD1 /* DemoLanguage.swift */; };
 		05E5A1C92B99A8C200955DD1 /* ColorSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C82B99A8C200955DD1 /* ColorSettingViewController.swift */; };
+		05E831AE2CEDCEFC00C527EA /* BalooTamma-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05E831AD2CEDCEFC00C527EA /* BalooTamma-Regular.ttf */; };
 		05FE6C2A2B9A9F160030A983 /* ThemesSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FE6C292B9A9F160030A983 /* ThemesSettingViewController.swift */; };
 		05FE6C2C2B9AADD00030A983 /* ColorHueSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */; };
 		C4459C57463963DE809CB15A /* Pods_EaseChatDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52296E4D561A746F13103874 /* Pods_EaseChatDemo.framework */; };
@@ -154,6 +155,7 @@
 		05E5A1C42B9971AD00955DD1 /* LanguageSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSettingViewController.swift; sourceTree = "<group>"; };
 		05E5A1C62B9997FC00955DD1 /* DemoLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLanguage.swift; sourceTree = "<group>"; };
 		05E5A1C82B99A8C200955DD1 /* ColorSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSettingViewController.swift; sourceTree = "<group>"; };
+		05E831AD2CEDCEFC00C527EA /* BalooTamma-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BalooTamma-Regular.ttf"; sourceTree = "<group>"; };
 		05EAF26A2BB2650B00D905F4 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Pods/FMDB/privacy/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		05FE6C292B9A9F160030A983 /* ThemesSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesSettingViewController.swift; sourceTree = "<group>"; };
 		05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHueSettingCell.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				05B7C1F72B96AC3300DA0F8F /* Assets.xcassets */,
 				05B7C1F92B96AC3300DA0F8F /* LaunchScreen.storyboard */,
 				05B7C1FC2B96AC3300DA0F8F /* Info.plist */,
+				05E831AD2CEDCEFC00C527EA /* BalooTamma-Regular.ttf */,
 			);
 			path = EaseChatDemo;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 			files = (
 				05B7C1FB2B96AC3300DA0F8F /* LaunchScreen.storyboard in Resources */,
 				05B7C2082B96BB5300DA0F8F /* Localizable.strings in Resources */,
+				05E831AE2CEDCEFC00C527EA /* BalooTamma-Regular.ttf in Resources */,
 				05B7C1F82B96AC3300DA0F8F /* Assets.xcassets in Resources */,
 				05B7C1F62B96AC3200DA0F8F /* Main.storyboard in Resources */,
 			);
@@ -787,7 +791,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -808,7 +812,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.10.1;
+				MARKETING_VERSION = 4.11.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -831,7 +835,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -852,7 +856,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.10.1;
+				MARKETING_VERSION = 4.11.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
