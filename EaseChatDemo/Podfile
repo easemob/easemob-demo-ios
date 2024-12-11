@@ -7,10 +7,12 @@ target 'EaseChatDemo' do
 
   # Pods for EaseChatDemo
   pod 'EaseChatUIKit','4.11.1'
+  pod 'HyphenateChat','4.11.0'
   pod 'EaseCallKit'
   pod 'KakaJSON', '~> 1.1.2'
   pod 'SwiftFFDBHotFix'
   pod 'FMDB','2.7.11'
+  #如果HyphenateChat使用4.11.0版本需要下面pre_install这个脚本，否则不需要
   pre_install do |installer|
     # 定义 HypheanteChat framework 的路径
     rtc_pod_path = File.join(installer.sandbox.root, 'AgoraRtcEngine_iOS')
@@ -26,6 +28,7 @@ target 'EaseChatDemo' do
       puts "aosl.xcframework not found, skipping deletion."
     end
   end
+  
   post_install do |installer|
     installer.generated_projects.each do |project|
       
