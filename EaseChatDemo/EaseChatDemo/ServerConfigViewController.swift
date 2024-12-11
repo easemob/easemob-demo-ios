@@ -17,7 +17,7 @@ final class ServerConfigViewController: UIViewController {
     }()
     
     private lazy var navigation: ChatNavigationBar = {
-        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44),textAlignment: .left,rightTitle: "保存".chat.localize)
+        ChatNavigationBar(show:  CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44),textAlignment: .left,rightTitle: "保存".chat.localize)
     }()
     
     private lazy var applicationField: UITextField = {

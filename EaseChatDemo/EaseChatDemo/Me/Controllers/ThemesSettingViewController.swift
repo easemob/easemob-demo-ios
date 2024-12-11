@@ -17,7 +17,7 @@ final class ThemesSettingViewController: UIViewController {
     private var selectIndexPath = IndexPath(row: 0, section: 0)
         
     private lazy var navigation: ChatNavigationBar = {
-        ChatNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight),textAlignment: .left,rightTitle: "Confirm".chat.localize)
+        ChatNavigationBar(show: CGRect(x: 0, y: 0, width: self.view.frame.width, height: NavigationHeight),textAlignment: .left,rightTitle: "Confirm".chat.localize)
     }()
     
     private lazy var infoList: UITableView = {
