@@ -81,9 +81,9 @@ final class LoginViewController: UIViewController {
     private var count = 60
     
     private lazy var timer: GCDTimer? = {
-        GCDTimerMaker.exec({
-            self.timerFire()
-        }, interval: 1, repeats: true)
+        GCDTimerMaker.exec({ [weak self] in
+            self?.timerFire()
+        }, interval: 1, repeats: true, async: false)
     }()
     
     private var protocolContent: NSAttributedString = NSAttributedString {
@@ -185,19 +185,22 @@ final class LoginViewController: UIViewController {
         self.loginContainer.layer.shadowColor = UIColor(red: 0, green: 0.55, blue: 0.98, alpha: 0.2).cgColor
         self.loginContainer.layer.shadowOpacity = 1
     }
+    
+    deinit {
+        self.timer?.cancel()
+    }
 
 }
 
 extension LoginViewController: UITextFieldDelegate {
     
     @objc func timerFire() {
-        DispatchQueue.main.async {
-            self.count -= 1
-            if self.count <= 0 {
-                self.timer?.suspend()
-                self.getAgain()
-            } else { self.startCountdown() }
-        }
+        self.count -= 1
+        print("倒计时：\(self.count)")
+        if self.count <= 0 {
+            self.timer?.suspend()
+            self.getAgain()
+        } else { self.startCountdown() }
     }
     
     private func getAgain() {

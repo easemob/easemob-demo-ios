@@ -6,79 +6,97 @@
 //
 
 import Foundation
-
+import Dispatch
 
 public protocol GCDTimer {
-    // 启动
     func resume()
-    // 暂停
     func suspend()
-    // 取消
     func cancel()
 }
 
 public class GCDTimerMaker {
     
-    static func exec(_ task: (() -> ())?, interval: Int, repeats: Bool = true, async: Bool = true) -> GCDTimer? {
+    @discardableResult
+    static func exec(_ task: (() -> ())?,
+                     interval: TimeInterval,
+                     repeats: Bool = true,
+                     async: Bool = true) -> GCDTimer? {
         
-        guard let _ = task else {
-            return nil
-        }
+        guard let task = task else { return nil }
         
         return TimerMaker(task,
-                          deadline: .now(),
-                          repeating: repeats ? .seconds(interval):.never,
-                          async: async)
-        
+                         deadline: .now(),
+                         repeating: repeats ? .milliseconds(Int(interval * 1000)) : .never,
+                         async: async)
     }
 }
 
-private class TimerMaker: GCDTimer {
+private class TimerMaker:NSObject, GCDTimer {
     
-    /// 当前Timer 运行状态
     enum TimerState {
-        case runing
-        case stoped
+        case initialized
+        case running
+        case suspended
+        case cancelled
     }
     
-    private var state = TimerState.stoped
+    private let queue = DispatchQueue(label: "com.timer.state", attributes: .concurrent)
+    private var _state: TimerState = .initialized
+    private var state: TimerState {
+        get { queue.sync { _state } }
+        set { queue.async(flags: .barrier) { self._state = newValue } }
+    }
     
     private var timer: DispatchSourceTimer?
     
-    convenience init(_ exce: (() -> ())?, deadline: DispatchTime, repeating interval: DispatchTimeInterval = .never, leeway: DispatchTimeInterval = .seconds(0), async: Bool = true) {
+    convenience init(_ exec: @escaping (() -> ()),
+                    deadline: DispatchTime,
+                    repeating interval: DispatchTimeInterval = .never,
+                    leeway: DispatchTimeInterval = .milliseconds(100),
+                    async: Bool = true) {
         self.init()
-
-        let queue = async ? DispatchQueue.global():DispatchQueue.main
         
+        let queue = async ? DispatchQueue.global() : DispatchQueue.main
         timer = DispatchSource.makeTimerSource(queue: queue)
         
         timer?.schedule(deadline: deadline,
-                        repeating: interval,
-                        leeway: leeway)
+                       repeating: interval,
+                       leeway: leeway)
         
-        timer?.setEventHandler(handler: {
-            exce?()
-        })
+        timer?.setEventHandler { [weak self] in
+            guard self?.state == .running else { return }
+            exec()
+        }
     }
     
+    deinit {
+        cancel()
+    }
     
     func resume() {
-        guard state != .runing else { return }
-        state = .runing
-        timer?.resume()
+        queue.async(flags: .barrier) {
+            guard self._state != .running && self._state != .cancelled else { return }
+            self._state = .running
+            self.timer?.resume()
+        }
     }
     
     func suspend() {
-        guard state != .stoped else { return }
-        state = .stoped
-        timer?.suspend()
+        queue.async(flags: .barrier) {
+            guard self._state == .running else { return }
+            self._state = .suspended
+            self.timer?.suspend()
+        }
     }
     
     func cancel() {
-        state = .stoped
-        timer?.cancel()
+        queue.async(flags: .barrier) {
+            guard self._state != .cancelled else { return }
+            self._state = .cancelled
+            self.timer?.cancel()
+            self.timer = nil
+        }
     }
-    
-    
 }
+
 
