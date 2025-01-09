@@ -69,10 +69,6 @@ private class TimerMaker:NSObject, GCDTimer {
         }
     }
     
-    deinit {
-        cancel()
-    }
-    
     func resume() {
         queue.async(flags: .barrier) {
             guard self._state != .running && self._state != .cancelled else { return }

@@ -276,6 +276,7 @@ extension LoginViewController: UITextFieldDelegate {
             }
             self.loadingView.startAnimating()
             self.phone = phone
+            self.timer?.cancel()
             EasemobBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["phoneNumber":phone,"smsCode":code]) { [weak self] result, error in
                 if error == nil {
                     if let userId = result?["chatUserName"] as? String,let token = result?["token"] as? String{
@@ -379,7 +380,6 @@ extension LoginViewController: UITextFieldDelegate {
         self.timer?.resume()
         EasemobBusinessRequest.shared.sendPOSTRequest(api: .verificationCode((phoneNum)), params: [:]) { [weak self] result, error in
             if error == nil {
-                self?.timer?.cancel()
                 guard let code = result?["code"] as? Int else { return }
                 self?.code = "\(code)"
                 self?.showToast(toast:"获取成功")
