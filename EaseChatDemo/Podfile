@@ -7,7 +7,7 @@ target 'EaseChatDemo' do
 
   # Pods for EaseChatDemo
   pod 'EaseChatUIKit','4.11.1'
-  pod 'HyphenateChat','4.11.0'
+  pod 'HyphenateChat','4.12.0'
   pod 'EaseCallKit'
   pod 'KakaJSON', '~> 1.1.2'
   pod 'SwiftFFDBHotFix'
