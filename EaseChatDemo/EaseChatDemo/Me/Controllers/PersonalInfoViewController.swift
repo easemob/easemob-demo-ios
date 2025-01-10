@@ -210,7 +210,11 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
                     self?.infoList.reloadData()
                     NotificationCenter.default.post(name: NSNotification.Name(userAvatarUpdated), object: nil)
                 } else {
-                    self?.showToast(toast: error?.localizedDescription ?? "")
+                    if let someError = error as? EasemobError {
+                        self?.showToast(toast:someError.message ?? "")
+                    } else {
+                        self?.showToast(toast:error?.localizedDescription ?? "")
+                    }
                 }
             }
         }

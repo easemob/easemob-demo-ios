@@ -299,6 +299,7 @@ extension LoginViewController: UITextFieldDelegate {
         ChatUIKitClient.shared.login(user: user, token: token) { [weak self] error in
             self?.loadingView.stopAnimating()
             if error == nil {
+                self?.timer?.cancel()
                 if let profiles = EaseChatProfile.select(where: "id = '\(user.id)'") as? [EaseChatProfile] {
                     if profiles.first != nil {
                         if let profile = profiles.first {
@@ -376,12 +377,15 @@ extension LoginViewController: UITextFieldDelegate {
         self.timer?.resume()
         EasemobBusinessRequest.shared.sendPOSTRequest(api: .verificationCode((phoneNum)), params: [:]) { [weak self] result, error in
             if error == nil {
-                self?.timer?.cancel()
                 guard let code = result?["code"] as? Int else { return }
                 self?.code = "\(code)"
                 self?.showToast(toast:"获取成功")
             } else {
-                self?.showToast(toast:error?.localizedDescription ?? "")
+                if let someError = error as? EasemobError {
+                    self?.showToast(toast:someError.message ?? "")
+                } else {
+                    self?.showToast(toast:error?.localizedDescription ?? "")
+                }
             }
         }
     }
