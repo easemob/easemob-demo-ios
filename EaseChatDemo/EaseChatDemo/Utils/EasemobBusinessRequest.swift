@@ -15,6 +15,8 @@ public class EasemobError: Error,Convertible {
     var code: String?
     var message: String?
     
+    
+    
     required public init() {
         
     }
@@ -62,11 +64,8 @@ public class EasemobError: Error,Convertible {
                         if let code = errorMap["code"] as? String,code == "401" {
                             NotificationCenter.default.post(name: Notification.Name("BackLogin"), object: nil)
                         }
-                        callBack(nil,error)
+                        callBack(nil,someError)
                     } else {
-                        let someError = EasemobError()
-                        someError.message = error?.localizedDescription
-                        someError.code = "\((error as? NSError)?.code ?? response!.statusCode)"
                         callBack(nil,error)
                     }
                 }
@@ -100,11 +99,8 @@ public class EasemobError: Error,Convertible {
                     if let code = errorMap["code"] as? String,code == "401" {
                         NotificationCenter.default.post(name: Notification.Name("BackLogin"), object: nil)
                     }
-                    callBack(nil,error)
+                    callBack(nil,someError)
                 } else {
-                    let someError = EasemobError()
-                    someError.message = error?.localizedDescription
-                    someError.code = "\((error as? NSError)?.code ?? response!.statusCode)"
                     callBack(nil,error)
                 }
             }
