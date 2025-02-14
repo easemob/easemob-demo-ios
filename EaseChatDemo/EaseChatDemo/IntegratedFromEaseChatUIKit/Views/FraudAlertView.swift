@@ -20,8 +20,8 @@ final class FraudAlertView: UIView {
     
     lazy var fraudContent: LinkRecognizeTextView = {
         LinkRecognizeTextView(frame: .zero).attributedText(NSAttributedString {
-            AttributedText("fraud_alert".localized()).font(.theme.bodySmall).foregroundColor(Theme.style == .dark ? .theme.neutralColor9:.theme.neutralColor3).lineHeight(minimum: 1)
-            Link("Click report".localized(), url: URL(string: "https://www.easemob.com")!)
+            AttributedText("fraud_alert".localized()).font(.theme.bodySmall).foregroundColor(Theme.style == .dark ? .theme.neutralColor9:.theme.neutralColor3).lineHeight(minimum: 1).lineBreakMode(.byCharWrapping)
+            Link("Click report".localized(), url: URL(string: "https://www.easemob.com")!).lineBreakMode(.byCharWrapping)
         }).backgroundColor(.clear)
     }()
     
@@ -57,17 +57,17 @@ final class FraudAlertView: UIView {
         self.fraudIcon.widthAnchor.constraint(equalToConstant: 13).isActive = true
         self.fraudIcon.heightAnchor.constraint(equalToConstant: 13).isActive = true
         self.fraudContent.translatesAutoresizingMaskIntoConstraints = false
-        self.fraudContent.topAnchor.constraint(equalTo: self.container.topAnchor,constant: 12).isActive = true
-        self.fraudContent.leadingAnchor.constraint(equalTo: self.fraudIcon.trailingAnchor,constant: 9).isActive = true
-        self.fraudContent.trailingAnchor.constraint(equalTo: self.container.trailingAnchor,constant: -36).isActive = true
-        self.fraudContent.bottomAnchor.constraint(equalTo: self.container.bottomAnchor,constant: -8).isActive = true
+        self.fraudContent.topAnchor.constraint(equalTo: self.container.topAnchor,constant: 11).isActive = true
+        self.fraudContent.leadingAnchor.constraint(equalTo: self.fraudIcon.trailingAnchor,constant: 8).isActive = true
+        self.fraudContent.trailingAnchor.constraint(equalTo: self.container.trailingAnchor,constant: -32).isActive = true
+        self.fraudContent.bottomAnchor.constraint(equalTo: self.container.bottomAnchor,constant: -7).isActive = true
         
         self.close.topAnchor.constraint(equalTo: self.container.topAnchor,constant: 12).isActive = true
         self.close.trailingAnchor.constraint(equalTo: self.container.trailingAnchor,constant: -14).isActive = true
         self.close.widthAnchor.constraint(equalToConstant: 12).isActive = true
         self.close.heightAnchor.constraint(equalToConstant: 12).isActive = true
-        let limitHeight = self.fraudContent.sizeThatFits(CGSize(width: ScreenWidth-24-65, height: CGFloat.greatestFiniteMagnitude)).height
-        self.heightAnchor.constraint(equalToConstant: limitHeight+(ScreenWidth < 375 ? 14:8)).isActive = true
+        let limitHeight = self.fraudContent.sizeThatFits(CGSize(width: ScreenWidth-24-78, height: CGFloat.greatestFiniteMagnitude)).height
+        self.heightAnchor.constraint(equalToConstant: limitHeight+8).isActive = true
 
     }
     

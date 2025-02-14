@@ -21,11 +21,11 @@ final class MineMessageListViewController: MessageListController {
     private var imageEntity = MessageEntity()
     
     lazy var fraudView: FraudAlertView = {
-        FraudAlertView(frame: CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: 72))
+        FraudAlertView(frame: CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: ScreenWidth <= 375 ? 84:72))
     }()
     
     override func createMessageContainer() -> MessageListView {
-        MessageListView(frame: CGRect(x: 0, y: self.fraudView.frame.maxY, width: self.view.frame.width, height: ScreenHeight-NavigationHeight), mention: self.chatType == .group)
+        MessageListView(frame: CGRect(x: 0, y: self.fraudView.frame.maxY, width: self.view.frame.width, height: ScreenHeight-self.fraudView.frame.maxY), mention: self.chatType == .group)
     }
 
     override func viewDidLoad() {
