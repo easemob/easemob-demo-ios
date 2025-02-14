@@ -34,7 +34,7 @@ final class MineMessageListViewController: MessageListController {
         self.fraudView.closeClosure = { [weak self] in
             guard let `self` = self else { return }
             UIView.animate(withDuration: 0.22) {
-                self.messageContainer.frame = CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: ScreenHeight-NavigationHeight)
+                self.messageContainer.frame = CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: ScreenHeight-self.navigation.frame.maxY)
             }
         }
         self.fraudView.fraudContent.clickAction = { [weak self] in
