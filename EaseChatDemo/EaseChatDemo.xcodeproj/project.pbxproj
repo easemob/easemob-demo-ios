@@ -48,6 +48,7 @@
 		05B7C2162B96C55800DA0F8F /* PublicDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C2152B96C55800DA0F8F /* PublicDefines.swift */; };
 		05B7C21B2B97019300DA0F8F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C21A2B97019300DA0F8F /* MainViewController.swift */; };
 		05B7C21E2B970D2F00DA0F8F /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C21D2B970D2F00DA0F8F /* MeViewController.swift */; };
+		05CDAC582D5EEA880033E088 /* FraudAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05CDAC562D5EEA880033E088 /* FraudAlertView.swift */; };
 		05CF13182BA7D55E0026595C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF13172BA7D55E0026595C /* CloudKit.framework */; };
 		05CF131A2BA7D5670026595C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF13192BA7D5670026595C /* Accounts.framework */; };
 		05CF131C2BA7D56E0026595C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF131B2BA7D56E0026595C /* CFNetwork.framework */; };
@@ -139,6 +140,7 @@
 		05B7C2152B96C55800DA0F8F /* PublicDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicDefines.swift; sourceTree = "<group>"; };
 		05B7C21A2B97019300DA0F8F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		05B7C21D2B970D2F00DA0F8F /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
+		05CDAC562D5EEA880033E088 /* FraudAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FraudAlertView.swift; sourceTree = "<group>"; };
 		05CF13162BA7D4EB0026595C /* EaseChatDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EaseChatDemo.entitlements; sourceTree = "<group>"; };
 		05CF13172BA7D55E0026595C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		05CF13192BA7D5670026595C /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -190,6 +192,7 @@
 		0518E5AA2BA15B3F00EA7D7B /* IntegratedFromEaseChatUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				05CDAC572D5EEA880033E088 /* Views */,
 				05BC4F3D2BBD08D60086E567 /* Cells */,
 				05E0D7332BA2E60600373197 /* ViewModels */,
 				0518E5AB2BA15B5800EA7D7B /* Controllers */,
@@ -354,6 +357,14 @@
 			children = (
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		05CDAC572D5EEA880033E088 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				05CDAC562D5EEA880033E088 /* FraudAlertView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		05CF13222BA7DBF10026595C /* EMPushServerExt */ = {
@@ -590,6 +601,7 @@
 				05E0D7322BA2E2C200373197 /* MineCallInviteUsersController.swift in Sources */,
 				057227642B97FFB200AA866D /* AboutEasemobHeader.swift in Sources */,
 				0544D4402C3BC24000E36B08 /* PreviewImage.swift in Sources */,
+				05CDAC582D5EEA880033E088 /* FraudAlertView.swift in Sources */,
 				05E5A1C52B9971AD00955DD1 /* LanguageSettingViewController.swift in Sources */,
 				05E5A1C32B996EE400955DD1 /* LanguageCell.swift in Sources */,
 				05B7C21B2B97019300DA0F8F /* MainViewController.swift in Sources */,
