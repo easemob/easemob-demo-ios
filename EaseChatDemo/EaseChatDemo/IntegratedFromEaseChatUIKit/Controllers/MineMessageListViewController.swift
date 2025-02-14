@@ -19,10 +19,27 @@ final class MineMessageListViewController: MessageListController {
     private var otherPartyStatus = ""
     
     private var imageEntity = MessageEntity()
+    
+    lazy var fraudView: FraudAlertView = {
+        FraudAlertView(frame: CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: 72))
+    }()
+    
+    override func createMessageContainer() -> MessageListView {
+        MessageListView(frame: CGRect(x: 0, y: self.fraudView.frame.maxY, width: self.view.frame.width, height: ScreenHeight-NavigationHeight), mention: self.chatType == .group)
+    }
 
     override func viewDidLoad() {
+        self.view.addSubview(self.fraudView)
         super.viewDidLoad()
-        
+        self.fraudView.closeClosure = { [weak self] in
+            guard let `self` = self else { return }
+            UIView.animate(withDuration: 0.22) {
+                self.messageContainer.frame = CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: ScreenHeight-NavigationHeight)
+            }
+        }
+        self.fraudView.fraudContent.clickAction = { [weak self] in
+            self?.showToast(toast: "感谢您的举报，我们将尽快处理")
+        }
         // Do any additional setup after loading the view.
         if self.chatType == .chat {
             self.subscribeUserStatus()
