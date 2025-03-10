@@ -115,6 +115,7 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
                     if let userJson = ChatUIKitContext.shared?.currentUser?.toJsonObject() {
                         let profile = EaseChatProfile()
                         profile.setValuesForKeys(userJson)
+                        profile.nickname = nickname
                         profile.updateFFDB()
                     }
                 } else {
@@ -204,6 +205,7 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
                     if let userJson = ChatUIKitContext.shared?.currentUser?.toJsonObject() {
                         let profile = EaseChatProfile()
                         profile.setValuesForKeys(userJson)
+                        profile.avatarURL = avatarURL
                         profile.updateFFDB()
                     }
                     self?.setUserAvatar(url: avatarURL)
