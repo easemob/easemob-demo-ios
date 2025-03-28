@@ -76,7 +76,7 @@ end
 
  1. [注册环信应用](https://doc.easemob.com/product/enable_and_configure_IM.html)
 
- 2. 将Appkey填入`PublicFiles.swift`文件中的`AppKey`中
+ 2. 将Appkey填入`PublicDefines.swift`文件中的`AppKey`中
 
  3. 需要将[服务端源码](https://github.com/easemob/easemob-im-app-server/tree/dev-demo)部署后填入`PublicFiles.swift`文件中的`ServerHost`中，手机号验证码暂时可以跳过，可以使用手机号后六位当验证码，服务端中的Appkey 要跟客户端的Appkey保持一致。Appserver主要提供了手机号验证码登录接口以及上传用户头像的接口，此接口主要的职能是根据用户的信息注册并生成EaseChatUIKit登录所需的token或者使用已注册的用户信息生成EaseChatUIKit登录所需的token，上传头像是一个普通的通用功能在此不过多赘述。
 
