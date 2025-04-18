@@ -29,6 +29,10 @@ final class LoginViewController: UIViewController {
         UIImageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight)).contentMode(.scaleAspectFill)
     }()
     
+    deinit {
+        print("LoginViewController deinit")
+    }
+    
     private lazy var appName: UILabel = {
         UILabel(frame: CGRect(x: 30, y: 187, width: ScreenWidth - 60, height: 35)).font(UIFont(name: "PingFangSC-Medium", size: 24)).text("Login Easemob Chat".localized())
     }()
@@ -80,11 +84,7 @@ final class LoginViewController: UIViewController {
     
     private var count = 60
     
-    private lazy var timer: GCDTimer? = {
-        GCDTimerMaker.exec({
-            self.timerFire()
-        }, interval: 1, repeats: true)
-    }()
+    private lazy var timer: Timer? = nil
     
     private var protocolContent: NSAttributedString = NSAttributedString {
         AttributedText("Please tick to agree".localized()).font(.systemFont(ofSize: 12, weight: .regular)).foregroundColor(Theme.style == .dark ? UIColor.theme.neutralColor8:UIColor.theme.neutralColor3).lineSpacing(5)
@@ -194,7 +194,8 @@ extension LoginViewController: UITextFieldDelegate {
         DispatchQueue.main.async {
             self.count -= 1
             if self.count <= 0 {
-                self.timer?.suspend()
+                self.timer?.invalidate()
+                self.timer = nil
                 self.getAgain()
             } else { self.startCountdown() }
         }
@@ -299,7 +300,6 @@ extension LoginViewController: UITextFieldDelegate {
         ChatUIKitClient.shared.login(user: user, token: token) { [weak self] error in
             self?.loadingView.stopAnimating()
             if error == nil {
-                self?.timer?.cancel()
                 if let profiles = EaseChatProfile.select(where: "id = '\(user.id)'") as? [EaseChatProfile] {
                     if profiles.first != nil {
                         if let profile = profiles.first {
@@ -374,7 +374,10 @@ extension LoginViewController: UITextFieldDelegate {
             self.showToast(toast: "PinCodeError".localized())
             return
         }
-        self.timer?.resume()
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            self?.timerFire()
+        }
+        self.timer?.fire()
         EasemobBusinessRequest.shared.sendPOSTRequest(api: .verificationCode((phoneNum)), params: [:]) { [weak self] result, error in
             if error == nil {
                 guard let code = result?["code"] as? Int else { return }
