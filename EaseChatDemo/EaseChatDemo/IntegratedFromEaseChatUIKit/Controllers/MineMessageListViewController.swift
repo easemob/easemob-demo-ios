@@ -231,7 +231,11 @@ final class MineMessageListViewController: MessageListController {
         case .image:
             if let body = message.message.body as? ChatImageMessageBody {
                 self.filePath = body.localPath
-                self.viewImage(entity: message)
+                if body.isGif {
+                    self.openFile()
+                } else {
+                    self.viewImage(entity: message)
+                }
             }
         case .file,.video:
             if let body = message.message.body as? ChatFileMessageBody {
