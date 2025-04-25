@@ -122,6 +122,9 @@ final class LoginViewController: UIViewController {
         self.addGesture()
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
+#if DEBUG
+        showServerConfig()
+#endif
     }
     
     private func addGesture() {

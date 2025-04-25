@@ -14,6 +14,7 @@ import SwiftFFDBHotFix
 let userAvatarUpdated = "userAvatarUpdated"
 
 final class PersonalInfoViewController: UIViewController {
+    @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var serverConfig
     
     private lazy var infos: [Dictionary<String,String>] = {
         var userId = ChatUIKitContext.shared?.currentUserId ?? ""
@@ -82,6 +83,10 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
         if let title = self.infos[safe:indexPath.row]?["title"] as? String {
             switch title {
             case "Avatar".localized():
+                if let debugMode = self.serverConfig["debug_mode"],debugMode == "1" {
+                    self.showToast(toast:"Unsupported upload image in debug mode")
+                    return
+                }
                 DialogManager.shared.showActions(actions: [ActionSheetItem(title: "input_extension_menu_photo".chat.localize, type: .normal,tag: "Photo",image: UIImage(named: "photo", in: .chatBundle, with: nil)), ActionSheetItem(title: "input_extension_menu_camera".chat.localize, type: .normal,tag: "Camera",image: UIImage(named: "camera_fill", in: .chatBundle, with: nil))]) { [weak self] item in
                     self?.processAction(item: item)
                 }
