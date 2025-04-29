@@ -43,11 +43,19 @@ final class ServerConfigViewController: UIViewController {
     private lazy var restServerField: UITextField = {
         UITextField(frame: CGRect(x: 16, y: self.chatPortField.frame.maxY+12, width: self.view.frame.width-32, height: 48)).cornerRadius(Appearance.avatarRadius).placeholder("请输入服务器地址").font(UIFont.theme.bodyLarge).tag(55).delegate(self)
     }()
+    
+    private lazy var tlsConnectionLabel: UILabel = {
+        UILabel(frame: CGRect(x: 16, y: self.restServerField.frame.maxY+12, width: 180, height: 22)).font(UIFont.theme.labelLarge).text("使用tls连接").backgroundColor(.clear)
+    }()
+    
+    private lazy var tlsSwitch: UISwitch = {
+        UISwitch(frame: CGRect(x: self.view.frame.width-12-51, y: self.restServerField.frame.maxY+12, width: 51, height: 31))
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.cornerRadius(Appearance.avatarRadius, [.topLeft,.topRight], .clear, 0)
-        self.view.addSubViews([self.background,self.navigation,self.applicationField,self.customize,self.customizeSwitch,self.chatServerField,self.chatPortField,self.restServerField])
+        self.view.addSubViews([self.background,self.navigation,self.applicationField,self.customize,self.customizeSwitch,self.chatServerField,self.chatPortField,self.restServerField,self.tlsConnectionLabel,self.tlsSwitch])
         self.customizeSwitch.isOn = self.serverConfig["use_custom_server"] == "1" ? true : false
         // Do any additional setup after loading the view.
         self.customizeSwitch.addTarget(self, action: #selector(useCustomServer), for: .touchUpInside)
@@ -83,6 +91,10 @@ final class ServerConfigViewController: UIViewController {
         if let restAddress = self.serverConfig["rest_server_address"] {
             self.restServerField.text = restAddress
         }
+        
+        if let tls = self.serverConfig["tls"] {
+            self.tlsSwitch.isOn = tls == "1" ? true : false
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -99,10 +111,12 @@ final class ServerConfigViewController: UIViewController {
             self.chatServerField.isEnabled = true
             self.chatPortField.isEnabled = true
             self.restServerField.isEnabled = true
+            self.tlsSwitch.isEnabled = true
         } else {
             self.chatServerField.isEnabled = false
             self.chatPortField.isEnabled = false
             self.restServerField.isEnabled = false
+            self.tlsSwitch.isEnabled = false
         }
     }
 
@@ -151,6 +165,8 @@ extension ServerConfigViewController: UITextFieldDelegate {
                 self.showToast(toast: "请输入服务器地址")
                 return
             }
+            
+            self.serverConfig["tls"] = self.tlsSwitch.isOn ? "1" : "0"
         }
         
         self.serverConfig["use_custom_server"] = self.customizeSwitch.isOn ? "1" : "0"

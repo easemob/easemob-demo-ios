@@ -123,7 +123,9 @@ final class LoginViewController: UIViewController {
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
 #if DEBUG
-        showServerConfig()
+        self.serverConfig.isHidden = false
+        self.serverInfo["debug_mode"] = "1"
+        self.resetDisplay()
 #endif
     }
     

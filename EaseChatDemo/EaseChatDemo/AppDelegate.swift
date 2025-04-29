@@ -76,6 +76,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             if let restAddress = self.serverConfig["rest_server_address"] {
                 options.setValue(restAddress, forKey: "restServer")
             }
+            if let tls = self.serverConfig["tls"],tls == "1" {
+                options.setValue(true, forKey: "enableTLSConnection")
+            }
         }
         //Set up EaseChatUIKit
         _ = ChatUIKitClient.shared.setup(option: options)
