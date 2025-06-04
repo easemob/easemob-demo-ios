@@ -580,6 +580,7 @@ extension LoginViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         // 处理加载失败的情况，例如显示错误信息或重试按钮
         self.activityIndicator?.stopAnimating()
+        self.showToast(toast: "加载验证码页面失败: \(error.localizedDescription)")
     }
 }
 
