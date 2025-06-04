@@ -449,7 +449,6 @@ extension LoginViewController: WKScriptMessageHandler {
                     if let dataToEncrypt = message.body as? String {
                         // 调用主应用的AES加密方法
                         let encryptedData = encryptWithAES(data: dataToEncrypt)
-                        print("encryedData:\(encryptedData)")
                         // 将加密后的数据返回给WebView
                         let jsCallback = "window.encryptCallback('\(encryptedData)');"
                         self.webView?.evaluateJavaScript(jsCallback, completionHandler: nil)
@@ -460,18 +459,19 @@ extension LoginViewController: WKScriptMessageHandler {
     func encryptWithAES(data: String) -> String {
         let data = Data(data.utf8)
         do {
-            let keyData = Data(base64Encoded: "")!
+            let encryptKey = getConfigValue(forKey: "AES_KEY") ?? ""
+            let keyData = Data(base64Encoded: encryptKey)!
             let key = SymmetricKey(data: keyData)
             let sealedBox = try AES.GCM.seal(data, using: key)
             if let data = sealedBox.combined {
                 // 将加密后的数据转换为Base64字符串
                 return data.base64EncodedString()
             } else {
-                print("Encryption failed: No combined data")
+                self.showToast(toast: "Encryption failed: No combined data")
                 return ""
             }
         } catch {
-            print("Encryption error: \(error)")
+            self.showToast(toast: "Encryption error: \(error)")
             return ""
         }
     }
@@ -523,13 +523,24 @@ extension LoginViewController {
         // 保存引用
         self.webViewContainer = containerView
         self.webView = webView
-        if let url = URL(string: "") {
+        let baseURL = getConfigValue(forKey: "SMS_URL") ?? ""
+        if !baseURL.isEmpty,let url = URL(string: "\(baseURL)?telephone=\(self.phoneNumber.text ?? "")") {
         // 加载 index.html
             webView.load(URLRequest(url: url))
         } else {
-            print("无法加载验证码页面")
+            self.showToast(toast: "无法加载验证码页面,baseURL:\(baseURL)")
+            dismissWebView()
         }
     }
+    
+    func getConfigValue(forKey key: String) -> String? {
+        if let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
+           let config = NSDictionary(contentsOfFile: path) as? [String: Any] {
+            return config[key] as? String
+        }
+        return nil
+    }
+    
     
     @objc private func dismissWebView() {
         // 移除 WKWebView 的消息处理器

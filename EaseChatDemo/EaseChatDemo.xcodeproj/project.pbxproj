@@ -66,6 +66,7 @@
 		05E831AE2CEDCEFC00C527EA /* BalooTamma-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05E831AD2CEDCEFC00C527EA /* BalooTamma-Regular.ttf */; };
 		05FE6C2A2B9A9F160030A983 /* ThemesSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FE6C292B9A9F160030A983 /* ThemesSettingViewController.swift */; };
 		05FE6C2C2B9AADD00030A983 /* ColorHueSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */; };
+		C00458792DEFF77800A0FBBD /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = C00458782DEFF77800A0FBBD /* Config.plist */; };
 		C4459C57463963DE809CB15A /* Pods_EaseChatDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52296E4D561A746F13103874 /* Pods_EaseChatDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -163,6 +164,7 @@
 		05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHueSettingCell.swift; sourceTree = "<group>"; };
 		52296E4D561A746F13103874 /* Pods_EaseChatDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseChatDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA7C6DED4C4F4A662BE5BBD /* Pods-EaseChatDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseChatDemo.release.xcconfig"; path = "Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo.release.xcconfig"; sourceTree = "<group>"; };
+		C00458782DEFF77800A0FBBD /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		FBAD9654D9F80811528E34F0 /* Pods-EaseChatDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseChatDemo.debug.xcconfig"; path = "Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -308,6 +310,7 @@
 				05B7C1F92B96AC3300DA0F8F /* LaunchScreen.storyboard */,
 				05B7C1FC2B96AC3300DA0F8F /* Info.plist */,
 				05E831AD2CEDCEFC00C527EA /* BalooTamma-Regular.ttf */,
+				C00458782DEFF77800A0FBBD /* Config.plist */,
 			);
 			path = EaseChatDemo;
 			sourceTree = "<group>";
@@ -495,6 +498,7 @@
 				05B7C2082B96BB5300DA0F8F /* Localizable.strings in Resources */,
 				05E831AE2CEDCEFC00C527EA /* BalooTamma-Regular.ttf in Resources */,
 				05B7C1F82B96AC3300DA0F8F /* Assets.xcassets in Resources */,
+				C00458792DEFF77800A0FBBD /* Config.plist in Resources */,
 				05B7C1F62B96AC3200DA0F8F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
