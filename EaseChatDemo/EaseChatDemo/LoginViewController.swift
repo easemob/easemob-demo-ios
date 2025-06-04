@@ -8,6 +8,8 @@
 import UIKit
 import EaseChatUIKit
 import SwiftFFDBHotFix
+import WebKit
+import CryptoKit
 
 
 let loginSuccessfulSwitchMainPage = "loginSuccessfulSwitchMainPage"
@@ -72,6 +74,11 @@ final class LoginViewController: UIViewController {
     public private(set) lazy var loadingView: LoadingView = {
         self.createLoading()
     }()
+
+    // 添加 WKWebView 相关属性
+    private var webViewContainer: UIView?
+    private var webView: WKWebView?
+    private var activityIndicator: UIActivityIndicatorView?
     
     /**
      Creates a loading view.
@@ -122,6 +129,11 @@ final class LoginViewController: UIViewController {
         self.addGesture()
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
+#if DEBUG
+        self.serverConfig.isHidden = false
+        self.serverInfo["debug_mode"] = "1"
+        self.resetDisplay()
+#endif
     }
     
     private func addGesture() {
@@ -370,27 +382,12 @@ extension LoginViewController: UITextFieldDelegate {
             return
         }
         
-        guard let phoneNum = self.phoneNumber.text else {
+        guard let _ = self.phoneNumber.text else {
             self.showToast(toast: "PinCodeError".localized())
             return
         }
-        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            self?.timerFire()
-        }
-        self.timer?.fire()
-        EasemobBusinessRequest.shared.sendPOSTRequest(api: .verificationCode((phoneNum)), params: [:]) { [weak self] result, error in
-            if error == nil {
-                guard let code = result?["code"] as? Int else { return }
-                self?.code = "\(code)"
-                self?.showToast(toast:"获取成功")
-            } else {
-                if let someError = error as? EasemobError {
-                    self?.showToast(toast:someError.message ?? "")
-                } else {
-                    self?.showToast(toast:error?.localizedDescription ?? "")
-                }
-            }
-        }
+        showWebViewModal()
+        return
     }
     
     @objc private func agreeAction(sender: UIButton) {
@@ -421,6 +418,169 @@ extension LoginViewController: ThemeSwitchProtocol {
             self.login.setGradient([UIColor(red: 0, green: 0.62, blue: 1, alpha: 1),UIColor(red: 0.2, green: 0.293, blue: 1, alpha: 1)], [ CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
         }
         self.serverConfig.setTitleColor(style == .dark ? UIColor.theme.neutralColor8:UIColor.theme.neutralColor5, for: .normal)
+    }
+}
+
+// 添加 WKScriptMessageHandler 协议扩展
+extension LoginViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == "getVerifyResult" {
+            // 处理验证结果回调
+            if let resultDict = message.body as? [String: Any] {
+                let code = resultDict["code"] as? Int ?? 0
+                let errorInfo = resultDict["errorInfo"] as? String ?? ""
+                
+                // 根据验证结果进行相应处理
+                if code == 200 {
+                    // 验证成功，关闭模态对话框
+                    dismissWebView()
+                    // 这里可以添加验证成功后的业务逻辑
+                     self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+                         self?.timerFire()
+                     }
+                     self.timer?.fire()
+                } else {
+                    self.showToast(toast: errorInfo)
+                }
+            }
+        }
+        else if message.name == "encryptData" {
+                    // 处理加密请求
+                    if let dataToEncrypt = message.body as? String {
+                        // 调用主应用的AES加密方法
+                        let encryptedData = encryptWithAES(data: dataToEncrypt)
+                        // 将加密后的数据返回给WebView
+                        let jsCallback = "window.encryptCallback('\(encryptedData)');"
+                        self.webView?.evaluateJavaScript(jsCallback, completionHandler: nil)
+                    }
+                }
+    }
+    
+    func encryptWithAES(data: String) -> String {
+        let data = Data(data.utf8)
+        do {
+            let encryptKey = getConfigValue(forKey: "AES_KEY") ?? ""
+            let keyData = Data(base64Encoded: encryptKey)!
+            let key = SymmetricKey(data: keyData)
+            let sealedBox = try AES.GCM.seal(data, using: key)
+            if let data = sealedBox.combined {
+                // 将加密后的数据转换为Base64字符串
+                return data.base64EncodedString()
+            } else {
+                self.showToast(toast: "Encryption failed: No combined data")
+                return ""
+            }
+        } catch {
+            self.showToast(toast: "Encryption error: \(error)")
+            return ""
+        }
+    }
+}
+
+extension LoginViewController {
+    // 显示包含 WKWebView 的模态对话框
+    private func showWebViewModal() {
+        // 创建容器视图
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 80))
+        containerView.center = self.view.center
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 10
+        containerView.layer.shadowColor = UIColor.black.cgColor
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        containerView.layer.shadowOpacity = 0.3
+        containerView.layer.shadowRadius = 4
+        
+        // 创建 WKWebView 配置
+        let configuration = WKWebViewConfiguration()
+        let userContentController = WKUserContentController()
+        userContentController.add(self, name: "getVerifyResult")
+        userContentController.add(self, name: "encryptData")
+        configuration.userContentController = userContentController
+        
+        // 创建 WKWebView
+        let webView = WKWebView(frame: CGRect(x: 10, y: 0, width: containerView.frame.width-20, height: containerView.frame.height), configuration: configuration)
+        webView.contentMode = .scaleToFill
+        webView.layer.cornerRadius = 10
+        webView.navigationDelegate = self
+        containerView.addSubview(webView)
+        
+        self.activityIndicator = UIActivityIndicatorView(style: .medium)
+        webView.addSubview(self.activityIndicator!)
+        self.activityIndicator?.frame = CGRect(x: webView.frame.width/2-10, y: webView.frame.height/2-10, width: 20, height: 20)
+        
+        // 添加半透明背景
+        let backgroundView = UIView(frame: self.view.bounds)
+        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+        backgroundView.tag = 999
+        
+        // 添加点击背景关闭的手势
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
+        backgroundView.addGestureRecognizer(tapGesture)
+        
+        self.view.addSubview(backgroundView)
+        self.view.addSubview(containerView)
+        
+        // 保存引用
+        self.webViewContainer = containerView
+        self.webView = webView
+        let baseURL = getConfigValue(forKey: "SMS_URL") ?? ""
+        if !baseURL.isEmpty,let url = URL(string: "\(baseURL)?telephone=\(self.phoneNumber.text ?? "")") {
+        // 加载 index.html
+            webView.load(URLRequest(url: url))
+        } else {
+            self.showToast(toast: "无法加载验证码页面,baseURL:\(baseURL)")
+            dismissWebView()
+        }
+    }
+    
+    func getConfigValue(forKey key: String) -> String? {
+        if let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
+           let config = NSDictionary(contentsOfFile: path) as? [String: Any] {
+            return config[key] as? String
+        }
+        return nil
+    }
+    
+    
+    @objc private func dismissWebView() {
+        // 移除 WKWebView 的消息处理器
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "getVerifyResult")
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "encryptData")
+        
+        // 移除视图
+        webViewContainer?.removeFromSuperview()
+        webViewContainer = nil
+        webView = nil
+        
+        // 移除半透明背景
+        if let backgroundView = self.view.viewWithTag(999) {
+            backgroundView.removeFromSuperview()
+        }
+    }
+    
+    @objc private func backgroundTapped() {
+        dismissWebView()
+    }
+}
+
+extension LoginViewController: WKNavigationDelegate {
+    // 页面开始加载时调用
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        // 显示加载指示器或更新UI，表示开始加载
+        self.activityIndicator?.startAnimating()
+    }
+    
+    // 页面加载完成时调用
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        // 隐藏加载指示器或更新UI，表示加载完成
+        self.activityIndicator?.stopAnimating()
+    }
+    
+    // 页面加载失败时调用
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        // 处理加载失败的情况，例如显示错误信息或重试按钮
+        self.activityIndicator?.stopAnimating()
+        self.showToast(toast: "加载验证码页面失败: \(error.localizedDescription)")
     }
 }
 

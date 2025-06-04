@@ -30,6 +30,9 @@ DerivedData/
 *.dSYM.zip
 *.dSYM
 
+## Config File
+EaseChatDemo/EaseChatDemo/Config.plist
+ 
 # CocoaPods
 #
 # We recommend against adding the Pods directory to your .gitignore. However
