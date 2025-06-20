@@ -481,7 +481,7 @@ extension LoginViewController {
     // 显示包含 WKWebView 的模态对话框
     private func showWebViewModal() {
         // 创建容器视图
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 80))
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 120))
         containerView.center = self.view.center
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 10
@@ -489,6 +489,13 @@ extension LoginViewController {
         containerView.layer.shadowOffset = CGSize(width: 0, height: 2)
         containerView.layer.shadowOpacity = 0.3
         containerView.layer.shadowRadius = 4
+        
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 15, width: 300, height: 25))
+        titleLabel.text = "滑动滑块获取验证码"
+        titleLabel.font = UIFont(name: "PingFangSC-Medium", size: 18)
+        titleLabel.textAlignment = .center
+        containerView.addSubview(titleLabel)
+        
         
         // 创建 WKWebView 配置
         let configuration = WKWebViewConfiguration()
@@ -498,7 +505,7 @@ extension LoginViewController {
         configuration.userContentController = userContentController
         
         // 创建 WKWebView
-        let webView = WKWebView(frame: CGRect(x: 10, y: 0, width: containerView.frame.width-20, height: containerView.frame.height), configuration: configuration)
+        let webView = WKWebView(frame: CGRect(x: 10, y: 40, width: containerView.frame.width-20, height: containerView.frame.height - 40), configuration: configuration)
         webView.contentMode = .scaleToFill
         webView.layer.cornerRadius = 10
         webView.navigationDelegate = self
