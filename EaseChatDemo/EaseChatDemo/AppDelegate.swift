@@ -135,6 +135,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         ComponentsRegister.shared.ContactInfoController = MineContactDetailViewController.self
         ComponentsRegister.shared.GroupInfoController = MineGroupDetailViewController.self
         ComponentsRegister.shared.MessageRenderEntity = MineMessageEntity.self
+        ComponentsRegister.shared.ThreadViewModel = MineChatThreadViewModel.self
+        ComponentsRegister.shared.MessagesViewModel = MineMessageListViewModel.self
     }
     
     

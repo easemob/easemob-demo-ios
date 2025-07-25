@@ -31,6 +31,9 @@ final class MineMessageListViewController: MessageListController {
     override func viewDidLoad() {
         self.view.addSubview(self.fraudView)
         super.viewDidLoad()
+        let alertView = UIImageView(frame: self.messageContainer.bounds).contentMode(.scaleAspectFit)
+        alertView.image = UIImage(named: "zhapian")
+        self.messageContainer.insertSubview(alertView, at: 0)
         self.fraudView.closeClosure = { [weak self] in
             guard let `self` = self else { return }
             UIView.animate(withDuration: 0.22) {
