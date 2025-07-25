@@ -21,7 +21,7 @@ class MineMessageEntity: MessageEntity {
                 let label = UILabel().numberOfLines(0).lineBreakMode(.byWordWrapping)
                 label.attributedText = self.convertTextAttribute()
                 let size = label.sizeThatFits(CGSize(width: ScreenWidth-32, height: 9999))
-                return CGSize(width: ScreenWidth-32, height: size.height+28)
+                return CGSize(width: ScreenWidth-32, height: size.height+50)
             default:
                 return self.message.contentSize
             }
