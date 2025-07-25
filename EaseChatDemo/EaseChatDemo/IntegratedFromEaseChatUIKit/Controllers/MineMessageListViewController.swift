@@ -19,7 +19,7 @@ final class MineMessageListViewController: MessageListController {
     private var otherPartyStatus = ""
     
     private var imageEntity = MessageEntity()
-    
+        
     lazy var fraudView: FraudAlertView = {
         FraudAlertView(frame: CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: ScreenWidth <= 375 ? 84:72))
     }()
@@ -31,6 +31,10 @@ final class MineMessageListViewController: MessageListController {
     override func viewDidLoad() {
         self.view.addSubview(self.fraudView)
         super.viewDidLoad()
+        let alertView = UIImageView(frame: self.messageContainer.bounds).contentMode(.scaleAspectFit).tag(55)
+        let alertImage = UIImage(named: "zhapian")?.withTintColor(EaseChatUIKit.Theme.style == .dark ? UIColor.theme.neutralColor7:UIColor.theme.neutralColor5)
+        alertView.image =  alertImage
+        self.messageContainer.insertSubview(alertView, at: 0)
         self.fraudView.closeClosure = { [weak self] in
             guard let `self` = self else { return }
             UIView.animate(withDuration: 0.22) {
@@ -46,6 +50,7 @@ final class MineMessageListViewController: MessageListController {
         }
         self.navigation.status.isHidden = self.chatType != .chat
     }
+    
     
     deinit {
         PresenceManager.shared.unsubscribe(members: [self.profile.id], completion: nil)

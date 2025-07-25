@@ -33,6 +33,8 @@
 		05A7EF1E2BDB8B3D00473D52 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 05A7EF1D2BDB8B3700473D52 /* PrivacyInfo.xcprivacy */; };
 		05A9415D2BAA700000C71A74 /* MineContactRemarkEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */; };
 		05B161B72BB664B400917245 /* EaseMobHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B161B62BB664B400917245 /* EaseMobHUD.swift */; };
+		05B231322E335147004C142E /* MineChatThreadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B231312E335147004C142E /* MineChatThreadViewModel.swift */; };
+		05B231342E335161004C142E /* MineMessageListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B231332E335161004C142E /* MineMessageListViewModel.swift */; };
 		05B384312C1846CB00832A9C /* TranslateLanguageSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B384302C1846CB00832A9C /* TranslateLanguageSettingController.swift */; };
 		05B7C1EF2B96AC3200DA0F8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */; };
 		05B7C1F12B96AC3200DA0F8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7C1F02B96AC3200DA0F8F /* SceneDelegate.swift */; };
@@ -121,6 +123,8 @@
 		05A7EF1D2BDB8B3700473D52 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactRemarkEditViewController.swift; sourceTree = "<group>"; };
 		05B161B62BB664B400917245 /* EaseMobHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EaseMobHUD.swift; sourceTree = "<group>"; };
+		05B231312E335147004C142E /* MineChatThreadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineChatThreadViewModel.swift; sourceTree = "<group>"; };
+		05B231332E335161004C142E /* MineMessageListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineMessageListViewModel.swift; sourceTree = "<group>"; };
 		05B384302C1846CB00832A9C /* TranslateLanguageSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateLanguageSettingController.swift; sourceTree = "<group>"; };
 		05B7C1EB2B96AC3200DA0F8F /* EaseChatDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseChatDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		05B7C1EE2B96AC3200DA0F8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -385,6 +389,8 @@
 			isa = PBXGroup;
 			children = (
 				0544D4422C3BC2C000E36B08 /* MineMessageEntity.swift */,
+				05B231312E335147004C142E /* MineChatThreadViewModel.swift */,
+				05B231332E335161004C142E /* MineMessageListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -582,6 +588,7 @@
 				052978542B97261D008AB5A0 /* MeMenuCell.swift in Sources */,
 				05B7C21E2B970D2F00DA0F8F /* MeViewController.swift in Sources */,
 				05FE6C2C2B9AADD00030A983 /* ColorHueSettingCell.swift in Sources */,
+				05B231322E335147004C142E /* MineChatThreadViewModel.swift in Sources */,
 				05B384312C1846CB00832A9C /* TranslateLanguageSettingController.swift in Sources */,
 				05B7C20E2B96BD3100DA0F8F /* GCDTimer.swift in Sources */,
 				05B7C2142B96C24100DA0F8F /* EasemobBusinessApi.swift in Sources */,
@@ -615,6 +622,7 @@
 				0518E5B12BA1ABC900EA7D7B /* FeatureSwitchCell.swift in Sources */,
 				05B7C2162B96C55800DA0F8F /* PublicDefines.swift in Sources */,
 				05B161B72BB664B400917245 /* EaseMobHUD.swift in Sources */,
+				05B231342E335161004C142E /* MineMessageListViewModel.swift in Sources */,
 				05B7C1F12B96AC3200DA0F8F /* SceneDelegate.swift in Sources */,
 				05E5A1C12B99646700955DD1 /* GeneralViewController.swift in Sources */,
 				057227682B98393500AA866D /* ServerConfigViewController.swift in Sources */,

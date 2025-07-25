@@ -11,8 +11,23 @@ import EaseCallKit
 
 class MineMessageEntity: MessageEntity {
     
+    
     override func customSize() -> CGSize {
-        super.customSize()
+        if let body = self.message.body as? ChatCustomMessageBody {
+            switch body.event {
+            case EaseChatUIKit_user_card_message:
+                return CGSize(width: self.historyMessage ? ScreenWidth-32:limitBubbleWidth, height: contactCardHeight)
+            case EaseChatUIKit_alert_message:
+                let label = UILabel().numberOfLines(0).lineBreakMode(.byWordWrapping)
+                label.attributedText = self.convertTextAttribute()
+                let size = label.sizeThatFits(CGSize(width: ScreenWidth-32, height: 9999))
+                return CGSize(width: ScreenWidth-32, height: size.height+50)
+            default:
+                return self.message.contentSize
+            }
+        } else {
+            return .zero
+        }
     }
         
     open override func convertTextAttribute() -> NSAttributedString? {
