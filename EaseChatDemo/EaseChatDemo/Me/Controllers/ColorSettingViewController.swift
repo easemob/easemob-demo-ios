@@ -39,15 +39,15 @@ final class ColorSettingViewController: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             }
             if $0 == .rightTitle {
-                UIColor.ColorTheme.switchHues(hues: [Appearance.primaryHue,Appearance.secondaryHue,Appearance.errorHue,Appearance.neutralHue,Appearance.neutralSpecialHue])
-                Theme.switchTheme(style: Theme.style)
+                EaseChatUIKit.UIColor.ColorTheme.switchHues(hues: [EaseChatUIKit.Appearance.primaryHue,EaseChatUIKit.Appearance.secondaryHue,EaseChatUIKit.Appearance.errorHue,EaseChatUIKit.Appearance.neutralHue,EaseChatUIKit.Appearance.neutralSpecialHue])
+                EaseChatUIKit.Theme.switchTheme(style: Theme.style)
                 self?.navigationController?.popViewController(animated: true)
             }
             consoleLogInfo("\($1?.row ?? 0)", type: .debug)
         }
         // Do any additional setup after loading the view.
-        Theme.registerSwitchThemeViews(view: self)
-        self.switchTheme(style: Theme.style)
+        EaseChatUIKit.Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: EaseChatUIKit.Theme.style)
     }
     
 

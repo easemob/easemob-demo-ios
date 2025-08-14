@@ -7,7 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
-import EaseCallKit
+import EaseCallUIKit
 import SwiftFFDBHotFix
 
 final class MainViewController: UITabBarController {
@@ -36,7 +36,7 @@ final class MainViewController: UITabBarController {
         super.viewDidLayoutSubviews()
         
         if UIApplication.shared.chat.keyWindow != nil {
-            tabBar.frame = CGRect(x: 0, y: ScreenHeight-BottomBarHeight-49, width: ScreenWidth, height: BottomBarHeight+49)
+            tabBar.frame = CGRect(x: 0, y: EaseChatUIKit.ScreenHeight-EaseChatUIKit.BottomBarHeight-49, width: EaseChatUIKit.ScreenWidth, height: EaseChatUIKit.BottomBarHeight+49)
         }
     }
 
@@ -64,10 +64,15 @@ final class MainViewController: UITabBarController {
     
     private func callKitSet() {
         //接入环信CallKit
-        let callConfig = EaseCallConfig()
-        callConfig.agoraAppId = CallKitAppId
-        callConfig.enableRTCTokenValidate = true
-        EaseCallManager.shared().initWith(callConfig, delegate: self)
+        if let currentUser = ChatUIKitContext.shared?.currentUser {
+            let profile = CallUserProfile()
+            profile.id = currentUser.id
+            profile.nickname = currentUser.nickname
+            profile.avatarURL = currentUser.avatarURL
+            CallKitManager.shared.currentUserInfo = profile
+        }
+        CallKitManager.shared.profileProvider = self
+        CallKitManager.shared.addListener(self)
     }
 
     private func loadViewControllers() {
@@ -105,7 +110,7 @@ extension MainViewController: UIGestureRecognizerDelegate {
     }
 }
 
-extension MainViewController: ThemeSwitchProtocol {
+extension MainViewController: EaseChatUIKit.ThemeSwitchProtocol {
     
     func switchTheme(style: EaseChatUIKit.ThemeStyle) {
         self.tabBar.barTintColor = style == .dark ? UIColor.theme.barrageLightColor8:UIColor.theme.barrageDarkColor8
@@ -290,163 +295,122 @@ extension MainViewController: ContactEmergencyListener {
 }
 
 //MARK: - EaseCallDelegate
-extension MainViewController: EaseCallDelegate {
+extension MainViewController: CallServiceListener {
     
-    func callDidEnd(_ aChannelName: String, reason aReason: EaseCallEndReason, time aTm: Int32, type aType: EaseCallType) {
-        var alertMessage = "";
-        switch aReason {
-        case .handleOnOtherDevice:
-            alertMessage = "otherDevice".localized()
-        case .busy:
-            alertMessage = "remoteBusy".localized()
-        case .refuse:
-            alertMessage = "refuseCall".localized()
-        case .cancel:
-            alertMessage = "cancelCall".localized()
-                break;
-        case .remoteCancel:
-            alertMessage = "callCancel".localized()
-                break;
-        case .remoteNoResponse:
-            alertMessage = "remoteNoResponse".localized()
-                break;
-        case .noResponse:
-            alertMessage = "noResponse".localized()
-                break;
-        case .hangup:
-            alertMessage = "\("callendPrompt".localized()) \(aTm)s"
-                break;
-        @unknown default:
-            break
+    func didOccurError(error: CallError) {
+        DispatchQueue.main.async {
+            self.showToast(toast: "Occur error:\(error.errorMessage) on module:\(error.module.rawValue)")
         }
-        DispatchQueue.main.asyncAfter(wallDeadline: .now()+0.5) {
-            UIViewController.currentController?.showToast(toast: alertMessage)
+        switch error {
+        case .im(.invalidURL):
+            print("Invalid URL")
+        case .rtc(.invalidToken):
+            print("Invalid Token")
+        case .business(.state):
+            print("State error")
+        case .business(.param):
+            print("Param error")
+        default:
+            // 注意这里要通过 error.error.message 访问
+            print("Other error: \(error.error.message)")
         }
+//        switch error.module {//OC use case
+//        case .im:
+//            switch error.getIMError() {
+//            case .invalidURL:
+//                print("")
+//            default:
+//                break
+//            }
+//        case .rtc:
+//            switch error.getRTCError() {
+//            case .invalidToken:
+//                print("")
+//            default:
+//                break
+//            }
+//        case .business:
+//            switch error.getCallBusinessError() {
+//            case .state:
+//                print("")
+//            case .param:
+//                print("")
+//            case .signaling:
+//                print("")
+//            default:
+//                break
+//            }
+//        default:
+//            break
+//        }
     }
-    
-    func multiCallDidInviting(withCurVC vc: UIViewController, excludeUsers users: [String]?, ext aExt: [AnyHashable : Any]?) {
-        if let groupId = aExt?["groupId"] as? String {
-            let inviteVC = MineCallInviteUsersController(groupId: groupId, profiles: users == nil ? []:users!.map({
-                let profile = ChatUserProfile()
-                profile.id = $0
-                return profile
-            })) { users in
-                EaseCallManager.shared().startInviteUsers(users, ext: ["groupId":groupId])
-            }
-            UIViewController.currentController?.view.window?.backgroundColor = .black
-            UIViewController.currentController?.present(inviteVC, animated: true)
+        
+    func didUpdateCallEndReason(reason: CallEndReason, info: CallInfo) {
+        print("didUpdateCallEndReason: \(String(describing: info.inviteMessage?.ext))")
+        if let message = info.inviteMessage {
+            NotificationCenter.default.post(name: Notification.Name("didUpdateCallEndReason"), object: message)
         }
         
     }
+    
+    func remoteUserDidJoined(userId: String, uid: UInt, channelName: String, type: CallType) {
+        
+    }
+    
+    func remoteUserDidLeft(userId: String, uid: UInt, channelName: String, type: CallType) {
+        
+    }
+    
+}
 
-    
-    func callDidReceive(_ aType: EaseCallType, inviter user: String, ext aExt: [AnyHashable : Any]?) {
-        self.mapUserDisplayInfo(userId: user)
-    }
-    
-    func callDidOccurError(_ aError: EaseCallError) {
-        consoleLogInfo("callDidOccurError:\(aError.errDescription)", type: .error)
-        UIViewController.currentController?.showToast(toast: "callDidOccurError:\(aError.errDescription)")
-    }
-    
-    func callDidRequestRTCToken(forAppId aAppId: String, channelName aChannelName: String, account aUserAccount: String, uid aAgoraUid: Int) {
-        EasemobBusinessRequest.shared.sendGETRequest(api: .fetchRTCToken(aChannelName, aUserAccount), params: [:]) { result, error in
-            if error == nil {
-                if let code = result?["code"] as? Int,code == 200 {
-                    if let token = result?["accessToken"] as? String{
-                        if let callUserId = result?["agoraUid"] as? String {
-                            EaseCallManager.shared().setRTCToken(token, channelName: aChannelName, uid: UInt(callUserId) ?? 0)
-                        }
+extension MainViewController: CallUserProfileProvider {
+    func fetchGroupProfiles(profileIds: [String]) async -> [any EaseCallUIKit.CallProfileProtocol] {
+        consoleLogInfo("fetchGroupProfiles", type: .error)
+        return await withTaskGroup(of: [EaseCallUIKit.CallProfileProtocol].self, returning: [EaseCallUIKit.CallProfileProtocol].self) { group in
+            var resultProfiles: [EaseCallUIKit.CallProfileProtocol] = []
+            group.addTask {
+                var resultProfiles: [EaseCallUIKit.CallProfileProtocol] = []
+                let result = await self.requestGroupsInfo(groupIds: profileIds)
+                if let infos = result {
+                    for groupInfo in infos {
+                        let profile = EaseCallUIKit.CallUserProfile()
+                        profile.id = groupInfo.id
+                        profile.nickname = groupInfo.nickname
+                        profile.avatarURL = groupInfo.avatarURL
+                        resultProfiles.append(profile)
                     }
                 }
-            } else {
-                consoleLogInfo("EaseCallKit callDidRequestRTCToken error:\(error?.localizedDescription ?? "")", type: .error)
+                return resultProfiles
             }
+            //Await all task were executed.Return values.
+            for await result in group {
+                resultProfiles.append(contentsOf: result)
+            }
+            return resultProfiles
         }
     }
     
-    func remoteUserDidJoinChannel(_ aChannelName: String, uid aUid: Int, username aUserName: String?) {
-        if let otherPartUserId = aUserName {
-            self.mapUserDisplayInfo(userId: otherPartUserId)
-        } else {
-            self.setUserInfos(channelName: aChannelName)
-        }
-        
-    }
-    
-    private func setUserInfos(channelName: String) {
-        EasemobBusinessRequest.shared.sendGETRequest(api: .mirrorCallUserIdToChatUserId(channelName), params: [:]) { result, error in
-            if error == nil {
-                if let code = result?["code"] as? Int,code == 200 {
-                    if let users = result?["result"] as? Dictionary<String,String>,let channelName = result?["channelName"] as? String {
-                        var userMap = [NSNumber:String]()
-                        for (callUserId, chatUserId) in users {
-                            let uid = Int(callUserId) ?? 0
-                            userMap[NSNumber(integerLiteral: uid)] = chatUserId
-                            self.mapUserDisplayInfo(userId: chatUserId)
-                        }
-                        EaseCallManager.shared().setUsers(userMap, channelName: channelName)
-                    }
+    func fetchUserProfiles(profileIds: [String]) async -> [any EaseCallUIKit.CallProfileProtocol] {
+        return await withTaskGroup(of: [EaseCallUIKit.CallProfileProtocol].self, returning: [EaseCallUIKit.CallProfileProtocol].self) { group in
+            var resultProfiles: [EaseCallUIKit.CallProfileProtocol] = []
+            group.addTask {
+                var resultProfiles: [EaseCallUIKit.CallProfileProtocol] = []
+                let result = await self.requestUserInfos(profileIds: profileIds) ?? []
+                for userInfo in result {
+                    let profile = EaseCallUIKit.CallUserProfile()
+                    profile.id = userInfo.id
+                    profile.nickname = userInfo.nickname
+                    profile.avatarURL = userInfo.avatarURL
+                    resultProfiles.append(profile)
                 }
-            } else {
-                consoleLogInfo("EaseCallKit remoteUserDidJoinChannel error:\(error?.localizedDescription ?? "")", type: .error)
+                return resultProfiles
             }
+            //Await all task were executed.Return values.
+            for await result in group {
+                resultProfiles.append(contentsOf: result)
+            }
+            return resultProfiles
         }
-    }
-    
-    private func mapUserDisplayInfo(userId: String) {
-        if let cacheUser = ChatUIKitContext.shared?.chatCache?[userId] {
-            var nickname = cacheUser.remark
-            if nickname.isEmpty {
-                nickname = cacheUser.nickname
-            }
-            if nickname.isEmpty {
-                nickname = cacheUser.id
-            }
-            
-            let user = EaseCallUser(nickName: nickname, image: URL(string: cacheUser.avatarURL) ?? URL(string: "https://www.baidu.com")!)
-            EaseCallManager.shared().getEaseCallConfig().setUser(userId, info: user)
-        } else {
-            if let cacheUser = ChatUIKitContext.shared?.userCache?[userId] {
-                var nickname = cacheUser.remark
-                if nickname.isEmpty {
-                    nickname = cacheUser.nickname
-                }
-                if nickname.isEmpty {
-                    nickname = cacheUser.id
-                }
-                
-                let user = EaseCallUser(nickName: nickname, image: URL(string: cacheUser.avatarURL) ?? URL(string: "https://www.baidu.com")!)
-                EaseCallManager.shared().getEaseCallConfig().setUser(userId, info: user)
-            } else {
-                self.fetchUserInfo(userId: userId)
-            }
-        }
-    }
-    
-    private func fetchUserInfo(userId: String) {
-        ChatClient.shared().userInfoManager?.fetchUserInfo(byId: [userId], type: [0,1], completion: { userMap, error in
-            if error == nil,let user = userMap?[userId] {
-                let callUser = EaseCallUser(nickName: user.nickname ?? "", image: URL(string: user.avatarUrl ?? "") ?? URL(string: "https://www.baidu.com")!)
-                EaseCallManager.shared().getEaseCallConfig().setUser(userId, info: callUser)
-                let cache = EaseChatProfile()
-                cache.id = userId
-                cache.nickname = user.nickname ?? ""
-                cache.avatarURL = user.avatarUrl ?? ""
-                cache.insert()
-                ChatUIKitContext.shared?.userCache?[userId] = cache
-            } else {
-                consoleLogInfo("EaseCallKit mapUserDisplayInfo error:\(error?.errorDescription ?? "")", type: .error)
-            }
-        })
-    }
-    
-    func callDidJoinChannel(_ aChannelName: String, uid aUid: UInt) {
-        if let profile = ChatUIKitContext.shared?.currentUser {
-            let user = EaseCallUser(nickName: profile.nickname, image: URL(string: profile.avatarURL) ?? URL(string: "https://www.baidu.com")!)
-            EaseCallManager.shared().getEaseCallConfig().setUser(profile.id, info: user)
-        }
-        
     }
     
     

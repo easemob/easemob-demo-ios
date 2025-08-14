@@ -2,16 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>BalooTamma-Regular.ttf</string>
-	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>tel</string>
 	</array>
 	<key>Privacy - File Access Usage Description</key>
 	<string>环信想使用您的文件用于发送文件消息</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>BalooTamma-Regular.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -35,6 +35,7 @@
 	<array>
 		<string>audio</string>
 		<string>remote-notification</string>
+		<string>voip</string>
 	</array>
 </dict>
 </plist>

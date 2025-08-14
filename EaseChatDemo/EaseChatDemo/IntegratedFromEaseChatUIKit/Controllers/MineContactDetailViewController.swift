@@ -7,7 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
-import EaseCallKit
+import EaseCallUIKit
 import SwiftFFDBHotFix
 
 final class MineContactDetailViewController: ContactInfoViewController {
@@ -58,7 +58,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
         }
     }
     
-    private func processItemAction(item: ActionSheetItemProtocol) {
+    private func processItemAction(item: EaseChatUIKit.ActionSheetItemProtocol) {
         switch item.tag {
         case "contact_delete": self.deleteUser()
         case "report": self.reportUser()
@@ -93,16 +93,16 @@ final class MineContactDetailViewController: ContactInfoViewController {
             case .offline: self?.updateUserState(state: .offline)
             case .busy:
                 self?.header.status.image = nil
-                self?.header.status.backgroundColor = Theme.style == .dark ? UIColor.theme.errorColor5:UIColor.theme.errorColor6
+                self?.header.status.backgroundColor = EaseChatUIKit.Theme.style == .dark ? EaseChatUIKit.UIColor.theme.errorColor5:EaseChatUIKit.UIColor.theme.errorColor6
                 self?.header.status.image(PresenceManager.presenceImagesMap[.busy] as? UIImage)
             case .away:
-                self?.header.status.backgroundColor = Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
+                self?.header.status.backgroundColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
                 self?.header.status.image(PresenceManager.presenceImagesMap[.away] as? UIImage)
             case .doNotDisturb:
-                self?.header.status.backgroundColor = Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
+                self?.header.status.backgroundColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
                 self?.header.status.image(PresenceManager.presenceImagesMap[.doNotDisturb] as? UIImage)
             case .custom:
-                self?.header.status.backgroundColor = Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
+                self?.header.status.backgroundColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
                 self?.header.status.image(PresenceManager.presenceImagesMap[.custom] as? UIImage)
             }
             
@@ -203,33 +203,27 @@ final class MineContactDetailViewController: ContactInfoViewController {
     override func processHeaderActionEvents(item: any ContactListHeaderItemProtocol) {
         switch item.featureIdentify {
         case "Chat": self.alreadyChat()
-        case "AudioCall": self.startSingleCall(callType: .type1v1Audio)
-        case "VideoCall": self.startSingleCall(callType: .type1v1Video)
+        case "AudioCall": self.startSingleCall(callType: .singleAudio)
+        case "VideoCall": self.startSingleCall(callType: .singleVideo)
         case "SearchMessages": self.searchHistoryMessages()
         default: break
         }
     }
     
-    private func startSingleCall(callType: EaseCallType) {
-        EaseCallManager.shared().startSingleCall(withUId: self.profile.id, type: callType, ext: nil) { [weak self] callId, callError in
-            if callError != nil {
-                self?.showToast(toast: "\(callError?.errDescription ?? "")")
-            }
-        }
+    private func startSingleCall(callType: EaseCallUIKit.CallType) {
+        CallKitManager.shared.call(with: self.profile.id, type: callType)
     }
     
     override func didSelectRow(indexPath: IndexPath) {
         
-        if let info = self.datas[safe: indexPath.row] {
-            switch info.title {
-            case "contact_details_button_clearchathistory".chat.localize:
-                self.showClearChatHistoryAlert()
-            case "contact_details_button_remark".localized():
-                self.editRemark()
-            default:
-                break
-            }
-            
+        let info = self.datas[indexPath.row]            
+        switch info.title {
+        case "contact_details_button_clearchathistory".chat.localize:
+            self.showClearChatHistoryAlert()
+        case "contact_details_button_remark".localized():
+            self.editRemark()
+        default:
+            break
         }
         
     }
