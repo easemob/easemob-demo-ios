@@ -194,11 +194,7 @@ extension MainViewController: ChatUserProfileProvider,ChatGroupProfileProvider {
         var resultProfiles = [ChatUserProfileProtocol]()
         for profileId in profileIds {
             if let profile = ChatUIKitContext.shared?.userCache?[profileId] {
-                if profile.nickname.isEmpty {
-                    unknownIds.append(profile.id)
-                } else {
-                    resultProfiles.append(profile)
-                }
+                resultProfiles.append(profile)
             } else {
                 unknownIds.append(profileId)
             }
@@ -399,7 +395,7 @@ extension MainViewController: CallUserProfileProvider {
                 for userInfo in result {
                     let profile = EaseCallUIKit.CallUserProfile()
                     profile.id = userInfo.id
-                    profile.nickname = userInfo.nickname
+                    profile.nickname = userInfo.nickname.isEmpty ? profile.id:userInfo.nickname
                     profile.avatarURL = userInfo.avatarURL
                     resultProfiles.append(profile)
                 }
