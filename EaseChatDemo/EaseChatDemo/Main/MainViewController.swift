@@ -348,7 +348,7 @@ extension MainViewController: CallServiceListener {
     func didUpdateCallEndReason(reason: CallEndReason, info: CallInfo) {
         print("didUpdateCallEndReason: \(String(describing: info.inviteMessage?.ext))")
         if let message = info.inviteMessage {
-            NotificationCenter.default.post(name: Notification.Name("didUpdateCallEndReason"), object: message)
+            NotificationCenter.default.post(name: Notification.Name("didUpdateCallEndReason"), object: message.messageId)
         }
         
     }

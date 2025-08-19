@@ -21,6 +21,7 @@
 		0544D43F2C3BC24000E36B08 /* ImagePreviewTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544D43A2C3BC24000E36B08 /* ImagePreviewTransitionDelegate.swift */; };
 		0544D4402C3BC24000E36B08 /* PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544D43B2C3BC24000E36B08 /* PreviewImage.swift */; };
 		0544D4432C3BC2C000E36B08 /* MineMessageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544D4422C3BC2C000E36B08 /* MineMessageEntity.swift */; };
+		054B3A872E54234D006AD8A6 /* MineConversationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054B3A862E54234D006AD8A6 /* MineConversationInfo.swift */; };
 		0551FFA42B9FE4C000FF3294 /* NotificationSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */; };
 		0571F74E2C0D5B4000877895 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0571F74D2C0D5B4000877895 /* PrivacyPolicyViewController.swift */; };
 		0572275F2B97FA2C00AA866D /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */; };
@@ -111,6 +112,7 @@
 		0544D43A2C3BC24000E36B08 /* ImagePreviewTransitionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewTransitionDelegate.swift; sourceTree = "<group>"; };
 		0544D43B2C3BC24000E36B08 /* PreviewImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewImage.swift; sourceTree = "<group>"; };
 		0544D4422C3BC2C000E36B08 /* MineMessageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineMessageEntity.swift; sourceTree = "<group>"; };
+		054B3A862E54234D006AD8A6 /* MineConversationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineConversationInfo.swift; sourceTree = "<group>"; };
 		0551FFA32B9FE4C000FF3294 /* NotificationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingViewController.swift; sourceTree = "<group>"; };
 		0571F74D2C0D5B4000877895 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		0572275E2B97FA2C00AA866D /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 		05E0D7332BA2E60600373197 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				054B3A862E54234D006AD8A6 /* MineConversationInfo.swift */,
 				0544D4422C3BC2C000E36B08 /* MineMessageEntity.swift */,
 				05B231312E335147004C142E /* MineChatThreadViewModel.swift */,
 				05B231332E335161004C142E /* MineMessageListViewModel.swift */,
@@ -626,6 +629,7 @@
 				05B7C1F12B96AC3200DA0F8F /* SceneDelegate.swift in Sources */,
 				05E5A1C12B99646700955DD1 /* GeneralViewController.swift in Sources */,
 				057227682B98393500AA866D /* ServerConfigViewController.swift in Sources */,
+				054B3A872E54234D006AD8A6 /* MineConversationInfo.swift in Sources */,
 				053953B22C1142BD0068981C /* PresenceManager.swift in Sources */,
 				0518E5AD2BA15B8300EA7D7B /* MineConversationsController.swift in Sources */,
 				0551FFA42B9FE4C000FF3294 /* NotificationSettingViewController.swift in Sources */,
@@ -815,7 +819,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 42;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -831,12 +835,12 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.15.0;
+				MARKETING_VERSION = 4.15.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -859,7 +863,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 42;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -875,12 +879,12 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.15.0;
+				MARKETING_VERSION = 4.15.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

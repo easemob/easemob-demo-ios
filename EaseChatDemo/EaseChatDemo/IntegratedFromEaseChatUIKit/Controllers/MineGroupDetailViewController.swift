@@ -21,7 +21,7 @@ final class MineGroupDetailViewController: GroupInfoViewController {
     }
 
     override func viewDidLoad() {
-        Appearance.contact.detailExtensionActionItems = [ContactListHeaderItem(featureIdentify: "Chat", featureName: "Chat".chat.localize, featureIcon: UIImage(named: "chatTo", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "multiCall".chat.localize, featureIcon: UIImage(named: "call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil))]
+        Appearance.contact.detailExtensionActionItems = [ContactListHeaderItem(featureIdentify: "Chat", featureName: "Chat".chat.localize, featureIcon: UIImage(named: "chatTo", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "multiCall".localized(), featureIcon: UIImage(named: "call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil))]
         let item = EaseChatUIKit.ActionSheetItem(title: "barrage_long_press_menu_report".chat.localize, type: .normal, tag: "report")
         self.ownerOptions.insert(item, at: 0)
         self.memberOptions.insert(item, at: 0)
