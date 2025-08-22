@@ -235,6 +235,8 @@ extension AppDelegate: UserStateChangedListener {
                 consoleLogInfo("Logout failed:\(error?.errorDescription ?? "")", type: .error)
             }
         }
+        CallKitManager.shared.hangup()
+        CallKitManager.shared.cleanUserDefaults()
     }
     
     func onUserTokenDidExpired() {
