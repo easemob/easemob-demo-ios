@@ -355,6 +355,14 @@ extension MainViewController: CallServiceListener {
         
     }
     
+    func onReceivedCall(callType: CallType, userId: String, extensionInfo: [String : Any]?) {
+        if let controller = UIViewController.currentController,(controller is DialogContainerViewController || controller is AlertViewController || controller is PageContainersDialogController) {
+            //正在通话中或者呼叫中  dismiss跳出来的模态弹窗
+            controller.dismiss(animated: false)
+            return
+        }
+    }
+    
 }
 
 extension MainViewController: CallUserProfileProvider {

@@ -69,6 +69,8 @@ final class MineGroupDetailViewController: GroupInfoViewController {
     }
 
     private func startGroupCall() {
+        CallKitManager.shared.usersCache[self.chatGroup.groupId]?.nickname = self.chatGroup.groupName
+        CallKitManager.shared.usersCache[self.chatGroup.groupId]?.avatarURL = self.chatGroup.groupAvatar
         if let groupId = self.chatGroup.groupId {
             CallKitManager.shared.groupCall(groupId: groupId)
         } else {

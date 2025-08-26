@@ -173,10 +173,18 @@ final class MineMessageListViewController: MessageListController {
     }
     
     private func startSingleCall(callType: CallType) {
+        if let cacheUser = ChatUIKitContext.shared?.userCache?[self.profile.id] {
+            CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
+            CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
+        }
         CallKitManager.shared.call(with: self.profile.id, type: callType)
     }
     
     private func startGroupCall() {
+        if let cacheUser = ChatUIKitContext.shared?.groupCache?[self.profile.id] {
+            CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
+            CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
+        }
         CallKitManager.shared.groupCall(groupId: self.profile.id)
     }
 

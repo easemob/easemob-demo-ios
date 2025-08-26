@@ -233,6 +233,7 @@ extension AppDelegate: UserStateChangedListener {
         ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: true) { error in
             if error != nil {
                 consoleLogInfo("Logout failed:\(error?.errorDescription ?? "")", type: .error)
+                ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: false) { _ in }
             }
         }
         CallKitManager.shared.hangup()

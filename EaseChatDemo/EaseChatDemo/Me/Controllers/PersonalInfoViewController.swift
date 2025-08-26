@@ -10,6 +10,7 @@ import EaseChatUIKit
 import MobileCoreServices
 import AVFoundation
 import SwiftFFDBHotFix
+import EaseCallUIKit
 
 let userAvatarUpdated = "userAvatarUpdated"
 
@@ -29,7 +30,7 @@ final class PersonalInfoViewController: UIViewController {
     }()
     
     private lazy var infoList: UITableView = {
-        UITableView(frame: CGRect(x: 0, y: NavigationHeight, width: self.view.frame.width, height: self.view.frame.height-NavigationHeight), style: .plain).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).delegate(self).dataSource(self)
+        UITableView(frame: CGRect(x: 0, y: EaseChatUIKit.NavigationHeight, width: self.view.frame.width, height: self.view.frame.height-EaseChatUIKit.NavigationHeight), style: .plain).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).delegate(self).dataSource(self)
     }()
 
     override func viewDidLoad() {
@@ -45,8 +46,8 @@ final class PersonalInfoViewController: UIViewController {
             self?.navigationController?.popViewController(animated: true)
         }
         // Do any additional setup after loading the view.
-        Theme.registerSwitchThemeViews(view: self)
-        self.switchTheme(style: Theme.style)
+        EaseChatUIKit.Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: EaseChatUIKit.Theme.style)
     }
     
 
@@ -122,6 +123,7 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
                         profile.setValuesForKeys(userJson)
                         profile.nickname = nickname
                         profile.updateFFDB()
+                        CallKitManager.shared.currentUserInfo?.nickname = nickname
                     }
                 } else {
                     DialogManager.shared.showAlert(title: "error".chat.localize, content: "update nickname failed".chat.localize, showCancel: false, showConfirm: true) { _ in
@@ -212,6 +214,7 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
                         profile.setValuesForKeys(userJson)
                         profile.avatarURL = avatarURL
                         profile.updateFFDB()
+                        CallKitManager.shared.currentUserInfo?.avatarURL = avatarURL
                     }
                     self?.setUserAvatar(url: avatarURL)
                     self?.infoList.reloadData()
@@ -242,8 +245,8 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
     }
 }
 
-extension PersonalInfoViewController: ThemeSwitchProtocol {
-    func switchTheme(style: ThemeStyle) {
+extension PersonalInfoViewController: EaseChatUIKit.ThemeSwitchProtocol {
+    func switchTheme(style: EaseChatUIKit.ThemeStyle) {
         self.view.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.infoList.reloadData()
     }

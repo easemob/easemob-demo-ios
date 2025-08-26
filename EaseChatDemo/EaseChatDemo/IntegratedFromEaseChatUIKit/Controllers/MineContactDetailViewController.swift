@@ -211,6 +211,10 @@ final class MineContactDetailViewController: ContactInfoViewController {
     }
     
     private func startSingleCall(callType: EaseCallUIKit.CallType) {
+        if let cacheUser = ChatUIKitContext.shared?.userCache?[self.profile.id] {
+            CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
+            CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
+        }
         CallKitManager.shared.call(with: self.profile.id, type: callType)
     }
     
