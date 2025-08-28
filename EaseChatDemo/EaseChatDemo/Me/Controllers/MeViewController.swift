@@ -75,6 +75,7 @@ final class MeViewController: UIViewController {
                     profile.id = userId
                     profile.nickname = info.nickname ?? ""
                     profile.avatarURL = info.avatarUrl ?? ""
+                    profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                     profile.insert()
                     ChatUIKitContext.shared?.currentUser = profile
                     ChatUIKitContext.shared?.userCache?[profile.id] = profile

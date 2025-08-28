@@ -155,3 +155,4 @@
 "singleAudio" = "音频通话";
 "singleVideo" = "视频通话";
 "multiCall" = "群组通话";
+"The other party canceled the call" = "对方已取消";

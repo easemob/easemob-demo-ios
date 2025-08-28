@@ -288,6 +288,7 @@ extension AppDelegate: UserStateChangedListener {
                     profile.id = group.groupId
                     profile.nickname = group.groupName
                     profile.avatarURL = group.settings.ext
+                    profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                     profiles.append(profile)
                     profile.insert()
                 }

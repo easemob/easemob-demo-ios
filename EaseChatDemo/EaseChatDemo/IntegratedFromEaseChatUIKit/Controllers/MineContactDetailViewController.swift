@@ -165,6 +165,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
                         profile.id = userId
                         profile.nickname = info.nickname ?? ""
                         profile.avatarURL = info.avatarUrl ?? ""
+                        profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                         profile.insert()
                         if (ChatUIKitContext.shared?.userCache?[userId]) != nil {
                             ChatUIKitContext.shared?.userCache?[userId]?.nickname = info.nickname ?? ""

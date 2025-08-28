@@ -327,6 +327,7 @@ extension LoginViewController: UITextFieldDelegate {
                     profile.id = user.id
                     profile.avatarURL = user.avatarURL
                     profile.nickname = user.nickname
+                    profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                     profile.insert()
                 }
                 self?.fillCache()
@@ -363,6 +364,7 @@ extension LoginViewController: UITextFieldDelegate {
                 profile.id = group.groupId
                 profile.nickname = group.groupName
                 profile.avatarURL = group.settings.ext
+                profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                 profiles.append(profile)
             }
             ChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
@@ -641,6 +643,8 @@ final class EaseChatProfile:NSObject, ChatUserProfileProtocol, FFObject {
     var nickname: String = ""
     
     var avatarURL: String = ""
+    
+    public var modifyTime: Int64 = 0
     
     public func toJsonObject() -> Dictionary<String, Any>? {
         ["ease_chat_uikit_user_info":["nickname":self.nickname,"avatarURL":self.avatarURL,"userId":self.id,"remark":""]]

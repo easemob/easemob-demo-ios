@@ -209,6 +209,7 @@ extension MainViewController: ChatUserProfileProvider,ChatGroupProfileProvider {
                 let nickname = info.nickname ?? ""
                 profile.id = userId
                 profile.nickname = nickname
+                profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                 if let remark = ChatClient.shared().contactManager?.getContact(userId)?.remark {
                     profile.remark = remark
                 }

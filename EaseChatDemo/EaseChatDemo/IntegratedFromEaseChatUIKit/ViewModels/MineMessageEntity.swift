@@ -148,6 +148,9 @@ class MineMessageEntity: MessageEntity {
                     case .cancel:
                         result = "The call was canceled".localized()
                         showTime = ""
+                    case .remoteCancel:
+                        result = "The other party canceled the call".localized()
+                        showTime = ""
                     case .noResponse:
                         result = "No response".localized()
                         showTime = ""

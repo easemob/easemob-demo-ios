@@ -118,12 +118,16 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
                     ChatUIKitContext.shared?.currentUser?.nickname = nickname
                     ChatUIKitContext.shared?.userCache?[userId]?.nickname = nickname
                     ChatUIKitContext.shared?.chatCache?[userId]?.nickname = nickname
+                    (ChatUIKitContext.shared?.userCache?[userId] as? ChatUserProfile)?.modifyTime = Int64(Date().timeIntervalSince1970*1000)
+                    (ChatUIKitContext.shared?.chatCache?[userId] as? ChatUserProfile)?.modifyTime = Int64(Date().timeIntervalSince1970*1000)
+                    CallKitManager.shared.currentUserInfo?.nickname = nickname
+                    CallKitManager.shared.usersCache[userId]?.nickname = nickname
                     if let userJson = ChatUIKitContext.shared?.currentUser?.toJsonObject() {
                         let profile = EaseChatProfile()
+                        profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                         profile.setValuesForKeys(userJson)
                         profile.nickname = nickname
                         profile.updateFFDB()
-                        CallKitManager.shared.currentUserInfo?.nickname = nickname
                     }
                 } else {
                     DialogManager.shared.showAlert(title: "error".chat.localize, content: "update nickname failed".chat.localize, showCancel: false, showConfirm: true) { _ in
@@ -208,11 +212,17 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
                     let userId = ChatUIKitContext.shared?.currentUserId ?? ""
                     ChatUIKitContext.shared?.currentUser?.avatarURL = avatarURL
                     ChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = avatarURL
+                    (ChatUIKitContext.shared?.userCache?[userId] as? ChatUserProfile)?.modifyTime = Int64(Date().timeIntervalSince1970*1000)
+                    (ChatUIKitContext.shared?.chatCache?[userId] as? ChatUserProfile)?.modifyTime = Int64(Date().timeIntervalSince1970*1000)
+                    CallKitManager.shared.currentUserInfo?.avatarURL = avatarURL
+                    
+                    CallKitManager.shared.usersCache[userId]?.avatarURL = avatarURL
                     self?.infos[0]["detail"] = avatarURL
                     if let userJson = ChatUIKitContext.shared?.currentUser?.toJsonObject() {
                         let profile = EaseChatProfile()
                         profile.setValuesForKeys(userJson)
                         profile.avatarURL = avatarURL
+                        profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                         profile.updateFFDB()
                         CallKitManager.shared.currentUserInfo?.avatarURL = avatarURL
                     }
