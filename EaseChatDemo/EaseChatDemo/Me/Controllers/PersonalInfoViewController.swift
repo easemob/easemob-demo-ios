@@ -127,7 +127,10 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
                         profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                         profile.setValuesForKeys(userJson)
                         profile.nickname = nickname
+                        profile.avatarURL = ChatUIKitContext.shared?.currentUser?.avatarURL ?? ""
                         profile.updateFFDB()
+                        ChatUIKitContext.shared?.chatCache?[userId] = profile
+                        ChatUIKitContext.shared?.userCache?[userId] = profile
                     }
                 } else {
                     DialogManager.shared.showAlert(title: "error".chat.localize, content: "update nickname failed".chat.localize, showCancel: false, showConfirm: true) { _ in
@@ -222,9 +225,12 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
                         let profile = EaseChatProfile()
                         profile.setValuesForKeys(userJson)
                         profile.avatarURL = avatarURL
+                        profile.nickname = ChatUIKitContext.shared?.currentUser?.nickname ?? ""
                         profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                         profile.updateFFDB()
                         CallKitManager.shared.currentUserInfo?.avatarURL = avatarURL
+                        ChatUIKitContext.shared?.chatCache?[userId] = profile
+                        ChatUIKitContext.shared?.userCache?[userId] = profile
                     }
                     self?.setUserAvatar(url: avatarURL)
                     self?.infoList.reloadData()

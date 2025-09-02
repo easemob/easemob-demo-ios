@@ -125,16 +125,10 @@ class MineMessageEntity: MessageEntity {
                         if timeLength > 0 {
                             let hours = UInt(timeLength / 3600)
                             let minutes = UInt((timeLength % 3600) / 60)
-                            let seconds = UInt(timeLength % 60)
-                            if hours >= 1 {
-                                showTime += "\(hours)\(Appearance.ease_chat_language == .Chinese ? "小时" : "h")"
-                            }
-                            if minutes >= 1 {
-                                showTime += " \(minutes)\(Appearance.ease_chat_language == .Chinese ? "分" : "m")"
-                            }
-                            if seconds >= 1 {
-                                showTime += " \(seconds)\(Appearance.ease_chat_language == .Chinese ? "秒" : "s")"
-                            }
+                            let seconds = UInt(ceilf(Float(timeLength % 60)))
+                            
+                            // 使用 String(format:) 来确保两位数格式，不足两位前面补0
+                            showTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
                         }
                     case .busy:
                         result = "The other party busy".localized()
