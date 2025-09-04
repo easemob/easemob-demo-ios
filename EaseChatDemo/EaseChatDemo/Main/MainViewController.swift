@@ -9,6 +9,7 @@ import UIKit
 import EaseChatUIKit
 import EaseCallUIKit
 import SwiftFFDBHotFix
+import PhotosUI
 
 final class MainViewController: UITabBarController {
     
@@ -357,11 +358,43 @@ extension MainViewController: CallServiceListener {
     }
     
     func onReceivedCall(callType: CallType, userId: String, extensionInfo: [String : Any]?) {
-        if let controller = UIViewController.currentController,(controller is DialogContainerViewController || controller is AlertViewController || controller is PageContainersDialogController) {
+        if let controller = UIViewController.currentController,(controller is DialogContainerViewController || controller is AlertViewController || controller is PageContainersDialogController) || controller is ContactViewController {
             //正在通话中或者呼叫中  dismiss跳出来的模态弹窗
             controller.dismiss(animated: false)
+            AudioTools.shared.stopRecording()
+            AudioTools.shared.stopPlaying()
             return
         }
+        self.dismissPickerControllers()
+    }
+    
+    func dismissPickerControllers() {
+        // 获取当前最顶层的视图控制器
+        if let topController = getTopViewController() {
+            // 检查是否是指定类型的控制器
+            if topController is UIImagePickerController ||
+                topController is UIDocumentPickerViewController || topController is PHPickerViewController {
+                topController.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+
+    // 获取最顶层视图控制器的辅助方法
+    func getTopViewController() -> UIViewController? {
+        // 获取 key window
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first(where: { $0.isKeyWindow }) else {
+            return nil
+        }
+        
+        var topController = window.rootViewController
+        
+        // 遍历 presented 视图控制器链
+        while let presentedViewController = topController?.presentedViewController {
+            topController = presentedViewController
+        }
+        
+        return topController
     }
     
 }

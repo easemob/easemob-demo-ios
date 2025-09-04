@@ -27,6 +27,8 @@ final class MineMessageListViewController: MessageListController {
     override func createMessageContainer() -> MessageListView {
         MessageListView(frame: CGRect(x: 0, y: self.fraudView.frame.maxY, width: self.view.frame.width, height: EaseChatUIKit.ScreenHeight-self.fraudView.frame.maxY), mention: self.chatType == .group)
     }
+    
+    private var audioRecordView: MessageAudioRecordView?
 
     override func viewDidLoad() {
         self.view.addSubview(self.fraudView)
@@ -177,6 +179,13 @@ final class MineMessageListViewController: MessageListController {
             CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
             CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
         }
+        if let currentUser = ChatUIKitContext.shared?.currentUser {
+            let callProfile = CallUserProfile()
+            callProfile.id = ChatClient.shared().currentUsername ?? ""
+            callProfile.nickname = currentUser.nickname
+            callProfile.avatarURL = currentUser.avatarURL
+            CallKitManager.shared.usersCache[callProfile.id] = callProfile
+        }
         CallKitManager.shared.call(with: self.profile.id, type: callType)
     }
     
@@ -184,6 +193,13 @@ final class MineMessageListViewController: MessageListController {
         if let cacheUser = ChatUIKitContext.shared?.groupCache?[self.profile.id] {
             CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
             CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
+        }
+        if let currentUser = ChatUIKitContext.shared?.currentUser {
+            let callProfile = CallUserProfile()
+            callProfile.id = ChatClient.shared().currentUsername ?? ""
+            callProfile.nickname = currentUser.nickname
+            callProfile.avatarURL = currentUser.avatarURL
+            CallKitManager.shared.usersCache[callProfile.id] = callProfile
         }
         CallKitManager.shared.groupCall(groupId: self.profile.id)
     }
@@ -252,6 +268,18 @@ final class MineMessageListViewController: MessageListController {
         preview.dissmissDuration = 0.3
         self.present(preview, animated: true)
         
+    }
+    
+    override func audioDialog() {
+        AudioTools.shared.stopPlaying()
+        let audioView = MessageAudioRecordView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200+EaseChatUIKit.BottomBarHeight)) { [weak self] url, duration in
+            UIViewController.currentController?.dismiss(animated: true)
+            self?.viewModel.sendMessage(text: url.path, type: .voice, extensionInfo: ["duration":duration])
+        } trashClosure: {
+            
+        }
+        self.audioRecordView = audioView
+        DialogManager.shared.showCustomDialog(customView: audioView,dismiss: false)
     }
 }
 
