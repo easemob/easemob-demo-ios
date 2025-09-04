@@ -7,7 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
-import EaseCallKit
+import EaseCallUIKit
 
 class MineMessageEntity: MessageEntity {
     
@@ -16,12 +16,12 @@ class MineMessageEntity: MessageEntity {
         if let body = self.message.body as? ChatCustomMessageBody {
             switch body.event {
             case EaseChatUIKit_user_card_message:
-                return CGSize(width: self.historyMessage ? ScreenWidth-32:limitBubbleWidth, height: contactCardHeight)
+                return CGSize(width: self.historyMessage ? EaseChatUIKit.ScreenWidth-32:limitBubbleWidth, height: contactCardHeight)
             case EaseChatUIKit_alert_message:
                 let label = UILabel().numberOfLines(0).lineBreakMode(.byWordWrapping)
                 label.attributedText = self.convertTextAttribute()
-                let size = label.sizeThatFits(CGSize(width: ScreenWidth-32, height: 9999))
-                return CGSize(width: ScreenWidth-32, height: size.height+50)
+                let size = label.sizeThatFits(CGSize(width: EaseChatUIKit.ScreenWidth-32, height: 9999))
+                return CGSize(width: EaseChatUIKit.ScreenWidth-32, height: size.height+50)
             default:
                 return self.message.contentSize
             }
@@ -37,12 +37,12 @@ class MineMessageEntity: MessageEntity {
         var text = NSMutableAttributedString()
         if self.message.messageId.isEmpty {
             return NSMutableAttributedString {
-                AttributedText("No Messages".chat.localize).foregroundColor(Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.labelSmall).lineHeight(multiple: 1.15, minimum: 18)
+                AttributedText("No Messages".chat.localize).foregroundColor(EaseChatUIKit.Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.labelSmall).lineHeight(multiple: 1.15, minimum: 18)
             }
         }
         var textColor = self.message.direction == .send ? Appearance.chat.sendTextColor:Appearance.chat.receiveTextColor
         if self.historyMessage {
-            textColor = Theme.style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
+            textColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
         }
         if self.message.body.type != .text, self.message.body.type != .custom {
             text.append(NSAttributedString {
@@ -63,9 +63,9 @@ class MineMessageEntity: MessageEntity {
                     if let threadName = self.message.ext?["threadName"] as? String {
                         let range = something.chat.rangeOfString(threadName)
                         text.append(NSAttributedString {
-                            AttributedText(something).foregroundColor(Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.bodySmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
+                            AttributedText(something).foregroundColor(EaseChatUIKit.Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.bodySmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
                         })
-                        text.addAttribute(NSAttributedString.Key.foregroundColor, value: Theme.style == .dark ? Color.theme.primaryColor6:Color.theme.primaryColor5, range: range)
+                        text.addAttribute(NSAttributedString.Key.foregroundColor, value: EaseChatUIKit.Theme.style == .dark ? Color.theme.primaryColor6:Color.theme.primaryColor5, range: range)
                     } else {
                         let user = self.message.user
                         var nickname = user?.remark ?? ""
@@ -76,10 +76,10 @@ class MineMessageEntity: MessageEntity {
                             }
                         }
                         text.append(NSMutableAttributedString {
-                            AttributedText(nickname).foregroundColor(Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.labelSmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
+                            AttributedText(nickname).foregroundColor(EaseChatUIKit.Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.labelSmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
                         })
                         text.append(NSAttributedString {
-                            AttributedText(" "+something).foregroundColor(Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.bodySmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
+                            AttributedText(" "+something).foregroundColor(EaseChatUIKit.Theme.style == .dark ? Color.theme.neutralColor6:Color.theme.neutralColor7).font(UIFont.theme.bodySmall).lineHeight(multiple: 1.15, minimum: 14).alignment(.center)
                         })
                     }
                     
@@ -99,55 +99,77 @@ class MineMessageEntity: MessageEntity {
                 result = result.replacingOccurrences(of: key, with: value)
             }
             if self.message.mention.isEmpty {
-                if let timeLength = self.message.ext?["callDuration"] as? Int,let callTypeValue = self.message.ext?["type"] as? Int  {
-                    let callType = EaseCallType(rawValue: callTypeValue) ?? .type1v1Audio
+                if let callTypeValue = self.message.ext?[kCallType] as? UInt,let endReasonValue = self.message.ext?[kCallEndReason] as? UInt {
+                    let timeLength = self.message.ext?[kCallDuration] as? Int ?? 0
+                    let callType = EaseCallUIKit.CallType(rawValue: callTypeValue)
+                    let endReason = EaseCallUIKit.CallEndReason(rawValue: endReasonValue)
                     var callImageColor = UIColor.white
                     if self.message.direction == .send {
-                        callImageColor = Theme.style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor95
+                        callImageColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor95
                     } else {
-                        callImageColor = Theme.style == .dark ? UIColor.theme.neutralColor8:UIColor.theme.neutralColor5
+                        callImageColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.neutralColor8:UIColor.theme.neutralColor5
                     }
                     var callImage = UIImage(named: "call", in: .chatBundle, with: nil)?.withTintColor(callImageColor)
                     switch callType {
-                    case .type1v1Audio:
+                    case .singleAudio:
                         callImage = UIImage(named: "phone_hang")?.withTintColor(callImageColor)
-                    case .type1v1Video:
+                    case .singleVideo:
                         callImage = UIImage(named: "video_call")?.withTintColor(callImageColor)
                     default: break
                     }
-                    var showTime = "and the call duration is ".localized()
-                    if timeLength > 0 {
-                        let hours = UInt(timeLength / 3600)
-                        let minutes = UInt((timeLength % 3600) / 60)
-                        let seconds = UInt(timeLength % 60)
-                        if hours >= 1 {
-                            showTime += "\(hours):"
+                    result = "The call end ".localized()
+                    var showTime = ""
+                    switch endReason {
+                    case .hangup:
+                        result = "and the call duration is ".localized()
+                        if timeLength > 0 {
+                            let hours = UInt(timeLength / 3600)
+                            let minutes = UInt((timeLength % 3600) / 60)
+                            let seconds = UInt(ceilf(Float(timeLength % 60)))
+                            
+                            // 使用 String(format:) 来确保两位数格式，不足两位前面补0
+                            showTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
                         }
-                        if minutes >= 1 {
-                            showTime += " \(minutes):"
-                        }
-                        if seconds >= 1 {
-                            showTime += " \(seconds)"
-                        }
-                        if Appearance.ease_chat_language == .Chinese {
-                            if minutes < 1,hours < 1 {
-                                showTime += "秒"
-                            }
-                        } else {
-                            if minutes < 1,hours < 1 {
-                                showTime += "s"
-                            }
-                        }
+                    case .busy:
+                        result = "The other party busy".localized()
+                        showTime = ""
+                    case .refuse:
+                        result = "Refused ".localized()
+                        showTime = ""
+                    case .remoteRefuse:
+                        result = "The other party refused ".localized()
+                        showTime = ""
+                    case .cancel:
+                        result = "The call was canceled".localized()
+                        showTime = ""
+                    case .remoteCancel:
+                        result = "The other party canceled the call".localized()
+                        showTime = ""
+                    case .noResponse:
+                        result = "No response".localized()
+                        showTime = ""
+                    case .remoteNoResponse:
+                        result = "The other party no response".localized()
+                        showTime = ""
+                    case .abnormalEnd:
+                        result = "The call was ended abnormally".localized()
+                        showTime = ""
+                    case .handleOnOtherDevice:
+                        result = "The call was handled on other device".localized()
+                        showTime = ""
+                    default:
+                        break
                     }
+                    let showResult = result+showTime
                     if self.message.direction == .send {
                         text.append(NSAttributedString {
-                            AttributedText(result+showTime+" ").foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(.byWordWrapping)
+                            AttributedText(showResult+" ").foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(.byWordWrapping)
                             ImageAttachment(callImage, bounds: CGRect(x: 0, y: -4, width: 18, height: 18))
                         })
                     } else {
                         text.append(NSAttributedString {
                             ImageAttachment(callImage, bounds: CGRect(x: 0, y: -4, width: 18, height: 18))
-                            AttributedText(" "+result+showTime).foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(.byWordWrapping)
+                            AttributedText(" "+showResult).foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(.byWordWrapping)
                         })
                     }
                 } else {
@@ -173,7 +195,7 @@ class MineMessageEntity: MessageEntity {
                         AttributedText(content).foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(Appearance.chat.targetLanguage == .Chinese ? .byCharWrapping:.byWordWrapping)
                     }
                     if mentionRange.location != NSNotFound,mentionRange.length != NSNotFound {
-                        mentionAttribute.addAttribute(.foregroundColor, value: (Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor), range: range)
+                        mentionAttribute.addAttribute(.foregroundColor, value: (EaseChatUIKit.Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor), range: range)
                     }
                     text.append(mentionAttribute)
                 } else {
@@ -185,7 +207,7 @@ class MineMessageEntity: MessageEntity {
                         AttributedText(content).foregroundColor(textColor).font(self.historyMessage ? UIFont.theme.bodyMedium:UIFont.theme.bodyLarge).lineHeight(multiple: 1.15, minimum: self.historyMessage ? 16:18).lineBreakMode(.byWordWrapping)
                     }
                     if mentionRange.location != NSNotFound,mentionRange.length != NSNotFound {
-                        mentionAttribute.addAttribute(.foregroundColor, value: (Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor), range: range)
+                        mentionAttribute.addAttribute(.foregroundColor, value: (EaseChatUIKit.Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor), range: range)
                     }
                     text.append(mentionAttribute)
                 }
@@ -222,7 +244,7 @@ class MineMessageEntity: MessageEntity {
             }
             if let result = matches.first, result.range.length > 0,result.range.location != NSNotFound,let linkURL = result.url {
                 self.previewURL = linkURL.absoluteString
-                let receiveLinkColor = Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor
+                let receiveLinkColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor
                 let sendLinkColor = Appearance.chat.sendTextColor
                 let color = self.message.direction == .send ? sendLinkColor:receiveLinkColor
                 text.addAttributes([.link:linkURL,.underlineStyle:NSUnderlineStyle.single.rawValue,.underlineColor:color,.foregroundColor:color], range: result.range)

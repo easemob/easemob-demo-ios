@@ -7,7 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
-import EaseCallKit
+import EaseCallUIKit
 
 final class MineGroupDetailViewController: GroupInfoViewController {
     
@@ -21,8 +21,8 @@ final class MineGroupDetailViewController: GroupInfoViewController {
     }
 
     override func viewDidLoad() {
-        Appearance.contact.detailExtensionActionItems = [ContactListHeaderItem(featureIdentify: "Chat", featureName: "Chat".chat.localize, featureIcon: UIImage(named: "chatTo", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "AudioCall", featureName: "AudioCall".chat.localize, featureIcon: UIImage(named: "voice_call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "VideoCall".chat.localize, featureIcon: UIImage(named: "video_call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil))]
-        let item = ActionSheetItem(title: "barrage_long_press_menu_report".chat.localize, type: .normal, tag: "report")
+        Appearance.contact.detailExtensionActionItems = [ContactListHeaderItem(featureIdentify: "Chat", featureName: "Chat".chat.localize, featureIcon: UIImage(named: "chatTo", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "VideoCall", featureName: "multiCall".localized(), featureIcon: UIImage(named: "call", in: .chatBundle, with: nil)),ContactListHeaderItem(featureIdentify: "SearchMessages", featureName: "SearchMessages".chat.localize, featureIcon: UIImage(named: "search_history_messages", in: .chatBundle, with: nil))]
+        let item = EaseChatUIKit.ActionSheetItem(title: "barrage_long_press_menu_report".chat.localize, type: .normal, tag: "report")
         self.ownerOptions.insert(item, at: 0)
         self.memberOptions.insert(item, at: 0)
         super.viewDidLoad()
@@ -65,23 +65,16 @@ final class MineGroupDetailViewController: GroupInfoViewController {
     }
     
     private func groupCall() {
-        guard let groupId = self.chatGroup.groupId,let userInfo = ChatUIKitContext.shared?.currentUser else {
-            self.showToast(toast: "Chat group id is nil")
-            return
-        }
-        let vc = MineCallInviteUsersController(groupId: groupId,profiles: [userInfo]) { [weak self] users in
-            self?.startGroupCall(users: users)
-        }
-        self.present(vc, animated: true)
+        self.startGroupCall()
     }
 
-    private func startGroupCall(users: [String]) {
+    private func startGroupCall() {
+        CallKitManager.shared.usersCache[self.chatGroup.groupId]?.nickname = self.chatGroup.groupName
+        CallKitManager.shared.usersCache[self.chatGroup.groupId]?.avatarURL = self.chatGroup.groupAvatar
         if let groupId = self.chatGroup.groupId {
-            EaseCallManager.shared().startInviteUsers(users, ext: ["groupId":groupId]) {  [weak self] callId, callError in
-                if callError != nil {
-                    self?.showToast(toast: "\(callError?.errDescription ?? "")")
-                }
-            }
+            CallKitManager.shared.groupCall(groupId: groupId)
+        } else {
+            self.showToast(toast: "Group ID is not available.".localized())
         }
     }
     

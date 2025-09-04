@@ -7,6 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
+import EaseCallUIKit
 import HyphenateChat
 import UserNotifications
 import SwiftFFDBHotFix
@@ -36,6 +37,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         self.setupEaseChatUIKit()
+        self.setupCallKit()
         self.setupEaseChatUIKitConfig()
         self.registerRemoteNotification()
         return true
@@ -57,8 +59,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         //Simulator can't use APNS, so we need to judge whether it is a real machine.
         #if DEBUG
         options.apnsCertName = "EaseIM_APNS_Developer"
+        options.pushKitCertName = "EasemobVoipDev"
         #else
         options.apnsCertName = "EaseIM_APNS_Product"
+        options.pushKitCertName = "EasemobVoipPro"
         #endif
         
         if let debugMode = self.serverConfig["debug_mode"],debugMode == "1",let customServer = self.serverConfig["use_custom_server"], customServer == "1" {
@@ -129,6 +133,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         //Notice: - Feature identify can't changed, it's used to identify feature action.
         
         //Register custom components(注册Demo中继承EaseChatUIKit中类替换EaseChatUIKit中的父类)
+        ComponentsRegister.shared.Conversation = MineConversationInfo.self
         ComponentsRegister.shared.ConversationsController = MineConversationsController.self
         ComponentsRegister.shared.ContactsController = MineContactsViewController.self
         ComponentsRegister.shared.MessageViewController = MineMessageListViewController.self
@@ -139,7 +144,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         ComponentsRegister.shared.MessagesViewModel = MineMessageListViewModel.self
     }
     
-    
+    private func setupCallKit() {
+        let config = CallKitConfig()
+        config.enableVOIP = true
+        config.enablePIPOn1V1VideoScene = true
+        CallKitManager.shared.setup(config)
+    }
 
     // MARK: UISceneSession Lifecycle
 
@@ -223,8 +233,11 @@ extension AppDelegate: UserStateChangedListener {
         ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: true) { error in
             if error != nil {
                 consoleLogInfo("Logout failed:\(error?.errorDescription ?? "")", type: .error)
+                ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: false) { _ in }
             }
         }
+        CallKitManager.shared.hangup()
+        CallKitManager.shared.cleanUserDefaults()
     }
     
     func onUserTokenDidExpired() {
@@ -275,6 +288,7 @@ extension AppDelegate: UserStateChangedListener {
                     profile.id = group.groupId
                     profile.nickname = group.groupName
                     profile.avatarURL = group.settings.ext
+                    profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                     profiles.append(profile)
                     profile.insert()
                 }

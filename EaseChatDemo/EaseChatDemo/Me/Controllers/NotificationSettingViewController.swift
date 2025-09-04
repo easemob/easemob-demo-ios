@@ -76,8 +76,11 @@ final class NotificationSettingViewController: UIViewController {
     }
 
     @objc private func valueChanged(sender: UISwitch) {
-        let params = SilentModeParam()
+        let params = SilentModeParam(paramType: .remindType)
         params.remindType = sender.isOn ? .all:.mentionOnly
+        params.silentModeStartTime = nil
+        params.silentModeEndTime   = nil
+        params.silentModeDuration = 0
         ChatClient.shared().pushManager?.setSilentModeForAll(params, completion: { [weak self] result, error in
             if error != nil {
                 self?.settingSwitch.isOn    = true

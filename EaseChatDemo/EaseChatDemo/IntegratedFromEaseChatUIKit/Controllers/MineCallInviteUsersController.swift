@@ -38,7 +38,7 @@ final class MineCallInviteUsersController: GroupParticipantsRemoveController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.cornerRadius(.medium, [.topLeft,.topRight], .clear, 0)
+        self.view.cornerRadius(EaseChatUIKit.CornerRadius.medium, [.topLeft,.topRight], .clear, 0)
         // Do any additional setup after loading the view.
         self.navigation.title = "Video Call".localized()
         self.navigation.rightItem.title("Confirm".chat.localize, .normal)

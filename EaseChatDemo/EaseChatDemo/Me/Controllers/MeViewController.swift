@@ -75,6 +75,7 @@ final class MeViewController: UIViewController {
                     profile.id = userId
                     profile.nickname = info.nickname ?? ""
                     profile.avatarURL = info.avatarUrl ?? ""
+                    profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                     profile.insert()
                     ChatUIKitContext.shared?.currentUser = profile
                     ChatUIKitContext.shared?.userCache?[profile.id] = profile
@@ -263,16 +264,7 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
     
     private func logout() {
         DialogManager.shared.showAlert(title: "Confirm Logout".localized(), content: "", showCancel: true, showConfirm: true) { _ in
-            ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: true) { error in
-                if error == nil {
-                    NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
-                } else {
-                    ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: false) { _ in
-                        NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
-                    }
-                    self.showToast(toast: "\(error?.errorDescription ?? "")")
-                }
-            }
+            NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil, userInfo: nil)
         }
     }
     

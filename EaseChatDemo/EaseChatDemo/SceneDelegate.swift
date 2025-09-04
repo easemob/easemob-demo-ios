@@ -8,6 +8,7 @@
 import UIKit
 import EaseChatUIKit
 import SwiftFFDBHotFix
+import EaseCallUIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -36,8 +37,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func switchTheme() {
-        Theme.registerSwitchThemeViews(view: self)
-        Theme.switchTheme(style: self.darkMode ? .dark:.light)
+        EaseChatUIKit.Theme.registerSwitchThemeViews(view: self)
+        EaseChatUIKit.Theme.switchTheme(style: self.darkMode ? .dark:.light)
         self.switchTheme(style: self.darkMode ? .dark:.light)
     }
     
@@ -113,15 +114,24 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     @objc private func loadLogin() {
+        ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: true) { error in
+            if error != nil {
+                consoleLogInfo("Logout failed:\(error?.errorDescription ?? "")", type: .error)
+                ChatUIKitClient.shared.logout(unbindNotificationDeviceToken: false) { _ in }
+            }
+        }
+        CallKitManager.shared.hangup()
+        CallKitManager.shared.cleanUserDefaults()
         DispatchQueue.main.async {
             self.window?.rootViewController = LoginViewController()
         }
+        
     }
 
 }
 
-extension SceneDelegate: ThemeSwitchProtocol {
-    func switchTheme(style: ThemeStyle) {
+extension SceneDelegate: EaseChatUIKit.ThemeSwitchProtocol {
+    func switchTheme(style: EaseChatUIKit.ThemeStyle) {
         self.window?.backgroundColor = style == .dark ? UIColor.theme.neutralColor1 : UIColor.theme.neutralColor98
         UIApplication.shared.windows.forEach { $0.overrideUserInterfaceStyle = (style == .dark ? .dark:.light) }
     }

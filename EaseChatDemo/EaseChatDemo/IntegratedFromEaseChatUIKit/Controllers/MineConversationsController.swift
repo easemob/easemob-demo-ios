@@ -24,6 +24,18 @@ final class MineConversationsController: ConversationListController {
         self.showUserStatus()
         self.previewRequestContact()
         self.navigation.separateLine.isHidden = true
+        NotificationCenter.default.addObserver(forName: Notification.Name("didUpdateCallEndReason"), object: nil, queue: .main) { [weak self] notification in
+            guard let `self` = self else { return }
+            if let message = notification.object as? ChatMessage {
+                let index = self.conversationList.datas.firstIndex(where: { $0.id == message.conversationId }) ?? 0
+                if index >= 0 {
+                    let conversation = self.conversationList.datas[index]
+                    conversation.lastMessage = message
+                    conversation.showContent = conversation.contentAttribute()
+                    self.conversationList.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+                }
+            }
+        }
     }
     
     override func navigationClick(type: ChatNavigationBarClickEvent, indexPath: IndexPath?) {

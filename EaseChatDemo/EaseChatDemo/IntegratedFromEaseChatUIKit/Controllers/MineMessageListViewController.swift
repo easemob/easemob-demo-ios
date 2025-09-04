@@ -7,7 +7,7 @@
 
 import UIKit
 import EaseChatUIKit
-import EaseCallKit
+import EaseCallUIKit
 import Photos
 
 let callIdentifier = "msgType"
@@ -21,12 +21,14 @@ final class MineMessageListViewController: MessageListController {
     private var imageEntity = MessageEntity()
         
     lazy var fraudView: FraudAlertView = {
-        FraudAlertView(frame: CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: ScreenWidth <= 375 ? 84:72))
+        FraudAlertView(frame: CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: EaseChatUIKit.ScreenWidth <= 375 ? 84:72))
     }()
     
     override func createMessageContainer() -> MessageListView {
-        MessageListView(frame: CGRect(x: 0, y: self.fraudView.frame.maxY, width: self.view.frame.width, height: ScreenHeight-self.fraudView.frame.maxY), mention: self.chatType == .group)
+        MessageListView(frame: CGRect(x: 0, y: self.fraudView.frame.maxY, width: self.view.frame.width, height: EaseChatUIKit.ScreenHeight-self.fraudView.frame.maxY), mention: self.chatType == .group)
     }
+    
+    private var audioRecordView: MessageAudioRecordView?
 
     override func viewDidLoad() {
         self.view.addSubview(self.fraudView)
@@ -38,7 +40,7 @@ final class MineMessageListViewController: MessageListController {
         self.fraudView.closeClosure = { [weak self] in
             guard let `self` = self else { return }
             UIView.animate(withDuration: 0.22) {
-                self.messageContainer.frame = CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: ScreenHeight-self.navigation.frame.maxY)
+                self.messageContainer.frame = CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: EaseChatUIKit.ScreenHeight-self.navigation.frame.maxY)
             }
         }
         self.fraudView.fraudContent.clickAction = { [weak self] in
@@ -49,6 +51,14 @@ final class MineMessageListViewController: MessageListController {
             self.subscribeUserStatus()
         }
         self.navigation.status.isHidden = self.chatType != .chat
+        NotificationCenter.default.addObserver(forName: Notification.Name("didUpdateCallEndReason"), object: nil, queue: .main) { [weak self] notification in
+            guard let `self` = self, let messageId = notification.object as? String else { return }
+            if let message = self.messageContainer.messages.first(where: { $0.message.messageId == messageId }) {
+                message.setValue(message.convertTextAttribute(), forKey: "content")
+                self.messageContainer.reloadCallMessage(message: message.message)
+            }
+            
+        }
     }
     
     
@@ -85,15 +95,15 @@ final class MineMessageListViewController: MessageListController {
             self.navigation.userState = .offline
         case .busy:
             self.navigation.status.image = nil
-            self.navigation.status.backgroundColor = Theme.style == .dark ? UIColor.theme.errorColor5:UIColor.theme.errorColor6
+            self.navigation.status.backgroundColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.errorColor5:UIColor.theme.errorColor6
         case .away:
-            self.navigation.status.backgroundColor = Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
+            self.navigation.status.backgroundColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
             self.navigation.status.image(PresenceManager.presenceImagesMap[.away] as? UIImage)
         case .doNotDisturb:
-            self.navigation.status.backgroundColor = Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
+            self.navigation.status.backgroundColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
             self.navigation.status.image(PresenceManager.presenceImagesMap[.doNotDisturb] as? UIImage)
         case .custom:
-            self.navigation.status.backgroundColor = Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
+            self.navigation.status.backgroundColor = EaseChatUIKit.Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
             self.navigation.status.image(PresenceManager.presenceImagesMap[.custom] as? UIImage)
         }
         self.otherPartyStatus = subtitle
@@ -136,7 +146,7 @@ final class MineMessageListViewController: MessageListController {
             } else {
                 self.callAction()
             }
-        case 2: if self.chatType == .group { self.callAction() }
+        case 2: self.callAction()
         default:
             break
         }
@@ -144,79 +154,54 @@ final class MineMessageListViewController: MessageListController {
     
     
     private func callAction() {
-        DialogManager.shared.showActions(actions: [ActionSheetItem(title: "Audio Call".localized(), type: .normal, tag: "AudioCall"),ActionSheetItem(title: "Video Call".localized(), type: .normal, tag: "VideoCall")]) { [weak self] item in
-            self?.processItemAction(item: item)
+        if self.chatType == .group {
+            self.startGroupCall()
+        } else {
+            DialogManager.shared.showActions(actions: [ActionSheetItem(title: "Audio Call".localized(), type: .normal, tag: "AudioCall"),ActionSheetItem(title: "Video Call".localized(), type: .normal, tag: "VideoCall")]) { [weak self] item in
+                self?.processItemAction(item: item)
+            }
         }
     }
     
     private func processItemAction(item: ActionSheetItemProtocol) {
-        var callType = EaseCallType.type1v1Audio
-        if self.chatType != .chat {
-            callType = EaseCallType.typeMulti
-        } else {
-            if item.tag == "VideoCall".localized() {
-                callType = EaseCallType.type1v1Video
-            }
+        var callType = CallType.singleAudio
+        if item.tag == "VideoCall".localized() {
+            callType = .singleVideo
         }
         
         if self.chatType == .chat {
             self.startSingleCall(callType: callType)
-        } else {
-            guard let userInfo = ChatUIKitContext.shared?.currentUser else { return }
-            let vc = MineCallInviteUsersController(groupId: self.profile.id,profiles: [userInfo]) { [weak self] users in
-                let user = ChatUIKitContext.shared?.chatCache?[ChatUIKitContext.shared?.currentUserId ?? ""]
-                var nickname = user?.id ?? ""
-                if let realName = user?.nickname,!realName.isEmpty {
-                    nickname = realName
-                }
-                if let remark = user?.remark,!remark.isEmpty {
-                    nickname = remark
-                }
-                let text = "\(nickname)"+" start a multi call".localized()
-                if let callMessage = self?.viewModel.constructMessage(text: text, type: .text, extensionInfo: ["ext":["groupId":self?.profile.id],"msgType":callValue]) {
-                    callMessage.direction = .send
-                    callMessage.timestamp = Int64(Date().timeIntervalSince1970*1000)
-                    
-                    callMessage.chatType = .groupChat
-                    callMessage.status = .succeed
-                    callMessage.isRead = true
-                    ChatClient.shared().chatManager?.getConversationWithConvId(self?.profile.id)?.insert(callMessage, error: nil)
-                    self?.viewModel.driver?.showMessage(message: callMessage)
-                }
-                self?.startGroupCall(users: users, callType: callType)
-            }
-            
-            self.present(vc, animated: true)
-            
-        }
-        
-    }
-    
-    private func startSingleCall(callType: EaseCallType) {
-        EaseCallManager.shared().startSingleCall(withUId: self.profile.id, type: callType, ext: nil) { [weak self]  _, _ in
-            if let conversation = ChatClient.shared().chatManager?.getConversationWithConvId(self?.profile.id) {
-                let messageId = conversation.latestMessage.messageId
-                conversation.loadMessagesStart(fromId: messageId, count: 1, searchDirection:  messageId.isEmpty ? .down:.up) { messages, error in
-//                    if let message = messages?.first {
-//                        self?.messageContainer.showMessage(message: message)
-//                    }
-                }
-            }
         }
     }
     
-    private func startGroupCall(users: [String],callType: EaseCallType) {
-        EaseCallManager.shared().startInviteUsers(users, ext: ["groupId":self.profile.id]) {  [weak self] _, _ in
-            if let conversation = ChatClient.shared().chatManager?.getConversationWithConvId(self?.profile.id) {
-                let messageId = conversation.latestMessage.messageId
-                conversation.loadMessagesStart(fromId: messageId, count: 1, searchDirection:  messageId.isEmpty ? .down:.up) { messages, error in
-//                    if let message = messages?.first {
-//                        self?.messageContainer.showMessage(message: message)
-//                    }
-                }
-            }
+    private func startSingleCall(callType: CallType) {
+        if let cacheUser = ChatUIKitContext.shared?.userCache?[self.profile.id] {
+            CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
+            CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
         }
-        
+        if let currentUser = ChatUIKitContext.shared?.currentUser {
+            let callProfile = CallUserProfile()
+            callProfile.id = ChatClient.shared().currentUsername ?? ""
+            callProfile.nickname = currentUser.nickname
+            callProfile.avatarURL = currentUser.avatarURL
+            CallKitManager.shared.usersCache[callProfile.id] = callProfile
+        }
+        CallKitManager.shared.call(with: self.profile.id, type: callType)
+    }
+    
+    private func startGroupCall() {
+        if let cacheUser = ChatUIKitContext.shared?.groupCache?[self.profile.id] {
+            CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
+            CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
+        }
+        if let currentUser = ChatUIKitContext.shared?.currentUser {
+            let callProfile = CallUserProfile()
+            callProfile.id = ChatClient.shared().currentUsername ?? ""
+            callProfile.nickname = currentUser.nickname
+            callProfile.avatarURL = currentUser.avatarURL
+            CallKitManager.shared.usersCache[callProfile.id] = callProfile
+        }
+        CallKitManager.shared.groupCall(groupId: self.profile.id)
     }
 
     override func filterMessageActions(message: MessageEntity) -> [ActionSheetItemProtocol] {
@@ -233,6 +218,14 @@ final class MineMessageListViewController: MessageListController {
     
     override func messageBubbleClicked(message: MessageEntity) {
         switch message.message.body.type {
+        case .text:
+            if let info = message.message.callInfo {
+                if info.type == .groupCall {
+                    self.startGroupCall()
+                } else {
+                    self.startSingleCall(callType: info.type)
+                }
+            }
         case .image:
             if let body = message.message.body as? ChatImageMessageBody {
                 self.filePath = body.localPath
@@ -276,6 +269,7 @@ final class MineMessageListViewController: MessageListController {
         self.present(preview, animated: true)
         
     }
+    
 }
 
 extension MineMessageListViewController: ImageBrowserProtocol {

@@ -1,39 +1,39 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '14.0'
+ platform :ios, '15.0'
 
 target 'EaseChatDemo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for EaseChatDemo
-  pod 'EaseChatUIKit', '~> 4.14.0'
-  pod 'EaseCallKit'
+  pod 'EaseChatUIKit','4.16.1'
+  pod 'EaseCallUIKit','4.16.0'
   pod 'KakaJSON', '~> 1.1.2'
   pod 'SwiftFFDBHotFix'
   pod 'FMDB','2.7.11'
-  #如果HyphenateChat使用4.11.0版本需要下面pre_install这个脚本，否则不需要
-  pre_install do |installer|
-    # 定义 HypheanteChat framework 的路径
-    rtc_pod_path = File.join(installer.sandbox.root, 'AgoraRtcEngine_iOS')
-
-    # aosl.xcframework 的完整路径
-    aosl_xcframework_path = File.join(rtc_pod_path, 'aosl.xcframework')
-
-    # 检查文件是否存在，如果存在则删除
-    if File.exist?(aosl_xcframework_path)
-      puts "Deleting aosl.xcframework from #{aosl_xcframework_path}"
-      FileUtils.rm_rf(aosl_xcframework_path)
-    else
-      puts "aosl.xcframework not found, skipping deletion."
-    end
-  end
+#  #如果HyphenateChat使用4.11.0版本需要下面pre_install这个脚本，否则不需要
+#  pre_install do |installer|
+#    # 定义 HypheanteChat framework 的路径
+#    rtc_pod_path = File.join(installer.sandbox.root, 'AgoraRtcEngine_iOS')
+#
+#    # aosl.xcframework 的完整路径
+#    aosl_xcframework_path = File.join(rtc_pod_path, 'aosl.xcframework')
+#
+#    # 检查文件是否存在，如果存在则删除
+#    if File.exist?(aosl_xcframework_path)
+#      puts "Deleting aosl.xcframework from #{aosl_xcframework_path}"
+#      FileUtils.rm_rf(aosl_xcframework_path)
+#    else
+#      puts "aosl.xcframework not found, skipping deletion."
+#    end
+#  end
   
   post_install do |installer|
     installer.generated_projects.each do |project|
       
       project.targets.each do |target|
         target.build_configurations.each do |config|
-          config.build_settings["IPHONEOS_DEPLOYMENT_TARGET"] = "14.0"
+          config.build_settings["IPHONEOS_DEPLOYMENT_TARGET"] = "15.0"
           config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
           config.build_settings["DEVELOPMENT_TEAM"] = "JC854K845H"
         end

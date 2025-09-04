@@ -10,6 +10,7 @@ import EaseChatUIKit
 import MobileCoreServices
 import AVFoundation
 import SwiftFFDBHotFix
+import EaseCallUIKit
 
 let userAvatarUpdated = "userAvatarUpdated"
 
@@ -29,7 +30,7 @@ final class PersonalInfoViewController: UIViewController {
     }()
     
     private lazy var infoList: UITableView = {
-        UITableView(frame: CGRect(x: 0, y: NavigationHeight, width: self.view.frame.width, height: self.view.frame.height-NavigationHeight), style: .plain).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).delegate(self).dataSource(self)
+        UITableView(frame: CGRect(x: 0, y: EaseChatUIKit.NavigationHeight, width: self.view.frame.width, height: self.view.frame.height-EaseChatUIKit.NavigationHeight), style: .plain).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).delegate(self).dataSource(self)
     }()
 
     override func viewDidLoad() {
@@ -45,8 +46,8 @@ final class PersonalInfoViewController: UIViewController {
             self?.navigationController?.popViewController(animated: true)
         }
         // Do any additional setup after loading the view.
-        Theme.registerSwitchThemeViews(view: self)
-        self.switchTheme(style: Theme.style)
+        EaseChatUIKit.Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: EaseChatUIKit.Theme.style)
     }
     
 
@@ -117,11 +118,19 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
                     ChatUIKitContext.shared?.currentUser?.nickname = nickname
                     ChatUIKitContext.shared?.userCache?[userId]?.nickname = nickname
                     ChatUIKitContext.shared?.chatCache?[userId]?.nickname = nickname
+                    (ChatUIKitContext.shared?.userCache?[userId] as? ChatUserProfile)?.modifyTime = Int64(Date().timeIntervalSince1970*1000)
+                    (ChatUIKitContext.shared?.chatCache?[userId] as? ChatUserProfile)?.modifyTime = Int64(Date().timeIntervalSince1970*1000)
+                    CallKitManager.shared.currentUserInfo?.nickname = nickname
+                    CallKitManager.shared.usersCache[userId]?.nickname = nickname
                     if let userJson = ChatUIKitContext.shared?.currentUser?.toJsonObject() {
                         let profile = EaseChatProfile()
+                        profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                         profile.setValuesForKeys(userJson)
                         profile.nickname = nickname
+                        profile.avatarURL = ChatUIKitContext.shared?.currentUser?.avatarURL ?? ""
                         profile.updateFFDB()
+                        ChatUIKitContext.shared?.chatCache?[userId] = profile
+                        ChatUIKitContext.shared?.userCache?[userId] = profile
                     }
                 } else {
                     DialogManager.shared.showAlert(title: "error".chat.localize, content: "update nickname failed".chat.localize, showCancel: false, showConfirm: true) { _ in
@@ -206,12 +215,22 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
                     let userId = ChatUIKitContext.shared?.currentUserId ?? ""
                     ChatUIKitContext.shared?.currentUser?.avatarURL = avatarURL
                     ChatUIKitContext.shared?.chatCache?[userId]?.avatarURL = avatarURL
+                    (ChatUIKitContext.shared?.userCache?[userId] as? ChatUserProfile)?.modifyTime = Int64(Date().timeIntervalSince1970*1000)
+                    (ChatUIKitContext.shared?.chatCache?[userId] as? ChatUserProfile)?.modifyTime = Int64(Date().timeIntervalSince1970*1000)
+                    CallKitManager.shared.currentUserInfo?.avatarURL = avatarURL
+                    
+                    CallKitManager.shared.usersCache[userId]?.avatarURL = avatarURL
                     self?.infos[0]["detail"] = avatarURL
                     if let userJson = ChatUIKitContext.shared?.currentUser?.toJsonObject() {
                         let profile = EaseChatProfile()
                         profile.setValuesForKeys(userJson)
                         profile.avatarURL = avatarURL
+                        profile.nickname = ChatUIKitContext.shared?.currentUser?.nickname ?? ""
+                        profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                         profile.updateFFDB()
+                        CallKitManager.shared.currentUserInfo?.avatarURL = avatarURL
+                        ChatUIKitContext.shared?.chatCache?[userId] = profile
+                        ChatUIKitContext.shared?.userCache?[userId] = profile
                     }
                     self?.setUserAvatar(url: avatarURL)
                     self?.infoList.reloadData()
@@ -242,8 +261,8 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
     }
 }
 
-extension PersonalInfoViewController: ThemeSwitchProtocol {
-    func switchTheme(style: ThemeStyle) {
+extension PersonalInfoViewController: EaseChatUIKit.ThemeSwitchProtocol {
+    func switchTheme(style: EaseChatUIKit.ThemeStyle) {
         self.view.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.infoList.reloadData()
     }

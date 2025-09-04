@@ -29,7 +29,7 @@ final class EaseMobHUD: UIView {
         containerView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         containerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        let toastView = UIVisualEffectView(effect: UIBlurEffect(style: Theme.style == .dark ? .light:.dark)).cornerRadius(.medium)
+        let toastView = UIVisualEffectView(effect: UIBlurEffect(style: EaseChatUIKit.Theme.style == .dark ? .light:.dark)).cornerRadius(EaseChatUIKit.CornerRadius.medium)
         toastView.alpha = 0
         toastView.backgroundColor = Theme.style == .dark ? UIColor.theme.barrageLightColor3:UIColor.theme.barrageDarkColor3
         toastView.translatesAutoresizingMaskIntoConstraints = false
