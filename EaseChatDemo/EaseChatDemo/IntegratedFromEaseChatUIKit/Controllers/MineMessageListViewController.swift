@@ -270,17 +270,6 @@ final class MineMessageListViewController: MessageListController {
         
     }
     
-    override func audioDialog() {
-        AudioTools.shared.stopPlaying()
-        let audioView = MessageAudioRecordView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200+EaseChatUIKit.BottomBarHeight)) { [weak self] url, duration in
-            UIViewController.currentController?.dismiss(animated: true)
-            self?.viewModel.sendMessage(text: url.path, type: .voice, extensionInfo: ["duration":duration])
-        } trashClosure: {
-            
-        }
-        self.audioRecordView = audioView
-        DialogManager.shared.showCustomDialog(customView: audioView,dismiss: false)
-    }
 }
 
 extension MineMessageListViewController: ImageBrowserProtocol {
