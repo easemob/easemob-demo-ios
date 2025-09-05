@@ -176,30 +176,40 @@ final class MineMessageListViewController: MessageListController {
     
     private func startSingleCall(callType: CallType) {
         if let cacheUser = ChatUIKitContext.shared?.userCache?[self.profile.id] {
-            CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
-            CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
+            let callProfile = CallUserProfile()
+            callProfile.id = cacheUser.id
+            callProfile.nickname = cacheUser.nickname
+            callProfile.avatarURL = cacheUser.avatarURL
+            CallKitManager.shared.usersCache[self.profile.id] = callProfile
         }
         if let currentUser = ChatUIKitContext.shared?.currentUser {
             let callProfile = CallUserProfile()
             callProfile.id = ChatClient.shared().currentUsername ?? ""
             callProfile.nickname = currentUser.nickname
             callProfile.avatarURL = currentUser.avatarURL
+            CallKitManager.shared.currentUserInfo = callProfile
             CallKitManager.shared.usersCache[callProfile.id] = callProfile
+            consoleLogInfo("startSingleCall current user:\(callProfile.nickname)", type: .info)
         }
         CallKitManager.shared.call(with: self.profile.id, type: callType)
     }
     
     private func startGroupCall() {
         if let cacheUser = ChatUIKitContext.shared?.groupCache?[self.profile.id] {
-            CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
-            CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
+            let callProfile = CallUserProfile()
+            callProfile.id = cacheUser.id
+            callProfile.nickname = cacheUser.nickname
+            callProfile.avatarURL = cacheUser.avatarURL
+            CallKitManager.shared.usersCache[self.profile.id] = callProfile
         }
         if let currentUser = ChatUIKitContext.shared?.currentUser {
             let callProfile = CallUserProfile()
             callProfile.id = ChatClient.shared().currentUsername ?? ""
             callProfile.nickname = currentUser.nickname
             callProfile.avatarURL = currentUser.avatarURL
+            CallKitManager.shared.currentUserInfo = callProfile
             CallKitManager.shared.usersCache[callProfile.id] = callProfile
+            consoleLogInfo("startGroupCall current user:\(callProfile.nickname)", type: .info)
         }
         CallKitManager.shared.groupCall(groupId: self.profile.id)
     }
