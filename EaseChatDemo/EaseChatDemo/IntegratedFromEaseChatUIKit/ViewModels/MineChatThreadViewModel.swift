@@ -19,6 +19,8 @@ class MineChatThreadViewModel: ChatThreadViewModel {
     
     override func messageDidReceived(message: ChatMessage) {
         super.messageDidReceived(message: message)
-        self.inertAlertMessage()
+        if message.conversationId == self.to {
+            self.inertAlertMessage()
+        }
     }
 }

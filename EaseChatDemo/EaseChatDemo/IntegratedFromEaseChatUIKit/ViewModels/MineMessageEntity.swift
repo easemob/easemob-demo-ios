@@ -121,14 +121,16 @@ class MineMessageEntity: MessageEntity {
                     var showTime = ""
                     switch endReason {
                     case .hangup:
-                        result = "and the call duration is ".localized()
-                        if timeLength > 0 {
-                            let hours = UInt(timeLength / 3600)
-                            let minutes = UInt((timeLength % 3600) / 60)
-                            let seconds = UInt(ceilf(Float(timeLength % 60)))
-                            
-                            // 使用 String(format:) 来确保两位数格式，不足两位前面补0
-                            showTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+                        if self.message.chatType == .chat {
+                            result = "and the call duration is ".localized()
+                            if timeLength > 0 {
+                                let hours = UInt(timeLength / 3600)
+                                let minutes = UInt((timeLength % 3600) / 60)
+                                let seconds = UInt(ceilf(Float(timeLength % 60)))
+                                
+                                // 使用 String(format:) 来确保两位数格式，不足两位前面补0
+                                showTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+                            }
                         }
                     case .busy:
                         result = "The other party busy".localized()

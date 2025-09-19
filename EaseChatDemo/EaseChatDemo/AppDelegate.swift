@@ -33,6 +33,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @UserDefault("EaseChatDemoPreferencesAttachmentStyle", defaultValue: 0) var attachmentStyle: UInt8
     
+    @UserDefault("CallBackgroundImageName",defaultValue: "bg1") var callBackgroundImageName: String
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -148,6 +149,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         let config = CallKitConfig()
         config.enableVOIP = true
         config.enablePIPOn1V1VideoScene = true
+        CallAppearance.backgroundImage = UIImage(named: callBackgroundImageName)
         CallKitManager.shared.setup(config)
     }
 
