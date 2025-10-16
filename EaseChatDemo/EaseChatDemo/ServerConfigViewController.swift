@@ -66,8 +66,9 @@ final class ServerConfigViewController: UIViewController {
             case .back:
                 self?.dismiss(animated: true)
             default:
-                self?.saveServerConfig()
-                exit(0)
+                if self?.saveServerConfig() ?? true {
+                    exit(0)
+                }
             }
         }
         self.setFields()
@@ -131,7 +132,7 @@ extension ServerConfigViewController: UITextFieldDelegate {
         
     }
     
-    func saveServerConfig() {
+    func saveServerConfig() -> Bool {
         self.view.endEditing(true)
         let appkey = self.applicationField.text ?? ""
         let chatServer = self.chatServerField.text ?? ""
@@ -141,7 +142,7 @@ extension ServerConfigViewController: UITextFieldDelegate {
             self.serverConfig["application"] = appkey
         } else {
             self.showToast(toast: "请输入App Key")
-            return
+            return false
         }
         if self.customizeSwitch.isOn {
             
@@ -149,28 +150,28 @@ extension ServerConfigViewController: UITextFieldDelegate {
                 self.serverConfig["chat_server_ip"] = chatServer
             } else {
                 self.showToast(toast: "请输入IM服务器IP地址")
-                return
+                return false
             }
             
             if !chatPort.isEmpty {
                 self.serverConfig["chat_server_port"] = chatPort
             } else {
                 self.showToast(toast: "请输入IM服务器IP端口号")
-                return
+                return false
             }
             
             if !restAddress.isEmpty {
                 self.serverConfig["rest_server_address"] = restAddress
             } else {
                 self.showToast(toast: "请输入服务器地址")
-                return
+                return false
             }
             
             self.serverConfig["tls"] = self.tlsSwitch.isOn ? "1" : "0"
         }
         
         self.serverConfig["use_custom_server"] = self.customizeSwitch.isOn ? "1" : "0"
-        
+        return true
     }
     
 }
