@@ -19,7 +19,9 @@ class MineMessageListViewModel: MessageListViewModel {
     }
 
     override func messageDidReceived(message: ChatMessage) {
-        self.inertAlertMessage()
+        if message.conversationId == self.to {
+            self.inertAlertMessage()
+        }
         super.messageDidReceived(message: message)
     }
 }

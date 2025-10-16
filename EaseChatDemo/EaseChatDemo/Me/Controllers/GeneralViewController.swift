@@ -32,7 +32,9 @@ final class GeneralViewController: UIViewController {
          ["title":"feature_switch".localized(),"detail":"","withSwitch": false,"switchValue":false],
          ["title":"language_setting".localized(),"detail":self.language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false],
          ["title":"translate_language_setting".localized(),"detail":self.translate_language.hasPrefix("zh") ? "Chinese".localized():"English".localized(),"withSwitch": false,"switchValue":false],
-         ["title":"Debug Log".localized(),"detail":"","withSwitch": false,"switchValue":false]]
+         ["title":"Debug Log".localized(),"detail":"","withSwitch": false,"switchValue":false],
+         ["title":"CallBackground".localized(),"detail":"","withSwitch": false,"switchValue":false]
+        ]
     }()
     
     private lazy var datas: [DetailInfo] = {
@@ -126,10 +128,16 @@ extension GeneralViewController: UITableViewDelegate,UITableViewDataSource {
             case "translate_language_setting".localized(): self.translateLanguageSet()
             case "long_press_style".localized(): self.chooseMenuStyle(style: .longPress)
             case "attachment_menu_style".localized(): self.chooseMenuStyle(style: .attachment)
+            case "CallBackground".localized(): self.changeCallBackground()
             default:
                 break
             }
         }
+    }
+    
+    private func changeCallBackground() {
+        let vc = CallBackgroundSettingController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func switchTheme() {

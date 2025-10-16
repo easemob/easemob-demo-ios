@@ -58,6 +58,7 @@
 		05CF13242BA7DBF10026595C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05CF13232BA7DBF10026595C /* NotificationService.swift */; };
 		05CF13282BA7DBF10026595C /* EMPushServerExt.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 05CF13212BA7DBF10026595C /* EMPushServerExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		05CF132E2BA7DC120026595C /* EMPushExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF132D2BA7DC120026595C /* EMPushExtension.framework */; };
+		05D55E4E2E7A883D003CDB52 /* CallBackgroundSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D55E4D2E7A883D003CDB52 /* CallBackgroundSettingController.swift */; };
 		05E0D7302BA298EC00373197 /* MineMessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E0D72F2BA298EC00373197 /* MineMessageListViewController.swift */; };
 		05E0D7322BA2E2C200373197 /* MineCallInviteUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E0D7312BA2E2C200373197 /* MineCallInviteUsersController.swift */; };
 		05E595362C129A6C00970D48 /* MineContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E595352C129A6C00970D48 /* MineContactsViewController.swift */; };
@@ -156,6 +157,7 @@
 		05CF13232BA7DBF10026595C /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		05CF13252BA7DBF10026595C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05CF132D2BA7DC120026595C /* EMPushExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EMPushExtension.framework; sourceTree = "<group>"; };
+		05D55E4D2E7A883D003CDB52 /* CallBackgroundSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBackgroundSettingController.swift; sourceTree = "<group>"; };
 		05E0D72F2BA298EC00373197 /* MineMessageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineMessageListViewController.swift; sourceTree = "<group>"; };
 		05E0D7312BA2E2C200373197 /* MineCallInviteUsersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCallInviteUsersController.swift; sourceTree = "<group>"; };
 		05E595352C129A6C00970D48 /* MineContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactsViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				0571F74D2C0D5B4000877895 /* PrivacyPolicyViewController.swift */,
 				053C98812C0E9D0A00F546C8 /* PrivacySettingViewController.swift */,
 				0506DBF82CB7D67900E0EEA8 /* ShowMenuStyleViewController.swift */,
+				05D55E4D2E7A883D003CDB52 /* CallBackgroundSettingController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				05B384312C1846CB00832A9C /* TranslateLanguageSettingController.swift in Sources */,
 				05B7C20E2B96BD3100DA0F8F /* GCDTimer.swift in Sources */,
 				05B7C2142B96C24100DA0F8F /* EasemobBusinessApi.swift in Sources */,
+				05D55E4E2E7A883D003CDB52 /* CallBackgroundSettingController.swift in Sources */,
 				0572275F2B97FA2C00AA866D /* PersonalInfoViewController.swift in Sources */,
 				052226C02BA92282007F14B9 /* MineContactDetailViewController.swift in Sources */,
 				059BEEEC2BABDC96004C7380 /* GradientSlider.swift in Sources */,
@@ -819,7 +823,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -863,7 +867,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
