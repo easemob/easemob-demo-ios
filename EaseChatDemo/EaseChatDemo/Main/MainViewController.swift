@@ -140,7 +140,7 @@ extension MainViewController: EaseChatUIKit.ThemeSwitchProtocol {
         
         self.me.tabBarItem.setTitleTextAttributes([.foregroundColor:UIColor(0x999999)], for: .normal)
         self.me.tabBarItem.setTitleTextAttributes([.foregroundColor:UIColor(0x007AFF)], for: .selected)
-        
+        self.tabBar.layoutIfNeeded()
         
     }
     

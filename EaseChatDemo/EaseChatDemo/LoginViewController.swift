@@ -117,13 +117,9 @@ final class LoginViewController: UIViewController {
         self.loadingView.isHidden = true
         self.serverConfig.isHidden = true
         self.right.titleLabel?.textAlignment = .right
-        self.sdkVersion.text = "V\(ChatUIKit_VERSION)"
+        self.sdkVersion.text = "V\(ChatClient.shared().version)"
         
         self.fieldSetting()
-        if let debugMode = self.serverInfo["debug_mode"],debugMode == "1"{
-            self.serverConfig.isHidden = false
-            self.resetDisplay()
-        }
         // Do any additional setup after loading the view.
         self.setContainerShadow()
         self.addGesture()
@@ -133,6 +129,11 @@ final class LoginViewController: UIViewController {
         self.serverConfig.isHidden = false
         self.serverInfo["debug_mode"] = "1"
         self.resetDisplay()
+#else
+        if let debugMode = self.serverInfo["debug_mode"],debugMode == "1"{
+            self.serverConfig.isHidden = false
+            self.resetDisplay()
+        }
 #endif
     }
     
