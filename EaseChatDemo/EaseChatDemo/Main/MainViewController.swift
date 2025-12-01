@@ -10,6 +10,7 @@ import EaseChatUIKit
 import EaseCallUIKit
 import SwiftFFDBHotFix
 import PhotosUI
+import AgoraRtcKit
 
 final class MainViewController: UITabBarController {
     
@@ -366,6 +367,16 @@ extension MainViewController: CallServiceListener {
             return
         }
         self.dismissPickerControllers()
+    }
+    
+    func onRtcEngineCreated(engine: AgoraRtcEngineKit) {
+        if let config = UserDefaults.standard.dictionary(forKey: "EaseChatDemoServerConfig"),let ipList = config["ipList"],let verifyDomainName = config["verifyDomainName"] as? String {
+            let config = AgoraLocalAccessPointConfiguration()
+            config.ipList = [ipList]
+            config.verifyDomainName = verifyDomainName
+            config.mode = .localOnly
+            engine.setLocalAccessPoint(withConfig: config)
+        }
     }
     
     func dismissPickerControllers() {

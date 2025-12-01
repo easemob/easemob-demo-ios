@@ -103,6 +103,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             if let tls = self.serverConfig["tls"], tls == "1" {
                 options.setValue(true, forKey: "enableTLSConnection")
             }
+            if let appId = self.serverConfig["app_id"], !appId.isEmpty {
+                CallKitManager.shared.appID = appId
+            }
         }
         //Set up EaseChatUIKit
         _ = ChatUIKitClient.shared.setup(option: options)
@@ -111,6 +114,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setupEaseChatUIKitConfig() {
+        
         //Set the theme of the chat demo UI.
         if self.theme == 0 {
             Appearance.avatarRadius = .extraSmall
@@ -171,6 +175,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         let config = CallKitConfig()
         config.enableVOIP = true
         config.enablePIPOn1V1VideoScene = true
+        if let appId = self.serverConfig["app_id"], !appId.isEmpty {
+            CallKitManager.shared.appID = appId
+        } else {
+            CallKitManager.shared.appID = "a39441760abc40e2adb99cd8d82315da"
+        }
         CallAppearance.backgroundImage = UIImage(named: callBackgroundImageName)
         CallKitManager.shared.setup(config)
         CallKitManager.shared.appID = "884c386fd14344df92da8c001db8afe7"
