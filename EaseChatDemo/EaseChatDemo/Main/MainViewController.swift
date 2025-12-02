@@ -370,7 +370,7 @@ extension MainViewController: CallServiceListener {
     }
     
     func onRtcEngineCreated(engine: AgoraRtcEngineKit) {
-        if let config = UserDefaults.standard.dictionary(forKey: "EaseChatDemoServerConfig"),let ipList = config["ipList"],let verifyDomainName = config["verifyDomainName"] as? String {
+        if let config = UserDefaults.standard.dictionary(forKey: "EaseChatDemoServerConfig") as? [String:String],let ipList = config["rtc_server_ip"],let verifyDomainName = config["rtc_server_domain"] {
             let config = AgoraLocalAccessPointConfiguration()
             config.ipList = [ipList]
             config.verifyDomainName = verifyDomainName

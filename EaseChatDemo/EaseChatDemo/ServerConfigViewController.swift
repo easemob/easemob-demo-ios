@@ -96,6 +96,36 @@ final class ServerConfigViewController: UIViewController {
                 x: self.view.frame.width - 12 - 51, y: self.restServerField.frame.maxY + 12,
                 width: 51, height: 31))
     }()
+    
+    private lazy var ipField: UITextField = {
+        UITextField(
+            frame: CGRect(
+                x: 16, y: self.tlsSwitch.frame.maxY + 12, width: self.view.frame.width - 32,
+                height: 48)
+        ).cornerRadius(Appearance.avatarRadius).placeholder("请输入RTC服务器IP地址").font(
+            UIFont.theme.bodyLarge
+        ).tag(66).delegate(self)
+    }()
+    
+    private lazy var verifyDomainName: UITextField = {
+        UITextField(
+            frame: CGRect(
+                x: 16, y: self.ipField.frame.maxY + 12, width: self.view.frame.width - 32,
+                height: 48)
+        ).cornerRadius(Appearance.avatarRadius).placeholder("请输入RTC服务器域名").font(
+            UIFont.theme.bodyLarge
+        ).tag(77).delegate(self)
+    }()
+    
+    private lazy var appIDField: UITextField = {
+        UITextField(
+            frame: CGRect(
+                x: 16, y: self.verifyDomainName.frame.maxY + 12, width: self.view.frame.width - 32,
+                height: 48)
+        ).cornerRadius(Appearance.avatarRadius).placeholder("请输入App ID").font(
+            UIFont.theme.bodyLarge
+        ).tag(88).delegate(self)
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,7 +133,7 @@ final class ServerConfigViewController: UIViewController {
         self.view.addSubViews([
             self.background, self.navigation, self.applicationField, self.customize,
             self.customizeSwitch, self.protocolSegment, self.chatServerField, self.chatPortField,
-            self.restServerField, self.tlsConnectionLabel, self.tlsSwitch,
+            self.restServerField, self.tlsConnectionLabel, self.tlsSwitch,self.ipField,self.verifyDomainName,self.appIDField
         ])
         self.customizeSwitch.isOn = self.serverConfig["use_custom_server"] == "1" ? true : false
         // Do any additional setup after loading the view.
@@ -152,6 +182,18 @@ final class ServerConfigViewController: UIViewController {
         } else {
             self.protocolSegment.selectedSegmentIndex = 0
         }
+        
+        if let rtcIp = self.serverConfig["rtc_server_ip"] {
+            self.ipField.text = rtcIp
+        }
+        
+        if let rtcDomain = self.serverConfig["rtc_server_domain"] {
+            self.verifyDomainName.text = rtcDomain
+        }
+        
+        if let appId = self.serverConfig["app_id"] {
+            self.appIDField.text = appId
+        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -187,7 +229,20 @@ extension ServerConfigViewController: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-
+        if (textField == self.ipField || textField == self.verifyDomainName || textField == self.appIDField), reason == .committed {
+            UIView.animate(withDuration: 0.2) {
+                self.view.frame.origin.y = 0
+            }
+        }
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == self.ipField || textField == self.verifyDomainName || textField == self.appIDField {
+            UIView.animate(withDuration: 0.2) {
+                self.view.frame.origin.y = -260
+            }
+        }
+        return true
     }
     
     func saveServerConfig() -> Bool {
@@ -196,6 +251,9 @@ extension ServerConfigViewController: UITextFieldDelegate {
         let chatServer = self.chatServerField.text ?? ""
         let chatPort = self.chatPortField.text ?? ""
         let restAddress = self.restServerField.text ?? ""
+        let rtcIp = self.ipField.text ?? ""
+        let rtcDomain = self.verifyDomainName.text ?? ""
+        let appId = self.appIDField.text ?? ""
         if !appkey.isEmpty {
             self.serverConfig["application"] = appkey
         } else {
@@ -227,6 +285,9 @@ extension ServerConfigViewController: UITextFieldDelegate {
 
             self.serverConfig["tls"] = self.tlsSwitch.isOn ? "1" : "0"
             self.serverConfig["is_tcp"] = self.protocolSegment.selectedSegmentIndex == 0 ? "1" : "0"
+            self.serverConfig["rtc_server_ip"] = rtcIp
+            self.serverConfig["rtc_server_domain"] = rtcDomain
+            self.serverConfig["app_id"] = appId
         }
 
         self.serverConfig["use_custom_server"] = self.customizeSwitch.isOn ? "1" : "0"
@@ -255,5 +316,13 @@ extension ServerConfigViewController: ThemeSwitchProtocol {
         self.chatServerField.textColor = self.applicationField.textColor
         self.chatPortField.textColor = self.applicationField.textColor
         self.restServerField.textColor = self.applicationField.textColor
+        self.tlsConnectionLabel.textColor(
+            style == .dark ? UIColor.theme.neutralColor98 : UIColor.theme.neutralColor1)
+        self.ipField.backgroundColor = self.applicationField.backgroundColor
+        self.ipField.textColor = self.applicationField.textColor
+        self.verifyDomainName.backgroundColor = self.applicationField.backgroundColor
+        self.verifyDomainName.textColor = self.applicationField.textColor
+        self.appIDField.backgroundColor = self.applicationField.backgroundColor
+        self.appIDField.textColor = self.applicationField.textColor
     }
 }
