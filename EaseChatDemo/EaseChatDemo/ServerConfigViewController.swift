@@ -96,7 +96,7 @@ final class ServerConfigViewController: UIViewController {
                 x: self.view.frame.width - 12 - 51, y: self.restServerField.frame.maxY + 12,
                 width: 51, height: 31))
     }()
-    
+
     private lazy var ipField: UITextField = {
         UITextField(
             frame: CGRect(
@@ -106,7 +106,7 @@ final class ServerConfigViewController: UIViewController {
             UIFont.theme.bodyLarge
         ).tag(66).delegate(self)
     }()
-    
+
     private lazy var verifyDomainName: UITextField = {
         UITextField(
             frame: CGRect(
@@ -116,7 +116,7 @@ final class ServerConfigViewController: UIViewController {
             UIFont.theme.bodyLarge
         ).tag(77).delegate(self)
     }()
-    
+
     private lazy var appIDField: UITextField = {
         UITextField(
             frame: CGRect(
@@ -127,18 +127,38 @@ final class ServerConfigViewController: UIViewController {
         ).tag(88).delegate(self)
     }()
 
+    private lazy var disableTokenValidationLabel: UILabel = {
+        UILabel(
+            frame: CGRect(x: 16, y: self.appIDField.frame.maxY + 12, width: 140, height: 22)
+        ).font(UIFont.theme.labelMedium).text("开启RTC Token验证").textColor(.black).backgroundColor(
+            .clear)
+    }()
+
+    private lazy var tokenValidationSwitch: UISwitch = {
+        UISwitch(
+            frame: CGRect(
+                x: self.disableTokenValidationLabel.frame.maxX + 12,
+                y: self.appIDField.frame.maxY + 12, width: 51, height: 31))
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.cornerRadius(Appearance.avatarRadius, [.topLeft, .topRight], .clear, 0)
         self.view.addSubViews([
             self.background, self.navigation, self.applicationField, self.customize,
             self.customizeSwitch, self.protocolSegment, self.chatServerField, self.chatPortField,
-            self.restServerField, self.tlsConnectionLabel, self.tlsSwitch,self.ipField,self.verifyDomainName,self.appIDField
+            self.restServerField, self.tlsConnectionLabel, self.tlsSwitch, self.ipField,
+            self.verifyDomainName, self.appIDField, self.disableTokenValidationLabel,
+            self.tokenValidationSwitch,
         ])
         self.customizeSwitch.isOn = self.serverConfig["use_custom_server"] == "1" ? true : false
+        self.tokenValidationSwitch.isOn =
+            (self.serverConfig["enable_rtc_token_validation"] ?? "1") == "1"
         // Do any additional setup after loading the view.
         self.customizeSwitch.addTarget(
             self, action: #selector(useCustomServer), for: .touchUpInside)
+        self.tokenValidationSwitch.addTarget(
+            self, action: #selector(tokenValidationChanged), for: .touchUpInside)
         self.navigation.clickClosure = { [weak self] in
             self?.view.endEditing(true)
             consoleLogInfo("\($1?.row ?? 0)", type: .debug)
@@ -182,17 +202,23 @@ final class ServerConfigViewController: UIViewController {
         } else {
             self.protocolSegment.selectedSegmentIndex = 0
         }
-        
+
         if let rtcIp = self.serverConfig["rtc_server_ip"] {
             self.ipField.text = rtcIp
         }
-        
+
         if let rtcDomain = self.serverConfig["rtc_server_domain"] {
             self.verifyDomainName.text = rtcDomain
         }
-        
+
         if let appId = self.serverConfig["app_id"] {
             self.appIDField.text = appId
+        }
+
+        if let enableTokenValidation = self.serverConfig["enable_rtc_token_validation"] {
+            self.tokenValidationSwitch.isOn = enableTokenValidation == "1"
+        } else {
+            self.tokenValidationSwitch.isOn = true
         }
     }
 
@@ -221,6 +247,10 @@ final class ServerConfigViewController: UIViewController {
         }
     }
 
+    @objc func tokenValidationChanged() {
+
+    }
+
 }
 
 extension ServerConfigViewController: UITextFieldDelegate {
@@ -229,22 +259,26 @@ extension ServerConfigViewController: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        if (textField == self.ipField || textField == self.verifyDomainName || textField == self.appIDField), reason == .committed {
+        if textField == self.ipField || textField == self.verifyDomainName
+            || textField == self.appIDField, reason == .committed
+        {
             UIView.animate(withDuration: 0.2) {
                 self.view.frame.origin.y = 0
             }
         }
     }
-    
+
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == self.ipField || textField == self.verifyDomainName || textField == self.appIDField {
+        if textField == self.ipField || textField == self.verifyDomainName
+            || textField == self.appIDField
+        {
             UIView.animate(withDuration: 0.2) {
                 self.view.frame.origin.y = -260
             }
         }
         return true
     }
-    
+
     func saveServerConfig() -> Bool {
         self.view.endEditing(true)
         let appkey = self.applicationField.text ?? ""
@@ -291,6 +325,8 @@ extension ServerConfigViewController: UITextFieldDelegate {
         }
 
         self.serverConfig["use_custom_server"] = self.customizeSwitch.isOn ? "1" : "0"
+        self.serverConfig["enable_rtc_token_validation"] =
+            self.tokenValidationSwitch.isOn ? "1" : "0"
         return true
 
     }

@@ -11,6 +11,8 @@ import HyphenateChat
 import SwiftFFDBHotFix
 import UIKit
 import UserNotifications
+import AgoraRtcKit
+import PhotosUI
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -114,7 +116,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setupEaseChatUIKitConfig() {
-        
+
         //Set the theme of the chat demo UI.
         if self.theme == 0 {
             Appearance.avatarRadius = .extraSmall
@@ -177,12 +179,16 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         config.enablePIPOn1V1VideoScene = true
         if let appId = self.serverConfig["app_id"], !appId.isEmpty {
             CallKitManager.shared.appID = appId
+        }
+        if let enableRTCToken = self.serverConfig["enable_rtc_token_validation"] {
+            config.disableRTCTokenValidation = enableRTCToken != "1"
         } else {
-            CallKitManager.shared.appID = "a39441760abc40e2adb99cd8d82315da"
+            config.disableRTCTokenValidation = false
         }
         CallAppearance.backgroundImage = UIImage(named: callBackgroundImageName)
+        CallKitManager.shared.addListener(self)
         CallKitManager.shared.setup(config)
-        CallKitManager.shared.appID = "884c386fd14344df92da8c001db8afe7"
+        
     }
 
     // MARK: UISceneSession Lifecycle
@@ -347,23 +353,25 @@ extension AppDelegate: UserStateChangedListener {
                 error in
 
             })
-            if let groups = ChatClient.shared().groupManager?.getJoinedGroups() {
-                var profiles = [EaseChatProfile]()
-                for group in groups {
-                    let profile = EaseChatProfile()
-                    profile.id = group.groupId
-                    profile.nickname = group.groupName
-                    profile.avatarURL = group.settings.ext
-                    profile.modifyTime = Int64(Date().timeIntervalSince1970 * 1000)
-                    profiles.append(profile)
-                    profile.insert()
+            DispatchQueue.global().async {
+                if let groups = ChatClient.shared().groupManager?.getJoinedGroups() {
+                    var profiles = [EaseChatProfile]()
+                    for group in groups {
+                        let profile = EaseChatProfile()
+                        profile.id = group.groupId
+                        profile.nickname = group.groupName
+                        profile.avatarURL = group.settings.ext
+                        profile.modifyTime = Int64(Date().timeIntervalSince1970 * 1000)
+                        profiles.append(profile)
+                        profile.insert()
+                    }
+                    ChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
                 }
-                ChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
-            }
-            if let users = ChatUIKitContext.shared?.userCache {
-                for user in users.values {
-                    ChatUIKitContext.shared?.userCache?[user.id]?.remark =
-                        ChatClient.shared().contactManager?.getContact(user.id)?.remark ?? ""
+                if let users = ChatUIKitContext.shared?.userCache {
+                    for user in users.values {
+                        ChatUIKitContext.shared?.userCache?[user.id]?.remark =
+                            ChatClient.shared().contactManager?.getContact(user.id)?.remark ?? ""
+                    }
                 }
             }
             NotificationCenter.default.post(
@@ -371,4 +379,120 @@ extension AppDelegate: UserStateChangedListener {
         }
     }
 
+}
+//MARK: - EaseCallDelegate
+extension AppDelegate: CallServiceListener {
+    
+    func didOccurError(error: CallError) {
+        DispatchQueue.main.async {
+            UIViewController.currentController?.showToast(toast: "Occur error:\(error.errorMessage) on module:\(error.module.rawValue)")
+        }
+        switch error {
+        case .im(.invalidURL):
+            print("Invalid URL")
+        case .rtc(.invalidToken):
+            print("Invalid Token")
+        case .business(.state):
+            print("State error")
+        case .business(.param):
+            print("Param error")
+        default:
+            // 注意这里要通过 error.error.message 访问
+            print("Other error: \(error.error.message)")
+        }
+//        switch error.module {//OC use case
+//        case .im:
+//            switch error.getIMError() {
+//            case .invalidURL:
+//                print("")
+//            default:
+//                break
+//            }
+//        case .rtc:
+//            switch error.getRTCError() {
+//            case .invalidToken:
+//                print("")
+//            default:
+//                break
+//            }
+//        case .business:
+//            switch error.getCallBusinessError() {
+//            case .state:
+//                print("")
+//            case .param:
+//                print("")
+//            case .signaling:
+//                print("")
+//            default:
+//                break
+//            }
+//        default:
+//            break
+//        }
+    }
+        
+    func didUpdateCallEndReason(reason: CallEndReason, info: CallInfo) {
+        print("didUpdateCallEndReason: \(String(describing: info.inviteMessageId))")
+        NotificationCenter.default.post(name: Notification.Name("didUpdateCallEndReason"), object: info.inviteMessageId)
+        
+    }
+    
+    func remoteUserDidJoined(userId: String, uid: UInt, channelName: String, type: CallType) {
+        
+    }
+    
+    func remoteUserDidLeft(userId: String, uid: UInt, channelName: String, type: CallType) {
+        
+    }
+    
+    func onReceivedCall(callType: CallType, userId: String, extensionInfo: [String : Any]?) {
+        if let controller = UIViewController.currentController,(controller is DialogContainerViewController || controller is AlertViewController || controller is PageContainersDialogController) || controller is ContactViewController {
+            //正在通话中或者呼叫中  dismiss跳出来的模态弹窗
+            controller.dismiss(animated: false)
+            AudioTools.shared.stopRecording()
+            AudioTools.shared.stopPlaying()
+            return
+        }
+        self.dismissPickerControllers()
+    }
+    
+    func onRtcEngineCreated(engine: AgoraRtcEngineKit) {
+        if let ipList = self.serverConfig["rtc_server_ip"],let verifyDomainName = self.serverConfig["rtc_server_domain"],!ipList.isEmpty,!verifyDomainName.isEmpty {
+            let config = AgoraLocalAccessPointConfiguration()
+            config.ipList = [ipList]
+            config.verifyDomainName = verifyDomainName
+            config.mode = .localOnly
+            engine.setLocalAccessPoint(withConfig: config)
+        }
+    }
+    
+    func dismissPickerControllers() {
+        // 获取当前最顶层的视图控制器
+        if let topController = getTopViewController() {
+            // 检查是否是指定类型的控制器
+            if topController is UIImagePickerController ||
+                topController is UIDocumentPickerViewController || topController is PHPickerViewController {
+                topController.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+
+    // 获取最顶层视图控制器的辅助方法
+    func getTopViewController() -> UIViewController? {
+        // 获取 key window
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first(where: { $0.isKeyWindow }) else {
+            return nil
+        }
+        
+        var topController = window.rootViewController
+        
+        // 遍历 presented 视图控制器链
+        while let presentedViewController = topController?.presentedViewController {
+            topController = presentedViewController
+        }
+        
+        return topController
+    }
+    
 }

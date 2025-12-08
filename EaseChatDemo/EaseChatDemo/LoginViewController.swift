@@ -358,21 +358,23 @@ extension LoginViewController: UITextFieldDelegate {
     
     private func fillCache() {
 
-        if let groups = ChatClient.shared().groupManager?.getJoinedGroups() {
-            var profiles = [EaseChatProfile]()
-            for group in groups {
-                let profile = EaseChatProfile()
-                profile.id = group.groupId
-                profile.nickname = group.groupName
-                profile.avatarURL = group.settings.ext
-                profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
-                profiles.append(profile)
+        DispatchQueue.global().async {
+            if let groups = ChatClient.shared().groupManager?.getJoinedGroups() {
+                var profiles = [EaseChatProfile]()
+                for group in groups {
+                    let profile = EaseChatProfile()
+                    profile.id = group.groupId
+                    profile.nickname = group.groupName
+                    profile.avatarURL = group.settings.ext
+                    profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
+                    profiles.append(profile)
+                }
+                ChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
             }
-            ChatUIKitContext.shared?.updateCaches(type: .group, profiles: profiles)
-        }
-        if let users = ChatUIKitContext.shared?.userCache {
-            for user in users.values {
-                ChatUIKitContext.shared?.userCache?[user.id]?.remark = ChatClient.shared().contactManager?.getContact(user.id)?.remark ?? ""
+            if let users = ChatUIKitContext.shared?.userCache {
+                for user in users.values {
+                    ChatUIKitContext.shared?.userCache?[user.id]?.remark = ChatClient.shared().contactManager?.getContact(user.id)?.remark ?? ""
+                }
             }
         }
     }
