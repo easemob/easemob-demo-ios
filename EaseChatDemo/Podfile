@@ -6,11 +6,13 @@ target 'EaseChatDemo' do
   use_frameworks!
 
   # Pods for EaseChatDemo
-  pod 'EaseChatUIKit','4.16.1'
-  pod 'EaseCallUIKit','4.17.0'
+  pod 'EaseChatUIKit','4.18.0'
+  pod 'EaseCallUIKit','4.18.1'
   pod 'KakaJSON', '~> 1.1.2'
   pod 'SwiftFFDBHotFix'
   pod 'FMDB','2.7.11'
+  pod 'HyphenateChat','4.18.1'
+
 #  #如果HyphenateChat使用4.11.0版本需要下面pre_install这个脚本，否则不需要
 #  pre_install do |installer|
 #    # 定义 HypheanteChat framework 的路径
