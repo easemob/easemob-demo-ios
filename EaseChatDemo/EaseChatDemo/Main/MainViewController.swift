@@ -9,7 +9,7 @@ import UIKit
 import EaseChatUIKit
 import EaseCallUIKit
 import SwiftFFDBHotFix
-import PhotosUI
+import AgoraRtcKit
 
 final class MainViewController: UITabBarController {
     
@@ -73,7 +73,6 @@ final class MainViewController: UITabBarController {
             CallKitManager.shared.currentUserInfo = profile
         }
         CallKitManager.shared.profileProvider = self
-        CallKitManager.shared.addListener(self)
     }
 
     private func loadViewControllers() {
@@ -292,112 +291,7 @@ extension MainViewController: ContactEmergencyListener {
     }
 }
 
-//MARK: - EaseCallDelegate
-extension MainViewController: CallServiceListener {
-    
-    func didOccurError(error: CallError) {
-        DispatchQueue.main.async {
-            self.showToast(toast: "Occur error:\(error.errorMessage) on module:\(error.module.rawValue)")
-        }
-        switch error {
-        case .im(.invalidURL):
-            print("Invalid URL")
-        case .rtc(.invalidToken):
-            print("Invalid Token")
-        case .business(.state):
-            print("State error")
-        case .business(.param):
-            print("Param error")
-        default:
-            // 注意这里要通过 error.error.message 访问
-            print("Other error: \(error.error.message)")
-        }
-//        switch error.module {//OC use case
-//        case .im:
-//            switch error.getIMError() {
-//            case .invalidURL:
-//                print("")
-//            default:
-//                break
-//            }
-//        case .rtc:
-//            switch error.getRTCError() {
-//            case .invalidToken:
-//                print("")
-//            default:
-//                break
-//            }
-//        case .business:
-//            switch error.getCallBusinessError() {
-//            case .state:
-//                print("")
-//            case .param:
-//                print("")
-//            case .signaling:
-//                print("")
-//            default:
-//                break
-//            }
-//        default:
-//            break
-//        }
-    }
-        
-    func didUpdateCallEndReason(reason: CallEndReason, info: CallInfo) {
-        print("didUpdateCallEndReason: \(String(describing: info.inviteMessageId))")
-        NotificationCenter.default.post(name: Notification.Name("didUpdateCallEndReason"), object: info.inviteMessageId)
-        
-    }
-    
-    func remoteUserDidJoined(userId: String, uid: UInt, channelName: String, type: CallType) {
-        
-    }
-    
-    func remoteUserDidLeft(userId: String, uid: UInt, channelName: String, type: CallType) {
-        
-    }
-    
-    func onReceivedCall(callType: CallType, userId: String, extensionInfo: [String : Any]?) {
-        if let controller = UIViewController.currentController,(controller is DialogContainerViewController || controller is AlertViewController || controller is PageContainersDialogController) || controller is ContactViewController {
-            //正在通话中或者呼叫中  dismiss跳出来的模态弹窗
-            controller.dismiss(animated: false)
-            AudioTools.shared.stopRecording()
-            AudioTools.shared.stopPlaying()
-            return
-        }
-        self.dismissPickerControllers()
-    }
-    
-    func dismissPickerControllers() {
-        // 获取当前最顶层的视图控制器
-        if let topController = getTopViewController() {
-            // 检查是否是指定类型的控制器
-            if topController is UIImagePickerController ||
-                topController is UIDocumentPickerViewController || topController is PHPickerViewController {
-                topController.dismiss(animated: true, completion: nil)
-            }
-        }
-    }
 
-    // 获取最顶层视图控制器的辅助方法
-    func getTopViewController() -> UIViewController? {
-        // 获取 key window
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first(where: { $0.isKeyWindow }) else {
-            return nil
-        }
-        
-        var topController = window.rootViewController
-        
-        // 遍历 presented 视图控制器链
-        while let presentedViewController = topController?.presentedViewController {
-            topController = presentedViewController
-        }
-        
-        return topController
-    }
-    
-}
 
 extension MainViewController: CallUserProfileProvider {
     func fetchGroupProfiles(profileIds: [String]) async -> [any EaseCallUIKit.CallProfileProtocol] {

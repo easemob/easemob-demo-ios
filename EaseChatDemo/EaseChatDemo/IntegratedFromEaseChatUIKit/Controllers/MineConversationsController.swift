@@ -223,14 +223,16 @@ final class MineConversationsController: ConversationListController {
     }
     
     private func previewRequestContact() {
-        let contacts = ChatClient.shared().contactManager?.getContacts() ?? []
-        let loadFinish = UserDefaults.standard.bool(forKey: "EaseChatUIKit_contact_fetch_server_finished"+saveIdentifier)
-        if !loadFinish,contacts.count <= 0 {
-            ChatClient.shared().contactManager?.getContactsFromServer(completion: { users, error in
-                if error == nil {
-                    UserDefaults.standard.set(true, forKey: "EaseChatUIKit_contact_fetch_server_finished"+saveIdentifier)
-                }
-            })
+        DispatchQueue.global().async {
+            let contacts = ChatClient.shared().contactManager?.getContacts() ?? []
+            let loadFinish = UserDefaults.standard.bool(forKey: "EaseChatUIKit_contact_fetch_server_finished"+saveIdentifier)
+            if !loadFinish,contacts.count <= 0 {
+                ChatClient.shared().contactManager?.getContactsFromServer(completion: { users, error in
+                    if error == nil {
+                        UserDefaults.standard.set(true, forKey: "EaseChatUIKit_contact_fetch_server_finished"+saveIdentifier)
+                    }
+                })
+            }
         }
     }
     
