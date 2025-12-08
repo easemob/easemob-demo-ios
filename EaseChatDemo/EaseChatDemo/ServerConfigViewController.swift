@@ -27,7 +27,7 @@ final class ServerConfigViewController: UIViewController {
         UITextField(
             frame: CGRect(
                 x: 16, y: self.navigation.frame.maxY + 12, width: self.view.frame.width - 32,
-                height: 48)
+                height: 30)
         ).cornerRadius(Appearance.avatarRadius).placeholder("请输入App Key").font(
             UIFont.theme.bodyLarge
         ).tag(11).delegate(self)
@@ -59,7 +59,7 @@ final class ServerConfigViewController: UIViewController {
         UITextField(
             frame: CGRect(
                 x: 16, y: self.protocolSegment.frame.maxY + 12, width: self.view.frame.width - 32,
-                height: 48)
+                height: 30)
         ).cornerRadius(Appearance.avatarRadius).placeholder("请输入IM服务器IP地址").font(
             UIFont.theme.bodyLarge
         ).tag(33).delegate(self)
@@ -69,7 +69,7 @@ final class ServerConfigViewController: UIViewController {
         UITextField(
             frame: CGRect(
                 x: 16, y: self.chatServerField.frame.maxY + 12, width: self.view.frame.width - 32,
-                height: 48)
+                height: 30)
         ).cornerRadius(Appearance.avatarRadius).placeholder("请输入IM服务器IP端口号").font(
             UIFont.theme.bodyLarge
         ).tag(44).delegate(self)
@@ -79,7 +79,7 @@ final class ServerConfigViewController: UIViewController {
         UITextField(
             frame: CGRect(
                 x: 16, y: self.chatPortField.frame.maxY + 12, width: self.view.frame.width - 32,
-                height: 48)
+                height: 30)
         ).cornerRadius(Appearance.avatarRadius).placeholder("请输入服务器地址").font(UIFont.theme.bodyLarge)
             .tag(55).delegate(self)
     }()
@@ -101,7 +101,7 @@ final class ServerConfigViewController: UIViewController {
         UITextField(
             frame: CGRect(
                 x: 16, y: self.tlsSwitch.frame.maxY + 12, width: self.view.frame.width - 32,
-                height: 48)
+                height: 30)
         ).cornerRadius(Appearance.avatarRadius).placeholder("请输入RTC服务器IP地址").font(
             UIFont.theme.bodyLarge
         ).tag(66).delegate(self)
@@ -111,7 +111,7 @@ final class ServerConfigViewController: UIViewController {
         UITextField(
             frame: CGRect(
                 x: 16, y: self.ipField.frame.maxY + 12, width: self.view.frame.width - 32,
-                height: 48)
+                height: 30)
         ).cornerRadius(Appearance.avatarRadius).placeholder("请输入RTC服务器域名").font(
             UIFont.theme.bodyLarge
         ).tag(77).delegate(self)
@@ -121,7 +121,7 @@ final class ServerConfigViewController: UIViewController {
         UITextField(
             frame: CGRect(
                 x: 16, y: self.verifyDomainName.frame.maxY + 12, width: self.view.frame.width - 32,
-                height: 48)
+                height: 30)
         ).cornerRadius(Appearance.avatarRadius).placeholder("请输入App ID").font(
             UIFont.theme.bodyLarge
         ).tag(88).delegate(self)
