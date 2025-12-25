@@ -45,7 +45,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         // Override point for customization after application launch.
         self.setupEaseChatUIKit()
-        self.setupCallKit()
+//        self.setupCallKit()
         self.setupEaseChatUIKitConfig()
         self.registerRemoteNotification()
         return true
@@ -160,7 +160,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             Appearance.chat.contentStyle.append(.withMessageReaction)
         }
         //Notice: - Feature identify can't changed, it's used to identify feature action.
-
+        Appearance.conversation.listMoreActions.append(ActionSheetItem(title: "AI Chat".chat.localize, type: .normal, tag: "AIChat", image: UIImage(named: "ai-chat")?.withTintColor(.systemBlue)))
         //Register custom components(注册Demo中继承EaseChatUIKit中类替换EaseChatUIKit中的父类)
         ComponentsRegister.shared.Conversation = MineConversationInfo.self
         ComponentsRegister.shared.ConversationsController = MineConversationsController.self
@@ -168,7 +168,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         ComponentsRegister.shared.MessageViewController = MineMessageListViewController.self
         ComponentsRegister.shared.ContactInfoController = MineContactDetailViewController.self
         ComponentsRegister.shared.GroupInfoController = MineGroupDetailViewController.self
-        ComponentsRegister.shared.MessageRenderEntity = MineMessageEntity.self
+        ComponentsRegister.shared.MessageRenderEntity = EaseChatDemo.MineMessageEntity.self
         ComponentsRegister.shared.ThreadViewModel = MineChatThreadViewModel.self
         ComponentsRegister.shared.MessagesViewModel = MineMessageListViewModel.self
     }
@@ -446,6 +446,8 @@ extension AppDelegate: CallServiceListener {
     }
     
     func onReceivedCall(callType: CallType, userId: String, extensionInfo: [String : Any]?) {
+        CallKitManager.shared.checkCameraPermission()
+        CallKitManager.shared.checkMicrophonePermission()
         if let controller = UIViewController.currentController,(controller is DialogContainerViewController || controller is AlertViewController || controller is PageContainersDialogController) || controller is ContactViewController {
             //正在通话中或者呼叫中  dismiss跳出来的模态弹窗
             controller.dismiss(animated: false)

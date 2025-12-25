@@ -14,7 +14,7 @@
 "Deregister" = "注销";
 "Deregister Alert" = "注销后账户不可恢复，您将无法使用本账户添加、发送任何消息。本账户所记录的个人信息(包括不限于头像、用户名等)、与账户有关的信息数据(包括不限于联系人、创建的会话、会话详情等)都将无法找回。";
 "Get Code" = "获取验证码";
-"Service" = "《环信服务条款》";
+"Service" = "《服务条款》";
 "Setting" = "设置";
 "Privacy Policy" = "《环信隐私协议》";
 "Mobile Number" = "手机号";
@@ -157,3 +157,8 @@
 "multiCall" = "群组通话";
 "The other party canceled the call" = "对方已取消";
 "CallBackground" = "通话背景";
+
+"Privacy Policy" = "隐私政策";
+"Information Shared with Third Partes" = "三方信息数据共享";
+"Personal Information Collected" = "个人信息收集清单";
+"ICP" = "备案号";

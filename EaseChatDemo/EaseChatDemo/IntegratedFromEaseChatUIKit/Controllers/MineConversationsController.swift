@@ -48,6 +48,36 @@ final class MineConversationsController: ConversationListController {
         }
     }
     
+    override func rightActions(indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            DialogManager.shared.showActions(actions: Appearance.conversation.listMoreActions) { item in
+                switch item.tag {
+                case "SelectContacts": self.selectContact()
+                case "AddContact": self.addContact()
+                case "CreateGroup": self.createGroup()
+                case "AIChat": self.chatToAI()
+                default:
+                    break
+                }
+            }
+        default:
+            break
+        }
+        
+    }
+    
+    private func chatToAI() {
+        let bot = AIChatBotProfile()
+        bot.botId = "lxm"
+        bot.botName = "lxm Chat Bot"
+        bot.botDescription = "测试流式消息"
+        bot.botIcon = "https://download-sdk.oss-cn-beijing.aliyuncs.com/downloads/IMDemo/avatar/Image1.png"
+        let aiChatVC = AIChatViewController(bot: bot)
+        aiChatVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(aiChatVC, animated: true)
+    }
+    
     private func listenToUserStatus() {
         PresenceManager.shared.addHandler(handler: self)
     }

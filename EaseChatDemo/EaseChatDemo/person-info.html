@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>个人信息收集清单</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px 8px;
+            text-align: left;
+            vertical-align: middle;
+            word-wrap: break-word;
+        }
+
+        th {
+            background-color: #f8f8f8;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+        }
+
+        td:first-child,
+        th:first-child {
+            min-width: 60px;
+        }
+
+        td {
+            color: #666;
+        }
+
+        .avatar-cell {
+            text-align: center;
+            padding: 8px;
+        }
+
+        .avatar-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: inline-block;
+        }
+
+        .default-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .info-content {
+            word-break: break-all;
+        }
+
+        .empty-data {
+            color: #999;
+            font-style: italic;
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 10px 6px;
+            }
+
+            .avatar-img,
+            .default-avatar {
+                width: 50px;
+                height: 50px;
+            }
+
+            .default-avatar {
+                font-size: 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            table {
+                font-size: 12px;
+            }
+
+            th,
+            td {
+                padding: 8px 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>信息名称</th>
+                        <th>使用目的</th>
+                        <th>使用场景</th>
+                        <th>收集情况</th>
+                        <th>信息内容</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>昵称/用户名</td>
+                        <td>用于完善网络身份标识</td>
+                        <td>用户注册、登录</td>
+                        <td id="username-count">用户提供，已收集0条</td>
+                        <td class="info-content" id="username">-</td>
+                    </tr>
+                    <tr>
+                        <td>头像</td>
+                        <td>用于展示头像信息</td>
+                        <td>用户个人信息/聊天房/直播间等页面信息展示</td>
+                        <td id="avatar-count">用户提供，已收集0条</td>
+                        <td class="avatar-cell" id="avatar-cell">
+                            <div class="default-avatar" id="avatar-default">?</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>手机号码</td>
+                        <td>用于注册创建账号和登录</td>
+                        <td>用户注册、登录及实名认证</td>
+                        <td id="phone-count">用户提供，已收集0条</td>
+                        <td class="info-content" id="phone">-</td>
+                    </tr>
+                    <tr>
+                        <td>行为日志</td>
+                        <td>记录用户功能使用偏好</td>
+                        <td>功能打点上报</td>
+                        <td>用户提供，已收集0条</td>
+                        <td class="info-content empty-data"></td>
+                    </tr>
+                    <tr>
+                        <td>设备型号和名称</td>
+                        <td>用于兼容性判断和安全保障等功能</td>
+                        <td>使用APP过程中</td>
+                        <td id="device-count">用户提供，已收集0条</td>
+                        <td class="info-content" id="device">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // 暴露一个全局函数供 iOS 原生调用注入数据
+        window.injectUserPrivacyData = function(data) {
+            // data 预期格式：
+            // {
+            //   username: "张三",        // 或 nickname
+            //   avatar: "https://example.com/avatar.jpg",
+            //   phone: "13800138000",
+            //   device: "iPhone 15 Pro · iOS 18.1"
+            // }
+
+            const username = data.username || data.nickname || '';
+            const avatar = data.avatar || '';
+            const phone = data.phone || '';
+            const device = data.device || '';
+
+            // 填充昵称/用户名
+            if (username) {
+                document.getElementById('username').textContent = username;
+                document.getElementById('username-count').textContent = '用户提供，已收集1条';
+
+                // 更新默认头像的首字母
+                const defaultAvatar = document.getElementById('avatar-default');
+                if (defaultAvatar) {
+                    defaultAvatar.textContent = username.charAt(0).toUpperCase();
+                }
+            }
+
+            // 填充头像
+            if (avatar) {
+                document.getElementById('avatar-count').textContent = '用户提供，已收集1条';
+                const avatarCell = document.getElementById('avatar-cell');
+                // 插入 img，并保留默认头像作为 fallback
+                avatarCell.innerHTML = `
+                    <img src="${avatar}" alt="用户头像" class="avatar-img" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                    <div class="default-avatar" style="display:none;">${username ? username.charAt(0).toUpperCase() : '?'}</div>
+                `;
+            }
+
+            // 填充手机号码（脱敏）
+            if (phone) {
+                const maskedPhone = phone.length === 11
+                    ? phone.substring(0, 3) + '****' + phone.substring(7)
+                    : phone;
+                document.getElementById('phone').textContent = maskedPhone;
+                document.getElementById('phone-count').textContent = '用户提供，已收集1条';
+            }
+
+            // 填充设备型号和名称
+            if (device) {
+                document.getElementById('device').textContent = device;
+                document.getElementById('device-count').textContent = '用户提供，已收集1条';
+            }
+        };
+
+        // 可选：页面加载时如果需要初始化默认头像首字母（如果有默认用户名）
+        // 这里不做处理，等待 inject 调用
+    </script>
+</body>
+
+</html>

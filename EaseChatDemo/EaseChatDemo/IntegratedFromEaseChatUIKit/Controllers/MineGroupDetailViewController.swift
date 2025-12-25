@@ -65,6 +65,8 @@ final class MineGroupDetailViewController: GroupInfoViewController {
     }
     
     private func groupCall() {
+        CallKitManager.shared.checkCameraPermission()
+        CallKitManager.shared.checkMicrophonePermission()
         self.startGroupCall()
     }
 

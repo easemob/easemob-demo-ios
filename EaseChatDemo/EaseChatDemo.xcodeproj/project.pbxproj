@@ -30,6 +30,7 @@
 		057227662B9802DC00AA866D /* AboutEasemobCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227652B9802DC00AA866D /* AboutEasemobCell.swift */; };
 		057227682B98393500AA866D /* ServerConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227672B98393500AA866D /* ServerConfigViewController.swift */; };
 		0572276A2B987C4600AA866D /* PersonalInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057227692B987C4600AA866D /* PersonalInfoCell.swift */; };
+		05756B582EEA7415005F8AAE /* CommonWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05756B572EEA7415005F8AAE /* CommonWebViewController.swift */; };
 		059BEEEC2BABDC96004C7380 /* GradientSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059BEEEB2BABDC96004C7380 /* GradientSlider.swift */; };
 		05A7EF1E2BDB8B3D00473D52 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 05A7EF1D2BDB8B3700473D52 /* PrivacyInfo.xcprivacy */; };
 		05A9415D2BAA700000C71A74 /* MineContactRemarkEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */; };
@@ -68,10 +69,11 @@
 		05E5A1C72B9997FC00955DD1 /* DemoLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C62B9997FC00955DD1 /* DemoLanguage.swift */; };
 		05E5A1C92B99A8C200955DD1 /* ColorSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E5A1C82B99A8C200955DD1 /* ColorSettingViewController.swift */; };
 		05E831AE2CEDCEFC00C527EA /* BalooTamma-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05E831AD2CEDCEFC00C527EA /* BalooTamma-Regular.ttf */; };
+		05FAF2B72EF1583400B7F56E /* person-info.html in Resources */ = {isa = PBXBuildFile; fileRef = 05FAF2B62EF1583400B7F56E /* person-info.html */; };
 		05FE6C2A2B9A9F160030A983 /* ThemesSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FE6C292B9A9F160030A983 /* ThemesSettingViewController.swift */; };
 		05FE6C2C2B9AADD00030A983 /* ColorHueSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */; };
 		C00458792DEFF77800A0FBBD /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = C00458782DEFF77800A0FBBD /* Config.plist */; };
-		C4459C57463963DE809CB15A /* Pods_EaseChatDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52296E4D561A746F13103874 /* Pods_EaseChatDemo.framework */; };
+		CA2A158F7FDF2AD13A592148 /* Pods_EaseChatDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC7D18B2AA31BFE05D118ADA /* Pods_EaseChatDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +124,7 @@
 		057227652B9802DC00AA866D /* AboutEasemobCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutEasemobCell.swift; sourceTree = "<group>"; };
 		057227672B98393500AA866D /* ServerConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfigViewController.swift; sourceTree = "<group>"; };
 		057227692B987C4600AA866D /* PersonalInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoCell.swift; sourceTree = "<group>"; };
+		05756B572EEA7415005F8AAE /* CommonWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebViewController.swift; sourceTree = "<group>"; };
 		059BEEEB2BABDC96004C7380 /* GradientSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientSlider.swift; sourceTree = "<group>"; };
 		05A7EF1D2BDB8B3700473D52 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		05A9415C2BAA700000C71A74 /* MineContactRemarkEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContactRemarkEditViewController.swift; sourceTree = "<group>"; };
@@ -168,23 +171,38 @@
 		05E5A1C82B99A8C200955DD1 /* ColorSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSettingViewController.swift; sourceTree = "<group>"; };
 		05E831AD2CEDCEFC00C527EA /* BalooTamma-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BalooTamma-Regular.ttf"; sourceTree = "<group>"; };
 		05EAF26A2BB2650B00D905F4 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Pods/FMDB/privacy/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		05FAF2B62EF1583400B7F56E /* person-info.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "person-info.html"; sourceTree = "<group>"; };
 		05FE6C292B9A9F160030A983 /* ThemesSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesSettingViewController.swift; sourceTree = "<group>"; };
 		05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHueSettingCell.swift; sourceTree = "<group>"; };
-		52296E4D561A746F13103874 /* Pods_EaseChatDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseChatDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEA7C6DED4C4F4A662BE5BBD /* Pods-EaseChatDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseChatDemo.release.xcconfig"; path = "Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo.release.xcconfig"; sourceTree = "<group>"; };
+		1771B88A5DA2D3168C3039A3 /* Pods-EaseChatDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseChatDemo.release.xcconfig"; path = "Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo.release.xcconfig"; sourceTree = "<group>"; };
+		9B38F4753F4BED0BA45ED18F /* Pods-EaseChatDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseChatDemo.debug.xcconfig"; path = "Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		C00458782DEFF77800A0FBBD /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
-		FBAD9654D9F80811528E34F0 /* Pods-EaseChatDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseChatDemo.debug.xcconfig"; path = "Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		EC7D18B2AA31BFE05D118ADA /* Pods_EaseChatDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseChatDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0543BC772EFCC95200FC63AD /* AIChat */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = AIChat;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		05B7C1E82B96AC3200DA0F8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4459C57463963DE809CB15A /* Pods_EaseChatDemo.framework in Frameworks */,
 				05CF13182BA7D55E0026595C /* CloudKit.framework in Frameworks */,
 				05CF131C2BA7D56E0026595C /* CFNetwork.framework in Frameworks */,
 				05CF131A2BA7D5670026595C /* Accounts.framework in Frameworks */,
+				CA2A158F7FDF2AD13A592148 /* Pods_EaseChatDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +259,7 @@
 				053C98812C0E9D0A00F546C8 /* PrivacySettingViewController.swift */,
 				0506DBF82CB7D67900E0EEA8 /* ShowMenuStyleViewController.swift */,
 				05D55E4D2E7A883D003CDB52 /* CallBackgroundSettingController.swift */,
+				05756B572EEA7415005F8AAE /* CommonWebViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -302,6 +321,7 @@
 		05B7C1ED2B96AC3200DA0F8F /* EaseChatDemo */ = {
 			isa = PBXGroup;
 			children = (
+				0543BC772EFCC95200FC63AD /* AIChat */,
 				05CF13162BA7D4EB0026595C /* EaseChatDemo.entitlements */,
 				0544D43C2C3BC24000E36B08 /* PhotoBrowser */,
 				0518E5AA2BA15B3F00EA7D7B /* IntegratedFromEaseChatUIKit */,
@@ -316,6 +336,7 @@
 				05B7C20A2B96BB5300DA0F8F /* Localizable.strings */,
 				05B7C1F42B96AC3200DA0F8F /* Main.storyboard */,
 				05B7C1F72B96AC3300DA0F8F /* Assets.xcassets */,
+				05FAF2B62EF1583400B7F56E /* person-info.html */,
 				05B7C1F92B96AC3300DA0F8F /* LaunchScreen.storyboard */,
 				05B7C1FC2B96AC3300DA0F8F /* Info.plist */,
 				05E831AD2CEDCEFC00C527EA /* BalooTamma-Regular.ttf */,
@@ -407,7 +428,7 @@
 				05CF131B2BA7D56E0026595C /* CFNetwork.framework */,
 				05CF13192BA7D5670026595C /* Accounts.framework */,
 				05CF13172BA7D55E0026595C /* CloudKit.framework */,
-				52296E4D561A746F13103874 /* Pods_EaseChatDemo.framework */,
+				EC7D18B2AA31BFE05D118ADA /* Pods_EaseChatDemo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -415,8 +436,8 @@
 		F0190ED9AEEEC02D795E722F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FBAD9654D9F80811528E34F0 /* Pods-EaseChatDemo.debug.xcconfig */,
-				BEA7C6DED4C4F4A662BE5BBD /* Pods-EaseChatDemo.release.xcconfig */,
+				9B38F4753F4BED0BA45ED18F /* Pods-EaseChatDemo.debug.xcconfig */,
+				1771B88A5DA2D3168C3039A3 /* Pods-EaseChatDemo.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -428,18 +449,21 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 05B7C1FF2B96AC3300DA0F8F /* Build configuration list for PBXNativeTarget "EaseChatDemo" */;
 			buildPhases = (
-				516118A26EF2DE250014EE0D /* [CP] Check Pods Manifest.lock */,
+				61F85A2C8DA329A03020EBA3 /* [CP] Check Pods Manifest.lock */,
 				05B7C1E72B96AC3200DA0F8F /* Sources */,
 				05B7C1E82B96AC3200DA0F8F /* Frameworks */,
 				05B7C1E92B96AC3200DA0F8F /* Resources */,
-				204A598C89513C3533DA05E3 /* [CP] Embed Pods Frameworks */,
 				05CF132C2BA7DBF10026595C /* Embed Foundation Extensions */,
-				482C7718D49F88B92CC7AD94 /* [CP] Copy Pods Resources */,
+				9BCDC79E7C9076DA208FCAFC /* [CP] Embed Pods Frameworks */,
+				B8E87DB04627D74729A5A94E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				05CF13272BA7DBF10026595C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0543BC772EFCC95200FC63AD /* AIChat */,
 			);
 			name = EaseChatDemo;
 			productName = EaseChatDemo;
@@ -510,6 +534,7 @@
 				05B7C2082B96BB5300DA0F8F /* Localizable.strings in Resources */,
 				05E831AE2CEDCEFC00C527EA /* BalooTamma-Regular.ttf in Resources */,
 				05B7C1F82B96AC3300DA0F8F /* Assets.xcassets in Resources */,
+				05FAF2B72EF1583400B7F56E /* person-info.html in Resources */,
 				C00458792DEFF77800A0FBBD /* Config.plist in Resources */,
 				05B7C1F62B96AC3200DA0F8F /* Main.storyboard in Resources */,
 			);
@@ -526,41 +551,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		204A598C89513C3533DA05E3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		482C7718D49F88B92CC7AD94 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		516118A26EF2DE250014EE0D /* [CP] Check Pods Manifest.lock */ = {
+		61F85A2C8DA329A03020EBA3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -580,6 +571,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9BCDC79E7C9076DA208FCAFC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B8E87DB04627D74729A5A94E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -635,6 +660,7 @@
 				057227682B98393500AA866D /* ServerConfigViewController.swift in Sources */,
 				054B3A872E54234D006AD8A6 /* MineConversationInfo.swift in Sources */,
 				053953B22C1142BD0068981C /* PresenceManager.swift in Sources */,
+				05756B582EEA7415005F8AAE /* CommonWebViewController.swift in Sources */,
 				0518E5AD2BA15B8300EA7D7B /* MineConversationsController.swift in Sources */,
 				0551FFA42B9FE4C000FF3294 /* NotificationSettingViewController.swift in Sources */,
 				0544D4432C3BC2C000E36B08 /* MineMessageEntity.swift in Sources */,
@@ -815,7 +841,7 @@
 		};
 		05B7C2002B96AC3300DA0F8F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FBAD9654D9F80811528E34F0 /* Pods-EaseChatDemo.debug.xcconfig */;
+			baseConfigurationReference = 9B38F4753F4BED0BA45ED18F /* Pods-EaseChatDemo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -823,7 +849,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -839,12 +865,12 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.16.0;
+				MARKETING_VERSION = 4.18.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -859,7 +885,7 @@
 		};
 		05B7C2012B96AC3300DA0F8F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEA7C6DED4C4F4A662BE5BBD /* Pods-EaseChatDemo.release.xcconfig */;
+			baseConfigurationReference = 1771B88A5DA2D3168C3039A3 /* Pods-EaseChatDemo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -867,7 +893,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = EaseChatDemo/EaseChatDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -883,12 +909,12 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.16.0;
+				MARKETING_VERSION = 4.18.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -9,10 +9,27 @@ import UIKit
 import EaseChatUIKit
 import EaseCallUIKit
 
-class MineMessageEntity: MessageEntity {
+
+public enum ChatReceiveMessageState: UInt8 {
+    case typing
+    case editing
+    case end
+}
+
+
+open class MineMessageEntity: MessageEntity {
+        
+    /// Whether audio message playing or not.
+    
+    public var downloading = false
     
     
-    override func customSize() -> CGSize {
+    public var chatType = ChatType.chat
+    
+    public var editState: ChatReceiveMessageState = .typing
+    
+    
+    open override func customSize() -> CGSize {
         if let body = self.message.body as? ChatCustomMessageBody {
             switch body.event {
             case EaseChatUIKit_user_card_message:

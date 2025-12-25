@@ -46,6 +46,7 @@ final class MeMenuCell: UITableViewCell {
         self.icon.frame = CGRect(x: 16, y: (self.frame.height-28)/2.0, width: 28, height: 28)
         self.indicator.frame = CGRect(x: self.frame.width-32, y: (self.frame.height-20)/2.0, width: 10, height: 20)
         self.separatorLine.frame = CGRect(x: self.content.frame.minX, y: self.contentView.frame.height - 0.5, width: ScreenWidth, height: 0.5)
+//        self.detail.frame = CGRect(x: self.contentView.frame.width-196, y: 18, width: 160, height: 18)
     }
     
     func refreshViews(hasIcon: Bool) {
@@ -62,6 +63,11 @@ final class MeMenuCell: UITableViewCell {
         }
         self.separatorLine.frame = CGRect(x: self.content.frame.minX, y: self.contentView.frame.height - 0.5, width: ScreenWidth, height: 0.5)
         self.indicator.isHidden = !hasIcon
+        if self.content.text ?? "" == "ICP".localized() {
+            self.detail.frame = CGRect(x: ScreenWidth-206, y: 18, width: 190, height: 18)
+        } else {
+            self.detail.frame = CGRect(x: ScreenWidth-186, y: 18, width: 150, height: 18)
+        }
     }
         
     

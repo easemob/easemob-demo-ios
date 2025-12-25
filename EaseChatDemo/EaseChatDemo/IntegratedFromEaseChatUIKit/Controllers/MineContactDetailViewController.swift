@@ -212,6 +212,8 @@ final class MineContactDetailViewController: ContactInfoViewController {
     }
     
     private func startSingleCall(callType: EaseCallUIKit.CallType) {
+        CallKitManager.shared.checkCameraPermission()
+        CallKitManager.shared.checkMicrophonePermission()
         if let cacheUser = ChatUIKitContext.shared?.userCache?[self.profile.id] {
             CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
             CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL

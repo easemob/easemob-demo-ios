@@ -132,9 +132,13 @@
 "style2" = "Style 2";
 "style_preview" = "Style Preview";
 
-"fraud_alert" = "请勿轻信任何关于汇款、中奖等信息，务必提高警惕，谨慎对待来自陌生号码的电话。如遇可疑情况，请及时向相关部门反馈并采取必要的防范措施。";
-"Click report" = "点击举报";
+"fraud_alert" = "Please be cautious of frauds asking for money or verification codes.";
+"Click report" = "Click to report";
 "singleAudio" = "Audio call";
 "singleVideo" = "Video call";
 "multiCall" = "Group call";
 "CallBackground" = "Call Background";
+"Privacy Policy" = "Privacy Policy";
+"Information Shared with Third Partes" = "Information Shared with Third Partes";
+"Personal Information Collected" = "Personal Information Collected";
+"ICP" = "Filing Number";

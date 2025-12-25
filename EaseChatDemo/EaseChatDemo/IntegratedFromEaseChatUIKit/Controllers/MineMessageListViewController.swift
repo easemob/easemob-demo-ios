@@ -18,7 +18,7 @@ final class MineMessageListViewController: MessageListController {
     
     private var otherPartyStatus = ""
     
-    private var imageEntity = MessageEntity()
+    private var imageEntity = EaseChatUIKit.MessageEntity()
         
     lazy var fraudView: FraudAlertView = {
         FraudAlertView(frame: CGRect(x: 0, y: self.navigation.frame.maxY, width: self.view.frame.width, height: EaseChatUIKit.ScreenWidth <= 375 ? 84:72))
@@ -175,6 +175,8 @@ final class MineMessageListViewController: MessageListController {
     }
     
     private func startSingleCall(callType: CallType) {
+        CallKitManager.shared.checkCameraPermission()
+        CallKitManager.shared.checkMicrophonePermission()
         if let cacheUser = ChatUIKitContext.shared?.userCache?[self.profile.id] {
             let callProfile = CallUserProfile()
             callProfile.id = cacheUser.id
@@ -195,6 +197,8 @@ final class MineMessageListViewController: MessageListController {
     }
     
     private func startGroupCall() {
+        CallKitManager.shared.checkCameraPermission()
+        CallKitManager.shared.checkMicrophonePermission()
         if let cacheUser = ChatUIKitContext.shared?.groupCache?[self.profile.id] {
             let callProfile = CallUserProfile()
             callProfile.id = cacheUser.id
@@ -214,7 +218,7 @@ final class MineMessageListViewController: MessageListController {
         CallKitManager.shared.groupCall(groupId: self.profile.id)
     }
 
-    override func filterMessageActions(message: MessageEntity) -> [ActionSheetItemProtocol] {
+    override func filterMessageActions(message: EaseChatUIKit.MessageEntity) -> [EaseChatUIKit.ActionSheetItemProtocol] {
         if let ext = message.message.ext,let value = ext[callIdentifier] as? String,value == callValue {
             return [
                 ActionSheetItem(title: "barrage_long_press_menu_delete".chat.localize, type: .normal,tag: "Delete",image: UIImage(named: "message_action_delete", in: .chatBundle, with: nil)),
@@ -226,7 +230,7 @@ final class MineMessageListViewController: MessageListController {
         }
     }
     
-    override func messageBubbleClicked(message: MessageEntity) {
+    override func messageBubbleClicked(message: EaseChatUIKit.MessageEntity) {
         switch message.message.body.type {
         case .text:
             if let info = message.message.callInfo {
@@ -270,7 +274,7 @@ final class MineMessageListViewController: MessageListController {
         }
     }
     
-    func viewImage(entity: MessageEntity) {
+    func viewImage(entity: EaseChatUIKit.MessageEntity) {
         self.imageEntity = entity
         let preview = ImagePreviewController(with: self)
         preview.selectedIndex = 0
