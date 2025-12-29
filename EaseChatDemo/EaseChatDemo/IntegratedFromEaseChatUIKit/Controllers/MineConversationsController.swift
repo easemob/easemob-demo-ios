@@ -56,7 +56,6 @@ final class MineConversationsController: ConversationListController {
                 case "SelectContacts": self.selectContact()
                 case "AddContact": self.addContact()
                 case "CreateGroup": self.createGroup()
-                case "AIChat": self.chatToAI()
                 default:
                     break
                 }
