@@ -166,27 +166,27 @@ extension CommonWebViewController {
                            phone: String?,
                            device: String?) {
 
-        let jsObject: [String: Any] = [
-            "username": username ?? "",
-            "avatar": avatarURL ?? "",
-            "phone": phone ?? "",
-            "device": device ?? ""
-        ]
-
-        // 将字典转为 JSON 字符串
-        if let jsonData = try? JSONSerialization.data(withJSONObject: jsObject),
-           let jsonString = String(data: jsonData, encoding: .utf8) {
-
-            let script = "window.injectUserPrivacyData(\(jsonString));"
-            
-            webView.evaluateJavaScript(script) { (result, error) in
-                if let error = error {
-                    print("注入数据失败: \(error)")
-                } else {
-                    print("隐私数据注入成功")
-                }
-            }
-        }
+//        let jsObject: [String: Any] = [
+//            "username": username ?? "",
+//            "avatar": avatarURL ?? "",
+//            "phone": phone ?? "",
+//            "device": device ?? ""
+//        ]
+//
+//        // 将字典转为 JSON 字符串
+//        if let jsonData = try? JSONSerialization.data(withJSONObject: jsObject),
+//           let jsonString = String(data: jsonData, encoding: .utf8) {
+//
+//            let script = "window.injectUserPrivacyData(\(jsonString));"
+//            
+//            webView.evaluateJavaScript(script) { (result, error) in
+//                if let error = error {
+//                    print("注入数据失败: \(error)")
+//                } else {
+//                    print("隐私数据注入成功")
+//                }
+//            }
+//        }
     }
 
     

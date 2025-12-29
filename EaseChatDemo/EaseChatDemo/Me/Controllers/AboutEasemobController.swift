@@ -16,7 +16,7 @@ final class AboutEasemobController: UIViewController {
         ["title":"Business Cooperation".localized(),"content":"bd@easemob.com","destination":"mailto:bd@easemob.com"],
         ["title":"Channel Cooperation".localized(),"content":"qudao@easemob.com","destination":"mailto:qudao@easemob.com"],
         ["title":"Suggestions".localized(),"content":"issues@easemob.com","destination":"mailto:issues@easemob.com"],
-        ["title":"Privacy Policy".localized(),"content":"https://www.easemob.com/protocol","destination":"https://www.easemob.com/protocol"]
+        ["title":"Privacy Policy".localized(),"content":"https://www.easemob.com/demo/privacy-policy","destination":"https://www.easemob.com/demo/privacy-policy"]
     ]
     
     private lazy var navigation: ChatNavigationBar = {

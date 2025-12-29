@@ -160,7 +160,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             Appearance.chat.contentStyle.append(.withMessageReaction)
         }
         //Notice: - Feature identify can't changed, it's used to identify feature action.
-        Appearance.conversation.listMoreActions.append(ActionSheetItem(title: "AI Chat".chat.localize, type: .normal, tag: "AIChat", image: UIImage(named: "ai-chat")?.withTintColor(.systemBlue)))
+//        Appearance.conversation.listMoreActions.append(ActionSheetItem(title: "AI Chat".chat.localize, type: .normal, tag: "AIChat", image: UIImage(named: "ai-chat")?.withTintColor(.systemBlue)))
         //Register custom components(注册Demo中继承EaseChatUIKit中类替换EaseChatUIKit中的父类)
         ComponentsRegister.shared.Conversation = MineConversationInfo.self
         ComponentsRegister.shared.ConversationsController = MineConversationsController.self
@@ -323,6 +323,7 @@ extension AppDelegate: UserStateChangedListener {
 
     func onSocketConnectionStateChanged(state: EaseChatUIKit.ConnectionState) {
         //Socket state monitor network
+        self.registerRemoteNotification()
     }
 
     func userAccountDidRemoved() {
