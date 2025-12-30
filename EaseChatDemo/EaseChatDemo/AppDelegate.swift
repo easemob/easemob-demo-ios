@@ -13,6 +13,7 @@ import UIKit
 import UserNotifications
 import AgoraRtcKit
 import PhotosUI
+import AVFoundation
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -45,9 +46,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         // Override point for customization after application launch.
         self.setupEaseChatUIKit()
-//        self.setupCallKit()
+        self.setupCallKit()
         self.setupEaseChatUIKitConfig()
-        self.registerRemoteNotification()
         return true
     }
 
@@ -447,8 +447,46 @@ extension AppDelegate: CallServiceListener {
     }
     
     func onReceivedCall(callType: CallType, userId: String, extensionInfo: [String : Any]?) {
-        CallKitManager.shared.checkCameraPermission()
-        CallKitManager.shared.checkMicrophonePermission()
+        // Check permissions based on call type
+        let microphoneStatus = AVCaptureDevice.authorizationStatus(for: .audio)
+        let cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
+
+        var hasRequiredPermissions = false
+        var permissionMessage = ""
+
+        switch callType {
+        case .singleAudio:
+            // Audio call only requires microphone permission
+            hasRequiredPermissions = (microphoneStatus == .authorized)
+            if !hasRequiredPermissions {
+                permissionMessage = "Audio call requires microphone permission. Please enable it in Settings.".localized()
+            }
+        case .singleVideo, .groupCall:
+            // Video call requires both microphone and camera permissions
+            hasRequiredPermissions = (microphoneStatus == .authorized && cameraStatus == .authorized)
+            if !hasRequiredPermissions {
+                if microphoneStatus != .authorized && cameraStatus != .authorized {
+                    permissionMessage = "Video call requires microphone and camera permissions. Please enable them in Settings.".localized()
+                } else if microphoneStatus != .authorized {
+                    permissionMessage = "Video call requires microphone permission. Please enable it in Settings.".localized()
+                } else {
+                    permissionMessage = "Video call requires camera permission. Please enable it in Settings.".localized()
+                }
+            }
+        default:
+            hasRequiredPermissions = false
+            permissionMessage = "Unknown call type.".localized()
+        }
+
+        // If no required permissions, reject the call
+        if !hasRequiredPermissions {
+            CallKitManager.shared.hangup()
+            DispatchQueue.main.async {
+                UIViewController.currentController?.showToast(toast: permissionMessage)
+            }
+            return
+        }
+
         if let controller = UIViewController.currentController,(controller is DialogContainerViewController || controller is AlertViewController || controller is PageContainersDialogController) || controller is ContactViewController {
             //正在通话中或者呼叫中  dismiss跳出来的模态弹窗
             controller.dismiss(animated: false)
@@ -458,7 +496,7 @@ extension AppDelegate: CallServiceListener {
         }
         self.dismissPickerControllers()
     }
-    
+
     func onRtcEngineCreated(engine: AgoraRtcEngineKit) {
         if let ipList = self.serverConfig["rtc_server_ip"],let verifyDomainName = self.serverConfig["rtc_server_domain"],!ipList.isEmpty,!verifyDomainName.isEmpty {
             let config = AgoraLocalAccessPointConfiguration()

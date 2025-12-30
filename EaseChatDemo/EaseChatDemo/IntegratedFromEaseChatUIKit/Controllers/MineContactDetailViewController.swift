@@ -9,6 +9,7 @@ import UIKit
 import EaseChatUIKit
 import EaseCallUIKit
 import SwiftFFDBHotFix
+import AVFoundation
 
 final class MineContactDetailViewController: ContactInfoViewController {
     
@@ -212,13 +213,103 @@ final class MineContactDetailViewController: ContactInfoViewController {
     }
     
     private func startSingleCall(callType: EaseCallUIKit.CallType) {
-        CallKitManager.shared.checkCameraPermission()
-        CallKitManager.shared.checkMicrophonePermission()
-        if let cacheUser = ChatUIKitContext.shared?.userCache?[self.profile.id] {
-            CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
-            CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
+        // Check permissions based on call type
+        self.checkPermissionsAndCall(callType: callType) { [weak self] granted in
+            guard granted, let self = self else { return }
+
+            if let cacheUser = ChatUIKitContext.shared?.userCache?[self.profile.id] {
+                CallKitManager.shared.usersCache[self.profile.id]?.nickname = cacheUser.nickname
+                CallKitManager.shared.usersCache[self.profile.id]?.avatarURL = cacheUser.avatarURL
+            }
+            CallKitManager.shared.call(with: self.profile.id, type: callType)
         }
-        CallKitManager.shared.call(with: self.profile.id, type: callType)
+    }
+
+    /// Check audio/video permissions based on call type
+    private func checkPermissionsAndCall(callType: EaseCallUIKit.CallType, completion: @escaping (Bool) -> Void) {
+        switch callType {
+        case .singleAudio:
+            // Audio call only requires microphone permission
+            self.checkMicrophonePermission { [weak self] granted in
+                if !granted {
+                    DispatchQueue.main.async {
+                        self?.showPermissionAlert(message: "Audio call requires microphone permission. Please enable it in Settings.".localized())
+                    }
+                }
+                completion(granted)
+            }
+        case .singleVideo, .groupCall:
+            // Video call requires both microphone and camera permissions
+            self.checkMicrophonePermission { [weak self] micGranted in
+                guard let self = self else {
+                    completion(false)
+                    return
+                }
+                if !micGranted {
+                    DispatchQueue.main.async {
+                        self.showPermissionAlert(message: "Video call requires microphone permission. Please enable it in Settings.".localized())
+                    }
+                    completion(false)
+                    return
+                }
+                self.checkCameraPermission { camGranted in
+                    if !camGranted {
+                        DispatchQueue.main.async {
+                            self.showPermissionAlert(message: "Video call requires camera permission. Please enable it in Settings.".localized())
+                        }
+                    }
+                    completion(camGranted)
+                }
+            }
+        default:
+            completion(false)
+        }
+    }
+
+    private func checkMicrophonePermission(completion: @escaping (Bool) -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: .audio)
+        switch status {
+        case .authorized:
+            completion(true)
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .audio) { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+        default:
+            completion(false)
+        }
+    }
+
+    private func checkCameraPermission(completion: @escaping (Bool) -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized:
+            completion(true)
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+        default:
+            completion(false)
+        }
+    }
+
+    private func showPermissionAlert(message: String) {
+        DialogManager.shared.showAlert(
+            title: "Permission Required".localized(),
+            content: message,
+            showCancel: true,
+            showConfirm: true
+        ) { _ in
+            // Open app settings
+            if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingsUrl)
+            }
+        }
     }
     
     override func didSelectRow(indexPath: IndexPath) {

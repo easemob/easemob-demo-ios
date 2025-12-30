@@ -9,6 +9,7 @@ import UIKit
 import EaseChatUIKit
 import EaseCallUIKit
 import Photos
+import AVFoundation
 
 let callIdentifier = "msgType"
 
@@ -175,47 +176,140 @@ final class MineMessageListViewController: MessageListController {
     }
     
     private func startSingleCall(callType: CallType) {
-        CallKitManager.shared.checkCameraPermission()
-        CallKitManager.shared.checkMicrophonePermission()
-        if let cacheUser = ChatUIKitContext.shared?.userCache?[self.profile.id] {
-            let callProfile = CallUserProfile()
-            callProfile.id = cacheUser.id
-            callProfile.nickname = cacheUser.nickname
-            callProfile.avatarURL = cacheUser.avatarURL
-            CallKitManager.shared.usersCache[self.profile.id] = callProfile
+        // Check permissions based on call type
+        self.checkPermissionsAndCall(callType: callType) { [weak self] granted in
+            guard granted, let self = self else { return }
+
+            if let cacheUser = ChatUIKitContext.shared?.userCache?[self.profile.id] {
+                let callProfile = CallUserProfile()
+                callProfile.id = cacheUser.id
+                callProfile.nickname = cacheUser.nickname
+                callProfile.avatarURL = cacheUser.avatarURL
+                CallKitManager.shared.usersCache[self.profile.id] = callProfile
+            }
+            if let currentUser = ChatUIKitContext.shared?.currentUser {
+                let callProfile = CallUserProfile()
+                callProfile.id = ChatClient.shared().currentUsername ?? ""
+                callProfile.nickname = currentUser.nickname
+                callProfile.avatarURL = currentUser.avatarURL
+                CallKitManager.shared.currentUserInfo = callProfile
+                CallKitManager.shared.usersCache[callProfile.id] = callProfile
+                consoleLogInfo("startSingleCall current user:\(callProfile.nickname)", type: .info)
+            }
+            CallKitManager.shared.call(with: self.profile.id, type: callType)
         }
-        if let currentUser = ChatUIKitContext.shared?.currentUser {
-            let callProfile = CallUserProfile()
-            callProfile.id = ChatClient.shared().currentUsername ?? ""
-            callProfile.nickname = currentUser.nickname
-            callProfile.avatarURL = currentUser.avatarURL
-            CallKitManager.shared.currentUserInfo = callProfile
-            CallKitManager.shared.usersCache[callProfile.id] = callProfile
-            consoleLogInfo("startSingleCall current user:\(callProfile.nickname)", type: .info)
-        }
-        CallKitManager.shared.call(with: self.profile.id, type: callType)
     }
-    
+
     private func startGroupCall() {
-        CallKitManager.shared.checkCameraPermission()
-        CallKitManager.shared.checkMicrophonePermission()
-        if let cacheUser = ChatUIKitContext.shared?.groupCache?[self.profile.id] {
-            let callProfile = CallUserProfile()
-            callProfile.id = cacheUser.id
-            callProfile.nickname = cacheUser.nickname
-            callProfile.avatarURL = cacheUser.avatarURL
-            CallKitManager.shared.usersCache[self.profile.id] = callProfile
+        // Group call requires both audio and video permissions
+        self.checkPermissionsAndCall(callType: .groupCall) { [weak self] granted in
+            guard granted, let self = self else { return }
+
+            if let cacheUser = ChatUIKitContext.shared?.groupCache?[self.profile.id] {
+                let callProfile = CallUserProfile()
+                callProfile.id = cacheUser.id
+                callProfile.nickname = cacheUser.nickname
+                callProfile.avatarURL = cacheUser.avatarURL
+                CallKitManager.shared.usersCache[self.profile.id] = callProfile
+            }
+            if let currentUser = ChatUIKitContext.shared?.currentUser {
+                let callProfile = CallUserProfile()
+                callProfile.id = ChatClient.shared().currentUsername ?? ""
+                callProfile.nickname = currentUser.nickname
+                callProfile.avatarURL = currentUser.avatarURL
+                CallKitManager.shared.currentUserInfo = callProfile
+                CallKitManager.shared.usersCache[callProfile.id] = callProfile
+                consoleLogInfo("startGroupCall current user:\(callProfile.nickname)", type: .info)
+            }
+            CallKitManager.shared.groupCall(groupId: self.profile.id)
         }
-        if let currentUser = ChatUIKitContext.shared?.currentUser {
-            let callProfile = CallUserProfile()
-            callProfile.id = ChatClient.shared().currentUsername ?? ""
-            callProfile.nickname = currentUser.nickname
-            callProfile.avatarURL = currentUser.avatarURL
-            CallKitManager.shared.currentUserInfo = callProfile
-            CallKitManager.shared.usersCache[callProfile.id] = callProfile
-            consoleLogInfo("startGroupCall current user:\(callProfile.nickname)", type: .info)
+    }
+
+    /// Check audio/video permissions based on call type
+    private func checkPermissionsAndCall(callType: CallType, completion: @escaping (Bool) -> Void) {
+        switch callType {
+        case .singleAudio:
+            // Audio call only requires microphone permission
+            self.checkMicrophonePermission { granted in
+                if !granted {
+                    DispatchQueue.main.async {
+                        self.showPermissionAlert(message: "Audio call requires microphone permission. Please enable it in Settings.".localized())
+                    }
+                }
+                completion(granted)
+            }
+        case .singleVideo, .groupCall:
+            // Video call requires both microphone and camera permissions
+            self.checkMicrophonePermission { [weak self] micGranted in
+                guard let self = self else {
+                    completion(false)
+                    return
+                }
+                if !micGranted {
+                    DispatchQueue.main.async {
+                        self.showPermissionAlert(message: "Video call requires microphone permission. Please enable it in Settings.".localized())
+                    }
+                    completion(false)
+                    return
+                }
+                self.checkCameraPermission { camGranted in
+                    if !camGranted {
+                        DispatchQueue.main.async {
+                            self.showPermissionAlert(message: "Video call requires camera permission. Please enable it in Settings.".localized())
+                        }
+                    }
+                    completion(camGranted)
+                }
+            }
+        default:
+            completion(false)
         }
-        CallKitManager.shared.groupCall(groupId: self.profile.id)
+    }
+
+    private func checkMicrophonePermission(completion: @escaping (Bool) -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: .audio)
+        switch status {
+        case .authorized:
+            completion(true)
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .audio) { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+        default:
+            completion(false)
+        }
+    }
+
+    private func checkCameraPermission(completion: @escaping (Bool) -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized:
+            completion(true)
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+        default:
+            completion(false)
+        }
+    }
+
+    private func showPermissionAlert(message: String) {
+        DialogManager.shared.showAlert(
+            title: "Permission Required".localized(),
+            content: message,
+            showCancel: true,
+            showConfirm: true
+        ) { _ in
+            // Open app settings
+            if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingsUrl)
+            }
+        }
     }
 
     override func filterMessageActions(message: EaseChatUIKit.MessageEntity) -> [EaseChatUIKit.ActionSheetItemProtocol] {
