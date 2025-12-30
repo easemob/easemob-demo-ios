@@ -13,7 +13,7 @@ final class MeViewController: UIViewController {
     
     private var menusData: [[String:Any]] {
         [
-            ["sectionTitle":"Setting".localized(),"sectionData":[["title":"online_status".localized(),"icon":"online_status","detail":PresenceManager.shared.currentUserStatus],["title":"Personal Info".localized(),"icon":"userinfo"],["title":"General".localized(),"icon":"general"],["title":"Notification".localized(),"icon":"notification"],["title":"Privacy".localized(),"icon":"privacy"],["title":"About".localized(),"icon":"about"]]],
+            ["sectionTitle":"Setting".localized(),"sectionData":[["title":"online_status".localized(),"icon":"online_status","detail":PresenceManager.shared.currentUserStatus],["title":"Personal Info".localized(),"icon":"userinfo"],["title":"General".localized(),"icon":"general"],["title":"Notification".localized(),"icon":"notification"],["title":"Privacy".localized(),"icon":"privacy"],["title":"Privacy Policy".localized(),"icon":"privacy_police"],["title":"Information Shared with Third Partes".localized(),"icon":"third_libs"],["title":"Personal Information Collected".localized(),"icon":"collection"],["title":"Service".localized(),"icon":"service"],["title":"ICP".localized(),"detail":"京ICP备2023000793号-10A","icon":"icp"],["title":"About".localized(),"icon":"about"]]],
             ["sectionTitle":"Account".localized(),"sectionData":[["title":"Logout".localized()],["title":"Deregister".localized()]]]
         ]
     }
@@ -154,7 +154,7 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         UIView {
-            UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 26))
+            UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 26)).backgroundColor(Theme.style == .light ? UIColor.theme.neutralColor95:UIColor.theme.neutralColor2)
             UILabel(frame: CGRect(x: 16, y: 4, width: ScreenWidth-32, height: 18)).font(UIFont.theme.labelMedium).textColor(Theme.style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor6).text(self.menusData[section]["sectionTitle"] as? String ?? "").backgroundColor(.clear)
         }
     }
@@ -171,6 +171,7 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
             let imageName = rowDatas[safe:indexPath.row]?["icon"] ?? ""
             cell?.icon.image = UIImage(named: imageName)
             cell?.content.text = title
+            cell?.detail.text = detail
             if let rowTitle = title,(rowTitle == "Logout".localized() || rowTitle == "Deregister".localized()) {
                 cell?.refreshViews(hasIcon: false)
                 if rowTitle == "Deregister".localized() {
@@ -181,6 +182,7 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
                 
             } else {
                 cell?.refreshViews(hasIcon: true)
+                cell?.indicator.isHidden = title == "ICP".localized()
             }
         }
         
@@ -195,6 +197,10 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
             case "Personal Info".localized(): self.viewProfile()
             case "General".localized(): self.viewGeneral()
             case "Notification".localized(): self.viewNotification()
+            case "Privacy Policy".localized(): self.privacyPolice()
+            case "Information Shared with Third Partes".localized(): self.thirdLibsInfo()
+            case "Personal Information Collected".localized(): self.collectedPersonInfo()
+            case "Service".localized(): self.viewService()
             case "About".localized(): self.viewAbout()
             case "Logout".localized(): self.logout()
             case "Privacy".localized(): self.privacySetting()
@@ -203,6 +209,31 @@ extension MeViewController: UITableViewDelegate,UITableViewDataSource {
                 break
             }
         }
+    }
+    
+    private func thirdLibsInfo() {
+        let vc = CommonWebViewController(urlString: "https://www.easemob.com/demo/third-party-sharing",navigationTitle: "Information Shared with Third Partes".localized())
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func collectedPersonInfo() {
+        let currentUserId = ChatUIKitContext.shared?.currentUserId ?? ""
+        let vc = CommonWebViewController(urlString: Bundle.main.path(forResource: "person-info", ofType: "html") ?? "https://www.easemob.com/demo/personal-info-collection", navigationTitle: "Personal Information Collected".localized(),localInfo: ["username":ChatUIKitContext.shared?.currentUser?.nickname ?? currentUserId,"avatar":ChatUIKitContext.shared?.currentUser?.avatarURL ?? "","phone":self.phone,"device":UIDevice.current.model])
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func privacyPolice() {
+        let vc = CommonWebViewController(urlString: "https://www.easemob.com/demo/privacy-policy", navigationTitle: "Privacy Policy".localized())
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func viewService() {
+        let vc = CommonWebViewController(urlString: "https://www.easemob.com/demo/agreement", navigationTitle: "Service".localized())
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func deregister() {

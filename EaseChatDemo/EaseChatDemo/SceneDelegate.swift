@@ -24,6 +24,35 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         //设置整个UIKit中的语言 目前只支持中英文
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        
+        appearance.backgroundColor = .systemBackground
+        let normalAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 12),
+            .foregroundColor: UIColor.secondaryLabel
+        ]
+        
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 12),
+            .foregroundColor: UIColor.label
+        ]
+        
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
+        appearance.stackedLayoutAppearance.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -4)
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
+        appearance.stackedLayoutAppearance.normal.iconColor = .secondaryLabel
+        appearance.stackedLayoutAppearance.selected.iconColor = .label
+        // 可选：统一微调文字位置（一般不需要）
+        appearance.stackedLayoutAppearance.normal.titlePositionAdjustment =
+        UIOffset(horizontal: 0, vertical: 2)
+        appearance.stackedLayoutAppearance.selected.titlePositionAdjustment =
+        UIOffset(horizontal: 0, vertical: 2)
+        
+        // ===== 全局生效 =====
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+        //设置整个UIKit中的语言 目前只支持中英文
         Appearance.ease_chat_language = LanguageType(rawValue: self.language) ?? .Chinese
         self.window = nil
         self.window = UIWindow(windowScene: windowScene)

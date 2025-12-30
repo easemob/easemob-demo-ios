@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>个人信息收集清单</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            overflow: hidden;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px 8px;
+            text-align: left;
+            vertical-align: middle;
+            word-wrap: break-word;
+        }
+
+        th {
+            background-color: #f8f8f8;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+        }
+
+        /* 第一列固定宽度，防止挤压 */
+        td:first-child,
+        th:first-child {
+            min-width: 60px;
+        }
+
+        td {
+            color: #666;
+        }
+
+        /* 移动端优化 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 10px 6px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            table {
+                font-size: 12px;
+            }
+
+            th,
+            td {
+                padding: 8px 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>收集场景</th>
+                        <th>我们收集哪些您的个人信息</th>
+                        <th>我们如何使用</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>当您注册或登录时</td>
+                        <td>手机号。收集手机号码是为了满足相关法律法规关于网络实名制要求的必要信息。如果您不提供手机号，您可能无法正常使用
+                            我们的服务。
+                            用户名、头像。
+                            您可以选择修改用户名和头像完善您的个人账号。</td>
+                        <td>用于帮助您完成账号注册、登录服务。您的手机号还会被用于进行电话回访，若您不愿继续接受回访，可直接拒绝，不会影响您正常使用我们的服务。</td>
+                    </tr>
+                    <tr>
+                        <td>当您使用我们的服务时</td>
+                        <td>设备类型、设备型号、操作系统信息、网络状态、IP地址等日志信息。</td>
+                        <td>用于保障服务的正常使用，维护服务的正常运行，改进及优化服务体验。</td>
+                    </tr>
+                    <tr>
+                        <td>当您使用聊天、视频功能时</td>
+                        <td>音频、视频、聊天记录、图片、文件</td>
+                        <td>用于为您提供聊天相关功能的体验使用</td>
+                    </tr>
+                    <tr>
+                        <td>当您使用电话功能拨打客服电话时</td>
+                        <td>手机号</td>
+                        <td>用于为您提供拨打客服电话的功能体验</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
