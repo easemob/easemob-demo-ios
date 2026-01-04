@@ -48,6 +48,26 @@ final class MineConversationsController: ConversationListController {
         }
     }
     
+    override func rightActions(indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            DialogManager.shared.showActions(actions: Appearance.conversation.listMoreActions) { item in
+                switch item.tag {
+                case "SelectContacts": self.selectContact()
+                case "AddContact": self.addContact()
+                case "CreateGroup": self.createGroup()
+                default:
+                    break
+                }
+            }
+        default:
+            break
+        }
+        
+    }
+    
+    
+    
     private func listenToUserStatus() {
         PresenceManager.shared.addHandler(handler: self)
     }

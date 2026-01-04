@@ -95,9 +95,9 @@ final class LoginViewController: UIViewController {
     
     private var protocolContent: NSAttributedString = NSAttributedString {
         AttributedText("Please tick to agree".localized()).font(.systemFont(ofSize: 12, weight: .regular)).foregroundColor(Theme.style == .dark ? UIColor.theme.neutralColor8:UIColor.theme.neutralColor3).lineSpacing(5)
-        Link("Service".localized(), url: URL(string: "https://www.easemob.com/terms/im")!).foregroundColor(Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).font(.systemFont(ofSize: 12, weight: .medium)).underline(.single,color: Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).lineSpacing(5)
+        Link("Service".localized(), url: URL(string: "https://www.easemob.com/demo/agreement")!).foregroundColor(Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).font(.systemFont(ofSize: 12, weight: .medium)).underline(.single,color: Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).lineSpacing(5)
         AttributedText(" and ".localized()).foregroundColor(Theme.style == .dark ? UIColor.theme.neutralColor8:UIColor.theme.neutralColor3).font(.systemFont(ofSize: 12, weight: .regular)).foregroundColor(Color(0x3C4267)).lineSpacing(5)
-        Link("Privacy Policy".localized(), url: URL(string: "https://www.easemob.com/protocol")!).foregroundColor(Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).font(.systemFont(ofSize: 12, weight: .medium)).underline(.single,color: Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).lineSpacing(5)
+        Link("Privacy Policy".localized(), url: URL(string: "https://www.easemob.com/demo/privacy-policy")!).foregroundColor(Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).font(.systemFont(ofSize: 12, weight: .medium)).underline(.single,color: Theme.style == .dark ? UIColor.theme.primaryDarkColor:UIColor.theme.primaryLightColor).lineSpacing(5)
     }
     
     private lazy var serverConfig: UIButton = {

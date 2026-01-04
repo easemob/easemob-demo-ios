@@ -8,6 +8,7 @@
 import UIKit
 import EaseChatUIKit
 import EaseCallUIKit
+import AVFoundation
 
 final class MineGroupDetailViewController: GroupInfoViewController {
     
@@ -65,7 +66,11 @@ final class MineGroupDetailViewController: GroupInfoViewController {
     }
     
     private func groupCall() {
-        self.startGroupCall()
+        // Group call requires both audio and video permissions
+        self.checkPermissionsAndCall { [weak self] granted in
+            guard granted else { return }
+            self?.startGroupCall()
+        }
     }
 
     private func startGroupCall() {
@@ -75,6 +80,77 @@ final class MineGroupDetailViewController: GroupInfoViewController {
             CallKitManager.shared.groupCall(groupId: groupId)
         } else {
             self.showToast(toast: "Group ID is not available.".localized())
+        }
+    }
+
+    /// Check audio/video permissions for group call (requires both microphone and camera)
+    private func checkPermissionsAndCall(completion: @escaping (Bool) -> Void) {
+        self.checkMicrophonePermission { [weak self] micGranted in
+            guard let self = self else {
+                completion(false)
+                return
+            }
+            if !micGranted {
+                DispatchQueue.main.async {
+                    self.showPermissionAlert(message: "Group call requires microphone permission. Please enable it in Settings.".localized())
+                }
+                completion(false)
+                return
+            }
+            self.checkCameraPermission { camGranted in
+                if !camGranted {
+                    DispatchQueue.main.async {
+                        self.showPermissionAlert(message: "Group call requires camera permission. Please enable it in Settings.".localized())
+                    }
+                }
+                completion(camGranted)
+            }
+        }
+    }
+
+    private func checkMicrophonePermission(completion: @escaping (Bool) -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: .audio)
+        switch status {
+        case .authorized:
+            completion(true)
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .audio) { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+        default:
+            completion(false)
+        }
+    }
+
+    private func checkCameraPermission(completion: @escaping (Bool) -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized:
+            completion(true)
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+        default:
+            completion(false)
+        }
+    }
+
+    private func showPermissionAlert(message: String) {
+        DialogManager.shared.showAlert(
+            title: "Permission Required".localized(),
+            content: message,
+            showCancel: true,
+            showConfirm: true
+        ) { _ in
+            // Open app settings
+            if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingsUrl)
+            }
         }
     }
     
