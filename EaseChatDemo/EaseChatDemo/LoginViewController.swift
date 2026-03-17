@@ -204,7 +204,8 @@ final class LoginViewController: UIViewController {
 extension LoginViewController: UITextFieldDelegate {
     
     @objc func timerFire() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             self.count -= 1
             if self.count <= 0 {
                 self.timer?.invalidate()
@@ -403,6 +404,12 @@ extension LoginViewController: UITextFieldDelegate {
         NotificationCenter.default.post(name: NSNotification.Name(loginSuccessfulSwitchMainPage), object: nil)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer?.invalidate()
+        timer = nil
+    }
+    
 }
 
 extension LoginViewController: ThemeSwitchProtocol {
@@ -435,17 +442,20 @@ extension LoginViewController: WKScriptMessageHandler {
                 let code = resultDict["code"] as? Int ?? 0
                 let errorInfo = resultDict["errorInfo"] as? String ?? ""
                 
-                // 根据验证结果进行相应处理
-                if code == 200 {
-                    // 验证成功，关闭模态对话框
-                    dismissWebView()
-                    // 这里可以添加验证成功后的业务逻辑
-                     self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-                         self?.timerFire()
-                     }
-                     self.timer?.fire()
-                } else {
-                    self.showToast(toast: errorInfo)
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    // 根据验证结果进行相应处理
+                    if code == 200 {
+                        // 验证成功，关闭模态对话框
+                        self.dismissWebView()
+                        // 这里可以添加验证成功后的业务逻辑
+                         self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+                             self?.timerFire()
+                         }
+                         self.timer?.fire()
+                    } else {
+                        self.showToast(toast: errorInfo)
+                    }
                 }
             }
         }
