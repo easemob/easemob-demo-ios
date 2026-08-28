@@ -13,6 +13,10 @@ import AVFoundation
 
 final class MineContactDetailViewController: ContactInfoViewController {
     
+    var conversation: ChatConversation? {
+        ChatClient.shared().chatManager?.getConversationWithConvId(self.profile.id)
+    }
+    
     override func createHeader() -> DetailInfoHeader {
         super.createHeader()
     }
@@ -386,7 +390,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
             ["title":"contact_details_switch_donotdisturb".chat.localize,
              "detail":"",
              "withSwitch": true,
-             "switchValue":self.muteMap[ChatUIKitContext.shared?.currentUserId ?? ""]?[self.profile.id] ?? 0 == 1],
+             "switchValue":((self.conversation?.disturbType ?? .all) == .none)],
             ["title":"contact_details_switch_block".chat.localize,
              "detail":"",
              "withSwitch": true,
@@ -407,7 +411,7 @@ final class MineContactDetailViewController: ContactInfoViewController {
             ["title":"contact_details_switch_donotdisturb".chat.localize,
              "detail":"",
              "withSwitch": true,
-             "switchValue":self.muteMap[ChatUIKitContext.shared?.currentUserId ?? ""]?[self.profile.id] ?? 0 == 1],
+             "switchValue":self.conversation?.disturbType ?? .all == .none],
             ["title":"contact_details_button_clearchathistory".chat.localize,
              "detail":"",
              "withSwitch": false,

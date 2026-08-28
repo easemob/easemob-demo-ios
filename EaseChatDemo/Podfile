@@ -6,8 +6,8 @@ target 'EaseChatDemo' do
   use_frameworks!
 
   # Pods for EaseChatDemo
-  pod 'EaseChatUIKit'
-  pod 'EaseCallUIKit'
+  pod 'EaseChatUIKit','5.0.0'
+  pod 'EaseCallUIKit','5.0.0'
   pod 'KakaJSON', '~> 1.1.2'
   pod 'SwiftFFDBHotFix'
   pod 'FMDB','2.7.11'

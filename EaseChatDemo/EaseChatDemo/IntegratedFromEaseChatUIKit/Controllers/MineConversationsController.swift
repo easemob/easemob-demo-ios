@@ -198,8 +198,8 @@ final class MineConversationsController: ConversationListController {
         let option = ChatGroupOption()
         option.isInviteNeedConfirm = false
         option.maxUsers = Appearance.chat.groupParticipantsLimitCount
-        option.style = .privateMemberCanInvite
-        ChatClient.shared().groupManager?.createGroup(withSubject: name, description: "", invitees: ids, message: nil, setting: option, completion: { [weak self] group, error in
+        option.allowInvites = true
+        ChatClient.shared().groupManager?.createGroup(withSubject: name, avatar: nil, description: "", invitees: ids, message: nil, setting: option, completion: { [weak self] group, error in
             if error == nil,let group = group {
                 let profile = ChatUserProfile()
                 profile.id = group.groupId
@@ -247,11 +247,7 @@ final class MineConversationsController: ConversationListController {
             let contacts = ChatClient.shared().contactManager?.getContacts() ?? []
             let loadFinish = UserDefaults.standard.bool(forKey: "EaseChatUIKit_contact_fetch_server_finished"+saveIdentifier)
             if !loadFinish,contacts.count <= 0 {
-                ChatClient.shared().contactManager?.getContactsFromServer(completion: { users, error in
-                    if error == nil {
-                        UserDefaults.standard.set(true, forKey: "EaseChatUIKit_contact_fetch_server_finished"+saveIdentifier)
-                    }
-                })
+
             }
         }
     }
