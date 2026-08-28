@@ -35,8 +35,8 @@
 
 #  前置环境需求
 
-- Xcode 16.0及以上版本 原因是UIKit中使用了部分检测音频AVAudioApplication api适配iOS17以上系统
-- 最低支持系统：iOS 14.0
+- Xcode 26.0及以上版本 原因是UIKit中使用了部分检测音频AVAudioApplication api适配iOS17以上系统
+- 最低支持系统：iOS 15.0
 - 请确保您的项目已设置有效的开发者签名
 
 可以使用 CocoaPods 安装 EaseChatUIKit 作为 Xcode 项目的依赖项。
@@ -45,7 +45,7 @@
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '14.0'
+platform :ios, '15.0'
 
 target 'YourTarget' do
   use_frameworks!
@@ -68,7 +68,7 @@ end
     pod install
 ```
 
->⚠️Xcode15编译报错 ```Sandbox: rsync.samba(47334) deny(1) file-write-create...```
+>⚠️Xcode15及其以上编译报错 ```Sandbox: rsync.samba(47334) deny(1) file-write-create...```
 
 > 解决方法: Build Setting里搜索 ```ENABLE_USER_SCRIPT_SANDBOXING```把```User Script Sandboxing```改为```NO```
 
@@ -141,7 +141,4 @@ https://www.figma.com/community/file/1327193019424263350/chat-uikit-for-mobile
 # Q&A
 
 
-如有问题请联系环信技术支持或者发邮件到issue@easemob.com
-
-
-[推送角标后台更新以及推送达到率统计](https://doc.easemob.com/push/push_apns_deliver_statistics.html#_1%E3%80%81%E6%8E%A8%E9%80%81%E6%9C%8D%E5%8A%A1%E6%89%A9%E5%B1%95%E4%BB%8B%E7%BB%8D)
+如有问题请联系环信技术支持或者发邮件到issues@easemob.com
