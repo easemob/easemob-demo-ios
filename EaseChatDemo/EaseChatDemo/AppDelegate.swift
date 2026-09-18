@@ -31,7 +31,14 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     @UserDefault("EaseChatDemoPreferencesBlock", defaultValue: true) var block: Bool
 
+    
+
     @UserDefault("EaseChatDemoUserToken", defaultValue: "") private var token
+
+    @UserDefault("EaseChatDemoUserName", defaultValue: "") private var userName
+
+    /// 数据库是否已打开,供在此之后创建的页面(如MainViewController)判断是否错过了`onChatDatabaseOpened`回调。
+    private(set) var isChatDatabaseOpened = false
 
     @UserDefault("EaseChatDemoPreferencesLongPressStyle", defaultValue: 0) var longPressStyle: UInt8
 
@@ -60,12 +67,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         let options = ChatOptions(appkey: appKey)
         options.includeSendMessageInMessageListener = true
-        options.isAutoLogin = true
         options.enableConsoleLog = true
         options.usingHttpsOnly = true
         options.deleteMessagesOnLeaveGroup = false
         options.enableDeliveryAck = true
-        options.enableRequireReadAck = true
         //Simulator can't use APNS, so we need to judge whether it is a real machine.
         #if DEBUG
             options.apnsCertName = "EaseIM_APNS_Developer"
@@ -109,10 +114,14 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 CallKitManager.shared.appID = appId
             }
         }
+        ChatUIKitClient.shared.option.option_UI.compatibilityModeForUserInfo = true
         //Set up EaseChatUIKit
         _ = ChatUIKitClient.shared.setup(option: options)
+        //必须早于silentLogin注册,否则静默登录触发的数据库打开/数据同步回调可能在MainViewController创建前就已经发生而被错过
+        ChatUIKitClient.shared.addDataSyncListener(self)
         ChatUIKitClient.shared.registerUserStateListener(self)
         _ = PresenceManager.shared
+        self.silentLogin(userId: self.userName)
     }
 
     private func setupEaseChatUIKitConfig() {
@@ -185,12 +194,28 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             config.disableRTCTokenValidation = false
         }
+        CallKitManager.shared.compatibilityModeForUserInfo = true
         CallAppearance.backgroundImage = UIImage(named: callBackgroundImageName)
         CallKitManager.shared.addListener(self)
+        CallKitManager.shared.tokenProvider = self
         CallKitManager.shared.setup(config)
         
     }
 
+    private func silentLogin(userId: String) {
+        var user = ChatUIKitContext.shared?.currentUser
+        if user == nil {
+            let profile = EaseChatProfile()
+            profile.id = userId
+            ChatUIKitContext.shared?.currentUser = profile
+            user = profile
+        }
+        ChatUIKitClient.shared.login(user: user!, token: self.token) { [weak self] error in
+            guard let self,let error = error else { return }
+            consoleLogInfo("Silent login failed:\(error.errorDescription ?? "")", type: .error)
+            NotificationCenter.default.post(name: Notification.Name(backLoginPage), object: nil)
+        }
+    }
     // MARK: UISceneSession Lifecycle
 
     func application(
@@ -532,8 +557,89 @@ extension AppDelegate: CallServiceListener {
         while let presentedViewController = topController?.presentedViewController {
             topController = presentedViewController
         }
-        
+
         return topController
     }
-    
+
+}
+
+//MARK: - ChatDataSyncListener
+extension AppDelegate: ChatDataSyncListener {
+    var interestedSyncType: EaseChatUIKit.DataSyncType { .conversations }
+
+    func onChatDatabaseOpened() {
+        self.isChatDatabaseOpened = true
+        NotificationCenter.default.post(name: Notification.Name(unreadCountNeedsRefresh), object: nil)
+    }
+
+    func onChatDataSyncFinished(error: EaseChatUIKit.ChatError?, type: EaseChatUIKit.DataSyncType) {
+        guard error == nil else { return }
+        if type == .conversations {
+            NotificationCenter.default.post(name: Notification.Name(unreadCountNeedsRefresh), object: nil)
+        }
+    }
+}
+
+extension AppDelegate: CallTokenProvider {
+    func getAppId() -> String {
+        "fcf9fe5092bf44ee91b171a860525f95"
+    }
+
+    func getRTCToken(
+        withChannel channelName: String?
+    ) async throws -> EaseCallUIKit.CallRTCTokenInfo {
+        try await withCheckedThrowingContinuation { continuation in
+            ChatClient.shared().getRTCToken(
+                withChannel: channelName
+            ) { rtcUId, token, expiredTs, error in
+                consoleLogInfo("rtcUid:\(rtcUId), token:\(token ?? ""), expiredTs:\(expiredTs), error:\(error?.errorDescription ?? "")", type: .debug)
+                if let error {
+                    continuation.resume(throwing: self.callProviderError(
+                        error,
+                        fallbackDescription: "RTC token request failed."
+                    ))
+                    return
+                }
+                // The IM SDK returns the token lifetime in seconds, while CallKit expects
+                // an absolute Unix expiration timestamp for validation and refresh scheduling.
+                let ttl = Int64(expiredTs)
+                let expiration = ttl > 0
+                    ? Int64(Date().timeIntervalSince1970) + ttl
+                    : 0
+                continuation.resume(returning: CallRTCTokenInfo(
+                    uid: UInt32(rtcUId),
+                    token: token ?? "",
+                    expiration: expiration
+                ))
+            }
+        }
+    }
+
+    func getRelations(rtc uids: [UInt32]) async throws -> [UInt32: String] {
+        guard !uids.isEmpty else { return [:] }
+        return try await withCheckedThrowingContinuation { continuation in
+            let numbers = uids.map(NSNumber.init(value:))
+            ChatClient.shared().getUserId(byRTCUIds: numbers) { relations, error in
+                if let error {
+                    continuation.resume(throwing: self.callProviderError(
+                        error,
+                        fallbackDescription: "RTC user relation request failed."
+                    ))
+                    return
+                }
+                let mappedRelations = Dictionary(uniqueKeysWithValues: (relations ?? [:]).map {
+                    ($0.key.uint32Value, $0.value)
+                })
+                continuation.resume(returning: mappedRelations)
+            }
+        }
+    }
+
+    private func callProviderError(_ error: EMError, fallbackDescription: String) -> NSError {
+        NSError(
+            domain: "com.easemob.ease-chat-demo.call-token-provider",
+            code: Int(error.code.rawValue),
+            userInfo: [NSLocalizedDescriptionKey: error.errorDescription ?? fallbackDescription]
+        )
+    }
 }

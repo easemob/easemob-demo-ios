@@ -122,12 +122,11 @@ extension PersonalInfoViewController: UITableViewDelegate,UITableViewDataSource 
                     (ChatUIKitContext.shared?.chatCache?[userId] as? ChatUserProfile)?.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                     CallKitManager.shared.currentUserInfo?.nickname = nickname
                     CallKitManager.shared.usersCache[userId]?.nickname = nickname
-                    if let userJson = ChatUIKitContext.shared?.currentUser?.toJsonObject() {
+                    if let user = ChatUIKitContext.shared?.currentUser {
                         let profile = EaseChatProfile()
                         profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
-                        profile.setValuesForKeys(userJson)
                         profile.nickname = nickname
-                        profile.avatarURL = ChatUIKitContext.shared?.currentUser?.avatarURL ?? ""
+                        profile.avatarURL = user.avatarURL
                         profile.updateFFDB()
                         ChatUIKitContext.shared?.chatCache?[userId] = profile
                         ChatUIKitContext.shared?.userCache?[userId] = profile
@@ -221,11 +220,10 @@ extension PersonalInfoViewController:UIImagePickerControllerDelegate, UINavigati
                     
                     CallKitManager.shared.usersCache[userId]?.avatarURL = avatarURL
                     self?.infos[0]["detail"] = avatarURL
-                    if let userJson = ChatUIKitContext.shared?.currentUser?.toJsonObject() {
+                    if let user = ChatUIKitContext.shared?.currentUser {
                         let profile = EaseChatProfile()
-                        profile.setValuesForKeys(userJson)
-                        profile.avatarURL = avatarURL
-                        profile.nickname = ChatUIKitContext.shared?.currentUser?.nickname ?? ""
+                        profile.avatarURL = user.avatarURL
+                        profile.nickname = user.nickname
                         profile.modifyTime = Int64(Date().timeIntervalSince1970*1000)
                         profile.updateFFDB()
                         CallKitManager.shared.currentUserInfo?.avatarURL = avatarURL

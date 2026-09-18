@@ -127,9 +127,18 @@ final class ServerConfigViewController: UIViewController {
         ).tag(88).delegate(self)
     }()
 
+    private lazy var tokenServerField: UITextField = {
+        UITextField(
+            frame: CGRect(
+                x: 16, y: self.appIDField.frame.maxY + 12, width: self.view.frame.width - 32,
+                height: 30)
+        ).cornerRadius(Appearance.avatarRadius).placeholder("请输入获取token的host,如http://a1-hsb.easemob.com")
+            .font(UIFont.theme.bodyLarge).tag(99).delegate(self)
+    }()
+
     private lazy var disableTokenValidationLabel: UILabel = {
         UILabel(
-            frame: CGRect(x: 16, y: self.appIDField.frame.maxY + 12, width: 140, height: 22)
+            frame: CGRect(x: 16, y: self.tokenServerField.frame.maxY + 12, width: 140, height: 22)
         ).font(UIFont.theme.labelMedium).text("开启RTC Token验证").textColor(.black).backgroundColor(
             .clear)
     }()
@@ -138,17 +147,17 @@ final class ServerConfigViewController: UIViewController {
         UISwitch(
             frame: CGRect(
                 x: self.disableTokenValidationLabel.frame.maxX + 12,
-                y: self.appIDField.frame.maxY + 12, width: 51, height: 31))
+                y: self.tokenServerField.frame.maxY + 12, width: 51, height: 31))
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.cornerRadius(Appearance.avatarRadius, [.topLeft, .topRight], .clear, 0)
         self.view.addSubViews([
             self.background, self.navigation, self.applicationField, self.customize,
             self.customizeSwitch, self.protocolSegment, self.chatServerField, self.chatPortField,
             self.restServerField, self.tlsConnectionLabel, self.tlsSwitch, self.ipField,
-            self.verifyDomainName, self.appIDField, self.disableTokenValidationLabel,
+            self.verifyDomainName, self.appIDField, self.tokenServerField,
+            self.disableTokenValidationLabel,
             self.tokenValidationSwitch,
         ])
         self.customizeSwitch.isOn = self.serverConfig["use_custom_server"] == "1" ? true : false
@@ -215,6 +224,10 @@ final class ServerConfigViewController: UIViewController {
             self.appIDField.text = appId
         }
 
+        if let tokenHost = self.serverConfig[TokenServerHostKey] {
+            self.tokenServerField.text = tokenHost
+        }
+
         if let enableTokenValidation = self.serverConfig["enable_rtc_token_validation"] {
             self.tokenValidationSwitch.isOn = enableTokenValidation == "1"
         } else {
@@ -260,7 +273,8 @@ extension ServerConfigViewController: UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         if textField == self.ipField || textField == self.verifyDomainName
-            || textField == self.appIDField, reason == .committed
+            || textField == self.appIDField || textField == self.tokenServerField,
+            reason == .committed
         {
             UIView.animate(withDuration: 0.2) {
                 self.view.frame.origin.y = 0
@@ -270,7 +284,7 @@ extension ServerConfigViewController: UITextFieldDelegate {
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == self.ipField || textField == self.verifyDomainName
-            || textField == self.appIDField
+            || textField == self.appIDField || textField == self.tokenServerField
         {
             UIView.animate(withDuration: 0.2) {
                 self.view.frame.origin.y = -260
@@ -327,6 +341,8 @@ extension ServerConfigViewController: UITextFieldDelegate {
         self.serverConfig["use_custom_server"] = self.customizeSwitch.isOn ? "1" : "0"
         self.serverConfig["enable_rtc_token_validation"] =
             self.tokenValidationSwitch.isOn ? "1" : "0"
+        self.serverConfig[TokenServerHostKey] =
+            (self.tokenServerField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         return true
 
     }
@@ -360,5 +376,7 @@ extension ServerConfigViewController: ThemeSwitchProtocol {
         self.verifyDomainName.textColor = self.applicationField.textColor
         self.appIDField.backgroundColor = self.applicationField.backgroundColor
         self.appIDField.textColor = self.applicationField.textColor
+        self.tokenServerField.backgroundColor = self.applicationField.backgroundColor
+        self.tokenServerField.textColor = self.applicationField.textColor
     }
 }

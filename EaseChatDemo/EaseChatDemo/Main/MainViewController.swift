@@ -52,6 +52,22 @@ final class MainViewController: UITabBarController {
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
         self.updateContactBadge()
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshUnreadCount), name: Notification.Name(unreadCountNeedsRefresh), object: nil)
+        self.checkChatDatabaseState()
+    }
+
+    /// SDK 5.0登录后数据库异步打开,ConversationViewModel.bind()发生的首次拉取可能早于数据库打开而拿到空数据。
+    /// 数据库已打开时直接补一次未读数(可能错过了AppDelegate发出的通知);未打开时延时重试拉取会话列表。
+    private func checkChatDatabaseState() {
+        self.refreshUnreadCount()
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,!appDelegate.isChatDatabaseOpened else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now()+2) { [weak self] in
+            self?.chats.viewModel?.loadExistLocalDataIfEmptyFetchServer()
+        }
+    }
+
+    @objc private func refreshUnreadCount() {
+        self.onConversationsUnreadCountUpdate(unreadCount: UInt(ChatClient.shared().chatManager?.getUnreadMessageCount() ?? 0))
     }
     
     private func setupDataProvider() {
@@ -248,6 +264,9 @@ extension MainViewController: ChatUserProfileProvider,ChatGroupProfileProvider {
 extension  MainViewController: ConversationEmergencyListener {
     func onResult(error: EaseChatUIKit.ChatError?, type: EaseChatUIKit.ConversationEmergencyType) {
         //show toast or alert,then process
+        if type == .read {
+            self.onConversationsUnreadCountUpdate(unreadCount: UInt(ChatClient.shared().chatManager?.getUnreadMessageCount() ?? 0))
+        }
     }
     
     func onConversationLastMessageUpdate(message: EaseChatUIKit.ChatMessage, info: EaseChatUIKit.ConversationInfo) {

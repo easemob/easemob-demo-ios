@@ -15,7 +15,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     @UserDefault("EaseChatDemoDarkMode", defaultValue: false) var darkMode: Bool
     
     @UserDefault("EaseChatDemoPreferencesLanguage", defaultValue: "zh-Hans") var language: String
-    
+
+    @UserDefault("EaseChatDemoUserToken", defaultValue: "") private var token
+
+    @UserDefault("EaseChatDemoUserName", defaultValue: "") private var userName
+
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -57,9 +61,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = nil
         self.window = UIWindow(windowScene: windowScene)
         self.window?.backgroundColor = .black
+        self.window?.makeKeyAndVisible()
         EaseChatProfile.registerTable()//使用三方数据库，将模型注册成为表
         self.chooseRootViewController()
-        self.window?.makeKeyAndVisible()
         self.switchTheme()
         NotificationCenter.default.addObserver(self, selector: #selector(loadMain), name: Notification.Name(loginSuccessfulSwitchMainPage), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loadLogin), name: Notification.Name(backLoginPage), object: nil)
@@ -72,16 +76,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func chooseRootViewController() {
-        if !ChatClient.shared().isAutoLogin {
+        //SDK 5.0移除了自动登录,登录凭证由业务侧保存,每次启动需要显式登录
+        let userId = self.userName.isEmpty ? (ChatClient.shared().currentUsername ?? ""):self.userName
+        guard !self.token.isEmpty,!userId.isEmpty else {
             self.window?.rootViewController = LoginViewController()
-        } else {
-            guard let userId = ChatClient.shared().currentUsername,!userId.isEmpty else {
-                self.window?.rootViewController = LoginViewController()
-                return
-            }
-            self.loadCache()
-            self.window?.rootViewController = MainViewController()
+            return
         }
+        if let dbPath = FMDBConnection.databasePath,dbPath.isEmpty {
+            //此处不能用String.documentsPath,EaseChatUIKit与EaseCallUIKit都对其做了同名扩展,同时import会产生歧义
+            FMDBConnection.databasePath = NSHomeDirectory()+"/Documents/"+"/EaseMobDemo/"+"\(AppKey)/"+userId+".db"
+        }
+        self.loadCache()
+        self.window?.rootViewController = MainViewController()
     }
     
     private func loadCache() {

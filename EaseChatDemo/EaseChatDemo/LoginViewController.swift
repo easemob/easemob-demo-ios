@@ -14,6 +14,7 @@ import CryptoKit
 
 let loginSuccessfulSwitchMainPage = "loginSuccessfulSwitchMainPage"
 let backLoginPage = "backLoginPage"
+let unreadCountNeedsRefresh = "unreadCountNeedsRefresh"
 
 final class LoginViewController: UIViewController {
     
@@ -24,7 +25,9 @@ final class LoginViewController: UIViewController {
     @UserDefault("EaseChatDemoServerConfig", defaultValue: Dictionary<String,String>()) private var config
     
     @UserDefault("EaseChatDemoUserToken", defaultValue: "") private var token
-    
+
+    @UserDefault("EaseChatDemoUserName", defaultValue: "") private var userName
+
     @UserDefault("EaseChatDemoUserPhone", defaultValue: "") private var phone
         
     private lazy var background: UIImageView = {
@@ -256,25 +259,27 @@ extension LoginViewController: UITextFieldDelegate {
     
     @objc private func loginRequest() {
         if !self.serverConfig.isHidden {
-            guard let userId = self.phoneNumber.text else {
+            guard let userId = self.phoneNumber.text,!userId.isEmpty else {
                 self.showToast(toast: "UserIdError".localized())
                 return
             }
-            guard let password = self.pinCode.text else {
+            guard let password = self.pinCode.text,!password.isEmpty else {
                 self.showToast(toast: "PasswordError".localized())
                 return
             }
             self.loadingView.startAnimating()
-            ChatClient.shared().fetchToken(withUsername: userId.lowercased(), password: password) {[weak self] token, error in
-                self?.loadingView.stopAnimating()
-                if error ==  nil,let chatToken = token {
-                    self?.token = chatToken
+            EasemobTokenRequest.shared.fetchToken(userId: userId.lowercased(), password: password) { [weak self] token, error in
+                guard let self else { return }
+                if error == nil,let chatToken = token {
+                    self.token = chatToken
+                    self.userName = userId.lowercased()
                     let user = EaseChatProfile()
-                    user.id = userId
-                    self?.login(user: user, token: chatToken)
+                    user.id = userId.lowercased()
+                    self.login(user: user, token: chatToken)
                     user.insert()
                 } else {
-                    self?.showToast(toast: "PasswordError".localized())
+                    self.loadingView.stopAnimating()
+                    self.showToast(toast: (error as? EasemobError)?.message ?? error?.localizedDescription ?? "PasswordError".localized())
                 }
             }
         } else {
@@ -292,6 +297,7 @@ extension LoginViewController: UITextFieldDelegate {
                 if error == nil {
                     if let userId = result?["chatUserName"] as? String,let token = result?["token"] as? String{
                         self?.token = token
+                        self?.userName = userId
                         let user = EaseChatProfile()
                         user.id = userId
                         user.avatarURL = (result?["avatarUrl"] as? String) ?? ""
