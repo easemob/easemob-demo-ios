@@ -1,0 +1,6 @@
+framework module EMPushExtension {
+  umbrella header "EMPushExtension.h"
+
+  export *
+  module * { export * }
+}

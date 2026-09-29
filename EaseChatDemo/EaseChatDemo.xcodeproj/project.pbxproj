@@ -58,7 +58,6 @@
 		05CF131C2BA7D56E0026595C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF131B2BA7D56E0026595C /* CFNetwork.framework */; };
 		05CF13242BA7DBF10026595C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05CF13232BA7DBF10026595C /* NotificationService.swift */; };
 		05CF13282BA7DBF10026595C /* EMPushServerExt.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 05CF13212BA7DBF10026595C /* EMPushServerExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		05CF132E2BA7DC120026595C /* EMPushExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CF132D2BA7DC120026595C /* EMPushExtension.framework */; };
 		05D55E4E2E7A883D003CDB52 /* CallBackgroundSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D55E4D2E7A883D003CDB52 /* CallBackgroundSettingController.swift */; };
 		05E0D7302BA298EC00373197 /* MineMessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E0D72F2BA298EC00373197 /* MineMessageListViewController.swift */; };
 		05E0D7322BA2E2C200373197 /* MineCallInviteUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E0D7312BA2E2C200373197 /* MineCallInviteUsersController.swift */; };
@@ -72,6 +71,7 @@
 		05FAF2B72EF1583400B7F56E /* person-info.html in Resources */ = {isa = PBXBuildFile; fileRef = 05FAF2B62EF1583400B7F56E /* person-info.html */; };
 		05FE6C2A2B9A9F160030A983 /* ThemesSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FE6C292B9A9F160030A983 /* ThemesSettingViewController.swift */; };
 		05FE6C2C2B9AADD00030A983 /* ColorHueSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */; };
+		B024E8D5306B7A0F009D213E /* EMPushExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B024E8D4306B7A0F009D213E /* EMPushExtension.xcframework */; };
 		C00458792DEFF77800A0FBBD /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = C00458782DEFF77800A0FBBD /* Config.plist */; };
 		CA2A158F7FDF2AD13A592148 /* Pods_EaseChatDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC7D18B2AA31BFE05D118ADA /* Pods_EaseChatDemo.framework */; };
 /* End PBXBuildFile section */
@@ -159,7 +159,6 @@
 		05CF13212BA7DBF10026595C /* EMPushServerExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EMPushServerExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		05CF13232BA7DBF10026595C /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		05CF13252BA7DBF10026595C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		05CF132D2BA7DC120026595C /* EMPushExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EMPushExtension.framework; sourceTree = "<group>"; };
 		05D55E4D2E7A883D003CDB52 /* CallBackgroundSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBackgroundSettingController.swift; sourceTree = "<group>"; };
 		05E0D72F2BA298EC00373197 /* MineMessageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineMessageListViewController.swift; sourceTree = "<group>"; };
 		05E0D7312BA2E2C200373197 /* MineCallInviteUsersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCallInviteUsersController.swift; sourceTree = "<group>"; };
@@ -176,6 +175,7 @@
 		05FE6C2B2B9AADD00030A983 /* ColorHueSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHueSettingCell.swift; sourceTree = "<group>"; };
 		1771B88A5DA2D3168C3039A3 /* Pods-EaseChatDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseChatDemo.release.xcconfig"; path = "Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo.release.xcconfig"; sourceTree = "<group>"; };
 		9B38F4753F4BED0BA45ED18F /* Pods-EaseChatDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseChatDemo.debug.xcconfig"; path = "Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		B024E8D4306B7A0F009D213E /* EMPushExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = EMPushExtension.xcframework; sourceTree = "<group>"; };
 		C00458782DEFF77800A0FBBD /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		EC7D18B2AA31BFE05D118ADA /* Pods_EaseChatDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseChatDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -196,7 +196,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05CF132E2BA7DC120026595C /* EMPushExtension.framework in Frameworks */,
+				B024E8D5306B7A0F009D213E /* EMPushExtension.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,7 +388,7 @@
 		05CF13222BA7DBF10026595C /* EMPushServerExt */ = {
 			isa = PBXGroup;
 			children = (
-				05CF132D2BA7DC120026595C /* EMPushExtension.framework */,
+				B024E8D4306B7A0F009D213E /* EMPushExtension.xcframework */,
 				05CF13232BA7DBF10026595C /* NotificationService.swift */,
 				05CF13252BA7DBF10026595C /* Info.plist */,
 				05A7EF1D2BDB8B3700473D52 /* PrivacyInfo.xcprivacy */,
@@ -563,9 +563,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -580,9 +584,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EaseChatDemo/Pods-EaseChatDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -852,7 +860,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.21.0;
+				MARKETING_VERSION = 4.24.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -896,7 +904,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.21.0;
+				MARKETING_VERSION = 4.24.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -916,7 +924,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JC854K845H;
 				EXCLUDED_ARCHS = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EMPushServerExt",
@@ -925,7 +932,7 @@
 				INFOPLIST_FILE = EMPushServerExt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EMPushServerExt;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -956,7 +963,7 @@
 				INFOPLIST_FILE = EMPushServerExt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EMPushServerExt;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
